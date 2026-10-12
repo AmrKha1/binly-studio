@@ -6,12 +6,12 @@ description: Produce the complete Binly video from the voiceover + script in inp
 Produce the full video now by following CLAUDE.md exactly, start to finish, in THIS session.
 
 Priorities, in order:
-1. **Quality and retention first** — a video a curious viewer can't stop watching: apply docs/RETENTION.md in the
-   plan (retention plan) and in every chapter review; strong hook, a visual idea for every beat, smooth motion, exact
+1. **Quality and retention first** — a video a curious viewer can't stop watching: work with the YouTube mindset (docs/RETENTION.md) —
+   principles, not paperwork; strong hook, a visual idea for every beat, smooth motion, exact
    facts and numbers, real archival images as evidence where they add truth, Binly's look. Never trade quality for
    speed or tokens.
 2. **Finish in one session** — protect your own context so you can reach delivery:
-   - Plan deeply, then delegate every chapter to `binly-builder` subagents (max 2 at a time); never build chapters yourself.
+   - Plan deeply, then delegate every chapter to `binly-builder` subagents (max 3 at a time); never build chapters yourself.
    - Read docs (PLAYBOOK, CRAFT, KIT, LESSONS) instead of source; use `tools/cue.mjs` / `tools/transcript.mjs`, never words.json.
    - Review with contact sheets (one image, many frames); keep your notes and messages short.
    - Run cloud jobs in the background; don't poll.
