@@ -52,6 +52,9 @@ only on meaningful visible events. Kinds: stamp whoosh swoosh swish sweep_down p
 rumble low_drone shutter paper page chime ding bell bell_toll riser clack scribble typing bubble sparkle
 heartbeat breath drip splash wind fire crowd door glass (`dur` for scribble/typing/wind/fire/crowd).
 
+## Real examples
+`src/videos/test-dinos/chapters/C01.tsx` (one continuous camera world) and `C02.tsx` (several shots with transitions) — built by builders from the briefs in `videos/test-dinos/briefs/`. Skim one if you want to see a complete chapter.
+
 ## Worked example (pattern reference, not a template to copy literally)
 ```tsx
 import React from 'react';

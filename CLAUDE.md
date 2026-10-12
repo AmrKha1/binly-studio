@@ -63,7 +63,7 @@ the beat list, nothing broken/empty/colliding. Send concrete fixes to the SAME b
 `node tools/cloud.mjs render <slug> --from 120 --to 210 --scale 0.5`.
 
 **7 · QA** — read `videos/<slug>/qa/<name>/qa_report.md` and look at every `sheet-NN.png` (one tile per 3 s).
-Fix real defects (via builders), re-render. Do not claim a check you did not do.
+Warnings (static holds, near-empty frames) mean "go look": check those times with `tools/sheet.mjs --times …` and fix only real defects (via builders), then re-render. Do not claim a check you did not do.
 
 **8 · Deliver** — write `videos/<slug>/REPORT.md` (≤ 400 words: video path, chapters, style decisions,
 QA results with numbers, render settings, honest limitations). Append 1–5 reusable lessons to

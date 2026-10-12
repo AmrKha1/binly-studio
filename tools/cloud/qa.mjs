@@ -56,7 +56,7 @@ log(`- Black segments ≥ 0.2 s: ${blacks.length ? blacks.join(', ') : 'none'}`)
 {
   const out = ffLog(['-i', video, '-vf', "select='not(mod(n\\,15))',scale=480:-1,entropy,metadata=print:key=lavfi.entropy.normalized_entropy.normal.Y", '-an', '-f', 'null', '-']);
   const pts = [...out.matchAll(/pts_time:([\d.]+)[\s\S]*?normalized_entropy\.normal\.Y=([\d.]+)/g)].map((m) => [+m[1], +m[2]]);
-  const low = pts.filter(([, e]) => e < 0.12);
+  const low = pts.filter(([, e]) => e < 0.09);
   const spans = [];
   for (const [t] of low) {
     const last = spans[spans.length - 1];
