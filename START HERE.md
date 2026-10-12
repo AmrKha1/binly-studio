@@ -15,6 +15,14 @@
 
 Your PC only does light work (planning and small preview pictures). The heavy rendering happens on GitHub.
 
+## Watch it live while it's being made
+Claude opens a **live preview** (player + timeline) in the side panel. Chapters appear there as soon as
+the helpers finish them — no rendering. Pause on any problem, take a screenshot (with the time visible),
+paste it into the chat with a few words. Fixes show up in the preview within seconds of being saved.
+When everything looks right, Claude renders the final file in the cloud (that's the "export").
+Open it yourself any time: `node tools/preview.mjs` in the Binly Studio folder → http://localhost:3000
+(playback can stutter on this PC in heavy scenes; pausing/scrubbing is always fine).
+
 ## Fixing / polishing a video after it's done
 - Your own list: `/polish-video at 2:31 the label covers the king's face; at 7:10 the transition is too abrupt`
 - Let Claude check and fix everything itself: `/polish-video` (with nothing after it)

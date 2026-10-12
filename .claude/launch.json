@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "binly-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["tools/preview.mjs"],
+      "port": 3000
+    }
+  ]
+}
