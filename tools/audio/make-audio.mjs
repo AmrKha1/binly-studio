@@ -144,11 +144,14 @@ const env = new Float32Array(N);
     acc += vo[i] * vo[i] - (i >= win ? vo[i - win] * vo[i - win] : 0);
     env[i] = Math.sqrt(Math.max(0, acc) / win);
   }
-  let g = 0;
-  const att = Math.exp(-1 / (SR * 0.08)), rel = Math.exp(-1 / (SR * 0.5));
+  // speech envelope for ducking: fast attack, HOLD 0.35 s so music doesn't pump between words, slow release in real gaps
+  let g = 0, hold = 0;
+  const att = Math.exp(-1 / (SR * 0.12)), rel = Math.exp(-1 / (SR * 0.9)), HOLD = Math.round(SR * 0.35);
   for (let i = 0; i < N; i++) {
     const target = Math.min(1, env[i] / 0.05);
-    g = target > g ? att * g + (1 - att) * target : rel * g + (1 - rel) * target;
+    if (target >= g) { g = att * g + (1 - att) * target; hold = HOLD; }
+    else if (hold > 0) hold--;
+    else g = rel * g + (1 - rel) * target;
     env[i] = g;
   }
 }
@@ -326,6 +329,15 @@ sections.forEach((s, si) => {
     R[i] += st[j * 2 + 1] * a * g;
   }
 });
+// voice-band carve: while the voice speaks, pull the music down around 1–4 kHz (where speech intelligibility lives)
+{
+  const bL = biquad('bp', 2200, 0.6), bR = biquad('bp', 2200, 0.6);
+  for (let i = 0; i < N; i++) {
+    const k = 0.6 * env[i];
+    L[i] -= k * bL(L[i]);
+    R[i] -= k * bR(R[i]);
+  }
+}
 // automation: duck under voice, accents (swell/drop/silence), global fades
 const accentGain = (tt) => {
   let g = 1;
@@ -341,7 +353,7 @@ const accentGain = (tt) => {
 };
 for (let i = 0; i < N; i++) {
   const tt = i / SR;
-  const duck = 1 - 0.45 * env[i];
+  const duck = 1 - 0.6 * env[i]; // ≈ -8 dB while the voice speaks, back up in gaps
   const fade = smooth(tt / 1.5) * (1 - smooth((tt - (DUR - (score.endFade ?? 3))) / (score.endFade ?? 3)));
   const g = duck * fade * accentGain(tt);
   L[i] *= g;
@@ -456,14 +468,18 @@ const rmsDb = (a, mask) => {
 const peakDb = (a) => { let m = 0; for (let i = 0; i < a.length; i++) m = Math.max(m, Math.abs(a[i])); return 20 * Math.log10(m + 1e-12); };
 const scale = (arrs, db) => { const g = Math.pow(10, db / 20); for (const a of arrs) for (let i = 0; i < a.length; i++) a[i] *= g; };
 const voSpeech = rmsDb(vo, speech);
-const musTarget = voSpeech - 20 + (score.level ?? 0); // music ~20 dB under the voice while it speaks
+const musTarget = voSpeech - 21 + (score.level ?? 0); // music ~21 dB under the voice while it speaks (background, never competing)
 scale([L, R], musTarget - rmsDb(L, speech));
 if (sfxList.length) {
   const voPeak = peakDb(vo);
   const sp = Math.max(peakDb(sL), peakDb(sR));
   if (sp > -100) scale([sL, sR], voPeak - 22 - sp); // SFX peaks ~22 dB under the voice peak
 }
-console.log(`levels: VO speech ${voSpeech.toFixed(1)} dBFS · music speech ${rmsDb(L, speech).toFixed(1)} · music pauses ${rmsDb(L, (i) => env[i] < 0.1).toFixed(1)} · music peak ${peakDb(L).toFixed(1)} · sfx peak ${Math.max(peakDb(sL), peakDb(sR)).toFixed(1)} dBFS${unknown ? ` · ${unknown} unknown sfx kinds` : ''}`);
+const gap = (i) => env[i] < 0.25 && i > SR * 3 && i < N - SR * 4;
+const levelLine = `levels: VO speech ${voSpeech.toFixed(1)} dBFS · music under speech ${(rmsDb(L, speech) - voSpeech).toFixed(1)} dB rel. VO · music in gaps ${(() => { const v = rmsDb(L, gap); return v < -150 ? 'n/a (no long pauses)' : (v - voSpeech).toFixed(1) + ' dB rel. VO'; })()} · music peak ${peakDb(L).toFixed(1)} · sfx peak ${Math.max(peakDb(sL), peakDb(sR)).toFixed(1)} dBFS${unknown ? ` · ${unknown} unknown sfx kinds` : ''}`;
+console.log(levelLine);
+fs.mkdirSync(outDir, {recursive: true});
+fs.writeFileSync(path.join(outDir, 'levels.txt'), levelLine + '\n');
 
 fs.mkdirSync(outDir, {recursive: true});
 writeWav(path.join(outDir, 'music.wav'), L, R);

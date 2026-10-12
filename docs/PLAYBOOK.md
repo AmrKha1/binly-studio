@@ -71,9 +71,11 @@ only when the narration is about them, briefly, framed, never as a gag. Every us
   information roughly every 3–6 s; a meaningful change of composition at every pivot.
 
 ## 6. Sound
-- Music: original, cinematic-atmospheric, evolves with the story (not one loop), recedes under dense
-  narration, swells at reveals/emotional beats, ~20 dB under the voice while it speaks (audible, never
-  competing). Set by `videos/<slug>/score.json` (moods per section + accents).
+- Music: original, cinematic-atmospheric, evolves with the story (not one loop) — always a BACKGROUND bed, never
+  competing with the voice. The engine mixes it like a pro editor: ~21 dB under the voice while it speaks (with the
+  speech frequencies carved out of the music so words stay crisp), no pumping between words, rising to ~13 dB under
+  in real pauses and scene changes; `score.json` adds the story shape (mood per section, `swell` after reveals,
+  `drop` to near-silence before them, `resolve` at the end).
 - SFX: sparse, subtle, precisely timed to meaningful visual events (stamp lands, card slides, door, bell,
   a dramatic pause) — "I sense that happened", never "I noticed a sound effect". ~22 dB under voice peak,
   generated from `videos/<slug>/sfx/<chapter>.json`. Never one on every movement.
