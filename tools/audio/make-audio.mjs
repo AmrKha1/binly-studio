@@ -468,8 +468,8 @@ const rmsDb = (a, mask) => {
 const peakDb = (a) => { let m = 0; for (let i = 0; i < a.length; i++) m = Math.max(m, Math.abs(a[i])); return 20 * Math.log10(m + 1e-12); };
 const scale = (arrs, db) => { const g = Math.pow(10, db / 20); for (const a of arrs) for (let i = 0; i < a.length; i++) a[i] *= g; };
 const voSpeech = rmsDb(vo, speech);
-const musTarget = voSpeech - 21 + (score.level ?? 0); // music ~21 dB under the voice while it speaks (background, never competing)
-scale([L, R], musTarget - rmsDb(L, speech));
+const musTarget = (voSpeech < -90 ? -18 : voSpeech - 21) + (score.level ?? 0); // (no voice at all → demo mode, fixed level) // music ~21 dB under the voice while it speaks (background, never competing)
+scale([L, R], musTarget - (voSpeech < -90 ? rmsDb(L, () => true) : rmsDb(L, speech)));
 if (sfxList.length) {
   const voPeak = peakDb(vo);
   const sp = Math.max(peakDb(sL), peakDb(sR));
