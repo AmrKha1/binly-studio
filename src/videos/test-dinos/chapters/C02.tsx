@@ -388,9 +388,9 @@ const Conclusion: React.FC<{t: number}> = ({t}) => {
   const z = lerp(1.22, 1.0, camK);
   const S = 1.2;
   const O = {x: 960 - 15 * S, y: 750 + 13 * S};
-  const flesh = ramp(t, T.wasnt + 0.05, T.wasnt + 1.45);
-  const bones = ramp(t, T.wasnt + 0.8, T.best + 0.6);
-  const fillP = ramp(t, T.wasnt + 1.0, T.wasnt + 2.0);
+  const flesh = ramp(t, T.wasnt + 0.3, T.wasnt + 1.9);
+  const bones = ramp(t, T.wasnt - 0.2, T.wasnt + 0.65, ease.out);
+  const fillP = ramp(t, T.wasnt + 1.3, T.wasnt + 2.3);
   const sub = (a: number, b: number) => ramp(bones, a, b);
   return (
     <Stage bg={C.paper}>
@@ -421,7 +421,7 @@ const Conclusion: React.FC<{t: number}> = ({t}) => {
       </Cam>
       <Headline x={960} y={225} size={84} text="the best possible reading" p={ramp(t, T.best - 0.1, T.best + 1.0)} mode="words" accent={{best: C.oxblood}} />
       <Headline x={960} y={325} size={84} text="of incomplete evidence." p={ramp(t, T.incomplete - 0.1, T.incomplete + 1.0)} mode="words" accent={{incomplete: C.oxblood}} />
-      <Kicker x={960} y={125} size={28} text="It wasn't stupidity" p={ramp(t, T.wasnt, T.wasnt + 0.6)} />
+      <Kicker x={960} y={125} size={28} text="It wasn't stupidity" p={ramp(t, T.wasnt - 0.2, T.wasnt + 0.4)} />
       <Tag x={190} y={960} anchor="left" text="Bone: evidence" kind="evidence" size={28} p={ramp(t, T.best + 0.3, T.best + 1.0)} />
       <Tag x={1730} y={960} anchor="right" text="Flesh: a guess" kind="theory" size={28} p={ramp(t, T.best + 0.5, T.best + 1.2)} />
     </Stage>
@@ -438,7 +438,7 @@ export const C02: React.FC<{t: number}> = ({t}) => (
       {start: T.years, in: {kind: 'push', dir: 'left', dur: 0.5}, render: (t) => <Drawn t={t} />},
       {start: T.drawn + 0.72, in: {kind: 'wipe', dir: 'left', dur: 0.4}, render: (t) => <Sculpted t={t} />},
       {start: T.displayed - 0.15, in: {kind: 'wipe', dir: 'left', dur: 0.4}, render: (t) => <Displayed t={t} />},
-      {start: T.wasnt - 0.2, in: {kind: 'fade', dur: 0.6}, render: (t) => <Conclusion t={t} />},
+      {start: T.wasnt - 0.2, in: {kind: 'fade', dur: 0.4}, render: (t) => <Conclusion t={t} />},
     ]}
   />
 );

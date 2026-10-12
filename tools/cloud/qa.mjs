@@ -51,6 +51,22 @@ const bl = ffLog(['-i', video, '-vf', 'blackdetect=d=0.2:pix_th=0.06', '-map', '
 const blacks = [...bl.matchAll(/black_start:([\d.]+) black_end:([\d.]+)/g)].map((m) => `${m[1]}-${m[2]}`);
 log(`- Black segments ≥ 0.2 s: ${blacks.length ? blacks.join(', ') : 'none'}`);
 
+// near-empty frames: very low visual information (e.g. a blank paper frame between shots)
+{
+  const out = ffLog(['-i', video, '-vf', "select='not(mod(n\\,15))',scale=480:-1,entropy,metadata=print:key=lavfi.entropy.normalized_entropy.normal.Y", '-an', '-f', 'null', '-']);
+  const pts = [...out.matchAll(/pts_time:([\d.]+)[\s\S]*?normalized_entropy\.normal\.Y=([\d.]+)/g)].map((m) => [+m[1], +m[2]]);
+  const low = pts.filter(([, e]) => e < 0.12);
+  const spans = [];
+  for (const [t] of low) {
+    const last = spans[spans.length - 1];
+    if (last && t - last[1] <= 0.3) last[1] = t;
+    else spans.push([t, t]);
+  }
+  const bad = spans.filter(([a, b]) => b - a >= 0.4 && a > 0.5 && b < dur - 1.5);
+  log(`- Near-empty frames (very low detail ≥ 0.4 s): ${bad.length ? bad.map(([a, b]) => `${(a + off).toFixed(1)}–${(b + off).toFixed(1)}s`).join(', ') : 'none'} (sampled ${pts.length} frames)`);
+  if (bad.length) warn.push(`${bad.length} near-empty stretch(es) — check they are intentional (an empty frame looks broken)`);
+}
+
 // loudness
 const loud = (file) => {
   const out = ffLog(['-i', file, '-af', 'ebur128=peak=true', '-f', 'null', '-']);
@@ -97,11 +113,13 @@ if (Math.abs(lag) > 8) warn.push(`Voiceover offset ${((lag / 8000) * 1000).toFix
 
 // contact sheets: 1 frame / 3 s, 6x5 tiles per sheet (90 s per sheet), timestamps burned in
 const font = ['/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf'].find((f) => fs.existsSync(f));
-const label = font ? `,drawtext=fontfile=${font}:text='%{pts\\:hms}':x=6:y=6:fontsize=18:fontcolor=white:box=1:boxcolor=black@0.6` : '';
 const off = fromS ? Number(fromS) : 0;
 const sheets = Math.ceil(dur / 90);
+// exact frames: every 180th frame (= 3 s at 60 fps), labelled with the real video second
 for (let k = 0; k < sheets; k++) {
-  spawnSync(FF, ['-v', 'error', '-y', '-ss', String(k * 90), '-t', '90', '-i', video, '-vf', `fps=1/3,scale=320:-1${label},tile=6x5:padding=4:color=gray`, '-frames:v', '1', path.join(qaDir, `sheet-${String(k + 1).padStart(2, '0')}.png`)]);
+  const base = off + k * 90;
+  const label = font ? `,drawtext=fontfile=${font}:text='%{eif\\:n*3+${base}\\:d}s':x=6:y=6:fontsize=18:fontcolor=white:box=1:boxcolor=black@0.6` : '';
+  spawnSync(FF, ['-v', 'error', '-y', '-ss', String(k * 90), '-t', '90', '-i', video, '-vf', `select='not(mod(n\\,180))',scale=320:-1${label},tile=6x5:padding=4:color=gray`, '-fps_mode', 'vfr', '-frames:v', '1', path.join(qaDir, `sheet-${String(k + 1).padStart(2, '0')}.png`)]);
 }
 log(`- Contact sheets: ${sheets} (sheet-NN.png, one tile every 3 s${off ? `, times relative to ${off}s` : ''})`);
 spawnSync(FF, ['-v', 'error', '-y', '-i', video, '-filter_complex', 'showwavespic=s=1920x260:split_channels=1:colors=0x2B2420|0x8B2E1F', '-frames:v', '1', path.join(qaDir, 'waveform.png')]);
