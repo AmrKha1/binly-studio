@@ -1,0 +1,64 @@
+name: Analyze voiceover
+run-name: analyze ${{ inputs.slug }} ${{ inputs.token }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Video slug (videos/<slug>)"
+        required: true
+      model:
+        description: "faster-whisper model"
+        required: false
+        default: "small.en"
+      token:
+        description: "Unique id so tools can find this run"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      SLUG: ${{ inputs.slug }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Download voiceover (release vo-<slug>)
+        run: |
+          mkdir -p in
+          gh release download "vo-$SLUG" --dir in --pattern 'voiceover.*' --repo "$GITHUB_REPOSITORY"
+          ls -la in
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tools/cloud/requirements.txt
+
+      - name: Cache whisper model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: whisper-${{ inputs.model }}-v1
+
+      - name: Install faster-whisper
+        run: pip install -r tools/cloud/requirements.txt
+
+      - name: Transcribe + align to script
+        run: |
+          VO=$(ls in/voiceover.* | head -1)
+          SCRIPT=videos/$SLUG/script.txt
+          [ -f "$SCRIPT" ] || SCRIPT=-
+          python tools/cloud/transcribe.py "$VO" "$SCRIPT" out/timing "${{ inputs.model }}"
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: ${{ inputs.slug }}-timing
+          path: out/timing
+          retention-days: 30

@@ -1,0 +1,26 @@
+// Build status of the active video (or --slug): chapters, placeholder vs built, SFX files, outputs.
+import fs from 'node:fs';
+import path from 'node:path';
+import {ROOT, args} from './lib/render.mjs';
+
+const a = args();
+const active = fs.readFileSync(path.join(ROOT, 'src', 'active.ts'), 'utf8').match(/videos\/([^']+)'/)?.[1];
+const slug = a.slug ?? active;
+const vdir = path.join(ROOT, 'videos', slug);
+if (!fs.existsSync(vdir)) {
+  console.log(`no video "${slug}"`);
+  process.exit(1);
+}
+const meta = JSON.parse(fs.readFileSync(path.join(vdir, 'video.json'), 'utf8'));
+const chapters = fs.existsSync(path.join(vdir, 'chapters.json')) ? JSON.parse(fs.readFileSync(path.join(vdir, 'chapters.json'), 'utf8')) : [];
+console.log(`${slug} · "${meta.title}" · ${meta.duration}s · timing ${fs.existsSync(path.join(vdir, 'timing', 'words.json')) ? '✓' : '✗'} · plan ${fs.existsSync(path.join(vdir, 'plan.md')) ? '✓' : '✗'} · score ${fs.existsSync(path.join(vdir, 'score.json')) ? '✓' : '✗'}`);
+for (const c of chapters) {
+  const f = path.join(ROOT, 'src', 'videos', slug, 'chapters', `${c.id}.tsx`);
+  const src = fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '';
+  const state = !src ? 'MISSING' : src.includes('PLACEHOLDER (not built yet)') ? 'placeholder' : `built (${(src.length / 1024).toFixed(1)} KB)`;
+  const brief = fs.existsSync(path.join(vdir, 'briefs', `${c.id}.md`)) ? 'brief ✓' : 'brief ✗';
+  const sfx = fs.existsSync(path.join(vdir, 'sfx', `${c.id}.json`)) ? 'sfx ✓' : 'sfx –';
+  console.log(`  ${c.id}  ${c.start.toFixed(1)}–${c.end.toFixed(1)}s  ${state.padEnd(18)} ${brief}  ${sfx}  ${c.title ?? ''}`);
+}
+const out = path.join(vdir, 'output');
+if (fs.existsSync(out)) console.log(`outputs: ${fs.readdirSync(out).join(', ') || '—'}`);

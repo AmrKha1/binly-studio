@@ -1,0 +1,1 @@
+Put ONE voiceover audio file (wav/mp3/m4a/flac) and its script (.txt) here. Optional: notes.txt with special requests for this video. Then open Claude Code in this folder and say: make the video

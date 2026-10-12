@@ -1,0 +1,19 @@
+node_modules/
+.cache/
+out/
+input/*
+!input/README.md
+# large media never goes into git: voiceovers are uploaded as GitHub release assets,
+# music/SFX stems are generated in the cloud, finished videos are downloaded into videos/<slug>/output/
+*.wav
+*.WAV
+*.mp3
+*.flac
+*.m4a
+*.mp4
+*.mov
+videos/*/output/
+videos/*/qa/
+videos/*/stills/
+!library/**/*.wav
+!library/**/*.mp3

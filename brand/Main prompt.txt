@@ -1,0 +1,100 @@
+Read `PRODUCTION_CORE.md` and `VISUAL_STYLE.md` completely before beginning.
+
+This workspace is a Binly video production run. The supplied WAV is the final narration for this video, and the visual style profile defines Binly's art direction.
+
+Your goal is to create and render an actual animated video from the supplied narration, not merely produce a plan or code example.
+
+You can use any tool you want: Blender, Canvas, Anime.js, Remotion, Hyperframs, Three.js, etc. — all other good tools that let you deliver a high-end video.
+
+The WAV audio is the actual length of the video.
+
+USE Kurzgesagt style as a technical/structural reference — it is a YouTube channel, and you can learn from it how to do the animation and everything the video needs, because it is a high-end animation channel. You can research it and find all the craft-level technique you need.
+
+For this video, reference Kurzgesagt's technical approach specifically: flat vector shapes with bold clean silhouettes, confident use of color blocking, smooth purposeful camera movement, and clear visual metaphors for abstract ideas. You may research their public work to understand these techniques. However, do not copy their specific color palette, character designs, or exact visual motifs — develop Binly's own look using this technique as a structural reference only. The color palette must be derived specifically from this script's content, tone, and emotional atmosphere — not from Kurzgesagt's typical bright, cheerful palette.
+
+Use the palette defined in `color_system.md` as your creative foundation — you have flexibility to vary shades and emphasis within it per scene, as described in color_system.md's "How to apply this palette" section. You may draw light mood inspiration from any supplied reference image, but do not copy its literal colors wholesale.
+
+## Mindset
+
+Act as a professional, world-class YouTube content creator and animation director — not as a tool executing a spec. This video should be built to the standard of a top-tier, highly successful YouTube channel: the kind of craft, polish, and visual ambition that makes a video stand out and genuinely earn a massive audience, not merely meet a checklist.
+
+Use real creative judgment. Research whatever you need — animation technique, pacing, composition, color, sound design, what makes a shot genuinely compelling — and use that research to push each scene toward the strongest version of itself, not the safest or most obvious one. Where you see a chance to do something more ambitious, more visually inventive, or more polished than a minimal interpretation of these instructions would produce, take it, as long as it stays technically reliable (see Implementation requirements) and stays inside Binly's visual style and color system.
+
+This ambition applies to animation, composition, motion, and visual craft — not to the narration's claims. The one hard boundary is the "Do not fabricate research visuals, statistics, quotations, or evidence" rule below: push the visual execution as far as good craft allows, but never invent or embellish a fact, figure, or claim the narration didn't make.
+
+Above all, make something genuinely enjoyable to watch. Polish and technical correctness aren't the goal by themselves — they're in service of a viewer who's curious, engaged, and having a good time following the story. Favor the illustration, pacing, or camera move that makes a moment delightful or satisfying to watch over the one that's merely correct or safe. If a scene is technically flawless but dull to sit through, it hasn't succeeded.
+
+## Before implementation
+
+1. Inspect the workspace and identify the supplied audio file.
+2. Inspect the installed runtime, relevant local skills, available rendering tools, and project dependencies. Verify tool availability rather than assuming it.
+3. Inspect the audio duration, format, waveform, speech regions, and silence.
+4. Analyze the narration and prepare a concise scene plan based on its meaning, narrative progression, and strongest visual opportunities.
+5. Identify any missing information that genuinely blocks production. Make reasonable, reversible creative decisions for everything else.
+
+## Script content characteristics
+
+Binly's scripts share a consistent structure and content style. Keep these in mind when analyzing the narration and planning scenes:
+
+- **Rhetorical-question-driven structure.** The narration is built as a chain of reveals, not a simple timeline. It regularly pivots on a rhetorical question ("So where does the fear come from?", "So what does that look like when real evidence is on the table?", "Which brings us back to...") that redirects the argument toward the next piece of the idea. Treat each such pivot as a genuine narrative beat — a moment that deserves a visual turn (a reveal, a camera move, a shift in composition or color emphasis) — not merely a place to cut between otherwise-unrelated illustrations. The visual structure should track the argument's structure.
+
+- **Explicit certainty levels — use the semantic color system for real.** These scripts constantly and deliberately distinguish what's established from what's theory, debated, or uncertain ("that's not quite true," "still debated, so treat it as a report, not a verdict," "a model, not a settled fact," exact incidence percentages, "nobody has a single theory that explains..."). This isn't incidental — it's a core part of how Binly's scripts are written. Whenever the narration marks a claim's certainty level, use `color_system.md`'s semantic colors (confirmed/evidence, theory/speculation, warning/caution) deliberately and consistently to carry that distinction visually — in diagrams, labels, or on-screen callouts — rather than treating the semantic palette as optional decoration.
+
+- **Precise numbers and statistics appear often and must be exact.** Scripts frequently cite specific figures (percentages, dates, counts, measurements — e.g. "0.061 percent," "101.3 kilopascals," "505,000 intraocular surgeries"). Any number shown on screen must exactly match the number spoken in the narration, in a clean, readable format — never rounded, altered, or re-derived differently from what's said.
+
+- **Mostly non-character-driven.** Most scripts narrate directly to the viewer or reference real historical/scientific figures who appear briefly rather than recurring. Expect most scenes to be environments, conceptual imagery, diagrams, and editorial motion graphics rather than character-led scenes — plan accordingly rather than defaulting to inventing a character for every scene.
+
+## Creative requirements
+
+Follow `VISUAL_STYLE.md`.
+
+Do not introduce a permanent mascot, fixed HUD, channel logo, or recurring character unless the narration genuinely benefits from it.
+
+Use varied, story-driven scenes. Choose between characters, environments, layered 2D illustrations, editorial motion graphics, and conceptual imagery according to the narration.
+
+Develop a coherent color palette and reusable visual components. Record important style decisions so the result can be reproduced.
+
+Do not force a fixed number of scenes or a predetermined scene sequence.
+
+## Implementation requirements
+
+- Preserve the supplied narration exactly.
+- Use the narration as the master timing reference.
+- Build a deterministic, seek-safe animation project.
+- Choose the simplest reliable available workflow for implementation and rendering.
+- Keep the project editable and its structure understandable.
+- Use local assets and dependencies wherever practical.
+- Add sound effects or music only if they can be implemented reliably and improve the result without competing with the narration.
+- Do not fabricate research visuals, statistics, quotations, or evidence.
+
+## Quality assurance
+
+Render the video and inspect actual rendered frames.
+
+Check the opening, ending, transitions, representative frames throughout the video, important animation paths, text readability, visual consistency, audio synchronization, and visual cleanliness (see noise/artifact check below).
+
+Specifically watch for anything that would make a viewer feel something is wrong or unfinished: jittery or stuttering motion, popping/snapping elements, broken or misaligned layouts, flickering, hard unmotivated cuts, momentarily dead or static-looking frames, or any other glitch. The video should feel smooth and polished throughout — nothing should look broken.
+
+Generate a contact sheet or equivalent overview when practical.
+
+Fix visible defects before delivery. Verify the rendered file's actual duration, resolution, frame rate, and audio presence. Do not claim a check passed unless it was performed.
+
+### Noise/artifact check (mandatory)
+
+Before delivery, inspect final rendered frames at 100% zoom for any visual noise, grain, dithering, or compression artifacts baked into the illustration itself. If present, identify the cause (e.g. a texture/pattern fill, an export setting, a filter effect) and fix it — flat vector output should be perfectly clean with no artifacts. Report what caused the noise if it was present in a previous render, so it doesn't recur.
+
+## Deliverables
+
+Save the rendered video in `output/`, together with:
+
+- The editable project.
+- A concise scene plan.
+- The chosen color palette and key style decisions.
+- Useful QA images or a contact sheet.
+- A brief QA report documenting actual checks, limitations, and render settings.
+
+Do not overwrite the original voiceover.
+
+Complete the production task within the available environment. If a required tool is unavailable, choose a reliable alternative where possible and report any remaining limitation honestly.
+
+At completion, report the output paths, technical render properties, validation results, and any material limitations.

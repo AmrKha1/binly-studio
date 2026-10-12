@@ -1,0 +1,152 @@
+name: Render video
+run-name: render ${{ inputs.slug }} ${{ inputs.token }}
+
+# Parallel chunked render: the timeline is split into chunks rendered on separate free runners,
+# joined losslessly, then muxed with the ORIGINAL voiceover (untouched) + generated music + SFX.
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Video slug (videos/<slug>)"
+        required: true
+      scale:
+        description: "1 = final 1920x1080, 0.5 = fast preview"
+        required: false
+        default: "1"
+      from_s:
+        description: "Optional start second (partial render)"
+        required: false
+        default: ""
+      to_s:
+        description: "Optional end second (partial render)"
+        required: false
+        default: ""
+      chunk_s:
+        description: "Seconds of video per parallel runner"
+        required: false
+        default: "75"
+      token:
+        description: "Unique id so tools can find this run"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+env:
+  SLUG: ${{ inputs.slug }}
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.m.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+      - id: m
+        run: node tools/cloud/chunks.mjs "$SLUG" "${{ inputs.from_s }}" "${{ inputs.to_s }}" "${{ inputs.chunk_s }}" >> "$GITHUB_OUTPUT"
+
+  audio:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: ffmpeg
+        run: command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
+      - name: Download voiceover
+        run: |
+          mkdir -p in
+          gh release download "vo-$SLUG" --dir in --pattern 'voiceover.*' --repo "$GITHUB_REPOSITORY"
+      - name: Generate music + SFX stems
+        run: |
+          VO=$(ls in/voiceover.* | head -1)
+          node tools/cloud/merge-sfx.mjs "$SLUG" > sfx.json
+          SCORE=videos/$SLUG/score.json
+          if [ ! -f "$SCORE" ]; then echo '{"sections":[{"t":0,"mood":"curious"}]}' > /tmp/score.json; SCORE=/tmp/score.json; fi
+          node --max-old-space-size=8192 tools/audio/make-audio.mjs "$VO" "$SCORE" sfx.json stems
+      - uses: actions/upload-artifact@v5
+        with:
+          name: stems
+          path: stems
+          retention-days: 3
+          compression-level: 0
+
+  render:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    strategy:
+      fail-fast: true
+      matrix:
+        chunk: ${{ fromJson(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - name: Chrome system libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libdbus-1-3 libatk1.0-0 libgbm-dev libasound2t64 \
+            libxrandr2 libxkbcommon-dev libxfixes3 libxcomposite1 libxdamage1 \
+            libatk-bridge2.0-0 libpango-1.0-0 libcairo2 libcups2
+      - run: npm ci --no-audit --no-fund
+      - name: Activate video
+        run: node tools/activate.mjs "$SLUG" --quiet
+      - name: Render frames ${{ matrix.chunk.a }}-${{ matrix.chunk.b }}
+        run: |
+          npx remotion render Main "out/chunk-${{ matrix.chunk.i }}.mp4" \
+            --frames=${{ matrix.chunk.a }}-${{ matrix.chunk.b }} \
+            --muted --scale=${{ inputs.scale }} --concurrency=100% --log=error
+      - uses: actions/upload-artifact@v5
+        with:
+          name: chunk-${{ matrix.chunk.i }}
+          path: out/chunk-${{ matrix.chunk.i }}.mp4
+          retention-days: 3
+          compression-level: 0
+
+  assemble:
+    needs: [render, audio]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: ffmpeg
+        run: command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
+      - uses: actions/download-artifact@v5
+        with:
+          pattern: chunk-*
+          path: chunks
+          merge-multiple: true
+      - uses: actions/download-artifact@v5
+        with:
+          name: stems
+          path: stems
+      - name: Download voiceover
+        run: |
+          mkdir -p in
+          gh release download "vo-$SLUG" --dir in --pattern 'voiceover.*' --repo "$GITHUB_REPOSITORY"
+      - name: Join chunks + mix audio (voiceover untouched)
+        run: node tools/cloud/assemble.mjs "$SLUG" "${{ inputs.from_s }}" "${{ inputs.to_s }}"
+      - name: QA measurements + contact sheets
+        run: node tools/cloud/qa.mjs final/video.mp4 "$(ls in/voiceover.* | head -1)" final/qa "${{ inputs.from_s }}" "${{ inputs.to_s }}"
+      - uses: actions/upload-artifact@v5
+        with:
+          name: ${{ inputs.slug }}-video
+          path: final/video.mp4
+          retention-days: 30
+          compression-level: 0
+      - uses: actions/upload-artifact@v5
+        with:
+          name: ${{ inputs.slug }}-qa
+          path: final/qa
+          retention-days: 30

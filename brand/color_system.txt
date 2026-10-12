@@ -1,0 +1,40 @@
+# BINLY — COLOR SYSTEM (Warm Editorial — light background)
+
+## Creative direction
+A warm, paper-toned palette inspired by old scientific print and archival documents — not a dark/night/space palette. The feel is "a well-preserved old scientific journal or medical document," not "cartoon nighttime adventure."
+
+## Core palette
+
+| Role | Color | Hex | Usage |
+|---|---|---|---|
+| Background (primary) | Aged paper / warm cream | #EDE4D3 | Main scene background |
+| Background (panel) | Ink black / deep espresso | #2B2420 | Dark panels, diagrams, contrast cards |
+| Signal accent | Oxblood red / deep brick | #8B2E1F | Key moments, titles, emphasis, CTA |
+| Semantic — confirmed/evidence | Forest green | #2F5233 | Documented facts, verified evidence |
+| Semantic — theory/speculation | Muted plum | #5C4A72 | Hypotheses, inference, uncertain claims |
+| Semantic — warning/caution | Dark mustard | #B8860B | Caution without alarm |
+| Text (primary, on light bg) | Ink black | #2B2420 | Body text, labels on cream background |
+| Text (on dark panels) | Warm off-white | #EDE4D3 | Text on ink-black panels |
+
+## Rules
+- Default scene background is the cream/paper tone (#EDE4D3), not black or navy.
+- Use the ink-black panel color (#2B2420) for contrast elements: diagrams, callout boxes, dramatic/night interior scenes within the story (e.g. a dark room, nighttime setting) — not as the base of every scene.
+- Signal accent (oxblood red) is reserved for the single most important visual beat per scene — a title reveal, a key statistic, a moment of realization. Do not overuse it as decoration.
+- Semantic colors (green/plum/mustard) are used specifically to distinguish confirmed fact vs. theory vs. caution in diagrams and on-screen labels — not as general decoration.
+- Maintain strong text/background contrast at all times: ink-black text on cream, or cream text on ink-black panels. Never place mid-tone text on mid-tone background.
+- Avoid saturated primary colors (bright red, bright blue, bright green) anywhere in the palette — everything stays in the muted/earthy/ink register.
+- No bright cheerful cartoon colors (no neon greens, bright purples, candy pinks).
+
+## How to apply this palette
+This is a bounded creative range, not a fixed paint-by-numbers set. You may:
+- Introduce intermediate shades, tints, or shifts within the same color families (e.g. a warmer or cooler variant of the oxblood accent) if it serves a specific scene better.
+- Vary emphasis and saturation slightly per scene to match tone (a tense moment may pull slightly darker/more saturated within the family; a calm moment may pull lighter/softer).
+- Draw light inspiration from any supplied reference image's mood (e.g. "warm firelight against cool shadow") without copying its literal hex values.
+
+You may NOT:
+- Introduce an entirely new color family unrelated to this palette (e.g. bright neon colors, candy pastels).
+
+When in doubt, a color choice should look like it belongs in the same coherent world as the defined palette, even if it's not an exact match to a listed hex code.
+
+## Status
+This is Binly's standing color system. Changes to it should be deliberate and documented, not incidental to a single video's production.

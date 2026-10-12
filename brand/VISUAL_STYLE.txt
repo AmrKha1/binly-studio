@@ -1,0 +1,211 @@
+# BINLY — VISUAL STYLE PROFILE
+## Story-driven 2D Animation (with selective 3D) + Editorial Motion Graphics
+
+### 1. Creative direction
+
+Create a distinctive, story-driven 2D animated visual language for Binly. 2D flat vector illustration is the foundation and visual identity of the channel. 3D is a deliberate, selective tool reserved for specific moments that clearly benefit from it (see section 11) — never a parallel default style used as often as 2D.
+
+Combine the clarity and flexibility of flat vector illustration with the expressive possibilities of animated storytelling and editorial motion graphics.
+
+The result should feel like a thoughtfully directed, high-quality animated explainer-documentary: visually engaging, accessible, expressive, and capable of handling history, psychology, science, human behavior, and unusual phenomena. Every scene should look and move like finished, professional work — nothing should read as unfinished, placeholder, broken, or visually "off."
+
+This is an original visual direction, not a direct imitation of any existing YouTube channel or studio.
+
+### 2. Core visual language
+
+Use a flexible combination of:
+
+- Clean, readable 2D illustrations.
+- Simplified but expressive human characters.
+- Layered backgrounds and foreground elements.
+- Purposeful camera pans, zooms, reframing, and parallax.
+- Animated shapes, lines, diagrams, and typography when they clarify an idea.
+- Strong silhouettes and deliberate scene composition.
+- Selective visual detail, with complexity concentrated where it matters.
+- Selective 3D elements for specific objects or shots that clearly benefit from real depth (see section 11) — blended to read as part of the same flat 2D world, not as a visually distinct 3D insert.
+
+Favor visual storytelling over decorative interface graphics.
+
+Scenes should look designed for their specific narrative moment, not assembled from the same generic template.
+
+### 3. Characters
+
+Do not create or require a permanent channel mascot unless a future decision explicitly calls for one.
+
+Create story-specific characters only when the narration benefits from human action, expression, interaction, or historical reconstruction.
+
+Characters should use simplified, consistent 2D forms that can be implemented and animated reliably.
+
+Prioritize readable silhouettes, facial expressions, body language, and clear staging over complex anatomy or tiny details.
+
+Reuse a character design when the same individual appears again.
+
+Do not create a new visual identity for the same character in every shot.
+
+### 4. Environments and backgrounds
+
+Create environments appropriate to each narrative moment.
+
+Possible environments include historical interiors, streets, landscapes, laboratories, homes, abstract mental spaces, and simplified conceptual environments.
+
+Use layered artwork when it enables meaningful camera movement or depth.
+
+Keep backgrounds visually supportive. Avoid unnecessary detail that competes with the main action.
+
+Use more atmospheric or dramatic compositions when the story calls for them, while preserving the underlying 2D visual language.
+
+### 5. Editorial motion graphics
+
+Use motion graphics as a storytelling tool, not as a permanent interface.
+
+Appropriate elements include:
+
+- Animated diagrams and cause-and-effect relationships.
+- Comparisons and visual transformations.
+- Maps and timelines.
+- Selective labels, numbers, and short headlines.
+- Shapes that connect or transform between related concepts.
+- Typography that emphasizes an important discovery.
+- Simple charts when the narration genuinely benefits from data visualization.
+
+Use graphics only when they improve understanding, emphasis, rhythm, or narrative continuity.
+
+Avoid displaying a permanent HUD, scene number, timecode, or channel logo.
+
+Do not turn every scene into a dashboard or presentation slide.
+
+### 6. Color direction
+
+Use the palette defined in `color_system.md` exclusively. Do not invent new hues outside this system. Reference only the composition/lighting technique of any supplied reference image — never its literal colors.
+
+Maintain strong foreground/background contrast and readable text.
+
+Use color purposefully to distinguish important objects, concepts, actions, or changes.
+
+Allow different scenes to vary in color emphasis when the story requires it, while preserving coherent illustration and color relationships.
+
+Avoid excessive saturation, random gradients, and using every available accent color in every scene.
+
+Record the chosen palette and reusable color tokens so the style can be reproduced consistently.
+
+### 7. Typography
+
+Use clean, highly readable English typography.
+
+Prefer simple, locally available fonts with clear letterforms and appropriate weights.
+
+Use short editorial headlines, labels, or key phrases only when they add value.
+
+Do not turn the video into a sequence of full-screen text slides.
+
+Do not burn in full narration subtitles unless explicitly requested.
+
+Check text size, contrast, spacing, and readability at the final video resolution.
+
+### 8. Motion language
+
+Motion should feel intentional and connected to the story.
+
+Use a flexible combination of:
+
+- Character movement and reactions.
+- Object movement and transformation.
+- Camera movement through layered scenes.
+- Reveals, occlusion, and changes in composition.
+- Diagram construction and visual comparisons.
+- Meaningful transitions between connected ideas.
+- Restrained settling and secondary motion.
+
+Vary the pace according to the narration.
+
+Some moments may use quick, decisive movement. Others may hold on a strong image long enough for the viewer to understand it.
+
+Avoid constant bouncing, excessive overshoot, generic fade-up animation on every element, and movement that has no narrative purpose.
+
+All motion — character animation, object transformation, and camera movement alike — should be smooth: consistent frame-to-frame motion with proper easing (no jitter, stutter, popping, or sudden jumps in position/scale/rotation). Transitions between scenes and between shots within a scene should flow smoothly into one another — through camera movement, match cuts, shape/color continuity, or motivated cuts — rather than hard, jarring cuts with no visual link. Smoothness supports retention: it is often the difference between a viewer staying on a shot and a viewer feeling something is wrong and looking away.
+
+### 9. Composition and visual hierarchy
+
+Each scene should have a clear primary visual focus.
+
+Use deliberate scale, contrast, negative space, overlap, and framing to direct attention.
+
+Keep important text and visual information comfortably within the frame.
+
+Avoid collisions between text, characters, and important objects.
+
+Compose for a 16:9 YouTube video and verify readability at the actual output resolution.
+
+Visual quality and pacing directly affect retention: a scene that looks unfinished, glitchy, visually noisy, or awkwardly staged gives the viewer a reason to leave. Follow the same judgment professional explainer channels like Kurzgesagt use: hold a strong, clear image exactly as long as it takes the idea to land, no longer — once the point is made, move on (a camera move, a reveal, a transformation, a cut to the next idea). A frame should never go visually static and dead just because nothing was planned for it. Let the narration's own rhythm set the pace rather than a fixed timing rule.
+
+### 10. Scene variety and continuity
+
+Use varied compositions without changing the underlying art direction.
+
+Alternate naturally between character-led scenes, environmental scenes, conceptual imagery, and explanatory graphics when the story benefits.
+
+Do not force every scene to contain a character, text, a diagram, and a background illustration simultaneously.
+
+Maintain consistency in line quality, proportions, illustration technique, color logic, and motion principles.
+
+Use recurring motifs when they help connect ideas, not merely to fill space.
+
+### 11. Production practicality
+
+Favor visual techniques that can be implemented and revised reliably in code.
+
+Build reusable components when doing so improves consistency or reduces unnecessary work.
+
+Use SVG and layered 2D assets where suitable. Use Canvas or other techniques when they provide a real advantage. Reserve 3D work for moments that clearly benefit from it — e.g. a spherical or astronomical object, a complex interior/architectural space that needs real camera movement through depth, or a structure whose geometry is hard to read as a flat illustration. When 3D is used, render or treat it so it still reads as part of the same flat, clean-silhouette visual language as the rest of the video, rather than standing out as a distinct realistic-render style.
+
+Do not trade substantial production complexity for an improvement that is barely visible. Do not reach for 3D merely because the tooling is available.
+
+The visual style should remain feasible across long-form videos of approximately 10–15 minutes, not just a short video.
+
+### Reference Image Interpretation
+
+The `references/` directory contains visual direction references for Binly.
+
+Inspect all supplied reference images before designing the video.
+
+Use them to infer and maintain a coherent visual language, including:
+
+- Illustration style and shape language.
+- Character proportions and expressiveness.
+- Color relationships and contrast.
+- Background detail and environmental depth.
+- Composition and visual hierarchy.
+- The relationship between narrative illustration and editorial graphics.
+
+The references demonstrate a shared art direction, not mandatory scene templates.
+
+Do not reproduce every reference as a separate scene. Do not force every visual element from every reference into the video.
+
+Adapt the visual language to the actual narration. Create new compositions and assets when the story requires them.
+
+If the references contain conflicting stylistic choices, prioritize the most coherent shared direction and document the decision.
+
+Treat the images as style references, not as factual evidence. Any historical or scientific depiction must still respect the narration and the distinction between established evidence and artistic reconstruction.
+
+### Audio philosophy (learned from reference, not copied)
+
+Study how professional explainer/documentary animation channels (Kurzgesagt as the primary reference) use music and sound: music often recedes during dense informational narration and swells at emotional or revelatory beats; SFX are used sparingly and precisely timed to specific visual actions, not as constant background texture. Apply this *rhythm and judgment*, using your own original or royalty-free music and sound effects — never reproduce or imitate a specific identifiable piece of music or sound library from any existing channel.
+
+### 12. What to avoid
+
+Avoid:
+
+- A permanent mascot or presenter unless separately requested.
+- Generic corporate presentation templates.
+- Static images with only superficial zoom effects throughout the entire video.
+- Unmotivated motion and transitions.
+- Inconsistent character designs.
+- Visual noise, grain, or texture artifacts in the rendered output.
+
+### Final direction
+
+The goal is not to make every frame equally elaborate.
+
+The goal is to make each important moment visually appropriate, each scene easy to understand, and the complete sequence feel like one deliberately directed animated story.
+
+Choose the strongest practical visual solution for the narration, then execute it consistently.

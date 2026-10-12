@@ -1,0 +1,106 @@
+# Builder handbook — how a Binly chapter is coded
+
+## The contract
+- File: `src/videos/<slug>/chapters/<ID>.tsx`, exporting `export const <ID>: React.FC<{t: number}>`.
+- `t` = **absolute video time in seconds** (not chapter-relative). Your chapter is shown from its `start`
+  until the next chapter's start (plus transition overlap): keep it valid slightly before `start` (≈0.6 s)
+  and after `end` (≈0.6 s) — hold the last state; ramps clamp automatically.
+- Pure function of `t`: no `useCurrentFrame`, `Math.random`, `Date`, state, effects, timers (lint fails).
+  Randomness → `rand(seed)`, `noise1(x, seed)` from kit/anim.
+- Return a full frame: `<Stage bg={...}>…svg…</Stage>`, or `<Shots t={t} shots=[…]/>` when the chapter has
+  several shots (each shot renders its own `<Stage>`).
+- Imports: `../../../kit/<module>` (kit) and `../shared/<file>` (this video's shared assets).
+
+## Timing
+Put every cue at the top, from `node tools/cue.mjs`, with the spoken words as comments:
+```tsx
+const T = {
+  open: 84.2,     // chapter start
+  bath: 85.06,    // "A medieval bathhouse"
+  square: 88.9,   // "public square that happened to have water"
+  food: 93.4,     // "There was food, drink, and conversation"
+  paris: 101.7,   // "In Paris, there were enough public baths"
+  end: 112.6,
+};
+```
+Animate ON the word: start a reveal ~0.1–0.25 s before the stressed word lands so it reads as synchronous.
+Progress values: `ramp(t, a, b, ease.x)`, `keys(t, [[t0,v0],[t1,v1]])`, `win(t, a, b)` (fade in/out window),
+`stagger(t, start, i, gap, dur)`. Camera: `camAt(t, [[time, cx, cy, zoom], …])` → `<Cam cam={…}>` or
+`<World cam={cam} layers=[{depth, el}]/>` for parallax. Holds: `breathe(cam, t)`.
+
+## Patterns
+- **One world, moving camera** beats a sequence of slides: lay out the chapter's ideas in one large SVG
+  world (e.g. 4000×1080) and move the camera from idea to idea with eased pans/zooms.
+- **Shots** when the place really changes: `<Shots t={t} shots={[{start: T.open, render: (t) => <A t={t}/>},
+  {start: T.paris, in: {kind: 'iris', x: 1300, y: 420}, render: (t) => <B t={t}/>}]}/>` (kinds: fade, dip,
+  ink, iris, irisOut, push, paper, zoom, wipe, cut).
+- **Build-ups**: elements arrive on their cue with `p` props (`<Tag p={ramp(t, T.x - 0.1, T.x + 0.5)}/>`),
+  and leave with motivation (camera moves away, a wipe, fade with `win`).
+- **Alive holds**: something always subtly moves (camera breathe, particles, blinking/breathing people,
+  flame flicker, steam) — never a dead frame > 2 s.
+- **Semantic colour** on claims: confirmed → `kind="confirmed"`, theory → `"theory"`, caution → `"caution"`.
+  Oxblood (`C.oxblood`) only on the single key beat of a scene.
+- **Exact numbers**: `<Stat value="0.061" unit="%" …/>` — `value` is the spoken figure exactly.
+- Text sizes: headline 64–110, label 22–30, never < 22. Keep text inside x 96–1824, y 96–984.
+- Layering inside a Stage: background → far → mid (subjects) → foreground → text/labels → vignette.
+- Local helpers: small sub-components inside your file are fine (`const Tub = (…) => …`). Reusable
+  across chapters → they belong in `../shared/` (ask the director).
+
+## SFX file `videos/<slug>/sfx/<ID>.json`
+`[{"t": 85.1, "kind": "whoosh"}, {"t": 101.7, "kind": "stamp", "gain": 0.8, "pan": -0.3}]` — 3–8 per chapter,
+only on meaningful visible events. Kinds: stamp whoosh swoosh swish sweep_down pop tick click thump impact
+rumble low_drone shutter paper page chime ding bell bell_toll riser clack scribble typing bubble sparkle
+heartbeat breath drip splash wind fire crowd door glass (`dur` for scribble/typing/wind/fire/crowd).
+
+## Worked example (pattern reference, not a template to copy literally)
+```tsx
+import React from 'react';
+import {Stage, World, breathe} from '../../../kit/stage';
+import {C} from '../../../kit/theme';
+import {camAt, ease, ramp, win} from '../../../kit/anim';
+import {Headline, Kicker, Tag, Stat} from '../../../kit/text';
+import {Person} from '../../../kit/people';
+import {Steam, LightShaft} from '../../../kit/fx';
+import {Shots} from '../../../kit/shots';
+import {FlowChain} from '../../../kit/diagrams';
+
+const T = {open: 84.2, bath: 85.06, square: 88.9, food: 93.4, humors: 104.1, four: 106.3, end: 112.6};
+
+// Shot A — the bathhouse as a social space: one wide world, camera drifts right as the list grows
+const Bathhouse: React.FC<{t: number}> = ({t}) => {
+  const cam = breathe(camAt(t, [[T.open, 760, 540, 1.25], [T.square, 960, 540, 1.0], [T.food + 4, 1180, 520, 1.12]]), t);
+  return (
+    <Stage bg={C.paperShade}>
+      <World cam={cam} layers={[
+        {depth: 0.4, el: <rect x={-400} y={0} width={2800} height={620} fill={C.stone} />},
+        {depth: 1, el: (
+          <g>
+            <LightShaft x1={300} x2={420} y={0} dx={160} len={760} />
+            <Person x={620} y={900} t={t} outfit="tunic" pose="present" talk={win(t, T.food, T.food + 1.6) * Math.abs(Math.sin(t * 9))} seed={1} />
+            <Person x={980} y={900} t={t} outfit="dress" hair="bun" facing={-1} expression="smile" seed={2} />
+            <Steam t={t} x={800} y={760} w={420} />
+          </g>
+        )},
+      ]} />
+      <Kicker x={960} y={150} text="Paris · 1300s" p={ramp(t, T.bath, T.bath + 0.8)} />
+      <Headline x={960} y={230} text="A public square with water in it" p={ramp(t, T.square - 0.2, T.square + 0.9)} mode="words" accent={{water: C.oxblood}} />
+    </Stage>
+  );
+};
+
+// Shot B — the idea: four humors as a balance (diagram on ink panel)
+const Humors: React.FC<{t: number}> = ({t}) => (
+  <Stage bg={C.ink}>
+    <Kicker x={960} y={260} text="Medieval medicine" color={C.paperShade} p={ramp(t, T.humors, T.humors + 0.6)} />
+    <FlowChain x={960} y={540} items={['Blood', 'Phlegm', 'Yellow bile', 'Black bile']} p={ramp(t, T.four, T.four + 2.4)} />
+    <Tag x={960} y={760} anchor="center" text="A theory — not germs" kind="theory" p={ramp(t, T.four + 2.6, T.four + 3.4)} />
+  </Stage>
+);
+
+export const C02: React.FC<{t: number}> = ({t}) => (
+  <Shots t={t} shots={[
+    {start: T.open, render: (t) => <Bathhouse t={t} />},
+    {start: T.humors, in: {kind: 'ink', x: 960, y: 540}, render: (t) => <Humors t={t} />},
+  ]} />
+);
+```
