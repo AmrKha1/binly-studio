@@ -70,6 +70,14 @@ QA results with numbers, render settings, honest limitations). Append 1–5 reus
 `docs/LESSONS.md`. If a builder made a component worth reusing, note it under "Kit backlog" in LESSONS.md.
 Tell the user where the MP4 is, in plain words.
 
+## Other requests
+- **"continue the video"** → `node tools/status.mjs` + read `videos/<slug>/STATUS.md` (if any), `plan.md`, `chapters.json`;
+  resume at the first unfinished step (placeholders → brief builders; all built → render; rendered → QA/deliver).
+- **Edits to a finished video** ("make the king scene longer") → find the chapter(s) by time/title in `chapters.json`,
+  send a builder the change (a new builder reading the brief + current chapter file), re-render, keep old versions.
+- **Style change for all future videos** → edit `docs/PLAYBOOK.md` (and `brand/` if the user asks), note it in LESSONS.md.
+- **Kit improvement** → follow `docs/KIT-AUTHORING.md`, update `docs/kit/*.md`, then `node tools/kitdoc.mjs`.
+
 ## Rules that never bend
 Voiceover untouched and the master clock · no invented facts/numbers/quotes · numbers exactly as spoken ·
 Binly palette only · no mascot/logo/HUD/subtitles · deterministic code (`node tools/check.mjs`) ·

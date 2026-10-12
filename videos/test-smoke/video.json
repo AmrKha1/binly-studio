@@ -1,0 +1,11 @@
+{
+ "slug": "test-smoke",
+ "title": "Smoke test",
+ "duration": 56.3548,
+ "sampleRate": 44100,
+ "channels": 2,
+ "codec": "pcm_s16le",
+ "audio": "voiceover.wav",
+ "source": "test-dinos.wav",
+ "created": "2026-10-12T17:21:59.705Z"
+}
