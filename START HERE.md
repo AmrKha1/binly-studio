@@ -15,9 +15,12 @@
 
 Your PC only does light work (planning and small preview pictures). The heavy rendering happens on GitHub.
 
-## Changing a video after it's done
-Open Claude Code here and describe the change, e.g. *"in medieval-baths, make the king scene longer and
-use a darker colour mood"*. Claude edits that chapter and renders a new version (older versions are kept).
+## Fixing / polishing a video after it's done
+- Your own list: `/polish-video at 2:31 the label covers the king's face; at 7:10 the transition is too abrupt`
+- Let Claude check and fix everything itself: `/polish-video` (with nothing after it)
+Best: run `/polish-video` once, watch, then send your own list. Use the same session if it's still open,
+otherwise a new one. The fixed video appears as the next version in `videos/<name>/output/`
+(`<name>-v2.mp4`, `-v3` … — the highest number is the newest; old versions are kept).
 
 ## If a session stops (usage limit, closed window)
 Open Claude Code here again and say **"continue the video"** — progress is saved in files.
