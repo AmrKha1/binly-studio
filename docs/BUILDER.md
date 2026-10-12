@@ -29,6 +29,7 @@ Progress values: `ramp(t, a, b, ease.x)`, `keys(t, [[t0,v0],[t1,v1]])`, `win(t, 
 `<World cam={cam} layers=[{depth, el}]/>` for parallax. Holds: `breathe(cam, t)`.
 
 ## Patterns
+- **Follow the brief's shot list** (S1, S2, …): implement each shot as a named sub-component or a camera stop, with a comment `// S3 · 101.70 · "In Paris…"` so fixes like "C04 S3" are easy to find.
 - **One world, moving camera** beats a sequence of slides: lay out the chapter's ideas in one large SVG
   world (e.g. 4000×1080) and move the camera from idea to idea with eased pans/zooms.
 - **Shots** when the place really changes: `<Shots t={t} shots={[{start: T.open, render: (t) => <A t={t}/>},

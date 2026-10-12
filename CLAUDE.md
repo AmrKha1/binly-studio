@@ -34,11 +34,15 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/CRAFT.md`, `docs/KIT.md`, `docs/LE
 - `videos/<slug>/chapters.json` — chapters on paragraph boundaries, 60–120 s each (10–15 min ⇒ 8–12),
   each `{"id":"C01","start":0,"end":84.2,"title":"…","in":{"kind":"ink","x":960,"y":540}}` (C01 has no `in`;
   `start` of each chapter = `end` of the previous; last `end` = video duration). Then `node tools/scaffold.mjs <slug>`.
-- `videos/<slug>/briefs/Cxx.md` per chapter (≤ 450 words): time range + paragraphs · purpose of the chapter ·
-  beat list `[mm:ss] "spoken cue" → what we see` (components from KIT.md, camera, EXACT on-screen strings and
-  numbers, certainty colours) · how it begins (continuity from previous chapter's last frame) and how it ends
-  (what the next chapter enters from) · 3–8 SFX moments · music mood. Be concrete: builders execute, they
-  should not have to invent the direction — but leave them room for craft.
+- `videos/<slug>/briefs/Cxx.md` per chapter (≤ 500 words): time range + paragraphs · purpose of the chapter ·
+  a numbered **shot list** — the chapter is a sequence of shots of ~4–15 s, normally one shot per narration
+  sentence or idea (`node tools/transcript.mjs --from a --to b` prints sentence start times):
+  `S3 [01:42.6–01:51.0] "In Paris, there were enough public baths…" → what we see · camera · transition in`
+  with components from KIT.md, EXACT on-screen strings and numbers, certainty colours. A shot may continue the
+  same world with a camera move (preferred) or cut/transition to a new one. Also: how the chapter begins
+  (continuity from the previous chapter's last frame) and ends (what the next chapter enters from) · 3–8 SFX
+  moments · music mood. Be concrete: builders execute, they should not have to invent the direction — but
+  leave them room for craft. Shot numbers make later fixes precise ("C04 S3: …").
 - `videos/<slug>/score.json` — music: `{"key":"D","mode":"minor","bpm":68,"seed":3,"sections":[{"t":0,"mood":"curious"},…],"accents":[{"t":…,"kind":"drop","dur":2},…]}`
   Moods: curious, wonder, tension, dark, build, reflective, warm, neutral, playful, sad, triumphant.
   Accents: swell, drop, resolve, sting, silence. Change mood at pivots/chapters, not every 10 s.
