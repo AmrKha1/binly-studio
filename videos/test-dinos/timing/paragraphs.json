@@ -1,1 +1,38 @@
-[{"i":0,"s":0,"e":12.28,"text":"No photograph of a living Tyrannosaurus rex has ever existed. No witness. No preserved muscle. No skin sample. No color chart. Almost all of the soft tissue is gone. What's left is mostly rock."},{"i":1,"s":12.56,"e":25.56,"text":"And yet, walk into almost any natural history museum on Earth, and you'll find a Tyrannosaurus standing there. Fully fleshed, textured, colored, mid-stride, looking back at you like someone simply forgot to take the photograph."},{"i":2,"s":25.56,"e":29.24,"text":"Here's the uncomfortable part. We've gotten this badly wrong before."},{"i":3,"s":29.24,"e":45.96,"text":"In the 19th century, scientists working on one of the first dinosaurs ever reconstructed, Iguanodon, found a strange, spike-shaped bone among the fossils and couldn't quite place it. Their best guess was that it belonged on the animal's face, a horn, sitting on the nose."},{"i":4,"s":45.96,"e":51.5,"text":"For years, that's exactly how Iguanodon was drawn, sculpted, and displayed to the public."},{"i":5,"s":51.5,"e":55.04,"text":"It wasn't stupidity. It was the best possible reading of incomplete evidence."}]
+[
+{
+"i": 0,
+"s": 0.0,
+"e": 12.38,
+"text": "No photograph of a living Tyrannosaurus rex has ever existed. No witness. No preserved muscle. No skin sample. No color chart. Almost all of the soft tissue is gone. What's left is mostly rock."
+},
+{
+"i": 1,
+"s": 12.55,
+"e": 26.19,
+"text": "And yet, walk into almost any natural history museum on Earth, and you'll find a Tyrannosaurus standing there. Fully fleshed, textured, colored, mid-stride, looking back at you like someone simply forgot to take the photograph."
+},
+{
+"i": 2,
+"s": 26.45,
+"e": 29.84,
+"text": "Here's the uncomfortable part. We've gotten this badly wrong before."
+},
+{
+"i": 3,
+"s": 29.68,
+"e": 46.54,
+"text": "In the 19th century, scientists working on one of the first dinosaurs ever reconstructed, Iguanodon, found a strange, spike-shaped bone among the fossils and couldn't quite place it. Their best guess was that it belonged on the animal's face, a horn, sitting on the nose."
+},
+{
+"i": 4,
+"s": 46.7,
+"e": 51.9,
+"text": "For years, that's exactly how Iguanodon was drawn, sculpted, and displayed to the public."
+},
+{
+"i": 5,
+"s": 52.12,
+"e": 55.98,
+"text": "It wasn't stupidity. It was the best possible reading of incomplete evidence."
+}
+]
