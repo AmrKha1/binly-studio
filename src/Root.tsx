@@ -55,8 +55,8 @@ const Sheet: React.FC<SheetProps> = ({from, to, n, cols, times}) => {
 };
 
 // Grid: tiles pre-rendered as separate stills (so SVG ids never collide) composed into one image.
-type GridProps = {images: string[]; labels: string[]; cols: number};
-const Grid: React.FC<GridProps> = ({images, labels, cols}) => {
+type GridProps = {images: string[]; labels: string[]; cols: number; fit?: 'cover' | 'contain'};
+const Grid: React.FC<GridProps> = ({images, labels, cols, fit = 'cover'}) => {
   const rows = Math.ceil(images.length / cols);
   const gap = 8;
   const cw = (W - gap * (cols + 1)) / cols;
@@ -66,7 +66,7 @@ const Grid: React.FC<GridProps> = ({images, labels, cols}) => {
     <AbsoluteFill style={{background: '#7d7570'}}>
       {images.map((src, i) => (
         <div key={i} style={{position: 'absolute', left: gap + (i % cols) * (cw + gap), top: top + Math.floor(i / cols) * (ch + gap), width: cw, height: ch, overflow: 'hidden'}}>
-          <img src={src} style={{width: cw, height: ch, display: 'block'}} />
+          <img src={src} style={{width: cw, height: ch, display: 'block', objectFit: fit, background: '#3a3330'}} />
           <div style={{position: 'absolute', left: 6, top: 6, padding: '2px 8px', background: 'rgba(0,0,0,0.65)', color: '#fff', font: `700 ${Math.max(14, 22 * (4 / cols))}px ${FONT_SANS}`}}>{labels[i]}</div>
         </div>
       ))}

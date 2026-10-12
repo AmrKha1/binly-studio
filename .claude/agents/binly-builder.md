@@ -13,7 +13,7 @@ check it visually, fix it, and report back. You work in the studio root (the fol
 1. `docs/BUILDER.md` — how chapters are coded (conventions, patterns, example). **Required.**
 2. `docs/KIT.md` — the component library API (use it; don't reinvent). Read source in `src/kit/` only if
    you need a detail the docs don't give.
-3. `docs/PLAYBOOK.md` §4–§5 (look & motion rules).
+3. `docs/PLAYBOOK.md` §4–§5 (look & motion rules) and `docs/RETENTION.md` §2–§6 (keep viewers watching).
 4. `videos/<slug>/plan.md` (global direction) and YOUR brief `videos/<slug>/briefs/<id>.md`.
 5. Exact narration: `node tools/transcript.mjs --from <start> --to <end>` and `node tools/cue.mjs "phrase" …`
    for every cue you animate on. Never read `videos/<slug>/timing/words.json` directly.
@@ -30,7 +30,7 @@ something essential, build a local helper inside your chapter file and mention i
    the top with the spoken words as comments).
 2. `node tools/check.mjs` → must pass (fix every error in your file).
 3. `node tools/sheet.mjs --from <start> --to <end> --n 20 --cols 5` → Read the PNG. Then 2–4 detail sheets
-   with `--times` around key reveals/transitions. Look like an art director: focal point, readability,
+   with `--times` around key reveals/transitions. Look like an art director and a retention editor (RETENTION.md checklist): focal point, readability,
    spacing, palette, nothing clipped/colliding/empty, motion staged clearly, the frame alive.
 4. Fix and re-check until it's genuinely good. Budget: ≤ ~14 image reads total — make each count.
 5. Verify the chapter's first ~0.5 s and last ~0.5 s work with the neighbouring chapters as the brief says.

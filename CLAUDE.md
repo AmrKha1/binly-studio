@@ -22,7 +22,7 @@ chapters yourself. Work autonomously; ask the user only if something truly block
 **1 · Ingest** — `node tools/new-video.mjs` (optional `--slug short-name --title "..."`), run in background.
 It moves the inputs to `videos/<slug>/`, scaffolds `src/videos/<slug>/`, activates it, uploads the voiceover
 to GitHub (release `vo-<slug>`) and runs the cloud timing analysis (~5–10 min) → `videos/<slug>/timing/`.
-While it runs: read `docs/PLAYBOOK.md`, `docs/CRAFT.md`, `docs/KIT.md`, `docs/LESSONS.md`, and the script
+While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `docs/KIT.md`, `docs/LESSONS.md`, and the script
 (`videos/<slug>/script.txt`) + `notes.md` if present (the user's special requests override defaults).
 
 **2 · Plan** (your most important work — this is where quality is decided). Read `videos/<slug>/timing/transcript.md`
@@ -30,7 +30,9 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/CRAFT.md`, `docs/KIT.md`, `docs/LE
 - `videos/<slug>/plan.md` (≤ 900 words): logline · the question that drives the video · visual thesis (the
   ONE big visual idea/world) · palette leaning (within the Binly system) · recurring motifs and what they mean ·
   recurring characters/objects/places → which **shared components** to build in `src/videos/<slug>/shared/`
-  (name, file, props, look) · chapter overview · music arc. 
+  (name, file, props, look) · chapter overview · music arc · **the retention plan** (docs/RETENTION.md: hook shot by
+  shot, visual promise, chapter re-hooks + open loops, pattern interrupts with times, emotional peaks, payoff) ·
+  **real archival images** worth using (search with `tools/photo.mjs`, fetch the chosen ones now, name them in the briefs). 
 - `videos/<slug>/chapters.json` — chapters on paragraph boundaries, 60–120 s each (10–15 min ⇒ 8–12),
   each `{"id":"C01","start":0,"end":84.2,"title":"…","in":{"kind":"ink","x":960,"y":540}}` (C01 has no `in`;
   `start` of each chapter = `end` of the previous; last `end` = video duration). Then `node tools/scaffold.mjs <slug>`.
@@ -57,8 +59,9 @@ Use `model: "opus"` for C01 (the hook) and the climax chapter; default (sonnet) 
 Each builder writes only `src/videos/<slug>/chapters/C03.tsx` (+ `videos/<slug>/sfx/C03.json`).
 
 **5 · Review each chapter** as it arrives: `node tools/sheet.mjs --from <start> --to <end> --n 20 --cols 5`,
-then Read the PNG. Judge like a demanding art director: focal point, readability, variety, palette, sync with
-the beat list, nothing broken/empty/colliding. Send concrete fixes to the SAME builder with SendMessage
+then Read the PNG. Judge like a demanding art director AND a retention editor: focal point, readability, variety, palette, sync with
+the shot list, nothing broken/empty/colliding — and the chapter checklist in docs/RETENTION.md (every "no" goes
+back to the builder). Send concrete fixes to the SAME builder with SendMessage
 (it keeps its context). Check every chapter boundary: `node tools/sheet.mjs --times <b-0.6>,<b-0.2>,<b+0.2>,<b+0.6>`.
 `node tools/status.mjs` shows which chapters are still placeholders.
 
@@ -69,7 +72,8 @@ the beat list, nothing broken/empty/colliding. Send concrete fixes to the SAME b
 **7 · QA** — read `videos/<slug>/qa/<name>/qa_report.md` and look at every `sheet-NN.png` (one tile per 3 s).
 Warnings (static holds, near-empty frames) mean "go look": check those times with `tools/sheet.mjs --times …` and fix only real defects (via builders), then re-render. Do not claim a check you did not do.
 
-**8 · Deliver** — write `videos/<slug>/REPORT.md` (≤ 400 words: video path, chapters, style decisions,
+**8 · Deliver** — if images were used, make sure `videos/<slug>/CREDITS.md` lists them all (tell the user to paste it into
+the YouTube description). Write `videos/<slug>/REPORT.md` (≤ 400 words: video path, chapters, style decisions,
 QA results with numbers, render settings, honest limitations). Append 1–5 reusable lessons to
 `docs/LESSONS.md`. If a builder made a component worth reusing, note it under "Kit backlog" in LESSONS.md.
 Tell the user where the MP4 is, in plain words.

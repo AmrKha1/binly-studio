@@ -49,6 +49,15 @@ AI images, not generic templates. "Technically flawless but dull" = failed.
   Recurring motifs only when they connect ideas. Don't make every scene a dashboard or a slide.
 - Reference images in `brand/references/` = shape language & mood only, never literal colours.
 
+### Real archival images (approved by the channel owner, 2026-10-13)
+Flat vector stays the main style. Real images are used as **evidence moments** where they add truth: a real
+document, the real painting/manuscript of the event, a real object or historical photo — framed inside the animated
+world (`Photo` component), usually with the warm `paper` tint. ONLY free licences via `tools/photo.mjs` (public
+domain, CC0, CC BY, CC BY-SA) with credit; never images from other sources, never "just a few seconds" of a
+copyrighted image. Handle images of violence, death, persecution or real victims with restraint and respect: show them
+only when the narration is about them, briefly, framed, never as a gag. Every used image is listed in
+`videos/<slug>/CREDITS.md` for the YouTube description.
+
 ## 5. Motion
 - Every move has a purpose: advance the story, create curiosity, clarify, reveal a relation/contrast/
   cause, set place/time/stakes, make a discovery satisfying.
