@@ -213,6 +213,199 @@ Origin = left end of the row at the numbers' baseline; total width w.
 
 ---
 
+# kit/env — environments & props
+
+`import {…} from '../kit/env'`. Flat stepped colour, upper-left light, palette only. Everything is a pure
+function of props; `t` = idle life (cloud drift, sway, flicker, ripples), `seed` = variation.
+
+**Conventions**
+- Environments fill 1920×1080 at s=1, origin = frame top-left, with ~400px overscan left/right/below for parallax.
+- Interiors share the floor line `ENV_FLOOR` = **820** (character feet). Streets: medieval cobbles/modern sidewalk start at 820.
+- Props: origin = **base / bottom-centre** unless noted. All props accept `x, y, s, flip`.
+- Types: `Tone = 'day'|'dusk'|'night'|'overcast'`, `Layer = 'far'|'mid'|'near'`, `Era = 'medieval'|'early-modern'|'modern'`, `RoomEra = 'medieval'|'19thc'|'modern'`.
+- Helpers: `mixC(a, b, k)` (chainable colour mix, accepts hex or rgb()), `toned(color, tone, far01)` (re-tint a material for time of day + atmosphere), `skyBands(tone)` (5 sky colours top→horizon), `BOOK_COLORS`.
+
+## Parallax recipe
+```tsx
+<World cam={cam} layers={[
+  {depth: 0.1, el: <Sky variant="dusk" t={t}/>},
+  {depth: 0.3, el: <Hills layer="far" tone="dusk"/>},
+  {depth: 0.5, el: <CitySkyline era="medieval" layer="mid" tone="dusk" walls/>},
+  {depth: 1,   el: <Ground y={860} tone="dusk"/>},
+  {depth: 1.3, el: <Trees layer="near" tone="dusk" t={t} x0={-200} x1={400}/>},
+]}/>
+```
+
+## Sky & landscape (origin = frame)
+- **Sky** — stepped 5-band sky, sun (day/dusk) or moon (night), stars, drifting clouds.
+  `{variant?: Tone='day'; t?; horizon?=760; stars?: bool (default night); sun?=true; sunX?; sunY?; moon?: 'full'|'crescent'; clouds?: n; cloudSpeed?=1; seed?}`
+  `<Sky variant="night" t={t} moon="crescent"/>`
+- **Cloud** — single flat cloud, origin bottom-centre. `{w?=300; color?; shade?; o?}`
+- **Moon** — disc with halo, origin centre. `{x; y; r?=60; phase?: 'full'|'crescent'}`
+- **Stars** — twinkling field in a box. `{t?; seed?; x?; y?; w?; h?; n?=80}`
+- **Hills** — rolling band, shade on right-facing slopes, fills to bottom. `y` = crest base.
+  `{layer?: Layer='mid'; seed?; tone?; color?; y? (650/730/850); amp?; shade?=true}`
+- **Ground** — flat plane from `y` down with sparse marks. `{y?=820; kind?: 'grass'|'earth'|'sand'; tone?; color?; seed?}`
+- **Tree** — single tree, origin trunk base. `{kind?: 'round'|'conifer'|'bare'|'poplar'; h?=300; t?; seed?; tone?; far?: 0..1; color?; trunk?}`
+- **Trees** — seeded row. `{layer?; kind?: TreeKind|'mixed'; y?; x0?=-250; x1?=2170; density?=1; h?=300; t?; tone?; seed?}`
+- **Water** — lake band with drifting ripple dashes + optional sun/moon glint column.
+  `{y?=780; h?=400; t?; tone?; glintX?; x?; w?; color?; seed?}`
+- **Landscape** — ready composite (sky, hills, trees, optional lake, ground). `{tone?; seed?; t?; water?: bool; trees?: TreeKind|'mixed'}`
+  `<Landscape tone="dusk" water t={t}/>` (lake shore / floor ≈ y 955; without water, near hill ≈ 870–900)
+
+## City
+- **CitySkyline** — silhouette band; `y` = building ground line (buildings extend below). Night ⇒ lit windows (some flicker with `t`).
+  `{era?: Era='medieval'; layer?: Layer='mid'; tone?; y?; lit?; t?; walls?: bool (medieval town wall + gate towers); color?; seed?; x0?; x1?}`
+  medieval: gabled houses, towers, church spire · early-modern: stepped/bell gables, domes, clock tower · modern: blocks, rooftop kit, window grids.
+- **Street** — full street scene: sky, far + mid skyline, row of facades, street surface (floor 820).
+  `{era?: 'medieval'|'modern'; tone?: Tone='day'; t?; seed?}` · medieval = stone ground floor, jettied half-timber, cobbles, lanterns at night; modern = shopfronts + awnings, sidewalk 820–880, road, lamp posts.
+  `<Street era="medieval" tone="night" t={t}/>`
+- **StreetLamp** — modern lamp post, origin pole base. `{h?=420; lit?; color?}`
+
+## Interiors (origin = frame, floor at 820)
+- **Room** — `{era?: RoomEra='19thc'; wall?; floor?; trim?; window?: 'arched'|'square'|'none'; windowX?; door?=true; doorX?; doorOpen?: 0..1; light?=true (LightShaft + floor patch); night?; sky?: Tone; t?; seed?}`
+  medieval = stone blocks, ceiling beam + corbels, arched window, plank door, flagstones · 19thc = striped wallpaper, picture rail, wainscot, sash window with curtains, panel door · modern = plain wall, radiator, pendant lamp, flush door.
+  `<Room era="medieval" windowX={400} doorX={1600} t={t}/>`
+- **Floor** — floor band. `{y?=820; color?; kind?: 'planks'|'flags'|'tiles'; seed?}`
+- **Bathhouse** — medieval public bath: stone arcade, oculi + light shafts, beams, two wooden tubs (left under linen canopy at x 460, right x 1470, base y≈900), bench, buckets, steam.
+  `{t?; seed?; layer?: 'all'|'back'|'front'}` — draw `layer="back"`, then bathers, then `layer="front"` (tub fronts + steam).
+- **Lab** — counter (top y 640) with microscope, glassware, test tubes; wall shelves; window; modern adds monitor + strip light, 19thc a retort + burner + lantern.
+  `{t?; era?: '19thc'|'modern'; night?; seed?}`
+- **Classroom** — chalkboard (x 560–1380, y 180–580) with faint notes, clock, window, teacher desk, foreground desks.
+  `{t?; time?: hours; layer?: 'all'|'back'|'front'; seed?}` · **ClassroomFront** `{y?=960; color?}` = the desk row alone.
+- **MuseumHall** — arched windows between pilasters, cornice, light shafts, tiled floor, central Plinth (top ≈ y 770).
+  `{t?; windows?=4; plinth?=true; wall?; seed?}`
+- **Study** — dark panelled library: tall bookshelves both sides, framed map, desk across the front (top y 690) with oil lamp, books, quill.
+  `{t?; layer?: 'all'|'back'|'front'; lamp?=true; seed?}` — characters go between `back` and `front`.
+- **Bedroom** — night bedroom: curtained window with moon & stars (x 560), moonlight shaft onto the bed (x≈1250), nightstand + candle.
+  `{t?; night?=true; candle?: bool (lit); seed?}`
+- **MindSpace** — calm ink/plum field with floating soft shapes, slow orbit rings, dust; centre kept clear for text.
+  `{t?; bg?: 'ink'|'plum'='plum'; density?=1; seed?}`
+
+## Props (origin = base-centre unless noted; all take x, y, s, flip)
+| Prop | Props | Notes |
+|---|---|---|
+| Table | `w?=360 h?=150 color?` | |
+| Desk | `w?=440 h?=170 color?` | drawer pedestal right |
+| Chair | `h?=240 color?` | side view, faces right (`flip` for left) |
+| Bed | `w?=560 frame? blanket? pillow? sheet?` | side view, headboard left |
+| Bookshelf | `w?=300 h?=520 seed? shelves? fill?=0.9 color?` | seeded books, leaners, jars |
+| BookStack | `n?=4 w?=150 seed?` | |
+| OilLamp | `t? lit?=true glow?=1 color?` | ~165 tall, LightPool glow |
+| Candle | `t? lit? h?=90 glow? color? holder?` | |
+| Torch | `t? lit? glow? seed?` | wall torch, origin = handle bottom |
+| Lantern | `t? lit? chain?=0 glow? color?` | `chain` draws chain above the ring |
+| Window | `w?=240 h?=360 shape?: 'arched'\|'square' sky?: Tone t? frame? reveal? curtains? curtainColor? moon? panes? seed?` | origin = sill centre |
+| Door | `w?=200 h?=360 shape? style?: 'plank'\|'panel'\|'flush' color? frame? open?: 0..1 inside?` | origin = threshold |
+| Bathtub | `kind?: 'wood'\|'modern' w?=380 t? water? color? linen? part?: 'all'\|'back'\|'front'` | `back` before a bather, `front` after |
+| Bucket | `w?=90 color? water?=true` | |
+| Plant | `kind?: 'leafy'\|'tall'\|'bush' seed? t? pot? color?` | sways with t |
+| Barrel | `w?=150 h?=200 color?` | |
+| Cauldron | `w?=220 t? steam?=true fire? liquid? color?` | bubbles + Steam |
+| Scroll | `w?=360 h?=300 p?: 0..1 lines? seed? color?` | origin = **top roll**; `p` unrolls down |
+| Bench | `w?=420 h?=110 color?` | |
+| Clock | `time?: hours (3.5 = 3:30) r?=90 t? pendulum? color? face?` | origin = **face centre** |
+| Bell | `r?=80 t? swing?: deg color?` | origin = **hanging point** |
+| Banner | `kind?: 'hanging'\|'flag' w?=200 h?=320 t? color? emblem?: 'none'\|'circle'\|'cross'\|'stripe' trim?` | hanging: origin = **rod centre**; flag: pole foot |
+| Plinth | `w?=600 h?=90 color? label?=true` | blank label plate for a Kicker |
+| Frame | `w?=300 h?=220 kind?: 'landscape'\|'portrait'\|'map'\|'blank' color?` | origin = **centre** |
+| StreetLamp | `h?=420 lit? color?` | |
+| Tree | see above | origin = trunk base |
+
+```tsx
+<Room era="19thc" t={t}/>
+<Desk x={1200} y={ENV_FLOOR}/><OilLamp x={1080} y={ENV_FLOOR - 170} t={t}/>
+<Clock x={1500} y={260} r={60} time={10 + t / 60}/>
+```
+
+---
+
+# geo — `src/kit/geo.tsx`
+
+Maps for history/geography beats in an old-print style: paper land, slightly darker sea with an engraved
+line along the coast, thin ink coastlines, faint borders + graticule, Fraunces italic sea names.
+Data = local world-atlas TopoJSON (`50m` regional, `110m` world) via d3-geo; projections and paths are
+memoised per region+size (first frame computes, later frames are cheap). Gallery: `{"page":"geo"}`.
+
+Regions (`REGIONS`): `world` (equalEarth) · `europe`, `western-europe`, `mediterranean`, `north-america`,
+`asia` (conicConformal) · `south-america`, `africa`, `middle-east`, `iberia`, `british-isles`, `france`,
+`italy`, `low-countries`, `alps` (mercator) — or any bbox `[[W,S],[E,N]]` (mercator). The bbox is fitted
+*inside* the box (extra area shows around it).
+
+## makeProjection
+Pure helper: the exact projection GeoMap uses. Pass the map's x/y to get absolute stage px.
+```ts
+makeProjection(region, w, h, {x?, y?, projection?}) → (lon, lat) => [x, y]     // type Proj
+```
+```tsx
+const eu = makeProjection('europe', 1040, 860, {x: 80, y: 100});
+const [px, py] = eu(2.35, 48.86); // Paris
+```
+
+## GeoMap
+Map in the box (x, y, w, h), clipped, with a double neatline frame. `children` draw on top, clipped to the
+box (use absolute coords from makeProjection). World maps draw the globe outline instead of a box.
+```ts
+<GeoMap x y w h region?='europe' projection?: 'mercator'|'equalEarth'|'conicConformal' detail?: '50m'|'110m'
+  p?=1 land?=C.paperLight sea?=C.paperShade border?=C.inkFaint coast?=C.inkLift borders?=true
+  graticule?: boolean | stepDeg ripples?=(not world) frame?=true
+  highlight?: {countries: (name | ISO numeric)[]; color?=C.oxLight; p?; outline?}[]
+  labels?: {text; lon; lat; kind?: 'sea'|'region'|'country'; size?; rotate?}[] labelP?=1>{children}</GeoMap>
+```
+Country names are Natural Earth names (case-insensitive): 'France', 'Spain', 'United States of America',
+'Dem. Rep. Congo'… or ISO numeric (`250`, `'076'`). Modern borders — for medieval maps pass `borders={false}`.
+```tsx
+<GeoMap x={80} y={100} w={1040} h={860} region="europe" p={ramp(t,0,1)}
+  labels={[{text:'Mediterranean Sea', lon:6.6, lat:37.8}]} highlight={[{countries:['Italy'], p: ramp(t,1,2)}]}>
+  <MapPin {...} />
+</GeoMap>
+```
+Cost: a 50m regional map ≈1–2 s/frame locally (slow PC); avoid more than two maps on screen at once.
+
+## MapPin
+Teardrop pin that drops with a gentle settle. Origin = pin tip (the location). Label in Fraunces 32 with a
+paper halo, optional `sub` (sans caps 22). `side`: 'right' | 'left' | 'top'.
+```ts
+<MapPin x y p?=1 label? sub? color?=C.oxblood s?=1 side?='right' />
+```
+
+## CityDot
+Ring + centre dot city marker with Fraunces label (halo). `side`: 'right' | 'left' | 'top' | 'bottom'.
+```ts
+<CityDot x y label? p?=1 color?=C.ink side?='right' size?=28 italic?=false />
+```
+
+## Route
+Line that draws on with a travelling arrowhead. `points` are `[lon,lat]` with `proj`, or px without it.
+Two points → arc (`bend` fraction of length, sign flips side). More points → smooth curve through them.
+```ts
+<Route points proj? p?=1 color?=C.oxblood width?=5 dashed?=false arrow?=true bend?=0.18 dots?=false />
+```
+```tsx
+<Route points={[[28.97,41.0],[15.55,38.19],[5.37,43.3]]} proj={md} p={ramp(t,1,3)} dashed />
+```
+
+## SpreadRings
+Outbreak / spread marker: filled core + rings expanding on a loop driven by `t`. Origin = centre.
+```ts
+<SpreadRings t x y r?=110 n?=3 period?=2.4 color?=C.oxblood p?=1 core?=12 />
+```
+
+## AreaMark
+Region without a modern border (e.g. Brabant, "the Low Countries"): flat tint + dashed rim drawing on,
+optional sans-caps label. Origin = centre.
+```ts
+<AreaMark x y rx ry?=rx*0.7 rot?=0 p?=1 color?=C.theory label? labelDy? />
+```
+
+## MapLabel
+Map typography. 'sea' = Fraunces italic tracked (no halo), 'region' = sans caps tracked, 'country' = Fraunces caps.
+```ts
+<MapLabel x y text kind?='sea' size? rotate?=0 p?=1 color? />
+```
+
+---
+
 # icons — `src/kit/icons.tsx`
 
 Bold flat pictogram family (filled geometric shapes + 6px round-capped strokes), two-tone: main `color`
@@ -246,3 +439,154 @@ coin, scale, shield, chart, gear, arrow-right, arrow-up, bath.
 
 Notes: `check/cross/question/exclamation/info` are badge discs (glyph knocked out); `heart`, `flame`,
 `lightning`, `pin` are drawn mainly in `accent`. For other arrow directions use `r` (e.g. `arrow-right` with `r={90}`).
+
+---
+
+# science — `src/kit/science.tsx`
+
+Body, brain and science visuals in flat editorial style (light from upper-left, flat shade crescents on the
+lower-right). Colour meaning: flesh/blood = oxblood family (`oxTint`/`oxLight`), signals/thought = theory
+plum, healthy/immune = evidence green, germs/warning = caution mustard. All are SVG for a `<Stage>`; most
+take `x y s` (+ `o` opacity). Idle life via `t` (seconds). Gallery: `{"page":"science"}`.
+
+Helpers (exported): `smoothPath(pts, closed?)` (Catmull-Rom path through `[x,y][]`),
+`makeCurve(pts)` → `{d, len, at(k)→{x,y,a}, sub(k0,k1)}` (arc-length sampling for things moving along a path),
+`heartPulse(t, bpm?)` → 0…1.6 lub-dub value, `BRAIN_REGIONS`.
+
+## Brain
+Side view, origin = centre of cerebrum, ≈330×330 at s=1 (brainstem reaches y≈+200).
+Regions: `frontal | motor | parietal | temporal | occipital | cerebellum | brainstem`.
+```ts
+<Brain x y s? facing?:'right'|'left' highlight?: Region | Region[] | {[region]: colour} highlightColor?=C.theoryLight
+  hp?=1 lobes?=false signal?: 0→1 labels?: true | Region[] labelP?=1 fill?=C.oxTint o? />
+```
+`lobes` colour-codes every lobe (map look). `signal` = plum pulse frontal → motor cortex → brainstem (motor
+command). Labels sit outside the brain (≈ ±230·s px wide incl. text), always upright.
+```tsx
+<Brain x={960} y={500} s={1.4} highlight="motor" hp={ramp(t,1,2)} signal={ramp(t,2,3.5,ease.linear)} labels={['motor']} />
+```
+
+## HeadProfile
+Bald editorial head in profile. Origin = centre of cranium; ≈450×540 at s=1 (neck bottom y=+330, nose tip x=+246).
+```ts
+<HeadProfile x y s? facing?:'right'|'left' skin?=C.skin[1] skinShade? showBrain? highlight? highlightColor? hp?
+  lobes? signal? eeg? implant? t? o? />
+```
+`showBrain` = cut-away with Brain (highlight/hp/signal/lobes pass through). Without the brain, `highlight`
+glows on the skull. `eeg` = dark cap with electrodes + mesh + cable (electrodes flicker plum with `t`).
+`implant` = electrode array on the motor cortex, wire to a skull pedestal with cable (LED pulses with `t`).
+```tsx
+<HeadProfile x={700} y={560} s={1.1} showBrain implant highlight="motor" hp={ramp(t,1,2)} signal={ramp(t,2,4)} t={t} />
+<HeadProfile x={1300} y={560} facing="left" eeg skin={C.skin[3]} t={t} />
+```
+
+## ElectrodeArray · Electrode
+Utah-style micro-electrode array, 3/4 view, origin = plate top centre, ≈130×90 at s=1 (needles hang down,
+gold ribbon wire goes up-right). `Electrode` = single EEG disc (r≈14), `active` 0→1 glows plum.
+```ts
+<ElectrodeArray x y s? r? n?=6 t? active?=0 wire?=true />
+<Electrode x y s? active? color?=C.theoryLight />
+```
+
+## BodyOutline
+Front-view human figure with toggleable organs. Origin = between the feet; ≈310×700 at s=1.
+```ts
+<BodyOutline x y s? t? p?=1 organs?: {lungs?, heart?, brain?, stomach?, blood?: boolean | 0→1} fill?=C.paperDeep
+  shade?=C.paperDark bpm?=72 o2?=1 />
+```
+`t` drives breathing (4 s cycle), heartbeat and blood flow (oxblood near the heart → plum at extremities).
+`o2` < 1 greys the lungs (oxygen deprivation).
+```tsx
+<BodyOutline x={960} y={1000} s={1.25} t={t} p={ramp(t,0,1)} organs={{lungs: ramp(t,1,1.6), heart: true, blood: ramp(t,1.5,3)}} />
+```
+
+## Lungs · Heart
+`Lungs`: front view with trachea + bronchial tree; origin = centre, ≈240×300 (trachea top y=−175).
+`Heart`: anatomical-friendly with aorta (oxblood), vena cava + pulmonary trunk (plum); origin = centre, ≈200×260.
+```ts
+<Lungs x y s? breath?=0.5 (0→1 inflate) o2?=1 color?=C.oxTint airway?=C.paperLight o? />
+<Heart x y s? t? bpm?=72 beat? (override 0→1) color?=C.oxLight o? />
+```
+```tsx
+<Lungs x={700} y={540} breath={0.5 + 0.5*Math.sin(t*1.6)} o2={1 - ramp(t,3,6)} />
+<Heart x={1200} y={540} s={1.2} t={t} bpm={110} />
+```
+
+## BloodVessel
+Tube along a smooth path with flowing blood cells; colour shifts from `from` (start) to `to` (end).
+```ts
+<BloodVessel points: [x,y][] t? speed?=90 width?=26 from?=C.oxblood to?=C.oxblood wall?=C.oxTint p?=1 density?=1 seed? />
+```
+```tsx
+<BloodVessel points={[[200,700],[600,560],[1000,640],[1700,500]]} t={t} width={40} from={C.oxblood} to={C.theory} p={ramp(t,0,1)} />
+```
+
+## Eye · EyeCrossSection
+`Eye`: front view with lids, origin = centre, ≈330×200. `look` [-1..1, -1..1], `blink` 0 open → 1 closed,
+`pupil` 0 pinpoint → 1 dilated. `frame` draws the skin lid patch.
+`EyeCrossSection`: side cut, light enters from the right; origin = eyeball centre, R=150 (optic nerve to x=−250).
+`rays` 0→1 draws light focusing on the fovea. Children render inside the vitreous (local coords, clipped
+to r=126) — e.g. patrolling `ImmuneCell`s.
+```ts
+<Eye x y s? look?=[0,0] blink?=0 pupil?=0.45 iris?=C.evidenceLight skin?=C.skin[1] frame?=true />
+<EyeCrossSection x y s? rays?=0 labels?=false labelP?=1>{children}</EyeCrossSection>
+```
+```tsx
+<EyeCrossSection x={960} y={540} s={1.6} rays={ramp(t,1,2.5)} labels labelP={ramp(t,2,3)}>
+  <ImmuneCell x={-40 + t*8} y={60} s={0.4} t={t} heading={0} />
+</EyeCrossSection>
+```
+
+## Neuron · Synapse
+`Neuron`: soma + tapered dendrites + myelinated axon pointing right + terminal bulbs. Origin = soma centre;
+≈(length+80)×330. `signal` 0→1 = plum action potential down the axon (myelin segments light up, terminals flash at the end).
+`Synapse`: presynaptic bulb (top) with vesicles; `p` 0→1 = one release, plum neurotransmitter crosses the
+cleft and lights the green receptors. Origin = cleft centre, ≈340×460.
+```ts
+<Neuron x y s? r? length?=560 signal? seed?=3 color?=C.oxTint o? />
+<Synapse x y s? p?=0 t? color?=C.oxTint />
+```
+```tsx
+<Neuron x={300} y={540} s={1.4} signal={ramp(t,1,2.5,ease.linear)} />
+```
+
+## Cell · ImmuneCell
+`Cell`: membrane wobbles with `t`; nucleus, mitochondria, ER, vesicles. Origin = centre, r=110.
+`tone`: 'healthy' (green) | 'stressed' (mustard) | 'neutral' (paper).
+`ImmuneCell`: macrophage-style blob with pseudopods reaching toward `heading` (deg, 0 = right), lobed nucleus,
+granules. Origin = centre, r≈70 (+pseudopods). Move it yourself (x/y from t); `t` animates the body.
+```ts
+<Cell x y s? t? seed? tone?='healthy' r?=110 />
+<ImmuneCell x y s? t? heading?=0 seed? color?=C.evidenceTint membrane?=C.evidenceLight />
+```
+
+## Germ · Bacterium · Virus
+Caution mustard by default. `Germ kind`: 'rod' (bacillus + flagellum) | 'coccus' (grape cluster, count by seed)
+| 'spiral' | 'virus' (spiked capsid). Origin = centre, ≈130–160 at s=1. `seed` = pose, `t` = wiggle/spin.
+```ts
+<Germ x y s? kind?='rod' seed? t? color? shade? />   // Bacterium / Virus take the same props
+```
+
+## DNA
+Double helix along x (rotate with `r`). Origin = centre; `length` × 2·`radius`. Ink backbones (back strand
+faint), base-pair rungs in four palette colours. `t` spins, `p` builds left → right.
+```ts
+<DNA x y s? r? length?=560 radius?=56 pitch?=230 t? p?=1 speed?=1.2 seed? backbone?=C.inkLift />
+```
+
+## Molecule
+Ball-and-stick: 'O2' | 'CO2' | 'H2O' | 'CO' | 'N2' (O oxblood, C ink, H paper, N plum). Origin = centre.
+`r` + `t·spin` rotate; `label` prints the formula (O₂) below; `p` pops it in.
+```ts
+<Molecule x y s? kind?='O2' r?=0 t? spin?=0 label?=false p?=1 />
+```
+
+## Waveform
+Scrolling signal line; origin = left end of the baseline, `w` wide, ±`amp`.
+kind: 'speech' (syllable bursts, ink) | 'eeg' (plum) | 'ecg' (oxblood heartbeat) | 'flat' (flatline). `p` draws on.
+```ts
+<Waveform x y w?=400 amp?=50 t? freq?=1 kind?='eeg' color? width?=4 p?=1 seed? speed?=140 />
+```
+```tsx
+<Waveform x={300} y={800} w={1300} amp={80} t={t} kind={t < 5 ? 'ecg' : 'flat'} />
+```
