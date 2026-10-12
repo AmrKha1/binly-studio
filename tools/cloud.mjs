@@ -52,7 +52,12 @@ async function wait(id, label) {
     if (r.status === 'completed') {
       if (r.conclusion !== 'success') {
         const logs = sh('gh', ['run', 'view', String(id), '--log-failed'], {allowFail: true}) ?? '';
-        console.log('---- failed log (tail) ----\n' + logs.split('\n').slice(-60).join('\n'));
+        // strip the "job<TAB>step<TAB>timestamp " prefix and setup noise; show only the end of the failure
+        const clean = logs
+          .split('\n')
+          .map((l) => l.replace(/^[^\t]*\t[^\t]*\t\S+Z ?/, ''))
+          .filter((l) => l.trim() && !/^(##\[(end)?group\]|\s*[A-Za-z0-9_]+(_ROOT_DIR|_PATH)?:\s)/.test(l));
+        console.log('---- failed log (tail) ----\n' + clean.slice(-25).join('\n'));
         throw new Error(`${label} failed (run ${id})`);
       }
       return;

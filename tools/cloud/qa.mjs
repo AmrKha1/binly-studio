@@ -11,6 +11,7 @@ const [, , video, vo, qaDir, fromS, toS] = process.argv;
 fs.mkdirSync(qaDir, {recursive: true});
 const run = (bin, args) => execFileSync(bin, args, {maxBuffer: 1 << 30, stdio: ['ignore', 'pipe', 'pipe']});
 const ffLog = (args) => spawnSync(FF, ['-hide_banner', '-nostats', ...args], {encoding: 'utf8', maxBuffer: 1 << 30}).stderr;
+const off = fromS ? Number(fromS) : 0;
 const lines = [];
 const warn = [];
 const log = (s) => {
@@ -113,7 +114,6 @@ if (Math.abs(lag) > 8) warn.push(`Voiceover offset ${((lag / 8000) * 1000).toFix
 
 // contact sheets: 1 frame / 3 s, 6x5 tiles per sheet (90 s per sheet), timestamps burned in
 const font = ['/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf'].find((f) => fs.existsSync(f));
-const off = fromS ? Number(fromS) : 0;
 const sheets = Math.ceil(dur / 90);
 // exact frames: every 180th frame (= 3 s at 60 fps), labelled with the real video second
 for (let k = 0; k < sheets; k++) {
