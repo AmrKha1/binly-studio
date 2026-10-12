@@ -5,8 +5,11 @@
    - your voiceover (`.wav`, `.mp3`, `.m4a` or `.flac`)
    - the script as a `.txt` file (the same text you recorded — numbers/spelling are taken from it)
    - optional: `notes.txt` with special wishes ("make the king appear as a chess piece", "darker mood")
-2. Open **Claude Code** in this folder (`Binly Studio`) and type:
-   > **make the video**
+2. Open **Claude Code** in this folder (`Binly Studio`), choose **Opus**, and type:
+   > **/make-video**
+
+   (or just "make the video"). You can add wishes after it, e.g.
+   `/make-video darker mood in the plague part, show the king as a chess piece`
 3. Wait. Claude plans the video, helpers build each chapter, it renders in the cloud for free, checks the
    result, and puts the finished MP4 in `videos/<name>/output/`. A short report is in `videos/<name>/REPORT.md`.
 

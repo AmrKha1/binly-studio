@@ -54,6 +54,26 @@ const Sheet: React.FC<SheetProps> = ({from, to, n, cols, times}) => {
   );
 };
 
+// Grid: tiles pre-rendered as separate stills (so SVG ids never collide) composed into one image.
+type GridProps = {images: string[]; labels: string[]; cols: number};
+const Grid: React.FC<GridProps> = ({images, labels, cols}) => {
+  const rows = Math.ceil(images.length / cols);
+  const gap = 8;
+  const cw = (W - gap * (cols + 1)) / cols;
+  const ch = (cw * 9) / 16;
+  const top = Math.max(gap, (H - rows * ch - (rows - 1) * gap) / 2);
+  return (
+    <AbsoluteFill style={{background: '#7d7570'}}>
+      {images.map((src, i) => (
+        <div key={i} style={{position: 'absolute', left: gap + (i % cols) * (cw + gap), top: top + Math.floor(i / cols) * (ch + gap), width: cw, height: ch, overflow: 'hidden'}}>
+          <img src={src} style={{width: cw, height: ch, display: 'block'}} />
+          <div style={{position: 'absolute', left: 6, top: 6, padding: '2px 8px', background: 'rgba(0,0,0,0.65)', color: '#fff', font: `700 ${Math.max(14, 22 * (4 / cols))}px ${FONT_SANS}`}}>{labels[i]}</div>
+        </div>
+      ))}
+    </AbsoluteFill>
+  );
+};
+
 const Gallery: React.FC<{page: string}> = ({page}) => {
   const t = useCurrentFrame() / FPS;
   const P = GALLERY[page];
@@ -73,6 +93,7 @@ export const RemotionRoot: React.FC = () => (
       height={H}
       defaultProps={{from: 0, to: 10, n: 12, cols: 4, times: []} as Record<string, unknown>}
     />
+    <Composition id="Grid" component={Grid as React.FC<Record<string, unknown>>} durationInFrames={1} fps={FPS} width={W} height={H} defaultProps={{images: [], labels: [], cols: 4} as Record<string, unknown>} />
     <Composition id="Gallery" component={Gallery as React.FC<Record<string, unknown>>} durationInFrames={60 * 30} fps={FPS} width={W} height={H} defaultProps={{page: Object.keys(GALLERY)[0]} as Record<string, unknown>} />
   </>
 );

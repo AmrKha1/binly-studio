@@ -50,7 +50,7 @@ export async function getBundle() {
   return serveUrl;
 }
 
-export async function stills({id, props = {}, frames, outFiles, scale = 1}) {
+export async function stills({id, props = {}, frames, outFiles, scale = 1, quiet = false}) {
   const url = await getBundle();
   browser ??= await openBrowser('chrome', {chromiumOptions: {gl: 'swangle'}});
   const composition = await selectComposition({serveUrl: url, id, inputProps: props, puppeteerInstance: browser});
@@ -59,7 +59,7 @@ export async function stills({id, props = {}, frames, outFiles, scale = 1}) {
     fs.mkdirSync(path.dirname(outFiles[i]), {recursive: true});
     const t0 = Date.now();
     await renderStill({composition, serveUrl: url, frame, output: outFiles[i], imageFormat: 'png', inputProps: props, puppeteerInstance: browser, scale, chromiumOptions: {gl: 'swangle'}, overwrite: true});
-    console.log(`wrote ${path.relative(ROOT, outFiles[i])} (frame ${frame}, ${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+    if (!quiet) console.log(`wrote ${path.relative(ROOT, outFiles[i])} (frame ${frame}, ${((Date.now() - t0) / 1000).toFixed(1)} s)`);
   }
 }
 

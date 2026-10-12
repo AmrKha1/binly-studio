@@ -1,0 +1,9 @@
+[
+  {"t": 28.4, "kind": "thump"},
+  {"t": 38.25, "kind": "clack"},
+  {"t": 41.8, "kind": "page"},
+  {"t": 44.88, "kind": "thump"},
+  {"t": 49.4, "kind": "scribble", "dur": 0.8},
+  {"t": 50.2, "kind": "impact", "gain": 0.6},
+  {"t": 55.0, "kind": "chime"}
+]

@@ -70,6 +70,12 @@ QA results with numbers, render settings, honest limitations). Append 1–5 reus
 `docs/LESSONS.md`. If a builder made a component worth reusing, note it under "Kit backlog" in LESSONS.md.
 Tell the user where the MP4 is, in plain words.
 
+## Usage limits (Pro plan)
+A 5-hour usage limit can stop builders mid-work ("session limit … resets HH:MM"). Nothing is lost: when the user
+says "continue", resume each interrupted builder with SendMessage (it keeps its context) — or, if that fails, spawn a
+fresh builder for that chapter (it will see the partial file). Before heavy phases, write `videos/<slug>/STATUS.md`.
+Run at most 2 builders at once — it also spreads usage.
+
 ## Other requests
 - **"continue the video"** → `node tools/status.mjs` + read `videos/<slug>/STATUS.md` (if any), `plan.md`, `chapters.json`;
   resume at the first unfinished step (placeholders → brief builders; all built → render; rendered → QA/deliver).
