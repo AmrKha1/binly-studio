@@ -34,22 +34,38 @@ const T = {
   flash: 25.56, // "photograph"
 };
 
-const CROWD = mixC(C.paperDeep, C.ink, 0.62);
 const D = 1500; // world offset of the bone scene below the museum
 const WALL = mixC(C.paperShade, C.paperDeep, 0.25);
 
 type Pt = [number, number];
-const mixP = (a: Pt, b: Pt, k: number): Pt => [lerp(a[0], b[0], k), lerp(a[1], b[1], k)];
-const mixLeg = (a: Pt[], b: Pt[], k: number) => a.map((p, i) => mixP(p, b[i], k));
 
 // ───────────────────────── the dinosaur (local helper, side view, feet on y=0, facing right) ─────────────────────────
-// legs: [hip, knee, ankle, ball-of-foot, toe tip]
-const FAR_STAND: Pt[] = [[-18, -148], [28, -92], [-24, -44], [-20, -10], [38, -2]];
-const FAR_STRIDE: Pt[] = [[-18, -148], [14, -98], [-52, -54], [-58, -12], [2, -2]];
-const NEAR_STAND: Pt[] = [[8, -148], [74, -96], [26, -44], [30, -10], [92, -2]];
-const NEAR_STRIDE: Pt[] = [[8, -148], [108, -120], [64, -64], [106, -56], [152, -42]];
+// legs: [hip, knee, ankle, ball-of-foot, toe tip] — knee solved by 2-bone IK so BOTH feet always stand on y=0
+const L1 = 88;
+const L2 = 70;
+const HIP_NEAR: Pt = [8, -148];
+const HIP_FAR: Pt = [-18, -148];
+const ik = (hip: Pt, ankle: Pt): Pt => {
+  const dx = ankle[0] - hip[0];
+  const dy = ankle[1] - hip[1];
+  const raw = Math.hypot(dx, dy) || 1;
+  const d = Math.min(Math.max(raw, Math.abs(L1 - L2) + 1), L1 + L2 - 1);
+  const ux = dx / raw;
+  const uy = dy / raw;
+  const a = (L1 * L1 - L2 * L2 + d * d) / (2 * d);
+  const h = Math.sqrt(Math.max(0, L1 * L1 - a * a));
+  const k1: Pt = [hip[0] + ux * a - uy * h, hip[1] + uy * a + ux * h];
+  const k2: Pt = [hip[0] + ux * a + uy * h, hip[1] + uy * a - ux * h];
+  return k1[0] > k2[0] ? k1 : k2;
+};
+const makeLeg = (hip: Pt, ballX: number): Pt[] => {
+  const ball: Pt = [ballX, -15];
+  const ankle: Pt = [ballX - 8, -59];
+  const toe: Pt = [ballX + 58, -8];
+  return [hip, ik(hip, ankle), ankle, ball, toe];
+};
 
-const SPINE: Pt[] = [[-328, -156], [-262, -176], [-196, -199], [-128, -220], [-58, -234], [14, -241], [84, -247], [140, -259], [182, -283]];
+const SPINE: Pt[] = [[-338, -198], [-270, -201], [-200, -207], [-130, -218], [-60, -232], [14, -242], [84, -252], [130, -266], [166, -292], [192, -318]];
 const spineY = (x: number) => {
   for (let i = 1; i < SPINE.length; i++) {
     if (x <= SPINE[i][0]) return lerp(SPINE[i - 1][1], SPINE[i][1], (x - SPINE[i - 1][0]) / (SPINE[i][0] - SPINE[i - 1][0]));
@@ -58,21 +74,21 @@ const spineY = (x: number) => {
 };
 const SPINE_CURVE = makeCurve(SPINE);
 
+// body: level tail as counterweight, deep chest, thick S-curved neck
 const BODY = smoothPath(
-  [[-334, -156], [-262, -186], [-192, -208], [-122, -229], [-52, -247], [18, -254], [90, -261], [148, -275], [192, -296], [230, -278], [212, -232], [184, -192], [150, -156], [104, -128], [30, -114], [-42, -120], [-104, -150], [-172, -160], [-252, -156]],
+  [[-340, -203], [-270, -211], [-200, -222], [-130, -235], [-60, -250], [10, -258], [80, -266], [128, -280], [162, -306], [192, -336], [226, -300], [214, -262], [200, -236], [204, -210], [186, -176], [152, -146], [104, -124], [34, -112], [-42, -118], [-108, -142], [-180, -168], [-260, -188], [-340, -197]],
   true
 );
+// deep, heavy skull
 const HEAD = smoothPath(
-  [[192, -322], [222, -343], [268, -346], [318, -332], [350, -315], [354, -299], [334, -289], [338, -279], [318, -264], [270, -257], [224, -257], [198, -268], [186, -296]],
+  [[190, -318], [212, -350], [262, -358], [312, -346], [352, -326], [364, -304], [346, -292], [340, -282], [318, -258], [270, -246], [222, -248], [196, -262], [184, -290]],
   true
 );
 // the guess: one dashed silhouette (standing, simplified)
 const GHOST = smoothPath(
-  [[-334, -156], [-262, -186], [-192, -208], [-122, -229], [-52, -247], [18, -254], [90, -261], [148, -275], [192, -300], [224, -344], [272, -348], [320, -334], [352, -316], [356, -298], [334, -288], [338, -278], [316, -262], [270, -255], [228, -250], [212, -222], [184, -190], [150, -158], [116, -126], [108, -98], [74, -64], [58, -40], [100, -12], [100, 3], [-14, 3], [-26, -40], [-48, -76], [-52, -112], [-46, -122], [-102, -148], [-172, -160], [-252, -156]],
+  [[-340, -203], [-270, -211], [-200, -222], [-130, -235], [-60, -250], [10, -258], [80, -266], [128, -280], [162, -308], [190, -336], [212, -352], [262, -360], [312, -348], [352, -328], [364, -304], [346, -292], [340, -282], [318, -258], [270, -246], [224, -248], [206, -236], [204, -210], [186, -176], [152, -146], [122, -126], [112, -98], [84, -70], [64, -46], [96, -14], [96, 2], [-20, 2], [-22, -40], [-42, -76], [-50, -112], [-60, -122], [-108, -142], [-180, -168], [-260, -188], [-340, -197]],
   true
 );
-// place the dino's bounding-box centre at the origin, scaled by k
-const centre = (k: number) => `scale(${k}) translate(-11 172)`;
 
 const taper = (p: Pt, q: Pt, w1: number, w2: number) => {
   const dx = q[0] - p[0];
@@ -83,20 +99,41 @@ const taper = (p: Pt, q: Pt, w1: number, w2: number) => {
   return `M${p[0] + (nx * w1) / 2} ${p[1] + (ny * w1) / 2} L${q[0] + (nx * w2) / 2} ${q[1] + (ny * w2) / 2} L${q[0] - (nx * w2) / 2} ${q[1] - (ny * w2) / 2} L${p[0] - (nx * w1) / 2} ${p[1] - (ny * w1) / 2} Z`;
 };
 
-const FleshLeg: React.FC<{leg: Pt[]; col: string}> = ({leg, col}) => {
+// arm: shoulder INSIDE the chest, upper arm, forearm, two-fingered hand
+const SHOULDER: Pt = [150, -196];
+const ELBOW: Pt = [174, -164];
+const WRIST: Pt = [204, -156];
+const FING1: Pt = [226, -143];
+const FING2: Pt = [228, -160];
+const FleshArm: React.FC<{col: string; claw: string}> = ({col, claw}) => (
+  <g fill={col}>
+    <path d={taper(SHOULDER, ELBOW, 36, 22)} />
+    <circle cx={SHOULDER[0]} cy={SHOULDER[1]} r={18} />
+    <circle cx={ELBOW[0]} cy={ELBOW[1]} r={11} />
+    <path d={taper(ELBOW, WRIST, 22, 15)} />
+    <circle cx={WRIST[0]} cy={WRIST[1]} r={7.5} />
+    <path d={taper(WRIST, FING1, 11, 6)} />
+    <path d={taper(WRIST, FING2, 10, 5)} />
+    <path d={taper(FING1, [FING1[0] + 8, FING1[1] + 6], 5, 1)} fill={claw} />
+    <path d={taper(FING2, [FING2[0] + 9, FING2[1] + 2], 5, 1)} fill={claw} />
+  </g>
+);
+
+const FleshLeg: React.FC<{leg: Pt[]; col: string; claw?: string}> = ({leg, col, claw}) => {
   const [hip, knee, ankle, ball, toe] = leg;
-  const toe2: Pt = [toe[0] - 14, toe[1] + 1];
+  const toe2: Pt = [toe[0] - 14, toe[1]];
   return (
     <g fill={col}>
-      <path d={taper(hip, knee, 84, 58)} />
-      <circle cx={hip[0]} cy={hip[1]} r={42} />
+      <path d={taper(hip, knee, 104, 58)} />
+      <circle cx={hip[0]} cy={hip[1]} r={52} />
       <circle cx={knee[0]} cy={knee[1]} r={29} />
-      <path d={taper(knee, ankle, 54, 32)} />
-      <circle cx={ankle[0]} cy={ankle[1]} r={16} />
-      <path d={taper(ankle, ball, 30, 28)} />
-      <path d={taper(ball, toe, 30, 14)} />
-      <path d={taper(ball, toe2, 24, 10)} />
+      <path d={taper(knee, ankle, 58, 28)} />
+      <circle cx={ankle[0]} cy={ankle[1]} r={14} />
+      <path d={taper(ankle, ball, 28, 28)} />
+      <path d={taper(ball, toe, 28, 14)} />
+      <path d={taper(ball, toe2, 24, 12)} />
       <circle cx={ball[0]} cy={ball[1]} r={14} />
+      {claw && <path d={taper(toe, [toe[0] + 9, toe[1] + 1], 10, 2)} fill={claw} />}
     </g>
   );
 };
@@ -109,7 +146,7 @@ const BoneLeg: React.FC<{leg: Pt[]; fill: string; line: string}> = ({leg, fill, 
       <path d={taper(knee, ankle, 12, 8)} />
       <path d={taper(ankle, ball, 9, 9)} />
       <path d={taper(ball, toe, 8, 3)} />
-      <path d={taper(ball, [toe[0] - 14, toe[1] + 1], 6, 2)} />
+      <path d={taper(ball, [toe[0] - 14, toe[1]], 6, 2)} />
       <circle cx={hip[0]} cy={hip[1]} r={11} />
       <circle cx={knee[0]} cy={knee[1]} r={11} />
       <circle cx={ankle[0]} cy={ankle[1]} r={8} />
@@ -117,11 +154,12 @@ const BoneLeg: React.FC<{leg: Pt[]; fill: string; line: string}> = ({leg, fill, 
   );
 };
 
+const mouthY = (x: number) => -300 + ((362 - x) * 16) / 136;
 const Teeth: React.FC<{fill: string}> = ({fill}) => (
   <g fill={fill}>
-    {Array.from({length: 8}, (_, i) => {
-      const x = 332 - i * 13;
-      return <path key={i} d={`M${x} ${-290 + i * 0.4} l-6 0 l3 ${9 - (i % 2) * 2} Z`} />;
+    {Array.from({length: 9}, (_, i) => {
+      const x = 352 - i * 13.5;
+      return <path key={i} d={`M${x} ${mouthY(x)} l-6 0 l3 ${9 - (i % 2) * 2} Z`} />;
     })}
   </g>
 );
@@ -141,29 +179,35 @@ type RexProps = {
 
 const Rex: React.FC<RexProps> = ({id, t, bones = 1, flesh = 0, stripes = 0, colour = 0, stride = 0, turn = 0, boneFill = C.bone, boneLine = C.boneShade}) => {
   const sg = ease.inOut(stride);
-  const far = mixLeg(FAR_STAND, FAR_STRIDE, sg);
-  const near = mixLeg(NEAR_STAND, NEAR_STRIDE, sg);
-  const bob = -5 * sg + Math.sin(t * 1.7) * 1.2;
-  const lean = -1.6 * sg;
+  const far = makeLeg(HIP_FAR, lerp(-26, -52, sg));
+  const near = makeLeg(HIP_NEAR, lerp(32, 86, sg));
   const baseCol = mixC(C.stone, mixC(C.oxblood, C.wood, 0.42), colour);
   const shadeCol = mixC(baseCol, C.ink, 0.28);
+  const litCol = mixC(baseCol, C.paperLight, 0.09);
   const bellyCol = mixC(baseCol, C.paperDeep, 0.5);
   const dark = mixC(baseCol, C.ink, 0.62);
-  const hp: Pt = [200, -285];
-  const headT = `translate(${hp[0]} ${hp[1] + 4 * turn}) rotate(${-3 * turn}) scale(${1 - 0.34 * turn} 1) translate(${-hp[0]} ${-hp[1]})`;
+  const hp: Pt = [196, -300];
+  const sway = Math.sin(t * 0.9) * 0.7;
+  const headT = `translate(${hp[0]} ${hp[1] + 3 * turn}) rotate(${sway + 5 * turn}) scale(${1 - 0.1 * turn} 1) translate(${-hp[0]} ${-hp[1]})`;
   const wipeW = lerp(0, 840, ease.inOut(flesh));
   const blink = Math.max(0, 1 - Math.abs((t * 0.37) % 1 - 0.5) * 40);
-  const eyeY = -319;
+  const eyeY = -326;
   const ribs = Array.from({length: 7}, (_, i) => {
     const sx = 136 - i * 21;
     const sy = spineY(sx) + 6;
     const len = 112 - i * 7;
     return `M${sx} ${sy} C${sx + 24} ${sy + 22} ${sx + 38} ${sy + len * 0.6} ${sx + 22} ${sy + len}`;
   });
+  const armD = `M${SHOULDER[0]} ${SHOULDER[1]} L${ELBOW[0]} ${ELBOW[1]} L${WRIST[0]} ${WRIST[1]} L${FING1[0]} ${FING1[1]}`;
   return (
-    <g transform={`translate(0 ${bob}) rotate(${lean} -10 -150)`}>
-      {bones > 0 && (
-        <g opacity={bones}>
+    <g transform={`translate(0 ${Math.sin(t * 1.7) * 0.6})`}>
+      {flesh > 0 && (
+        <clipPath id={`${id}-bclip`}>
+          <rect x={-420 + wipeW} y={-420} width={900} height={520} />
+        </clipPath>
+      )}
+      {bones > 0 && flesh < 0.999 && (
+        <g opacity={bones} clipPath={flesh > 0 ? `url(#${id}-bclip)` : undefined}>
           <BoneLeg leg={far} fill={mixC(boneFill, C.ink, 0.14)} line={boneLine} />
           {ribs.map((d, i) => (
             <g key={i} fill="none" strokeLinecap="round">
@@ -177,15 +221,15 @@ const Rex: React.FC<RexProps> = ({id, t, bones = 1, flesh = 0, stripes = 0, colo
             const r = lerp(3.2, 10.5, ease.out(i / 31));
             return <circle key={i} cx={pt.x} cy={pt.y} r={r} fill={boneFill} stroke={boneLine} strokeWidth={2} />;
           })}
-          <path d="M-62 -232 L8 -246 L28 -206 L18 -160 L-2 -138 L-30 -150 L-50 -190 Z" fill={boneFill} stroke={boneLine} strokeWidth={2.5} strokeLinejoin="round" />
+          <path d="M-62 -236 L8 -250 L28 -206 L18 -160 L-2 -138 L-30 -150 L-50 -190 Z" fill={boneFill} stroke={boneLine} strokeWidth={2.5} strokeLinejoin="round" />
           <path d="M22 -168 L52 -118 L38 -112 L6 -150 Z" fill={boneFill} stroke={boneLine} strokeWidth={2.5} strokeLinejoin="round" />
-          <path d="M146 -214 L172 -178 L198 -184" fill="none" stroke={boneLine} strokeWidth={9} strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M146 -214 L172 -178 L198 -184" fill="none" stroke={boneFill} strokeWidth={5} strokeLinecap="round" strokeLinejoin="round" />
+          <path d={armD} fill="none" stroke={boneLine} strokeWidth={9} strokeLinecap="round" strokeLinejoin="round" />
+          <path d={armD} fill="none" stroke={boneFill} strokeWidth={5} strokeLinecap="round" strokeLinejoin="round" />
           <g transform={headT}>
             <path d={HEAD} fill={boneFill} stroke={boneLine} strokeWidth={3} strokeLinejoin="round" />
-            <ellipse cx={262} cy={eyeY} rx={14} ry={13} fill={C.ink} />
-            <ellipse cx={308} cy={-318} rx={24} ry={9} fill={C.inkSoft} transform="rotate(8 308 -318)" />
-            <path d="M356 -298 L228 -283" stroke={boneLine} strokeWidth={3} fill="none" strokeLinecap="round" />
+            <ellipse cx={258} cy={eyeY} rx={15} ry={14} fill={C.ink} />
+            <ellipse cx={310} cy={-326} rx={26} ry={10} fill={C.inkSoft} transform="rotate(8 310 -326)" />
+            <path d="M362 -300 L228 -284" stroke={boneLine} strokeWidth={3} fill="none" strokeLinecap="round" />
             <Teeth fill={C.paperLight} />
           </g>
           <BoneLeg leg={near} fill={boneFill} line={boneLine} />
@@ -199,41 +243,42 @@ const Rex: React.FC<RexProps> = ({id, t, bones = 1, flesh = 0, stripes = 0, colo
           </clipPath>
           <mask id={`${id}-sil`} maskUnits="userSpaceOnUse" x={-420} y={-420} width={900} height={520}>
             <path d={BODY} fill="#fff" />
-            <path d={HEAD} fill="#fff" />
             <FleshLeg leg={far} col="#fff" />
             <FleshLeg leg={near} col="#fff" />
           </mask>
           <g clipPath={`url(#${id}-wipe)`}>
-            <FleshLeg leg={far} col={shadeCol} />
+            <g transform="translate(-14 8)">
+              <FleshArm col={shadeCol} claw={dark} />
+            </g>
+            <FleshLeg leg={far} col={shadeCol} claw={dark} />
             <path d={BODY} fill={baseCol} />
-            <path d={smoothPath([[150, -156], [104, -134], [30, -122], [-42, -128], [-104, -152], [-60, -150], [20, -148], [100, -156]], true)} fill={bellyCol} opacity={0.9} />
+            <g mask={`url(#${id}-sil)`}>
+              <path d={smoothPath([[100, -128], [34, -114], [-36, -119], [-30, -132], [40, -128], [90, -138]], true)} fill={bellyCol} opacity={0.9} />
+            </g>
+            <FleshLeg leg={near} col={baseCol} claw={dark} />
             {stripes > 0 && (
               <g mask={`url(#${id}-sil)`} opacity={stripes * 0.5} fill={C.ink}>
-                {Array.from({length: 17}, (_, i) => {
-                  const x = -316 + i * 30;
-                  const top = spineY(x) - 60;
-                  const k = 0.55 + 0.45 * rand(i + 9);
-                  return <path key={i} d={`M${x} ${top} L${x + 14} ${top} L${x + 3 + 10 * k} ${top + 120 * k + 60} L${x - 6} ${top + 120 * k + 52} Z`} />;
+                {Array.from({length: 18}, (_, i) => {
+                  const x = -330 + i * 29;
+                  const top = spineY(x) - 40;
+                  const bot = x > -120 ? -78 + 40 * rand(i + 9) : top + 70 + 60 * rand(i + 3);
+                  return <path key={i} d={`M${x} ${top} L${x + 14} ${top} L${x + 9} ${bot} L${x - 4} ${bot - 6} Z`} />;
                 })}
               </g>
             )}
-            <FleshLeg leg={near} col={baseCol} />
-            <path d="M146 -212 L172 -176 L196 -182" fill="none" stroke={shadeCol} strokeWidth={15} strokeLinecap="round" strokeLinejoin="round" />
+            <FleshArm col={litCol} claw={dark} />
             <g transform={headT}>
               <path d={HEAD} fill={baseCol} />
-              <path d={smoothPath([[196, -268], [240, -262], [300, -266], [336, -283], [318, -266], [270, -257], [224, -257]], true)} fill={bellyCol} opacity={0.85} />
-              <path d="M356 -298 L228 -284" stroke={dark} strokeWidth={3.5} fill="none" strokeLinecap="round" />
+              <path d={smoothPath([[205, -264], [250, -256], [312, -262], [340, -280], [318, -258], [270, -246], [222, -248]], true)} fill={bellyCol} opacity={0.85} />
+              <path d="M362 -300 L228 -284" stroke={dark} strokeWidth={3.5} fill="none" strokeLinecap="round" />
               <Teeth fill={C.paperLight} />
-              <path d="M222 -336 C 246 -346 270 -340 282 -330" stroke={dark} strokeWidth={8} fill="none" strokeLinecap="round" opacity={0.7} />
-              <circle cx={262 + turn * 12} cy={eyeY} r={13} fill={C.cautionLight} />
-              <circle cx={262 + turn * 15} cy={eyeY} r={6.5 - 1.5 * turn} fill={C.ink} />
-              <g opacity={ramp(turn, 0.35, 0.9)}>
-                <circle cx={302} cy={-326} r={11} fill={C.cautionLight} />
-                <circle cx={298} cy={-326} r={5.5} fill={C.ink} />
-                <circle cx={338} cy={-308} r={3.6} fill={dark} />
-              </g>
-              <circle cx={340} cy={-309} r={3.4} fill={dark} opacity={1 - ramp(turn, 0.35, 0.9)} />
-              {blink > 0 && <rect x={246} y={eyeY - 14} width={32} height={28 * Math.min(1, blink)} fill={baseCol} />}
+              <path d="M226 -340 C 248 -352 276 -346 290 -334" stroke={dark} strokeWidth={9} fill="none" strokeLinecap="round" opacity={0.75} />
+              <circle cx={352} cy={-312} r={3.6} fill={dark} />
+              {/* one eye; the look is a calm turn of the head, the eye just catches a highlight */}
+              <circle cx={258} cy={eyeY} r={12.5} fill={C.cautionLight} />
+              <circle cx={258 + 3 * turn} cy={eyeY + 1.5 * turn} r={6} fill={C.ink} />
+              <circle cx={255 + 3 * turn} cy={eyeY - 2 + 1.5 * turn} r={2.6} fill={C.paperLight} opacity={ramp(turn, 0.3, 1)} />
+              {blink > 0 && <rect x={243} y={eyeY - 14} width={32} height={28 * Math.min(1, blink)} fill={baseCol} />}
             </g>
           </g>
         </g>
@@ -327,7 +372,7 @@ const Desk: React.FC<{t: number}> = ({t}) => {
         <rect x={140} y={90} width={1660} height={900} rx={26} fill={C.paperLight} opacity={0.7} />
 
         <Polaroid id="c01-pol" x={POL.x} y={POL.y} w={POL.w} rot={POL.rot} caption="T. rex, living" p={1}>
-          <g transform={`scale(${WS}) translate(-11 172)`}>
+          <g transform={`scale(${WS}) translate(-12 179)`}>
             <Ghost t={t} op={ghostOp(t)} />
           </g>
         </Polaroid>
@@ -394,19 +439,26 @@ const Scene: React.FC<{t: number; ui?: number}> = ({t, ui = 1}) => {
   const pw = textW(plateText, 28, 'sansCaps', 700) + 70;
   const tp = (cue: number) => ramp(t, cue - 0.1, cue + 0.5, ease.out);
   const rockScale = ZOOM * WS;
-  const rockT = `translate(960 ${540 + D}) scale(${rockScale}) translate(-11 172)`;
+  const rockT = `translate(960 ${540 + D}) scale(${rockScale}) translate(-12 179)`;
 
   return (
     <>
       <Cam cam={cam}>
         <MuseumHall t={t} seed={3} windows={4} wall={WALL} />
         <Particles t={t} x={300} y={150} w={1400} h={650} n={26} seed={4} size={[1.5, 3.5]} color={C.paperLight} opacity={[0.25, 0.7]} vx={4} vy={-5} />
+        {/* museum plaque on the plinth */}
+        <rect x={792} y={782} width={336} height={42} rx={3} fill={C.paperLight} />
+        <text x={960} y={811} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={22} letterSpacing={1.6} fill={C.ink}>
+          TYRANNOSAURUS REX
+        </text>
         <g transform="translate(948 762) scale(1.4)">
           <Rex id="mus" t={t} bones={1} flesh={fleshP} stripes={stripeP} colour={colourP} stride={strideP} turn={turnP} boneFill={mixC(C.bone, C.woodLight, 0.3)} boneLine={C.inkMute} />
         </g>
         <g transform={`translate(0 ${(1 - crowdP) * 300})`} opacity={Math.min(1, crowdP * 2.5)}>
-          <Crowd x={330} y={925} w={560} n={4} rows={1} s={0.5} t={t} seed={3} era="modern" silhouette={CROWD} facing={1} />
-          <Crowd x={1590} y={925} w={560} n={4} rows={1} s={0.5} t={t} seed={7} era="modern" silhouette={CROWD} facing={-1} />
+          <Crowd x={400} y={906} w={520} n={4} rows={1} s={0.49} t={t} seed={11} era="modern" silhouette={C.inkFaint} facing={1} />
+          <Crowd x={1530} y={906} w={520} n={4} rows={1} s={0.49} t={t} seed={5} era="19thc" silhouette={C.inkFaint} facing={-1} />
+          <Crowd x={300} y={928} w={460} n={3} rows={1} s={0.55} t={t} seed={3} era="19thc" silhouette={C.inkMute} facing={1} />
+          <Crowd x={1640} y={928} w={460} n={3} rows={1} s={0.55} t={t} seed={7} era="modern" silhouette={C.inkMute} facing={-1} />
         </g>
 
         {/* the museum floor is a cut-away: ground below it, down to the fossil */}
@@ -435,7 +487,7 @@ const Scene: React.FC<{t: number; ui?: number}> = ({t, ui = 1}) => {
       <Tag x={96} y={170} text="Evidence: bones" kind="evidence" size={26} p={tp(T.bonesTag)} />
       <Tag x={96} y={238} text="Reconstructed: flesh" kind="theory" size={26} p={tp(T.flesh)} />
       <Tag x={96} y={306} text="Reconstructed: texture" kind="theory" size={26} p={tp(T.stripes)} />
-      <Tag x={96} y={374} text="Reconstructed: colour" kind="theory" size={26} p={tp(T.colour)} />
+      <Tag x={96} y={374} text="Reconstructed: color" kind="theory" size={26} p={tp(T.colour)} />
       <Tag x={96} y={442} text="Reconstructed: pose" kind="theory" size={26} p={tp(T.stride)} />
       </g>
     </>
