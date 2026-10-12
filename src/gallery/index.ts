@@ -10,6 +10,7 @@ import {Geo} from './pages/geo';
 import {People} from './pages/people';
 import {Transitions} from './pages/transitions';
 import {PhotoPage} from './pages/photo';
+import {Depth} from './pages/depth';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
@@ -24,4 +25,5 @@ export const GALLERY: Record<string, React.FC<{t: number}>> = {
   people: People,
   transitions: Transitions,
   photo: PhotoPage,
+  depth: Depth,
 };

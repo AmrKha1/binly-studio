@@ -70,4 +70,4 @@ if (!a['no-analyze']) {
   const r = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'cloud.mjs'), 'analyze', slug], {stdio: 'inherit'});
   if (r.status !== 0) process.exit(r.status ?? 1);
 }
-console.log(`\nNEXT: read videos/${slug}/timing/transcript.md, then plan (see CLAUDE.md).`);
+console.log(`\nNEXT: read videos/${slug}/timing/transcript.md, then plan (see .claude/skills/make-video/PIPELINE.md).`);

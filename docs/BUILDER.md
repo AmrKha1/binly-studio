@@ -28,6 +28,16 @@ Progress values: `ramp(t, a, b, ease.x)`, `keys(t, [[t0,v0],[t1,v1]])`, `win(t, 
 `stagger(t, start, i, gap, dur)`. Camera: `camAt(t, [[time, cx, cy, zoom], …])` → `<Cam cam={…}>` or
 `<World cam={cam} layers=[{depth, el}]/>` for parallax. Holds: `breathe(cam, t)`.
 
+## Bans and defaults (decide nothing twice)
+**Never:** linear easing on visible motion · everything fading in the same way · elements popping on/off without
+easing · gradients, glow blur, noise/grain, glassy effects · drop shadows except the kit's flat offset shadows ·
+more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · text under 22 px or
+outside 96 px margins · centred-everything layouts shot after shot · a frame with nothing alive for > 2 s ·
+generic stock-like decoration · new colours outside `C` · `Math.random`/timers.
+**Always:** `ease.out`/`outQuint` for entrances, `inOut` for camera, `outBack` only for things that land · stagger
+groups by 0.08–0.15 s · enter ~0.15 s before the spoken word · one focal point per frame · a held final state that
+the next shot/chapter can transition from · semantic colours for certainty · exact numbers as spoken.
+
 ## Patterns
 - **Follow the brief's shot list** (S1, S2, …): implement each shot as a named sub-component or a camera stop, with a comment `// S3 · 101.70 · "In Paris…"` so fixes like "C04 S3" are easy to find.
 - **One world, moving camera** beats a sequence of slides: lay out the chapter's ideas in one large SVG

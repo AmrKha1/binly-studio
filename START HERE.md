@@ -15,6 +15,27 @@
 
 Your PC only does light work (planning and small preview pictures). The heavy rendering happens on GitHub.
 
+## What you get with every video
+- `videos/<name>/output/<name>.mp4` — the video (fixed versions: `-v2`, `-v3` … highest = newest)
+- `videos/<name>/youtube/` — `description.md` (paste into YouTube: hook line, clickable chapters, credits) and
+  `captions.srt` (upload in YouTube Studio → Subtitles; exact script wording, perfectly timed)
+- `videos/<name>/REPORT.md` — what was made and the quality-check results
+
+## One quick question during production
+After the opening chapter (the hook) is built, Claude shows it to you and asks: **continue or change?**
+Answer in a few words — the other chapters keep building meanwhile, so no time is lost. (Say "don't ask me
+anything" after `/make-video` if you want it fully automatic.)
+
+## After publishing: make the next video better
+A few days after a video is live, open YouTube Studio → the video → Analytics → Engagement, take screenshots
+of the **audience retention graph** (and the numbers), and type `/learn-from-youtube` + paste them.
+Claude finds where viewers left and why, and writes lessons the Studio uses for every future video.
+
+## Every 3–5 videos: let the Studio improve itself
+Type `/improve-studio`. Claude merges the lessons from your last videos into the Studio's rules, turns useful
+things the helpers built (characters, objects, scenes) into permanent kit parts, adds new ready-made shots, and keeps
+the instructions short — so each video is faster, cheaper and better than the last.
+
 ## Watch it live while it's being made
 Claude opens a **live preview** (player + timeline) in the side panel. Chapters appear there as soon as
 the helpers finish them — no rendering. Pause on any problem, take a screenshot (with the time visible),
@@ -30,8 +51,11 @@ Best: run `/polish-video` once, watch, then send your own list. Use the same ses
 otherwise a new one. The fixed video appears as the next version in `videos/<name>/output/`
 (`<name>-v2.mp4`, `-v3` … — the highest number is the newest; old versions are kept).
 
-## If a session stops (usage limit, closed window)
-Open Claude Code here again and say **"continue the video"** — progress is saved in files.
+## If you hit the 5-hour usage limit
+You don't need to do anything: Claude Code **waits and continues by itself** when the limit resets — as long as
+the session stays open and the PC doesn't sleep for more than ~30 minutes (then press Enter once).
+Tip: in Windows power settings set "Sleep: Never" while a video is being made.
+If the window was closed: open Claude Code here again and say **"continue the video"** — progress is saved in files.
 
 ## Good to know
 - **Model:** the main session works best with **Opus**. The chapter helpers use Sonnet (cheaper) and Opus

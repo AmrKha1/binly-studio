@@ -3,7 +3,8 @@ name: make-video
 description: Produce the complete Binly video from the voiceover + script in input/ (or continue the active one) in this single session — highest quality, context-efficient. Use when the user says "make the video", "/make-video", or "continue the video".
 ---
 
-Produce the full video now by following CLAUDE.md exactly, start to finish, in THIS session.
+Produce the full video now by following `.claude/skills/make-video/PIPELINE.md` exactly (read it first), start to
+finish, in THIS session.
 
 Priorities, in order:
 1. **Quality and retention first** — a video a curious viewer can't stop watching: work with the YouTube mindset (docs/RETENTION.md) —
