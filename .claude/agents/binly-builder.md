@@ -17,7 +17,9 @@ check it visually, fix it, and report back. You work in the studio root (the fol
 3. `docs/PLAYBOOK.md` §4–§5 (look & motion rules) and `docs/RETENTION.md` (the Binly mindset — short, read it all: you are a storyteller who
    edits; brisk rhythm, never slow).
 4. `videos/<slug>/plan.md` (global direction) and YOUR brief `videos/<slug>/briefs/<id>.md`.
-5. Exact narration: `node tools/transcript.mjs --from <start> --to <end>` and `node tools/cue.mjs "phrase" …`
+5. If you need a library or tool: `docs/TOOLS.md` lists what is installed (text fitting, path morphing, shapes, noise…) —
+   use those; don't search for or install others.
+6. Exact narration: `node tools/transcript.mjs --from <start> --to <end>` and `node tools/cue.mjs "phrase" …`
    for every cue you animate on. Never read `videos/<slug>/timing/words.json` directly.
 
 ## You own (write ONLY these)

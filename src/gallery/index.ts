@@ -12,6 +12,7 @@ import {Transitions} from './pages/transitions';
 import {PhotoPage} from './pages/photo';
 import {Depth} from './pages/depth';
 import {Templates, Templates2} from './pages/templates';
+import {Archival, Archival2} from './pages/archival';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
@@ -29,4 +30,6 @@ export const GALLERY: Record<string, React.FC<{t: number}>> = {
   depth: Depth,
   templates: Templates,
   templates2: Templates2,
+  archival: Archival,
+  archival2: Archival2,
 };
