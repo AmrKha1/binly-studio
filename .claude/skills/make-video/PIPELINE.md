@@ -31,8 +31,11 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   ONE big visual idea/world) · palette leaning (within the Binly system) · recurring motifs and what they mean ·
   recurring characters/objects/places → **reuse first**: check `docs/KIT.md` and `docs/ASSETS.md` (pieces built in
   past videos); only what's missing becomes a **new shared component** in `src/videos/<slug>/shared/` (name, file, props,
-  look) — at most ~4 per video, the ones the story really needs; everything else uses existing pieces or simpler staging · chapter overview · music arc · the hook (what the first ~30 s show) · the 2–6 real archival images worth using, if any (delegate the searching to a
-  `binly-scout` subagent — cheap Haiku — with the queries; pick from its shortlist, fetch, and name them in the briefs). 
+  look) — at most ~4 per video, the ones the story really needs; everything else uses existing pieces or simpler staging · chapter overview · music arc · the hook (what the first ~30 s show) · the real archival images the story needs — as many as truly help, no fixed limit (delegate searching
+  to `binly-scout` subagents — cheap Haiku — with the queries, in batches per chapter; pick from their shortlists, fetch
+  with `tools/photo.mjs get`, and name them in the shot lists with an archival template: KenBurnsShot, DetailHuntShot,
+  MontageShot, CollageShot, CompareImagesShot, DocumentScanShot, AnnotatedImageShot, ImageInWorldShot,
+  ParallaxCutoutShot, EvidenceShot — vary the treatment) 
 - `videos/<slug>/chapters.json` — chapters on paragraph boundaries, 60–120 s each (10–15 min ⇒ 8–12),
   each `{"id":"C01","start":0,"end":84.2,"title":"…","in":{"kind":"ink","x":960,"y":540}}` (C01 has no `in`;
   `start` of each chapter = `end` of the previous; last `end` = video duration). Then `node tools/scaffold.mjs <slug>`.

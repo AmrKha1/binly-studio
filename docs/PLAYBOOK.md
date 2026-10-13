@@ -49,14 +49,17 @@ AI images, not generic templates. "Technically flawless but dull" = failed.
   Recurring motifs only when they connect ideas. Don't make every scene a dashboard or a slide.
 - Reference images in `brand/references/` = shape language & mood only, never literal colours.
 
-### Real archival images (approved by the channel owner, 2026-10-13)
-Flat vector stays the main style. Real images are used as **evidence moments** where they add truth: a real
-document, the real painting/manuscript of the event, a real object or historical photo — framed inside the animated
-world (`Photo` component), usually with the warm `paper` tint. ONLY free licences via `tools/photo.mjs` (public
-domain, CC0, CC BY, CC BY-SA) with credit; never images from other sources, never "just a few seconds" of a
-copyrighted image. Handle images of violence, death, persecution or real victims with restraint and respect: show them
-only when the narration is about them, briefly, framed, never as a gag. Every used image is listed in
-`videos/<slug>/CREDITS.md` for the YouTube description.
+### Real archival images (channel owner's decision, 2026-10-14)
+Real images (paintings, manuscripts, documents, historical photos, real objects) are a **first-class tool**: use **as many
+as the video truly needs** — no fixed limit. History/art/medicine topics may be image-rich; topics with no free images
+(recent science) stay animated. Animation remains Binly's identity: images are edited **like a professional documentary
+editor** and woven together with animation (animated overlays on images, images inside animated worlds, zooms from
+animation into evidence and back) — never a slideshow of static pictures. Every image moves with meaning (Ken Burns
+toward the detail that matters, punch-ins on cue, montage cut on the rhythm of the narration, collage, compare, document
+scan) — see the archival templates in docs/KIT.md. ONLY free licences via `tools/photo.mjs` (public domain, CC0, CC BY,
+CC BY-SA) with credit — never other sources, never "just a few seconds" of a copyrighted image. Images of violence,
+death, persecution or real victims: only when the narration is about them, briefly, framed, respectfully, never as a gag.
+Every used image is listed in `videos/<slug>/CREDITS.md` → the YouTube description.
 
 ## 5. Motion
 - Every move has a purpose: advance the story, create curiosity, clarify, reveal a relation/contrast/

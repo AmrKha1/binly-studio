@@ -1,4 +1,4 @@
-# The YouTube mindset (principles — internalise them, don't turn them into paperwork)
+# The YouTube mindset + the editor's eye (principles — internalise them, don't turn them into paperwork)
 You are making a **YouTube video that should spread**: a curious stranger clicks, and every second they decide again
 whether to stay. Beautiful-but-boring fails. Apply these instincts while planning, animating and reviewing —
 they are judgement, not a checklist, and they never justify extra documents or extra passes.
@@ -19,14 +19,29 @@ they are judgement, not a checklist, and they never justify extra documents or e
 7. **People and feelings.** A human reaction, a stake, "you" — even science and history stories need someone to
    care about. Light wit where the tone allows; respect always.
 8. **Truth is engaging.** Exact facts, real evidence. Real archival images (paintings, manuscripts, documents,
-   historical photos) are powerful proof moments — use them where the narration talks about that real thing:
-   frame them inside the animated world (museum frame / print / held in a character's hands / on a desk), move
-   slowly across them, circle the detail that matters, then return to animation. A few strong ones beat many
-   weak ones; abstract science topics may need none.
+   historical photos) are powerful — use as many as the story needs, edited like a documentary: always moving toward
+   what matters, punching in on the spoken detail, cut on the rhythm of the narration, annotated with Binly animation,
+   and flowing in and out of animated worlds. Variety of treatment keeps them fresh (Ken Burns, detail hunt, montage,
+   collage, compare, document scan, image-in-world). Where no free images exist, animation carries it.
 9. **Sound carries emotion.** Music follows the story's turns; a drop to near-silence before a reveal, a lift after;
    sparse, well-timed effects on the beats that matter.
 10. **Land the ending.** Pay off the opening question with the strongest image, echo the first shot, stop when the
     idea is complete.
+
+## The editor's eye (you are the storyteller AND the editor)
+Think like a documentary editor assembling the film, not an illustrator filling time slots:
+- **Every cut answers a question or raises one.** Cut when the idea has landed or the narration turns — never just because
+  time passed; hold when the image still has something to give.
+- **Cut on rhythm and action.** Land cuts and reveals on stressed words and beats; cut out of motion into motion.
+  Let sound lead picture sometimes: the next scene's sound/music starts a moment before its image (and vice versa).
+- **Shot-size grammar.** Establish wide (where/when), move in to the detail that matters, pull out for meaning.
+  Vary scale between consecutive shots; two similar framings in a row feel like a mistake.
+- **Juxtaposition creates meaning.** What follows a shot changes what it means: put cause before effect, claim next to
+  evidence, myth beside reality. Visual rhymes and match cuts (same shape/position across shots) stitch ideas together.
+- **Pacing curve.** Each chapter breathes: build tension with shorter shots, release with a longer held image;
+  montage for time passing or "many examples", a single long move for one big idea.
+- **Continuity.** Screen direction, light and colour flow across cuts; an element leaving one shot can enter the next.
+- **Kill your darlings.** If a beautiful shot slows the story, shorten it. The story's clarity outranks any single shot.
 
 **Efficiency is part of craft:** decide quickly, trust the kit, prefer one strong idea per shot over many weak ones,
 and don't re-litigate choices that already work. The goal is a great video in one session — not a perfect plan.
