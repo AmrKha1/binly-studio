@@ -13,9 +13,9 @@ old mistake. Work through helpers for any code; keep your own context small.
      each doc short (RETENTION ≤ ~500 words, CRAFT ≤ ~900, BUILDER ≤ ~1200).
    - Remove lessons that are now built into the docs or kit, outdated, or contradicted by real data.
    - Leave LESSONS.md with only fresh, not-yet-merged notes (target < 20 lines) + the Kit backlog.
-2. **Promote kit backlog items.** For each worthwhile component a builder made inside a chapter (listed in the
-   Kit backlog), spawn a `binly-builder` (model opus) to move it into `src/kit/` following `docs/KIT-AUTHORING.md`:
-   generic props, gallery page, `docs/kit/<module>.md`, `node tools/kitdoc.mjs`. Don't break existing videos
+2. **Promote assets.** For the most reused / most valuable entries in `docs/ASSETS.md` (and the Kit backlog in
+   LESSONS.md), spawn a `binly-builder` (model opus) to move it into `src/kit/` following `docs/KIT-AUTHORING.md`:
+   generic props, gallery page, `docs/kit/<module>.md`, `node tools/kitdoc.mjs`. Remove promoted entries from ASSETS.md. Don't break existing videos
    (keep their local copies or update imports; `node tools/check.mjs` must pass).
 3. **New templates.** Look at the last videos' briefs: any standard beat hand-built ≥ 3 times → add it to
    `src/kit/templates.tsx` (via a helper), with docs.

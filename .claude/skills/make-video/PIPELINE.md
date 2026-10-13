@@ -29,8 +29,9 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
 (one line per paragraph with times). Then write:
 - `videos/<slug>/plan.md` (≤ 700 words): logline · the question that drives the video · visual thesis (the
   ONE big visual idea/world) · palette leaning (within the Binly system) · recurring motifs and what they mean ·
-  recurring characters/objects/places → which **shared components** to build in `src/videos/<slug>/shared/`
-  (name, file, props, look) · chapter overview · music arc · the hook (what the first ~30 s show) · the 2–6 real archival images worth using, if any (delegate the searching to a
+  recurring characters/objects/places → **reuse first**: check `docs/KIT.md` and `docs/ASSETS.md` (pieces built in
+  past videos); only what's missing becomes a **new shared component** in `src/videos/<slug>/shared/` (name, file, props,
+  look) — at most ~4 per video, the ones the story really needs; everything else uses existing pieces or simpler staging · chapter overview · music arc · the hook (what the first ~30 s show) · the 2–6 real archival images worth using, if any (delegate the searching to a
   `binly-scout` subagent — cheap Haiku — with the queries; pick from its shortlist, fetch, and name them in the briefs). 
 - `videos/<slug>/chapters.json` — chapters on paragraph boundaries, 60–120 s each (10–15 min ⇒ 8–12),
   each `{"id":"C01","start":0,"end":84.2,"title":"…","in":{"kind":"ink","x":960,"y":540}}` (C01 has no `in`;
@@ -83,7 +84,8 @@ Warnings (static holds, near-empty frames) mean "go look": check those times wit
 chapter timestamps — so give chapters viewer-friendly titles in chapters.json — subtitles `captions.srt` with the exact
 script, image credits). Tell the user to paste the description and upload the .srt in YouTube Studio. Write `videos/<slug>/REPORT.md` (≤ 400 words: video path, chapters, style decisions,
 QA results with numbers, render settings, honest limitations). Append 1–5 reusable lessons to
-`docs/LESSONS.md`. If a builder made a component worth reusing, note it under "Kit backlog" in LESSONS.md.
+`docs/LESSONS.md`. Register every reusable piece built for this video (shared components and good local helpers) in
+`docs/ASSETS.md` (one line each: name, what/dials, path, video). If a builder made a component worth reusing, note it under "Kit backlog" in LESSONS.md.
 Tell the user where the MP4 is, in plain words.
 
 ## Usage limits (Pro plan)

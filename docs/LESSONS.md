@@ -9,6 +9,6 @@
 - (test) Contact sheets render each tile as a separate still (tools/sheet.mjs) — SVG ids would collide otherwise.
 - (test) Small Tags (size < 22) get hard to read at 1080p; keep labels ≥ 22 px.
 
-## Kit backlog (components builders made that are worth promoting into src/kit)
-- Procedural T. rex (bones/flesh/stride/head-turn dials) in src/videos/test-dinos/chapters/C01.tsx → candidate for src/kit/animals.tsx.
-- Polaroid "closing around the scene" wrapper (C01) → candidate for cards.tsx.
+## Kit backlog
+- See docs/ASSETS.md (catalog of reusable pieces from past videos).
+- Templates: some secondary labels (counts, list captions) are ~18 px at 1080p — raise to ≥ 22 px on next kit pass.
