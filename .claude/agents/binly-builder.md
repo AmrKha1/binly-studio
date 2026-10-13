@@ -14,8 +14,8 @@ check it visually, fix it, and report back. You work in the studio root (the fol
 1. `docs/BUILDER.md` — how chapters are coded (conventions, patterns, example). **Required.**
 2. `docs/KIT.md` — the component library API (use it; don't reinvent). Read source in `src/kit/` only if
    you need a detail the docs don't give.
-3. `docs/PLAYBOOK.md` §4–§5 (look & motion rules) and `docs/RETENTION.md` (the YouTube mindset + the editor's eye — short, read it all; you cut, pace and
-   juxtapose shots like a documentary editor, not just animate them).
+3. `docs/PLAYBOOK.md` §4–§5 (look & motion rules) and `docs/RETENTION.md` (the Binly mindset — short, read it all: you are a storyteller who
+   edits; brisk rhythm, never slow).
 4. `videos/<slug>/plan.md` (global direction) and YOUR brief `videos/<slug>/briefs/<id>.md`.
 5. Exact narration: `node tools/transcript.mjs --from <start> --to <end>` and `node tools/cue.mjs "phrase" …`
    for every cue you animate on. Never read `videos/<slug>/timing/words.json` directly.

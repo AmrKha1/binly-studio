@@ -7,7 +7,7 @@ Produce the full video now by following `.claude/skills/make-video/PIPELINE.md` 
 finish, in THIS session.
 
 Priorities, in order:
-1. **Quality and retention first** — a video a curious viewer can't stop watching: work with the YouTube mindset (docs/RETENTION.md) —
+1. **Quality and retention first** — a video a curious viewer can't stop watching: work with the Binly mindset (docs/RETENTION.md) —
    principles, not paperwork; strong hook, a visual idea for every beat, smooth motion, exact
    facts and numbers, real archival images as evidence where they add truth, Binly's look. Never trade quality for
    speed or tokens.

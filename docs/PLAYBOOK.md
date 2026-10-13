@@ -10,6 +10,10 @@ purposeful camera through layered worlds, clear visual metaphors) — never thei
 Goal: a video a curious viewer genuinely enjoys from first to last second. Not a slideshow, not unrelated
 AI images, not generic templates. "Technically flawless but dull" = failed.
 
+### Storytelling, not documentary (channel owner's decision, 2026-10-14)
+Binly videos are gripping YouTube storytelling with a balanced-to-brisk rhythm — never a slow, reverent documentary.
+This overrides the "documentary" wording in `brand/` (music included: cinematic and atmospheric, but driving the story).
+
 ## 2. Source of truth (hard rules)
 - The supplied voiceover is the final narration and the master clock. Never rewrite, trim, stretch, denoise,
   normalise, EQ, compress or reorder it. Music/SFX are separate layers; the voice stays loudest and clear.
@@ -52,8 +56,7 @@ AI images, not generic templates. "Technically flawless but dull" = failed.
 ### Real archival images (channel owner's decision, 2026-10-14)
 Real images (paintings, manuscripts, documents, historical photos, real objects) are a **first-class tool**: use **as many
 as the video truly needs** — no fixed limit. History/art/medicine topics may be image-rich; topics with no free images
-(recent science) stay animated. Animation remains Binly's identity: images are edited **like a professional documentary
-editor** and woven together with animation (animated overlays on images, images inside animated worlds, zooms from
+(recent science) stay animated. Animation remains Binly's identity: images are edited **like a top YouTube storyteller-editor** and woven together with animation (animated overlays on images, images inside animated worlds, zooms from
 animation into evidence and back) — never a slideshow of static pictures. Every image moves with meaning (Ken Burns
 toward the detail that matters, punch-ins on cue, montage cut on the rhythm of the narration, collage, compare, document
 scan) — see the archival templates in docs/KIT.md. ONLY free licences via `tools/photo.mjs` (public domain, CC0, CC BY,

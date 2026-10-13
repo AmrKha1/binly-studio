@@ -76,7 +76,7 @@ Use `model: "opus"` for C01 (the hook) and the climax chapter; default (sonnet) 
 Each builder writes only `src/videos/<slug>/chapters/C03.tsx` (+ `videos/<slug>/sfx/C03.json`).
 
 **5 · Review each chapter** as it arrives: `node tools/sheet.mjs --from <start> --to <end> --n 20 --cols 5`,
-then Read the PNG. Judge like a demanding art director with the YouTube mindset (docs/RETENTION.md): would a stranger keep watching?
+then Read the PNG. Judge like a demanding art director with the Binly mindset (docs/RETENTION.md): would a stranger keep watching?
 Focal point, readability, variety, sync with the shot list, nothing broken/empty/colliding. Send back only what
 really matters. Send concrete fixes to the SAME builder with SendMessage
 (it keeps its context). Check every chapter boundary: `node tools/sheet.mjs --times <b-0.6>,<b-0.2>,<b+0.2>,<b+0.6>`.
