@@ -56,8 +56,13 @@ const tpl = await renderTiles(TEMPLATE_TILES, 'tpl');
 const kit = await renderTiles(KIT_TILES, 'kit');
 fs.mkdirSync(path.join(ROOT, 'docs', 'catalog'), {recursive: true});
 const toData = (f) => `data:image/png;base64,${fs.readFileSync(f).toString('base64')}`;
-if (tpl.files.length) await stills({id: 'Grid', props: {images: tpl.files.map(toData), labels: tpl.labels, cols: 4}, frames: [0], outFiles: [path.join(ROOT, 'docs', 'catalog', 'templates.png')], quiet: true});
-if (kit.files.length) await stills({id: 'Grid', props: {images: kit.files.map(toData), labels: kit.labels, cols: 5}, frames: [0], outFiles: [path.join(ROOT, 'docs', 'catalog', 'kit.png')], quiet: true});
+// Grid is one 1920×1080 frame: use enough columns that every tile row fits
+const fitCols = (n, min) => {
+  for (let c = min; c < 12; c++) if (Math.ceil(n / c) * (((1920 - 8 * (c + 1)) / c) * (9 / 16) + 8) + 8 <= 1080) return c;
+  return 12;
+};
+if (tpl.files.length) await stills({id: 'Grid', props: {images: tpl.files.map(toData), labels: tpl.labels, cols: fitCols(tpl.files.length, 4)}, frames: [0], outFiles: [path.join(ROOT, 'docs', 'catalog', 'templates.png')], quiet: true});
+if (kit.files.length) await stills({id: 'Grid', props: {images: kit.files.map(toData), labels: kit.labels, cols: fitCols(kit.files.length, 5)}, frames: [0], outFiles: [path.join(ROOT, 'docs', 'catalog', 'kit.png')], quiet: true});
 await done();
 console.log(`kit test: ${tpl.files.length}/${TEMPLATE_TILES.length} templates, ${kit.files.length}/${KIT_TILES.length} kit pages rendered in ${((Date.now() - t0) / 1000).toFixed(0)} s`);
 console.log('catalogs: docs/catalog/templates.png · docs/catalog/kit.png');
