@@ -1,6 +1,7 @@
 ---
 name: learn-from-youtube
 description: Learn from a published Binly video's real YouTube analytics (retention graph screenshots, average view duration, CTR, comments) and turn it into lessons that improve every future video. Use for "/learn-from-youtube", "here's my retention graph", "why did people leave".
+disable-model-invocation: true
 ---
 
 The user shares real results of a published video (screenshots of the YouTube Studio retention graph / key moments,

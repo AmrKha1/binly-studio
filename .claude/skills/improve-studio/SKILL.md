@@ -1,6 +1,7 @@
 ---
 name: improve-studio
 description: Maintenance pass that turns accumulated experience into a better, leaner Studio — consolidate docs/LESSONS.md into the core docs, promote builder-made components from the Kit backlog into src/kit, add new shot templates for recurring beats. Run every ~3–5 videos or when LESSONS.md gets long. Use for "/improve-studio", "clean up the lessons", "make the studio better".
+disable-model-invocation: true
 ---
 
 Goal: the Studio gets better AND stays lean. Every new session should read less, find more ready-made, and repeat no
@@ -21,5 +22,5 @@ old mistake. Work through helpers for any code; keep your own context small.
    `src/kit/templates.tsx` (via a helper), with docs.
 4. **Check the size budget.** `wc -c CLAUDE.md docs/*.md .claude/skills/*/*.md` — CLAUDE.md stays ≤ ~3.5 KB; trim
    where docs grew without adding value.
-5. `node tools/kit-test.mjs` (must pass; refreshes the visual catalogs), `node tools/cloud.mjs push "studio improvements"`, then tell the user in plain words what
+5. `node tools/kitdoc.mjs` (refreshes KIT-INDEX + the builder definition), `node tools/kit-test.mjs` (must pass; refreshes the visual catalogs), `node tools/cloud.mjs push "studio improvements"`, then tell the user in plain words what
    improved (what's new in the kit, which rules changed, what got shorter).

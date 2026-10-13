@@ -13,7 +13,7 @@ Priorities, in order:
    speed or tokens.
 2. **Finish in one session** — protect your own context so you can reach delivery:
    - Plan deeply, then delegate every chapter to `binly-builder` subagents (max 3 at a time); never build chapters yourself.
-   - Read docs (PLAYBOOK, CRAFT, KIT, LESSONS) instead of source; use `tools/cue.mjs` / `tools/transcript.mjs`, never words.json.
+   - Read docs (PLAYBOOK, RETENTION, CRAFT, KIT-INDEX + needed kit sections, LESSONS, ASSETS) instead of source; use `tools/cue.mjs` / `tools/transcript.mjs`, never words.json.
    - Review with contact sheets (one image, many frames); keep your notes and messages short.
    - Run cloud jobs in the background; don't poll.
    - Keep `videos/<slug>/STATUS.md` current at each phase so a usage-limit pause loses nothing.

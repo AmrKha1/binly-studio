@@ -8,7 +8,7 @@ import {LightPool, Vignette} from './fx';
 import {Icon, IconName} from './icons';
 import {Arrow} from './diagrams';
 import {Person, PersonProps, personHands} from './people';
-import {Bench, BookStack, Floor, Study} from './env';
+import {Bench, Floor, Study, mixC} from './env';
 import {Backdrop, ShotBase, tonePal} from './templates';
 
 // ════════════════════════════════════════════════════════════════════════════════════════════════
@@ -141,7 +141,7 @@ export const LowerThird: React.FC<{text: string; kicker?: string; p: number; x?:
 };
 
 /** Label plate: paper card + semantic bar, caps label, optional serif note. (x, y) = vertical centre of the anchor edge. */
-const LabelPlate: React.FC<{x: number; y: number; text: string; note?: string; kind?: Sem; p: number; anchor?: 'start' | 'end'; size?: number; dark?: boolean}> = ({
+const LabelPlate: React.FC<{x: number; y: number; text: string; note?: string; kind?: Sem; p: number; anchor?: 'start' | 'end' | 'middle'; size?: number; dark?: boolean}> = ({
   x,
   y,
   text,
@@ -157,10 +157,10 @@ const LabelPlate: React.FC<{x: number; y: number; text: string; note?: string; k
   const label = text.toUpperCase();
   const w = Math.max(textW(label, size, 'sansCaps', 700) * 1.08, note ? textW(note, size * 0.95, 'serif') : 0) + 64;
   const h = note ? size * 3.1 : size * 2.1;
-  const x0 = anchor === 'start' ? x : x - w;
+  const x0 = anchor === 'start' ? x : anchor === 'middle' ? x - w / 2 : x - w;
   const col = dark ? mixHex(SEM[kind], C.paperLight, 0.25) : SEM[kind];
   return (
-    <g opacity={clamp01(p * 2.5)} transform={`translate(${(1 - k) * (anchor === 'start' ? -16 : 16)} 0)`}>
+    <g opacity={clamp01(p * 2.5)} transform={`translate(${(1 - k) * (anchor === 'start' ? -16 : anchor === 'end' ? 16 : 0)} ${anchor === 'middle' ? (1 - k) * 12 : 0})`}>
       <rect x={x0 + 6} y={y - h / 2 + 8} width={w} height={h} rx={8} fill={C.ink} opacity={0.25} />
       <rect x={x0} y={y - h / 2} width={w} height={h} rx={8} fill={dark ? C.inkSoft : C.paperLight} />
       <rect x={x0} y={y - h / 2} width={9} height={h} rx={3} fill={col} />
@@ -280,11 +280,11 @@ export const KenBurnsShot: React.FC<
     );
   const P = tonePal(tone);
   const maxW = 1400;
-  const maxH = 760;
+  const maxH = 700;
   const w = Math.min(maxW, maxH * aspect);
   const h = w / aspect;
   const x = 960 - w / 2;
-  const y = 500 - h / 2;
+  const y = 470 - h / 2;
   const k = ease.outQuint(ramp(t, t0 - 0.3, t0 + 0.6, ease.linear));
   const cam = breathe({cx: 960 + sideOf(seed) * lerp(-10, 10, ramp(t, a, b, ease.inOutSine)), cy: 540, z: lerp(1, 1.035, ramp(t, a, b + 1, ease.inOutSine)), r: 0}, t, 0.6);
   return (
@@ -350,11 +350,11 @@ export const DetailHuntShot: React.FC<ArchBase & {src: string; aspect?: number; 
     const side = d.rx < 0.5 ? 1 : -1; // detail on the left of frame → label right
     return [d.rx + (side * 0.13 * 1920) / (v1.IW * z), d.ry, z];
   });
-  const beats = [...details.map((_, i) => ({at: ats[i], focus: targets[i], dur: 1.2})), ...(ret < Infinity ? [{at: ret, focus: [0.5, 0.5, 1.02] as Focus, dur: 1.2}] : [])];
+  const beats = [...details.map((_, i) => ({at: ats[i], focus: targets[i], dur: 1.0})), ...(ret < Infinity ? [{at: ret, focus: [0.5, 0.5, 1.02] as Focus, dur: 1.2}] : [])];
   const f = focusAt(t, t0, ats[0] ?? b, [0.5, 0.5, 1], [0.5, 0.5, 1.05], beats, seed);
   const v = viewRect(1920, 1080, aspect, f);
   const o = ramp(t, t0 - 0.35, t0 + 0.05, ease.linear);
-  const summary = ramp(t, ret + 1.0, ret + 1.6);
+  const summary = ramp(t, ret + 0.5, ret + 1.0);
   return (
     <Bleed>
       <ArchImage slug={slug} src={src} x={0} y={0} w={1920} h={1080} aspect={aspect} focus={f} tint={tint} o={o} bg={C.ink} />
@@ -365,28 +365,28 @@ export const DetailHuntShot: React.FC<ArchBase & {src: string; aspect?: number; 
         const h = d.rh * v.IH;
         const end = Math.min(ats[i + 1] ?? Infinity, ret);
         const out = 1 - ramp(t, end - 0.05, end + 0.3, ease.linear);
-        const pr = ramp(t, ats[i] + 0.8, ats[i] + 1.5, ease.linear);
+        const pr = ramp(t, ats[i] + 0.6, ats[i] + 1.2, ease.linear);
         const pm = pr * out;
         const right = c.x < 960;
         const ex = c.x + (right ? 1 : -1) * (w / 2 + 6);
         const lx = c.x + (right ? 1 : -1) * (w / 2 + 90);
         const ly = clamp(c.y, 160, 900);
-        const pl = ramp(t, ats[i] + 1.1, ats[i] + 1.7, ease.linear) * out;
+        const pl = ramp(t, ats[i] + 0.9, ats[i] + 1.4, ease.linear) * out;
         return (
           <g key={i}>
             {pm > 0 && (
               <g opacity={out}>
                 <HaloShape shape={d.shape ?? 'ellipse'} cx={c.x} cy={c.y} w={w * 1.04} h={h * 1.04} p={pr} color={col} width={7} />
-                <path d={`M${ex} ${c.y} L${lx - (right ? 30 : -30)} ${ly} L${lx} ${ly}`} stroke={C.paperLight} strokeWidth={11} fill="none" opacity={0.85 * ramp(t, ats[i] + 1.1, ats[i] + 1.3)} strokeLinejoin="round" />
-                <path d={`M${ex} ${c.y} L${lx - (right ? 30 : -30)} ${ly} L${lx} ${ly}`} stroke={col} strokeWidth={5} fill="none" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - ease.inOut(ramp(t, ats[i] + 1.05, ats[i] + 1.45))} strokeLinejoin="round" />
+                <path d={`M${ex} ${c.y} L${lx - (right ? 30 : -30)} ${ly} L${lx} ${ly}`} stroke={C.paperLight} strokeWidth={11} fill="none" opacity={0.85 * ramp(t, ats[i] + 0.8, ats[i] + 1.0)} strokeLinejoin="round" />
+                <path d={`M${ex} ${c.y} L${lx - (right ? 30 : -30)} ${ly} L${lx} ${ly}`} stroke={col} strokeWidth={5} fill="none" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - ease.inOut(ramp(t, ats[i] + 0.75, ats[i] + 1.1))} strokeLinejoin="round" />
               </g>
             )}
             <LabelPlate x={lx} y={ly} text={d.label} note={d.note} kind={d.kind ?? 'signal'} p={pl} anchor={right ? 'start' : 'end'} />
             {summary > 0 && (
               <g opacity={summary}>
                 <HaloShape shape={d.shape ?? 'ellipse'} cx={c.x} cy={c.y} w={w} h={h} p={1} color={col} width={4} />
-                <Badge x={c.x - (w / 2) * 0.72} y={c.y - (h / 2) * 0.72} n={i + 1} p={ramp(t, ret + 1.0 + i * 0.12, ret + 1.5 + i * 0.12, ease.linear)} color={col} />
-                <LabelPlate x={c.x + (w / 2) * 0.72 + 14} y={c.y + (h / 2) * 0.72} text={d.label} kind={d.kind ?? 'signal'} p={ramp(t, ret + 1.2 + i * 0.12, ret + 1.8 + i * 0.12, ease.linear)} size={22} />
+                <Badge x={c.x - (w / 2) * 0.72} y={c.y - (h / 2) * 0.72} n={i + 1} p={ramp(t, ret + 0.5 + i * 0.12, ret + 0.9 + i * 0.12, ease.linear)} color={col} />
+                <LabelPlate x={c.x + (w / 2) * 0.72 + 14} y={c.y + (h / 2) * 0.72} text={d.label} kind={d.kind ?? 'signal'} p={ramp(t, ret + 0.6 + i * 0.12, ret + 1.1 + i * 0.12, ease.linear)} size={22} />
               </g>
             )}
           </g>
@@ -492,10 +492,10 @@ const SLOTS: Record<number, [number, number, number][]> = {
     [1460, 720, 470],
   ],
   4: [
-    [470, 380, 480],
-    [1050, 330, 460],
-    [1470, 600, 460],
-    [820, 770, 480],
+    [640, 300, 600],
+    [1290, 290, 560],
+    [700, 750, 560],
+    [1270, 745, 560],
   ],
   5: [
     [420, 350, 430],
@@ -530,11 +530,11 @@ export const CollageShot: React.FC<
     const sl = slots[i % slots.length];
     const asp = it.aspect ?? 1.4;
     let w = it.w ?? sl[2];
-    const hMax = items.length <= 2 ? 560 : items.length <= 4 ? 420 : 360;
+    const hMax = items.length <= 2 ? 540 : items.length <= 4 ? 350 : 320;
     if (w / asp > hMax) w = hMax * asp;
     const h = w / asp;
     const rot = it.rot ?? (rand(seed * 3.3 + i * 1.7) - 0.5) * 9;
-    return {x: it.x ?? sl[0], y: it.y ?? sl[1], w, h, rot, at: it.at ?? t0 + i * gap, pad: 14, bottom: it.label ? 58 : 14};
+    return {x: it.x ?? sl[0], y: it.y ?? sl[1], w, h, rot, at: it.at ?? t0 + i * gap, pad: 14, bottom: it.label && it.credit ? 78 : it.label ? 56 : it.credit ? 36 : 14};
   });
   const pinOf = (i: number): XY => {
     const L = lay[i];
@@ -546,8 +546,8 @@ export const CollageShot: React.FC<
   const lp = link ? ramp(t, linkAt, linkAt + 0.9, ease.linear) : 0;
   const mid = link ? {x: (lay[link.from].x + lay[link.to].x) / 2, y: (lay[link.from].y + lay[link.to].y) / 2} : {x: 960, y: 540};
   const k = ramp(t, a - 0.3, b + 0.5, ease.inOutSine);
-  const lk = link ? ramp(t, linkAt - 0.2, linkAt + 1.2, ease.inOut) * 0.35 : 0;
-  const cam: CamState = breathe({cx: lerp(lerp(915, 1005, k), mid.x, lk), cy: lerp(lerp(548, 532, k), mid.y, lk), z: lerp(1.03, 1.075, k) + lk * 0.06, r: 0}, t, 0.8);
+  const lk = link ? ramp(t, linkAt - 0.2, linkAt + 1.2, ease.inOut) * 0.15 : 0;
+  const cam: CamState = breathe({cx: lerp(lerp(915, 1005, k), mid.x, lk), cy: lerp(lerp(548, 532, k), mid.y, lk), z: lerp(1.02, 1.06, k) + lk * 0.1, r: 0}, t, 0.8);
   const lineCol = dark ? mixHex(C.inkSoft, C.paperLight, 0.07) : mixHex(C.paperShade, C.ink, 0.06);
   const board_ = (
     <g>
@@ -578,8 +578,13 @@ export const CollageShot: React.FC<
         <rect x={-W / 2 + sh} y={-L.h / 2 - L.pad + sh * 1.3} width={W} height={H} rx={3} fill={C.ink} opacity={dark ? 0.45 : 0.2} />
         <rect x={-W / 2} y={-L.h / 2 - L.pad} width={W} height={H} rx={3} fill={C.paperLight} />
         <ArchImage slug={slug} src={it.src} x={-L.w / 2} y={-L.h / 2} w={L.w} h={L.h} aspect={it.aspect ?? 1.4} focus={f} tint={tint} />
+        {it.credit && (
+          <text x={L.w / 2} y={L.h / 2 + (it.label ? 66 : 28)} textAnchor="end" fontFamily={FONT_SANS} fontWeight={500} fontSize={17} fill={C.inkFaint}>
+            {it.credit}
+          </text>
+        )}
         {it.label && (
-          <text x={0} y={L.h / 2 + 42} textAnchor="middle" fontFamily={FONT_SERIF} fontStyle="italic" fontWeight={600} fontSize={26} fill={C.ink}>
+          <text x={-L.w / 2} y={L.h / 2 + 40} textAnchor="start" fontFamily={FONT_SERIF} fontStyle="italic" fontWeight={600} fontSize={26} fill={C.ink}>
             {it.label}
           </text>
         )}
@@ -599,7 +604,6 @@ export const CollageShot: React.FC<
       </g>
     );
   });
-  const credits = items.map((it) => it.credit).filter(Boolean);
   let linkEl: React.ReactNode = null;
   if (link && lp > 0) {
     const kind = link.kind ?? 'signal';
@@ -646,7 +650,6 @@ export const CollageShot: React.FC<
         ]}
       />
       <Vignette strength={dark ? 1.1 : 0.6} />
-      <CreditLine text={credits.join('  ·  ')} p={ramp(t, t0, t0 + 0.5)} onImage={false} dark={dark} />
     </Stage>
   );
 };
@@ -721,7 +724,7 @@ export const CompareImagesShot: React.FC<ShotBase & {slug: string; left: Compare
           {s.label}
         </text>
         {s.sub && <Kicker x={x} y={py + ph + 122} text={s.sub} anchor="start" size={22} color={P.mute} p={ramp(t, tIn + 0.3, tIn + 0.8)} />}
-        <CreditLine text={s.credit} x={x + pw} y={py + ph + 80} anchor="end" onImage={false} dark={P.dark} p={ramp(t, tIn + 0.3, tIn + 0.8)} />
+        <CreditLine text={s.credit} x={x + pw - 12} y={py + ph - 14} anchor="end" p={ramp(t, tIn + 0.3, tIn + 0.8)} />
       </g>
     );
   };
@@ -830,7 +833,7 @@ export const DocumentScanShot: React.FC<ArchBase & {src: string; aspect?: number
   const mag = 2.3;
   const lensPos = (i: number) => {
     const c = rc(regions[i]);
-    return {x: clamp(c.x - 30, x0 + 40, x0 + dw - 40), y: Math.max(y0 + lensR * 0.6, c.y - lensR - 60)};
+    return {x: clamp(c.x - 40, x0 + 60, x0 + dw - 60), y: c.y - lensR - 50 < y0 + 40 ? c.y + lensR + 50 : c.y - lensR - 50};
   };
   const lp = lens && act >= 0 ? ramp(t, ats[0], ats[0] + 0.6, ease.linear) : 0;
   const L0 = act > 0 ? lensPos(act - 1) : act >= 0 ? lensPos(act) : {x: 0, y: 0};
@@ -838,8 +841,10 @@ export const DocumentScanShot: React.FC<ArchBase & {src: string; aspect?: number
   const lk = ramp(t, ats[Math.max(0, act)], ats[Math.max(0, act)] + 0.8, ease.inOut);
   const LP = {x: lerp(L0.x, L1.x, lk), y: lerp(L0.y, L1.y, lk) + noise1(t * 0.4, seed) * 4};
   // lens shows the doc point under its centre
-  const lrx = (LP.x - x0) / dw;
-  const lry = (LP.y - y0) / dh;
+  const R0 = act > 0 ? rc(regions[act - 1]) : act >= 0 ? rc(regions[act]) : {x: 0, y: 0};
+  const R1 = act >= 0 ? rc(regions[act]) : R0;
+  const lrx = (lerp(R0.x, R1.x, lk) - x0) / dw;
+  const lry = (lerp(R0.y, R1.y, lk) - y0) / dh;
   return (
     <Stage bg={P.bg}>
       <World
@@ -871,7 +876,7 @@ export const DocumentScanShot: React.FC<ArchBase & {src: string; aspect?: number
                   const ry = y0 + r.ry * dh;
                   const rw = r.rw * dw;
                   const rh = r.rh * dh;
-                  const dimmed = i < act ? 0.55 : 1;
+                  const dimmed = i < act ? 0.7 : 1;
                   const cd = cards[i];
                   const hasCard = !!(r.text || r.label);
                   const lineP = ramp(t, ats[i] + 0.3, ats[i] + 0.8, ease.inOut);
@@ -1032,7 +1037,7 @@ export const AnnotatedImageShot: React.FC<ArchBase & {src: string; aspect?: numb
       return (
         <g key={i}>
           <HaloShape shape={ov.shape ?? 'ellipse'} cx={c.x} cy={c.y} w={w} h={h} p={p} color={col2} width={6} dashed={ov.dashed} t={t} />
-          {ov.label && <LabelPlate x={c.x + (right ? 1 : -1) * (w / 2 + 24)} y={c.y - h * 0.25} text={ov.label} kind={ov.sem ?? (ov.dashed ? 'theory' : 'signal')} p={ramp(t, s + 0.4, s + 1, ease.linear)} anchor={right ? 'start' : 'end'} size={26} />}
+          {ov.label && <LabelPlate x={right ? c.x - w * 0.3 : c.x + w * 0.3} y={Math.max(130, c.y - h / 2 - 34)} text={ov.label} kind={ov.sem ?? (ov.dashed ? 'theory' : 'signal')} p={ramp(t, s + 0.4, s + 1, ease.linear)} anchor={right ? 'start' : 'end'} size={26} />}
         </g>
       );
     }
@@ -1061,7 +1066,7 @@ export const AnnotatedImageShot: React.FC<ArchBase & {src: string; aspect?: numb
             <circle r={52} fill="none" stroke={col} strokeWidth={5} />
           </g>
           <Icon name={ov.icon} x={c.x} y={c.y + noise1(t * 0.5, i) * 4} s={0.78} color={C.ink} accent={col} knock={C.paperLight} p={ramp(t, s + 0.15, s + 0.7, ease.linear)} />
-          {ov.label && <Kicker x={c.x} y={c.y + 104} text={ov.label} size={24} color={C.paperLight} p={ramp(t, s + 0.4, s + 0.9, ease.linear)} />}
+          {ov.label && <LabelPlate x={c.x} y={c.y + 100} text={ov.label} kind={ov.sem ?? 'signal'} p={ramp(t, s + 0.4, s + 0.9, ease.linear)} anchor="middle" size={22} />}
         </g>
       );
     }
@@ -1153,15 +1158,15 @@ export const ImageInWorldShot: React.FC<
   const img = <ArchImage slug={slug} src={src} x={cx - w / 2} y={cy - h / 2} w={w} h={h} aspect={aspect} focus={f} tint={tint} />;
   let scene: React.ReactNode;
   if (setting === 'museum') {
-    const wall = mixHex(C.paperShade, C.paperDeep, 0.25);
+    const wall = mixC(C.paperShade, C.paperDeep, 0.25);
     const W = w + pad * 2;
     const H = h + pad * 2;
     scene = (
       <g>
         <rect x={-400} y={-300} width={2720} height={1700} fill={wall} />
-        <rect x={-400} y={-300} width={2720} height={380} fill={mixHex(wall, C.ink, 0.06)} />
-        <rect x={-400} y={80} width={2720} height={10} fill={mixHex(wall, C.ink, 0.15)} />
-        <rect x={-400} y={700} width={2720} height={14} fill={mixHex(wall, C.ink, 0.12)} />
+        <rect x={-400} y={-300} width={2720} height={380} fill={mixC(wall, C.ink, 0.06)} />
+        <rect x={-400} y={80} width={2720} height={10} fill={mixC(wall, C.ink, 0.15)} />
+        <rect x={-400} y={700} width={2720} height={14} fill={mixC(wall, C.ink, 0.12)} />
         <Floor y={880} color={C.paperDeep} kind="tiles" seed={seed} />
         <LightPool x={cx} y={cy - 80} r={620} sy={0.9} strength={1.2} color={C.lamp} />
         {[-1, 1].map((sd) => (
@@ -1328,7 +1333,7 @@ export const ParallaxCutoutShot: React.FC<ArchBase & {src: string; aspect?: numb
         focus={f}
         tint={tint}
         filter={bgFilter}
-        dim={recede === 'ink' ? 0.5 * lift : 0}
+        dim={recede === 'ink' ? 0.42 * lift : 0}
         wash={recede === 'paper' ? 0.55 * lift : 0}
         o={ramp(t, a - 0.35, a + 0.05, ease.linear)}
         bg={C.ink}

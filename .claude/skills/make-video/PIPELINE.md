@@ -8,7 +8,7 @@ Use `binly-scout` (Haiku, cheap) for mechanical chores: image research, timing l
 ## Context discipline (this is what makes a 15-minute video fit in one session)
 - **Delegate building.** Every chapter is built by a `binly-builder` subagent in its own context. You plan,
   brief, review, fix-by-message, and ship. Never write chapter code yourself (tiny one-line fixes excepted).
-- **Read docs, not source.** Kit API = `docs/KIT.md`. Never open files in `src/kit/` unless a builder
+- **Read docs, not source.** Kit: `docs/KIT-INDEX.md`, then only the `docs/kit/*.md` sections you need (templates.md, archival.md). Never open files in `src/kit/` unless a builder
   reports a kit bug. Never read `words.json` — use `node tools/cue.mjs`.
 - **One image = many frames.** Review with contact sheets (`tools/sheet.mjs`), not individual stills.
 - **Long jobs in the background** (`new-video`, `cloud.mjs analyze/render`): start with run_in_background,
@@ -22,7 +22,7 @@ Use `binly-scout` (Haiku, cheap) for mechanical chores: image research, timing l
 **1 · Ingest** — `node tools/new-video.mjs` (optional `--slug short-name --title "..."`), run in background.
 It moves the inputs to `videos/<slug>/`, scaffolds `src/videos/<slug>/`, activates it, uploads the voiceover
 to GitHub (release `vo-<slug>`) and runs the cloud timing analysis (~5–10 min) → `videos/<slug>/timing/`.
-While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `docs/KIT.md`, `docs/LESSONS.md`, and the script
+While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `docs/KIT-INDEX.md`, `docs/LESSONS.md`, and the script
 (`videos/<slug>/script.txt`) + `notes.md` if present (the user's special requests override defaults).
 
 **2 · Plan** (your most important work — this is where quality is decided). Read `videos/<slug>/timing/transcript.md`
@@ -30,7 +30,7 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
 - `videos/<slug>/plan.md` (≤ 700 words): logline · **the story spine** (hook → the question & why it matters → rising tension / turns → the big reveal →
   payoff; mark where each lands in time — the plan must read like a story, not a topic outline) · the question that drives the video · visual thesis (the
   ONE big visual idea/world) · palette leaning (within the Binly system) · recurring motifs and what they mean ·
-  recurring characters/objects/places → **reuse first**: check `docs/KIT.md` and `docs/ASSETS.md` (pieces built in
+  recurring characters/objects/places → **reuse first**: check `docs/KIT-INDEX.md` and `docs/ASSETS.md` (pieces built in
   past videos); only what's missing becomes a **new shared component** in `src/videos/<slug>/shared/` (name, file, props,
   look) — at most ~4 per video, the ones the story really needs; everything else uses existing pieces or simpler staging · chapter overview · music arc · the hook (what the first ~30 s show) · the real archival images the story needs — as many as truly help, no fixed limit (delegate searching
   to `binly-scout` subagents — cheap Haiku — with the queries, in batches per chapter; pick from their shortlists, fetch
@@ -72,8 +72,11 @@ the briefs of chapters not yet started; message running builders if it affects t
 user said not to ask (e.g. "don't ask me anything" in notes / the command).
 
 **4 · Build chapters** — spawn `binly-builder` subagents, **at most 3 running at once** (this PC is slow).
-Prompt: `Build the custom shots of chapter C03 of video <slug> (src/videos/<slug>/chapters/C03.custom.tsx). Brief: videos/<slug>/briefs/C03.md, shot list: videos/<slug>/shots/C03.json` (+ anything special).
+Builder prompts: always the same short form (identical opening = shared prompt cache): `Build the custom shots of chapter C03 of video <slug> (src/videos/<slug>/chapters/C03.custom.tsx). Brief: videos/<slug>/briefs/C03.md, shot list: videos/<slug>/shots/C03.json` (+ anything special).
 Use `model: "opus"` for C01 (the hook) and the climax chapter; default (sonnet) for the rest.
+Optional (experimental, Pro needs /config → Dynamic workflows on): run the saved workflow `/build-chapters` with args
+`{slug, chapters:[{id:"C02"},…], batch:3}` instead of spawning builders one by one — its helpers pause and resume at usage
+limits instead of failing, and you get one combined report. If it isn't available or misbehaves, use subagents as above.
 Each builder writes only `src/videos/<slug>/chapters/C03.tsx` (+ `videos/<slug>/sfx/C03.json`).
 
 **5 · Review each chapter** as it arrives: `node tools/sheet.mjs --from <start> --to <end> --n 20 --cols 5`,

@@ -8,12 +8,12 @@ The user puts a voiceover + script in `input/` and uses these commands (skills):
 - **/polish-video** → fix/refine a finished video (user screenshots/list or a self-review pass).
 - **/learn-from-youtube** → turn real YouTube analytics into lessons for future videos.
 - **/improve-studio** → every ~3–5 videos: merge lessons into the core docs, promote builder-made parts into the kit.
-Docs: `docs/PLAYBOOK.md` (channel rules) · `docs/RETENTION.md` (the Binly mindset) · `docs/CRAFT.md` · `docs/KIT.md`
-(component API) · `docs/BUILDER.md` (how chapters are coded) · `docs/LESSONS.md` · `docs/ASSETS.md` (pieces from past videos) · `docs/TOOLS.md` (what's installed — use it, don't search) · user guide `START HERE.md`.
+Docs: `docs/PLAYBOOK.md` (channel rules) · `docs/RETENTION.md` (the Binly mindset) · `docs/CRAFT.md` · `docs/KIT-INDEX.md`
+(kit index → sections in docs/kit/) · `docs/BUILDER.md` (how chapters are coded) · `docs/LESSONS.md` · `docs/ASSETS.md` (pieces from past videos) · `docs/TOOLS.md` (what's installed — use it, don't search) · user guide `START HERE.md`.
 Subagents: `binly-builder` (builds a chapter) · `binly-scout` (cheap chores).
 
 ## Context discipline
-Delegate heavy work to subagents; read docs, not source (kit API = docs/KIT.md); never read words.json (use
+Delegate heavy work to subagents; read docs, not source (kit: docs/KIT-INDEX.md, then only the docs/kit/*.md sections you need); never read words.json (use
 `tools/cue.mjs`, `tools/transcript.mjs`); review with contact sheets; run cloud jobs in the background; keep messages short.
 
 ## Rules that never bend

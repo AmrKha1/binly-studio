@@ -57,6 +57,14 @@ the session stays open and the PC doesn't sleep for more than ~30 minutes (then 
 Tip: in Windows power settings set "Sleep: Never" while a video is being made.
 If the window was closed: open Claude Code here again and say **"continue the video"** — progress is saved in files.
 
+## Habits that save usage (tokens)
+- **One video per session.** Start a new session for each new video (a fresh, small memory is cheaper).
+- **Don't switch model or effort in the middle of a production** — it resets the cache and the next steps cost more.
+- **Avoid leaving a production idle for more than ~1 hour** (the cache expires; the next message re-reads everything).
+  If you must stop, just come back and say "continue the video" — progress is in files.
+- **Send fixes together** (one message with all screenshots/notes), not one by one.
+- Check your usage any time: Claude app → Settings → Usage.
+
 ## Good to know
 - **Model:** the main session works best with **Opus**. The chapter helpers use Sonnet (cheaper) and Opus
   for the opening and climax. To change it, edit the `model:` line in `.claude/agents/binly-builder.md`.

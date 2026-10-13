@@ -14,6 +14,9 @@ const TEMPLATE_TILES = [
   ['templates', 2.8, 'TitleShot'], ['templates', 5.8, 'StatShot'], ['templates', 8.8, 'QuoteShot'], ['templates', 11.8, 'EvidenceShot'],
   ['templates', 14.8, 'ClaimShot'], ['templates', 17.8, 'CompareShot'], ['templates', 20.8, 'ListShot'], ['templates', 23.8, 'TimelineShot'],
   ['templates', 26.8, 'MapShot'], ['templates', 29.5, 'PersonShot'], ['templates2', 2.8, 'ProcessShot'], ['templates2', 5.8, 'QuestionShot'],
+  ['archival', 3.5, 'KenBurnsShot'], ['archival', 7.5, 'DetailHuntShot'], ['archival', 11.5, 'MontageShot'], ['archival', 15.5, 'CollageShot'],
+  ['archival', 19.5, 'CompareImagesShot'], ['archival', 23.5, 'DocumentScanShot'], ['archival', 27.5, 'AnnotatedImageShot'],
+  ['archival2', 3.5, 'ImageInWorldShot'], ['archival2', 7.5, 'ParallaxCutoutShot'],
 ];
 const KIT_TILES = [
   ['text', 3.5, 'text'], ['cards', 4, 'cards'], ['diagrams', 4, 'diagrams'], ['data', 4, 'data'], ['icons', 4, 'icons'],

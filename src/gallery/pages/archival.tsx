@@ -43,10 +43,10 @@ const SHOTS: ((t: number, a: number, b: number) => React.ReactNode)[] = [
       slug={S}
       {...BATH}
       details={[
-        {rx: 0.42, ry: 0.26, rw: 0.17, rh: 0.25, label: 'Guests arrive', note: 'dressed — for now', at: a + 0.3, kind: 'ink'},
-        {rx: 0.73, ry: 0.5, rw: 0.36, rh: 0.3, label: 'Dinner in the tub', note: 'food, wine, company', at: a + 1.3, kind: 'signal', shape: 'box'},
+        {rx: 0.42, ry: 0.26, rw: 0.17, rh: 0.25, label: 'Guests arrive', note: 'dressed — for now', at: a + 0.2, kind: 'ink'},
+        {rx: 0.73, ry: 0.5, rw: 0.36, rh: 0.3, label: 'Dinner in the tub', note: 'food, wine, company', at: a + 1.8, kind: 'signal', shape: 'box'},
       ]}
-      returnAt={a + 2.3}
+      returnAt={false}
     />
   ),
   (t, a, b) => (
@@ -79,7 +79,7 @@ const SHOTS: ((t: number, a: number, b: number) => React.ReactNode)[] = [
         {...MARV, label: 'Paris, c. 1865'},
       ]}
       gap={0.3}
-      link={{from: 0, to: 2, at: a + 1.6, label: 'Same century', kind: 'signal'}}
+      link={{from: 0, to: 1, at: a + 1.5, label: 'Same century', kind: 'signal'}}
     />
   ),
   (t, a, b) => (
@@ -118,16 +118,18 @@ const SHOTS: ((t: number, a: number, b: number) => React.ReactNode)[] = [
       slug={S}
       {...BATH}
       kicker="Inside a bathhouse"
+      from={[0.5, 0.55, 1.0]}
+      to={[0.5, 0.55, 1.06]}
       overlays={[
-        {kind: 'outline', rx: 0.74, ry: 0.6, rw: 0.4, rh: 0.36, label: 'Shared hot tub', sem: 'signal', at: a + 0.3},
-        {kind: 'outline', rx: 0.21, ry: 0.32, rw: 0.22, rh: 0.26, dashed: true, label: 'Private room?', at: a + 0.8},
+        {kind: 'outline', rx: 0.75, ry: 0.62, rw: 0.42, rh: 0.34, shape: 'box', label: 'Shared hot tub', sem: 'signal', at: a + 0.3},
+        {kind: 'outline', rx: 0.2, ry: 0.4, rw: 0.22, rh: 0.22, dashed: true, label: 'Private room?', at: a + 0.8},
         {kind: 'flow', points: [[0.43, 0.42], [0.47, 0.52], [0.55, 0.6]], label: 'Way in', sem: 'evidence', at: a + 1.2, dur: 0.9},
-        {kind: 'icon', rx: 0.86, ry: 0.27, icon: 'speech', label: 'Gossip', sem: 'caution', at: a + 1.7},
+        {kind: 'icon', rx: 0.62, ry: 0.36, icon: 'speech', label: 'Gossip', sem: 'caution', at: a + 1.7},
         {kind: 'label', rx: 0.38, ry: 0.69, text: 'A pet dog', sem: 'ink', at: a + 2.0, dx: -160, dy: 60},
       ]}
     />
   ),
-  (t, a, b) => <ImageInWorldShot t={t} a={a} b={b} slug={S} {...TOURNAI} setting="museum" label="Room 14 · Medieval Flanders" pushAt={a + 2.3} pushDur={1.5} caption="Burial of plague victims, Tournai, 1349" />,
+  (t, a, b) => <ImageInWorldShot t={t} a={a} b={b} slug={S} {...TOURNAI} setting="museum" label="Room 14 · Medieval Flanders" pushAt={a + 3.2} pushDur={1.5} caption="Burial of plague victims, Tournai, 1349" />,
   (t, a, b) => (
     <ParallaxCutoutShot
       t={t}
@@ -136,6 +138,8 @@ const SHOTS: ((t: number, a: number, b: number) => React.ReactNode)[] = [
       slug={S}
       {...BATH}
       cut={{rx: 0.355, ry: 0.15, rw: 0.15, rh: 0.28, shape: 'ellipse'}}
+      from={[0.4, 0.3, 1.15]}
+      to={[0.52, 0.34, 1.22]}
       label={{text: 'The visitors', kind: 'signal'}}
       at={a + 0.6}
       caption="A bathhouse, Flanders, c. 1470"
