@@ -36,6 +36,8 @@ final render only in the cloud (this PC is too slow; local = stills/sheets only)
 | `node tools/preview.mjs` | live preview (Remotion Studio, http://localhost:3000) |
 | `node tools/photo.mjs search "q"` · `get <#> --as name` | free archival images (Wikimedia) |
 | `node tools/upload-pack.mjs` | YouTube description + captions.srt |
+| `node tools/compile-shots.mjs [Cxx]` | shot lists (videos/<slug>/shots/*.json) → chapter code |
+| `node tools/kit-test.mjs` | render-test the whole kit + refresh docs/catalog/*.png |
 
 # Compact instructions
 When compacting, preserve: the active video slug; the pipeline step reached; the chapter table with each chapter's state

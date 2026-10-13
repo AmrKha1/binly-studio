@@ -52,6 +52,12 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   Accents: swell, drop, resolve, sting, silence. Change mood at pivots/chapters, not every 10 s.
   If `library/music/` has tracks the user added, a section may use `"track":"library/music/x.mp3","offset":0`.
 
+**2b · Shot lists as data** — for each chapter also write `videos/<slug>/shots/Cxx.json` (format in
+`tools/compile-shots.mjs`): template shots with their props, custom shots as `{"id":"S4","start":…,"custom":true,"note":"…"}`.
+Run `node tools/compile-shots.mjs` → chapter code is generated; builders then build ONLY the custom shots in
+`Cxx.custom.tsx`. A chapter with no custom shots needs no builder at all. Fixes to template shots = edit the JSON and
+re-run the compiler (no builder). Look at `docs/catalog/templates.png` once (one image) to choose templates visually.
+
 **3 · Shared assets** (if plan.md lists any): one `binly-builder` (model opus) builds them first in
 `src/videos/<slug>/shared/` and shows them on a test sheet. Chapters then import them (consistency!).
 
@@ -62,7 +68,7 @@ the briefs of chapters not yet started; message running builders if it affects t
 user said not to ask (e.g. "don't ask me anything" in notes / the command).
 
 **4 · Build chapters** — spawn `binly-builder` subagents, **at most 3 running at once** (this PC is slow).
-Prompt: `Build chapter C03 of video <slug>. Brief: videos/<slug>/briefs/C03.md` (+ anything special).
+Prompt: `Build the custom shots of chapter C03 of video <slug> (src/videos/<slug>/chapters/C03.custom.tsx). Brief: videos/<slug>/briefs/C03.md, shot list: videos/<slug>/shots/C03.json` (+ anything special).
 Use `model: "opus"` for C01 (the hook) and the climax chapter; default (sonnet) for the rest.
 Each builder writes only `src/videos/<slug>/chapters/C03.tsx` (+ `videos/<slug>/sfx/C03.json`).
 

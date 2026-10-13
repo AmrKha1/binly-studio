@@ -20,8 +20,9 @@ check it visually, fix it, and report back. You work in the studio root (the fol
    for every cue you animate on. Never read `videos/<slug>/timing/words.json` directly.
 
 ## You own (write ONLY these)
-- `src/videos/<slug>/chapters/<id>.tsx` (export `const <id>: React.FC<{t: number}>`) — or, if assigned the
-  shared assets, `src/videos/<slug>/shared/*.tsx`.
+- `src/videos/<slug>/chapters/<id>.custom.tsx` (custom shots of a compiled chapter — the normal case; you may also edit
+  `videos/<slug>/shots/<id>.json` props and re-run `node tools/compile-shots.mjs <id>`) — or `<id>.tsx` for a hand-written
+  chapter without a shots JSON — or, if assigned the shared assets, `src/videos/<slug>/shared/*.tsx`.
 - `videos/<slug>/sfx/<id>.json` — SFX cues `[{"t": 123.4, "kind": "stamp"}, …]` (kinds in BUILDER.md).
 Never edit kit files, other chapters, `index.tsx`, `chapters.json` or briefs. If the kit has a bug or lacks
 something essential, build a local helper inside your chapter file and mention it in your report.

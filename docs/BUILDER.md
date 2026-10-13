@@ -1,6 +1,12 @@
 # Builder handbook — how a Binly chapter is coded
 
 ## The contract
+- **Compiled chapters (the normal case):** the director writes `videos/<slug>/shots/Cxx.json` and `tools/compile-shots.mjs`
+  generates `Cxx.tsx` (never edit it). You build only the custom shots in `Cxx.custom.tsx`: one export per shot id,
+  `export const S4: React.FC<{t: number}>` returning a full `<Stage>`, valid for the shot's time range (from the JSON;
+  the shot ends where the next one starts). Replace each `PLACEHOLDER (custom shot…)` stub. If a template shot needs a
+  change, edit its props in the JSON and re-run `node tools/compile-shots.mjs Cxx` (you may do that).
+- **Hand-written chapters (no shots JSON):** the rules below apply to the whole chapter file.
 - File: `src/videos/<slug>/chapters/<ID>.tsx`, exporting `export const <ID>: React.FC<{t: number}>`.
 - `t` = **absolute video time in seconds** (not chapter-relative). Your chapter is shown from its `start`
   until the next chapter's start (plus transition overlap): keep it valid slightly before `start` (≈0.6 s)

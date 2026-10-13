@@ -38,3 +38,8 @@ assembled from it, so components must be **reliable, generic, beautiful, on-bran
 - Finally document the module in `docs/kit/<module>.md` (API reference used by video builders, merged
   into docs/KIT.md): per component — name, one-line purpose, props signature (compact TS), and a 1–3
   line usage example. Be concise: builders read this instead of the source, so it must be accurate.
+
+## Kit test & catalog
+After any kit change run `node tools/kit-test.mjs`: renders every showcase page and template (fails on any render
+error) and refreshes `docs/catalog/templates.png` and `docs/catalog/kit.png`. New template or page → add a tile to the
+lists at the top of `tools/kit-test.mjs`.
