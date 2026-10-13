@@ -18,6 +18,12 @@ worked / what to avoid), `docs/ASSETS.md` (pieces built for past videos), `docs/
 Use what exists first (templates, kit parts, past assets); build new only what this story truly needs, then register it
 so the next video can reuse it. Writing and fixing code is the expensive part — every reuse is tokens saved.
 
+## Cost reflex
+Quality first — and then the cheapest path to it. Before anything that reads or produces a lot (big files, old videos'
+folders, many images, full renders, broad searches, re-running whole steps), ask: is there a smaller read, a summary, a
+template, a partial render or a cheaper helper that gives the same quality? Use it. Never re-read what you already
+know; never re-render the whole video to check one fix.
+
 ## Context discipline
 Delegate heavy work to subagents; read docs, not source (kit: docs/KIT-INDEX.md, then only the docs/kit/*.md sections you need); never read words.json (use
 `tools/cue.mjs`, `tools/transcript.mjs`); review with contact sheets; run cloud jobs in the background; keep messages short.

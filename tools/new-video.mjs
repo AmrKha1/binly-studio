@@ -45,9 +45,6 @@ const firstLine = scriptText.split(/\r?\n/).map((l) => l.trim()).find((l) => l &
 const title = a.title ?? firstLine.replace(/^#+\s*/, '').slice(0, 80);
 const meta = {slug, title, duration: Math.round(info.duration * 10000) / 10000, sampleRate: info.sampleRate, channels: info.channels, codec: info.codec, audio: `voiceover${ext}`, source: audio[0], created: new Date().toISOString()};
 fs.writeFileSync(path.join(vdir, 'video.json'), JSON.stringify(meta, null, 1));
-// preview copy for Remotion Studio (gitignored)
-fs.mkdirSync(path.join(ROOT, 'public', slug), {recursive: true});
-fs.copyFileSync(voDest, path.join(ROOT, 'public', slug, `voiceover${ext}`));
 for (const f of [audio[0], scriptFile, notesFile].filter(Boolean)) fs.rmSync(path.join(IN, f));
 
 // 2) scaffold source

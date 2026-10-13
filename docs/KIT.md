@@ -736,7 +736,9 @@ Find & fetch (director usually does this during planning; builders may too):
   `<Photo slug="medieval-baths" src="img/tournai.jpg" x={960} y={480} w={900} h={540} frame="museum" tint="paper" t={t}
    pan={{a:T.s, b:T.s+7, from:[0.5,0.5,1], to:[0.3,0.55,1.35]}} caption="Burial of plague victims, Tournai, 1349" credit="Pierart dou Tielt · Public domain" p={ramp(t,T.s,T.s+0.8)}/>`
 - `PhotoMark {x,y,w,h (same as the Photo), rx,ry,rw,rh (0..1 region), p, color, shape:'ellipse'|'box'}` draws attention to a detail.
-Rules: always show the `credit` line when the licence is CC BY/BY-SA (public domain: credit is courteous, keep it small).
+Rules: each video uses images from its OWN folder `public/<slug>/img/` (tools/photo.mjs saves there for the active video;
+the cloud downloads only the rendered video's folder) — to reuse an image from an older video, copy it into this video's folder.
+Always show the `credit` line when the licence is CC BY/BY-SA (public domain: credit is courteous, keep it small).
 Prefer sources ≥ 1600 px for anything large; small sources only in small frames. Use `tint="paper"` by default so images
 sit in the Binly palette. Images are evidence moments inside the animated world — not a slideshow.
 

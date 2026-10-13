@@ -45,6 +45,14 @@ jobs:
       matrix: ${{ steps.m.outputs.matrix }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          # only what this video needs — keeps every job fast as the channel grows
+          sparse-checkout: |
+            src
+            tools
+            library
+            public/${{ inputs.slug }}
+            videos/${{ inputs.slug }}
       - id: m
         run: node tools/cloud/chunks.mjs "$SLUG" "${{ inputs.from_s }}" "${{ inputs.to_s }}" "${{ inputs.chunk_s }}" >> "$GITHUB_OUTPUT"
 
@@ -53,6 +61,14 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v5
+        with:
+          # only what this video needs — keeps every job fast as the channel grows
+          sparse-checkout: |
+            src
+            tools
+            library
+            public/${{ inputs.slug }}
+            videos/${{ inputs.slug }}
       - uses: actions/setup-node@v5
         with:
           node-version: 22
@@ -86,6 +102,14 @@ jobs:
         chunk: ${{ fromJson(needs.plan.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          # only what this video needs — keeps every job fast as the channel grows
+          sparse-checkout: |
+            src
+            tools
+            library
+            public/${{ inputs.slug }}
+            videos/${{ inputs.slug }}
       - uses: actions/setup-node@v5
         with:
           node-version: 22
@@ -117,6 +141,14 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v5
+        with:
+          # only what this video needs — keeps every job fast as the channel grows
+          sparse-checkout: |
+            src
+            tools
+            library
+            public/${{ inputs.slug }}
+            videos/${{ inputs.slug }}
       - uses: actions/setup-node@v5
         with:
           node-version: 22

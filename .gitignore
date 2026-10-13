@@ -17,3 +17,4 @@ videos/*/qa/
 videos/*/stills/
 !library/**/*.wav
 !library/**/*.mp3
+public/_active/

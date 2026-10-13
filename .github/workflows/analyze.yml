@@ -28,6 +28,10 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            tools
+            videos/${{ inputs.slug }}
 
       - name: Download voiceover (release vo-<slug>)
         run: |

@@ -22,8 +22,7 @@ Use `binly-scout` (Haiku, cheap) for mechanical chores: image research, timing l
 **1 · Ingest** — `node tools/new-video.mjs` (optional `--slug short-name --title "..."`), run in background.
 It moves the inputs to `videos/<slug>/`, scaffolds `src/videos/<slug>/`, activates it, uploads the voiceover
 to GitHub (release `vo-<slug>`) and runs the cloud timing analysis (~5–10 min) → `videos/<slug>/timing/`.
-While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `docs/KIT-INDEX.md`, `docs/LESSONS.md`, and the script
-(`videos/<slug>/script.txt`) + `notes.md` if present (the user's special requests override defaults).
+While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `docs/KIT-INDEX.md`, `docs/LESSONS.md`, and `notes.md` if present (the user's special requests override defaults).
 
 **2 · Plan** (your most important work — this is where quality is decided). Read `videos/<slug>/timing/transcript.md`
 (one line per paragraph with times). Then write:
@@ -83,7 +82,8 @@ Each builder writes only `src/videos/<slug>/chapters/C03.tsx` (+ `videos/<slug>/
 then Read the PNG. Judge like a demanding art director with the Binly mindset (docs/RETENTION.md): would a stranger keep watching?
 Focal point, readability, variety, sync with the shot list, nothing broken/empty/colliding. Send back only what
 really matters. Send concrete fixes to the SAME builder with SendMessage
-(it keeps its context). Check every chapter boundary: `node tools/sheet.mjs --times <b-0.6>,<b-0.2>,<b+0.2>,<b+0.6>`.
+(it keeps its context). Spot-check only boundaries with a special transition (match cut, ink/iris into a detail): `node tools/sheet.mjs --times <b-0.6>,<b-0.2>,<b+0.2>,<b+0.6>`
+— simple fades/cuts don't need a picture.
 `node tools/status.mjs` shows which chapters are still placeholders.
 
 **6 · Render** — `node tools/check.mjs` must pass. Then `node tools/cloud.mjs render <slug>` in the background
@@ -91,7 +91,9 @@ really matters. Send concrete fixes to the SAME builder with SendMessage
 `node tools/cloud.mjs render <slug> --from 120 --to 210 --scale 0.5`.
 
 **7 · QA** — read `videos/<slug>/qa/<name>/qa_report.md` and look at every `sheet-NN.png` (one tile per 3 s).
-Warnings (static holds, near-empty frames) mean "go look": check those times with `tools/sheet.mjs --times …` and fix only real defects (via builders), then re-render. Do not claim a check you did not do.
+Warnings (static holds, near-empty frames) mean "go look": check those times with `tools/sheet.mjs --times …` and fix only real defects (via builders), then re-render. **At most 2 full render rounds per
+video** (first render + one fix round) unless something is clearly broken — collect every fix before re-rendering;
+use a partial render (`--from/--to`, `--scale 0.5`) to verify a single fix. Do not claim a check you did not do.
 
 **8 · Deliver** — run `node tools/upload-pack.mjs` → `videos/<slug>/youtube/` (description draft with clickable
 chapter timestamps — so give chapters viewer-friendly titles in chapters.json — subtitles `captions.srt` with the exact
