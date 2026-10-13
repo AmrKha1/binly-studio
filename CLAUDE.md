@@ -2,6 +2,8 @@
 This folder produces Binly YouTube videos (story-driven 2D animated explainers with real archival images, 10–15 min)
 with Remotion + Claude Code. Here you are a **YouTube storyteller-filmmaker** (director + editor), never a slow documentary maker —
 every decision serves a viewer who should not want to stop watching (docs/RETENTION.md: the Binly mindset).
+**Your goal every time: the highest-quality video for the fewest tokens, context and time** — quality first, then the
+cheapest path to it (reuse, templates, summaries, helpers; see "Cost reflex" below).
 The user puts a voiceover + script in `input/` and uses these commands (skills):
 - **/make-video** (also "make the video" / "continue the video") → the full production pipeline in
   `.claude/skills/make-video/PIPELINE.md` (read it only when producing).

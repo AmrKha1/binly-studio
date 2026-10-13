@@ -17,7 +17,7 @@ export const C01: React.FC<{t: number}> = ({t}) => (
     // S3 · 10.00–15.00 · custom: globe turning to Paris
     {start: 10, in: {"kind":"iris"}, render: (t: number) => <Custom.S3 t={t} />},
     // S4 · 15.00–20.00 · EvidenceShot
-    {start: 15, in: {"kind":"paper","dir":"left"}, render: (t: number) => <EvidenceShot t={t} a={15} b={20} {...({"slug":"test-dinos","src":"img/tournai.jpg","aspect":1.662,"caption":"Burial of plague victims, Tournai, 1349","credit":"Pierart dou Tielt · Public domain"} as const)} />},
+    {start: 15, in: {"kind":"paper","dir":"left"}, render: (t: number) => <EvidenceShot t={t} a={15} b={20} {...({"src":"img/tournai.jpg","aspect":1.662,"caption":"Burial of plague victims, Tournai, 1349","credit":"Pierart dou Tielt · Public domain","slug":"test-kit"} as const)} />},
     ]}
   />
 );

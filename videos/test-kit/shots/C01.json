@@ -2,5 +2,5 @@
  {"id":"S1","start":0,"template":"TitleShot","props":{"kicker":"Compiler test","title":"Shots as data"}},
  {"id":"S2","start":5,"template":"StatShot","props":{"value":"26","unit":"%","label":"test number","at":5.2,"compare":{"kind":"dots","filled":26},"compareAt":6},"in":{"kind":"ink"}},
  {"id":"S3","start":10,"custom":true,"note":"globe turning to Paris","in":{"kind":"iris"}},
- {"id":"S4","start":15,"template":"EvidenceShot","props":{"slug":"test-dinos","src":"img/tournai.jpg","aspect":1.662,"caption":"Burial of plague victims, Tournai, 1349","credit":"Pierart dou Tielt · Public domain"},"in":{"kind":"paper","dir":"left"}}
+ {"id":"S4","start":15,"template":"EvidenceShot","props":{"src":"img/tournai.jpg","aspect":1.662,"caption":"Burial of plague victims, Tournai, 1349","credit":"Pierart dou Tielt · Public domain"},"in":{"kind":"paper","dir":"left"}}
 ]}
