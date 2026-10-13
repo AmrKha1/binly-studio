@@ -1,6 +1,6 @@
-# Craft notes — how to direct a Binly video that holds attention
-Distilled once from professional explainer-animation practice (Kurzgesagt-level channels) and YouTube
-retention practice, so no video needs to re-research it. Apply with judgement.
+# Craft notes — how to direct a Binly story that nobody wants to leave
+Practical technique from the best YouTube storytellers and animation channels, serving the Binly mindset
+(docs/RETENTION.md): gripping storytelling, balanced-to-brisk rhythm, never a slow documentary. Apply with judgement.
 
 ## Structure & retention
 - **First 15–30 s decide everything.** Open on the most striking image the hook allows, moving within the
@@ -9,12 +9,12 @@ retention practice, so no video needs to re-research it. Apply with judgement.
   a locked door, an empty frame) and pay it off visually when answered — callbacks feel rewarding.
 - **Pivots = scene turns.** At each rhetorical question or "but…", change something big: camera direction,
   scale (zoom into a detail / pull out to context), light (paper → ink panel), or world.
-- **Rhythm:** alternate dense information beats with breathing beats (a held wide shot, a character
-  moment, music forward). Avoid more than ~20 s of the same composition or the same kind of visual.
-- **Visual change cadence:** a new piece of visual information every 3–6 s; a new composition every
-  8–15 s; a new "world"/setting at chapter changes. Small life between (parallax drift, particles, blink).
+- **Rhythm:** brisk by default. Tension = shorter shots; a payoff gets a short breath (≈2–3 s, still moving) to
+  land, then the story moves on. Avoid more than ~10–12 s of the same composition or the same kind of visual.
+- **Visual change cadence:** a new piece of visual information every ~2–4 s; a new composition every
+  ~6–10 s; a new "world"/setting at chapter changes. Small life between (parallax drift, particles, blink).
 - **Ending:** return to the opening image/motif transformed by what we learned (bookend). Let the final
-  line land on a strong, simple frame; music resolves; ~1–2 s hold before the voice ends.
+  line land on a strong, simple frame; music resolves; a short beat after the last line — then end, no lingering.
 
 ## Camera (the main storytelling tool)
 - Build each chapter as ONE continuous world when possible and move the camera through it (pan to the

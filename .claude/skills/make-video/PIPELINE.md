@@ -27,7 +27,8 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
 
 **2 · Plan** (your most important work — this is where quality is decided). Read `videos/<slug>/timing/transcript.md`
 (one line per paragraph with times). Then write:
-- `videos/<slug>/plan.md` (≤ 700 words): logline · the question that drives the video · visual thesis (the
+- `videos/<slug>/plan.md` (≤ 700 words): logline · **the story spine** (hook → the question & why it matters → rising tension / turns → the big reveal →
+  payoff; mark where each lands in time — the plan must read like a story, not a topic outline) · the question that drives the video · visual thesis (the
   ONE big visual idea/world) · palette leaning (within the Binly system) · recurring motifs and what they mean ·
   recurring characters/objects/places → **reuse first**: check `docs/KIT.md` and `docs/ASSETS.md` (pieces built in
   past videos); only what's missing becomes a **new shared component** in `src/videos/<slug>/shared/` (name, file, props,
