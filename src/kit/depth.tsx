@@ -66,7 +66,7 @@ type Detail = '50m' | '110m';
 const TOPO: Record<Detail, Topo> = {'50m': world50json as unknown as Topo, '110m': world110json as unknown as Topo};
 export type LonLat = [number, number];
 
-type GeoData = {land: GeoPermissibleObjects; coast: GeoPermissibleObjects; borders: GeoPermissibleObjects; countries: {id: string; name: string; f: GeoPermissibleObjects}[]};
+type GeoData = {land: GeoPermissibleObjects; borders: GeoPermissibleObjects; countries: {id: string; name: string; f: GeoPermissibleObjects}[]};
 const dataCache = new Map<Detail, GeoData>();
 const geoData = (detail: Detail): GeoData => {
   let d = dataCache.get(detail);
@@ -75,7 +75,6 @@ const geoData = (detail: Detail): GeoData => {
     const fc = feature(topo, topo.objects.countries) as GeoJSON.FeatureCollection<GeoJSON.Geometry, {name: string}>;
     d = {
       land: feature(topo, topo.objects.land),
-      coast: mesh(topo, topo.objects.countries, (a, b) => a === b),
       borders: mesh(topo, topo.objects.countries, (a, b) => a !== b),
       countries: fc.features.map((g) => ({id: String(g.id ?? ''), name: (g.properties?.name ?? '').toLowerCase(), f: g})),
     };
@@ -138,7 +137,7 @@ const lean = (p: GeoProjection, obj: GeoPermissibleObjects, min = 1, tiny = 2) =
 
 // Cache per (detail, r, rotate rounded to 0.01°). Paths are always computed from the ROUNDED values,
 // so the output depends only on props (cache hit or miss gives the identical frame).
-type GlobePaths = {proj: GeoProjection; land: string; coast: string; borders: string; grat: Map<number, string>; countries: Map<string, string>};
+type GlobePaths = {proj: GeoProjection; land: string; borders: string; grat: Map<number, string>; countries: Map<string, string>};
 const globeCache = new Map<string, GlobePaths>();
 const GLOBE_CACHE_MAX = 120;
 const q2 = (v: number) => Math.round(v * 100) / 100;
@@ -156,7 +155,6 @@ const globePaths = (detail: Detail, r: number, rotate: LonLat): GlobePaths => {
   const g: GlobePaths = {
     proj,
     land: lean(proj, d.land, fine, 2),
-    coast: lean(proj, d.coast, fine, 2),
     borders: lean(proj, d.borders, 2.4, 6),
     grat: new Map(),
     countries: new Map(),
@@ -276,11 +274,11 @@ export const Globe: React.FC<{
   const proj = globeProject(rotate, r);
   const sw = Math.max(1.4, r / 180);
   return (
-    <g transform={`translate(${x} ${y}) scale(${lerp(0.9, 1, k)})`} opacity={clamp01(p * 2)} display="none">
+    <g transform={`translate(${x} ${y}) scale(${lerp(0.9, 1, k)})`} opacity={clamp01(p * 2)}>
       {rim && <circle r={r + Math.max(6, r * 0.035) + Math.max(4, r * 0.022) / 2} fill="none" stroke={C.paperLight} strokeWidth={Math.max(4, r * 0.022)} opacity={0.9} />}
       <circle r={r} fill={sea} />
       {graticule !== false && <path d={globeGrat(g, step)} fill="none" stroke={C.inkFaint} strokeWidth={sw} strokeOpacity={0.32} />}
-      <path d={g.land} fill={land} />
+      <path d={g.land} fill={land} stroke={coast} strokeWidth={sw * 1.15} />
       {highlight.map((hl, i) => {
         const hp = clamp01(hl.p ?? 1);
         if (hp <= 0) return null;
@@ -300,7 +298,6 @@ export const Globe: React.FC<{
         );
       })}
       {borders && <path d={g.borders} fill="none" stroke={border} strokeWidth={sw * 0.9} strokeOpacity={0.7} />}
-      <path d={g.coast} fill="none" stroke={coast} strokeWidth={sw * 1.15} />
       {routes.map((rt, i) => {
         const rp = clamp01(rt.p ?? 1);
         if (rp <= 0) return null;
@@ -324,8 +321,8 @@ export const Globe: React.FC<{
       {shade && <path d={crescentPath(r, dark, 0.2)} fill={C.ink} opacity={0.07} />}
       {night > 0 && (
         <g fill={C.night}>
-          <path d={crescentPath(r, dark, night)} opacity={0.4} />
-          <path d={crescentPath(r, dark, night * 0.55)} opacity={0.2} />
+          <path d={crescentPath(r, dark, night)} opacity={0.36} />
+          <path d={crescentPath(r, dark, night * 0.55)} opacity={0.18} />
         </g>
       )}
       {rim && <path d={crescentPath(r, la, 0.035)} fill={C.paperLight} opacity={0.55} />}
@@ -1027,7 +1024,7 @@ export const Sphere: React.FC<{
     if (st) pats.push(<ellipse key="storm" cx={st.cx} cy={st.cy} rx={st.rx * 1.5} ry={st.ry * 0.85} transform={`rotate(${st.ang} ${st.cx} ${st.cy})`} fill={dk(pc, 0.28)} />);
   } else if (pat === 'spots' || pat === 'craters') {
     const craters = pat === 'craters';
-    const n = craters ? 16 : 13;
+    const n = craters ? 24 : 13;
     const items: {lon: number; lat: number; a: number; i: number}[] = [];
     for (let i = 0; i < n; i++) {
       const big = craters && i < 4;

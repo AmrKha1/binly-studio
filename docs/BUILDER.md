@@ -39,6 +39,7 @@ groups by 0.08–0.15 s · enter ~0.15 s before the spoken word · one focal poi
 the next shot/chapter can transition from · semantic colours for certainty · exact numbers as spoken.
 
 ## Patterns
+- **Templates first for standard beats** (docs/KIT.md → templates): stats, quotes, evidence images, claims, comparisons, lists, timelines, maps, person intros, processes, questions — then spend your effort on the custom shots.
 - **Follow the brief's shot list** (S1, S2, …): implement each shot as a named sub-component or a camera stop, with a comment `// S3 · 101.70 · "In Paris…"` so fixes like "C04 S3" are easy to find.
 - **One world, moving camera** beats a sequence of slides: lay out the chapter's ideas in one large SVG
   world (e.g. 4000×1080) and move the camera from idea to idea with eased pans/zooms.
