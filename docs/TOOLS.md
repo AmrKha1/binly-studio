@@ -35,6 +35,7 @@ full ffmpeg, …) → ask the user first. Never use network resources at render 
 Kit: stage/camera/shots, text, cards, diagrams, data, icons (64), env, people, science, geo, depth (globe/isometric/spheres),
 photo + archival image templates, 12+ shot templates, fx, music/SFX engine (code-generated, copyright-free).
 Images: `tools/photo.mjs` (Wikimedia Commons, free licences only, credits automatic).
+Silhouettes: `tools/silhouette.mjs` (PhyloPic organism shapes → shared library `src/assets/silhouettes`, recolourable via `Silhouette`).
 
 ## Optional, outside the Studio
 - **Google Flow** via the `flow` MCP server (spare Google account) — AI-generated images/clips. Off-style for the main video;

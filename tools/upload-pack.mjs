@@ -74,6 +74,19 @@ fs.writeFileSync(path.join(out, 'captions.srt'), srt);
 
 // ---------- description draft
 const credits = fs.existsSync(path.join(vdir, 'credits.json')) ? JSON.parse(fs.readFileSync(path.join(vdir, 'credits.json'), 'utf8')) : [];
+// + credits of every shared silhouette this video's code actually uses
+{
+  const srcDir = path.join(ROOT, 'src', 'videos', slug);
+  const walk = (d) => (fs.existsSync(d) ? fs.readdirSync(d, {withFileTypes: true}).flatMap((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)])) : []);
+  const used = new Set();
+  for (const f of walk(srcDir)) for (const m of fs.readFileSync(f, 'utf8').matchAll(/Silhouette[^>]*?name=["']([w-]+)["']/g)) used.add(m[1]);
+  for (const n of used) {
+    const jf = path.join(ROOT, 'src', 'assets', 'silhouettes', `${n}.json`);
+    if (!fs.existsSync(jf) || credits.some((c) => c.file === `silhouette:${n}`)) continue;
+    const d = JSON.parse(fs.readFileSync(jf, 'utf8'));
+    credits.push({file: `silhouette:${n}`, title: `${d.title} silhouette`, author: d.credit.author, licence: d.credit.licence, source: d.credit.source});
+  }
+}
 const plan = fs.existsSync(path.join(vdir, 'plan.md')) ? fs.readFileSync(path.join(vdir, 'plan.md'), 'utf8') : '';
 const logline = plan.match(/\*\*Logline:\*\*\s*(.+)/i)?.[1]?.trim() ?? '';
 const desc = [
@@ -82,7 +95,7 @@ const desc = [
   '',
   ...(chapterLines.length ? ['Chapters:', ...chapterLines, ''] : []),
   ...(credits.length
-    ? ['Image credits (via Wikimedia Commons):', ...credits.map((c) => `• ${c.title} — ${c.author} — ${c.licence} — ${c.source}`), '']
+    ? ['Image credits (Wikimedia Commons / PhyloPic):', ...credits.map((c) => `• ${c.title} — ${c.author} — ${c.licence} — ${c.source}`), '']
     : []),
   'Music: original score composed for this video.',
   '',

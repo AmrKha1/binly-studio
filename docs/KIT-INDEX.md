@@ -42,6 +42,10 @@ Pt, smoothPath, Curve, makeCurve, BrainRegion, BRAIN_REGIONS, Brain, Electrode, 
 modules: kit/geo
 LonLat, BBox, ProjName, RegionName, Region, REGIONS, makeProjection, Proj, MapHighlight, MapLabelSpec, GeoMap, MapLabel, MapPin, CityDot, AreaMark, Route, SpreadRings
 
+## docs/kit/silhouette.md — Shared library of free organism silhouettes (animals, dinosaurs, microbes…) — recolourable, dashed = inferred
+modules: kit/silhouette
+Silhouette, SILHOUETTE_NAMES
+
 ## docs/kit/depth.md — "Looks 3D" drawn flat: Globe, isometric buildings/rooms/props, shaded spheres, DepthStack
 modules: kit/depth
 mixTone, crescentPath, LonLat, globeProject, globeFacing, GlobeHighlight, GlobePin, GlobeRoute, Globe, iso, IsoColors, isoShades, IsoBox, IsoTile, IsoFloor, IsoStairs, isoChimneyTop, IsoBuilding, IsoRoom, IsoCylinder, Sphere, DepthCam, depthAt, DepthStack

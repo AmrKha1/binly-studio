@@ -29,6 +29,7 @@ const SECTIONS = [
   ['env.md', ['env'], 'Environments (sky, landscape, cities, streets, rooms, bathhouse, lab, museum, study, bedroom, mind space) and props'],
   ['science.md', ['science'], 'Brain, head, body, organs, eye, cells, germs, DNA, molecules, waveforms, electrodes'],
   ['geo.md', ['geo'], 'Flat maps (GeoMap), pins, routes, spread rings'],
+  ['silhouette.md', ['silhouette'], 'Shared library of free organism silhouettes (animals, dinosaurs, microbes…) — recolourable, dashed = inferred'],
   ['depth.md', ['depth'], '"Looks 3D" drawn flat: Globe, isometric buildings/rooms/props, shaded spheres, DepthStack'],
 ];
 const exportsOf = (mod) => {

@@ -30,5 +30,26 @@
   "licence": "Public domain",
   "source": "https://commons.wikimedia.org/wiki/File:Charles_Marville,_La_Bi%C3%A8vre,_ca._1865.jpg",
   "attributionRequired": false
+ },
+ {
+  "file": "silhouette:trex",
+  "title": "Tyrannosaurus silhouette",
+  "author": "Aiden Gauthier",
+  "licence": "CC BY 4.0",
+  "source": "https://www.phylopic.org/images/832a47bd-0cd4-4b0e-af7b-db9d7ff81867"
+ },
+ {
+  "file": "silhouette:iguanodon",
+  "title": "Iguanodon bernissartensis silhouette",
+  "author": "Matthew Dempsey",
+  "licence": "CC BY 4.0",
+  "source": "https://www.phylopic.org/images/aa1fb8ea-9cfe-429d-9b22-942a224cd74d"
+ },
+ {
+  "file": "silhouette:bacterium",
+  "title": "Escherichia coli silhouette",
+  "author": "Arcadia Science",
+  "licence": "Public domain (CC0/PDM)",
+  "source": "https://www.phylopic.org/images/27d35deb-98bb-4833-8121-8750f35cd09b"
  }
 ]

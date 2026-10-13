@@ -14,7 +14,7 @@ Subagents: `binly-builder` (builds a chapter) · `binly-scout` (cheap chores).
 
 ## Reuse before you build (saves tokens & context, keeps the look consistent)
 The Studio learns from every video through SHORT summaries — read those, not old video folders: `docs/LESSONS.md` (what
-worked / what to avoid), `docs/ASSETS.md` (pieces built for past videos), `docs/KIT-INDEX.md` (the kit), `docs/catalog/*.png`.
+worked / what to avoid), `docs/ASSETS.md` (pieces built for past videos), `docs/KIT-INDEX.md` (the kit), `docs/catalog/*.png`, `node tools/silhouette.mjs list`.
 Use what exists first (templates, kit parts, past assets); build new only what this story truly needs, then register it
 so the next video can reuse it. Writing and fixing code is the expensive part — every reuse is tokens saved.
 
@@ -43,6 +43,7 @@ final render only in the cloud (this PC is too slow; local = stills/sheets only)
 | `node tools/cloud.mjs analyze <slug>` · `push` · `runs` | cloud timing · commit+push · recent runs |
 | `node tools/preview.mjs` | live preview (Remotion Studio, http://localhost:3000) |
 | `node tools/photo.mjs search "q"` · `get <#> --as name` | free archival images (Wikimedia) |
+| `node tools/silhouette.mjs list` · `search "name"` · `get <#> --as n` | shared animal/organism silhouettes (PhyloPic) |
 | `node tools/upload-pack.mjs` | YouTube description + captions.srt |
 | `node tools/compile-shots.mjs [Cxx]` | shot lists (videos/<slug>/shots/*.json) → chapter code |
 | `node tools/kit-test.mjs` | render-test the whole kit + refresh docs/catalog/*.png |
