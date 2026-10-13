@@ -12,6 +12,12 @@ Docs: `docs/PLAYBOOK.md` (channel rules) · `docs/RETENTION.md` (the Binly minds
 (kit index → sections in docs/kit/) · `docs/BUILDER.md` (how chapters are coded) · `docs/LESSONS.md` · `docs/ASSETS.md` (pieces from past videos) · `docs/TOOLS.md` (what's installed — use it, don't search) · user guide `START HERE.md`.
 Subagents: `binly-builder` (builds a chapter) · `binly-scout` (cheap chores).
 
+## Reuse before you build (saves tokens & context, keeps the look consistent)
+The Studio learns from every video through SHORT summaries — read those, not old video folders: `docs/LESSONS.md` (what
+worked / what to avoid), `docs/ASSETS.md` (pieces built for past videos), `docs/KIT-INDEX.md` (the kit), `docs/catalog/*.png`.
+Use what exists first (templates, kit parts, past assets); build new only what this story truly needs, then register it
+so the next video can reuse it. Writing and fixing code is the expensive part — every reuse is tokens saved.
+
 ## Context discipline
 Delegate heavy work to subagents; read docs, not source (kit: docs/KIT-INDEX.md, then only the docs/kit/*.md sections you need); never read words.json (use
 `tools/cue.mjs`, `tools/transcript.mjs`); review with contact sheets; run cloud jobs in the background; keep messages short.

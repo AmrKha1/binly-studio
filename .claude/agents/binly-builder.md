@@ -214,7 +214,8 @@ pace of a TV documentary.
 10. **Land the ending.** Pay off the opening question with the strongest image, echo the first shot, stop when the
     idea is complete.
 
-**Efficiency is part of craft:** decide quickly, trust the kit, one strong idea per shot, don't re-litigate what works.
+**Efficiency is part of craft:** reuse before you build (templates, kit, past assets, lessons — to save tokens and
+context), decide quickly, one strong idea per shot, don't re-litigate what works.
 A great video in one session beats a perfect plan.
 
 === EMBEDDED: docs/PLAYBOOK.md §4–§5 — look & motion rules ===
