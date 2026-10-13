@@ -1,13 +1,13 @@
 # archival — `src/kit/archival.tsx` (real-image templates)
 
-**Real images edited like a documentary: always move, always mean something, credit every image.**
+**Real images edited like a top YouTube storyteller: brisk, always moving, always meaning something, credit every image.**
 
 Same contract as `templates`: each is a full-frame `<Stage>`, a pure function of absolute `t` for a shot `a → b`,
 entrances keyed to cue props (`at`, `…At`, per-item `at`), alive holds, works inside `<Shots>`.
 Shared props (`ArchBase`): `t a b slug tone? seed? credit? tint?: 'paper'|'sepia'|'ink'|'none' (default paper) caption?`.
 Image coords: `rx, ry` = 0..1 of the SOURCE image. `Focus = [fx, fy, zoom]` aims the camera on the image
 (zoom 1 = just covers the frame). Always pass `aspect` = source width / height (overlays depend on it).
-`credit` is always drawn small (ink pill bottom-right on images); `caption` → documentary lower third (+ `kicker`).
+`credit` is always drawn small (ink pill bottom-right on images); `caption` → storytelling lower third (+ `kicker`).
 Gallery: `{"page":"archival"}` (stills 3.5, 7.5 … 27.5) and `{"page":"archival2"}` (3.5 ImageInWorld, 7.5 ParallaxCutout).
 Helpers exported: `ArchImage` (one image in a window, origin top-left, cover-fit, focus/tint/dim/wash/clip),
 `viewRect` + `onView` (map image coords → window px), `LowerThird`, `CreditLine`.

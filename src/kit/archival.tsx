@@ -13,7 +13,7 @@ import {Backdrop, ShotBase, tonePal} from './templates';
 
 // ════════════════════════════════════════════════════════════════════════════════════════════════
 // Archival image templates — real images (paintings, manuscripts, documents, photographs) edited like
-// a documentary: always moving, always meaning something, every image credited.
+// a top YouTube storyteller: brisk, always moving, always meaning something, every image credited.
 // Same contract as templates.tsx: each template is a full frame (<Stage>), a pure function of absolute t
 // for a shot living a → b, entrances keyed to cue props, alive holds. Like templates.tsx this module
 // composes the whole kit (it imports templates/env/people/diagrams on purpose).
@@ -115,7 +115,7 @@ export const CreditLine: React.FC<{text?: string; x?: number; y?: number; p?: nu
   );
 };
 
-/** Documentary lower third: ink plate + oxblood bar, optional kicker, serif italic caption. origin = bottom-left. */
+/** Lower third: ink plate + oxblood bar, optional kicker, serif italic caption. origin = bottom-left. */
 export const LowerThird: React.FC<{text: string; kicker?: string; p: number; x?: number; y?: number; size?: number}> = ({text, kicker, p, x = 96, y = 1000, size = 40}) => {
   if (p <= 0) return null;
   const k = ease.outQuint(clamp01(p));

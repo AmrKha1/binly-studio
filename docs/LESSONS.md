@@ -11,4 +11,5 @@
 
 ## Kit backlog
 - See docs/ASSETS.md (catalog of reusable pieces from past videos).
+- Archival templates: CollageShot slightly left-heavy (link label can touch a print); ParallaxCutout ellipse can read as a lens; square/portrait images in full frame show only a band (use frames or MontageShot); collage credits 17 px → raise to ≥ 22 px.
 - Templates: some secondary labels (counts, list captions) are ~18 px at 1080p — raise to ≥ 22 px on next kit pass.
