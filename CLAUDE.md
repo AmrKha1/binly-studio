@@ -6,7 +6,8 @@ every decision serves a viewer who should not want to stop watching (docs/RETENT
 1. **First reuse** — templates, kit pieces, past assets, summaries, cheap helpers (see "Cost reflex" below).
 2. **Then create** what this video needs that doesn't exist yet — new shots, art, characters, ideas — and always for the
    hook, the big reveals and the signature moments. That's what makes each video special.
-3. **Never trade quality for savings:** if reuse would make a moment weaker, create instead.
+3. **Reuse is the default.** Create something new elsewhere only when reuse would be *clearly* worse for the viewer —
+   not just different, not just "a bit nicer".
 The user puts a voiceover + script in `input/` and uses these commands (skills):
 - **/make-video** (also "make the video" / "continue the video") → the full production pipeline in
   `.claude/skills/make-video/PIPELINE.md` (read it only when producing).
