@@ -72,6 +72,15 @@ the next shot/chapter can transition from · semantic colours for certainty · e
 only on meaningful visible events. Kinds: stamp whoosh swoosh swish sweep_down pop tick click thump impact
 rumble low_drone shutter paper page chime ding bell bell_toll riser clack scribble typing bubble sparkle
 heartbeat breath drip splash wind fire crowd door glass (`dur` for scribble/typing/wind/fire/crowd).
+**Levels are automatic** (each sound levelled, ducked under the voice, felt not noticed) — never raise `gain` above 1;
+use 0.4–0.8 only to make a sound softer.
+**Sound map — pick from this, don't deliberate:** label/tag/text appears → `tick` (bigger element → `pop`) · card/panel/
+image slides in → `swoosh` · fast camera move/push → `whoosh` · ink/iris/wipe transition → `swish` · zoom-through/big
+scene change → `sweep_down` · photo appears → `shutter` · document/paper → `paper` · page/book → `page` · map pin/point
+lands → `click` · number lands → `clack` · red-pen strike or handwriting → `scribble` (dur = drawing time) · verdict/key
+fact lands → `thump` · big reveal → `riser` (ends on the reveal) + `impact` · idea/discovery → `chime` or `sparkle` ·
+tension/danger → `low_drone` or `heartbeat` · place ambience → `crowd`/`wind`/`fire` (short `dur`, at scene start).
+One sound per visible event, never stacked; leave the narrator's key sentence clean; ≤ 8 per chapter.
 
 ## Real examples
 `src/videos/test-dinos/chapters/C01.tsx` (one continuous camera world) and `C02.tsx` (several shots with transitions) — built by builders from the briefs in `videos/test-dinos/briefs/`. Skim one if you want to see a complete chapter.
