@@ -54,5 +54,7 @@
   Lying: `lie={1}` → body flat along the floor ≈62·s above y, head toward the back (facing -1 puts the head on the right).
   Walk: `walk={t*0.9}` + move x yourself (≈ 150 px/s at s=1). Talk: `talk={Math.abs(Math.sin(t*9))}` while speaking.
   Sitting: `sit={1}` → hips at height ≈118·s above the feet, ≈104·s behind them (place the seat there).
+  Emote: `emote:'idea'|'question'|'exclaim'|'sweat'|'anger'|'love'|'sleep'|'storm'|'sparkle'`, `emoteP:0..1` pop-in (default 1) → animated icon by the head (follows facing/scale/sit/lie, idle life from t).
+- `Emote {x,y,kind,s=1,t,p=1,color?}` standalone emotion icon, origin = centre, ≈100 px at s=1.
 - `personHands(props)` → {front,back,head} world positions (attach held objects).
 - `Crowd {x,y,w,n=9,rows=2,t,seed,s=0.6,era:'medieval'|'19thc'|'modern',silhouette?,facing:1|-1|'mixed',expression, variety?:bool (mix children/elders + builds)}`

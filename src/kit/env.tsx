@@ -220,19 +220,25 @@ const HILL: Record<Layer, {y: number; amp: number; step: number; c: string}> = {
 /**
  * Rolling hill band (fills down to the bottom). Flat shade on right-facing slopes.
  * origin = frame; `y` = base line of the crests (default far 650 / mid 730 / near 850).
+ * `shape='peak'` = jagged rocky peaks (straight ridges); `caps` = snow-cap colour on the summits.
  */
-export const Hills: React.FC<{seed?: number; layer?: Layer; color?: string; tone?: Tone; y?: number; amp?: number; shade?: boolean}> = ({seed = 1, layer = 'mid', color, tone = 'day', y, amp, shade = true}) => {
+export const Hills: React.FC<{seed?: number; layer?: Layer; color?: string; tone?: Tone; y?: number; amp?: number; shade?: boolean; shape?: 'round' | 'peak'; caps?: string}> = ({seed = 1, layer = 'mid', color, tone = 'day', y, amp, shade = true, shape = 'round', caps}) => {
   const d = HILL[layer];
   const base = y ?? d.y;
   const a = amp ?? d.amp;
   const col = toned(color ?? d.c, tone, FAR[layer]);
   const pts: [number, number][] = [];
   for (let x = X0 - 300, i = 0; x <= X1 + 400; i++) {
-    pts.push([x, base - a * rand(seed * 31 + i * 7.7)]);
-    x += d.step * randRange(seed * 7 + i, 0.7, 1.3);
+    const peak = shape === 'peak';
+    pts.push([x, base - a * (peak ? (i % 2 ? randRange(seed * 31 + i * 7.7, 0.55, 1) : randRange(seed * 31 + i * 7.7, 0, 0.3)) : rand(seed * 31 + i * 7.7))]);
+    x += d.step * randRange(seed * 7 + i, 0.7, 1.3) * (peak ? 0.6 : 1);
   }
   const path = (dx: number) => {
     let s = `M${pts[0][0] + dx} ${pts[0][1]}`;
+    if (shape === 'peak') {
+      for (let i = 1; i < pts.length; i++) s += ` L${pts[i][0] + dx} ${pts[i][1]}`;
+      return s + ` L${X1 + 500} ${YB} L${X0 - 500} ${YB} Z`;
+    }
     for (let i = 1; i < pts.length - 1; i++) {
       const [x, yy] = pts[i];
       const [nx, ny] = pts[i + 1];
@@ -245,13 +251,27 @@ export const Hills: React.FC<{seed?: number; layer?: Layer; color?: string; tone
     <g>
       {shade && <path d={path(0)} fill={dk(col, 0.12)} />}
       <path d={path(shade ? -d.step * 0.17 : 0)} fill={col} />
+      {caps && shape === 'peak' &&
+        pts.slice(1, -1).map(([px, py], j) => {
+          const [ax, ay] = pts[j], [bx, by] = pts[j + 2];
+          if (py > ay || py > by || base - py < a * 0.5) return null;
+          const k = 0.3, cc = toned(caps, tone, FAR[layer]);
+          const L = [px + (ax - px) * k, py + (ay - py) * k], R = [px + (bx - px) * k, py + (by - py) * k];
+          const cap = (dx: number) => `M${px + dx} ${py} L${R[0] + dx} ${R[1]} L${px + (R[0] - px) * 0.45 + dx} ${py + (R[1] - py) * 0.7} L${px + dx} ${py + (R[1] - py) * 0.95} L${px + (L[0] - px) * 0.5 + dx} ${py + (L[1] - py) * 0.65} L${L[0] + dx} ${L[1]} Z`;
+          return (
+            <g key={j}>
+              {shade && <path d={cap(0)} fill={dk(cc, 0.1)} />}
+              <path d={cap(shade ? -d.step * 0.17 : 0)} fill={cc} />
+            </g>
+          );
+        })}
     </g>
   );
 };
 
-/** Flat ground plane from y down (grass / earth / sand) with sparse perspective marks. origin = frame. */
-export const Ground: React.FC<{y?: number; color?: string; tone?: Tone; kind?: 'grass' | 'earth' | 'sand'; seed?: number}> = ({y = FL, color, tone = 'day', kind = 'grass', seed = 1}) => {
-  const base = color ?? (kind === 'grass' ? mixC(C.evidenceLight, C.woodLight, 0.45) : kind === 'earth' ? C.paperDark : C.paperDeep);
+/** Flat ground plane from y down (grass / earth / sand / snow) with sparse perspective marks. origin = frame. */
+export const Ground: React.FC<{y?: number; color?: string; tone?: Tone; kind?: 'grass' | 'earth' | 'sand' | 'snow'; seed?: number}> = ({y = FL, color, tone = 'day', kind = 'grass', seed = 1}) => {
+  const base = color ?? (kind === 'grass' ? mixC(C.evidenceLight, C.woodLight, 0.45) : kind === 'earth' ? C.paperDark : kind === 'snow' ? C.paperLight : C.paperDeep);
   const col = toned(base, tone);
   const marks: React.ReactNode[] = [];
   for (let k = 0; k < 7; k++) {
@@ -274,16 +294,19 @@ export const Ground: React.FC<{y?: number; color?: string; tone?: Tone; kind?: '
   );
 };
 
-export type TreeKind = 'round' | 'conifer' | 'bare' | 'poplar';
+export type TreeKind = 'round' | 'conifer' | 'bare' | 'poplar' | 'palm' | 'cactus' | 'snowy';
 const TREE_COL: Record<TreeKind, string> = {
   round: mixC(C.evidenceLight, C.evidence, 0.35),
   conifer: mixC(C.evidence, C.slate, 0.25),
   bare: C.woodDark,
   poplar: mixC(C.evidenceLight, C.paperDark, 0.2),
+  palm: mixC(C.evidenceLight, C.caution, 0.12),
+  cactus: mixC(C.evidenceLight, C.water, 0.25),
+  snowy: mixC(C.evidence, C.slate, 0.25),
 };
 
 /**
- * Stylised flat tree. origin = base of trunk, height h (default 300). Kinds: round | conifer | bare | poplar.
+ * Stylised flat tree. origin = base of trunk, height h (default 300). Kinds: round | conifer | bare | poplar | palm | cactus | snowy (snow-laden conifer).
  * `t` gives a gentle sway; `far` (0..1) + `tone` tint it for atmosphere.
  */
 export const Tree: React.FC<Place & {kind?: TreeKind; h?: number; color?: string; trunk?: string; seed?: number; t?: number; tone?: Tone; far?: number}> = ({
@@ -321,7 +344,50 @@ export const Tree: React.FC<Place & {kind?: TreeKind; h?: number; color?: string
       </g>
     );
   }
-  if (kind === 'conifer') {
+  if (kind === 'palm') {
+    const cx = h * 0.14, cy = -h * 0.9;
+    const L = h * 0.42;
+    const leaf = (a: number, i: number) => {
+      const r = (a * Math.PI) / 180, c = Math.cos(r), sn = Math.sin(r);
+      const tx = c * L, ty = sn * L + L * 0.32 * Math.abs(c);
+      const w = L * 0.2, nx = -sn * w, ny = c * w;
+      return <path key={i} d={`M0 0 Q${tx * 0.5 + nx} ${ty * 0.5 + ny - w * 0.4} ${tx} ${ty} Q${tx * 0.5 - nx * 0.3} ${ty * 0.5 - ny * 0.3 + w * 0.3} 0 0 Z`} />;
+    };
+    return (
+      <g transform={tf(p)}>
+        <path d={`M0 0 Q${h * 0.01} ${-h * 0.5} ${cx} ${cy}`} fill="none" stroke={tr} strokeWidth={h * 0.055} strokeLinecap="round" />
+        <g stroke={dk(tr, 0.25)} strokeWidth={Math.max(3, h * 0.012)} strokeLinecap="round">
+          {[0.15, 0.32, 0.49, 0.66, 0.8].map((k, i) => {
+            const bx = 2 * (1 - k) * k * h * 0.01 + k * k * cx, by = 2 * (1 - k) * k * -h * 0.5 + k * k * cy;
+            return <line key={i} x1={bx - h * 0.024} y1={by} x2={bx + h * 0.024} y2={by - h * 0.008} />;
+          })}
+        </g>
+        <g transform={`translate(${cx} ${cy}) rotate(${sway * 1.5})`}>
+          <g fill={sh}>{[-150, -60, 15, 165].map(leaf)}</g>
+          <g fill={col}>{[-175, -120, -90, -35, -5, 190].map(leaf)}</g>
+          <circle cx={-h * 0.02} cy={h * 0.03} r={h * 0.028} fill={toned(C.woodDark, tone, far)} />
+          <circle cx={h * 0.03} cy={h * 0.035} r={h * 0.025} fill={toned(C.wood, tone, far)} />
+        </g>
+      </g>
+    );
+  }
+  if (kind === 'cactus') {
+    const w = h * 0.17, aw = h * 0.11;
+    const arms = `M0 ${-h * 0.4} L${-h * 0.2} ${-h * 0.4} L${-h * 0.2} ${-h * 0.66} M0 ${-h * 0.52} L${h * 0.19} ${-h * 0.52} L${h * 0.19} ${-h * 0.8}`;
+    return (
+      <g transform={tf(p)}>
+        <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <path d={arms} stroke={sh} strokeWidth={aw} />
+          <line x1={0} y1={-w / 2} x2={0} y2={-h + w / 2} stroke={sh} strokeWidth={w} />
+          <path d={arms} stroke={col} strokeWidth={aw * 0.62} transform={`translate(${-aw * 0.16} 0)`} />
+          <line x1={-w * 0.16} y1={-w / 2} x2={-w * 0.16} y2={-h + w / 2} stroke={col} strokeWidth={w * 0.66} />
+          <line x1={w * 0.12} y1={-w * 0.7} x2={w * 0.12} y2={-h + w * 0.8} stroke={dk(col, 0.3)} strokeWidth={Math.max(3, h * 0.01)} />
+        </g>
+      </g>
+    );
+  }
+  if (kind === 'conifer' || kind === 'snowy') {
+    const snow = kind === 'snowy' ? toned(C.paperLight, tone, far) : '';
     const tiers: [number, number, number][] = [
       [-h * 0.58, -h * 0.14, h * 0.28],
       [-h * 0.8, -h * 0.38, h * 0.22],
@@ -335,6 +401,8 @@ export const Tree: React.FC<Place & {kind?: TreeKind; h?: number; color?: string
             <g key={i}>
               <path d={`M0 ${ap} L${hw} ${b} L${-hw} ${b} Z`} fill={sh} />
               <path d={`M0 ${ap} L${-hw * 0.12} ${b} L${-hw} ${b} Z`} fill={col} />
+              {snow && <path d={`M0 ${ap} L${hw * 0.5} ${ap + (b - ap) * 0.5} L${hw * 0.18} ${ap + (b - ap) * 0.4} L${-hw * 0.1} ${ap + (b - ap) * 0.52} L${-hw * 0.32} ${ap + (b - ap) * 0.4} L${-hw * 0.5} ${ap + (b - ap) * 0.5} Z`} fill={snow} />}
+              {snow && <path d={`M${hw * 0.85} ${b} L${-hw * 0.95} ${b} L${-hw * 0.8} ${b - (b - ap) * 0.08} L${hw * 0.7} ${b - (b - ap) * 0.08} Z`} fill={snow} />}
             </g>
           ))}
         </g>
@@ -455,8 +523,102 @@ export const Water: React.FC<{y?: number; h?: number; t?: number; color?: string
   );
 };
 
-/** Ready-made landscape: sky + far/mid hills + trees + (lake) + near ground. For parallax use the layer components. */
-export const Landscape: React.FC<{tone?: Tone; seed?: number; t?: number; water?: boolean; trees?: TreeKind | 'mixed'}> = ({tone = 'day', seed = 1, t = 0, water = false, trees = 'mixed'}) => (
+export type Biome = 'temperate' | 'desert' | 'mountains' | 'coast' | 'jungle' | 'snow';
+const SAND = mixC(C.cautionTint, C.paperDark, 0.35);
+const JUNGLE = mixC(C.evidence, C.evidenceLight, 0.35);
+
+/** Shore surf: wet-sand strip + foam line that washes in and out with t. origin = frame; y = shore line. */
+const Surf: React.FC<{y: number; t: number; tone: Tone; seed: number}> = ({y, t, tone, seed}) => {
+  const wash = Math.sin(t * 0.9) * 10;
+  const line = (yy: number, amp: number, ph: number) => {
+    let d = `M${X0} ${yy}`;
+    for (let x = X0; x <= X1; x += 60) d += ` L${x} ${yy + Math.sin(x * 0.02 + ph + t * 0.6) * amp + noise1(x * 0.01, seed) * 4}`;
+    return d;
+  };
+  const foam = toned(C.paperLight, tone);
+  return (
+    <g>
+      <path d={line(y + 4 + wash, 5, 0) + ` L${X1} ${y + 40 + wash} L${X0} ${y + 40 + wash} Z`} fill={toned(mixC(SAND, C.water, 0.4), tone)} />
+      <path d={line(y + wash, 6, 1)} fill="none" stroke={foam} strokeWidth={7} strokeLinecap="round" />
+      <path d={line(y - 34 - wash * 0.6, 4, 2.5)} fill="none" stroke={foam} strokeWidth={4} strokeDasharray="90 70" opacity={0.75} />
+    </g>
+  );
+};
+
+/**
+ * Ready-made landscape: sky + far/mid hills + trees + (lake) + near ground. For parallax use the layer components.
+ * `biome`: temperate (default) | desert (dunes, mesas, cacti) | mountains (snow-capped peaks, conifers) |
+ * coast (sea with surf, beach, palms) | jungle (dense dark canopy + palms) | snow (white hills, snowy conifers).
+ * `water` / `trees` apply to temperate only. Floor ≈ y 880–1010 (coast beach from y 930).
+ */
+export const Landscape: React.FC<{tone?: Tone; seed?: number; t?: number; water?: boolean; trees?: TreeKind | 'mixed'; biome?: Biome}> = ({tone = 'day', seed = 1, t = 0, water = false, trees = 'mixed', biome = 'temperate'}) => {
+  const sky = <Sky variant={tone} t={t} horizon={720} seed={seed} />;
+  const T = (kind: TreeKind, layer: Layer, y: number, x0?: number, x1?: number, density?: number, h?: number, color?: string, sd = 3) => (
+    <Trees layer={layer} seed={seed + sd} tone={tone} t={t} kind={kind} y={y} x0={x0} x1={x1} density={density} h={h} color={color} />
+  );
+  switch (biome) {
+    case 'desert':
+      return (
+        <g>
+          {sky}
+          <Hills layer="far" seed={seed + 1} tone={tone} shape="peak" y={720} amp={110} color={mixC(C.oxTint, C.stone, 0.45)} />
+          <Hills layer="mid" seed={seed + 2} tone={tone} y={770} amp={55} color={SAND} />
+          {T('cactus', 'mid', 790, undefined, undefined, 0.22, 260)}
+          <Hills layer="near" seed={seed + 4} tone={tone} y={880} amp={40} color={mixC(SAND, C.paperLight, 0.2)} />
+          {T('cactus', 'near', 1000, -200, 300, 0.5, 300, undefined, 6)}
+          {T('cactus', 'near', 1010, 1750, 1950, 0.5, 220, undefined, 7)}
+        </g>
+      );
+    case 'mountains':
+      return (
+        <g>
+          {sky}
+          <Hills layer="far" seed={seed + 1} tone={tone} shape="peak" y={700} amp={340} color={mixC(C.stone, C.slate, 0.35)} caps={C.paperLight} />
+          <Hills layer="mid" seed={seed + 2} tone={tone} shape="peak" y={790} amp={170} color={mixC(C.stoneDark, C.evidence, 0.25)} />
+          {T('conifer', 'mid', 805, undefined, undefined, 1)}
+          <Hills layer="near" seed={seed + 4} tone={tone} y={880} amp={40} />
+          {T('conifer', 'near', 1010, -200, 330, 1, 300, undefined, 6)}
+        </g>
+      );
+    case 'coast':
+      return (
+        <g>
+          {sky}
+          <Hills layer="far" seed={seed + 1} tone={tone} y={765} amp={70} color={mixC(C.evidenceTint, C.stone, 0.45)} />
+          <Water y={770} h={170} tone={tone} t={t} seed={seed} glintX={tone === 'overcast' ? undefined : tone === 'dusk' ? 1300 : 1440} />
+          <Ground y={930} kind="sand" tone={tone} seed={seed} />
+          <Surf y={930} t={t} tone={tone} seed={seed} />
+          {T('palm', 'near', 990, -220, 300, 0.7, 330, undefined, 6)}
+          {T('palm', 'near', 1000, 1720, 2100, 0.6, 300, undefined, 7)}
+        </g>
+      );
+    case 'jungle':
+      return (
+        <g>
+          {sky}
+          <Hills layer="far" seed={seed + 1} tone={tone} y={690} amp={170} color={mixC(JUNGLE, C.stone, 0.3)} />
+          {T('round', 'far', 720, undefined, undefined, 1.6, 300, mixC(JUNGLE, C.stone, 0.15), 5)}
+          <Hills layer="mid" seed={seed + 2} tone={tone} y={790} amp={60} color={JUNGLE} />
+          {T('round', 'mid', 810, undefined, undefined, 1.5, 320, JUNGLE)}
+          {T('palm', 'mid', 820, undefined, undefined, 0.5, 340, undefined, 8)}
+          <Hills layer="near" seed={seed + 4} tone={tone} y={890} amp={36} color={mixC(JUNGLE, C.woodDark, 0.25)} />
+          {T('palm', 'near', 1010, -200, 360, 0.9, 340, undefined, 6)}
+          {T('round', 'near', 1030, 1680, 2150, 1, 300, mixC(C.evidence, C.ink, 0.15), 9)}
+        </g>
+      );
+    case 'snow':
+      return (
+        <g>
+          {sky}
+          <Hills layer="far" seed={seed + 1} tone={tone} shape="peak" y={690} amp={260} color={mixC(C.stone, C.slate, 0.3)} caps={C.paperLight} />
+          <Hills layer="mid" seed={seed + 2} tone={tone} y={770} amp={60} color={C.paperShade} />
+          {T('snowy', 'mid', 790, undefined, undefined, 0.7)}
+          <Hills layer="near" seed={seed + 4} tone={tone} y={880} amp={40} color={C.paperLight} />
+          {T('snowy', 'near', 1010, -200, 330, 1, 300, undefined, 6)}
+        </g>
+      );
+  }
+  return (
   <g>
     <Sky variant={tone} t={t} horizon={720} seed={seed} />
     <Hills layer="far" seed={seed + 1} tone={tone} />
@@ -478,10 +640,8 @@ export const Landscape: React.FC<{tone?: Tone; seed?: number; t?: number; water?
     )}
   </g>
 );
+};
 
-// ------------------------------------------------------------------ CITY
-
-/** Architecture era for skylines/streets. */
 export type Era = 'medieval' | 'early-modern' | 'modern';
 const SKYL: Record<Layer, {s: number; y: number; c: string}> = {
   far: {s: 0.55, y: 760, c: mixC(C.stone, C.sky, 0.3)},

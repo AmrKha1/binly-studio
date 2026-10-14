@@ -22,7 +22,7 @@ const KIT_TILES = [
   ['text', 3.5, 'text'], ['cards', 4, 'cards'], ['diagrams', 4, 'diagrams'], ['data', 4, 'data'], ['icons', 4, 'icons'],
   ['env', 2, 'env · environments 1'], ['env', 5, 'env · cities & streets'], ['env', 8, 'env · interiors'], ['env', 11, 'env · rooms'],
   ['env', 14, 'env · props 1'], ['env', 17, 'env · props 2'], ['env', 20, 'env · props 3'], ['science', 4, 'science'], ['geo', 4, 'geo'],
-  ['people', 2.3, 'people'], ['photo', 4, 'photo'], ['depth', 4, 'depth (globe · isometric · spheres)'], ['transitions', 5.85, 'transitions'], ['silhouettes', 4, 'silhouettes (shared library)'], ['world', 3, 'world (transport · props · weather)'],
+  ['people', 2.3, 'people'], ['photo', 4, 'photo'], ['depth', 4, 'depth (globe · isometric · spheres)'], ['transitions', 5.85, 'transitions'], ['silhouettes', 4, 'silhouettes (shared library)'], ['world', 3, 'world (transport · props · weather)'], ['biomes', 4, 'biomes · emotes'],
 ];
 
 // 1) typecheck first

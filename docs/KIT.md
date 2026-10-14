@@ -86,6 +86,8 @@ metal, lamp, fire, water/waterDeep, slate, sky, dusk, night, skin[0..4], skinSha
   Lying: `lie={1}` → body flat along the floor ≈62·s above y, head toward the back (facing -1 puts the head on the right).
   Walk: `walk={t*0.9}` + move x yourself (≈ 150 px/s at s=1). Talk: `talk={Math.abs(Math.sin(t*9))}` while speaking.
   Sitting: `sit={1}` → hips at height ≈118·s above the feet, ≈104·s behind them (place the seat there).
+  Emote: `emote:'idea'|'question'|'exclaim'|'sweat'|'anger'|'love'|'sleep'|'storm'|'sparkle'`, `emoteP:0..1` pop-in (default 1) → animated icon by the head (follows facing/scale/sit/lie, idle life from t).
+- `Emote {x,y,kind,s=1,t,p=1,color?}` standalone emotion icon, origin = centre, ≈100 px at s=1.
 - `personHands(props)` → {front,back,head} world positions (attach held objects).
 - `Crowd {x,y,w,n=9,rows=2,t,seed,s=0.6,era:'medieval'|'19thc'|'modern',silhouette?,facing:1|-1|'mixed',expression, variety?:bool (mix children/elders + builds)}`
 
@@ -538,13 +540,14 @@ function of props; `t` = idle life (cloud drift, sway, flicker, ripples), `seed`
 - **Moon** — disc with halo, origin centre. `{x; y; r?=60; phase?: 'full'|'crescent'}`
 - **Stars** — twinkling field in a box. `{t?; seed?; x?; y?; w?; h?; n?=80}`
 - **Hills** — rolling band, shade on right-facing slopes, fills to bottom. `y` = crest base.
-  `{layer?: Layer='mid'; seed?; tone?; color?; y? (650/730/850); amp?; shade?=true}`
-- **Ground** — flat plane from `y` down with sparse marks. `{y?=820; kind?: 'grass'|'earth'|'sand'; tone?; color?; seed?}`
-- **Tree** — single tree, origin trunk base. `{kind?: 'round'|'conifer'|'bare'|'poplar'; h?=300; t?; seed?; tone?; far?: 0..1; color?; trunk?}`
+  `{layer?: Layer='mid'; seed?; tone?; color?; y? (650/730/850); amp?; shade?=true; shape?: 'round'|'peak' (jagged ridges); caps?: colour (snow caps on peaks)}`
+- **Ground** — flat plane from `y` down with sparse marks. `{y?=820; kind?: 'grass'|'earth'|'sand'|'snow'; tone?; color?; seed?}`
+- **Tree** — single tree, origin trunk base. `{kind?: 'round'|'conifer'|'bare'|'poplar'|'palm'|'cactus'|'snowy'; h?=300; t?; seed?; tone?; far?: 0..1; color?; trunk?}`
 - **Trees** — seeded row. `{layer?; kind?: TreeKind|'mixed'; y?; x0?=-250; x1?=2170; density?=1; h?=300; t?; tone?; seed?}`
 - **Water** — lake band with drifting ripple dashes + optional sun/moon glint column.
   `{y?=780; h?=400; t?; tone?; glintX?; x?; w?; color?; seed?}`
-- **Landscape** — ready composite (sky, hills, trees, optional lake, ground). `{tone?; seed?; t?; water?: bool; trees?: TreeKind|'mixed'}`
+- **Landscape** — ready composite (sky, hills, trees, optional lake, ground). `{tone?; seed?; t?; water?: bool; trees?: TreeKind|'mixed'; biome?: 'temperate'|'desert'|'mountains'|'coast'|'jungle'|'snow'}`
+  biomes (all tones): desert = dunes, mesas, cacti · mountains = snow-capped peaks, conifers · coast = sea + surf, beach from y 930, palms · jungle = dense canopy + palms · snow = white hills, snowy conifers. `water`/`trees` = temperate only.
   `<Landscape tone="dusk" water t={t}/>` (lake shore / floor ≈ y 955; without water, near hill ≈ 870–900)
 
 ## City

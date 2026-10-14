@@ -16,6 +16,7 @@ import {Archival, Archival2} from './pages/archival';
 
 import {Silhouettes} from './pages/silhouettes';
 import {World} from './pages/world';
+import {Biomes} from './pages/biomes';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
@@ -37,4 +38,5 @@ export const GALLERY: Record<string, React.FC<{t: number}>> = {
   archival2: Archival2,
   silhouettes: Silhouettes,
   world: World,
+  biomes: Biomes,
 };

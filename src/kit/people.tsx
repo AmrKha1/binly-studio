@@ -164,6 +164,8 @@ export type PersonProps = {
   silhouette?: string; // draw the whole figure in one flat colour (crowds, distant figures)
   opacity?: number;
   seed?: number; // varies idle timing
+  emote?: EmoteKind; // emotion icon near the head (follows facing / scale / sit / lie)
+  emoteP?: number; // 0..1 pop-in of the emote (default 1)
 };
 
 const OUTFIT_DEFAULTS: Record<Outfit, {top: string; bottom: string; accent: string; long: boolean}> = {
@@ -658,6 +660,7 @@ export const Person: React.FC<PersonProps> = (p) => {
   const hs = age.head;
   const lieT = lie > 0 ? ` translate(0 ${-lie * LIE_UP}) rotate(${-90 * lie})` : '';
   return (
+    <>
     <g transform={`translate(${p.x} ${p.y}) scale(${s * f} ${s})${lieT}`} opacity={p.opacity ?? 1}>
       {/* back limbs */}
       {legEl(legBack, bottomSh, shade(shoes, 0.2), 'lb')}
@@ -738,6 +741,13 @@ export const Person: React.FC<PersonProps> = (p) => {
       {propEl()}
       {p.prop && hand(armFront.e, armFront.h, skin, !sil)}
     </g>
+    {p.emote && (() => {
+      const hw = personHands(p).head;
+      const o = EMOTE_OFF[p.emote];
+      const r = HEAD_R * hs * s;
+      return <g opacity={p.opacity ?? 1}><Emote x={hw.x + o[0] * r * f} y={hw.y - (hs - 1) * 46 * s + o[1] * r} kind={p.emote} s={1.3 * s * Math.min(hs, 1.1)} t={t + (p.seed ?? 0) * 0.37} p={p.emoteP ?? 1} /></g>;
+    })()}
+    </>
   );
 };
 
@@ -799,4 +809,145 @@ export const Crowd: React.FC<{
     }
   }
   return <g>{people}</g>;
+};
+
+// ---------------------------------------------------------------- emotion icons
+export type EmoteKind = 'idea' | 'question' | 'exclaim' | 'sweat' | 'anger' | 'love' | 'sleep' | 'storm' | 'sparkle';
+/** where each emote sits relative to the head centre, in head radii (x toward the face, y down) */
+const EMOTE_OFF: Record<EmoteKind, [number, number]> = {
+  idea: [0.9, -2.3], question: [1, -2.2], exclaim: [1, -2.2], sweat: [-1.3, -0.6], anger: [1.25, -1.35],
+  love: [1.15, -2], sleep: [1.15, -1.95], storm: [0, -2.5], sparkle: [1.15, -1.8],
+};
+const mixE = (a: string, b: string, k: number) => {
+  const ch = (h: string, i: number) => parseInt(h.slice(1 + i * 2, 3 + i * 2), 16);
+  return `rgb(${[0, 1, 2].map((i) => Math.round(lerp(ch(a, i), ch(b, i), k))).join(',')})`;
+};
+const backOut = (x: number) => 1 + 2.7 * Math.pow(x - 1, 3) + 1.7 * Math.pow(x - 1, 2);
+const heartD = (r: number) => `M0 ${r * 0.9} C${-r * 1.5} ${-r * 0.1} ${-r * 0.9} ${-r * 1.2} 0 ${-r * 0.45} C${r * 0.9} ${-r * 1.2} ${r * 1.5} ${-r * 0.1} 0 ${r * 0.9} Z`;
+const starD = (R: number) => `M0 ${-R} Q0 0 ${R} 0 Q0 0 0 ${R} Q0 0 ${-R} 0 Q0 0 0 ${-R} Z`;
+
+/**
+ * Emotion icon (comic emanata): idea bulb, ?, !, sweat drop, anger vein, heart, zzz, storm cloud, sparkles.
+ * origin = icon centre, ≈100 px at s=1. `t` = idle life (glow, float, drip), `p` 0..1 pop-in, `color` overrides the main colour.
+ * Person draws one near the head via its `emote` / `emoteP` props.
+ */
+export const Emote: React.FC<{x: number; y: number; kind: EmoteKind; s?: number; t?: number; p?: number; color?: string}> = ({x, y, kind, s = 1, t = 0, p = 1, color}) => {
+  const pp = clamp01(p);
+  if (pp <= 0) return null;
+  const sc = s * Math.max(0.01, backOut(pp));
+  const W = 9;
+  const body = (() => {
+    switch (kind) {
+      case 'idea': {
+        const g = 0.5 + 0.5 * Math.sin(t * 4);
+        return (
+          <g>
+            <circle cx={0} cy={-8} r={50 + 6 * g} fill={C.lamp} opacity={0.22 + 0.12 * g} />
+            <g stroke={C.caution} strokeWidth={W - 2} strokeLinecap="round">
+              {[-160, -125, -90, -55, -20].map((a, i) => {
+                const c = Math.cos((a * Math.PI) / 180), sn = Math.sin((a * Math.PI) / 180);
+                const r1 = 58 + 8 * g;
+                return <line key={i} x1={c * 44} y1={-8 + sn * 44} x2={c * r1} y2={-8 + sn * r1} />;
+              })}
+            </g>
+            <path d="M-30 -8 A30 30 0 1 1 30 -8 C30 8 16 14 14 26 L-14 26 C-16 14 -30 8 -30 -8 Z" fill={color ?? C.cautionLight} />
+            <path d="M8 -30 A22 22 0 0 1 22 -10" fill="none" stroke={C.paperLight} strokeWidth={6} strokeLinecap="round" opacity={0.8} />
+            <rect x={-14} y={26} width={28} height={16} rx={4} fill={C.metal} />
+            <line x1={-13} y1={34} x2={13} y2={34} stroke={C.stoneDark} strokeWidth={3} />
+          </g>
+        );
+      }
+      case 'question':
+        return (
+          <g transform={`rotate(${Math.sin(t * 2.2) * 8} 0 30)`}>
+            <path d="M-20 -26 Q-20 -50 0 -50 Q22 -50 22 -30 Q22 -16 4 -8 Q0 -5 0 6" fill="none" stroke={color ?? C.theory} strokeWidth={W + 4} strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx={0} cy={30} r={8} fill={color ?? C.theory} />
+          </g>
+        );
+      case 'exclaim': {
+        const k = 1 + 0.06 * Math.max(0, Math.sin(t * 7));
+        const c = color ?? C.oxblood;
+        return (
+          <g transform={`scale(${k})`}>
+            <path d="M-9 -50 L9 -50 L5 10 L-5 10 Z" fill={c} stroke={c} strokeWidth={6} strokeLinejoin="round" />
+            <circle cx={0} cy={30} r={9} fill={c} />
+            <g stroke={c} strokeWidth={W - 3} strokeLinecap="round">
+              <line x1={-26} y1={-38} x2={-38} y2={-50} />
+              <line x1={26} y1={-38} x2={38} y2={-50} />
+            </g>
+          </g>
+        );
+      }
+      case 'sweat': {
+        const ph = (t * 0.6) % 1;
+        return (
+          <g transform={`translate(0 ${ph * 34 - 14})`} opacity={ph > 0.8 ? (1 - ph) / 0.2 : Math.min(1, ph / 0.12 + 0.2)}>
+            <path d="M0 -30 C12 -12 18 0 18 10 A18 18 0 0 1 -18 10 C-18 0 -12 -12 0 -30 Z" fill={color ?? mixE(C.water, C.paperLight, 0.35)} />
+            <ellipse cx={-6} cy={8} rx={4} ry={7} fill={C.paperLight} opacity={0.85} />
+          </g>
+        );
+      }
+      case 'anger': {
+        const k = 1 + 0.1 * Math.max(0, Math.sin(t * 8));
+        return (
+          <g transform={`scale(${k})`} stroke={color ?? C.oxblood} strokeWidth={W + 1} strokeLinecap="round" fill="none">
+            {[0, 90, 180, 270].map((a) => (
+              <path key={a} d="M8 -30 Q8 -8 30 -8" transform={`rotate(${a})`} />
+            ))}
+          </g>
+        );
+      }
+      case 'love': {
+        const beat = 1 + 0.12 * Math.pow(Math.max(0, Math.sin(t * 5)), 4);
+        const ph = (t * 0.5) % 1;
+        const c = color ?? C.oxLight;
+        return (
+          <g>
+            <g transform={`scale(${beat})`}>
+              <path d={heartD(32)} fill={c} />
+              <path d="M-26 -12 Q-24 -26 -12 -26" fill="none" stroke={C.paperLight} strokeWidth={5} strokeLinecap="round" opacity={0.7} />
+            </g>
+            <path d={heartD(13)} fill={c} transform={`translate(${36 + Math.sin(ph * 6) * 5} ${-30 - ph * 40})`} opacity={1 - ph} />
+          </g>
+        );
+      }
+      case 'sleep':
+        return (
+          <g stroke={color ?? C.theory} strokeWidth={W - 1} strokeLinecap="round" strokeLinejoin="round" fill="none">
+            {[0, 1, 2].map((i) => {
+              const ph = (t * 0.45 + i / 3) % 1;
+              const z = 9 + ph * 13;
+              const o = ph < 0.15 ? ph / 0.15 : ph > 0.75 ? (1 - ph) / 0.25 : 1;
+              return <path key={i} d={`M${-z} ${-z} L${z} ${-z} L${-z} ${z} L${z} ${z}`} transform={`translate(${-24 + ph * 52 + Math.sin(ph * 7) * 4} ${36 - ph * 86})`} opacity={o} />;
+            })}
+          </g>
+        );
+      case 'storm': {
+        const c = color ?? C.slate;
+        const ph = (t * 0.9) % 1;
+        const flash = t % 2.6 < 0.18;
+        return (
+          <g transform={`translate(${Math.sin(t * 1.3) * 4} 0)`}>
+            {flash && <path d="M4 14 L-8 36 L2 36 L-6 58 L14 30 L4 30 L10 14 Z" fill={C.cautionLight} />}
+            <path d={`M10 ${18 + ph * 40} c4 6 6 9 6 12 a6 6 0 0 1 -12 0 c0 -3 2 -6 6 -12 z`} fill={mixE(C.water, C.paperLight, 0.2)} opacity={1 - ph} />
+            <circle cx={-26} cy={-2} r={22} fill={c} />
+            <circle cx={4} cy={-14} r={30} fill={c} />
+            <circle cx={30} cy={0} r={20} fill={c} />
+            <rect x={-46} y={0} width={94} height={20} rx={10} fill={c} />
+            <circle cx={-8} cy={-22} r={12} fill={mixE(c, C.paperLight, 0.18)} />
+          </g>
+        );
+      }
+      case 'sparkle':
+        return (
+          <g fill={color ?? C.cautionLight}>
+            {([[0, -6, 30, 0], [-34, 22, 16, 2], [32, 26, 18, 4]] as const).map(([sx, sy, R, ph], i) => (
+              <path key={i} d={starD(R * (0.7 + 0.3 * Math.abs(Math.sin(t * 2.4 + ph))))} transform={`translate(${sx} ${sy}) rotate(${Math.sin(t + i) * 10})`} />
+            ))}
+          </g>
+        );
+    }
+    return null;
+  })();
+  return <g transform={`translate(${x} ${y}) scale(${sc})`} opacity={Math.min(1, pp * 2.5)}>{body}</g>;
 };

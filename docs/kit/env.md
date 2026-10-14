@@ -29,13 +29,14 @@ function of props; `t` = idle life (cloud drift, sway, flicker, ripples), `seed`
 - **Moon** — disc with halo, origin centre. `{x; y; r?=60; phase?: 'full'|'crescent'}`
 - **Stars** — twinkling field in a box. `{t?; seed?; x?; y?; w?; h?; n?=80}`
 - **Hills** — rolling band, shade on right-facing slopes, fills to bottom. `y` = crest base.
-  `{layer?: Layer='mid'; seed?; tone?; color?; y? (650/730/850); amp?; shade?=true}`
-- **Ground** — flat plane from `y` down with sparse marks. `{y?=820; kind?: 'grass'|'earth'|'sand'; tone?; color?; seed?}`
-- **Tree** — single tree, origin trunk base. `{kind?: 'round'|'conifer'|'bare'|'poplar'; h?=300; t?; seed?; tone?; far?: 0..1; color?; trunk?}`
+  `{layer?: Layer='mid'; seed?; tone?; color?; y? (650/730/850); amp?; shade?=true; shape?: 'round'|'peak' (jagged ridges); caps?: colour (snow caps on peaks)}`
+- **Ground** — flat plane from `y` down with sparse marks. `{y?=820; kind?: 'grass'|'earth'|'sand'|'snow'; tone?; color?; seed?}`
+- **Tree** — single tree, origin trunk base. `{kind?: 'round'|'conifer'|'bare'|'poplar'|'palm'|'cactus'|'snowy'; h?=300; t?; seed?; tone?; far?: 0..1; color?; trunk?}`
 - **Trees** — seeded row. `{layer?; kind?: TreeKind|'mixed'; y?; x0?=-250; x1?=2170; density?=1; h?=300; t?; tone?; seed?}`
 - **Water** — lake band with drifting ripple dashes + optional sun/moon glint column.
   `{y?=780; h?=400; t?; tone?; glintX?; x?; w?; color?; seed?}`
-- **Landscape** — ready composite (sky, hills, trees, optional lake, ground). `{tone?; seed?; t?; water?: bool; trees?: TreeKind|'mixed'}`
+- **Landscape** — ready composite (sky, hills, trees, optional lake, ground). `{tone?; seed?; t?; water?: bool; trees?: TreeKind|'mixed'; biome?: 'temperate'|'desert'|'mountains'|'coast'|'jungle'|'snow'}`
+  biomes (all tones): desert = dunes, mesas, cacti · mountains = snow-capped peaks, conifers · coast = sea + surf, beach from y 930, palms · jungle = dense canopy + palms · snow = white hills, snowy conifers. `water`/`trees` = temperate only.
   `<Landscape tone="dusk" water t={t}/>` (lake shore / floor ≈ y 955; without water, near hill ≈ 870–900)
 
 ## City
