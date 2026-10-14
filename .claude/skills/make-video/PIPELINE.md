@@ -74,7 +74,8 @@ re-run the compiler (no builder). Look at `docs/catalog/templates.png` once (one
 **3b · Style check with the user (fast, no time lost)** — build C01 (the hook) FIRST, and immediately start the next
 2 builders in parallel. When C01 is done, show the user its contact sheet (and the live preview) and ask with
 AskUserQuestion: "Continue in this direction" / "Change something" (+ their notes). Apply the answer to C01 and to
-the briefs of chapters not yet started; message running builders if it affects them. Skip this step only if the
+the briefs of chapters not yet started; message running builders if it affects them. A lasting preference in their
+notes → one line in docs/PLAYBOOK.md → "Channel owner's preferences" (+ `node tools/sync-agents.mjs`). Skip this step only if the
 user said not to ask (e.g. "don't ask me anything" in notes / the command).
 
 **4 · Build chapters** — spawn `binly-builder` subagents, **at most 3 running at once** (this PC is slow).

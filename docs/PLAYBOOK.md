@@ -76,6 +76,11 @@ Every used image is listed in `videos/<slug>/CREDITS.md` → the YouTube descrip
 - Pace follows the narration: quick decisive moves for punchy lines, calm holds for big ideas. New visual
   information roughly every 3–6 s; a meaningful change of composition at every pivot.
 
+### Channel owner's preferences (grows with every video — follow them like rules)
+One line each, added when the owner states a preference (style check, polish notes). Only lasting preferences,
+not one-off fixes. Keep ≤ 15 lines: merge similar ones.
+- (none yet)
+
 ## 6. Sound
 - Music: original, cinematic-atmospheric, evolves with the story (not one loop) — always a BACKGROUND bed, never
   competing with the voice. The engine mixes it like a pro editor: ~21 dB under the voice while it speaks (with the
