@@ -22,6 +22,8 @@ Use `binly-scout` (Haiku, cheap) for mechanical chores: image research, timing l
 **1 · Ingest** — `node tools/new-video.mjs` (optional `--slug short-name --title "..."`), run in background.
 It moves the inputs to `videos/<slug>/`, scaffolds `src/videos/<slug>/`, activates it, uploads the voiceover
 to GitHub (release `vo-<slug>`) and runs the cloud timing analysis (~5–10 min) → `videos/<slug>/timing/`.
+The VOICEOVER is the truth: transcript.md follows what was actually said (script only fixes spelling). If the output
+shows a WARNING (script differs a lot), tell the user in one line (maybe a wrong script file) and continue.
 While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `docs/KIT-INDEX.md`, `docs/LESSONS.md`, and `notes.md` if present (the user's special requests override defaults).
 
 **2 · Plan** (your most important work — this is where quality is decided). Read `videos/<slug>/timing/transcript.md`

@@ -77,6 +77,8 @@ async function analyze() {
   gh('run', 'download', String(id), '-n', `${slug}-timing`, '-D', dir);
   const info = JSON.parse(fs.readFileSync(path.join(dir, 'info.json'), 'utf8'));
   console.log(`timing ready: ${info.words} words, ${info.paragraphs} paragraphs, script match ${(info.script_match_ratio * 100).toFixed(1)}%, duration ${info.duration}s`);
+  if (info.spoken_not_in_script || info.script_words_not_spoken) console.log(`voiceover vs script: ${info.spoken_not_in_script ?? 0} spoken words not in the script (kept), ${info.script_words_not_spoken ?? 0} script words not spoken (dropped) — the transcript follows the VOICEOVER`);
+  if (info.script_match_ratio < 0.9) console.log('WARNING: the script differs a lot from the voiceover — tell the user (wrong script file?). Timing still follows the voiceover.');
   console.log(`→ read videos/${slug}/timing/transcript.md`);
   push(`timing ready: ${slug}`);
 }

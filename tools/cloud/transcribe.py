@@ -87,6 +87,7 @@ def norm(t):
     return toks
 
 words_out = []
+spoken_extra = script_dropped = 0
 if paras_src:
     src = []  # (original token, normalized key, paragraph index)
     for pi, p in enumerate(paras_src):
@@ -99,30 +100,86 @@ if paras_src:
         for k in norm(w["w"]) or [""]:
             hyp_keys.append(k)
             hyp_idx.append(hi)
+    # THE VOICEOVER IS THE TRUTH. The script only supplies spelling where it agrees with what was said:
+    #   equal            → script spelling, spoken times
+    #   small replace of similar-sounding words / numbers → script spelling over the spoken span
+    #                      (names/numbers whisper misspells: "Chauliac" vs "Shoeliak", "1349" vs "thirteen forty nine")
+    #   other replace    → what was actually SAID (script wording dropped)
+    #   insert           → spoken words that aren't in the script are kept
+    #   delete ≤ 3 words → kept, interpolated (whisper often misses a short quiet word)
+    #   delete > 3 words → dropped (lines in the script that were not recorded)
     sm = difflib.SequenceMatcher(a=[s[1] for s in src], b=hyp_keys, autojunk=False)
-    times = [None] * len(src)
-    matched = 0
-    for a, b, n in sm.get_matching_blocks():
-        for k in range(n):
-            h = hyp[hyp_idx[b + k]]
-            times[a + k] = (h["s"], h["e"])
-            matched += 1
-    # interpolate unmatched source words between anchors
-    known = [i for i, x in enumerate(times) if x is not None]
-    for i in range(len(src)):
-        if times[i] is not None:
+    out_w = []  # [token, (s, e) | None, paragraph]
+    used = set()
+    matched = spoken_extra = script_dropped = 0
+
+    def cur_p(i):
+        return src[min(i, len(src) - 1)][2] if src else 0
+
+    def emit_spoken(j1, j2, pi):
+        n = 0
+        for hi in dict.fromkeys(hyp_idx[j1:j2]):
+            if hi in used:
+                continue
+            used.add(hi)
+            ks = norm(hyp[hi]["w"])
+            if out_w and ks and all(k in norm(out_w[-1][0]) for k in ks) and out_w[-1][1] is not None:
+                # second half of a split word ("mid-stride" heard as "mid" + "-stride"): extend, don't duplicate
+                out_w[-1][1] = (out_w[-1][1][0], max(out_w[-1][1][1], hyp[hi]["e"]))
+                continue
+            out_w.append([hyp[hi]["w"], (hyp[hi]["s"], hyp[hi]["e"]), pi])
+            n += 1
+        return n
+
+    def same_words(i1, i2, j1, j2):
+        # a misheard spelling of the same words (names, numbers) — not different words
+        a_ = "".join(src[k][1] for k in range(i1, i2))
+        b_ = "".join(hyp_keys[j1:j2])
+        return any(ch.isdigit() for ch in a_) or difflib.SequenceMatcher(a=a_, b=b_, autojunk=False).ratio() >= 0.5
+
+    for tag, i1, i2, j1, j2 in sm.get_opcodes():
+        if tag == "equal":
+            for k in range(i2 - i1):
+                hi = hyp_idx[j1 + k]
+                used.add(hi)
+                out_w.append([src[i1 + k][0], (hyp[hi]["s"], hyp[hi]["e"]), src[i1 + k][2]])
+            matched += i2 - i1
+        elif tag == "replace" and (i2 - i1) <= 6 and abs((i2 - i1) - (j2 - j1)) <= 3 and same_words(i1, i2, j1, j2):
+            t0, t1 = hyp[hyp_idx[j1]]["s"], hyp[hyp_idx[j2 - 1]]["e"]
+            for hi in hyp_idx[j1:j2]:
+                used.add(hi)
+            n = i2 - i1
+            for k in range(n):
+                s = t0 + (t1 - t0) * k / n
+                out_w.append([src[i1 + k][0], (s, s + (t1 - t0) / n), src[i1 + k][2]])
+        elif tag in ("replace", "insert"):
+            pi = out_w[-1][2] if out_w else cur_p(i1)
+            spoken_extra += emit_spoken(j1, j2, pi)
+            script_dropped += i2 - i1
+        elif tag == "delete":
+            if i2 - i1 <= 3:
+                for k in range(i1, i2):
+                    out_w.append([src[k][0], None, src[k][2]])
+            else:
+                script_dropped += i2 - i1
+    # interpolate the few kept-but-unheard script words between their spoken neighbours
+    known = [i for i, x in enumerate(out_w) if x[1] is not None]
+    for i, x in enumerate(out_w):
+        if x[1] is not None:
             continue
         prev = max([k for k in known if k < i], default=None)
         nxt = min([k for k in known if k > i], default=None)
-        t0 = times[prev][1] if prev is not None else 0.0
-        t1 = times[nxt][0] if nxt is not None else duration
-        span = (nxt if nxt is not None else len(src)) - (prev if prev is not None else -1)
+        t0 = out_w[prev][1][1] if prev is not None else 0.0
+        t1 = out_w[nxt][1][0] if nxt is not None else duration
+        span = (nxt if nxt is not None else len(out_w)) - (prev if prev is not None else -1)
         pos = i - (prev if prev is not None else -1)
         s = t0 + (t1 - t0) * (pos - 0.5) / span
-        times[i] = (s, min(t1, s + max(0.08, (t1 - t0) / span * 0.8)))
-    for (tok, _, pi), (s, e) in zip(src, times):
+        x[1] = (s, min(t1, s + max(0.08, (t1 - t0) / span * 0.8)))
+    for tok, (s, e), pi in out_w:
         words_out.append({"w": tok, "s": round(s, 3), "e": round(e, 3), "p": pi})
     ratio = matched / max(1, len(src))
+    # paragraph text = what is actually in the voiceover (script paragraphs with extra/cut lines applied)
+    paras_src = [" ".join(w["w"] for w in words_out if w["p"] == i) for i in range(len(paras_src))]
 else:
     # no script: paragraphs = runs separated by pauses >= 0.7 s
     pi = 0
@@ -158,5 +215,5 @@ with open(os.path.join(out, "transcript.md"), "w", encoding="utf-8") as f:
     if long_pauses:
         f.write("\nLong pauses (start s, length s): " + ", ".join(f"{a}+{b}" for a, b in long_pauses) + "\n")
 with open(os.path.join(out, "info.json"), "w") as f:
-    json.dump({"duration": round(duration, 4), "words": len(words_out), "paragraphs": len(paragraphs), "script_match_ratio": round(ratio, 4), "model": model_name, "long_pauses": long_pauses}, f, indent=1)
-print(f"aligned: {len(words_out)} words, {len(paragraphs)} paragraphs, script match {ratio:.1%}")
+    json.dump({"duration": round(duration, 4), "words": len(words_out), "paragraphs": len(paragraphs), "script_match_ratio": round(ratio, 4), "spoken_not_in_script": spoken_extra, "script_words_not_spoken": script_dropped, "model": model_name, "long_pauses": long_pauses}, f, indent=1)
+print(f"aligned: {len(words_out)} words, {len(paragraphs)} paragraphs, script match {ratio:.1%}, spoken-not-in-script {spoken_extra}, script-not-spoken {script_dropped}")

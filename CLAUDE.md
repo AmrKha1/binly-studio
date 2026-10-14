@@ -8,7 +8,8 @@ every decision serves a viewer who should not want to stop watching (docs/RETENT
    hook, the big reveals and the signature moments. That's what makes each video special.
 3. **Reuse is the default.** Create something new elsewhere only when reuse would be *clearly* worse for the viewer —
    not just different, not just "a bit nicer".
-The user puts a voiceover + script in `input/` and uses these commands (skills):
+The user puts a voiceover + script in `input/` (the VOICEOVER is the truth — timing and wording follow what was said;
+the script only fixes spelling of names/numbers) and uses these commands (skills):
 - **/make-video** (also "make the video" / "continue the video") → the full production pipeline in
   `.claude/skills/make-video/PIPELINE.md` (read it only when producing).
 - **/polish-video** → fix/refine a finished video (user screenshots/list or a self-review pass).

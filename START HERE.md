@@ -3,7 +3,9 @@
 ## Every video (3 steps)
 1. Put **two files** in the `input` folder:
    - your voiceover (`.wav`, `.mp3`, `.m4a` or `.flac`)
-   - the script as a `.txt` file (the same text you recorded — numbers/spelling are taken from it)
+   - the script as a `.txt` file — just as you wrote it, no need to transcribe anything. **The voiceover is the main
+     engine:** the video follows what you actually SAID. The script only helps spell names and numbers correctly; if you
+     changed, added or skipped lines while recording, the voiceover wins automatically.
    - optional: `notes.txt` with special wishes ("make the king appear as a chess piece", "darker mood")
 2. Open **Claude Code** in this folder (`Binly Studio`), choose **Opus**, and type:
    > **/make-video**
