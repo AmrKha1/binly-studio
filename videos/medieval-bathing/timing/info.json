@@ -1,0 +1,10 @@
+{
+ "duration": 642.8444,
+ "words": 1918,
+ "paragraphs": 93,
+ "script_match_ratio": 0.9896,
+ "spoken_not_in_script": 5,
+ "script_words_not_spoken": 3,
+ "model": "small.en",
+ "long_pauses": []
+}

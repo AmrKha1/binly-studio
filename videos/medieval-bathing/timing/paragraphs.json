@@ -1,0 +1,560 @@
+[
+{
+"i": 0,
+"s": 0.0,
+"e": 6.78,
+"text": "A hot bath was medicine. A hot bath was also, according to the very same doctors, a way to let death into your body."
+},
+{
+"i": 1,
+"s": 6.94,
+"e": 21.46,
+"text": "It's sitting right there in the historical record. Physicians in medieval Europe genuinely believed both things at once, sometimes in the same document. And once you understand why, you'll understand something most people get completely wrong about how the Middle Ages actually thought."
+},
+{
+"i": 2,
+"s": 21.61,
+"e": 33.89,
+"text": "You've probably heard the other version of this story. Medieval people didn't bathe. Filthy streets, filthy bodies, centuries of grime, until soap and running water finally rescued Europe from the Dark Ages of hygiene."
+},
+{
+"i": 3,
+"s": 34.09,
+"e": 36.76,
+"text": "It's a satisfying story. It's also mostly wrong."
+},
+{
+"i": 4,
+"s": 37.32,
+"e": 49.88,
+"text": "Medieval Europeans bathed. They built entire institutions around it. And then, during the worst disease outbreaks in European history, doctors began warning that the very thing keeping people clean could also make them vulnerable to disease."
+},
+{
+"i": 5,
+"s": 49.88,
+"e": 60.23,
+"text": "Not because they were simply ignorant, but because they understood the human body through a framework that made that conclusion logical. So logical that a king commissioned an official report about it."
+},
+{
+"i": 6,
+"s": 60.4,
+"e": 64.91,
+"text": "To understand how a bath became a weapon, start with what a bath actually was."
+},
+{
+"i": 7,
+"s": 65.08,
+"e": 75.58,
+"text": "Picture a medieval European city in the 1300s. You need to wash. If you're wealthy, maybe you have a tub at home, heated over a fire by servants. But if you're like most people, you go to the bathhouse."
+},
+{
+"i": 8,
+"s": 75.92,
+"e": 83.22,
+"text": "A medieval bathhouse wasn't some grim, joyless tub in a back room. It was closer to a public square that happened to have water in it."
+},
+{
+"i": 9,
+"s": 83.66,
+"e": 102.06,
+"text": "People sat together in shared tubs. There was food, drink, and conversation. Bathhouses were places to get groomed, socialize, and sometimes receive medical treatment. In some places, they were also associated with prostitution. Cities regulated them. In Paris, there were enough public baths that some streets were named after them."
+},
+{
+"i": 10,
+"s": 102.26,
+"e": 111.26,
+"text": "Underneath all of it was soap — real soap, made from animal fat and wood ash, sometimes scented with herbs, and traded across Europe since at least the ninth century."
+},
+{
+"i": 11,
+"s": 111.72,
+"e": 115.88,
+"text": "Medieval Europeans were washing themselves, in public, as a normal part of life."
+},
+{
+"i": 12,
+"s": 116.09,
+"e": 117.56,
+"text": "So where does the fear come from?"
+},
+{
+"i": 13,
+"s": 117.72,
+"e": 122.08,
+"text": "You have to stop thinking about bathing as hygiene, and start thinking about it as medicine."
+},
+{
+"i": 14,
+"s": 122.48,
+"e": 125.06,
+"text": "Medieval medicine didn't have germs. It had humors."
+},
+{
+"i": 15,
+"s": 125.4,
+"e": 129.14,
+"text": "Four of them: blood, phlegm, yellow bile, and black bile."
+},
+{
+"i": 16,
+"s": 129.37,
+"e": 137.0,
+"text": "Health wasn't the absence of invisible pathogens. Health was balance — a body correctly proportioned between hot and cold, wet and dry."
+},
+{
+"i": 17,
+"s": 137.0,
+"e": 144.53,
+"text": "And heat and moisture weren't just sensations to a medieval doctor. They were forces that physically changed the body's internal state."
+},
+{
+"i": 18,
+"s": 144.73,
+"e": 149.33,
+"text": "A hot bath, under this framework, wasn't just relaxing. It was a medical tool."
+},
+{
+"i": 19,
+"s": 149.48,
+"e": 166.21,
+"text": "It could warm a cold constitution, loosen what was stiff, open the body, and encourage it to sweat out what needed releasing. Physicians prescribed baths for conditions including fevers, joint pain, and headaches, adjusting the temperature and sometimes adding herbs depending on the effect they wanted."
+},
+{
+"i": 20,
+"s": 166.1,
+"e": 169.38,
+"text": "This wasn't folk superstition sitting outside real medicine."
+},
+{
+"i": 21,
+"s": 169.62,
+"e": 171.31,
+"text": "This was the medicine."
+},
+{
+"i": 22,
+"s": 171.49,
+"e": 174.08,
+"text": "And here's the part that sounds strangest to a modern ear."
+},
+{
+"i": 23,
+"s": 174.6,
+"e": 183.24,
+"text": "Medieval physicians didn't think of skin as a sealed barrier the way we do. They thought of it as porous, full of tiny openings that allowed things to move in both directions."
+},
+{
+"i": 24,
+"s": 183.74,
+"e": 185.2,
+"text": "Heat opened those openings wider."
+},
+{
+"i": 25,
+"s": 185.38,
+"e": 190.21,
+"text": "That's how a bath worked. It didn't just clean the surface — it changed what could pass through the body."
+},
+{
+"i": 26,
+"s": 190.39,
+"e": 192.57,
+"text": "Hold onto that. Heat opens the body."
+},
+{
+"i": 27,
+"s": 192.48,
+"e": 199.22,
+"text": "Because in 1348, that medical idea was about to collide with something Europe had never seen on that scale."
+},
+{
+"i": 28,
+"s": 199.54,
+"e": 210.2,
+"text": "The Black Death moved through European cities with terrifying speed, killing a huge share of the population. Modern estimates vary widely, but the scale of the catastrophe was unmistakable."
+},
+{
+"i": 29,
+"s": 210.44,
+"e": 213.22,
+"text": "And physicians were trying to explain it with the tools they had."
+},
+{
+"i": 30,
+"s": 213.42,
+"e": 219.73,
+"text": "One explanation that became influential was miasma: the idea that corrupted or poisoned air could carry disease."
+},
+{
+"i": 31,
+"s": 219.44,
+"e": 228.59,
+"text": "This wasn't a stupid idea. Sickness clustered in crowded, foul-smelling places. Given what physicians could observe, it made sense to suspect the air itself."
+},
+{
+"i": 32,
+"s": 228.4,
+"e": 230.6,
+"text": "Now put the two ideas next to each other."
+},
+{
+"i": 33,
+"s": 230.6,
+"e": 234.18,
+"text": "A hot bath opens the pores. Corrupted air is dangerous."
+},
+{
+"i": 34,
+"s": 234.02,
+"e": 235.86,
+"text": "What happens if you combine them?"
+},
+{
+"i": 35,
+"s": 236.02,
+"e": 248.38,
+"text": "In October 1348, King Philip the sixth of France commissioned the medical faculty of the University of Paris to produce an official report on the pestilence — what was causing it, and what people should do to survive it."
+},
+{
+"i": 36,
+"s": 248.52,
+"e": 253.23,
+"text": "That report still exists. A document written by physicians during the outbreak itself."
+},
+{
+"i": 37,
+"s": 253.38,
+"e": 260.06,
+"text": "Inside it, alongside advice about diet, sleep, and emotional state, is a section on exercise and bathing."
+},
+{
+"i": 38,
+"s": 260.32,
+"e": 264.36,
+"text": "The faculty warned that bathing could increase a person's vulnerability to the plague."
+},
+{
+"i": 39,
+"s": 264.72,
+"e": 273.94,
+"text": "Not because water itself was evil, but because a hot bath opened the body, and an open body, in air they believed was already corrupted, was a body with its defenses down."
+},
+{
+"i": 40,
+"s": 273.94,
+"e": 276.1,
+"text": "This is where the contradiction disappears."
+},
+{
+"i": 41,
+"s": 276.54,
+"e": 286.15,
+"text": "The same mechanism that made a bath therapeutic — opening the body to produce a desired effect — could, under a different set of circumstances, make that same bath dangerous."
+},
+{
+"i": 42,
+"s": 286.3,
+"e": 291.15,
+"text": "Nobody had to abandon their theory of how the body worked. They simply applied it to a new threat."
+},
+{
+"i": 43,
+"s": 291.33,
+"e": 300.94,
+"text": "Other plague writings from the period make the logic even more direct: warm water opened the pores, corrupted air could enter more easily through them, so bathing was something to avoid."
+},
+{
+"i": 44,
+"s": 300.94,
+"e": 307.16,
+"text": "But before you file this away as \"medieval doctors were simply wrong,\" there's something the story usually leaves out."
+},
+{
+"i": 45,
+"s": 307.34,
+"e": 309.96,
+"text": "Miasma wasn't the only theory in circulation."
+},
+{
+"i": 46,
+"s": 310.11,
+"e": 317.79,
+"text": "In Granada, a physician named Ibn al-Khatib was watching the same plague unfold and noticed something the air theory didn't fully explain."
+},
+{
+"i": 47,
+"s": 317.95,
+"e": 324.98,
+"text": "People who had contact with the sick were getting sick. Not everyone breathing the same air — specifically, people near the infected."
+},
+{
+"i": 48,
+"s": 325.16,
+"e": 331.9,
+"text": "He argued for something much closer to contagion: disease passing from person to person rather than simply floating through the air."
+},
+{
+"i": 49,
+"s": 332.28,
+"e": 336.56,
+"text": "Another physician, Ibn Qatama, reached similar conclusions around the same time."
+},
+{
+"i": 50,
+"s": 336.71,
+"e": 342.44,
+"text": "So this wasn't a monolith. It wasn't \"medieval people believed one simple, wrong thing.\""
+},
+{
+"i": 51,
+"s": 342.72,
+"e": 351.63,
+"text": "It was a live medical debate, with different physicians drawing different conclusions from what they were observing. Some of them were closer to the truth than we usually give them credit for."
+},
+{
+"i": 52,
+"s": 351.78,
+"e": 356.34,
+"text": "There was also another reason to avoid the bathhouse that had nothing to do with pores or air."
+},
+{
+"i": 53,
+"s": 356.34,
+"e": 357.92,
+"text": "Bathhouses were crowded."
+},
+{
+"i": 54,
+"s": 358.08,
+"e": 366.76,
+"text": "During an epidemic, a room full of strangers, some of whom might already be sick, is a genuinely reasonable place to avoid, even without a correct theory of germs."
+},
+{
+"i": 55,
+"s": 367.18,
+"e": 374.86,
+"text": "Medieval physicians noticed this too. Crowding and the risk of contact with infected people appeared alongside the pore theory as reasons to stay away."
+},
+{
+"i": 56,
+"s": 375.01,
+"e": 382.32,
+"text": "Some of the fear was simply people noticing that gathering in a warm, enclosed room during a mass death event probably wasn't a great idea."
+},
+{
+"i": 57,
+"s": 382.32,
+"e": 392.59,
+"text": "So now you'd expect the obvious ending. The Black Death hits. Doctors warn against bathing. The bathhouses close. Europe stops bathing and stays dirty for the next few hundred years."
+},
+{
+"i": 58,
+"s": 392.75,
+"e": 393.84,
+"text": "Except that's not what happened."
+},
+{
+"i": 59,
+"s": 394.16,
+"e": 400.43,
+"text": "Bathhouses didn't disappear in 1349. They didn't disappear in 1360. They continued for generations."
+},
+{
+"i": 60,
+"s": 400.58,
+"e": 405.29,
+"text": "They kept serving food. They kept providing social and medical functions. People kept going."
+},
+{
+"i": 61,
+"s": 405.44,
+"e": 409.58,
+"text": "The plague changed the calculation during outbreaks. It didn't end the institution."
+},
+{
+"i": 62,
+"s": 409.75,
+"e": 417.2,
+"text": "Which means the real question isn't how the Black Death destroyed bathing. It's: if the plague didn't kill the bathhouse, what did?"
+},
+{
+"i": 63,
+"s": 417.36,
+"e": 421.48,
+"text": "The answer arrives more than a century later, and it has much less to do with pores."
+},
+{
+"i": 64,
+"s": 421.88,
+"e": 426.53,
+"text": "At the very end of the 15th century, a new disease appeared in Europe. Syphilis."
+},
+{
+"i": 65,
+"s": 426.72,
+"e": 431.0,
+"text": "And unlike plague, syphilis became strongly associated with sexual contact."
+},
+{
+"i": 66,
+"s": 431.28,
+"e": 442.9,
+"text": "By this point, some bathhouses already had reputations that went beyond washing, including associations with prostitution and sexual activity. Then a new disease appeared that could be transmitted through sexual contact."
+},
+{
+"i": 67,
+"s": 443.07,
+"e": 446.16,
+"text": "The combination changed how some authorities viewed the bathhouse."
+},
+{
+"i": 68,
+"s": 446.31,
+"e": 447.94,
+"text": "You can see it in the municipal record."
+},
+{
+"i": 69,
+"s": 448.1,
+"e": 464.82,
+"text": "In Zurich, in 1496, as syphilis spread, the city council issued regulations ordering people with the disease to stay away from inns and bathhouses. Barbers and surgeons were restricted from admitting infected people to the baths, and rules were imposed concerning potentially contaminated laundry."
+},
+{
+"i": 70,
+"s": 464.82,
+"e": 473.93,
+"text": "This wasn't just vague cultural anxiety. It was a government, in writing, treating the bathhouse as a potential point of contagion for a specific disease."
+},
+{
+"i": 71,
+"s": 474.09,
+"e": 484.96,
+"text": "You could argue with a doctor about pores and corrupted air. It was much harder to defend a place once it had become associated with the transmission of a disease that people understood to have a specific route of spread."
+},
+{
+"i": 72,
+"s": 485.11,
+"e": 488.96,
+"text": "By the early 1500s, the shift was visible even in casual writing."
+},
+{
+"i": 73,
+"s": 488.96,
+"e": 498.86,
+"text": "The scholar Erasmus, in a dialogue published in 1523, described public baths in Brabant as far less popular than they had been roughly 25 years earlier."
+},
+{
+"i": 74,
+"s": 499.08,
+"e": 509.29,
+"text": "He wasn't writing a census. He was writing literature, a conversation between characters. But even as a literary observation, it tells us something about the changing reputation of the bathhouse."
+},
+{
+"i": 75,
+"s": 509.44,
+"e": 518.57,
+"text": "Through the 16th century, public bathhouses declined across large parts of Western Europe. Not everywhere. Not at the same time. And not for one single reason."
+},
+{
+"i": 76,
+"s": 518.72,
+"e": 528.12,
+"text": "Plague-era caution, the association with syphilis, moral regulation, and changing ideas about cleanliness all played different roles depending on where you were."
+},
+{
+"i": 77,
+"s": 528.3,
+"e": 536.92,
+"text": "There's no single year when you can say: this is when Europe stopped bathing. Because Europe didn't stop bathing. Public bathhouses declined. Bathing itself didn't."
+},
+{
+"i": 78,
+"s": 537.06,
+"e": 544.1,
+"text": "People washed at home, in basins and tubs. Medicinal baths continued. Spas continued. Sweat bathing continued."
+},
+{
+"i": 79,
+"s": 543.96,
+"e": 547.35,
+"text": "The institution changed. The practice didn't disappear."
+},
+{
+"i": 80,
+"s": 547.5,
+"e": 559.82,
+"text": "What happened wasn't a collapse from clean to dirty. It was a redistribution of cleanliness — moving, gradually and unevenly, out of the shared public bathhouse and into smaller, more private, more controlled spaces."
+},
+{
+"i": 81,
+"s": 560.22,
+"e": 561.48,
+"text": "So go back to where we started."
+},
+{
+"i": 82,
+"s": 561.76,
+"e": 567.64,
+"text": "A hot bath was medicine. A hot bath was also, to the same medical tradition, a potential danger."
+},
+{
+"i": 83,
+"s": 567.83,
+"e": 576.06,
+"text": "That wasn't a contradiction to the people living inside that framework. teamwork. It was the same idea — heat and moisture changing the body — applied to two different situations."
+},
+{
+"i": 84,
+"s": 576.44,
+"e": 584.7,
+"text": "In an ordinary year, opening the body could help it heal. In a year when the air itself was believed to carry disease, opening the body could help disease get in."
+},
+{
+"i": 85,
+"s": 584.98,
+"e": 594.58,
+"text": "Nobody in 1348 woke up and decided to hate water. A king asked his physicians a serious question, and they gave him the most logical answer their medicine could produce."
+},
+{
+"i": 86,
+"s": 594.88,
+"e": 598.38,
+"text": "They were wrong about the mechanism. But some of what they observed was real."
+},
+{
+"i": 87,
+"s": 598.38,
+"e": 609.34,
+"text": "Crowded rooms during an epidemic could be dangerous. Contact with infected people could matter. And some physicians were already beginning to argue that disease could spread directly from person to person."
+},
+{
+"i": 88,
+"s": 609.68,
+"e": 613.9,
+"text": "Medieval Europe never made the simple journey from clean to dirty that we like to imagine."
+},
+{
+"i": 89,
+"s": 614.14,
+"e": 617.16,
+"text": "What actually happened was more complicated, and more human."
+},
+{
+"i": 90,
+"s": 617.31,
+"e": 629.02,
+"text": "An institution built around washing, healing, and social life collided with new diseases, new fears, new regulations, and slowly changing ideas about what cleanliness should look like."
+},
+{
+"i": 91,
+"s": 629.17,
+"e": 634.47,
+"text": "The bath never stopped working the way they thought it worked. The world around it just kept changing what that meant."
+},
+{
+"i": 92,
+"s": 634.86,
+"e": 642.68,
+"text": "And if you made it this far, the sources for this story are in the description. If you enjoyed the video, hit that like button and subscribe, and I will see you in the next one."
+}
+]
