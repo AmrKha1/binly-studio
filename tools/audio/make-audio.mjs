@@ -364,13 +364,15 @@ for (let i = 0; i < N; i++) {
 const sL = new Float32Array(N), sR = new Float32Array(N);
 const srnd = mulberry(1234);
 let curGain = 1;
+// every sound event is rendered into its own small buffer (tgt*, starting at sample tgtOff), levelled, then mixed
+let tgtL = sL, tgtR = sR, tgtOff = 0;
 const add = (t0, len, fn, pan = 0, gain = 1) => {
-  const i0 = Math.floor(t0 * SR);
-  for (let k = 0; k < len * SR && i0 + k < N; k++) {
+  const i0 = Math.floor(t0 * SR) - tgtOff;
+  for (let k = 0; k < len * SR && i0 + k < tgtL.length; k++) {
     if (i0 + k < 0) continue;
     const v = fn(k / SR) * gain * curGain;
-    sL[i0 + k] += v * (1 - pan * 0.6);
-    sR[i0 + k] += v * (1 + pan * 0.6);
+    tgtL[i0 + k] += v * (1 - pan * 0.6);
+    tgtR[i0 + k] += v * (1 + pan * 0.6);
   }
 };
 const noise = (lpHz, shape, gain = 1, hpHz = 0) => {
@@ -438,25 +440,80 @@ const SFX = {
   glass: (t, p) => add(t, 1.2, bell(2800, 5, 0.04), p),
 };
 let unknown = 0;
-for (const s of sfxList) {
-  const g = s.gain ?? 1, p = s.pan ?? 0;
-  if (s.file) {
-    const f = path.resolve(s.file);
-    if (!fs.existsSync(f)) { console.log(`WARNING: sfx file missing ${s.file}`); continue; }
-    const st = decode(f, 2);
-    const i0 = Math.floor(s.t * SR);
-    for (let k = 0; k * 2 + 1 < st.length && i0 + k < N; k++) {
-      sL[i0 + k] += st[k * 2] * g * 0.3;
-      sR[i0 + k] += st[k * 2 + 1] * g * 0.3;
-    }
-    continue;
+// ---- levels: felt, never competing with the voice -------------------------------------------------------------
+// Each sound is levelled on its own to the same perceived loudness (loudest 50 ms), then given its kind's character
+// offset (soft textures quieter than hits), ducked ~6 dB while the narrator speaks, and placed relative to the voice:
+// a 0 dB kind sits ~16 dB under the speech level in a pause (~22 dB under it while the narrator talks).
+const KIND_DB = {stamp: 0, impact: 0, bell_toll: 0, thump: -1, heartbeat: -1, heartbeat_slow: -1, whoosh: -2, swoosh: -2, riser: -2,
+  rumble: -2, bell: -2, sweep_down: -3, splash: -3, door: -3, footsteps: -5, swish: -4, paper: -4, page: -4, shutter: -4, chime: -4, pop: -4,
+  click: -5, clack: -5, ding: -5, glass: -5, bubble: -5, drip: -5, sparkle: -5, tick: -6, scribble: -6, typing: -6, breath: -6,
+  low_drone: -6, wind: -8, fire: -8, crowd: -8, water: -8};
+const SFX_OFFSET_DB = -16 + (score.sfxLevel ?? 0); // global trim (score.json "sfxLevel", dB) if a video wants it
+const voSpeechLvl = (() => { let q = 0, c = 0; for (let i = 0; i < N; i += 4) if (env[i] > 0.5) { q += vo[i] * vo[i]; c++; } return Math.sqrt(q / Math.max(1, c)); })();
+const REF = (voSpeechLvl > 1e-5 ? voSpeechLvl : 0.1) * Math.pow(10, SFX_OFFSET_DB / 20);
+const W50 = Math.round(SR * 0.05);
+const loudOf = (a, b) => {
+  let best = 0, acc = 0;
+  for (let i = 0; i < a.length; i++) {
+    acc += (a[i] * a[i] + b[i] * b[i]) / 2;
+    if (i >= W50) acc -= (a[i - W50] * a[i - W50] + b[i - W50] * b[i - W50]) / 2;
+    if (acc > best) best = acc;
   }
-  const fn = SFX[s.kind];
-  if (!fn) { unknown++; console.log(`WARNING: unknown sfx kind "${s.kind}" at ${s.t}s`); continue; }
-  curGain = g;
-  fn(s.t, p, s.dur);
-  curGain = 1;
+  return Math.sqrt(Math.max(0, best) / W50);
+};
+// real recordings: library/sfx/<kind>.wav|mp3|ogg|flac (or <kind>-1, <kind>-2 … variants) REPLACE the synthetic kind automatically
+const LIB = path.resolve('library', 'sfx');
+const libFiles = fs.existsSync(LIB) ? fs.readdirSync(LIB).filter((x) => /.(wav|mp3|ogg|flac)$/i.test(x)) : [];
+const libFor = (kind, t) => {
+  const c = libFiles.filter((x) => x.replace(/.[^.]+$/, '').replace(/-d+$/, '') === kind).sort();
+  return c.length ? path.join(LIB, c[Math.floor(Math.abs(Math.sin(t * 12.9898) * 43758.5453) % 1 * c.length)]) : null;
+};
+const LEAD = {whoosh: 0.2, swoosh: 0.15, swish: 0.1, sweep_down: 0.3}; // peak lands on the cue
+const decCache = new Map();
+const placeFile = (file, t, kind, pan, dur) => {
+  if (!decCache.has(file)) decCache.set(file, decode(file, 2));
+  const st = decCache.get(file);
+  const fileLen = st.length / 2;
+  const want = dur ? Math.round(dur * SR) : Math.min(fileLen, Math.round(6 * SR));
+  const start = kind === 'riser' ? t - fileLen / SR : t - (LEAD[kind] ?? 0);
+  const i0 = Math.floor(start * SR) - tgtOff;
+  const fade = Math.round(SR * (dur ? 0.3 : 0.02));
+  for (let k = 0; k < want && i0 + k < tgtL.length; k++) {
+    if (i0 + k < 0) continue;
+    const j = k % fileLen; // long kinds (crowd, wind, fire …) loop to the requested dur
+    const env2 = Math.min(1, k / (dur ? fade : 1), (want - k) / fade);
+    tgtL[i0 + k] += st[j * 2] * env2 * (1 - pan * 0.6);
+    tgtR[i0 + k] += st[j * 2 + 1] * env2 * (1 + pan * 0.6);
+  }
+};
+for (const s of sfxList) {
+  const p = s.pan ?? 0;
+  const d = s.dur ?? 0;
+  const lenS = 2.5 + Math.max(7, d + 2);
+  tgtOff = Math.max(0, Math.floor((s.t - 2.5) * SR));
+  tgtL = new Float32Array(Math.round(lenS * SR));
+  tgtR = new Float32Array(tgtL.length);
+  const file = s.file ? path.resolve(s.file) : libFor(s.kind, s.t);
+  if (file) {
+    if (!fs.existsSync(file)) { console.log(`WARNING: sfx file missing ${s.file}`); continue; }
+    placeFile(file, s.t, s.kind, p, d);
+  } else {
+    const fn = SFX[s.kind];
+    if (!fn) { unknown++; console.log(`WARNING: unknown sfx kind "${s.kind}" at ${s.t}s`); continue; }
+    fn(s.t, p, s.dur);
+  }
+  const l = loudOf(tgtL, tgtR);
+  if (l < 1e-7) continue;
+  const g = (REF / l) * Math.pow(10, (KIND_DB[s.kind] ?? -4) / 20) * (s.gain ?? 1);
+  for (let k = 0; k < tgtL.length; k++) {
+    const i = tgtOff + k;
+    if (i >= N) break;
+    const duck = 1 - 0.5 * env[i]; // ~ -6 dB while the narrator speaks
+    sL[i] += tgtL[k] * g * duck;
+    sR[i] += tgtR[k] * g * duck;
+  }
 }
+tgtL = sL; tgtR = sR; tgtOff = 0;
 
 // ------------------------------------------------------------------ gain staging (voice untouched)
 const speech = (i) => env[i] > 0.5;
@@ -471,9 +528,10 @@ const voSpeech = rmsDb(vo, speech);
 const musTarget = (voSpeech < -90 ? -18 : voSpeech - 21) + (score.level ?? 0); // (no voice at all → demo mode, fixed level) // music ~21 dB under the voice while it speaks (background, never competing)
 scale([L, R], musTarget - (voSpeech < -90 ? rmsDb(L, () => true) : rmsDb(L, speech)));
 if (sfxList.length) {
+  // safety only: no SFX peak may come closer than 8 dB to the voice peak (levels are set per sound above)
   const voPeak = peakDb(vo);
   const sp = Math.max(peakDb(sL), peakDb(sR));
-  if (sp > -100) scale([sL, sR], voPeak - 22 - sp); // SFX peaks ~22 dB under the voice peak
+  if (sp > voPeak - 8) scale([sL, sR], voPeak - 8 - sp);
 }
 const gap = (i) => env[i] < 0.25 && i > SR * 3 && i < N - SR * 4;
 const levelLine = `levels: VO speech ${voSpeech.toFixed(1)} dBFS · music under speech ${(rmsDb(L, speech) - voSpeech).toFixed(1)} dB rel. VO · music in gaps ${(() => { const v = rmsDb(L, gap); return v < -150 ? 'n/a (no long pauses)' : (v - voSpeech).toFixed(1) + ' dB rel. VO'; })()} · music peak ${peakDb(L).toFixed(1)} · sfx peak ${Math.max(peakDb(sL), peakDb(sR)).toFixed(1)} dBFS${unknown ? ` · ${unknown} unknown sfx kinds` : ''}`;
