@@ -36,7 +36,8 @@ function of props; `t` = idle life (cloud drift, sway, flicker, ripples), `seed`
 - **Water** — lake band with drifting ripple dashes + optional sun/moon glint column.
   `{y?=780; h?=400; t?; tone?; glintX?; x?; w?; color?; seed?}`
 - **Landscape** — ready composite (sky, hills, trees, optional lake, ground). `{tone?; seed?; t?; water?: bool; trees?: TreeKind|'mixed'; biome?: 'temperate'|'desert'|'mountains'|'coast'|'jungle'|'snow'}`
-  biomes (all tones): desert = dunes, mesas, cacti · mountains = snow-capped peaks, conifers · coast = sea + surf, beach from y 930, palms · jungle = dense canopy + palms · snow = white hills, snowy conifers. `water`/`trees` = temperate only.
+  Biomes are NOT a default backdrop — use one only when the narration is set in that place (a desert crossing, a
+  mountain pass, a coastline, a jungle, winter); otherwise the scene's place comes from the story (city, room, map…). biomes (all tones): desert = dunes, mesas, cacti · mountains = snow-capped peaks, conifers · coast = sea + surf, beach from y 930, palms · jungle = dense canopy + palms · snow = white hills, snowy conifers. `water`/`trees` = temperate only.
   `<Landscape tone="dusk" water t={t}/>` (lake shore / floor ≈ y 955; without water, near hill ≈ 870–900)
 
 ## City
