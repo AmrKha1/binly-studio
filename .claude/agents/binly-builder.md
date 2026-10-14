@@ -309,6 +309,17 @@ Silhouettes: `tools/silhouette.mjs` (PhyloPic organism shapes → shared library
 
 ### Kit index — read this first, then open ONLY the sections you need
 
+## What you can show (menu — combine freely; everything below is ready-made)
+- **Worlds you can fly through:** layered 2.5D parallax scenes (sky, landscapes, medieval/modern cities & streets, rooms, bathhouse, lab, museum, study, bedroom, mind space) with camera pans, push-ins, pull-outs and scale dives.
+- **Looks-3D (drawn flat, fast):** a spinning globe with countries/pins/routes/night side, isometric buildings, rooms, towns, stairs, cylinders, shaded spheres (planets, moons, cells, eyeballs), dolly through depth layers.
+- **People & life:** parametric characters (eras, outfits, poses, expressions, walking, talking, sitting), crowds; animal/dinosaur/microbe silhouettes (shared library, recolourable, dashed = inferred).
+- **Real evidence:** archival images edited like a storyteller — Ken Burns, detail hunt with labels, montage on the beat, collage board, compare/wipe, document scan + translation, animation drawn over reality, image inside an animated scene, parallax cut-out.
+- **Ideas made visible:** flows, cycles, Venn, comparisons, timelines, maps, exact-number stats with dot grids/bars/rings, claims stamped with certainty colours, open questions, quotes and documents, study cards, screens, speech/thought/inner-voice bubbles.
+- **Science:** brain regions, heads with EEG/implants, body & organs, eye cross-section, neurons/synapses, cells, immune cells, germs/viruses, DNA, molecules, waveforms.
+- **Life & atmosphere:** steam, flames, particles (dust/spores/embers), light shafts and pools, ripples, camera breathe/shake; transitions: fade, dip, ink, iris in/out, push, paper, zoom-through, wipe, cut.
+- **Shot templates:** 21 ready full shots (12 info beats + 9 real-image treatments) — see docs/catalog/templates.png.
+Missing something? Build it once, flexibly (props for era/colour/pose), and register it in docs/ASSETS.md.
+
 Import from `../../../kit/<module>` (chapters) · visual catalogs: `docs/catalog/templates.png`, `docs/catalog/kit.png` · full reference: `docs/KIT.md` (rarely needed).
 
 ## docs/kit/core.md — Stage, camera (Cam/World/breathe/shake), time maths (ramp/keys/win/camAt/rand/noise1/countUp), Shots + transitions, palette C/SEM
