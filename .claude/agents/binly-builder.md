@@ -236,7 +236,7 @@ A great video in one session beats a perfect plan.
 - Typography: Fraunces (serif) for headlines/quotes/numbers, Inter caps for labels/tags. Rare accent only: Caveat
   handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Certainty labels look
   like museum captions (`Tag`, default); myth-busting verdicts use the editor's red pen (strike + handwritten verdict);
-  the rubber stamp at most ONCE per video, for the biggest verdict. Ink on paper or
+  for the climax verdict the same red pen at hero size (full-screen claim, heavy strike, big handwritten verdict). Ink on paper or
   paper on ink — never mid-tone on mid-tone. Inside SAFE margins (96 px). Readable at 1080p.
 - Each scene has ONE clear focal point (scale, contrast, negative space). No collisions of text/objects.
 - Variety without changing art direction: alternate environment / character / concept / diagram scenes.
@@ -343,7 +343,7 @@ Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, ler
 
 ## docs/kit/text-cards-diagrams.md — Typography, paper objects & screens & bubbles, diagrams/arrows/flows, light & motion fx, characters (Person/Crowd)
 modules: kit/text, kit/cards, kit/diagrams, kit/fx, kit/people
-textW, Headline, Kicker, Para, Tag, Stamp, RedPen, Stat, Underline, Highlight, Circled, NameTag, TitleCard, HandNote, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, Expression, Outfit, Hat, Hair, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd
+textW, Headline, Kicker, Para, Tag, RedPen, Stat, Underline, Highlight, Circled, NameTag, TitleCard, HandNote, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, Expression, Outfit, Hat, Hair, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd
 
 ## docs/kit/templates.md — Ready-made full shots for standard beats (stat, quote, evidence, claim, compare, list, timeline, map, person, process, question, title)
 modules: kit/templates

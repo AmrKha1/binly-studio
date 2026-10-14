@@ -706,7 +706,7 @@ const KIND_TAG: Record<'confirmed' | 'theory' | 'caution', string> = {confirmed:
 
 /**
  * ClaimShot — one claim with its certainty. kind confirmed (solid green rule) | theory (dashed plum frame —
- * Binly "inferred") | caution (mustard). `tag` text (defaults Confirmed/Theory/Debated), optional `stamp` verdict (verdict 'pen' = Binly default: red-pen strike + handwritten note; 'stamp' = rubber stamp for rare big verdicts),
+ * Binly "inferred") | caution (mustard). `tag` text (defaults Confirmed/Theory/Debated), optional `stamp` verdict text (red-pen strike + handwritten note; verdict 'stamp' = legacy rubber stamp, not used),
  * optional `but` follow-up line ("But…") at `butAt`. `highlight` words in the claim get the accent colour.
  */
 export const ClaimShot: React.FC<

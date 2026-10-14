@@ -59,9 +59,9 @@ Real archival image framed on a gallery wall (wires, lamp light); camera pushes 
 
 ## ClaimShot
 A claim with its certainty: confirmed (solid green frame) · theory (dashed plum = inferred) · caution (mustard). Optional verdict + "But…" line.
-Verdict default 'pen': the claim is crossed out in red (not for confirmed) and `stamp` text is handwritten in the corner; 'stamp' = rubber stamp (rare).
+Verdict default 'pen': the claim is crossed out in red (not for confirmed) and `stamp` text is handwritten in the corner.
 ```ts
-<ClaimShot {...base} text kind?: 'confirmed'|'theory'|'caution' tag? (default Confirmed/Theory/Debated) stamp? verdict?: 'pen'|'stamp' but?
+<ClaimShot {...base} text kind?: 'confirmed'|'theory'|'caution' tag? (default Confirmed/Theory/Debated) stamp? but?
   icon? highlight?: string[] at? tagAt? stampAt? butAt? />
 ```
 ```tsx

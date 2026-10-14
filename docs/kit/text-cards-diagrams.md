@@ -5,8 +5,7 @@
 - `Para {x,y,w,h=600,text,p,size=36,color,align,font,weight,italic,lineHeight}` wrapped paragraph (keep short).
 - `Tag {x,y,text,kind:Sem,p,size=26,to?:{x,y},anchor:'left'|'right'|'center',look:'caption'|'pill'}` certainty label.
   Default look 'caption' = museum caption (colour stripe + italic serif on a paper slip); 'pill' = old solid chip (rarely).
-- `Stamp {x,y,text,p,color=oxblood,size=56,rot=-6}` rubber verdict stamp — at most ONCE per video, for the biggest verdict.
-- Red-pen verdict (Binly default for myth-busting): in templates `ClaimShot … stamp="Wrong"` (verdict 'pen' is default);
+- Red-pen verdict (Binly's ONLY verdict style; for the climax use it at hero size — full-screen claim, big handwritten note): in templates `ClaimShot … stamp="Wrong"` (verdict 'pen' is default);
   in custom scenes `RichText … strike={ramp(t,T.x,T.x+0.5)}` crosses the words out exactly + a `HandNote` verdict;
   `RedPen {lines:[{x,y,w}],p,note,noteX,noteY,strike}` for SVG text whose line widths you know.
 - `HandNote {x,y,text,p,size=50,color=oxblood,rot=-3,anchor,weight}` handwritten note (Caveat, `FONT_HAND`), written on

@@ -35,7 +35,7 @@ Practical technique from the best YouTube storytellers and animation channels, s
 
 ## Visual metaphor toolbox (match the idea, don't decorate)
 - Absence / unknown → dashed outline, empty frame, "?" | Evidence → solid shapes, green tags, documents,
-  stamps | Theory → plum, dashed, thought bubbles | Debate → two figures/cards facing, balance scale |
+  official seals | Theory → plum, dashed, thought bubbles | Debate → two figures/cards facing, balance scale |
   Time → timeline, clock, seasons, ageing paper | Scale → zoom, size comparison | Cause→effect →
   flow chain, dominoes, arrows | Spread → map routes, ripples, crowds | Inner life → ink/plum mind-space,
   inner-speech bubbles (dashed) | Danger/caution → mustard, flicker, low drones | Revelation → oxblood

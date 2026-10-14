@@ -220,7 +220,7 @@ export const Tag: React.FC<{
   );
 };
 
-/** Rubber stamp that thumps down. Use for verdicts: "NOT TRUE", "BANNED", "1348". */
+/** @legacy Rubber stamp — NOT used by Binly any more (verdicts = the red pen). Kept only so old code still renders. */
 export const Stamp: React.FC<{x: number; y: number; text: string; p: number; color?: string; size?: number; rot?: number}> = ({x, y, text, p, color = C.oxblood, size = 56, rot = -6}) => {
   if (p <= 0) return null;
   const s = 1.35 - 0.35 * ease.outBack(Math.min(1, p));
@@ -242,7 +242,7 @@ export const Stamp: React.FC<{x: number; y: number; text: string; p: number; col
  * RedPen — the editor's red pen: hand-drawn strike(s) through a false claim (`lines` = the text lines to cross out,
  * each {x, y (middle of the text line), w}), then a handwritten `note` (HandNote) at noteX/noteY. strike:false →
  * a hand-drawn underline instead (for a verdict on a TRUE claim). p 0→0.6 draws the strikes, 0.5→1 writes the note.
- * Binly's default verdict (myth-busting); the rubber `Stamp` is kept for rare, biggest verdicts.
+ * Binly's ONLY verdict style (myth-busting). For the climax verdict use it at hero size (full-screen claim, big note).
  */
 export const RedPen: React.FC<{
   lines: {x: number; y: number; w: number}[];

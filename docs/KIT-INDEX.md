@@ -19,7 +19,7 @@ Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, ler
 
 ## docs/kit/text-cards-diagrams.md — Typography, paper objects & screens & bubbles, diagrams/arrows/flows, light & motion fx, characters (Person/Crowd)
 modules: kit/text, kit/cards, kit/diagrams, kit/fx, kit/people
-textW, Headline, Kicker, Para, Tag, Stamp, RedPen, Stat, Underline, Highlight, Circled, NameTag, TitleCard, HandNote, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, Expression, Outfit, Hat, Hair, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd
+textW, Headline, Kicker, Para, Tag, RedPen, Stat, Underline, Highlight, Circled, NameTag, TitleCard, HandNote, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, Expression, Outfit, Hat, Hair, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd
 
 ## docs/kit/templates.md — Ready-made full shots for standard beats (stat, quote, evidence, claim, compare, list, timeline, map, person, process, question, title)
 modules: kit/templates

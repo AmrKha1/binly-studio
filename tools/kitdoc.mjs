@@ -37,7 +37,9 @@ const exportsOf = (mod) => {
   const g = fs.existsSync(f) ? f : path.join(ROOT, 'src', 'kit', `${mod}.ts`);
   if (!fs.existsSync(g)) return [];
   const src = fs.readFileSync(g, 'utf8');
-  return [...new Set([...src.matchAll(/^export (?:const|function|type) (\w+)/gm)].map((m) => m[1]))];
+  // legacy exports stay for old code but are not offered to builders (`/** @legacy … */` on the line above the export)
+  const legacy = new Set([...src.matchAll(/@legacy[^\n]*\n\s*export (?:const|function|type) (\w+)/g)].map((m) => m[1]));
+  return [...new Set([...src.matchAll(/^export (?:const|function|type) (\w+)/gm)].map((m) => m[1]))].filter((n) => !legacy.has(n));
 };
 const MENU = [
   '## What you can show (menu — combine freely; everything below is ready-made)',

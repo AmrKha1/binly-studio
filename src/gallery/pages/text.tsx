@@ -2,7 +2,7 @@ import React from 'react';
 import {Stage} from '../../kit/stage';
 import {C, FONT_SERIF} from '../../kit/theme';
 import {ramp} from '../../kit/anim';
-import {Circled, HandNote, Headline, Highlight, Kicker, NameTag, RedPen, Stamp, Stat, Tag, TitleCard, Underline, textW} from '../../kit/text';
+import {Circled, HandNote, Headline, Highlight, Kicker, NameTag, RedPen, Stat, Tag, TitleCard, Underline, textW} from '../../kit/text';
 import {RichText} from '../../kit/templates';
 
 // Typography showcase. Everything settles by t = 3 s.
@@ -22,8 +22,6 @@ export const Text: React.FC<{t: number}> = ({t}) => (
     {/* Binly default verdict: the editor's red pen */}
     <text x={1150} y={150} fontFamily={FONT_SERIF} fontWeight={600} fontSize={54} fill={C.ink} opacity={ramp(t, 0.2, 0.8)}>Baths spread the plague.</text>
     <RedPen lines={[{x: 1150, y: 137, w: textW('Baths spread the plague.', 54, 'serif') * 0.98}]} note="mostly wrong!" noteX={1420} noteY={222} p={ramp(t, 1.0, 2.2)} />
-    {/* rubber stamp: at most ONCE per video, for the biggest verdict (default verdict = red pen above) */}
-    <Stamp x={730} y={735} text="Busted" size={30} rot={-8} p={ramp(t, 2.4, 2.8)} />
     <Stat x={1440} y={470} value="0.061" unit="%" label="of all surgeries" p={ramp(t, 0.5, 2.5)} color={C.oxblood} />
     <Stat x={1440} y={760} value="505,000" label="intraocular surgeries" p={ramp(t, 0.5, 2.5)} size={130} />
     <Circled x={1450} y={400} rx={330} ry={108} p={ramp(t, 2.2, 3)} />
