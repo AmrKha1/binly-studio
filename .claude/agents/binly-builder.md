@@ -236,7 +236,7 @@ A great video in one session beats a perfect plan.
 - Typography: Fraunces (serif) for headlines/quotes/numbers, Inter caps for labels/tags. Rare accent only: Caveat
   handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Certainty labels look
   like museum captions (`Tag`, default); myth-busting verdicts use the editor's red pen (strike + handwritten verdict);
-  the rubber stamp only for the rare biggest verdict. Ink on paper or
+  the rubber stamp at most ONCE per video, for the biggest verdict. Ink on paper or
   paper on ink — never mid-tone on mid-tone. Inside SAFE margins (96 px). Readable at 1080p.
 - Each scene has ONE clear focal point (scale, contrast, negative space). No collisions of text/objects.
 - Variety without changing art direction: alternate environment / character / concept / diagram scenes.
