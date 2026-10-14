@@ -447,7 +447,7 @@ let unknown = 0;
 const KIND_DB = {stamp: 0, impact: 0, bell_toll: 0, thump: -1, heartbeat: -1, heartbeat_slow: -1, whoosh: -2, swoosh: -2, riser: -2,
   rumble: -2, bell: -2, sweep_down: -3, splash: -3, door: -3, footsteps: -5, swish: -4, paper: -4, page: -4, shutter: -4, chime: -4, pop: -4,
   click: -5, clack: -5, ding: -5, glass: -5, bubble: -5, drip: -5, sparkle: -5, tick: -6, scribble: -6, typing: -6, breath: -6,
-  low_drone: -6, wind: -8, fire: -8, crowd: -8, water: -8};
+  low_drone: -6, wind: -8, fire: -8, crowd: -8, water: -8, coins: -5};
 const SFX_OFFSET_DB = -16 + (score.sfxLevel ?? 0); // global trim (score.json "sfxLevel", dB) if a video wants it
 const voSpeechLvl = (() => { let q = 0, c = 0; for (let i = 0; i < N; i += 4) if (env[i] > 0.5) { q += vo[i] * vo[i]; c++; } return Math.sqrt(q / Math.max(1, c)); })();
 const REF = (voSpeechLvl > 1e-5 ? voSpeechLvl : 0.1) * Math.pow(10, SFX_OFFSET_DB / 20);
@@ -463,14 +463,16 @@ const loudOf = (a, b) => {
 };
 // real recordings: library/sfx/<kind>.wav|mp3|ogg|flac (or <kind>-1, <kind>-2 … variants) REPLACE the synthetic kind automatically
 const LIB = path.resolve('library', 'sfx');
-const libFiles = fs.existsSync(LIB) ? fs.readdirSync(LIB).filter((x) => /.(wav|mp3|ogg|flac)$/i.test(x)) : [];
+const libFiles = fs.existsSync(LIB) ? fs.readdirSync(LIB).filter((x) => /\.(wav|mp3|ogg|flac)$/i.test(x)) : [];
 const libFor = (kind, t) => {
-  const c = libFiles.filter((x) => x.replace(/.[^.]+$/, '').replace(/-d+$/, '') === kind).sort();
+  const c = libFiles.filter((x) => x.replace(/\.[^.]+$/, '').replace(/-\d+$/, '') === kind).sort();
   return c.length ? path.join(LIB, c[Math.floor(Math.abs(Math.sin(t * 12.9898) * 43758.5453) % 1 * c.length)]) : null;
 };
 const LEAD = {whoosh: 0.2, swoosh: 0.15, swish: 0.1, sweep_down: 0.3}; // peak lands on the cue
 const decCache = new Map();
+const AMBIENT = new Set(['crowd', 'water', 'wind', 'fire', 'footsteps']); // beds: default 4 s with soft 0.3 s fades
 const placeFile = (file, t, kind, pan, dur) => {
+  if (!dur && AMBIENT.has(kind)) dur = 4;
   if (!decCache.has(file)) decCache.set(file, decode(file, 2));
   const st = decCache.get(file);
   const fileLen = st.length / 2;
