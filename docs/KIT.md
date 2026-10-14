@@ -35,8 +35,12 @@ metal, lamp, fire, water/waterDeep, slate, sky, dusk, night, skin[0..4], skinSha
   e.g. `<Headline x={960} y={220} text="A hot bath was medicine." mode="words" accent={{medicine: C.oxblood}} p={ramp(t,T.a,T.a+1)}/>`
 - `Kicker {x,y,text,p=1,size=24,color=inkMute,anchor}` small tracked caps label.
 - `Para {x,y,w,h=600,text,p,size=36,color,align,font,weight,italic,lineHeight}` wrapped paragraph (keep short).
-- `Tag {x,y,text,kind:Sem,p,size=26,to?:{x,y},anchor:'left'|'right'|'center',dot}` semantic chip, optional leader line.
-- `Stamp {x,y,text,p,color=oxblood,size=56,rot=-6}` thumping verdict stamp.
+- `Tag {x,y,text,kind:Sem,p,size=26,to?:{x,y},anchor:'left'|'right'|'center',look:'caption'|'pill'}` certainty label.
+  Default look 'caption' = museum caption (colour stripe + italic serif on a paper slip); 'pill' = old solid chip (rarely).
+- `Stamp {x,y,text,p,color=oxblood,size=56,rot=-6}` rubber verdict stamp — only for the rare BIGGEST verdict.
+- Red-pen verdict (Binly default for myth-busting): in templates `ClaimShot … stamp="Wrong"` (verdict 'pen' is default);
+  in custom scenes `RichText … strike={ramp(t,T.x,T.x+0.5)}` crosses the words out exactly + a `HandNote` verdict;
+  `RedPen {lines:[{x,y,w}],p,note,noteX,noteY,strike}` for SVG text whose line widths you know.
 - `HandNote {x,y,text,p,size=50,color=oxblood,rot=-3,anchor,weight}` handwritten note (Caveat, `FONT_HAND`), written on
   letter by letter. RARE accent: a scribbled note beside a detail on an image/document (often with `Circled`/an arrow) —
   never titles, labels or body text; at most one or two per chapter.
@@ -925,7 +929,7 @@ Common props (`ShotBase`): `t a b tone?: 'paper'|'ink'|'shade' seed? motif?: 'ri
 — `seed` varies backdrop motif, camera drift and small layout choices (vary it between shots).
 Gallery: `{"page":"templates"}` (stills 2.5, 5.5 … 29.5) and `{"page":"templates2"}` (2.5, 5.5 = Process, Question).
 Helpers exported: `ShotShell` (stage + camera + backdrop + dust + vignette, for custom shots that should match),
-`RichText` (wrapped text with words/type/fade reveal + marker/underline `mark` words), `tonePal`, `semColor`, `Backdrop`, `shotCam`.
+`RichText` (wrapped text with words/type/fade reveal + marker/underline `mark` words + `strike` red-pen progress), `tonePal`, `semColor`, `Backdrop`, `shotCam`.
 
 ## TitleShot
 Chapter/section title: kicker + big title (`\n` = 2 lines) + icon medallion, giant numeral, or custom art slot. Default tone ink.
@@ -974,9 +978,10 @@ Real archival image framed on a gallery wall (wires, lamp light); camera pushes 
 `mark` coords = 0..1 of the window at zoom 1; the default pan zooms around the mark so it stays on the detail.
 
 ## ClaimShot
-A claim with its certainty: confirmed (solid green frame) · theory (dashed plum = inferred) · caution (mustard). Optional stamp + "But…" line.
+A claim with its certainty: confirmed (solid green frame) · theory (dashed plum = inferred) · caution (mustard). Optional verdict + "But…" line.
+Verdict default 'pen': the claim is crossed out in red (not for confirmed) and `stamp` text is handwritten in the corner; 'stamp' = rubber stamp (rare).
 ```ts
-<ClaimShot {...base} text kind?: 'confirmed'|'theory'|'caution' tag? (default Confirmed/Theory/Debated) stamp? but?
+<ClaimShot {...base} text kind?: 'confirmed'|'theory'|'caution' tag? (default Confirmed/Theory/Debated) stamp? verdict?: 'pen'|'stamp' but?
   icon? highlight?: string[] at? tagAt? stampAt? butAt? />
 ```
 ```tsx

@@ -2,7 +2,7 @@ import React from 'react';
 import {C, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
 import {CamState, clamp01, ease, keys, lerp, mixHex, noise1, rand, ramp} from './anim';
 import {Stage, World, breathe} from './stage';
-import {Headline, Kicker, NameTag, Stamp, Stat, Tag, textW} from './text';
+import {HandNote, Headline, Kicker, NameTag, Stamp, Stat, Tag, textW} from './text';
 import {LightPool, Particles, Pulse, Vignette} from './fx';
 import {Icon, IconName} from './icons';
 import {Bar, BarChart, BalanceScale, DotGrid, TimelineAxis, dotGridSize, fmtYear} from './data';
@@ -194,7 +194,9 @@ export const RichText: React.FC<{
   t?: number;
   caps?: boolean;
   tracking?: number;
-}> = ({x, y, w, h, text, size = 56, color = C.ink, font = 'serif', italic = false, weight = 600, align = 'left', valign = 'top', lineHeight = 1.18, p = 1, mode = 'words', mark, markP = 1, markColor = C.cautionLight, markStyle = 'marker', accent, caret = false, t = 0, caps = false, tracking = 0}) => {
+  strike?: number;
+  strikeColor?: string;
+}> = ({x, y, w, h, text, size = 56, color = C.ink, font = 'serif', italic = false, weight = 600, align = 'left', valign = 'top', lineHeight = 1.18, p = 1, mode = 'words', mark, markP = 1, markColor = C.cautionLight, markStyle = 'marker', accent, caret = false, t = 0, caps = false, tracking = 0, strike = 0, strikeColor = C.oxblood}) => {
   if (p <= 0) return null;
   const words = text.split(/\s+/).filter(Boolean);
   const marked = new Set((mark ?? []).flatMap((m) => m.split(/\s+/)).map(norm));
@@ -253,6 +255,7 @@ export const RichText: React.FC<{
   return (
     <foreignObject x={x} y={y} width={w} height={h} opacity={fadeK}>
       <div style={{width: w, height: h, display: 'flex', flexDirection: 'column', justifyContent: valign === 'top' ? 'flex-start' : valign === 'bottom' ? 'flex-end' : 'center'}}>
+        <div style={{position: 'relative'}}>
         <div
           style={{
             fontFamily: font === 'serif' ? FONT_SERIF : FONT_SANS,
@@ -268,6 +271,29 @@ export const RichText: React.FC<{
           }}
         >
           {items}
+        </div>
+        {strike > 0 && (
+          // editor's red pen ON TOP of the text: an invisible copy of the text with one hand-drawn stroke per wrapped
+          // line (box-decoration-break: clone), drawn on as `strike` goes 0→1
+          <div
+            style={{position: 'absolute', inset: 0, fontFamily: font === 'serif' ? FONT_SERIF : FONT_SANS, fontSize: size, fontWeight: weight, fontStyle: italic ? 'italic' : 'normal', color: 'transparent', textAlign: align, lineHeight, textTransform: caps ? 'uppercase' : 'none', letterSpacing: tracking ? `${tracking}em` : undefined}}
+          >
+            <span
+              style={{
+                backgroundImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'><path d='M1 12 C 28 8, 62 15, 99 7' pathLength='100' stroke-dasharray='${(clamp01(strike) * 100).toFixed(2)} 100' stroke='${strikeColor}' stroke-width='3.4' stroke-linecap='round' fill='none'/></svg>`)}")`,
+                backgroundSize: '100% 0.5em',
+                backgroundPosition: '0 62%',
+                backgroundRepeat: 'no-repeat',
+                boxDecorationBreak: 'clone',
+                WebkitBoxDecorationBreak: 'clone',
+                padding: '0 0.18em',
+                margin: '0 -0.18em',
+              }}
+            >
+              {words.join(' ')}
+            </span>
+          </div>
+        )}
         </div>
       </div>
     </foreignObject>
@@ -680,12 +706,12 @@ const KIND_TAG: Record<'confirmed' | 'theory' | 'caution', string> = {confirmed:
 
 /**
  * ClaimShot — one claim with its certainty. kind confirmed (solid green rule) | theory (dashed plum frame —
- * Binly "inferred") | caution (mustard). `tag` text (defaults Confirmed/Theory/Debated), optional `stamp` verdict,
+ * Binly "inferred") | caution (mustard). `tag` text (defaults Confirmed/Theory/Debated), optional `stamp` verdict (verdict 'pen' = Binly default: red-pen strike + handwritten note; 'stamp' = rubber stamp for rare big verdicts),
  * optional `but` follow-up line ("But…") at `butAt`. `highlight` words in the claim get the accent colour.
  */
 export const ClaimShot: React.FC<
-  ShotBase & {text: string; kind?: 'confirmed' | 'theory' | 'caution'; tag?: string; stamp?: string; but?: string; icon?: IconName; highlight?: string[]; at?: number; tagAt?: number; stampAt?: number; butAt?: number}
-> = ({t, a, b, tone = 'paper', seed = 1, motif, text, kind = 'confirmed', tag, stamp, but, icon, highlight, at, tagAt, stampAt, butAt}) => {
+  ShotBase & {text: string; kind?: 'confirmed' | 'theory' | 'caution'; tag?: string; stamp?: string; verdict?: 'pen' | 'stamp'; but?: string; icon?: IconName; highlight?: string[]; at?: number; tagAt?: number; stampAt?: number; butAt?: number}
+> = ({t, a, b, tone = 'paper', seed = 1, motif, text, kind = 'confirmed', tag, stamp, verdict = 'pen', but, icon, highlight, at, tagAt, stampAt, butAt}) => {
   const P = tonePal(tone);
   const t0 = at ?? a + 0.2;
   const col = semColor(kind, P.dark);
@@ -721,7 +747,7 @@ export const ClaimShot: React.FC<
       </g>
       <rect x={x0 - 40} y={top} width={12} height={ruleH} fill={col} rx={2} />
       <Tag x={x0} y={top - 50} text={tag ?? KIND_TAG[kind]} kind={kind} p={ramp(t, tagAt ?? t0, (tagAt ?? t0) + 0.6)} size={24} />
-      <RichText x={x0} y={top} w={cw} h={ch + 20} text={text} size={size} color={P.fg} lineHeight={1.15} p={ramp(t, t0 + 0.1, t0 + 0.1 + dur, ease.linear)} mark={highlight} markP={1} markColor="transparent" accent={col} valign="top" weight={600} />
+      <RichText x={x0} y={top} w={cw} h={ch + 20} text={text} size={size} color={P.fg} lineHeight={1.15} p={ramp(t, t0 + 0.1, t0 + 0.1 + dur, ease.linear)} mark={highlight} markP={1} markColor="transparent" accent={col} valign="top" weight={600} strike={stamp && verdict === 'pen' && kind !== 'confirmed' ? ramp(t, ts, ts + 0.5, ease.inOut) : 0} strikeColor={P.accent} />
       {but && (
         <g>
           <rect x={x0} y={top + ch + 24} width={lerp(0, 120, ease.inOut(ramp(t, tb - 0.2, tb + 0.3)))} height={3} fill={P.line} />
@@ -729,7 +755,10 @@ export const ClaimShot: React.FC<
           <RichText x={x0 + 96} y={top + ch + 50} w={cw - 96} h={100} text={but} size={Math.min(44, fitSize(but.length, cw - 96, 90, 30, 44))} italic color={P.fg} p={ramp(t, tb + 0.05, tb + 0.9, ease.linear)} weight={500} />
         </g>
       )}
-      {stamp && <Stamp x={fr.x + fr.w - 150} y={fr.y + 20} text={stamp} p={ramp(t, ts, ts + 0.45, ease.linear)} color={kind === 'caution' ? P.accent : col} size={52} rot={-7 * sideOf(seed, 8)} />}
+      {stamp && verdict === 'stamp' && <Stamp x={fr.x + fr.w - 150} y={fr.y + 20} text={stamp} p={ramp(t, ts, ts + 0.45, ease.linear)} color={kind === 'caution' ? P.accent : col} size={52} rot={-7 * sideOf(seed, 8)} />}
+      {stamp && verdict === 'pen' && (
+        <HandNote x={fr.x + fr.w - 60} y={top - 34} text={stamp} anchor="end" size={60} color={P.accent} p={ramp(t, ts + 0.45, ts + 1.0, ease.linear)} />
+      )}
     </ShotShell>
   );
 };

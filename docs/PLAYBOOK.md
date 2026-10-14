@@ -47,7 +47,9 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
   from the light, light as flat low-opacity shapes. **No gradients over large areas, no noise/grain/
   texture, no blur** (they band or look dirty after encoding). Output must be perfectly clean.
 - Typography: Fraunces (serif) for headlines/quotes/numbers, Inter caps for labels/tags. Rare accent only: Caveat
-  handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Ink on paper or
+  handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Certainty labels look
+  like museum captions (`Tag`, default); myth-busting verdicts use the editor's red pen (strike + handwritten verdict);
+  the rubber stamp only for the rare biggest verdict. Ink on paper or
   paper on ink — never mid-tone on mid-tone. Inside SAFE margins (96 px). Readable at 1080p.
 - Each scene has ONE clear focal point (scale, contrast, negative space). No collisions of text/objects.
 - Variety without changing art direction: alternate environment / character / concept / diagram scenes.

@@ -155,8 +155,9 @@ export const Para: React.FC<{
 };
 
 /**
- * Semantic chip. kind = confirmed/evidence (green), theory/speculation (plum), caution/debated (mustard),
- * signal (oxblood), ink. Optional leader line `to` a point. p drives the reveal.
+ * Semantic certainty label. kind = confirmed/evidence (green), theory/speculation (plum), caution/debated (mustard),
+ * signal (oxblood), ink. look 'caption' (default — museum-caption style: colour stripe + italic serif on a paper slip)
+ * or 'pill' (old solid chip). Optional leader line `to` a point. p drives the reveal.
  */
 export const Tag: React.FC<{
   x: number;
@@ -168,12 +169,15 @@ export const Tag: React.FC<{
   to?: {x: number; y: number};
   anchor?: 'left' | 'right' | 'center';
   dot?: boolean;
-}> = ({x, y, text, kind = 'ink', p, size = 26, to, anchor = 'left', dot = true}) => {
+  look?: 'caption' | 'pill';
+}> = ({x, y, text, kind = 'ink', p, size = 26, to, anchor = 'left', dot = true, look = 'caption'}) => {
   if (p <= 0) return null;
   const col = SEM[kind];
   const onCol = kind === 'caution' ? C.ink : C.paperLight; // dark text on mustard for contrast
-  const label = text.toUpperCase();
-  const w = textW(label, size, 'sansCaps', 700) + size * (dot ? 2.3 : 1.6);
+  const cap = look === 'caption';
+  const label = cap ? text : text.toUpperCase();
+  const fs = cap ? size * 1.12 : size;
+  const w = cap ? size * 0.22 + size * 0.55 + textW(label, fs, 'serif', 600) * 1.06 + size * 0.75 : textW(label, size, 'sansCaps', 700) + size * (dot ? 2.3 : 1.6);
   const h = size * 1.9;
   const ox = anchor === 'left' ? 0 : anchor === 'right' ? -w : -w / 2;
   const reveal = ease.out(Math.min(1, p * 1.25));
@@ -192,6 +196,17 @@ export const Tag: React.FC<{
         <clipPath id={id}>
           <rect x={0} y={-4} width={w * reveal} height={h + 8} />
         </clipPath>
+        {cap ? (
+          <g>
+            <g clipPath={`url(#${id})`}>
+              <rect width={w} height={h} rx={3} fill={C.paperLight} opacity={0.94} />
+              <text x={size * 0.22 + size * 0.55} y={h / 2 + fs * 0.34} fontFamily={FONT_SERIF} fontStyle="italic" fontWeight={600} fontSize={fs} fill={C.ink} opacity={textP}>
+                {label}
+              </text>
+            </g>
+            <rect x={0} y={0} width={size * 0.22} height={h * ease.out(Math.min(1, p * 1.6))} fill={col} />
+          </g>
+        ) : (
         <g clipPath={`url(#${id})`}>
           <rect width={w} height={h} rx={h / 2} fill={col} />
           {dot && <circle cx={h / 2} cy={h / 2} r={size * 0.26} fill={onCol} opacity={0.9} />}
@@ -199,6 +214,7 @@ export const Tag: React.FC<{
             {label}
           </text>
         </g>
+        )}
       </g>
     </g>
   );
@@ -218,6 +234,46 @@ export const Stamp: React.FC<{x: number; y: number; text: string; p: number; col
       <text x={0} y={size * 0.36} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={800} fontSize={size} letterSpacing={size * 0.06} fill={color}>
         {label}
       </text>
+    </g>
+  );
+};
+
+/**
+ * RedPen — the editor's red pen: hand-drawn strike(s) through a false claim (`lines` = the text lines to cross out,
+ * each {x, y (middle of the text line), w}), then a handwritten `note` (HandNote) at noteX/noteY. strike:false →
+ * a hand-drawn underline instead (for a verdict on a TRUE claim). p 0→0.6 draws the strikes, 0.5→1 writes the note.
+ * Binly's default verdict (myth-busting); the rubber `Stamp` is kept for rare, biggest verdicts.
+ */
+export const RedPen: React.FC<{
+  lines: {x: number; y: number; w: number}[];
+  p: number;
+  note?: string;
+  noteX?: number;
+  noteY?: number;
+  noteSize?: number;
+  noteAnchor?: Anchor;
+  strike?: boolean;
+  color?: string;
+  thick?: number;
+  seed?: number;
+}> = ({lines, p, note, noteX, noteY, noteSize = 56, noteAnchor = 'start', strike = true, color = C.oxblood, thick = 7, seed = 1}) => {
+  if (p <= 0) return null;
+  const n = Math.max(1, lines.length);
+  const sp = ramp(p, 0, 0.6, ease.linear);
+  const last = lines[lines.length - 1];
+  return (
+    <g>
+      {lines.map((l, i) => {
+        const lp = clamp01(sp * n - i);
+        if (lp <= 0) return null;
+        const wob = (k: number) => Math.sin((seed + i) * 12.9898 + k * 78.233) * 4;
+        const y0 = l.y + (strike ? 0 : 18);
+        const d = `M${l.x - 10} ${y0 + wob(1)} C ${l.x + l.w * 0.3} ${y0 - 6 + wob(2)}, ${l.x + l.w * 0.65} ${y0 + 7 + wob(3)}, ${l.x + l.w + 12} ${y0 - 3 + wob(4)}`;
+        return <path key={i} d={d} stroke={color} strokeWidth={thick} fill="none" strokeLinecap="round" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - ease.inOut(lp)} />;
+      })}
+      {note && last && (
+        <HandNote x={noteX ?? last.x + last.w * 0.5} y={noteY ?? last.y + noteSize * 1.25} text={note} p={ramp(p, 0.5, 1, ease.linear)} size={noteSize} color={color} anchor={noteAnchor} rot={-4} />
+      )}
     </g>
   );
 };

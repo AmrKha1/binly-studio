@@ -3,8 +3,12 @@
   e.g. `<Headline x={960} y={220} text="A hot bath was medicine." mode="words" accent={{medicine: C.oxblood}} p={ramp(t,T.a,T.a+1)}/>`
 - `Kicker {x,y,text,p=1,size=24,color=inkMute,anchor}` small tracked caps label.
 - `Para {x,y,w,h=600,text,p,size=36,color,align,font,weight,italic,lineHeight}` wrapped paragraph (keep short).
-- `Tag {x,y,text,kind:Sem,p,size=26,to?:{x,y},anchor:'left'|'right'|'center',dot}` semantic chip, optional leader line.
-- `Stamp {x,y,text,p,color=oxblood,size=56,rot=-6}` thumping verdict stamp.
+- `Tag {x,y,text,kind:Sem,p,size=26,to?:{x,y},anchor:'left'|'right'|'center',look:'caption'|'pill'}` certainty label.
+  Default look 'caption' = museum caption (colour stripe + italic serif on a paper slip); 'pill' = old solid chip (rarely).
+- `Stamp {x,y,text,p,color=oxblood,size=56,rot=-6}` rubber verdict stamp — only for the rare BIGGEST verdict.
+- Red-pen verdict (Binly default for myth-busting): in templates `ClaimShot … stamp="Wrong"` (verdict 'pen' is default);
+  in custom scenes `RichText … strike={ramp(t,T.x,T.x+0.5)}` crosses the words out exactly + a `HandNote` verdict;
+  `RedPen {lines:[{x,y,w}],p,note,noteX,noteY,strike}` for SVG text whose line widths you know.
 - `HandNote {x,y,text,p,size=50,color=oxblood,rot=-3,anchor,weight}` handwritten note (Caveat, `FONT_HAND`), written on
   letter by letter. RARE accent: a scribbled note beside a detail on an image/document (often with `Circled`/an arrow) —
   never titles, labels or body text; at most one or two per chapter.
