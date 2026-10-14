@@ -11,7 +11,10 @@ old mistake. Work through helpers for any code; keep your own context small.
    - Merge durable lessons into the right core doc — `docs/RETENTION.md` (viewer behaviour), `docs/CRAFT.md`
      (direction), `docs/BUILDER.md` (coding/animation bans & defaults), `docs/PLAYBOOK.md` (channel rules, only with
      the user's OK), `.claude/skills/make-video/PIPELINE.md` (process). Rewrite/replace instead of appending; keep
-     each doc short (RETENTION ≤ ~500 words, CRAFT ≤ ~900, BUILDER ≤ ~1200).
+     each doc short (RETENTION ≤ ~700 words, CRAFT ≤ ~1000, BUILDER ≤ ~1400).
+   - **Trim only what is clearly repeated or outdated — never remove a rule the owner decided** (anything marked
+     "channel owner's decision", the owner's preferences list, the goal/reuse mindset, voiceover-first, YouTube-safe,
+     storytelling-not-documentary, real images, the red-pen/caption styles). When unsure, keep it.
    - Remove lessons that are now built into the docs or kit, outdated, or contradicted by real data.
    - Leave LESSONS.md with only fresh, not-yet-merged notes (target < 20 lines) + the Kit backlog.
 2. **Promote assets.** For the most reused / most valuable entries in `docs/ASSETS.md` (and the Kit backlog in
@@ -20,7 +23,7 @@ old mistake. Work through helpers for any code; keep your own context small.
    (keep their local copies or update imports; `node tools/check.mjs` must pass).
 3. **New templates.** Look at the last videos' briefs: any standard beat hand-built ≥ 3 times → add it to
    `src/kit/templates.tsx` (via a helper), with docs.
-4. **Check the size budget.** `wc -c CLAUDE.md docs/*.md .claude/skills/*/*.md` — CLAUDE.md stays ≤ ~3.5 KB; trim
-   where docs grew without adding value.
+4. **Check the size budget.** `wc -c CLAUDE.md docs/*.md .claude/skills/*/*.md` — CLAUDE.md stays ≤ ~6.5 KB; trim
+   where docs grew without adding value — same rule: only repetition, never an owner's decision.
 5. `node tools/kitdoc.mjs` (refreshes KIT-INDEX + the builder definition), `node tools/kit-test.mjs` (must pass; refreshes the visual catalogs), `node tools/cloud.mjs push "studio improvements"`, then tell the user in plain words what
    improved (what's new in the kit, which rules changed, what got shorter).
