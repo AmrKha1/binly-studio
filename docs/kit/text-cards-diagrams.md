@@ -4,7 +4,7 @@
 - `Kicker {x,y,text,p=1,size=24,color=inkMute,anchor}` small tracked caps label.
 - `Para {x,y,w,h=600,text,p,size=36,color,align,font,weight,italic,lineHeight}` wrapped paragraph (keep short).
 - `Tag {x,y,text,kind:Sem,p,size=26,to?:{x,y},anchor:'left'|'right'|'center',look:'caption'|'pill'}` certainty label.
-  Default look 'caption' = museum caption (colour stripe + italic serif on a paper slip); 'pill' = old solid chip (rarely).
+  Default look 'caption' = museum caption (colour stripe + italic serif on a paper slip); 'pill' = old solid chip (legacy — don't use).
 - Red-pen verdict (Binly's ONLY verdict style; for the climax use it at hero size — full-screen claim, big handwritten note): in templates `ClaimShot … stamp="Wrong"` (verdict 'pen' is default);
   in custom scenes `RichText … strike={ramp(t,T.x,T.x+0.5)}` crosses the words out exactly + a `HandNote` verdict;
   `RedPen {lines:[{x,y,w}],p,note,noteX,noteY,strike}` for SVG text whose line widths you know.

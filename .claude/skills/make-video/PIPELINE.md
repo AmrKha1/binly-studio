@@ -94,7 +94,8 @@ then Read the PNG. Judge like a demanding art director with the Binly mindset (d
 Focal point, readability, variety, sync with the shot list, each shot's DONE WHEN met, the builder's "Decided myself"
 items acceptable, nothing broken/empty/colliding. Send back only what
 really matters. Send concrete fixes to the SAME builder with SendMessage
-(it keeps its context). Spot-check only boundaries with a special transition (match cut, ink/iris into a detail): `node tools/sheet.mjs --times <b-0.6>,<b-0.2>,<b+0.2>,<b+0.6>`
+(it keeps its context). **At most 2 fix rounds per chapter** — after that, anything imperfect but not broken goes on a
+short list for /polish-video; move on. Spot-check only boundaries with a special transition (match cut, ink/iris into a detail): `node tools/sheet.mjs --times <b-0.6>,<b-0.2>,<b+0.2>,<b+0.6>`
 — simple fades/cuts don't need a picture.
 `node tools/status.mjs` shows which chapters are still placeholders.
 
@@ -114,6 +115,11 @@ QA results with numbers, render settings, honest limitations). Append 1–5 reus
 `docs/LESSONS.md`. Register every reusable piece built for this video (shared components and good local helpers) in
 `docs/ASSETS.md` (one line each: name, what/dials, path, video). If a builder made a component worth reusing, note it under "Kit backlog" in LESSONS.md.
 Tell the user where the MP4 is, in plain words.
+
+## When something fails (never loop)
+Cloud job fails → the tool prints the failed log tail itself → fix the cause, retry ONCE. Same error twice → stop
+and tell the user in plain words what failed and what you tried. A builder that is still stuck after its 2 fix rounds →
+one fresh builder with a narrower brief, never more. Never retry the same thing unchanged.
 
 ## Usage limits (Pro plan)
 A 5-hour usage limit can stop builders mid-work ("session limit … resets HH:MM"). Nothing is lost: when the user
