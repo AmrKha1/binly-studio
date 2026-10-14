@@ -1,7 +1,7 @@
 # Kit index — read this first, then open ONLY the sections you need
 
 ## What you can show (menu — combine freely; everything below is ready-made)
-- **Worlds you can fly through:** layered 2.5D parallax scenes (sky, landscapes, medieval/modern cities & streets, rooms, bathhouse, lab, museum, study, bedroom, mind space) with camera pans, push-ins, pull-outs and scale dives.
+- **Worlds you can fly through:** layered 2.5D parallax scenes (sky, landscapes, medieval/modern cities & streets, rooms, bathhouse, lab, museum, study, bedroom, mind space), vehicles & weather (ships, carts, trains, cars; rain/snow/fog/wind/leaves), market stalls, campfire, well, throne — with camera pans, push-ins, pull-outs and scale dives.
 - **Looks-3D (drawn flat, fast):** a spinning globe with countries/pins/routes/night side, isometric buildings, rooms, towns, stairs, cylinders, shaded spheres (planets, moons, cells, eyeballs), dolly through depth layers.
 - **People & life:** parametric characters (eras, outfits, poses, expressions, walking, talking, sitting), crowds; animal/dinosaur/microbe silhouettes (shared library, recolourable, dashed = inferred).
 - **Real evidence:** archival images edited like a storyteller — Ken Burns, detail hunt with labels, montage on the beat, collage board, compare/wipe, document scan + translation, animation drawn over reality, image inside an animated scene, parallax cut-out.
@@ -19,7 +19,7 @@ Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, ler
 
 ## docs/kit/text-cards-diagrams.md — Typography, paper objects & screens & bubbles, diagrams/arrows/flows, light & motion fx, characters (Person/Crowd)
 modules: kit/text, kit/cards, kit/diagrams, kit/fx, kit/people
-textW, Headline, Kicker, Para, Tag, RedPen, Stat, Underline, Highlight, Circled, NameTag, TitleCard, HandNote, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, Expression, Outfit, Hat, Hair, Age, Build, HeldProp, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd
+textW, Headline, Kicker, Para, Tag, RedPen, Stat, Underline, Highlight, Circled, NameTag, TitleCard, HandNote, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, WeatherKind, Weather, Expression, Outfit, Hat, Hair, Age, Build, HeldProp, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd
 
 ## docs/kit/templates.md — Ready-made full shots for standard beats (stat, quote, evidence, claim, compare, list, timeline, map, person, process, question, title)
 modules: kit/templates
@@ -41,13 +41,17 @@ fmtNum, fmtYear, Bar, BarChart, dotGridSize, DotGrid, PercentRing, Side, Compari
 modules: kit/icons
 IconName, ICON_NAMES, Icon
 
-## docs/kit/env.md — Environments (sky, landscape, cities, streets, rooms, bathhouse, lab, museum, study, bedroom, mind space) and props
+## docs/kit/env.md — Environments (sky, landscape, cities, streets, rooms, bathhouse, lab, museum, study, bedroom, mind space), props (incl. market stall, campfire, well, barrels/crates, throne) and Weather
 modules: kit/env
-mixC, Tone, Layer, toned, ENV_FLOOR, BOOK_COLORS, skyBands, Stars, Cloud, Sky, Moon, Hills, Ground, TreeKind, Tree, Trees, Water, Landscape, Era, CitySkyline, StreetLamp, Street, Window, Door, Table, Desk, Chair, Bed, Bookshelf, BookStack, OilLamp, Candle, Torch, Bathtub, Bucket, Plant, Barrel, Cauldron, Scroll, Bench, Lantern, Clock, Bell, Banner, Plinth, Frame, RoomEra, Floor, Room, Bathhouse, Lab, ClassroomFront, Classroom, MuseumHall, Study, Bedroom, MindSpace
+mixC, Tone, Layer, toned, ENV_FLOOR, BOOK_COLORS, skyBands, Stars, Cloud, Sky, Moon, Hills, Ground, TreeKind, Tree, Trees, Water, Landscape, Era, CitySkyline, StreetLamp, Street, Window, Door, Table, Desk, Chair, Bed, Bookshelf, BookStack, OilLamp, Candle, Torch, Bathtub, Bucket, Plant, Barrel, Cauldron, Scroll, Bench, Lantern, Clock, Bell, Banner, Plinth, Frame, MarketStall, Campfire, Well, Barrels, Crates, Throne, RoomEra, Floor, Room, Bathhouse, Lab, ClassroomFront, Classroom, MuseumHall, Study, Bedroom, MindSpace
 
 ## docs/kit/science.md — Brain, head, body, organs, eye, cells, germs, DNA, molecules, waveforms, electrodes
 modules: kit/science
 Pt, smoothPath, Curve, makeCurve, BrainRegion, BRAIN_REGIONS, Brain, Electrode, ElectrodeArray, HeadProfile, Lungs, heartPulse, Heart, BloodVessel, Organ, BodyOutline, Eye, EyeCrossSection, Neuron, Synapse, Cell, ImmuneCell, GermKind, Bacterium, Virus, Germ, DNA, Molecule, Waveform
+
+## docs/kit/transport.md — Vehicles: ships (rowboat/sailing/steam), horse carts/wagons/carriages, trains (steam/modern), cars (vintage/modern) with motion
+modules: kit/transport
+Horse, Ship, Cart, Train, Car
 
 ## docs/kit/geo.md — Flat maps (GeoMap), pins, routes, spread rings
 modules: kit/geo

@@ -96,6 +96,15 @@ function of props; `t` = idle life (cloud drift, sway, flicker, ripples), `seed`
 | Frame | `w?=300 h?=220 kind?: 'landscape'\|'portrait'\|'map'\|'blank' color?` | origin = **centre** |
 | StreetLamp | `h?=420 lit? color?` | |
 | Tree | see above | origin = trunk base |
+| MarketStall | `w?=360 awning?=C.oxblood goods?: 'fruit'\|'cloth'\|'pots' color?` | striped scalloped awning, ~335 tall |
+| Campfire | `t? seed? lit?=true smoke?=true glow?=1` | stone ring, logs, 3 Flames, embers |
+| Well | `color?=stone roof?` | stone shaft, gable roof, crank + bucket, ~400 tall |
+| Barrels / Crates | `n?=3 w?=120 color?` (+`seed?` crates) | pyramid stack |
+| Throne | `color?=brass cushion?=oxblood` | front view, ~475 tall |
+
+**Weather** (in `kit/fx`) — overlay over any scene, deterministic: `<Weather t={t} kind="rain"/>`
+`{t; kind: 'rain'|'snow'|'fog'|'wind'|'leaves'; strength?=1; seed?; x?=0 y?=0 w?=1920 h?=1080 (box, clipped); color?}` · fog = drifting flat bands, wind = curling streaks, leaves = tumbling leaves. Snow/fog/wind default to paperLight (use on darker/tinted scenes or pass `color`).
+Vehicles (Ship, Cart, Train, Car, Horse) → `docs/kit/transport.md`.
 
 ```tsx
 <Room era="19thc" t={t}/>

@@ -26,8 +26,9 @@ const SECTIONS = [
   ['photo.md', ['photo'], 'Photo/PhotoMark components + how to find free images (tools/photo.mjs)'],
   ['data.md', ['data'], 'Charts & exact-number visuals'],
   ['icons.md', ['icons'], '64 flat pictogram icons'],
-  ['env.md', ['env'], 'Environments (sky, landscape, cities, streets, rooms, bathhouse, lab, museum, study, bedroom, mind space) and props'],
+  ['env.md', ['env'], 'Environments (sky, landscape, cities, streets, rooms, bathhouse, lab, museum, study, bedroom, mind space), props (incl. market stall, campfire, well, barrels/crates, throne) and Weather'],
   ['science.md', ['science'], 'Brain, head, body, organs, eye, cells, germs, DNA, molecules, waveforms, electrodes'],
+  ['transport.md', ['transport'], 'Vehicles: ships (rowboat/sailing/steam), horse carts/wagons/carriages, trains (steam/modern), cars (vintage/modern) with motion'],
   ['geo.md', ['geo'], 'Flat maps (GeoMap), pins, routes, spread rings'],
   ['silhouette.md', ['silhouette'], 'Shared library of free organism silhouettes (animals, dinosaurs, microbes…) — recolourable, dashed = inferred'],
   ['depth.md', ['depth'], '"Looks 3D" drawn flat: Globe, isometric buildings/rooms/props, shaded spheres, DepthStack'],
@@ -43,7 +44,7 @@ const exportsOf = (mod) => {
 };
 const MENU = [
   '## What you can show (menu — combine freely; everything below is ready-made)',
-  '- **Worlds you can fly through:** layered 2.5D parallax scenes (sky, landscapes, medieval/modern cities & streets, rooms, bathhouse, lab, museum, study, bedroom, mind space) with camera pans, push-ins, pull-outs and scale dives.',
+  '- **Worlds you can fly through:** layered 2.5D parallax scenes (sky, landscapes, medieval/modern cities & streets, rooms, bathhouse, lab, museum, study, bedroom, mind space), vehicles & weather (ships, carts, trains, cars; rain/snow/fog/wind/leaves), market stalls, campfire, well, throne — with camera pans, push-ins, pull-outs and scale dives.',
   '- **Looks-3D (drawn flat, fast):** a spinning globe with countries/pins/routes/night side, isometric buildings, rooms, towns, stairs, cylinders, shaded spheres (planets, moons, cells, eyeballs), dolly through depth layers.',
   '- **People & life:** parametric characters (eras, outfits, poses, expressions, walking, talking, sitting), crowds; animal/dinosaur/microbe silhouettes (shared library, recolourable, dashed = inferred).',
   '- **Real evidence:** archival images edited like a storyteller — Ken Burns, detail hunt with labels, montage on the beat, collage board, compare/wipe, document scan + translation, animation drawn over reality, image inside an animated scene, parallax cut-out.',

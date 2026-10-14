@@ -229,3 +229,122 @@ export const Ripples: React.FC<{t: number; x: number; y: number; r: number; n?: 
     })}
   </g>
 );
+
+export type WeatherKind = 'rain' | 'snow' | 'fog' | 'wind' | 'leaves';
+const wrapM = (v: number, m: number) => ((v % m) + m) % m;
+const LEAF_COLS = [C.caution, C.oxLight, C.cautionLight, C.evidenceLight, C.woodLight];
+
+/**
+ * Weather overlay drawn over any scene (deterministic, gently animated). Box defaults to the full frame
+ * (origin = box top-left, clipped). kind: rain (slanted streaks) · snow (swaying flakes) · fog (flat
+ * translucent drifting bands) · wind (curling streaks) · leaves (tumbling flat leaves). strength scales count/opacity.
+ */
+export const Weather: React.FC<{t: number; kind: WeatherKind; strength?: number; seed?: number; x?: number; y?: number; w?: number; h?: number; color?: string}> = ({
+  t,
+  kind,
+  strength = 1,
+  seed = 1,
+  x = 0,
+  y = 0,
+  w = 1920,
+  h = 1080,
+  color,
+}) => {
+  const n = (base: number) => Math.max(1, Math.round(base * strength * Math.max(0.3, (w * h) / (1920 * 1080))));
+  const ids = Array.from({length: kind === 'rain' ? n(120) : kind === 'snow' ? n(90) : kind === 'wind' ? n(16) : kind === 'leaves' ? n(26) : 4}, (_, i) => i);
+  const id = `wx-${kind}-${Math.round(x)}-${Math.round(y)}-${Math.round(w)}-${Math.round(h)}`;
+  let body: React.ReactNode = null;
+  if (kind === 'rain') {
+    body = (
+      <g stroke={color ?? C.water} strokeLinecap="round" strokeWidth={3}>
+        {ids.map((i) => {
+          const s = seed * 1000 + i * 13.7;
+          const sp = randRange(s, 1100, 1500);
+          const len = randRange(s + 1, 34, 60);
+          const px = x + wrapM(rand(s + 2) * w - t * sp * 0.2, w + 40);
+          const py = y + wrapM(rand(s + 3) * (h + len) + t * sp, h + len) - len;
+          return <line key={i} x1={px} y1={py} x2={px - len * 0.2} y2={py + len} opacity={randRange(s + 4, 0.35, 0.75) * Math.min(1, strength)} />;
+        })}
+      </g>
+    );
+  } else if (kind === 'snow') {
+    body = (
+      <g fill={color ?? C.paperLight}>
+        {ids.map((i) => {
+          const s = seed * 1000 + i * 11.3;
+          const r = randRange(s, 3, 7.5);
+          const px = x + wrapM(rand(s + 1) * w + noise1(t * 0.5 + i, seed) * 40 + t * 12, w);
+          const py = y + wrapM(rand(s + 2) * (h + 20) + t * randRange(s + 3, 50, 110) * (r / 6), h + 20) - 10;
+          return <circle key={i} cx={px} cy={py} r={r} opacity={randRange(s + 4, 0.65, 0.95)} />;
+        })}
+      </g>
+    );
+  } else if (kind === 'fog') {
+    body = (
+      <g fill={color ?? C.paperLight}>
+        {ids.map((i) => {
+          const yb = y + h * (0.3 + i * 0.17);
+          const bh = h * 0.14;
+          const P = Math.max(600, w * 0.7);
+          const off = t * (18 + i * 9) * (i % 2 ? -1 : 1) + rand(seed + i) * P;
+          const top: string[] = [];
+          const bot: string[] = [];
+          for (let xx = x; xx <= x + w + 40; xx += 40) {
+            const k = ((xx + off) / P) * Math.PI * 2;
+            top.push(`${xx} ${yb + Math.sin(k) * bh * 0.35 + Math.sin(k * 2 + i) * bh * 0.12}`);
+            bot.unshift(`${xx} ${yb + bh + Math.sin(k * 1.5 + 1) * bh * 0.25}`);
+          }
+          return <path key={i} d={`M${top.join(' L')} L${bot.join(' L')} Z`} opacity={0.22 * Math.min(1.6, strength)} />;
+        })}
+      </g>
+    );
+  } else if (kind === 'wind') {
+    body = (
+      <g fill="none" stroke={color ?? C.paperLight} strokeLinecap="round" strokeWidth={4}>
+        {ids.map((i) => {
+          const s = seed * 1000 + i * 7.9;
+          const per = randRange(s, 1.6, 2.6);
+          const ph = wrapM(t / per + rand(s + 1), 1);
+          const cyc = Math.floor(t / per + rand(s + 1));
+          const len = randRange(s + 2, 120, 240);
+          const px = x + rand(s + cyc * 3.1) * (w - len) + ph * 260 - 130;
+          const py = y + 30 + rand(s + cyc * 5.7 + 1) * (h - 60);
+          const curl = rand(s + 4) > 0.5;
+          const d = curl
+            ? `M${px} ${py} Q${px + len * 0.5} ${py - 14} ${px + len * 0.8} ${py} Q${px + len} ${py + 14} ${px + len * 0.9} ${py + 22} Q${px + len * 0.78} ${py + 20} ${px + len * 0.84} ${py + 10}`
+            : `M${px} ${py} Q${px + len * 0.5} ${py - 12} ${px + len} ${py}`;
+          return <path key={i} d={d} opacity={Math.sin(Math.PI * ph) * 0.7 * Math.min(1, strength)} />;
+        })}
+      </g>
+    );
+  } else {
+    body = (
+      <g>
+        {ids.map((i) => {
+          const s = seed * 1000 + i * 9.1;
+          const vx = randRange(s, 80, 160);
+          const vy = randRange(s + 1, 40, 80);
+          const px = x + wrapM(rand(s + 2) * w + t * vx, w + 80) - 40;
+          const py = y + wrapM(rand(s + 3) * h + t * vy + Math.sin(t * 1.7 + i) * 26, h + 80) - 40;
+          const rot = t * randRange(s + 4, 60, 160) + rand(s + 5) * 360;
+          const flipX = Math.cos(t * randRange(s + 6, 2, 4) + i);
+          const c = color ?? LEAF_COLS[i % LEAF_COLS.length];
+          return (
+            <g key={i} transform={`translate(${px} ${py}) rotate(${rot}) scale(${(0.25 + 0.75 * Math.abs(flipX)) * 1.4} 1.4)`}>
+              <path d="M0 -16 Q13 -3 0 17 Q-13 -3 0 -16 Z" fill={c} />
+              <line x1={0} y1={-12} x2={0} y2={20} stroke={C.inkSoft} strokeWidth={2.5} opacity={0.45} />
+            </g>
+          );
+        })}
+      </g>
+    );
+  }
+  return (
+    <g>
+      <clipPath id={id}>
+        <rect x={x} y={y} width={w} height={h} />
+      </clipPath>
+      <g clipPath={`url(#${id})`}>{body}</g>
+    </g>
+  );
+};

@@ -15,6 +15,7 @@ import {Templates, Templates2} from './pages/templates';
 import {Archival, Archival2} from './pages/archival';
 
 import {Silhouettes} from './pages/silhouettes';
+import {World} from './pages/world';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
@@ -35,4 +36,5 @@ export const GALLERY: Record<string, React.FC<{t: number}>> = {
   archival: Archival,
   archival2: Archival2,
   silhouettes: Silhouettes,
+  world: World,
 };

@@ -1736,6 +1736,197 @@ export const Frame: React.FC<Place & {w?: number; h?: number; kind?: 'landscape'
   );
 };
 
+// ------------------------------------------------------------------ EVERYDAY PROPS (market, camp, yard, court)
+
+/** Market stall: posts, striped scalloped awning, counter with goods. origin = base centre. ~w × 330. */
+export const MarketStall: React.FC<Place & {w?: number; awning?: string; goods?: 'fruit' | 'cloth' | 'pots'; color?: string}> = ({
+  w = 360,
+  awning = C.oxblood,
+  goods = 'fruit',
+  color = C.wood,
+  ...p
+}) => {
+  const W = w + 30;
+  const nS = 7;
+  const sw = W / nS;
+  const top = -140;
+  return (
+    <g transform={tf(p)}>
+      {[-1, 1].map((d) => (
+        <rect key={d} x={d * (w / 2 - 10) - 6} y={-320} width={12} height={320} fill={C.woodDark} />
+      ))}
+      {goods === 'cloth' && [-0.3, 0.15].map((f, i) => <rect key={i} x={f * w} y={-272} width={44} height={84 + i * 20} fill={i ? C.theory : C.evidence} />)}
+      <rect x={-w / 2} y={top} width={w} height={24} fill={lt(color, 0.15)} />
+      <rect x={-w / 2 + 8} y={top + 24} width={w - 16} height={-top - 24} fill={color} />
+      <rect x={w / 2 - 50} y={top + 24} width={42} height={-top - 24} fill={dk(color, 0.18)} />
+      {[0.35, 0.7].map((f) => (
+        <rect key={f} x={-w / 2 + 8} y={top + 24 + (-top - 24) * f} width={w - 16} height={4} fill={dk(color, 0.25)} />
+      ))}
+      {goods === 'fruit' &&
+        [C.oxLight, C.cautionLight, C.evidenceLight].map((fc, i) => {
+          const bx = (i - 1) * w * 0.3;
+          return (
+            <g key={i}>
+              {[-22, 0, 22, -11, 11, 0].map((ox, j) => (
+                <circle key={j} cx={bx + ox} cy={top - 14 - (j > 2 ? 18 : 0) - (j > 4 ? 18 : 0)} r={13} fill={j % 2 ? dk(fc, 0.12) : fc} />
+              ))}
+              <path d={`M${bx - 44} ${top - 18} L${bx + 44} ${top - 18} L${bx + 34} ${top} L${bx - 34} ${top} Z`} fill={C.woodLight} />
+            </g>
+          );
+        })}
+      {goods === 'cloth' &&
+        [C.oxblood, C.cautionLight, C.theoryLight, C.evidence, C.paperLight].map((fc, i) => (
+          <rect key={i} x={-w * 0.4 + (i % 3) * w * 0.27} y={top - 18 - Math.floor(i / 3) * 18} width={w * 0.24} height={16} rx={4} fill={fc} />
+        ))}
+      {goods === 'pots' &&
+        [0, 1, 2, 3].map((i) => {
+          const px = (i - 1.5) * w * 0.22;
+          const ph = [56, 74, 48, 64][i];
+          const pc = i % 2 ? mixC(C.oxLight, C.wood, 0.3) : mixC(C.caution, C.wood, 0.5);
+          return (
+            <g key={i}>
+              <path d={`M${px - 10} ${top - ph} L${px + 10} ${top - ph} Q${px + 6} ${top - ph * 0.75} ${px + 26} ${top - ph * 0.45} Q${px + 26} ${top} ${px} ${top} Q${px - 26} ${top} ${px - 26} ${top - ph * 0.45} Q${px - 6} ${top - ph * 0.75} ${px - 10} ${top - ph} Z`} fill={pc} />
+              <rect x={px - 13} y={top - ph - 6} width={26} height={7} rx={3} fill={dk(pc, 0.2)} />
+              <rect x={px - 24} y={top - ph * 0.42} width={48} height={4} fill={dk(pc, 0.25)} />
+            </g>
+          );
+        })}
+      <rect x={-W / 2 - 4} y={-334} width={W + 8} height={12} rx={4} fill={C.woodDark} />
+      {Array.from({length: nS}, (_, i) => {
+        const sx = -W / 2 + i * sw;
+        return (
+          <g key={i} fill={i % 2 ? C.paperLight : awning}>
+            <rect x={sx} y={-322} width={sw + 0.5} height={44} />
+            <path d={`M${sx} -279 A${sw / 2} ${sw / 2.6} 0 0 0 ${sx + sw} -279 Z`} />
+          </g>
+        );
+      })}
+    </g>
+  );
+};
+
+/** Campfire: stone ring, crossed logs, three flames, embers, optional smoke + glow. origin = ground centre. ~200 wide. */
+export const Campfire: React.FC<Place & {t?: number; seed?: number; lit?: boolean; smoke?: boolean; glow?: number}> = ({t = 0, seed = 1, lit = true, smoke = true, glow = 1, ...p}) => (
+  <g transform={tf(p)}>
+    {lit && glow > 0 && <LightPool x={0} y={-60} r={280} strength={1.3 * glow} />}
+    {lit && smoke && <Steam t={t} x={0} y={-150} w={80} h={260} n={3} color={C.stone} seed={seed} strength={0.6} />}
+    {[-70, -35, 0, 35, 70].map((sx, i) => (
+      <ellipse key={i} cx={sx} cy={-14} rx={20} ry={13} fill={C.stoneShade} />
+    ))}
+    <rect x={-80} y={-26} width={160} height={20} rx={10} fill={C.woodDark} transform="rotate(-14)" />
+    <rect x={-80} y={-26} width={160} height={20} rx={10} fill={C.wood} transform="rotate(14)" />
+    {lit && (
+      <>
+        <Flame t={t} x={-26} y={-18} s={0.62} seed={seed + 1} glow={false} />
+        <Flame t={t} x={28} y={-18} s={0.7} seed={seed + 2} glow={false} />
+        <Flame t={t} x={0} y={-14} s={1.05} seed={seed} glow={false} />
+        <Particles t={t} x={-60} y={-260} w={120} h={200} n={9} seed={seed} size={[2, 4]} color={C.lamp} vx={4} vy={-70} wobble={14} opacity={[0.5, 0.95]} />
+      </>
+    )}
+    {[-90, -45, 0, 45, 90].map((sx, i) => (
+      <ellipse key={i} cx={sx} cy={-4} rx={24} ry={15} fill={i % 2 ? C.stone : mixC(C.stone, C.stoneShade, 0.5)} />
+    ))}
+  </g>
+);
+
+/** Village well: round stone shaft, posts, gable roof, crank + rope + bucket. origin = base centre. ~270 wide × 400. */
+export const Well: React.FC<Place & {color?: string; roof?: string}> = ({color = C.stone, roof = C.woodDark, ...p}) => (
+  <g transform={tf(p)}>
+    {[-1, 1].map((d) => (
+      <rect key={d} x={d * 88 - 7} y={-330} width={14} height={200} fill={C.woodDark} />
+    ))}
+    <rect x={-88} y={-262} width={176} height={14} rx={7} fill={C.wood} />
+    <path d="M88 -255 L118 -255 L118 -228" fill="none" stroke={IRON} strokeWidth={6} strokeLinecap="round" />
+    <line x1={0} y1={-250} x2={0} y2={-196} stroke={C.woodLight} strokeWidth={4} />
+    <Bucket x={0} y={-150} w={52} water={false} />
+    <rect x={-105} y={-130} width={210} height={130} fill={color} />
+    <rect x={55} y={-130} width={50} height={130} fill={dk(color, 0.14)} />
+    <g stroke={dk(color, 0.22)} strokeWidth={3}>
+      {[1, 2, 3].map((r) => (
+        <line key={r} x1={-105} y1={-130 + r * 32} x2={105} y2={-130 + r * 32} />
+      ))}
+      {[0, 1, 2, 3].map((r) => [-60, -10, 40].map((bx) => <line key={`${r}${bx}`} x1={bx + (r % 2) * 25} y1={-130 + r * 32} x2={bx + (r % 2) * 25} y2={-98 + r * 32} />))}
+    </g>
+    <rect x={-116} y={-146} width={232} height={20} rx={6} fill={dk(color, 0.08)} />
+    <path d="M-135 -318 L0 -400 L135 -318 L120 -308 L0 -380 L-120 -308 Z" fill={roof} />
+    <path d="M-120 -308 L0 -380 L120 -308 Z" fill={dk(roof, 0.25)} />
+  </g>
+);
+
+const stackRows = (n: number) => {
+  let b = 1;
+  while ((b * (b + 1)) / 2 < n) b++;
+  const rows: number[] = [];
+  let left = n;
+  for (let r = 0; left > 0; r++) {
+    rows.push(Math.min(b - r, left));
+    left -= rows[r];
+  }
+  return rows;
+};
+
+/** Pyramid stack of `n` barrels (bottom row first). origin = base centre. barrel w?=120 (h = 1.33 w). */
+export const Barrels: React.FC<Place & {n?: number; w?: number; color?: string}> = ({n = 3, w = 120, color = C.wood, ...p}) => {
+  const h = w * 1.33;
+  return (
+    <g transform={tf(p)}>
+      {stackRows(n).map((c, r) =>
+        Array.from({length: c}, (_, i) => <Barrel key={`${r}-${i}`} x={(i - (c - 1) / 2) * w * 1.02} y={-r * h * 0.98} w={w} h={h} color={r % 2 ? lt(color, 0.06) : color} />),
+      )}
+    </g>
+  );
+};
+
+/** Pyramid stack of `n` wooden crates (plank lines + cross brace). origin = base centre. crate w?=120. */
+export const Crates: React.FC<Place & {n?: number; w?: number; color?: string; seed?: number}> = ({n = 3, w = 120, color = C.woodLight, seed = 1, ...p}) => (
+  <g transform={tf(p)}>
+    {stackRows(n).map((c, r) =>
+      Array.from({length: c}, (_, i) => {
+        const cx = (i - (c - 1) / 2) * w * 1.04 + (rand(seed * 31 + r * 7 + i) - 0.5) * w * 0.12;
+        const cc = (r + i) % 2 ? dk(color, 0.06) : color;
+        const e = w * 0.12;
+        return (
+          <g key={`${r}-${i}`} transform={`translate(${cx - w / 2} ${-r * w - w})`}>
+            <rect width={w} height={w} fill={cc} />
+            <rect x={w - e} width={e} height={w} fill={dk(cc, 0.18)} />
+            <rect x={e} y={w * 0.33} width={w - 2 * e} height={3} fill={dk(cc, 0.22)} />
+            <rect x={e} y={w * 0.66} width={w - 2 * e} height={3} fill={dk(cc, 0.22)} />
+            <path d={`M${e} ${w - e} L${w - e} ${e}`} stroke={dk(cc, 0.3)} strokeWidth={e * 0.7} />
+            <rect width={w} height={w} fill="none" stroke={dk(cc, 0.3)} strokeWidth={e} />
+          </g>
+        );
+      }),
+    )}
+  </g>
+);
+
+/** Throne, front view: tall arched back with cushion + emblem, finials, armrests. origin = base centre. ~270 wide × 475. */
+export const Throne: React.FC<Place & {color?: string; cushion?: string}> = ({color = BRASS, cushion = C.oxblood, ...p}) => (
+  <g transform={tf(p)}>
+    <path d="M-92 -150 L-92 -380 Q-92 -432 0 -452 Q92 -432 92 -380 L92 -150 Z" fill={color} />
+    <path d="M40 -150 L40 -440 Q80 -425 92 -380 L92 -150 Z" fill={dk(color, 0.15)} />
+    <path d="M-64 -170 L-64 -368 Q-64 -404 0 -418 Q64 -404 64 -368 L64 -170 Z" fill={cushion} />
+    <circle cx={0} cy={-330} r={24} fill={color} />
+    <circle cx={0} cy={-330} r={11} fill={cushion} />
+    {[-92, 92].map((fx) => (
+      <circle key={fx} cx={fx} cy={-394} r={15} fill={fx > 0 ? dk(color, 0.15) : color} />
+    ))}
+    <circle cx={0} cy={-462} r={14} fill={color} />
+    <rect x={-102} y={-186} width={204} height={34} rx={10} fill={lt(cushion, 0.15)} />
+    {[-1, 1].map((d) => (
+      <g key={d}>
+        <rect x={d > 0 ? 96 : -128} y={-250} width={32} height={140} fill={d > 0 ? dk(color, 0.15) : color} />
+        <rect x={d > 0 ? 90 : -134} y={-262} width={44} height={18} rx={9} fill={dk(color, 0.08)} />
+      </g>
+    ))}
+    <rect x={-112} y={-154} width={224} height={120} fill={dk(color, 0.12)} />
+    <rect x={-90} y={-134} width={180} height={78} rx={6} fill={dk(color, 0.3)} />
+    {[-1, 1].map((d) => (
+      <rect key={d} x={d * 100 - 12} y={-36} width={24} height={36} fill={dk(color, 0.25)} />
+    ))}
+  </g>
+);
+
 // ------------------------------------------------------------------ INTERIORS
 
 /** Interior era. */
