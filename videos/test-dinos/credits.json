@@ -16,14 +16,6 @@
   "attributionRequired": false
  },
  {
-  "file": "img/bathhouse.jpg",
-  "title": "Badehaus Valerius Maximus.jpg",
-  "author": "The original uploader was Dinah at German Wikipedia.",
-  "licence": "Public domain",
-  "source": "https://commons.wikimedia.org/wiki/File:Badehaus_Valerius_Maximus.jpg",
-  "attributionRequired": false
- },
- {
   "file": "img/marville.jpg",
   "title": "Charles Marville, La Bièvre, ca. 1865.jpg",
   "author": "Charles Marville",
@@ -51,5 +43,13 @@
   "author": "Arcadia Science",
   "licence": "Public domain (CC0/PDM)",
   "source": "https://www.phylopic.org/images/27d35deb-98bb-4833-8121-8750f35cd09b"
+ },
+ {
+  "file": "img/harvest.jpg",
+  "title": "Tacuinum Sanitatis-cabbage harvest.jpg",
+  "author": "Ibn Butlan",
+  "licence": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Tacuinum_Sanitatis-cabbage_harvest.jpg",
+  "attributionRequired": false
  }
 ]

@@ -124,8 +124,8 @@ type Detail = {rx, ry (centre), rw, rh, label, note?, at?, kind?: Sem, shape?: '
 <DetailHuntShot {...base} slug src aspect? details: Detail[] returnAt?: number|false (default b−1.4) kicker? caption? credit? at? />
 ```
 ```tsx
-<DetailHuntShot t={t} a={T.d} b={T.e} slug="medieval-baths" src="img/bathhouse.jpg" aspect={1690/1653}
-  details={[{rx:0.42, ry:0.26, rw:0.17, rh:0.25, label:'Guests arrive', at:T.door}, {rx:0.73, ry:0.5, rw:0.36, rh:0.3, label:'Dinner in the tub', shape:'box', at:T.tub}]}/>
+<DetailHuntShot t={t} a={T.d} b={T.e} slug="medieval-baths" src="img/harvest.jpg" aspect={2613/2905}
+  details={[{rx:0.67, ry:0.28, rw:0.4, rh:0.2, label:'Cabbages on his head', at:T.basket}, {rx:0.41, ry:0.67, rw:0.14, rh:0.14, label:'Her basket', shape:'box', at:T.pick}]}/>
 ```
 Allow ≥ 1.6 s per detail (punch 1 s, mark +0.6, label +0.9).
 
@@ -138,7 +138,7 @@ type MontageItem = {src, aspect?, credit?, caption?, kicker?, from?: Focus, to?:
 ```
 ```tsx
 <MontageShot t={t} a={T.m} b={T.n} slug="medieval-baths" transition="cut" cuts={[T.m, T.b1, T.b2, T.b3]}
-  items={[{src:'img/tournai.jpg', aspect:801/482, credit:'…'}, {src:'img/bath.jpg', aspect:1.02, credit:'…', caption:'Bathhouse, c. 1470'}]}/>
+  items={[{src:'img/tournai.jpg', aspect:801/482, credit:'…'}, {src:'img/harvest.jpg', aspect:2613/2905, credit:'…', caption:'Cabbage harvest, c. 1390'}]}/>
 ```
 
 ## CollageShot
@@ -192,7 +192,7 @@ type Overlay =
 <AnnotatedImageShot {...base} slug src aspect? overlays from? to? dim?=0.12 kicker? caption? credit? at? gap?=0.5 />
 ```
 ```tsx
-<AnnotatedImageShot t={t} a={T.a} b={T.b} slug="medieval-baths" src="img/bath.jpg" aspect={1.02} overlays={[
+<AnnotatedImageShot t={t} a={T.a} b={T.b} slug="medieval-baths" src="img/harvest.jpg" aspect={2613/2905} overlays={[
   {kind:'outline', rx:0.75, ry:0.62, rw:0.42, rh:0.34, shape:'box', label:'Shared hot tub', at:T.tub},
   {kind:'flow', points:[[0.43,0.42],[0.47,0.52],[0.55,0.6]], label:'Way in', sem:'evidence', at:T.walk}]}/>
 ```
@@ -219,7 +219,7 @@ type Cut = {rx, ry (TOP-LEFT), rw, rh, shape?: 'rect'|'ellipse'} | {points: [rx,
   label?: {text, kind?, at?} kicker? caption? credit? at? (default a+0.5) />
 ```
 ```tsx
-<ParallaxCutoutShot t={t} a={T.p} b={T.q} slug="medieval-baths" src="img/bath.jpg" aspect={1.02} from={[0.4,0.3,1.15]} to={[0.52,0.34,1.22]}
+<ParallaxCutoutShot t={t} a={T.p} b={T.q} slug="medieval-baths" src="img/harvest.jpg" aspect={2613/2905} from={[0.4,0.3,1.15]} to={[0.52,0.34,1.22]}
   cut={{rx:0.355, ry:0.15, rw:0.15, rh:0.28, shape:'ellipse'}} label={{text:'The visitors'}} at={T.lift}/>
 ```
 

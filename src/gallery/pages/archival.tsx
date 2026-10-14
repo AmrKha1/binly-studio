@@ -16,7 +16,8 @@ import {
 // page "archival2" (same page shifted by 28 s: stills at 3.5 and 7.5 there). Test images: public/test-dinos/img/.
 const S = 'test-dinos';
 const TOURNAI = {src: 'img/tournai.jpg', aspect: 801 / 482, credit: 'Pierart dou Tielt · Public domain'};
-const BATH = {src: 'img/bathhouse.jpg', aspect: 1690 / 1653, credit: 'Master of Anthony of Burgundy · Public domain'};
+// square-ish test image (exercises the framed full-height path) — YouTube-safe: clothed figures only
+const HARV = {src: 'img/harvest.jpg', aspect: 2613 / 2905, credit: 'Tacuinum sanitatis, c. 1390 · Public domain'};
 const MS = {src: 'img/manuscript.jpg', aspect: 1920 / 2578, credit: 'Trotula manuscript, c. 1300 · Public domain'};
 const MARV = {src: 'img/marville.jpg', aspect: 1920 / 1455, credit: 'Charles Marville · Public domain'};
 
@@ -41,10 +42,10 @@ const SHOTS: ((t: number, a: number, b: number) => React.ReactNode)[] = [
       a={a}
       b={b}
       slug={S}
-      {...BATH}
+      {...HARV}
       details={[
-        {rx: 0.42, ry: 0.26, rw: 0.17, rh: 0.25, label: 'Guests arrive', note: 'dressed — for now', at: a + 0.2, kind: 'ink'},
-        {rx: 0.73, ry: 0.5, rw: 0.36, rh: 0.3, label: 'Dinner in the tub', note: 'food, wine, company', at: a + 1.8, kind: 'signal', shape: 'box'},
+        {rx: 0.67, ry: 0.28, rw: 0.4, rh: 0.2, label: 'Cabbages on his head', note: 'the harvest of the day', at: a + 0.2, kind: 'ink'},
+        {rx: 0.41, ry: 0.67, rw: 0.14, rh: 0.14, label: 'Her basket', note: 'picked by hand', at: a + 1.8, kind: 'signal', shape: 'box'},
       ]}
       returnAt={false}
     />
@@ -60,7 +61,7 @@ const SHOTS: ((t: number, a: number, b: number) => React.ReactNode)[] = [
       items={[
         {...TOURNAI},
         {...MS, from: [0.5, 0.3, 1.0], to: [0.5, 0.36, 1.1]},
-        {...BATH},
+        {...HARV},
         {...MARV, caption: 'La Bièvre, Paris, c. 1865', kicker: 'Charles Marville'},
       ]}
       cuts={[a, a + 0.8, a + 1.6, a + 2.4]}
@@ -75,7 +76,7 @@ const SHOTS: ((t: number, a: number, b: number) => React.ReactNode)[] = [
       items={[
         {...TOURNAI, label: 'Tournai, 1349'},
         {...MS, label: 'Trotula, c. 1300'},
-        {...BATH, label: 'Bathhouse, c. 1470'},
+        {...HARV, label: 'Garden, c. 1390'},
         {...MARV, label: 'Paris, c. 1865'},
       ]}
       gap={0.3}
@@ -88,8 +89,8 @@ const SHOTS: ((t: number, a: number, b: number) => React.ReactNode)[] = [
       a={a}
       b={b}
       slug={S}
-      title="Pleasure, then plague"
-      left={{...BATH, label: 'The bathhouse', sub: 'Flanders · c. 1470', tag: {text: 'Painted scene', kind: 'theory'}}}
+      title="Daily life, then plague"
+      left={{...HARV, label: 'The harvest', sub: 'Italy · c. 1390', tag: {text: 'Painted scene', kind: 'theory'}}}
       right={{...TOURNAI, label: 'The burials', sub: 'Tournai · 1349', tag: {text: 'Eyewitness', kind: 'confirmed'}}}
       at={a + 0.1}
       rightAt={a + 0.7}
@@ -116,16 +117,16 @@ const SHOTS: ((t: number, a: number, b: number) => React.ReactNode)[] = [
       a={a}
       b={b}
       slug={S}
-      {...BATH}
-      kicker="Inside a bathhouse"
+      {...HARV}
+      kicker="A medieval health handbook"
       from={[0.5, 0.55, 1.0]}
       to={[0.5, 0.55, 1.06]}
       overlays={[
-        {kind: 'outline', rx: 0.75, ry: 0.62, rw: 0.42, rh: 0.34, shape: 'box', label: 'Shared hot tub', sem: 'signal', at: a + 0.3},
-        {kind: 'outline', rx: 0.2, ry: 0.4, rw: 0.22, rh: 0.22, dashed: true, label: 'Private room?', at: a + 0.8},
-        {kind: 'flow', points: [[0.43, 0.42], [0.47, 0.52], [0.55, 0.6]], label: 'Way in', sem: 'evidence', at: a + 1.2, dur: 0.9},
-        {kind: 'icon', rx: 0.6, ry: 0.26, icon: 'speech', label: 'Gossip', sem: 'caution', at: a + 1.7},
-        {kind: 'label', rx: 0.38, ry: 0.69, text: 'A pet dog', sem: 'ink', at: a + 2.0, dx: -160, dy: 60},
+        {kind: 'outline', rx: 0.67, ry: 0.28, rw: 0.4, rh: 0.2, shape: 'box', label: 'Cabbages for the kitchen', sem: 'signal', at: a + 0.3},
+        {kind: 'outline', rx: 0.25, ry: 0.39, rw: 0.12, rh: 0.12, dashed: true, label: 'A servant?', at: a + 0.8},
+        {kind: 'flow', points: [[0.41, 0.67], [0.52, 0.6], [0.62, 0.42]], label: 'Harvest', sem: 'evidence', at: a + 1.2, dur: 0.9},
+        {kind: 'icon', rx: 0.75, ry: 0.92, icon: 'book', label: 'Library stamp', sem: 'caution', at: a + 1.7},
+        {kind: 'label', rx: 0.72, ry: 0.51, text: 'A knife at his belt', sem: 'ink', at: a + 2.0, dx: 170, dy: 40},
       ]}
     />
   ),
@@ -136,13 +137,13 @@ const SHOTS: ((t: number, a: number, b: number) => React.ReactNode)[] = [
       a={a}
       b={b}
       slug={S}
-      {...BATH}
-      cut={{rx: 0.355, ry: 0.15, rw: 0.15, rh: 0.28, shape: 'ellipse'}}
-      from={[0.4, 0.3, 1.15]}
-      to={[0.52, 0.34, 1.22]}
-      label={{text: 'The visitors', kind: 'signal'}}
+      {...HARV}
+      cut={{rx: 0.52, ry: 0.2, rw: 0.32, rh: 0.45, shape: 'ellipse'}}
+      from={[0.6, 0.4, 1.1]}
+      to={[0.66, 0.42, 1.18]}
+      label={{text: 'The harvester', kind: 'signal'}}
       at={a + 0.6}
-      caption="A bathhouse, Flanders, c. 1470"
+      caption="Cabbage harvest, Tacuinum sanitatis, c. 1390"
     />
   ),
 ];

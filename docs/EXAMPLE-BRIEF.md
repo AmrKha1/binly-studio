@@ -26,7 +26,8 @@ Specify the WHAT precisely; leave the HOW (exact curves, small details, polish) 
 - IN: paper slide from right. DONE WHEN: each label lands within 0.2 s of its word.
 
 **S4 [01:46.0–01:53.2] "In Paris, there were enough public baths that some streets were named after them."** — template EvidenceShot
-- IMAGE: `img/paris-bathhouse.jpg` (fetched in planning; manuscript bath scene), caption "A bathhouse, Paris, 15th century", credit from CREDITS.md.
+- IMAGE: `img/paris-bathhouse.jpg` (fetched in planning; manuscript scene of the bathhouse EXTERIOR and street — looked at:
+  YouTube-safe, clothed figures only), caption "A bathhouse, Paris, 15th century", credit from CREDITS.md.
 - MARK: the street-name sign region on "named after them". TAG: "Documented" (confirmed).
 - DONE WHEN: the camera ends close on the marked detail as the sentence ends.
 
