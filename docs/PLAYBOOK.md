@@ -63,6 +63,10 @@ scan) — see the archival templates in docs/KIT.md. ONLY free licences via `too
 CC BY-SA) with credit — never other sources, never "just a few seconds" of a copyrighted image. Images of violence,
 death, persecution or real victims: only when the narration is about them, briefly, framed, respectfully, never as a gag.
 Every used image is listed in `videos/<slug>/CREDITS.md` → the YouTube description.
+**YouTube-safe (protects ads and reach):** no visible nudity — no genitals, bare breasts or nude bottoms on screen, even in
+old art (medieval bath scenes often have them): pick another image, or crop/pan/frame so only clothed or non-revealing
+parts show at every moment of the move. Nothing sexual or suggestive, no graphic gore or close-up wounds/corpses. The
+thumbnail and title stay fully clean. When unsure about an image, don't use it — there is always another.
 
 ## 5. Motion
 - Every move has a purpose: advance the story, create curiosity, clarify, reveal a relation/contrast/

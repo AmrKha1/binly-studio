@@ -11,7 +11,8 @@ production: quality first, keep YOUR context lean, helpers do the work.
    - Self-review: read the latest `videos/<slug>/qa/<version>/qa_report.md` and look at every `sheet-NN.png`;
      check flagged times with `node tools/sheet.mjs --times …`. Look for: collisions/overlaps, clipped or
      tiny text, empty or dead frames, broken/floating anatomy, things showing through other things, jarring
-     transitions, off-palette colours, text that doesn't match the narration, holds that drag.
+     transitions, off-palette colours, text that doesn't match the narration, holds that drag, anything not
+     YouTube-safe (visible nudity in an image, graphic gore — PLAYBOOK §4).
    - Write the list to `videos/<slug>/FIXES.md` grouped by chapter (precise: time, what is wrong, what it
      should be).
 2. **Fix per chapter with helpers** (max 2 at once). If the builder that made the chapter is still alive in

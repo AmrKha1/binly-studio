@@ -53,7 +53,8 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   leave them room for craft. Shot numbers make later fixes precise ("C04 S3: …").
   **The standard is `docs/EXAMPLE-BRIEF.md`** (read it once before the first brief). Each shot answers:
   SIZE + FOCUS (wide/medium/close · the one thing the eye goes to) · ACTION (what appears/moves, in order, on which
-  spoken words) · exact TEXT · KIT/IMAGE (named pieces, image files already fetched) · CAMERA + IN-transition ·
+  spoken words) · exact TEXT · KIT/IMAGE (named pieces, image files already fetched and looked at — YouTube-safe per
+  PLAYBOOK, with the crop/pan region if the image has nudity elsewhere) · CAMERA + IN-transition ·
   DONE WHEN (one line: what must read clearly, by when). Specify the WHAT; leave the HOW to the builder.
   **No-guess test before sending a brief:** could a builder build every shot without asking one question? Any
   "something like…", "maybe", missing image or unnamed piece → decide it now (a line for you; a guess costs a rebuild).

@@ -14,6 +14,8 @@ Typical chores:
   English, original-language names, artist/manuscript names). Look at `.cache/photos/search.png`. Return a shortlist:
   for each good candidate → `query`, result number, title, licence, size, one line on what it shows and why it fits.
   Only fetch (`get … --as name`) if the task tells you to. Prefer images ≥ 1600 px and clearly relevant ones.
+  YouTube-safe: skip images with visible nudity, sexual content or graphic gore; if an otherwise perfect image has
+  some, list it marked "⚠ nudity at <where> — crop needed" so the director decides.
 - **Silhouette research**: `node tools/silhouette.mjs list` first (reuse!), then `search "<scientific or common name>"`;
   check the result titles (PhyloPic may return a relative) and report the best match numbers.
 - **Timing**: `node tools/transcript.mjs --from a --to b` / `node tools/cue.mjs "phrase" …` → return the requested
