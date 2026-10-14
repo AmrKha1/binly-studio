@@ -75,16 +75,19 @@ metal, lamp, fire, water/waterDeep, slate, sky, dusk, night, skin[0..4], skinSha
 - `Steam {t,x,y,w,h,n,color,strength}` rising wisps · `Flame {t,x,y,s,seed,glow}` candle/torch · `Ripples {t,x,y,r,n,period,color,sy}`
 
 ## People (`kit/people`) — origin = feet, ≈540 px tall at s=1, drawn facing right (`facing=-1` mirrors)
-- `Person {x,y,s,facing,t, pose?, arms?:{front:[shoulderDeg,elbowDeg],back:[…]}, walk?:phase(cycles), stride, sit:0..1, lean, look:-1..1, tilt,
+- `Person {x,y,s,facing,t, pose?, arms?:{front:[shoulderDeg,elbowDeg],back:[…]}, walk?:phase(cycles), stride, sit:0..1, lie:0..1, lean, look:-1..1, tilt,
   expression:'neutral'|'smile'|'happy'|'worried'|'surprised'|'thinking'|'sad'|'angry'|'determined', talk:0..1, blink?, skin:0..4,
   hair:'short'|'long'|'bun'|'curly'|'bald'|'tonsure'|'side'|'ponytail'|'none', hairColor, beard:'none'|'short'|'full'|'moustache', glasses,
-  outfit:'tunic'|'robe'|'dress'|'coat'|'labcoat'|'suit'|'casual'|'royal'|'scrubs'|'nightwear', top,bottom,accent,
-  hat:'none'|'coif'|'hood'|'tophat'|'crown'|'cap'|'brimmed'|'scholar'|'veil'|'beret'|'surgical', hatColor, shoes, silhouette?:colour, opacity, seed}`
-  poses: idle point wave think shrug present hold write cheer worried armsOut reach handsBack facepalm cross.
+  outfit:'tunic'|'robe'|'dress'|'coat'|'labcoat'|'suit'|'casual'|'royal'|'scrubs'|'nightwear'|'peasant'|'merchant'|'nun'|'soldier'|'worker', top,bottom,accent,
+  hat:'none'|'coif'|'hood'|'tophat'|'crown'|'cap'|'brimmed'|'scholar'|'veil'|'beret'|'surgical'|'helmet'|'hardhat'|'wimple', hatColor, shoes,
+  age:'child'|'adult'|'elder', build:'slim'|'average'|'heavy', prop?:'book'|'scroll'|'cup'|'basket'|'tool'|'lantern'|'phone', propColor, silhouette?:colour, opacity, seed}`
+  poses: idle point wave(animated) think shrug present hold write cheer worried armsOut reach handsBack facepalm cross|armsCrossed carry kneel handsOnHips awe.
+  nun/soldier/worker default to hat wimple/helmet/hardhat. child = 0.62× size, bigger head; elder = grey hair + stoop. prop sits in the front hand.
+  Lying: `lie={1}` → body flat along the floor ≈62·s above y, head toward the back (facing -1 puts the head on the right).
   Walk: `walk={t*0.9}` + move x yourself (≈ 150 px/s at s=1). Talk: `talk={Math.abs(Math.sin(t*9))}` while speaking.
   Sitting: `sit={1}` → hips at height ≈118·s above the feet, ≈104·s behind them (place the seat there).
 - `personHands(props)` → {front,back,head} world positions (attach held objects).
-- `Crowd {x,y,w,n=9,rows=2,t,seed,s=0.6,era:'medieval'|'19thc'|'modern',silhouette?,facing:1|-1|'mixed',expression}`
+- `Crowd {x,y,w,n=9,rows=2,t,seed,s=0.6,era:'medieval'|'19thc'|'modern',silhouette?,facing:1|-1|'mixed',expression, variety?:bool (mix children/elders + builds)}`
 
 ---
 
