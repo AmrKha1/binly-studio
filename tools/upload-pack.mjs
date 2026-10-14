@@ -95,7 +95,7 @@ const desc = [
   '',
   ...(chapterLines.length ? ['Chapters:', ...chapterLines, ''] : []),
   ...(credits.length
-    ? ['Image credits (Wikimedia Commons / PhyloPic):', ...credits.map((c) => `• ${c.title} — ${c.author} — ${c.licence} — ${c.source}`), '']
+    ? ['Image credits (Wikimedia Commons / PhyloPic):', ...credits.map((c) => `• ${c.title} — ${c.author} — ${c.licence}${/public domain|cc0|pdm/i.test(c.licence) ? '' : ` — ${c.source}`}`) /* links only where the licence asks for them (CC BY / BY-SA) */, '']
     : []),
   'Music: original score composed for this video.',
   '',

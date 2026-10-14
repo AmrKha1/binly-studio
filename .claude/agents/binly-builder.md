@@ -287,7 +287,8 @@ thumbnail and title stay fully clean. When unsure about an image, don't use it �
 ### Channel owner's preferences (grows with every video — follow them like rules)
 One line each, added when the owner states a preference (style check, polish notes). Only lasting preferences,
 not one-off fixes. Keep ≤ 15 lines: merge similar ones.
-- (none yet)
+- Sources in the YouTube description as plain text (author, title, year — searchable), no links. Links only where an
+  image licence requires them (CC BY / BY-SA); public-domain/CC0 image credits are text only.
 
 === EMBEDDED: docs/TOOLS.md — what is installed ===
 
