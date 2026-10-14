@@ -20,7 +20,7 @@ export const Text: React.FC<{t: number}> = ({t}) => (
     <Stamp x={1500} y={170} text="Mostly wrong" p={ramp(t, 1.2, 1.7)} />
     <Stat x={1440} y={470} value="0.061" unit="%" label="of all surgeries" p={ramp(t, 0.5, 2.5)} color={C.oxblood} />
     <Stat x={1440} y={760} value="505,000" label="intraocular surgeries" p={ramp(t, 0.5, 2.5)} size={130} />
-    <Circled x={1440} y={420} rx={300} ry={130} p={ramp(t, 2.2, 3)} />
+    <Circled x={1450} y={400} rx={330} ry={108} p={ramp(t, 2.2, 3)} />
     <HandNote x={880} y={660} text="the street name!" p={ramp(t, 1.5, 2.6)} />
     <g>
       <rect x={0} y={860} width={1920} height={220} fill={C.ink} />

@@ -171,6 +171,7 @@ export const Tag: React.FC<{
 }> = ({x, y, text, kind = 'ink', p, size = 26, to, anchor = 'left', dot = true}) => {
   if (p <= 0) return null;
   const col = SEM[kind];
+  const onCol = kind === 'caution' ? C.ink : C.paperLight; // dark text on mustard for contrast
   const label = text.toUpperCase();
   const w = textW(label, size, 'sansCaps', 700) + size * (dot ? 2.3 : 1.6);
   const h = size * 1.9;
@@ -193,8 +194,8 @@ export const Tag: React.FC<{
         </clipPath>
         <g clipPath={`url(#${id})`}>
           <rect width={w} height={h} rx={h / 2} fill={col} />
-          {dot && <circle cx={h / 2} cy={h / 2} r={size * 0.26} fill={C.paperLight} opacity={0.9} />}
-          <text x={dot ? h * 0.86 : size * 0.8} y={h / 2 + size * 0.36} fontFamily={FONT_SANS} fontWeight={700} fontSize={size} letterSpacing={size * 0.08} fill={C.paperLight} opacity={textP}>
+          {dot && <circle cx={h / 2} cy={h / 2} r={size * 0.26} fill={onCol} opacity={0.9} />}
+          <text x={dot ? h * 0.86 : size * 0.8} y={h / 2 + size * 0.36} fontFamily={FONT_SANS} fontWeight={700} fontSize={size} letterSpacing={size * 0.08} fill={onCol} opacity={textP}>
             {label}
           </text>
         </g>
