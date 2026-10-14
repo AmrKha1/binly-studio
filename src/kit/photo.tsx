@@ -83,7 +83,7 @@ export const Photo: React.FC<{
         </text>
       )}
       {credit && (
-        <text x={W / 2 - 4} y={h / 2 + pad + (caption ? 78 : 30) + (frame === 'polaroid' ? 10 : 0)} textAnchor="end" fontFamily={FONT_SANS} fontWeight={600} fontSize={16} letterSpacing={1} fill={textCol} opacity={0.85}>
+        <text x={W / 2 - 4} y={h / 2 + pad + (caption ? 78 : 30) + (frame === 'polaroid' ? 10 : 0)} textAnchor="end" fontFamily={FONT_SANS} fontWeight={600} fontSize={22} letterSpacing={1} fill={textCol} opacity={0.85}>
           {credit}
         </text>
       )}

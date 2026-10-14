@@ -124,7 +124,7 @@ const SHOTS: ((t: number, a: number, b: number) => React.ReactNode)[] = [
         {kind: 'outline', rx: 0.75, ry: 0.62, rw: 0.42, rh: 0.34, shape: 'box', label: 'Shared hot tub', sem: 'signal', at: a + 0.3},
         {kind: 'outline', rx: 0.2, ry: 0.4, rw: 0.22, rh: 0.22, dashed: true, label: 'Private room?', at: a + 0.8},
         {kind: 'flow', points: [[0.43, 0.42], [0.47, 0.52], [0.55, 0.6]], label: 'Way in', sem: 'evidence', at: a + 1.2, dur: 0.9},
-        {kind: 'icon', rx: 0.62, ry: 0.36, icon: 'speech', label: 'Gossip', sem: 'caution', at: a + 1.7},
+        {kind: 'icon', rx: 0.6, ry: 0.26, icon: 'speech', label: 'Gossip', sem: 'caution', at: a + 1.7},
         {kind: 'label', rx: 0.38, ry: 0.69, text: 'A pet dog', sem: 'ink', at: a + 2.0, dx: -160, dy: 60},
       ]}
     />

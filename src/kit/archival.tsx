@@ -38,14 +38,19 @@ const lerpFocus = (a: Focus, b: Focus, k: number): Focus => [lerp(a[0], b[0], k)
 /** Tiny handheld drift on a focus (alive holds). */
 const alive = (f: Focus, t: number, seed = 0, amt = 1): Focus => [f[0] + noise1(t * 0.22, seed + 1) * 0.004 * amt, f[1] + noise1(t * 0.2, seed + 2) * 0.004 * amt, f[2] * (1 + noise1(t * 0.17, seed + 3) * 0.004 * amt)];
 
+/** Full-frame images narrower than this (w/h) are shown whole at full height over a calm backdrop, not cropped to a band. */
+const FULL_MIN_ASPECT = 1.3;
+
 /** Where an image of `aspect` (w/h) lands inside a w×h window aimed at focus f: {left, top, IW, IH} (window px). */
 export const viewRect = (w: number, h: number, aspect: number, f: Focus) => {
-  const iw0 = Math.max(w, h * aspect);
+  // Full-frame (1920×1080) window + square/portrait image (aspect < FULL_MIN_ASPECT): show the WHOLE image at full height
+  // (zoom 1 = fit height, centred) instead of cropping to a horizontal band. ArchImage fills the side bars.
+  const iw0 = w === 1920 && h === 1080 && aspect < FULL_MIN_ASPECT ? h * aspect : Math.max(w, h * aspect);
   const ih0 = iw0 / aspect;
   const z = Math.max(1, f[2]);
   const IW = iw0 * z;
   const IH = ih0 * z;
-  return {left: clamp(w / 2 - f[0] * IW, w - IW, 0), top: clamp(h / 2 - f[1] * IH, h - IH, 0), IW, IH};
+  return {left: IW <= w ? (w - IW) / 2 : clamp(w / 2 - f[0] * IW, w - IW, 0), top: clamp(h / 2 - f[1] * IH, h - IH, 0), IW, IH};
 };
 export type ViewRect = ReturnType<typeof viewRect>;
 /** Image point (rx, ry) → window point (add the window's x/y for stage coords). */
@@ -80,7 +85,13 @@ export const ArchImage: React.FC<{
   return (
     <foreignObject x={x} y={y} width={w} height={h} opacity={o}>
       <div style={{width: w, height: h, overflow: 'hidden', position: 'relative', background: bg, clipPath: clip, borderRadius: round ? '50%' : undefined}}>
-        <Img src={staticFile(`${slug}/${src}`)} style={{position: 'absolute', left: v.left, top: v.top, width: v.IW, height: v.IH, maxWidth: 'none', filter: f}} />
+        {v.left > 0 && bg !== 'transparent' && (
+          <Img
+            src={staticFile(`${slug}/${src}`)}
+            style={{position: 'absolute', left: (w - Math.max(w, h * aspect) * 1.12) / 2, top: (h - (Math.max(w, h * aspect) * 1.12) / aspect) / 2, width: Math.max(w, h * aspect) * 1.12, height: (Math.max(w, h * aspect) * 1.12) / aspect, maxWidth: 'none', filter: `${f === 'none' ? '' : f + ' '}blur(28px) brightness(0.55) saturate(0.8)`}}
+          />
+        )}
+        <Img src={staticFile(`${slug}/${src}`)} style={{position: 'absolute', left: v.left, top: v.top, width: v.IW, height: v.IH, maxWidth: 'none', filter: f, boxShadow: v.left > 0 ? `0 24px 70px ${C.ink}88` : undefined}} />
         {tint === 'paper' && <div style={{position: 'absolute', inset: 0, background: C.paper, opacity: 0.12, mixBlendMode: 'multiply'}} />}
         {wash > 0 && <div style={{position: 'absolute', inset: 0, background: C.paper, opacity: wash}} />}
         {dim > 0 && <div style={{position: 'absolute', inset: 0, background: C.ink, opacity: dim}} />}
@@ -492,26 +503,51 @@ const SLOTS: Record<number, [number, number, number][]> = {
     [1460, 720, 470],
   ],
   4: [
-    [640, 300, 600],
-    [1290, 290, 560],
-    [700, 750, 560],
-    [1270, 745, 560],
+    [640, 285, 600],
+    [1290, 285, 560],
+    [700, 775, 560],
+    [1270, 770, 560],
   ],
   5: [
-    [420, 350, 430],
-    [930, 300, 420],
-    [1460, 380, 430],
-    [690, 770, 430],
-    [1260, 790, 430],
+    [420, 335, 430],
+    [930, 285, 420],
+    [1460, 365, 430],
+    [690, 785, 430],
+    [1260, 805, 430],
   ],
   6: [
-    [400, 320, 390],
-    [880, 290, 380],
-    [1390, 320, 410],
-    [540, 770, 410],
-    [1030, 740, 390],
-    [1510, 770, 390],
+    [400, 305, 390],
+    [880, 275, 380],
+    [1390, 305, 410],
+    [540, 785, 410],
+    [1030, 755, 390],
+    [1510, 785, 390],
   ],
+};
+
+/** Split a credit into lines that fit a print's inner width (breaks at " · " first, then at spaces). */
+const wrapCredit = (text: string, maxW: number): string[] => {
+  const fit = (x: string) => textW(x, 22, 'sans', 500) <= maxW;
+  const lines: string[] = [];
+  let cur = '';
+  for (const unit of text.split(' · ')) {
+    const joined = cur ? cur + ' · ' + unit : unit;
+    if (fit(joined)) {
+      cur = joined;
+      continue;
+    }
+    if (cur) lines.push(cur);
+    cur = '';
+    for (const word of unit.split(' ')) {
+      const w2 = cur ? cur + ' ' + word : word;
+      if (cur && !fit(w2)) {
+        lines.push(cur);
+        cur = word;
+      } else cur = w2;
+    }
+  }
+  if (cur) lines.push(cur);
+  return lines;
 };
 
 /**
@@ -530,12 +566,56 @@ export const CollageShot: React.FC<
     const sl = slots[i % slots.length];
     const asp = it.aspect ?? 1.4;
     let w = it.w ?? sl[2];
-    const hMax = items.length <= 2 ? 540 : items.length <= 4 ? 350 : 320;
+    const hMax = items.length <= 2 ? 540 : items.length <= 4 ? 310 : 320;
     if (w / asp > hMax) w = hMax * asp;
     const h = w / asp;
     const rot = it.rot ?? (rand(seed * 3.3 + i * 1.7) - 0.5) * 9;
-    return {x: it.x ?? sl[0], y: it.y ?? sl[1], w, h, rot, at: it.at ?? t0 + i * gap, pad: 14, bottom: it.label && it.credit ? 78 : it.label ? 56 : it.credit ? 36 : 14};
+    const cl = it.credit ? wrapCredit(it.credit, Math.max(w, 340)) : [];
+    const pw = Math.max(w + 28, ...cl.map((ln) => textW(ln, 22, 'sans', 500) + 28)); // paper widens for a long credit line
+    const ex = Math.max(0, cl.length - 1) * 28; // extra room for wrapped credit lines
+    return {x: it.x ?? sl[0], y: it.y ?? sl[1], w, h, rot, at: it.at ?? t0 + i * gap, pad: 14, bottom: (it.label && it.credit ? 80 : it.label ? 56 : it.credit ? 40 : 14) + ex, cl, pw};
   });
+  // Axis-aligned bounds of each (rotated) print incl. paper margin and shadow.
+  const boxOf = (L: (typeof lay)[number]) => {
+    const r = (L.rot * Math.PI) / 180;
+    const hw = L.pw / 2;
+    const hh = (L.h + L.pad + L.bottom) / 2;
+    const oy = (L.bottom - L.pad) / 2;
+    const ex = Math.abs(Math.cos(r)) * hw + Math.abs(Math.sin(r)) * hh;
+    const ey = Math.abs(Math.sin(r)) * hw + Math.abs(Math.cos(r)) * hh;
+    return {x0: L.x - Math.sin(r) * oy - ex, x1: L.x - Math.sin(r) * oy + ex, y0: L.y + Math.cos(r) * oy - ey, y1: L.y + Math.cos(r) * oy + ey};
+  };
+  // A string-link label must fit between the two linked prints: when they sit side by side, push the columns apart.
+  const lbl = link?.label;
+  const lblW = lbl ? textW(lbl.toUpperCase(), 26, 'sansCaps', 700) + 26 * 2.3 + 16 : 0;
+  if (link && lbl && link.style !== 'arrow' && items[link.from].x === undefined && items[link.to].x === undefined) {
+    const A = boxOf(lay[link.from]);
+    const B = boxOf(lay[link.to]);
+    const [l, r] = A.x1 <= B.x1 ? [A, B] : [B, A];
+    const extra = lblW + 24 - (r.x0 - l.x1);
+    if (extra > 0 && Math.min(A.y1, B.y1) - Math.max(A.y0, B.y0) > 0) {
+      const mx = (l.x1 + r.x0) / 2;
+      lay.forEach((L, i) => {
+        if (items[i].x === undefined && items[i].y === undefined) L.x += (L.x < mx ? -1 : 1) * (extra / 2);
+      });
+    }
+  }
+  // Rebalance the auto-placed prints around the frame centre (slots are hand-set and drift left/low); explicit x/y stay as given.
+  {
+    const ext = lay.map(boxOf);
+    const bx0 = Math.min(...ext.map((e) => e.x0));
+    const bx1 = Math.max(...ext.map((e) => e.x1));
+    const by0 = Math.min(...ext.map((e) => e.y0));
+    const by1 = Math.max(...ext.map((e) => e.y1));
+    const dx = 985 - (bx0 + bx1) / 2; // camera drift 915→1005 + settle: aim a little right so the settled frame is centred
+    const dy = clamp(540 - (by0 + by1) / 2, -70, 70);
+    lay.forEach((L, i) => {
+      if (items[i].x === undefined && items[i].y === undefined) {
+        L.x += dx;
+        L.y += dy;
+      }
+    });
+  }
   const pinOf = (i: number): XY => {
     const L = lay[i];
     const r = (L.rot * Math.PI) / 180;
@@ -547,7 +627,7 @@ export const CollageShot: React.FC<
   const mid = link ? {x: (lay[link.from].x + lay[link.to].x) / 2, y: (lay[link.from].y + lay[link.to].y) / 2} : {x: 960, y: 540};
   const k = ramp(t, a - 0.3, b + 0.5, ease.inOutSine);
   const lk = link ? ramp(t, linkAt - 0.2, linkAt + 1.2, ease.inOut) * 0.15 : 0;
-  const cam: CamState = breathe({cx: lerp(lerp(915, 1005, k), mid.x, lk), cy: lerp(lerp(548, 532, k), mid.y, lk), z: lerp(1.02, 1.06, k) + lk * 0.1, r: 0}, t, 0.8);
+  const cam: CamState = breathe({cx: lerp(lerp(915, 1005, k), mid.x, lk), cy: lerp(lerp(548, 532, k), mid.y, lk * 0.5), z: lerp(1.02, 1.06, k) + lk * 0.1, r: 0}, t, 0.8);
   const lineCol = dark ? mixHex(C.inkSoft, C.paperLight, 0.07) : mixHex(C.paperShade, C.ink, 0.06);
   const board_ = (
     <g>
@@ -569,7 +649,7 @@ export const CollageShot: React.FC<
     const s = lerp(1.14, 1, kk);
     const rot = L.rot + (1 - kk) * (i % 2 ? -7 : 7);
     const sh = lerp(34, 12, kk);
-    const W = L.w + L.pad * 2;
+    const W = L.pw;
     const H = L.h + L.pad + L.bottom;
     const fasten = link && link.style !== 'arrow' && (i === link.from || i === link.to) ? 'pin' : (it.fasten ?? (i % 2 ? 'pin' : 'tape'));
     const f: Focus = [0.5, 0.5, lerp(1.0, 1.06, ramp(t, L.at, b + 1, ease.inOutSine))];
@@ -579,8 +659,12 @@ export const CollageShot: React.FC<
         <rect x={-W / 2} y={-L.h / 2 - L.pad} width={W} height={H} rx={3} fill={C.paperLight} />
         <ArchImage slug={slug} src={it.src} x={-L.w / 2} y={-L.h / 2} w={L.w} h={L.h} aspect={it.aspect ?? 1.4} focus={f} tint={tint} />
         {it.credit && (
-          <text x={L.w / 2} y={L.h / 2 + (it.label ? 66 : 28)} textAnchor="end" fontFamily={FONT_SANS} fontWeight={500} fontSize={17} fill={C.inkFaint}>
-            {it.credit}
+          <text x={L.w / 2} y={L.h / 2 + (it.label ? 68 : 30)} textAnchor="end" fontFamily={FONT_SANS} fontWeight={500} fontSize={22} fill={C.inkFaint}>
+            {L.cl.map((ln, j) => (
+              <tspan key={j} x={L.w / 2} dy={j ? 28 : 0}>
+                {ln}
+              </tspan>
+            ))}
           </text>
         )}
         {it.label && (
@@ -628,9 +712,32 @@ export const CollageShot: React.FC<
       );
     }
   }
-  const lbl = link?.label;
-  const lblX = link ? (lay[link.from].x + lay[link.to].x) / 2 : 0;
-  const lblY = link ? (link.style === 'arrow' ? Math.min(lay[link.from].y, lay[link.to].y) - 40 : Math.max(pinOf(link.from).y, pinOf(link.to).y) + 70) : 0;
+  let lblX = link ? (lay[link.from].x + lay[link.to].x) / 2 : 0;
+  let lblY = link ? (link.style === 'arrow' ? Math.min(lay[link.from].y, lay[link.to].y) - 40 : Math.max(pinOf(link.from).y, pinOf(link.to).y) + 70) : 0;
+  if (link && lbl) {
+    // Keep the label clear of every print: search around the default spot for the nearest free position (else least overlap).
+    const lw = lblW;
+    const lh = 26 * 1.9 + 16;
+    const bs = lay.map(boxOf);
+    const fa = bs[link.from];
+    const ta = bs[link.to];
+    if (link.style !== 'arrow' && Math.min(fa.y1, ta.y1) - Math.max(fa.y0, ta.y0) > 0) lblX = fa.x1 <= ta.x0 ? (fa.x1 + ta.x0) / 2 : ta.x1 <= fa.x0 ? (ta.x1 + fa.x0) / 2 : lblX; // centre of the gap between side-by-side prints
+    const over = (x: number, y: number) =>
+      bs.reduce((acc, q) => acc + Math.max(0, Math.min(x + lw / 2, q.x1 + 6) - Math.max(x - lw / 2, q.x0 - 6)) * Math.max(0, Math.min(y + lh / 2, q.y1 + 6) - Math.max(y - lh / 2, q.y0 - 6)), 0);
+    let best = {x: lblX, y: lblY, o: over(lblX, lblY), d: 0};
+    for (let dy2 = -400; dy2 <= 400; dy2 += 20) {
+      for (let dx2 = -420; dx2 <= 420; dx2 += 20) {
+        const x = lblX + dx2;
+        const y = lblY + dy2;
+        if (x - lw / 2 < 60 || x + lw / 2 > 1860 || y - lh / 2 < 90 || y + lh / 2 > 1000) continue;
+        const o = over(x, y);
+        const d = Math.hypot(dx2, dy2);
+        if (o < best.o - 1 || (o <= best.o + 1 && d < best.d && o < 1)) best = {x, y, o, d};
+      }
+    }
+    lblX = best.x;
+    lblY = best.y;
+  }
   return (
     <Stage bg={bg}>
       <World
@@ -1304,17 +1411,20 @@ export const ParallaxCutoutShot: React.FC<ArchBase & {src: string; aspect?: numb
   const par = {x: (cen.x - cenL.x) * 0.7 * depth * lift, y: (cen.y - cenL.y) * 0.7 * depth * lift};
   const sc = 1 + 0.07 * lift;
   const tf = `translate(${cen.x + par.x} ${cen.y + par.y}) scale(${sc}) translate(${-cen.x} ${-cen.y})`;
-  const clip = box ? (box.ell ? `ellipse(${box.w / 2}px ${box.h / 2}px at ${box.x + box.w / 2}px ${box.y + box.h / 2}px)` : `inset(${box.y}px ${1920 - box.x - box.w}px ${1080 - box.y - box.h}px ${box.x}px)`) : `polygon(${pts.map((q) => `${q.x}px ${q.y}px`).join(', ')})`;
+  // An ellipse cut is drawn as a slightly irregular hand-cut outline (a perfect ellipse + thick ring reads as a camera lens).
+  const cutPts: XY[] = box && box.ell ? Array.from({length: 72}, (_, i) => {
+        const th = (i / 72) * Math.PI * 2;
+        const k = 1 + 0.014 * Math.sin(3 * th + seed * 1.7) + 0.01 * Math.sin(5 * th + seed * 3.1) + 0.006 * Math.sin(9 * th + seed * 0.6);
+        return {x: box.x + box.w / 2 + Math.cos(th) * (box.w / 2) * k, y: box.y + box.h / 2 + Math.sin(th) * (box.h / 2) * k};
+      }) : pts;
+  const clip = box && !box.ell ? `inset(${box.y}px ${1920 - box.x - box.w}px ${1080 - box.y - box.h}px ${box.x}px)` : `polygon(${cutPts.map((q) => `${q.x}px ${q.y}px`).join(', ')})`;
   const shape = (props: React.SVGProps<SVGElement>) =>
-    box ? (
-      box.ell ? (
-        <ellipse cx={box.x + box.w / 2} cy={box.y + box.h / 2} rx={box.w / 2} ry={box.h / 2} {...(props as React.SVGProps<SVGEllipseElement>)} />
-      ) : (
-        <rect x={box.x} y={box.y} width={box.w} height={box.h} {...(props as React.SVGProps<SVGRectElement>)} />
-      )
+    box && !box.ell ? (
+      <rect x={box.x} y={box.y} width={box.w} height={box.h} {...(props as React.SVGProps<SVGRectElement>)} />
     ) : (
-      <polygon points={pts.map((q) => `${q.x},${q.y}`).join(' ')} {...(props as React.SVGProps<SVGPolygonElement>)} />
+      <polygon points={cutPts.map((q) => `${q.x},${q.y}`).join(' ')} {...(props as React.SVGProps<SVGPolygonElement>)} />
     );
+  const rim = box && box.ell ? 8 : 14; // thin paper edge for the hand-cut blob, original ring for boxes / polygons
   const bgFilter = `grayscale(${0.55 * lift})`;
   const lp = label ? ramp(t, label.at ?? t0 + 0.7, (label.at ?? t0 + 0.7) + 0.6, ease.linear) : 0;
   const top = box ? box.y : Math.min(...pts.map((q) => q.y));
@@ -1340,8 +1450,9 @@ export const ParallaxCutoutShot: React.FC<ArchBase & {src: string; aspect?: numb
       />
       {lift > 0 && (
         <g transform={tf}>
+          {rim < 14 && <g transform={`translate(${34 * lift} ${46 * lift})`}>{shape({fill: C.ink, opacity: 0.16 * lift})}</g>}
           <g transform={`translate(${18 * lift} ${26 * lift})`}>{shape({fill: C.ink, opacity: 0.4 * lift})}</g>
-          {shape({fill: 'none', stroke: C.paperLight, strokeWidth: 14 * lift, strokeLinejoin: 'round'})}
+          {shape({fill: 'none', stroke: C.paperLight, strokeWidth: rim * lift, strokeLinejoin: 'round'})}
           <ArchImage slug={slug} src={src} x={0} y={0} w={1920} h={1080} aspect={aspect} focus={f} tint={tint} clip={clip} bg="transparent" />
         </g>
       )}

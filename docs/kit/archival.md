@@ -11,7 +11,8 @@ Image coords: `rx, ry` = 0..1 of the SOURCE image. `Focus = [fx, fy, zoom]` aims
 Gallery: `{"page":"archival"}` (stills 3.5, 7.5 … 27.5) and `{"page":"archival2"}` (3.5 ImageInWorld, 7.5 ParallaxCutout).
 Helpers exported: `ArchImage` (one image in a window, origin top-left, cover-fit, focus/tint/dim/wash/clip),
 `viewRect` + `onView` (map image coords → window px), `LowerThird`, `CreditLine`.
-Square/portrait images in a full 16:9 frame show only a horizontal band (≈ ry 0.2–0.8 at zoom 1) — aim focus accordingly.
+Full-frame templates show square/portrait images (`aspect` < 1.3) WHOLE at full height (zoom 1 = fit height, centred) over a darkened,
+blurred copy of the same image; landscape images cover the frame as before. `viewRect` follows the same rule for 1920×1080 windows.
 
 ## KenBurnsShot
 Slow motivated move from→to (eased, log zoom) + `beats` re-aiming the camera on cue (eased 1.1 s punch-in, or `cut:true` = hard punch).
@@ -51,7 +52,8 @@ type MontageItem = {src, aspect?, credit?, caption?, kicker?, from?: Focus, to?:
 
 ## CollageShot
 2–6 prints on a board (paper pinboard or `dark`), slight rotations, tape or pins, flat shadows; they drop in on cues, the camera drifts.
-`link` = red string (pin to pin) or arrow between two items + optional Tag label. Labels/credits are written on each print's margin.
+`link` = red string (pin to pin) or arrow between two items + optional Tag label. Labels/credits are written on each print's margin (long credits wrap; the paper widens to fit).
+Auto-placed prints are re-centred on the frame; the link label is moved clear of the prints.
 ```ts
 type CollageItem = {src, aspect?, credit?, label?, at?, x?, y?, w?, rot?, fasten?: 'tape'|'pin'}
 <CollageShot {...base} slug items board?: 'paper'|'dark' tint? link?: {from, to, at?, style?: 'string'|'arrow', label?, kind?: Sem} at? gap?=0.45 />

@@ -252,7 +252,7 @@ export const Stat: React.FC<{
         )}
       </text>
       {label && (
-        <text x={x} y={y + size * 0.42} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={700} fontSize={size * 0.15} letterSpacing={size * 0.02} fill={labelColor} opacity={ramp(p, 0.4, 1)}>
+        <text x={x} y={y + size * 0.42} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={700} fontSize={Math.max(22, size * 0.15)} letterSpacing={size * 0.02} fill={labelColor} opacity={ramp(p, 0.4, 1)}>
           {label.toUpperCase()}
         </text>
       )}
