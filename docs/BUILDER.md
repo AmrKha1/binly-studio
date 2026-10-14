@@ -16,6 +16,9 @@
 - Return a full frame: `<Stage bg={...}>…svg…</Stage>`, or `<Shots t={t} shots=[…]/>` when the chapter has
   several shots (each shot renders its own `<Stage>`).
 - Imports: `../../../kit/<module>` (kit) and `../shared/<file>` (this video's shared assets).
+- **The brief is the spec.** Meet each shot's DONE WHEN. If something is truly unclear or impossible (missing image,
+  kit piece doesn't exist), choose the simplest strong option that serves the shot's purpose, keep going, and list it
+  in your report under "Decided myself:" so the director can check it — never stop to ask, never silently skip.
 
 ## Timing
 Put every cue at the top, from `node tools/cue.mjs`, with the spoken words as comments:

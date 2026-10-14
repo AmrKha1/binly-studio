@@ -51,6 +51,12 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   (continuity from the previous chapter's last frame) and ends (what the next chapter enters from) · 3–8 SFX
   moments · music mood. Be concrete: builders execute, they should not have to invent the direction — but
   leave them room for craft. Shot numbers make later fixes precise ("C04 S3: …").
+  **The standard is `docs/EXAMPLE-BRIEF.md`** (read it once before the first brief). Each shot answers:
+  SIZE + FOCUS (wide/medium/close · the one thing the eye goes to) · ACTION (what appears/moves, in order, on which
+  spoken words) · exact TEXT · KIT/IMAGE (named pieces, image files already fetched) · CAMERA + IN-transition ·
+  DONE WHEN (one line: what must read clearly, by when). Specify the WHAT; leave the HOW to the builder.
+  **No-guess test before sending a brief:** could a builder build every shot without asking one question? Any
+  "something like…", "maybe", missing image or unnamed piece → decide it now (a line for you; a guess costs a rebuild).
 - `videos/<slug>/score.json` — music: `{"key":"D","mode":"minor","bpm":68,"seed":3,"sections":[{"t":0,"mood":"curious"},…],"accents":[{"t":…,"kind":"drop","dur":2},…]}`
   Moods: curious, wonder, tension, dark, build, reflective, warm, neutral, playful, sad, triumphant.
   Accents: swell, drop, resolve, sting, silence. Change mood at pivots/chapters, not every 10 s.
@@ -81,7 +87,8 @@ Each builder writes only `src/videos/<slug>/chapters/C03.tsx` (+ `videos/<slug>/
 
 **5 · Review each chapter** as it arrives: `node tools/sheet.mjs --from <start> --to <end> --n 20 --cols 5`,
 then Read the PNG. Judge like a demanding art director with the Binly mindset (docs/RETENTION.md): would a stranger keep watching?
-Focal point, readability, variety, sync with the shot list, nothing broken/empty/colliding. Send back only what
+Focal point, readability, variety, sync with the shot list, each shot's DONE WHEN met, the builder's "Decided myself"
+items acceptable, nothing broken/empty/colliding. Send back only what
 really matters. Send concrete fixes to the SAME builder with SendMessage
 (it keeps its context). Spot-check only boundaries with a special transition (match cut, ink/iris into a detail): `node tools/sheet.mjs --times <b-0.6>,<b-0.2>,<b+0.2>,<b+0.6>`
 — simple fades/cuts don't need a picture.

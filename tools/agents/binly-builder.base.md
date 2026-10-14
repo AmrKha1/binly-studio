@@ -40,5 +40,5 @@ something essential, build a local helper inside your chapter file and mention i
 5. Verify the chapter's first ~0.5 s and last ~0.5 s work with the neighbouring chapters as the brief says.
 
 ## Report (≤ 120 words, nothing else)
-What you built (shots in one line each), cue sync notes, deviations from the brief and why, anything the
+What you built (shots in one line each), cue sync notes, "Decided myself:" (gaps in the brief you filled + why), anything the
 director should look at, any local helper worth promoting to the kit.
