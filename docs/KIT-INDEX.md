@@ -3,13 +3,14 @@
 ## What you can show (menu — combine freely; everything below is ready-made)
 - **Worlds you can fly through:** layered 2.5D parallax scenes (sky, landscapes, medieval/modern cities & streets, rooms, bathhouse, lab, museum, study, bedroom, mind space), vehicles & weather (ships, carts, trains, cars; rain/snow/fog/wind/leaves), market stalls, campfire, well, throne — with camera pans, push-ins, pull-outs and scale dives.
 - **Looks-3D (drawn flat, fast):** a spinning globe with countries/pins/routes/night side, isometric buildings, rooms, towns, stairs, cylinders, shaded spheres (planets, moons, cells, eyeballs), dolly through depth layers.
-- **People & life:** parametric characters (eras, outfits, poses, expressions, walking, talking, sitting), crowds; animal/dinosaur/microbe silhouettes (shared library, recolourable, dashed = inferred).
+- **People & life:** parametric characters (eras, outfits incl. peasant/merchant/nun/soldier/worker, ages child/adult/elder, builds, poses, expressions, held props, walking, talking, sitting, kneeling, lying), crowds; animal/dinosaur/microbe silhouettes (shared library, recolourable, dashed = inferred).
 - **Real evidence:** archival images edited like a storyteller — Ken Burns, detail hunt with labels, montage on the beat, collage board, compare/wipe, document scan + translation, animation drawn over reality, image inside an animated scene, parallax cut-out.
-- **Ideas made visible:** flows, cycles, Venn, comparisons, timelines, maps, exact-number stats with dot grids/bars/rings, claims stamped with certainty colours, open questions, quotes and documents, study cards, screens, speech/thought/inner-voice bubbles.
+- **Ideas made visible:** flows, cycles, Venn, comparisons, timelines, maps, exact-number stats with dot grids/bars/rings, claims with certainty captions and red-pen verdicts, open questions, quotes and documents, study cards, screens, speech/thought/inner-voice bubbles.
 - **Science:** brain regions, heads with EEG/implants, body & organs, eye cross-section, neurons/synapses, cells, immune cells, germs/viruses, DNA, molecules, waveforms.
 - **Life & atmosphere:** steam, flames, particles (dust/spores/embers), light shafts and pools, ripples, camera breathe/shake; transitions: fade, dip, ink, iris in/out, push, paper, zoom-through, wipe, cut.
 - **Shot templates:** 21 ready full shots (12 info beats + 9 real-image treatments) — see docs/catalog/templates.png.
-Missing something? Build it once, flexibly (props for era/colour/pose), and register it in docs/ASSETS.md.
+**Not in the kit yet** (build ONLY if this video needs it): ancient/prehistoric eras, non-European architecture (Middle-Eastern, East-Asian, …) and dress, historical territories / moving front lines on maps, drawn animals beyond the horse (others: silhouettes).
+**How to build a missing piece:** one shared component in `src/videos/<slug>/shared/` with kit-style dials (x, y, s, flip, t, tone + era/style/colour/pose — never hard-coded for one shot), same palette `C` and flat style, checked on a test sheet, then registered in docs/ASSETS.md with its dials. `/improve-studio` later promotes reused pieces into the kit.
 
 Import from `../../../kit/<module>` (chapters) · visual catalogs: `docs/catalog/templates.png`, `docs/catalog/kit.png` · full reference: `docs/KIT.md` (rarely needed).
 

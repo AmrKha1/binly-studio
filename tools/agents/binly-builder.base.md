@@ -26,6 +26,8 @@ what's installed (docs/TOOLS.md) and the kit index (docs/KIT-INDEX.md) are appen
   `videos/<slug>/shots/<id>.json` props and re-run `node tools/compile-shots.mjs <id>`) — or `<id>.tsx` for a hand-written
   chapter without a shots JSON — or, if assigned the shared assets, `src/videos/<slug>/shared/*.tsx`.
 - `videos/<slug>/sfx/<id>.json` — SFX cues `[{"t": 123.4, "kind": "stamp"}, …]` (kinds in BUILDER.md).
+New shared pieces follow kit conventions (docs/KIT-AUTHORING.md): props x, y, s, flip, t, tone + dials for era/style/colour/
+pose, palette `C`, flat style — reusable in later videos, never hard-coded for one shot.
 Never edit kit files, other chapters, `index.tsx`, `chapters.json` or briefs. If the kit has a bug or lacks
 something essential, build a local helper inside your chapter file and mention it in your report.
 
