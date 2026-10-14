@@ -79,6 +79,7 @@ export type Sem = keyof typeof SEM;
 
 export const FONT_SERIF = '"Fraunces", Georgia, serif'; // titles, editorial captions, quotes
 export const FONT_SANS = '"Inter", "Segoe UI", Arial, sans-serif'; // labels, tags, numbers, UI
+export const FONT_HAND = '"Caveat", "Segoe Print", cursive'; // RARE accent: handwritten notes on images/documents only (≥ 34 px)
 
 export const W = 1920;
 export const H = 1080;

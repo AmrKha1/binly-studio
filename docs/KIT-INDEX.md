@@ -15,11 +15,11 @@ Import from `../../../kit/<module>` (chapters) · visual catalogs: `docs/catalog
 
 ## docs/kit/core.md — Stage, camera (Cam/World/breathe/shake), time maths (ramp/keys/win/camAt/rand/noise1/countUp), Shots + transitions, palette C/SEM
 modules: kit/stage, kit/anim, kit/shots, kit/theme, kit/video
-Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, W, H, FPS, SAFE, VideoModule, ChapterDef, Chapters
+Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, FONT_HAND, W, H, FPS, SAFE, VideoModule, ChapterDef, Chapters
 
 ## docs/kit/text-cards-diagrams.md — Typography, paper objects & screens & bubbles, diagrams/arrows/flows, light & motion fx, characters (Person/Crowd)
 modules: kit/text, kit/cards, kit/diagrams, kit/fx, kit/people
-textW, Headline, Kicker, Para, Tag, Stamp, Stat, Underline, Highlight, Circled, NameTag, TitleCard, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, Expression, Outfit, Hat, Hair, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd
+textW, Headline, Kicker, Para, Tag, Stamp, Stat, Underline, Highlight, Circled, NameTag, TitleCard, HandNote, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, Expression, Outfit, Hat, Hair, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd
 
 ## docs/kit/templates.md — Ready-made full shots for standard beats (stat, quote, evidence, claim, compare, list, timeline, map, person, process, question, title)
 modules: kit/templates

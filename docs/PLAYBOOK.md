@@ -46,7 +46,8 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
 - Flat vector, bold clean silhouettes, colour blocking, layered depth, flat shade shapes on the side away
   from the light, light as flat low-opacity shapes. **No gradients over large areas, no noise/grain/
   texture, no blur** (they band or look dirty after encoding). Output must be perfectly clean.
-- Typography: Fraunces (serif) for headlines/quotes/numbers, Inter caps for labels/tags. Ink on paper or
+- Typography: Fraunces (serif) for headlines/quotes/numbers, Inter caps for labels/tags. Rare accent only: Caveat
+  handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Ink on paper or
   paper on ink — never mid-tone on mid-tone. Inside SAFE margins (96 px). Readable at 1080p.
 - Each scene has ONE clear focal point (scale, contrast, negative space). No collisions of text/objects.
 - Variety without changing art direction: alternate environment / character / concept / diagram scenes.

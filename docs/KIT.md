@@ -37,6 +37,9 @@ metal, lamp, fire, water/waterDeep, slate, sky, dusk, night, skin[0..4], skinSha
 - `Para {x,y,w,h=600,text,p,size=36,color,align,font,weight,italic,lineHeight}` wrapped paragraph (keep short).
 - `Tag {x,y,text,kind:Sem,p,size=26,to?:{x,y},anchor:'left'|'right'|'center',dot}` semantic chip, optional leader line.
 - `Stamp {x,y,text,p,color=oxblood,size=56,rot=-6}` thumping verdict stamp.
+- `HandNote {x,y,text,p,size=50,color=oxblood,rot=-3,anchor,weight}` handwritten note (Caveat, `FONT_HAND`), written on
+  letter by letter. RARE accent: a scribbled note beside a detail on an image/document (often with `Circled`/an arrow) —
+  never titles, labels or body text; at most one or two per chapter.
 - `Stat {x,y,value:'0.061',unit?:'%',label?,p,count=true,size=180,color,anchor}` exact number, counts up, lands exactly.
 - `Underline {x,y,w,p,color,thick,wobble}` · `Highlight {x,y,w,h,p,color,opacity}` (draw BEFORE text) · `Circled {x,y,rx,ry?,p,color,thick,rot}`
 - `NameTag {x,y,name,sub?,p,anchor:'left'|'right',color,dark}` real person / source label.

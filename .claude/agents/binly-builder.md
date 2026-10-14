@@ -233,7 +233,8 @@ A great video in one session beats a perfect plan.
 - Flat vector, bold clean silhouettes, colour blocking, layered depth, flat shade shapes on the side away
   from the light, light as flat low-opacity shapes. **No gradients over large areas, no noise/grain/
   texture, no blur** (they band or look dirty after encoding). Output must be perfectly clean.
-- Typography: Fraunces (serif) for headlines/quotes/numbers, Inter caps for labels/tags. Ink on paper or
+- Typography: Fraunces (serif) for headlines/quotes/numbers, Inter caps for labels/tags. Rare accent only: Caveat
+  handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Ink on paper or
   paper on ink — never mid-tone on mid-tone. Inside SAFE margins (96 px). Readable at 1080p.
 - Each scene has ONE clear focal point (scale, contrast, negative space). No collisions of text/objects.
 - Variety without changing art direction: alternate environment / character / concept / diagram scenes.
@@ -336,11 +337,11 @@ Import from `../../../kit/<module>` (chapters) · visual catalogs: `docs/catalog
 
 ## docs/kit/core.md — Stage, camera (Cam/World/breathe/shake), time maths (ramp/keys/win/camAt/rand/noise1/countUp), Shots + transitions, palette C/SEM
 modules: kit/stage, kit/anim, kit/shots, kit/theme, kit/video
-Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, W, H, FPS, SAFE, VideoModule, ChapterDef, Chapters
+Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, FONT_HAND, W, H, FPS, SAFE, VideoModule, ChapterDef, Chapters
 
 ## docs/kit/text-cards-diagrams.md — Typography, paper objects & screens & bubbles, diagrams/arrows/flows, light & motion fx, characters (Person/Crowd)
 modules: kit/text, kit/cards, kit/diagrams, kit/fx, kit/people
-textW, Headline, Kicker, Para, Tag, Stamp, Stat, Underline, Highlight, Circled, NameTag, TitleCard, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, Expression, Outfit, Hat, Hair, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd
+textW, Headline, Kicker, Para, Tag, Stamp, Stat, Underline, Highlight, Circled, NameTag, TitleCard, HandNote, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, Expression, Outfit, Hat, Hair, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd
 
 ## docs/kit/templates.md — Ready-made full shots for standard beats (stat, quote, evidence, claim, compare, list, timeline, map, person, process, question, title)
 modules: kit/templates

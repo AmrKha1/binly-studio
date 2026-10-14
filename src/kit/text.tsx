@@ -1,5 +1,5 @@
 import React from 'react';
-import {C, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
+import {C, FONT_HAND, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
 import {clamp01, countUp, ease, lerp, ramp} from './anim';
 
 // Typography. Rules: short editorial headlines/labels only, no burned-in subtitles,
@@ -339,5 +339,21 @@ export const TitleCard: React.FC<{x?: number; y?: number; kicker?: string; title
       <Headline x={x} y={y} text={title} p={ramp(p, 0.1, 0.9)} size={size} color={color} mode="mask" />
       <rect x={x - lineW / 2} y={y + size * 0.42} width={lineW} height={5} fill={kickerColor} />
     </g>
+  );
+};
+
+/**
+ * HandNote — a handwritten note (Caveat), written on letter by letter as p goes 0→1. RARE accent: scribbled notes
+ * on images/documents only — never titles or body text. size ≥ 34. rot = slight tilt in degrees.
+ */
+export const HandNote: React.FC<{x: number; y: number; text: string; p?: number; size?: number; color?: string; rot?: number; anchor?: Anchor; weight?: 500 | 700}> = ({
+  x, y, text, p = 1, size = 50, color = C.oxblood, rot = -3, anchor = 'start', weight = 700,
+}) => {
+  const n = Math.ceil(text.length * clamp01(p));
+  if (n <= 0) return null;
+  return (
+    <text x={x} y={y} transform={`rotate(${rot} ${x} ${y})`} textAnchor={anchor} fontFamily={FONT_HAND} fontWeight={weight} fontSize={Math.max(34, size)} fill={color}>
+      {text.slice(0, n)}
+    </text>
   );
 };

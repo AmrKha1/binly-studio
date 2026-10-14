@@ -2,7 +2,7 @@ import React from 'react';
 import {Stage} from '../../kit/stage';
 import {C} from '../../kit/theme';
 import {ramp} from '../../kit/anim';
-import {Circled, Headline, Highlight, Kicker, NameTag, Para, Stamp, Stat, Tag, TitleCard, Underline} from '../../kit/text';
+import {Circled, HandNote, Headline, Highlight, Kicker, NameTag, Para, Stamp, Stat, Tag, TitleCard, Underline} from '../../kit/text';
 
 // Typography showcase. Everything settles by t = 3 s.
 export const Text: React.FC<{t: number}> = ({t}) => (
@@ -21,6 +21,7 @@ export const Text: React.FC<{t: number}> = ({t}) => (
     <Stat x={1440} y={470} value="0.061" unit="%" label="of all surgeries" p={ramp(t, 0.5, 2.5)} color={C.oxblood} />
     <Stat x={1440} y={760} value="505,000" label="intraocular surgeries" p={ramp(t, 0.5, 2.5)} size={130} />
     <Circled x={1440} y={420} rx={300} ry={130} p={ramp(t, 2.2, 3)} />
+    <HandNote x={880} y={660} text="the street name!" p={ramp(t, 1.5, 2.6)} />
     <g>
       <rect x={0} y={860} width={1920} height={220} fill={C.ink} />
       <TitleCard x={960} y={990} kicker="Part two" title="The Black Death" p={ramp(t, 0.5, 2.5)} color={C.paperLight} size={72} />
