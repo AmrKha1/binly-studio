@@ -18,3 +18,6 @@ Shared HeroTub night side fixed ✓.
 Tool fix: tools/sheet.mjs uses a per-run tiles folder (parallel sheets no longer collide).
 Backlog: HeroTub clip ids derive from seed+x+y → two tubs at same spot collide (use per-instance id).
 Kit bug: ListShot layout=column + kicker → kicker overlaps title (removed kickers in C05/C08).
+Render v1 ✓ (output/medieval-bathing-v1.mp4, QA in qa/medieval-bathing-v1): 1080p60, 642.844 s exact, VO sync 0 ms, −13.5 LUFS, no black/static; 17 near-empty flags (mostly intentional).
+Fix round 2 (final): C03 S2/S9, C07 S7, C08 S4/S7, then C02 soap → final render v2.
+Upload pack ✓ (description w/ sources incl. Zurich 2016 article; captions fixed).

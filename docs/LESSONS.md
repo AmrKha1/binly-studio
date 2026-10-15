@@ -13,3 +13,18 @@
 - See docs/ASSETS.md (catalog of reusable pieces from past videos).
 - Collage with many prints + two-line credits fills the board; prefer ≤ 4 prints when every print has label + long credit.
 - Gallery tiles are rendered at 25%; check text sizes on full-res stills (`node tools/still.mjs`), not on the catalog sheet.
+
+## medieval-bathing (2026-10-15)
+- (owner) NO image with any nudity, not even croppable (bath art, Adam/Eve, flagellants, Dürer syphilis sheet, near-nude patients) → animate those scenes; also check every caption is literally true (a "Rue des Étuves" sign turned out to be Lagny, not Paris).
+- (owner) Don't open the live preview; show contact sheets for the style check.
+- Builders default Tags/labels to ~26 px → unreadable at 1080p; put "Tags ≥ 34, Kickers ≥ 30, inside SAFE, in clear space" in every brief.
+- Kit hat 'scholar' renders as a modern mortarboard — use 'hood'/'beret'/'coif' for medieval scholars.
+- One shared builder (opus) for 4 motif pieces first, then chapters: worked well; a 4-chapter usage-limit pause was recovered with SendMessage, nothing lost.
+- upload-pack's auto logline may invent numbers ("150 years") and captions keep ASR slips — always proofread description.md + captions.srt against the script.
+
+## Kit backlog (medieval-bathing)
+- ListShot layout='column' + kicker → kicker overlaps the title (template bug; worked around by dropping kickers).
+- `BathSign` (hanging sign + bath emblem + lantern) was rebuilt in C01/C02/C05/C06/C07 → promote to kit/env.
+- HeroTub clip ids derive from seed+x+y → two instances at the same spot collide; use a per-instance id.
+- tools/sheet.mjs now uses a per-run tiles folder (parallel builders used to overwrite each other's tiles).
+- tools/compile-shots.mjs now compiles archival templates (KenBurnsShot, AnnotatedImageShot, MontageShot, …).

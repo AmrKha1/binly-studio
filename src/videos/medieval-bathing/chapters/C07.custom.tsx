@@ -6,7 +6,6 @@ import {camAt, clamp01, ease, lerp, ramp, rand, win, keys} from '../../../kit/an
 import {Headline, Kicker, Tag} from '../../../kit/text';
 import {Card, OpenBook, Bubble} from '../../../kit/cards';
 import {Arrow, CrossOut, CheckMark, QuestionMark} from '../../../kit/diagrams';
-import {TimelineAxis} from '../../../kit/data';
 import {GeoMap, makeProjection} from '../../../kit/geo';
 import {Icon} from '../../../kit/icons';
 import {Person} from '../../../kit/people';
@@ -336,7 +335,7 @@ export const S7: React.FC<{t: number}> = ({t}) => {
   const ax = ramp(t, 528.3, 529.2, ease.out);
   const mx = keys(t, [[528.5, 1300], [529.2, 1560], [529.8, 1360], [530.5, 1660], [531.2, 1450], [532.0, 1540]]);
   const qm = ramp(t, T.qm, T.qm + 0.5, ease.outBack) * (1 - ramp(t, T.europe - 0.1, T.europe + 0.3));
-  const mxPx = 160 + ((mx - 1300) / 400) * 1600;
+  const mxPx = 210 + ((mx - 1300) / 400) * 1500;
   const hp = ramp(t, T.europe - 0.1, T.europe + 1.0, ease.out);
   const rowA = ramp(t, T.pub, T.pub + 0.6, ease.out);
   const rowB = ramp(t, T.itself - 0.4, T.itself + 0.4, ease.out);
@@ -345,22 +344,30 @@ export const S7: React.FC<{t: number}> = ({t}) => {
   const mag = ramp(t, 528.4, 528.9, ease.out) * (1 - ramp(t, T.europe, T.europe + 0.4));
   return (
     <Stage bg={C.paper}>
-      <TimelineAxis x={160} y={330} w={1600} from={1300} to={1700} ticks={100} p={ax} />
-      <g opacity={mag} transform={`translate(${mxPx} ${250 + Math.sin(t * 5) * 4})`}>
-        <circle r={58} fill={C.paperLight} fillOpacity={0.6} stroke={C.ink} strokeWidth={9} />
-        <line x1={42} y1={42} x2={110} y2={110} stroke={C.woodDark} strokeWidth={16} strokeLinecap="round" />
+      <g opacity={ax}>
+        <line x1={210} y1={480} x2={210 + 1500 * ax} y2={480} stroke={C.ink} strokeWidth={6} strokeLinecap="round" />
+        {[1300, 1400, 1500, 1600, 1700].map((yr, i) => (
+          <g key={yr} opacity={ramp(t, 528.5 + i * 0.08, 529.0 + i * 0.08)}>
+            <line x1={210 + i * 375} y1={462} x2={210 + i * 375} y2={498} stroke={C.ink} strokeWidth={5} />
+            <text x={210 + i * 375} y={552} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={32} letterSpacing={2} fill={C.inkMute}>{yr}</text>
+          </g>
+        ))}
       </g>
-      <QuestionMark x={960} y={150} size={150} p={qm} t={t} />
-      <Headline x={960} y={560} size={88} text="Europe didn't stop bathing." mode="words" p={hp} accent={{bathing: C.evidence}} />
+      <g opacity={mag} transform={`translate(${mxPx} ${400 + Math.sin(t * 5) * 5})`}>
+        <circle r={150} fill={C.paperLight} fillOpacity={0.55} stroke={C.ink} strokeWidth={16} />
+        <line x1={106} y1={106} x2={270} y2={270} stroke={C.woodDark} strokeWidth={34} strokeLinecap="round" />
+      </g>
+      <QuestionMark x={960} y={130} size={130} p={qm} t={t} />
+      <Headline x={960} y={700} size={88} text="Europe didn't stop bathing." mode="words" p={hp} accent={{bathing: C.evidence}} />
       <g opacity={rowA}>
-        <text x={420} y={760} fontFamily={FONT_SERIF} fontSize={46} fill={C.ink} fontWeight={600}>Public bathhouses</text>
-        <path d="M900 735 Q 1050 730 1150 770 T 1400 820" fill="none" stroke={C.caution} strokeWidth={8} strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - lineA} />
-        <Arrow from={{x: 1500, y: 730}} to={{x: 1500, y: 830}} color={C.caution} width={12} p={lineA} />
+        <text x={420} y={830} fontFamily={FONT_SERIF} fontSize={46} fill={C.ink} fontWeight={600}>Public bathhouses</text>
+        <path d="M900 805 Q 1050 800 1150 840 T 1400 890" fill="none" stroke={C.caution} strokeWidth={8} strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - lineA} />
+        <Arrow from={{x: 1500, y: 800}} to={{x: 1500, y: 900}} color={C.caution} width={12} p={lineA} />
       </g>
       <g opacity={rowB}>
-        <text x={420} y={910} fontFamily={FONT_SERIF} fontSize={46} fill={C.ink} fontWeight={600}>Bathing itself</text>
-        <path d="M900 890 Q 1050 880 1150 892 T 1400 888" fill="none" stroke={C.evidence} strokeWidth={8} strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - lineB} />
-        <CheckMark x={1500} y={880} size={90} p={lineB} />
+        <text x={420} y={950} fontFamily={FONT_SERIF} fontSize={46} fill={C.ink} fontWeight={600}>Bathing itself</text>
+        <path d="M900 930 Q 1050 920 1150 932 T 1400 928" fill="none" stroke={C.evidence} strokeWidth={8} strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - lineB} />
+        <CheckMark x={1500} y={935} size={80} p={lineB} />
       </g>
     </Stage>
   );

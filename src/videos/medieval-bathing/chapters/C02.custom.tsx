@@ -308,14 +308,16 @@ const T8 = {open: 102.26, land: 102.5, fat: 105.3, ash: 106.2, firm: 107.2, herb
 const Bar: React.FC<{x: number; y: number; s?: number; w?: number; firm?: number; o?: number; rot?: number}> = ({x, y, s = 1, w = 360, firm = 1, o = 1, rot = 0}) => {
   const h = w * 0.34;
   const d = w * 0.12; // top-face depth
-  const side = mix(mix(C.stoneShade, C.woodLight, 0.4), mix(C.caution, C.woodDark, 0.45), firm);
-  const front = mix(side, C.paperLight, 0.12);
-  const top = mix(side, C.paperLight, 0.42);
+  const olive = mix(mix(C.caution, C.lamp, 0.35), C.ink, 0.22);
+  const side = mix(mix(olive, C.woodLight, 0.25), olive, firm);
+  const front = mix(side, C.ink, 0.12);
+  const top = mix(mix(side, C.lamp, 0.35), C.paperLight, 0.3);
   return (
-    <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`} opacity={o} strokeLinejoin="round" stroke={C.woodDark} strokeWidth={Math.max(2, w * 0.012)}>
+    <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`} opacity={o} strokeLinejoin="round" stroke={C.ink} strokeWidth={4}>
       <path d={`M${-w / 2} 0 L${-w / 2 + 6} ${-h} L${w / 2 - 6} ${-h} L${w / 2} 0 Z`} fill={front} />
       <path d={`M${-w / 2 + 6} ${-h} L${-w / 2 + 6 + d * 0.8} ${-h - d} L${w / 2 - 6 + d * 0.3} ${-h - d} L${w / 2 - 6} ${-h} Z`} fill={top} />
       <path d={`M${-w / 2 + w * 0.12} ${-h * 0.62} H${-w / 2 + w * 0.4}`} stroke={C.paperLight} strokeWidth={w * 0.02} strokeLinecap="round" opacity={0.55} />
+      <path d={`M${-w / 2 + w * 0.14} ${-h - d * 0.55} H${-w / 2 + w * 0.34} M${w * 0.1} ${-h * 0.3} H${w * 0.3}`} stroke={C.paperLight} strokeWidth={w * 0.018} strokeLinecap="round" opacity={0.6} />
     </g>
   );
 };
@@ -366,8 +368,8 @@ export const S8: React.FC<{t: number}> = ({t}) => {
     <Stage bg={C.paperShade}>
       {/* bench scene */}
       <g opacity={1 - ease.in(clamp01(out * 1.3 - 0.1))} transform={`translate(${lerp(0, barMapX, out)} ${lerp(0, barMapY, out)}) scale(${sc}) translate(${-800 * out} ${-800 * out})`}>
-        <rect x={-300} y={0} width={2520} height={1080} fill={mix(C.paperShade, C.woodLight, 0.25)} />
-        <rect x={-300} y={820} width={2520} height={300} fill={C.wood} />
+        <rect x={-300} y={0} width={2520} height={1080} fill={mix(C.woodDark, C.ink, 0.45)} />
+        <rect x={-300} y={820} width={2520} height={300} fill={mix(C.wood, C.woodDark, 0.4)} />
         <rect x={-300} y={820} width={2520} height={14} fill={C.woodDark} />
         {[0, 1, 2, 3, 4].map((i) => <path key={i} d={`M${-200 + i * 560} 900 h360`} stroke={C.woodDark} strokeWidth={4} opacity={0.35} strokeLinecap="round" />)}
         {/* back wall lamp light */}
@@ -396,7 +398,7 @@ export const S8: React.FC<{t: number}> = ({t}) => {
         {firm > 0.02 && firm < 1 && <path d="M1320 700 Q1150 600 1000 740" stroke={C.bone} strokeWidth={8} strokeLinecap="round" fill="none" strokeDasharray="18 14" strokeDashoffset={-t * 80} opacity={0.8} />}
         {/* the bar */}
         <Bar x={800} y={barY} w={540} firm={firm} o={land} />
-        {herbP.map((p, i) => p > 0 && <Sprig key={i} x={680 + i * 120} y={760 + (i % 2) * 4 - 10} r={[-20, 8, 24][i]} p={p} />)}
+        {herbP.map((p, i) => p > 0 && <Sprig key={i} x={680 + i * 120} y={600 + (i % 2) * 6} r={[-20, 8, 24][i]} p={p} />)}
         <Particles t={t} x={700} y={500} w={520} h={260} n={14} seed={4} size={[3, 6]} color={C.lamp} opacity={[0.2, 0.4]} vy={-12} />
       </g>
       {/* map */}

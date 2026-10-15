@@ -51,7 +51,7 @@ const wheelView = (t: number) => ({
 
 // S2 · 122.48 · "Medieval medicine didn't have germs. It had humors."
 export const S2: React.FC<{t: number}> = ({t}) => {
-  const gp = ramp(t, T.germ - 0.1, T.germ + 0.4, ease.outBack);
+  const gp = ramp(t, 122.5, 122.95, ease.outBack);
   const gOut = ramp(t, 124.55, 125.0);
   const w = wheelView(125.4);
   const xs = [820, 900, 1020, 1100];
@@ -59,9 +59,12 @@ export const S2: React.FC<{t: number}> = ({t}) => {
   const wp = ramp(t, 125.0, 125.7, ease.out);
   return (
     <Stage bg={C.paperShade}>
-      <Kicker x={960} y={170} text="Medieval medicine" p={ramp(t, 122.4, 122.9)} />
+      <Kicker x={960} y={130} size={30} text="Medieval medicine" p={ramp(t, 122.4, 122.9)} />
+      <g opacity={(1 - gOut) * ramp(t, 122.6, 123.0)}>
+        <text x={960} y={800} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={700} fontSize={64} letterSpacing={8} fill={C.theory}>GERMS</text>
+      </g>
       {/* germ: dashed outline = an idea that wasn't there */}
-      <g transform={`translate(960 ${560 + (1 - gp) * 30}) rotate(-18) scale(${2.4 * gp * (1 - gOut * 0.6)})`} opacity={gp * (1 - gOut)}>
+      <g transform={`translate(960 ${470 + (1 - gp) * 30}) rotate(-18) scale(${4.6 * gp * (1 - gOut * 0.6)})`} opacity={gp * (1 - gOut)}>
         <rect x={-60} y={-24} width={120} height={48} rx={24} fill="none" stroke={C.theory} strokeWidth={5} strokeDasharray="14 10" />
         {[-34, -12, 12, 34].map((dx, i) => (
           <circle key={i} cx={dx} cy={(i % 2 ? 6 : -6)} r={4} fill="none" stroke={C.theory} strokeWidth={3} strokeDasharray="4 4" />
@@ -71,7 +74,7 @@ export const S2: React.FC<{t: number}> = ({t}) => {
         ))}
       </g>
       <g opacity={1 - gOut}>
-        <CrossOut x={960} y={540} size={300} p={ramp(t, T.cross, T.cross + 0.5, ease.out)} color={C.caution} />
+        <CrossOut x={960} y={470} size={560} p={ramp(t, 123.9, 124.4, ease.out)} color={C.caution} />
       </g>
       {/* four drops fall into the centre → wheel */}
       {xs.map((x, i) => {
@@ -238,7 +241,7 @@ export const S9: React.FC<{t: number}> = ({t}) => {
   return (
     <Stage bg={C.paper}>
       {/* folk charm: string of herbs + amulet, plum dashed */}
-      <g transform={`translate(${lerp(-80, 560, cin) - out * 900} 360)`} opacity={cin}>
+      <g transform={`translate(${lerp(-80, 560, cin) - out * 1000} 400) scale(2)`} opacity={cin}>
         <g fill="none" stroke={C.theory} strokeWidth={5} strokeDasharray="12 10" strokeLinecap="round">
           <path d="M-140 -120 Q0 -60 140 -120" />
           <path d="M0 -90 L0 90" />
@@ -250,7 +253,7 @@ export const S9: React.FC<{t: number}> = ({t}) => {
             <ellipse cx={0} cy={30} rx={10} ry={26} fill="none" stroke={C.theory} strokeWidth={4} strokeDasharray="8 8" />
           </g>
         ))}
-        <text x={0} y={260} textAnchor="middle" fontFamily={FONT_SERIF} fontStyle="italic" fontSize={32} fill={C.theory}>Folk superstition</text>
+        <text x={0} y={260} textAnchor="middle" fontFamily={FONT_SERIF} fontStyle="italic" fontSize={19} fill={C.theory}>Folk superstition</text>
       </g>
       {/* big university medical book */}
       <g transform={`translate(960 ${lerp(1250, 470, book)})`} opacity={book > 0 ? 1 : 0}>

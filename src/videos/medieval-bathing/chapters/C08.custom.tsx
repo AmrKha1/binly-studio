@@ -6,6 +6,7 @@ import {camAt, clamp01, ease, keys, lerp, mixHex, noise1, ramp, randRange, win} 
 import {Kicker, Tag} from '../../../kit/text';
 import {Arrow, CrossOut, QuestionMark} from '../../../kit/diagrams';
 import {LightPool, Pulse, Steam, Vignette} from '../../../kit/fx';
+import {Person} from '../../../kit/people';
 import {Icon} from '../../../kit/icons';
 import {RichText} from '../../../kit/templates';
 import {getLength, getPointAtLength} from '@remotion/paths';
@@ -37,7 +38,7 @@ const T = {
   s7: 609.68,
   clean: 609.8, // "Medieval Europe never made the simple journey from clean to dirty"
   imagine: 613.5, // "that we like to imagine"
-  winding: 614.1, // "What actually happened was more complicated"
+  winding: 613.55, // path starts as the myth fades (no empty frame); "What actually happened…" 614.1
   human: 616.4, // "more human"
   s9: 629.17,
   world: 632.0, // "the world around it just kept changing"
@@ -209,7 +210,7 @@ export const S4: React.FC<{t: number}> = ({t}) => {
               <QuestionMark x={150} y={-30} size={330} p={q} t={t} />
             </g>
             {steps.map((s, i) => (
-              <RichText key={i} x={-310} y={-60 + i * 130} w={640} h={100} text={s} size={48} valign="middle" weight={600} mode="type" p={ramp(t, T.logical + i * 0.7, T.logical + i * 0.7 + 0.9)} color={i === 2 ? C.ink : C.inkSoft} />
+              <RichText key={i} x={-310} y={-60 + i * 130} w={640} h={100} text={s} size={48} valign="middle" weight={600} mode="type" p={ramp(t, T.logical + i * 0.35, T.logical + i * 0.35 + 0.6)} color={i === 2 ? C.ink : C.inkSoft} />
             ))}
             <WaxSeal x={230} y={340} s={0.9} p={ramp(t, T.logical - 0.1, T.logical + 0.3)} />
             <Pulse x={230} y={340} r={160} p={ramp(t, T.seal, T.seal + 0.7)} color={C.oxblood} />
@@ -222,12 +223,12 @@ export const S4: React.FC<{t: number}> = ({t}) => {
 };
 
 // S7 · 609.68 · "Medieval Europe never made the simple journey from clean to dirty…" — straight myth road → winding human path
-const Sign: React.FC<{x: number; y: number; text: string; dirty?: boolean; p: number}> = ({x, y, text, dirty, p}) => {
+const Sign: React.FC<{x: number; y: number; text: string; dirty?: boolean; p: number; s?: number}> = ({x, y, text, dirty, p, s = 1}) => {
   if (p <= 0) return null;
   const k = ease.out(clamp01(p));
   const board = dirty ? C.stoneDark : C.paperLight;
   return (
-    <g transform={`translate(${x} ${y + (1 - k) * 30})`} opacity={k}>
+    <g transform={`translate(${x} ${y + (1 - k) * 30}) scale(${s})`} opacity={k}>
       <rect x={-8} y={0} width={16} height={160} fill={C.woodDark} />
       <rect x={-130} y={-70} width={260} height={96} rx={10} fill={C.ink} opacity={0.14} transform="translate(8 8)" />
       <rect x={-130} y={-70} width={260} height={96} rx={10} fill={board} stroke={dirty ? C.ink : C.caution} strokeWidth={6} />
@@ -244,8 +245,8 @@ export const S7: React.FC<{t: number}> = ({t}) => {
   const cam = breathe(camAt(t, [[T.s7 - 0.3, 960, 540, 1.04], [T.human + 1.2, 960, 520, 1.0]]), t, 0.6);
   const mythP = ramp(t, T.clean + 0.1, T.clean + 1.2, ease.inOut);
   const mythOut = 1 - ramp(t, T.imagine - 0.1, T.imagine + 0.5, ease.inOut);
-  const draw = ramp(t, T.winding, T.winding + 2.0, ease.inOut);
-  const branch = ramp(t, T.winding + 1.0, T.winding + 1.9, ease.out);
+  const draw = ramp(t, T.winding - 0.2, T.winding + 1.4, ease.inOut);
+  const branch = ramp(t, T.winding + 0.9, T.winding + 1.5, ease.out);
   const fracs: {f: number; icon: 'bath' | 'skull' | 'document' | 'house'; accent: string}[] = [
     {f: 0.12, icon: 'bath', accent: C.lamp},
     {f: 0.38, icon: 'skull', accent: C.paperShade},
@@ -258,10 +259,11 @@ export const S7: React.FC<{t: number}> = ({t}) => {
       <Cam cam={cam}>
         {/* the myth */}
         <g opacity={mythOut} transform={`translate(0 ${(1 - mythOut) * 24})`}>
-          <Sign x={290} y={420} text="CLEAN" p={ramp(t, T.clean - 0.1, T.clean + 0.5)} />
-          <Sign x={1630} y={420} text="DIRTY" dirty p={ramp(t, T.clean + 0.6, T.clean + 1.2)} />
-          <line x1={340} y1={600} x2={lerp(340, 1580, mythP)} y2={600} stroke={C.inkSoft} strokeWidth={10} strokeDasharray="30 22" strokeLinecap="round" />
-          {mythP > 0.95 && <polygon points="1580,574 1624,600 1580,626" fill={C.inkSoft} />}
+          <Sign s={2} x={330} y={340} text="CLEAN" p={ramp(t, T.clean - 0.1, T.clean + 0.5)} />
+          <Sign s={2} x={1590} y={340} text="DIRTY" dirty p={ramp(t, T.clean + 0.6, T.clean + 1.2)} />
+          <line x1={340} y1={680} x2={lerp(340, 1560, mythP)} y2={680} stroke={C.inkSoft} strokeWidth={22} strokeDasharray="50 34" strokeLinecap="round" />
+          <Person x={lerp(520, 1500, ramp(t, T.clean + 0.1, T.imagine, ease.inOut))} y={686} s={0.62} t={t} outfit="tunic" hat="hood" walk={(t - T.clean) * 1.2} stride={0.8} seed={8} />
+          {mythP > 0.95 && <polygon points="1560,646 1620,680 1560,714" fill={C.inkSoft} />}
         </g>
         {/* the real path */}
         <path d={WIND} fill="none" stroke={C.wood} strokeWidth={16} strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - draw} />
@@ -271,12 +273,12 @@ export const S7: React.FC<{t: number}> = ({t}) => {
           const k = ramp(draw, v.f - 0.04, v.f + 0.1, ease.outBack);
           if (k <= 0) return null;
           const pt = getPointAtLength(WIND, v.f * L) ?? {x: 0, y: 0};
-          const off = i % 2 ? 130 : -130;
+          const off = i % 2 ? 150 : -150;
           return (
             <g key={i} opacity={clamp01(k)}>
               <line x1={pt.x} y1={pt.y} x2={pt.x} y2={pt.y + off * 0.45} stroke={C.inkFaint} strokeWidth={3} strokeDasharray="6 8" />
-              <circle cx={pt.x} cy={pt.y + off} r={74 * k} fill={C.paperLight} stroke={C.ink} strokeWidth={5} />
-              <Icon name={v.icon} x={pt.x} y={pt.y + off} s={1.05 * k} color={C.ink} accent={v.accent} knock={C.paperLight} />
+              <circle cx={pt.x} cy={pt.y + off} r={100 * k} fill={C.paperLight} stroke={C.ink} strokeWidth={6} />
+              <Icon name={v.icon} x={pt.x} y={pt.y + off} s={1.4 * k} color={C.ink} accent={v.accent} knock={C.paperLight} />
               {v.icon === 'house' && <LightPool x={pt.x} y={pt.y + off} r={130} color={C.lamp} strength={0.45} />}
             </g>
           );
