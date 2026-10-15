@@ -163,9 +163,9 @@ const BathersLayer: React.FC<{t: number; show: number; close?: number}> = ({t, s
   const rightX = (x: number) => x;
   // right tub (x 1470): three bathers; shuffle closer from T5.close
   const sh = ramp(t, T5.close, T5.close + 0.9, ease.out);
-  const rA = lerp(1370, 1405, sh);
-  const rB = lerp(1470, 1465, sh);
-  const rC = lerp(1580, 1540, sh);
+  const rA = lerp(1370, 1395, sh);
+  const rB = lerp(1560, 1540, sh);
+  const rC = lerp(1470, 1460, sh);
   const cupL = ramp(t, T5.drink, T5.clink, ease.out);
   const toast = ramp(t, T5.clink, T5.clink + 0.25, ease.out) * (1 - ramp(t, T5.clink + 0.3, T5.clink + 0.7));
   const armsA = {front: [lerp(30, 98 + toast * 6, cupL), lerp(10, 40, cupL)], back: [8, 10]};
@@ -204,10 +204,10 @@ const BathersLayer: React.FC<{t: number; show: number; close?: number}> = ({t, s
       {/* conversation bubbles */}
       {t > T5.bubbles - 0.1 && (
         <g>
-          <Bubble x={1335} y={590} w={150} h={104} to={{x: 1385, y: 672}} p={bubbleP(T5.bubbles)} kind="speech" />
-          <Icon name="sun" x={1335} y={590} s={0.7} color={C.ink} accent={C.lamp} p={bubbleP(T5.bubbles + 0.2)} />
-          <Bubble x={1665} y={572} w={150} h={104} to={{x: 1555, y: 660}} p={bubbleP(T5.bubbles + 0.35)} kind="speech" />
-          <Icon name="heart" x={1665} y={572} s={0.7} color={C.ink} accent={C.oxblood} p={bubbleP(T5.bubbles + 0.55)} />
+          <Bubble x={1330} y={560} w={150} h={104} to={{x: 1395, y: 655}} p={bubbleP(T5.bubbles)} kind="speech" />
+          <Icon name="sun" x={1330} y={560} s={0.7} color={C.ink} accent={C.lamp} p={bubbleP(T5.bubbles)} />
+          <Bubble x={1640} y={560} w={150} h={104} to={{x: 1545, y: 655}} p={bubbleP(T5.bubbles + 0.35)} kind="speech" />
+          <Icon name="heart" x={1640} y={560} s={0.7} color={C.ink} accent={C.oxblood} p={bubbleP(T5.bubbles + 0.35)} />
         </g>
       )}
     </g>

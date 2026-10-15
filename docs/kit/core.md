@@ -15,7 +15,7 @@ metal, lamp, fire, water/waterDeep, slate, sky, dusk, night, skin[0..4], skinSha
 - `<Stage bg={C.paper}>…svg children…</Stage>` full 1920×1080 frame (every shot/chapter renders one).
 - `<Cam cam={state} depth={1}>` camera group (depth<1 far/slow, >1 foreground). `<CamKeys t keys={[...]} depth>` shorthand.
 - `<World cam={cam} layers={[{depth:0.3, el:<Far/>},{depth:1, el:<Main/>},{depth:1.4, el:<Front/>}]}/>` parallax.
-- `breathe(cam,t,amount=1)` subtle handheld life for holds · `shake(cam,t,t0,strength=14,decay=5)` impacts.
+- `breathe(cam,t,amount=1)` subtle handheld life for holds (translation only — never add micro rotation/zoom noise on text: it shimmers) · `shake(cam,t,t0,strength=14,decay=5)` impacts.
 - `<At x y s sx sy r o>` transform wrapper · `uid(...parts)` stable ids for clip paths.
 
 **shots**

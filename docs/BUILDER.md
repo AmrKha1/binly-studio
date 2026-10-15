@@ -59,6 +59,9 @@ the next shot/chapter can transition from · semantic colours for certainty · e
   and leave with motivation (camera moves away, a wipe, fade with `win`).
 - **Alive holds**: something always subtly moves (camera breathe, particles, blinking/breathing people,
   flame flicker, steam) — never a dead frame > 2 s.
+- **Depth order with objects**: a figure is either IN an object (bather in a tub: head + shoulders only above the rim)
+  or fully in front of / behind it — never drawn behind an object's front while its legs show below it.
+- **Readable labels**: Tags ≥ 34 px, Kickers ≥ 30 px, inside SAFE, in clear space near their subject.
 - **Semantic colour** on claims: confirmed → `kind="confirmed"`, theory → `"theory"`, caution → `"caution"`.
   Oxblood (`C.oxblood`) only on the single key beat of a scene.
 - **Exact numbers**: `<Stat value="0.061" unit="%" …/>` — `value` is the spoken figure exactly.

@@ -426,28 +426,27 @@ const BATHERS: Bather[] = [
   {x: 520, y: 866, s: 0.5, outfit: 'dress', hat: 'none', face: -1, seed: 2, kind: 'tub'},
   {x: 1430, y: 866, s: 0.5, outfit: 'peasant', hat: 'hood', face: -1, seed: 3, kind: 'tub'},
   {x: 1530, y: 866, s: 0.5, outfit: 'tunic', hat: 'none', face: 1, seed: 4, kind: 'tub'},
-  // middle, behind the bench
-  {x: 760, y: 905, s: 0.5, outfit: 'robe', hat: 'beret', face: 1, seed: 5},
+  // standing, behind the tub line, in the gap between the tubs (never overlapping a tub)
+  {x: 780, y: 905, s: 0.5, outfit: 'robe', hat: 'beret', face: 1, seed: 5},
   {x: 880, y: 910, s: 0.5, outfit: 'dress', hat: 'coif', face: -1, seed: 6},
-  {x: 1000, y: 905, s: 0.5, outfit: 'peasant', hat: 'none', face: 1, seed: 7},
-  {x: 1120, y: 910, s: 0.5, outfit: 'tunic', hat: 'hood', face: -1, seed: 8},
-  // front row
-  {x: 230, y: 1010, s: 0.66, outfit: 'dress', hat: 'coif', face: 1, seed: 9},
-  {x: 440, y: 1020, s: 0.66, outfit: 'tunic', hat: 'none', face: -1, seed: 10},
-  {x: 650, y: 1010, s: 0.66, outfit: 'peasant', hat: 'hood', face: 1, seed: 11},
-  {x: 860, y: 1024, s: 0.66, outfit: 'robe', hat: 'none', face: -1, seed: 12},
-  {x: 1070, y: 1012, s: 0.66, outfit: 'tunic', hat: 'beret', face: 1, seed: 13},
-  {x: 1280, y: 1022, s: 0.66, outfit: 'dress', hat: 'none', face: -1, seed: 14},
-  {x: 1490, y: 1010, s: 0.66, outfit: 'peasant', hat: 'coif', face: 1, seed: 15},
-  {x: 1700, y: 1020, s: 0.66, outfit: 'tunic', hat: 'hood', face: -1, seed: 16},
+  {x: 980, y: 905, s: 0.5, outfit: 'peasant', hat: 'none', face: 1, seed: 7},
+  {x: 1080, y: 910, s: 0.5, outfit: 'tunic', hat: 'hood', face: -1, seed: 8},
+  {x: 1180, y: 905, s: 0.5, outfit: 'dress', hat: 'none', face: -1, seed: 17},
+  // front row, feet low, fully in front, in the gaps
+  {x: 120, y: 1030, s: 0.66, outfit: 'dress', hat: 'coif', face: 1, seed: 9},
+  {x: 770, y: 1030, s: 0.66, outfit: 'peasant', hat: 'hood', face: 1, seed: 11},
+  {x: 910, y: 1038, s: 0.66, outfit: 'robe', hat: 'none', face: -1, seed: 12},
+  {x: 1050, y: 1030, s: 0.66, outfit: 'tunic', hat: 'beret', face: 1, seed: 13},
+  {x: 1190, y: 1038, s: 0.66, outfit: 'dress', hat: 'none', face: -1, seed: 14},
+  {x: 1800, y: 1030, s: 0.66, outfit: 'tunic', hat: 'hood', face: -1, seed: 16},
 ];
 const TOPS = [C.woodLight, C.evidenceLight, C.theoryLight, C.oxLight, C.slate, C.stone, C.cautionLight, C.inkLift];
-const SICK = [6, 10, 12]; // indices of the three flagged bathers
+const SICK = [10, 11, 13]; // front-row figures, fully visible
 
 const BathWorld: React.FC<{t: number; sickP?: number; coughP?: number}> = ({t, sickP = 0, coughP = 0}) => (
   <g>
     <Bathhouse t={t} seed={3} layer="back" />
-    {BATHERS.map((b, i) => (
+    {BATHERS.map((b, i) => b.kind === 'tub' === true ? (
       <Person
         key={i}
         x={b.x}
@@ -462,8 +461,24 @@ const BathWorld: React.FC<{t: number; sickP?: number; coughP?: number}> = ({t, s
         expression={SICK.includes(i) && sickP > 0.5 ? 'worried' : 'neutral'}
         seed={b.seed * 3 + 1}
       />
-    ))}
+    ) : null)}
     <Bathhouse t={t} seed={3} layer="front" />
+    {BATHERS.map((b, i) => b.kind === 'tub' === false ? (
+      <Person
+        key={i}
+        x={b.x}
+        y={b.y}
+        s={b.s}
+        t={t}
+        facing={b.face}
+        outfit={b.outfit}
+        hat={b.hat}
+        top={TOPS[i % TOPS.length]}
+        pose={i % 3 === 0 ? 'idle' : i % 3 === 1 ? 'hold' : 'idle'}
+        expression={SICK.includes(i) && sickP > 0.5 ? 'worried' : 'neutral'}
+        seed={b.seed * 3 + 1}
+      />
+    ) : null)}
     {SICK.map((i, k) => {
       const b = BATHERS[i];
       const p = ramp(t, T.sick + k * 0.28, T.sick + k * 0.28 + 0.4, ease.outBack);
@@ -471,7 +486,7 @@ const BathWorld: React.FC<{t: number; sickP?: number; coughP?: number}> = ({t, s
       const h = 540 * b.s;
       return (
         <g key={i} opacity={clamp01(p * 3)} transform={`translate(${b.x} ${b.y - h / 2 + 10}) scale(${p})`}>
-          <rect x={-72} y={-h / 2 - 14} width={144} height={h + 28} rx={40} fill="none" stroke={C.caution} strokeWidth={6} strokeDasharray="14 11" strokeDashoffset={-t * 14} />
+          <rect x={-60} y={-h / 2 - 10} width={120} height={h + 20} rx={60} fill="none" stroke={C.caution} strokeWidth={6} strokeDasharray="14 11" strokeDashoffset={-t * 14} />
         </g>
       );
     })}
@@ -535,7 +550,7 @@ export const S9: React.FC<{t: number}> = ({t}) => {
       <Kicker x={960} y={150} text="CROWDED" p={1} />
       <Tag x={960} y={260} anchor="center" size={40} text="Reasonable to avoid" kind="evidence" p={ramp(t, T.reason, T.reason + 0.7)} />
       {germP > 0 && (
-        <g transform={`translate(960 400) scale(${0.6 + germP * 0.4})`} opacity={germP}>
+        <g transform={`translate(960 450) scale(${0.6 + germP * 0.4})`} opacity={germP}>
           <circle r={100} fill={C.paperLight} stroke={C.ink} strokeWidth={5} strokeDasharray="14 11" strokeDashoffset={-t * 12} />
           <g opacity={0.5}>
             <Germ x={0} y={0} s={0.9} kind="coccus" t={t} color={C.theoryLight} shade={C.theory} />

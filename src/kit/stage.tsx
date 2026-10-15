@@ -9,7 +9,9 @@ import {camAt, CamKey, CamState, ease, EaseFn, noise1} from './anim';
  */
 export const Stage: React.FC<{bg?: string; children?: React.ReactNode; style?: React.CSSProperties}> = ({bg = C.paper, children, style}) => (
   <AbsoluteFill style={{background: bg, ...style}}>
-    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{position: 'absolute', inset: 0, overflow: 'hidden'}}>
+    {/* geometricPrecision: glyphs follow sub-pixel camera moves smoothly instead of snapping to the pixel grid
+        frame by frame (hinting snap = text "vibrating in place" during slow drifts/pushes). Inherited by HTML in foreignObject. */}
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{position: 'absolute', inset: 0, overflow: 'hidden', textRendering: 'geometricPrecision'}}>
       {children}
     </svg>
   </AbsoluteFill>
@@ -49,12 +51,15 @@ export const World: React.FC<{cam: CamState; layers: {depth: number; el: React.R
   </>
 );
 
-/** Handheld-style micro drift for the camera (deterministic). Add to a CamState for "alive" holds. */
+/**
+ * Handheld-style micro drift for the camera (deterministic). Add to a CamState for "alive" holds.
+ * Translation only: micro rotation/zoom noise re-rasterised every glyph each frame and made still text shimmer.
+ */
 export const breathe = (cam: CamState, t: number, amount = 1): CamState => ({
   cx: cam.cx + noise1(t * 0.25, 1) * 6 * amount,
   cy: cam.cy + noise1(t * 0.22, 2) * 4 * amount,
-  z: cam.z * (1 + noise1(t * 0.18, 3) * 0.004 * amount),
-  r: cam.r + noise1(t * 0.2, 4) * 0.12 * amount,
+  z: cam.z,
+  r: cam.r,
 });
 
 /** Deterministic camera shake (impacts, rumbles). strength in px, decays from t0. */

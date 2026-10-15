@@ -28,3 +28,6 @@
 - HeroTub clip ids derive from seed+x+y → two instances at the same spot collide; use a per-instance id.
 - tools/sheet.mjs now uses a per-run tiles folder (parallel builders used to overwrite each other's tiles).
 - tools/compile-shots.mjs now compiles archival templates (KenBurnsShot, AnnotatedImageShot, MontageShot, …).
+- (polish, kit) Text "vibrating in place" = breathe's micro rotation/zoom noise + hinted text rendering → glyphs snapped differently every frame. Fixed in kit/stage.tsx: breathe is translation-only and Stage uses text-rendering: geometricPrecision. Measure, don't guess: render consecutive frames (tools/still.mjs) and compare text vs shape centroids.
+- (polish, owner) Bath scenes: a figure is either a bather IN a tub (head + shoulders only) or a standing person fully in front of / behind the tub — never drawn behind a tub front with legs showing below it ("people wearing barrels").
+- (polish, owner) A plain parchment + 2 small icons in the hook read as "cheap" → rebuilt as archive shelf → illuminated manuscript with two painted miniatures. Hook beats need a place, depth and light.

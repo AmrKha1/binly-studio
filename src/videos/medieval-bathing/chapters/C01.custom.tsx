@@ -1,15 +1,15 @@
 // Custom shots for C01 (builder-owned). Each: export const S<n>: React.FC<{t: number}> returning a full <Stage>.
 import React from 'react';
-import {Stage, Cam, breathe, shake} from '../../../kit/stage';
-import {C} from '../../../kit/theme';
-import {camAt, clamp01, ease, keys, lerp, noise1, ramp, rand, randRange, stagger, win} from '../../../kit/anim';
+import {Stage, Cam, breathe, shake, uid} from '../../../kit/stage';
+import {C, FONT_SERIF} from '../../../kit/theme';
+import {camAt, clamp01, ease, keys, lerp, mixHex, noise1, ramp, rand, randRange, stagger, win} from '../../../kit/anim';
 import {Headline, Kicker, Tag} from '../../../kit/text';
 import {DocumentPage} from '../../../kit/cards';
 import {Arrow, Bracket, CheckMark} from '../../../kit/diagrams';
-import {LightPool, Particles, Pulse, Steam, Vignette} from '../../../kit/fx';
+import {DrawPath, LightPool, Particles, Pulse, Steam, Vignette} from '../../../kit/fx';
 import {Crowd, Person} from '../../../kit/people';
 import {Icon} from '../../../kit/icons';
-import {Banner, Door, Lantern, Street} from '../../../kit/env';
+import {Banner, Door, Lantern, OilLamp, Street} from '../../../kit/env';
 import {BodyOutline} from '../../../kit/science';
 import {RichText} from '../../../kit/templates';
 import {HeroTub, HumorWheel} from '../shared';
@@ -24,6 +24,7 @@ const T = {
   physicians: 9.6, //  "Physicians in medieval Europe genuinely believed"
   both: 11.82, //      "both things at once"
   sameDoc: 13.88, //   "sometimes in the same document"
+  s3: 14.82, //        next shot (iris)
   s4: 21.61, //        "You've probably heard the other version"
   didnt: 23.8, //      "Medieval people didn't bathe."
   streets: 25.75, //   "Filthy streets"
@@ -105,32 +106,262 @@ const DeskTop: React.FC<{t: number; lamp?: number}> = ({t, lamp = 1}) => (
   </g>
 );
 
-export const S2: React.FC<{t: number}> = ({t}) => {
-  const cam = breathe(camAt(t, [[T.s2 - 0.6, 960, 530, 0.96], [T.sameDoc + 1.0, 960, 560, 1.06]]), t);
-  const pageP = ramp(t, T.s2 - 0.1, T.s2 + 0.8, ease.out);
-  const L = {x: 560, y: 360};
-  const R = {x: 1360, y: 640};
+// S2 phase A · 6.94 · archive shelf, lamp-lit; one manuscript slides out on "historical record"
+const LEATHER = [C.woodDark, C.wood, mixHex(C.evidence, C.ink, 0.35), mixHex(C.theory, C.ink, 0.3), mixHex(C.oxDeep, C.ink, 0.15), C.slate, mixHex(C.woodDark, C.ink, 0.35), mixHex(C.caution, C.woodDark, 0.55)];
+const HERO = {x: 1130, w: 150, h: 430}; // the manuscript that slides out (bottom shelf row, plank at y 1000)
+
+const Spine: React.FC<{x: number; base: number; w: number; h: number; col: string; seed: number; lean?: number}> = ({x, base, w, h, col, seed, lean = 0}) => {
+  const bands = 2 + Math.floor(rand(seed * 3.1) * 3);
+  const label = rand(seed * 5.7) > 0.45;
   return (
-    <Stage bg={C.woodDark}>
+    <g transform={`rotate(${lean} ${x + (lean > 0 ? w : 0)} ${base})`}>
+      <rect x={x} y={base - h} width={w} height={h} rx={5} fill={col} />
+      <rect x={x + w * 0.66} y={base - h} width={w * 0.34} height={h} rx={4} fill={C.ink} opacity={0.22} />
+      <rect x={x + w * 0.08} y={base - h} width={w * 0.1} height={h} fill={C.paperLight} opacity={0.08} />
+      {Array.from({length: bands}, (_, i) => {
+        const yy = base - h + 30 + i * ((h - 60) / Math.max(1, bands - 1));
+        return (
+          <g key={i}>
+            <rect x={x} y={yy - 7} width={w} height={14} fill={C.ink} opacity={0.25} />
+            <rect x={x} y={yy - 4} width={w} height={5} fill={C.caution} opacity={0.75} />
+          </g>
+        );
+      })}
+      {label && <rect x={x + w * 0.2} y={base - h * 0.62} width={w * 0.6} height={h * 0.16} rx={3} fill={C.paperShade} opacity={0.55} />}
+    </g>
+  );
+};
+
+const ShelfRow: React.FC<{base: number; seed: number; skip?: [number, number]}> = ({base, seed, skip}) => {
+  const out: React.ReactNode[] = [];
+  let x = -300;
+  for (let i = 0; x < 2900; i++) {
+    const s = seed * 97 + i * 7;
+    const w = randRange(s, 58, 118);
+    const h = randRange(s + 1, 300, 410);
+    if (skip && x + w > skip[0] && x < skip[1]) {
+      x = skip[1] + 4;
+      continue;
+    }
+    const lean = rand(s + 2) < 0.06 ? 6 : 0;
+    out.push(<Spine key={i} x={x} base={base} w={w} h={h} col={LEATHER[Math.floor(rand(s + 3) * LEATHER.length)]} seed={s} lean={lean} />);
+    x += w + (lean ? 26 : randRange(s + 4, 2, 8));
+  }
+  return <g>{out}</g>;
+};
+
+const Archive: React.FC<{t: number}> = ({t}) => {
+  const out = ramp(t, T.record - 0.1, T.record + 0.9, ease.inOut); // slides out toward camera
+  const flick = 1 + noise1(t * 3, 21) * 0.06;
+  const cam = breathe(
+    camAt(t, [
+      [T.s2 - 0.6, 860, 600, 1.45],
+      [T.record - 0.1, 1060, 640, 1.5],
+      [T.physicians - 0.05, HERO.x + HERO.w / 2, 760, 2.6],
+    ]),
+    t,
+  );
+  const hs = lerp(1, 1.45, out);
+  const hx = HERO.x + HERO.w / 2;
+  return (
+    <g>
       <Cam cam={cam}>
-        <DeskTop t={t} />
-        <g transform="translate(1600 870) rotate(-28)">
-          <Icon name="quill" x={0} y={0} s={2.2} color={C.paperShade} accent={C.caution} knock={C.woodDark} />
+        <rect x={-600} y={-400} width={3600} height={2000} fill={mixHex(C.woodDark, C.ink, 0.55)} />
+        {[120, 560, 1000].map((y) => (
+          <g key={y}>
+            <rect x={-600} y={y} width={3600} height={44} fill={C.woodDark} />
+            <rect x={-600} y={y} width={3600} height={8} fill={C.woodLight} opacity={0.35} />
+            <rect x={-600} y={y + 44} width={3600} height={22} fill={C.ink} opacity={0.4} />
+          </g>
+        ))}
+        <ShelfRow base={560} seed={3} />
+        <ShelfRow base={1000} seed={8} skip={[HERO.x - 4, HERO.x + HERO.w + 4]} />
+        <ShelfRow base={1440} seed={13} />
+        <rect x={HERO.x - 4} y={1000 - HERO.h - 10} width={HERO.w + 8} height={HERO.h + 10} fill={C.ink} opacity={0.55 * out} />
+        <LightPool x={980} y={620} r={760} color={C.lamp} strength={0.7 * flick} />
+        <g transform={`translate(${hx} ${1000 - HERO.h / 2 + 30 * out}) scale(${hs}) translate(${-hx} ${-(1000 - HERO.h / 2)})`}>
+          {out > 0 && <rect x={HERO.x + 18} y={1000 - HERO.h + 22} width={HERO.w} height={HERO.h} rx={6} fill={C.ink} opacity={0.35 * out} />}
+          <Spine x={HERO.x} base={1000} w={HERO.w} h={HERO.h} col={mixHex(C.oxDeep, C.woodDark, 0.35)} seed={77} />
+          <rect x={HERO.x + 30} y={1000 - HERO.h * 0.6} width={HERO.w - 60} height={70} rx={4} fill={C.cautionLight} opacity={0.75} />
         </g>
-        <DocumentPage x={960} y={500} s={0.95} rot={-1.2} p={pageP} lines={12} seal sealColor={C.caution} style="parchment" />
-        {/* left margin: bath + check (healing) */}
-        <Icon name="bath" x={L.x} y={L.y} s={1.4} color={C.paperLight} accent={C.lamp} knock={C.woodDark} p={ramp(t, T.physicians - 0.1, T.physicians + 0.4, ease.out)} />
-        <CheckMark x={L.x} y={L.y + 130} size={100} p={ramp(t, T.physicians + 0.3, T.physicians + 0.8)} color={C.evidenceLight} />
-        {/* right margin: bath + warning */}
-        <Icon name="bath" x={R.x} y={R.y} s={1.4} color={C.paperLight} accent={C.lamp} knock={C.woodDark} p={ramp(t, T.both - 0.15, T.both + 0.35, ease.out)} />
-        <Icon name="warning" x={R.x} y={R.y + 130} s={1.3} color={C.caution} accent={C.ink} knock={C.woodDark} p={ramp(t, T.both + 0.25, T.both + 0.7, ease.out)} />
-        <Bracket a={{x: L.x, y: 940}} b={{x: R.x, y: 940}} depth={-34} p={ramp(t, T.sameDoc - 0.1, T.sameDoc + 0.6)} label="" color={C.paperShade} />
-        <path d={`M${L.x} 520 L${L.x} 940`} stroke={C.paperShade} strokeWidth={4} strokeDasharray="10 10" opacity={0.6 * ramp(t, T.sameDoc - 0.2, T.sameDoc + 0.3)} />
-        <path d={`M${R.x} 805 L${R.x} 940`} stroke={C.paperShade} strokeWidth={4} strokeDasharray="10 10" opacity={0.6 * ramp(t, T.sameDoc - 0.2, T.sameDoc + 0.3)} />
+        <Particles t={t} x={300} y={150} w={1600} h={900} n={34} seed={5} size={[2, 5]} color={C.lamp} opacity={[0.25, 0.6]} vx={8} vy={-6} wobble={26} twinkle />
       </Cam>
-      <Kicker x={130} y={130} anchor="start" text="ILLUSTRATION" size={30} color={C.paperShade} p={ramp(t, T.s2 + 0.3, T.s2 + 0.9)} />
-      <Tag x={960} y={1010} anchor="center" text="Same document" kind="debated" size={40} p={ramp(t, T.sameDoc + 0.2, T.sameDoc + 0.7, ease.out)} />
-      <Vignette strength={0.6} />
+    </g>
+  );
+};
+
+// S2 phase B · 9.37 · illuminated manuscript spread on the desk
+const PW = 640;
+const PH = 820;
+const BOOK = {x: 960, y: 560};
+
+const scriptLines = (x0: number, x1: number, y0: number, n: number, seed: number) =>
+  Array.from({length: n}, (_, i) => {
+    const y = y0 + i * 34;
+    let x = x0;
+    let d = '';
+    let k = 0;
+    const end = i === n - 1 ? lerp(x0, x1, 0.55) : x1;
+    while (x < end - 20) {
+      const wl = randRange(seed * 31 + i * 7 + k, 22, 70);
+      const xe = Math.min(end, x + wl);
+      d += `M${x.toFixed(0)} ${y}`;
+      for (let xx = x + 6; xx <= xe; xx += 6) d += ` L${xx.toFixed(0)} ${(y + ((xx / 6) % 2 ? -5 : 2)).toFixed(0)}`;
+      x = xe + randRange(seed + k * 3 + i, 9, 15);
+      k++;
+    }
+    return <path key={i} d={d} stroke={C.ink} strokeWidth={3} fill="none" opacity={0.55} strokeLinejoin="round" />;
+  });
+
+const Vine: React.FC<{x: number; y0: number; y1: number; seed: number}> = ({x, y0, y1, seed}) => {
+  const pts = Array.from({length: 15}, (_, i) => [x + Math.sin(i * 1.3 + seed) * 12, lerp(y0, y1, i / 14)] as [number, number]);
+  return (
+    <g>
+      <path d={'M' + pts.map(([a, b]) => `${a.toFixed(1)} ${b.toFixed(1)}`).join(' L')} stroke={C.caution} strokeWidth={5} fill="none" strokeLinecap="round" />
+      {pts.map(([a, b], i) => (i % 2 ? <ellipse key={i} cx={a + (i % 4 === 1 ? 14 : -14)} cy={b} rx={13} ry={6} fill={C.evidence} transform={`rotate(${i % 4 === 1 ? -30 : 30} ${a} ${b})`} /> : <circle key={i} cx={a} cy={b} r={5} fill={C.oxLight} />))}
+    </g>
+  );
+};
+
+const Initial: React.FC<{x: number; y: number; flip?: boolean}> = ({x, y, flip}) => (
+  <g transform={`translate(${x} ${y})`}>
+    <rect x={0} y={0} width={110} height={110} fill={C.waterDeep} />
+    <rect x={8} y={8} width={94} height={94} fill="none" stroke={C.caution} strokeWidth={4} />
+    <path d={flip ? 'M30 84 C30 30 80 26 80 52 C80 74 50 70 55 50' : 'M80 84 C80 30 30 26 30 52 C30 74 60 70 55 50'} stroke={C.oxLight} strokeWidth={12} fill="none" strokeLinecap="round" />
+    <circle cx={flip ? 30 : 80} cy={88} r={8} fill={C.caution} />
+  </g>
+);
+
+const Miniature: React.FC<{x: number; y: number; w: number; h: number; p: number; night: boolean; t: number; caption: string}> = ({x, y, w, h, p, night, t, caption}) => {
+  if (p <= 0) return null;
+  const frameP = ramp(p, 0, 0.35, ease.out);
+  const fillP = ramp(p, 0.2, 0.85);
+  const iconP = ramp(p, 0.75, 1, ease.out);
+  const capP = ramp(p, 0.8, 1, ease.out);
+  const id = uid('c01mini', night ? 1 : 0);
+  return (
+    <g>
+      <clipPath id={id}>
+        <rect x={x} y={y + h * (1 - ease.inOut(fillP))} width={w} height={h * ease.inOut(fillP)} />
+      </clipPath>
+      <g clipPath={`url(#${id})`}>
+        <rect x={x} y={y} width={w} height={h} fill={night ? C.ink : C.stone} />
+        <HeroTub x={x + w / 2} y={y + h - 14} s={(w - 40) / 1120} split={night ? 1 : 0} splitX={-900} herbs={1} bather={1} steam={1} light={1} backdrop t={t} seed={night ? 4 : 3} />
+      </g>
+      <DrawPath d={`M${x} ${y} L${x + w} ${y} L${x + w} ${y + h} L${x} ${y + h} Z`} p={frameP} stroke={C.caution} width={10} />
+      <DrawPath d={`M${x - 12} ${y - 12} L${x + w + 12} ${y - 12} L${x + w + 12} ${y + h + 12} L${x - 12} ${y + h + 12} Z`} p={frameP} stroke={C.waterDeep} width={4} />
+      <Icon name={night ? 'warning' : 'check'} x={x + w - 34} y={y + 38} s={0.62} color={night ? C.caution : C.evidence} accent={C.ink} knock={night ? C.ink : C.paperLight} p={iconP} />
+      <text x={x + w / 2} y={y + h + 70} textAnchor="middle" fontFamily={FONT_SERIF} fontStyle="italic" fontWeight={600} fontSize={46} fill={C.ink} opacity={capP} transform={`translate(0 ${(1 - capP) * 10})`}>
+        {caption}
+      </text>
+    </g>
+  );
+};
+
+const Page: React.FC<{side: -1 | 1; t: number; mini: number}> = ({side, t, mini}) => {
+  const x0 = side < 0 ? BOOK.x - PW : BOOK.x;
+  const y0 = BOOK.y - PH / 2;
+  const outer = side < 0 ? x0 + 52 : x0 + PW - 52;
+  const inX = side < 0 ? x0 + 90 : x0 + 80;
+  const w = PW - 170;
+  return (
+    <g>
+      <rect x={x0} y={y0} width={PW} height={PH} fill={C.paperLight} />
+      {/* gutter shade + outer page edge, flat steps */}
+      <rect x={side < 0 ? x0 + PW - 60 : x0} y={y0} width={60} height={PH} fill={C.paperDeep} opacity={0.55} />
+      <rect x={side < 0 ? x0 + PW - 22 : x0} y={y0} width={22} height={PH} fill={C.paperDark} opacity={0.5} />
+      <rect x={x0 + 34} y={y0 + 34} width={PW - 68} height={PH - 68} fill="none" stroke={C.caution} strokeWidth={3} />
+      <Vine x={outer} y0={y0 + 60} y1={y0 + PH - 60} seed={side > 0 ? 2 : 5} />
+      <Initial x={inX} y={y0 + 70} flip={side > 0} />
+      <g>{scriptLines(inX + 130, inX + w, y0 + 92, 3, side > 0 ? 3 : 7)}</g>
+      <g>{scriptLines(inX, inX + w, y0 + 216, 1, side > 0 ? 9 : 11)}</g>
+      {mini <= 0 && (
+        <rect x={inX + 10} y={y0 + 270} width={w - 20} height={320} fill="none" stroke={C.paperDark} strokeWidth={2} strokeDasharray="8 8" opacity={0.6} />
+      )}
+      <Miniature x={inX + 10} y={y0 + 270} w={w - 20} h={320} p={mini} night={side > 0} t={t} caption={side > 0 ? 'a danger' : 'a cure'} />
+      <g>{scriptLines(side < 0 ? inX + 70 : inX, inX + w, y0 + 700, 3, side > 0 ? 13 : 17)}</g>
+      {side < 0 && (
+        <g>
+          <circle cx={x0 + 80} cy={y0 + PH - 120} r={46} fill={C.paperShade} stroke={C.caution} strokeWidth={5} />
+          <clipPath id="c01roundel">
+            <circle cx={x0 + 80} cy={y0 + PH - 120} r={41} />
+          </clipPath>
+          <g clipPath="url(#c01roundel)">
+            <rect x={x0 + 30} y={y0 + PH - 170} width={100} height={100} fill={C.waterDeep} opacity={0.55} />
+            <Person x={x0 + 80} y={y0 + PH - 76} s={0.15} t={t} outfit="robe" hat="hood" beard="full" pose="point" seed={3} />
+          </g>
+        </g>
+      )}
+    </g>
+  );
+};
+
+const Manuscript: React.FC<{t: number}> = ({t}) => {
+  const land = ramp(t, T.physicians - 0.35, T.physicians + 0.35, ease.outQuint);
+  const lMini = ramp(t, T.both - 0.15, T.both + 1.1);
+  const rMini = ramp(t, T.both + 0.25, T.both + 1.5);
+  const bracketP = ramp(t, T.sameDoc - 0.05, T.sameDoc + 0.75);
+  const cam = breathe(
+    camAt(t, [
+      [T.physicians - 0.4, 960, 470, 1.55],
+      [T.physicians + 0.4, 960, 500, 1.3],
+      [T.both - 0.2, 960, 520, 1.16],
+      [T.sameDoc - 0.25, 960, 540, 1.12],
+      [T.sameDoc + 0.75, 960, 590, 0.9],
+      [T.s3 + 0.6, 960, 595, 0.88],
+    ]),
+    t,
+  );
+  const flick = 1 + noise1(t * 3, 22) * 0.07;
+  const lift = 6 + Math.sin(t * 1.6) * 5;
+  const bs = lerp(1.08, 1, land);
+  const lcx = BOOK.x - PW + 90 + 10 + (PW - 170 - 20) / 2;
+  const rcx = BOOK.x + 80 + 10 + (PW - 170 - 20) / 2;
+  const topY = BOOK.y - PH / 2 + 262;
+  return (
+    <g>
+      <Cam cam={cam}>
+        <rect x={-800} y={-600} width={3520} height={2400} fill={mixHex(C.woodDark, C.ink, 0.45)} />
+        {Array.from({length: 12}, (_, i) => (
+          <rect key={i} x={-800} y={-600 + i * 200} width={3520} height={5} fill={C.ink} opacity={0.3} />
+        ))}
+        <LightPool x={900} y={520} r={1050} color={C.lamp} strength={1.15 * flick} />
+        <g transform={`translate(${BOOK.x} ${BOOK.y}) scale(${bs}) rotate(${lerp(-3, -0.6, land)}) translate(${-BOOK.x} ${-BOOK.y})`}>
+          <rect x={BOOK.x - PW - 30 + 22} y={BOOK.y - PH / 2 - 16 + 26} width={PW * 2 + 60} height={PH + 40} rx={14} fill={C.ink} opacity={0.4} />
+          <rect x={BOOK.x - PW - 30} y={BOOK.y - PH / 2 - 16} width={PW * 2 + 60} height={PH + 40} rx={14} fill={mixHex(C.oxDeep, C.woodDark, 0.35)} />
+          {[0, 1, 2].map((i) => (
+            <rect key={i} x={BOOK.x - PW - 14 + i * 4} y={BOOK.y - PH / 2 + 6 - i * 3} width={PW * 2 + 28 - i * 8} height={PH + 6} fill={i % 2 ? C.paperShade : C.paperDeep} />
+          ))}
+          <Page side={-1} t={t} mini={lMini} />
+          <Page side={1} t={t} mini={rMini} />
+          <rect x={BOOK.x - 3} y={BOOK.y - PH / 2} width={6} height={PH} fill={C.ink} opacity={0.35} />
+          {/* page corner lift (alive) */}
+          <path d={`M${BOOK.x + PW} ${BOOK.y + PH / 2 - 70 - lift} L${BOOK.x + PW} ${BOOK.y + PH / 2} L${BOOK.x + PW - 70 - lift} ${BOOK.y + PH / 2} Z`} fill={C.paperDeep} />
+          <path d={`M${BOOK.x + PW} ${BOOK.y + PH / 2 - 70 - lift} Q${BOOK.x + PW - 34} ${BOOK.y + PH / 2 - 34} ${BOOK.x + PW - 70 - lift} ${BOOK.y + PH / 2}`} stroke={C.paperDark} strokeWidth={3} fill="none" />
+          {/* ribbon bracket across the spine — the one oxblood */}
+          {bracketP > 0 && (
+            <g>
+              <DrawPath d={`M${lcx} ${topY} Q${BOOK.x} ${topY - 230} ${rcx} ${topY}`} p={bracketP} stroke={C.oxblood} width={16} />
+              <circle cx={lcx} cy={topY} r={13 * ramp(bracketP, 0, 0.2)} fill={C.oxblood} />
+              <circle cx={rcx} cy={topY} r={13 * ramp(bracketP, 0.85, 1)} fill={C.oxblood} />
+            </g>
+          )}
+        </g>
+        <OilLamp x={150} y={330} s={1.6} t={t} />
+        <Particles t={t} x={200} y={60} w={1500} h={900} n={26} seed={9} size={[2, 5]} color={C.lamp} opacity={[0.2, 0.55]} vx={6} vy={-8} wobble={24} twinkle />
+      </Cam>
+      <Tag x={960} y={985} anchor="center" text="Same document" kind="evidence" size={44} p={ramp(t, T.sameDoc + 0.1, T.sameDoc + 0.5, ease.out)} />
+    </g>
+  );
+};
+
+export const S2: React.FC<{t: number}> = ({t}) => {
+  const k = ramp(t, T.physicians - 0.3, T.physicians - 0.02, ease.inOut);
+  return (
+    <Stage bg={C.ink}>
+      {k < 1 && <Archive t={t} />}
+      {k > 0 && <g opacity={k}><Manuscript t={t} /></g>}
+      <Vignette strength={0.72} />
     </Stage>
   );
 };
