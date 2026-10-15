@@ -27,3 +27,10 @@
 
 ## Delivery
 YouTube: paste `youtube/description.md` (chapters, sources incl. the 2016 Zurich study, image credits); upload `youtube/captions.srt` (script wording; "Ibn Khātima" spelling fixed).
+
+## Polish round 1 → v3 (`output/medieval-bathing-v3.mp4`, final)
+- Kit fix for the whole video: text no longer vibrates in place (camera breathe now translation-only; text-rendering geometricPrecision) — measured on consecutive frames.
+- C01 0:07–0:14 rebuilt (owner: "looks cheap"): archive shelf → illuminated manuscript with two painted miniatures ("a cure" / "a danger"), ribbon "Same document"; "ILLUSTRATION" label removed.
+- C05 6:00–6:06 bath crowd: bathers sit inside the tubs, standing people in the gaps (nobody "wears" a tub); rounded "might be sick" outlines.
+- C02 1:22–1:28: bathers re-seated in the tubs, speech bubbles now show their icons.
+- QA v3: identical technical results to v2 (642.844 s exact, 60 fps, sync 0 ms, −13.5 LUFS, no black/static).
