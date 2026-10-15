@@ -1,0 +1,233 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 382.32,
+   "custom": true,
+   "note": "THE OBVIOUS ENDING: 4 comic panels on cues, red-pen strike on 'Except'"
+  },
+  {
+   "id": "S2",
+   "start": 394.16,
+   "custom": true,
+   "note": "bathhouse sign + lantern stays lit while year plate flips 1349, 1360, generations",
+   "in": {
+    "kind": "cut"
+   }
+  },
+  {
+   "id": "S3",
+   "start": 400.58,
+   "custom": true,
+   "note": "street life continues; plum fog dims lantern, clears, relights; Tag Still standing"
+  },
+  {
+   "id": "S4",
+   "start": 409.75,
+   "template": "ClaimShot",
+   "props": {
+    "text": "The Black Death destroyed bathing.",
+    "kind": "theory",
+    "tag": "The usual question",
+    "stamp": "Wrong question",
+    "at": 409.85,
+    "stampAt": 412.3,
+    "seed": 7
+   },
+   "in": {
+    "kind": "cut"
+   }
+  },
+  {
+   "id": "S5",
+   "start": 413.82,
+   "template": "QuestionShot",
+   "props": {
+    "question": "If the plague didn't kill the bathhouse, what did?",
+    "kicker": "The real question",
+    "highlight": [
+     "what",
+     "did?"
+    ],
+    "mark": "question",
+    "at": 413.9,
+    "markAt": 416.5,
+    "seed": 8
+   },
+   "in": {
+    "kind": "cut"
+   }
+  },
+  {
+   "id": "S6",
+   "start": 417.36,
+   "custom": true,
+   "note": "timeline ribbon rushes 1350 → 1490s; Kicker MORE THAN A CENTURY LATER; pore icon fades",
+   "in": {
+    "kind": "push",
+    "dir": "left"
+   }
+  },
+  {
+   "id": "S7",
+   "start": 421.88,
+   "custom": true,
+   "note": "ink: spiral germ uncoils; Headline Syphilis on 426.0",
+   "in": {
+    "kind": "ink",
+    "x": 1300,
+    "y": 540
+   }
+  },
+  {
+   "id": "S8",
+   "start": 426.72,
+   "template": "CompareShot",
+   "props": {
+    "mode": "columns",
+    "kicker": "Two diseases",
+    "left": {
+     "title": "Plague",
+     "icon": "wind",
+     "kind": "theory",
+     "bullets": [
+      "Blamed on corrupted air"
+     ]
+    },
+    "right": {
+     "title": "Syphilis",
+     "icon": "germ",
+     "kind": "caution",
+     "bullets": [
+      "Linked to sexual contact"
+     ]
+    },
+    "at": 426.8,
+    "rightAt": 428,
+    "seed": 9
+   },
+   "in": {
+    "kind": "cut"
+   }
+  },
+  {
+   "id": "S9",
+   "start": 431.28,
+   "template": "CompareShot",
+   "props": {
+    "mode": "venn",
+    "kicker": "A bad combination",
+    "left": {
+     "title": "Reputation",
+     "kind": "caution",
+     "bullets": [
+      "Prostitution"
+     ]
+    },
+    "right": {
+     "title": "New disease",
+     "kind": "caution",
+     "bullets": [
+      "Syphilis"
+     ]
+    },
+    "overlap": "Sex",
+    "at": 431.4,
+    "rightAt": 439.2,
+    "seed": 10
+   },
+   "in": {
+    "kind": "wipe",
+    "dir": "left"
+   }
+  },
+  {
+   "id": "S10",
+   "start": 443.07,
+   "custom": true,
+   "note": "town official frowns at the bathhouse sign; council record book slides up, push into page",
+   "in": {
+    "kind": "fade"
+   }
+  },
+  {
+   "id": "S11",
+   "start": 448.1,
+   "template": "KenBurnsShot",
+   "props": {
+    "src": "img/zurich-murer.jpg",
+    "aspect": 1.4692,
+    "tint": "paper",
+    "from": [
+     0.5,
+     0.5,
+     1
+    ],
+    "to": [
+     0.5,
+     0.56,
+     1.7
+    ],
+    "kicker": "Zurich · 1496",
+    "caption": "Zurich, on Jos Murer's city map of 1576",
+    "captionAt": 448.6,
+    "credit": "Jos Murer · Public domain"
+   },
+   "in": {
+    "kind": "zoom",
+    "x": 960,
+    "y": 540
+   }
+  },
+  {
+   "id": "S12",
+   "start": 457.72,
+   "custom": true,
+   "note": "DocumentPage 'Zurich council · 1496' + 3 paraphrased rule slips on cues",
+   "in": {
+    "kind": "paper",
+    "dir": "left"
+   }
+  },
+  {
+   "id": "S13",
+   "start": 464.82,
+   "custom": true,
+   "note": "'vague anxiety' cloud pops; Tag In writing; town plan bathhouse ringed 'Point of contagion'"
+  },
+  {
+   "id": "S14",
+   "start": 474.09,
+   "template": "CompareShot",
+   "props": {
+    "mode": "balance",
+    "kicker": "Easy to argue · hard to defend",
+    "left": {
+     "title": "Pores & corrupted air",
+     "icon": "wind",
+     "kind": "theory",
+     "weight": 1
+    },
+    "right": {
+     "title": "A specific route of spread",
+     "icon": "people",
+     "kind": "caution",
+     "weight": 3
+    },
+    "at": 474.2,
+    "rightAt": 477.4,
+    "verdict": {
+     "text": "Hard to defend the bathhouse",
+     "side": "right",
+     "kind": "caution",
+     "at": 483.4
+    },
+    "seed": 11
+   },
+   "in": {
+    "kind": "wipe",
+    "dir": "right"
+   }
+  }
+ ]
+}

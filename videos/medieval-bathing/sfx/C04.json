@@ -1,0 +1,10 @@
+[
+  {"t": 193.2, "kind": "impact"},
+  {"t": 196.1, "kind": "rumble", "dur": 2.5},
+  {"t": 214.5, "kind": "wind", "dur": 3, "gain": 0.5},
+  {"t": 228.6, "kind": "swoosh"},
+  {"t": 249.0, "kind": "stamp"},
+  {"t": 270.3, "kind": "low_drone", "dur": 3},
+  {"t": 275.5, "kind": "thump"},
+  {"t": 291.4, "kind": "paper"}
+]

@@ -1,0 +1,12 @@
+{"shots":[
+ {"id":"S1","start":60.3,"template":"TitleShot","props":{"kicker":"Part one","title":"What a bath\nactually was","icon":"bath","accent":["actually"],"at":60.5,"seed":4}},
+ {"id":"S2","start":65.08,"custom":true,"note":"medieval city 1300s, steam plumes, Kicker EUROPE · 1300s, push to steaming roof","in":{"kind":"fade"}},
+ {"id":"S3","start":68.04,"custom":true,"note":"street: 'you' + rich cut-away window (servant pours into tub) → you walk to bathhouse sign + lantern","in":{"kind":"zoom","x":1250,"y":420}},
+ {"id":"S4","start":75.92,"custom":true,"note":"gloomy back-room tub crossed out → walls fall away to lively Bathhouse; Kicker A PUBLIC SQUARE — WITH WATER","in":{"kind":"cut"}},
+ {"id":"S5","start":83.66,"custom":true,"note":"shared tub close: food plank, cups clink, speech bubbles"},
+ {"id":"S6","start":88.44,"template":"ListShot","props":{"kicker":"Inside the bathhouse","title":"More than a wash","items":[{"label":"Grooming","icon":"hand"},{"label":"Socializing","icon":"speech"},{"label":"Medical treatment","icon":"heart"},{"label":"Prostitution","sub":"in some places","icon":"warning","kind":"caution"},{"label":"City rules","sub":"cities regulated them","icon":"scroll","kind":"evidence"}],"cues":[89.6,90.5,92.3,95.8,96.9],"seed":5},"in":{"kind":"paper","dir":"left"}},
+ {"id":"S7","start":98.26,"template":"KenBurnsShot","props":{"src":"img/etuves-atget.jpg","aspect":0.8285,"tint":"sepia","from":[0.5,0.45,1.0],"to":[0.52,0.55,1.25],"kicker":"Paris · étuves = bathhouses","caption":"Rue des Étuves-Saint-Martin, Paris","captionAt":98.6,"credit":"Eugène Atget, 1908 · CC0"},"in":{"kind":"cut"}},
+ {"id":"S8","start":102.26,"custom":true,"note":"real soap bar: fat + ash → cauldron → bar, herbs, pull out to Europe map routes, Tag Since at least the ninth century","in":{"kind":"paper","dir":"left"}},
+ {"id":"S9","start":111.72,"custom":true,"note":"dusk town, many bathhouse lanterns + steam, Kicker A NORMAL PART OF LIFE","in":{"kind":"fade"}},
+ {"id":"S10","start":116.09,"template":"QuestionShot","props":{"question":"So where does the fear come from?","highlight":["fear"],"mark":"question","at":116.15,"markAt":116.6,"seed":6},"in":{"kind":"cut"}}
+]}

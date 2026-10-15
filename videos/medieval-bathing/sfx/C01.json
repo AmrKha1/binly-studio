@@ -1,0 +1,10 @@
+[
+  {"t": 0.95, "kind": "drip", "gain": 0.7},
+  {"t": 3.05, "kind": "whoosh", "gain": 0.6},
+  {"t": 5.35, "kind": "low_drone", "gain": 0.6},
+  {"t": 6.95, "kind": "page", "gain": 0.7},
+  {"t": 29.55, "kind": "sparkle", "gain": 0.7},
+  {"t": 35.95, "kind": "stamp"},
+  {"t": 39.45, "kind": "crowd", "dur": 2, "gain": 0.6},
+  {"t": 59.0, "kind": "stamp"}
+]

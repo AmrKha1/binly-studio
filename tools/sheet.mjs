@@ -16,7 +16,7 @@ const n = Number(a.n ?? 12);
 if (!times.length) times = Array.from({length: n}, (_, i) => (n === 1 ? from : from + ((to - from) * i) / (n - 1)));
 const cols = Number(a.cols ?? Math.min(4, times.length));
 const out = path.resolve(ROOT, a.out ?? `.cache/sheets/sheet-${from.toFixed(1)}-${to.toFixed(1)}${a.times ? '-t' : ''}.png`);
-const tileDir = path.join(ROOT, '.cache', 'sheets', 'tiles');
+const tileDir = path.join(ROOT, '.cache', 'sheets', `tiles-${process.pid}`); // per run: parallel builders never overwrite each other's tiles
 fs.rmSync(tileDir, {recursive: true, force: true});
 const scale = Math.min(1, (1920 / cols - 10) / 1920);
 const files = times.map((s, i) => path.join(tileDir, `t${String(i).padStart(3, '0')}.png`));
@@ -24,4 +24,5 @@ await stills({id: 'Main', frames: times.map((s) => Math.round(s * 60)), outFiles
 const images = files.map((f) => `data:image/png;base64,${fs.readFileSync(f).toString('base64')}`);
 const labels = times.map((tt) => `${Math.floor(tt / 60)}:${(tt % 60).toFixed(1).padStart(4, '0')}`);
 await stills({id: 'Grid', props: {images, labels, cols}, frames: [0], outFiles: [out]});
+fs.rmSync(tileDir, {recursive: true, force: true});
 await done();

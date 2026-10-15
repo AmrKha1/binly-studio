@@ -3,10 +3,24 @@ import React from 'react';
 import {Chapters, ChapterDef, VideoModule} from '../../kit/video';
 import {Stage} from '../../kit/stage';
 import META from '../../../videos/medieval-bathing/video.json';
-
+import {C01} from './chapters/C01';
+import {C02} from './chapters/C02';
+import {C03} from './chapters/C03';
+import {C04} from './chapters/C04';
+import {C05} from './chapters/C05';
+import {C06} from './chapters/C06';
+import {C07} from './chapters/C07';
+import {C08} from './chapters/C08';
 
 export const CHAPTERS: ChapterDef[] = [
-
+  {id: 'C01', start: 0, end: 60.3, C: C01},
+  {id: 'C02', start: 60.3, end: 117.6, C: C02, in: {"kind":"zoom","x":960,"y":560}},
+  {id: 'C03', start: 117.6, end: 192.45, C: C03, in: {"kind":"ink","x":960,"y":540}},
+  {id: 'C04', start: 192.45, end: 300.9, C: C04, in: {"kind":"ink","x":960,"y":540}},
+  {id: 'C05', start: 300.9, end: 382.3, C: C05, in: {"kind":"paper","dir":"left"}},
+  {id: 'C06', start: 382.3, end: 485, C: C06, in: {"kind":"dip"}},
+  {id: 'C07', start: 485, end: 560, C: C07, in: {"kind":"push","dir":"left"}},
+  {id: 'C08', start: 560, end: 642.8444, C: C08, in: {"kind":"iris","x":960,"y":600}},
 ];
 
 const Video: React.FC<{t: number}> = ({t}) => (CHAPTERS.length ? <Chapters t={t} chapters={CHAPTERS} /> : <Stage />);

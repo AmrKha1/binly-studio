@@ -1,0 +1,189 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 560,
+   "custom": true,
+   "note": "BOOKEND HeroTub: Medicine → split → A potential danger"
+  },
+  {
+   "id": "S2",
+   "start": 567.83,
+   "custom": true,
+   "note": "'Contradiction?' struck; card Heat and moisture change the body branches to two situations",
+   "in": {
+    "kind": "cut"
+   }
+  },
+  {
+   "id": "S3",
+   "start": 576.44,
+   "custom": true,
+   "note": "PoreSkin split: AN ORDINARY YEAR helps it heal / A PLAGUE YEAR helps disease get in",
+   "in": {
+    "kind": "push",
+    "dir": "down"
+   }
+  },
+  {
+   "id": "S4",
+   "start": 584.98,
+   "custom": true,
+   "note": "1348 water drop; report with crown, ? mark, logic chain written; seal pulses",
+   "in": {
+    "kind": "fade"
+   }
+  },
+  {
+   "id": "S5",
+   "start": 594.88,
+   "template": "ClaimShot",
+   "props": {
+    "text": "Open pores let corrupted air in.",
+    "kind": "theory",
+    "tag": "Their mechanism",
+    "stamp": "Wrong mechanism",
+    "stampAt": 595.8,
+    "but": "But some of what they observed was real.",
+    "butAt": 596.6,
+    "at": 594.95,
+    "seed": 21
+   },
+   "in": {
+    "kind": "cut"
+   }
+  },
+  {
+   "id": "S6",
+   "start": 598.38,
+   "template": "ListShot",
+   "props": {
+    "layout": "column",
+    "title": "Observed — and real",
+    "items": [
+     {
+      "label": "Crowded rooms in an epidemic",
+      "icon": "people",
+      "kind": "evidence"
+     },
+     {
+      "label": "Contact with infected people",
+      "icon": "hand",
+      "kind": "evidence"
+     },
+     {
+      "label": "Person-to-person spread",
+      "icon": "arrow-right",
+      "kind": "evidence"
+     }
+    ],
+    "cues": [
+     598.6,
+     602.3,
+     607.5
+    ],
+    "seed": 22
+   },
+   "in": {
+    "kind": "paper",
+    "dir": "left"
+   }
+  },
+  {
+   "id": "S7",
+   "start": 609.68,
+   "custom": true,
+   "note": "straight CLEAN→DIRTY road dissolves; winding human path with vignettes; Kicker MORE COMPLICATED · MORE HUMAN",
+   "in": {
+    "kind": "paper",
+    "dir": "left"
+   }
+  },
+  {
+   "id": "S8",
+   "start": 617.31,
+   "template": "MontageShot",
+   "props": {
+    "transition": "cut",
+    "counter": false,
+    "tint": "paper",
+    "kicker": "What actually happened",
+    "cuts": [
+     617.31,
+     619.4,
+     621.85,
+     623.15,
+     624.15,
+     626.05
+    ],
+    "items": [
+     {
+      "src": "img/etuves-atget.jpg",
+      "aspect": 0.8285,
+      "caption": "Washing",
+      "credit": "Eugène Atget · CC0"
+     },
+     {
+      "src": "img/physician.jpg",
+      "aspect": 0.989,
+      "caption": "Healing",
+      "credit": "Wellcome Collection · CC BY 4.0"
+     },
+     {
+      "src": "img/tournai.jpg",
+      "aspect": 1.6618,
+      "caption": "New diseases",
+      "credit": "Pierart dou Tielt · Public domain"
+     },
+     {
+      "src": "img/philip6.jpg",
+      "aspect": 0.6836,
+      "caption": "New fears",
+      "credit": "Robinet Testard · Public domain",
+      "from": [
+       0.27,
+       0.24,
+       2.6
+      ],
+      "to": [
+       0.2,
+       0.25,
+       3.2
+      ]
+     },
+     {
+      "src": "img/zurich-murer.jpg",
+      "aspect": 1.4692,
+      "caption": "New regulations",
+      "credit": "Jos Murer · Public domain"
+     },
+     {
+      "src": "img/erasmus.jpg",
+      "aspect": 0.8281,
+      "caption": "Changing ideas",
+      "credit": "Hans Holbein the Younger · Public domain"
+     }
+    ],
+    "seed": 23
+   },
+   "in": {
+    "kind": "cut"
+   }
+  },
+  {
+   "id": "S9",
+   "start": 629.17,
+   "custom": true,
+   "note": "FINAL: HeroTub constant while backdrop cycles bathhouse → plague night → home windows → warm",
+   "in": {
+    "kind": "dip"
+   }
+  },
+  {
+   "id": "S10",
+   "start": 634.86,
+   "custom": true,
+   "note": "tub small on paper, Kicker SOURCES IN THE DESCRIPTION, fade to paper, steam last"
+  }
+ ]
+}

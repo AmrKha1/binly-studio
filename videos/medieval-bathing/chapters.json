@@ -1,1 +1,10 @@
-[]
+[
+  {"id":"C01","start":0,"end":60.3,"title":"The bath that could kill you"},
+  {"id":"C02","start":60.3,"end":117.6,"title":"A public square with water in it","in":{"kind":"zoom","x":960,"y":560}},
+  {"id":"C03","start":117.6,"end":192.45,"title":"Not hygiene, medicine","in":{"kind":"ink","x":960,"y":540}},
+  {"id":"C04","start":192.45,"end":300.9,"title":"1348: the king's report","in":{"kind":"ink","x":960,"y":540}},
+  {"id":"C05","start":300.9,"end":382.3,"title":"Not one simple wrong idea","in":{"kind":"paper","dir":"left"}},
+  {"id":"C06","start":382.3,"end":485.0,"title":"So what killed the bathhouse?","in":{"kind":"dip"}},
+  {"id":"C07","start":485.0,"end":560.0,"title":"Europe never stopped bathing","in":{"kind":"push","dir":"left"}},
+  {"id":"C08","start":560.0,"end":642.8444,"title":"Back to the bath","in":{"kind":"iris","x":960,"y":600}}
+]

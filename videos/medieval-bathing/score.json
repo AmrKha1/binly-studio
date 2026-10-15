@@ -1,0 +1,16 @@
+{"key":"D","mode":"minor","bpm":72,"seed":7,
+ "sections":[
+  {"t":0,"mood":"curious"},{"t":21.6,"mood":"playful"},{"t":37.3,"mood":"warm"},{"t":40.8,"mood":"tension"},{"t":49.9,"mood":"curious"},
+  {"t":60.3,"mood":"warm"},{"t":116.0,"mood":"curious"},{"t":174.6,"mood":"wonder"},
+  {"t":192.45,"mood":"dark"},{"t":213.4,"mood":"tension"},{"t":236.0,"mood":"tension"},{"t":274.9,"mood":"build"},{"t":286.3,"mood":"reflective"},
+  {"t":300.9,"mood":"curious"},{"t":342.7,"mood":"reflective"},{"t":375.0,"mood":"playful"},
+  {"t":409.8,"mood":"curious"},{"t":421.9,"mood":"tension"},{"t":474.1,"mood":"neutral"},
+  {"t":485.0,"mood":"reflective"},{"t":547.5,"mood":"warm"},
+  {"t":560.0,"mood":"reflective"},{"t":609.7,"mood":"warm"},{"t":629.2,"mood":"triumphant"},{"t":634.9,"mood":"warm"}],
+ "accents":[
+  {"t":3.0,"kind":"sting"},{"t":35.9,"kind":"sting"},{"t":59.0,"kind":"swell"},
+  {"t":116.0,"kind":"drop","dur":1.5},{"t":190.4,"kind":"swell"},
+  {"t":192.0,"kind":"drop","dur":1.2},{"t":234.0,"kind":"drop","dur":2},{"t":273.4,"kind":"silence","dur":1.4},{"t":274.9,"kind":"swell"},
+  {"t":300.6,"kind":"resolve"},{"t":392.7,"kind":"sting"},{"t":413.5,"kind":"drop","dur":1.2},{"t":426.0,"kind":"sting"},
+  {"t":468.8,"kind":"swell"},{"t":550.7,"kind":"swell"},{"t":559.5,"kind":"resolve"},
+  {"t":629.2,"kind":"swell"},{"t":634.6,"kind":"resolve"}]}

@@ -1,0 +1,10 @@
+[
+ {"t": 387.8, "kind": "thump", "gain": 0.8},
+ {"t": 392.8, "kind": "scribble", "dur": 0.6},
+ {"t": 399.6, "kind": "crowd", "dur": 2},
+ {"t": 405.4, "kind": "low_drone", "dur": 2},
+ {"t": 417.4, "kind": "whoosh"},
+ {"t": 426.0, "kind": "thump"},
+ {"t": 446.4, "kind": "page"},
+ {"t": 468.9, "kind": "stamp"}
+]

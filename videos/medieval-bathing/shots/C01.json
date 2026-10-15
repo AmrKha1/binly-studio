@@ -1,0 +1,12 @@
+{"shots":[
+ {"id":"S1","start":0,"custom":true,"note":"HeroTub: medicine (herbs, warm) then split → ink right half, plum steam down; Tags Medicine / A way in for death"},
+ {"id":"S2","start":6.94,"custom":true,"note":"parchment page, two margin marks (bath+check, bath+warning), bracket 'Same document'","in":{"kind":"push","dir":"up"}},
+ {"id":"S3","start":14.82,"template":"QuestionShot","props":{"question":"How did the Middle Ages actually think?","highlight":["actually"],"mark":"silhouette","at":15.0,"markAt":17.6,"seed":2},"in":{"kind":"iris","x":960,"y":540}},
+ {"id":"S4","start":21.61,"custom":true,"note":"myth storybook: grimy street, flies, grime, heroic soap + tap, title THE DARK AGES OF HYGIENE","in":{"kind":"paper","dir":"left"}},
+ {"id":"S5","start":34.09,"template":"ClaimShot","props":{"text":"Medieval people didn't bathe.","kind":"caution","tag":"The myth","stamp":"Mostly wrong","at":34.2,"stampAt":35.95,"seed":3},"in":{"kind":"cut"}},
+ {"id":"S6","start":37.32,"custom":true,"note":"tight on swinging bathhouse sign + lantern, pull back to street of bathhouses","in":{"kind":"wipe","dir":"right"}},
+ {"id":"S7","start":40.84,"template":"KenBurnsShot","props":{"src":"img/tournai.jpg","aspect":1.6618,"tint":"ink","from":[0.5,0.5,1.0],"to":[0.36,0.56,1.4],"caption":"Burying plague victims, Tournai, 1349","kicker":"The Black Death","captionAt":41.8,"credit":"Pierart dou Tielt · Public domain"},"in":{"kind":"cut"}},
+ {"id":"S8","start":45.6,"custom":true,"note":"sign street at dusk, physician points at bathhouse door, lantern dims, Tag Vulnerable","in":{"kind":"dip"}},
+ {"id":"S9","start":49.88,"custom":true,"note":"physician 'IGNORANT?' struck; body + HumorWheel blueprint = framework; logic chain lights","in":{"kind":"cut"}},
+ {"id":"S10","start":56.94,"custom":true,"note":"report on desk, crown drops on 'king', oxblood wax seal stamps at 59.0 (centre ~960,560)","in":{"kind":"push","dir":"left"}}
+]}

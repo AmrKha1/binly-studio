@@ -1,0 +1,190 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 300.9,
+   "custom": true,
+   "note": "filing cabinet: folder MEDIEVAL DOCTORS: SIMPLY WRONG jams; page → Miasma card + face-down ? card"
+  },
+  {
+   "id": "S2",
+   "start": 310.11,
+   "template": "KenBurnsShot",
+   "props": {
+    "src": "img/alhambra.jpg",
+    "aspect": 2.1007,
+    "tint": "paper",
+    "from": [
+     0.3,
+     0.5,
+     1
+    ],
+    "to": [
+     0.45,
+     0.5,
+     1.3
+    ],
+    "kicker": "Granada",
+    "caption": "Ibn al-Khatib, physician in Granada",
+    "captionAt": 311.7,
+    "credit": "The Alhambra today · Jebulon · Public domain"
+   },
+   "in": {
+    "kind": "zoom",
+    "x": 1300,
+    "y": 540
+   }
+  },
+  {
+   "id": "S3",
+   "start": 317.95,
+   "custom": true,
+   "note": "figure field: infected spreads only to neighbours; same plum air over all; Tag Same air — not everyone sick; green ring",
+   "in": {
+    "kind": "cut"
+   }
+  },
+  {
+   "id": "S4",
+   "start": 325.16,
+   "template": "CompareShot",
+   "props": {
+    "mode": "columns",
+    "kicker": "Ibn al-Khatib's argument",
+    "left": {
+     "title": "Miasma",
+     "icon": "wind",
+     "kind": "theory",
+     "bullets": [
+      "Floating through the air"
+     ]
+    },
+    "right": {
+     "title": "Contagion",
+     "icon": "people",
+     "kind": "evidence",
+     "bullets": [
+      "Person to person"
+     ]
+    },
+    "at": 325.3,
+    "rightAt": 326.9,
+    "seed": 17
+   },
+   "in": {
+    "kind": "wipe",
+    "dir": "right"
+   }
+  },
+  {
+   "id": "S5",
+   "start": 332.28,
+   "template": "MapShot",
+   "props": {
+    "region": "iberia",
+    "layout": "side",
+    "kicker": "Around the same time",
+    "title": "Similar conclusions",
+    "pins": [
+     {
+      "lon": -3.6,
+      "lat": 37.18,
+      "label": "Granada",
+      "sub": "Ibn al-Khatib",
+      "at": 332.4,
+      "side": "left"
+     },
+     {
+      "lon": -2.46,
+      "lat": 36.84,
+      "label": "Almería",
+      "sub": "Ibn Khātima",
+      "at": 333.3,
+      "side": "right"
+     }
+    ],
+    "at": 332.35,
+    "seed": 18
+   },
+   "in": {
+    "kind": "cut"
+   }
+  },
+  {
+   "id": "S6",
+   "start": 336.71,
+   "custom": true,
+   "note": "stone monolith MEDIEVAL MEDICINE cracks; plaque 'One simple, wrong thing' struck; splits into blocks",
+   "in": {
+    "kind": "cut"
+   }
+  },
+  {
+   "id": "S7",
+   "start": 342.72,
+   "custom": true,
+   "note": "5 robed scholars debate: plum wind bubbles vs green people bubbles; Tag Closer to the truth"
+  },
+  {
+   "id": "S8",
+   "start": 351.78,
+   "custom": true,
+   "note": "pore + wind icons slide off; bathhouse doorway → packed Bathhouse; Kicker CROWDED",
+   "in": {
+    "kind": "push",
+    "dir": "left"
+   }
+  },
+  {
+   "id": "S9",
+   "start": 358.08,
+   "custom": true,
+   "note": "light cools; 3 bathers dashed mustard outlines; Tag Reasonable to avoid; dashed germ ?"
+  },
+  {
+   "id": "S10",
+   "start": 367.18,
+   "template": "ListShot",
+   "props": {
+    "layout": "column",
+    "title": "Reasons to stay away",
+    "items": [
+     {
+      "label": "Crowding",
+      "icon": "people",
+      "kind": "caution"
+     },
+     {
+      "label": "Contact with the infected",
+      "icon": "hand",
+      "kind": "caution"
+     },
+     {
+      "label": "The pore theory",
+      "icon": "key",
+      "kind": "theory"
+     }
+    ],
+    "cues": [
+     368.95,
+     369.75,
+     372.2
+    ],
+    "seed": 19
+   },
+   "in": {
+    "kind": "paper",
+    "dir": "left"
+   }
+  },
+  {
+   "id": "S11",
+   "start": 375.01,
+   "custom": true,
+   "note": "dusk bathhouse door: townsperson opens, sees packed steam, sweat emote, closes door, backs away",
+   "in": {
+    "kind": "fade"
+   }
+  }
+ ]
+}

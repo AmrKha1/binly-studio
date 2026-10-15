@@ -1,0 +1,11 @@
+{"shots":[
+ {"id":"S1","start":485.0,"custom":true,"note":"quill writes lines; Kicker EARLY 1500s; ease back to letter among books"},
+ {"id":"S2","start":488.96,"template":"KenBurnsShot","props":{"src":"img/erasmus.jpg","aspect":0.8281,"tint":"paper","from":[0.55,0.3,1.25],"to":[0.5,0.38,1.1],"beats":[{"at":492.0,"focus":[0.2,0.76,1.7]}],"kicker":"Erasmus · a dialogue, 1523","caption":"Erasmus, painted by Hans Holbein, 1523","captionAt":489.6,"credit":"Hans Holbein the Younger · Public domain"},"in":{"kind":"cut"}},
+ {"id":"S3","start":494.6,"custom":true,"note":"two bathhouse vignettes: 'Roughly 25 years earlier' lively vs '1523' sparse; Kicker BRABANT · IN ERASMUS'S DIALOGUE","in":{"kind":"wipe","dir":"right"}},
+ {"id":"S4","start":499.08,"custom":true,"note":"census ledger crossed; OpenBook dialogue; Tag A literary observation; sign glow fades","in":{"kind":"cut"}},
+ {"id":"S5","start":509.44,"custom":true,"note":"GeoMap western-europe: lantern dots dim unevenly; some stay lit; Tag No single reason","in":{"kind":"dip"}},
+ {"id":"S6","start":518.72,"template":"ListShot","props":{"kicker":"Depending on where you were","title":"Many reasons, many places","items":[{"label":"Plague-era caution","icon":"skull","kind":"theory"},{"label":"Syphilis","icon":"germ","kind":"caution"},{"label":"Moral regulation","icon":"scroll"},{"label":"New ideas of cleanliness","icon":"drop"}],"cues":[519.0,520.2,521.9,523.5],"seed":20},"in":{"kind":"paper","dir":"left"}},
+ {"id":"S7","start":528.3,"custom":true,"note":"timeline search finds no year; Headline Europe didn't stop bathing; Public bathhouses ↓ / Bathing itself ✓","in":{"kind":"paper","dir":"left"}},
+ {"id":"S8","start":537.06,"custom":true,"note":"2x2 vignettes: At home / Medicinal baths / Spas / Sweat bathing; sign dims; Tag Bathing continued","in":{"kind":"cut"}},
+ {"id":"S9","start":547.5,"custom":true,"note":"'Clean → Dirty' struck; bathhouse light splits into orbs drifting into home windows; Kicker A REDISTRIBUTION OF CLEANLINESS","in":{"kind":"fade"}}
+]}
