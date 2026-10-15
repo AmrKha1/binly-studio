@@ -1,0 +1,14 @@
+[
+ {"t": 253.8, "kind": "paper", "gain": 0.6},
+ {"t": 258.1, "kind": "scribble", "dur": 0.5},
+ {"t": 263.5, "kind": "pop"},
+ {"t": 273.0, "kind": "swoosh", "gain": 0.6},
+ {"t": 276.5, "kind": "scribble", "dur": 0.5},
+ {"t": 288.3, "kind": "swish", "gain": 0.6},
+ {"t": 289.8, "kind": "page"},
+ {"t": 301.4, "kind": "tick"},
+ {"t": 302.5, "kind": "pop", "gain": 0.4},
+ {"t": 307.3, "kind": "ding"},
+ {"t": 341.3, "kind": "click"},
+ {"t": 352.5, "kind": "click"}
+]

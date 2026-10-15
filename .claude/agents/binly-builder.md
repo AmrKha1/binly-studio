@@ -295,6 +295,7 @@ not one-off fixes. Keep ≤ 15 lines: merge similar ones.
 - NO image that contains any nudity anywhere (not even bare torsos or loincloth figures) — never "crop it safe"; drop
   the image and animate the scene (bath scenes = animated, clothed figures). Only free-licence images, always credited.
 - Hook beats (first ~30 s) are rich, layered signature scenes (a real place, depth, light, a camera move) — never a
+- Every on-screen text is rock-steady (no shimmer/vibration): no noise, wobble, micro-rotation or pulsing scale on text; text moves only with eased entrances and the camera.
   plain object/document on a flat backdrop with small icons (owner: "looks cheap").
 
 === EMBEDDED: docs/TOOLS.md — what is installed ===

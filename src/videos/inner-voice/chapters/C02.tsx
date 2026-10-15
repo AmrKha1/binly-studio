@@ -11,13 +11,13 @@ export const C02: React.FC<{t: number}> = ({t}) => (
     t={t}
     shots={[
     // S1 · 49.20–54.40 · ClaimShot
-    {start: 49.2, render: (t: number) => <ClaimShot t={t} a={49.2} b={54.4} {...({"text":"That voice is just what thinking sounds like.","kind":"caution","tag":"The obvious answer","highlight":["thinking"],"at":51.3,"tagAt":49.5,"seed":3} as const)} />},
+    {start: 49.2, render: (t: number) => <ClaimShot t={t} a={49.2} b={54.4} {...({"text":"That voice is just what thinking sounds like.","kind":"caution","tag":"The obvious answer","highlight":["thinking"],"at":49.5,"tagAt":49.4,"seed":3} as const)} />},
     // S2 · 54.40–60.60 · custom: chain Thought→Words→A voice, pull back to street of nonstop narrators
     {start: 54.4, in: {"kind":"push","dir":"left"}, render: (t: number) => <Custom.S2 t={t} />},
     // S3 · 60.60–75.90 · custom: street freezes; volunteer with Beeper; NameTags Hurlburt/Heavey; beep → snapshot card; USUALLY struck; snapsho
     {start: 60.6, render: (t: number) => <Custom.S3 t={t} />},
     // S4 · 75.90–81.50 · StatShot
-    {start: 75.9, in: {"kind":"paper","dir":"left"}, render: (t: number) => <StatShot t={t} a={75.9} b={81.5} {...({"value":"26","unit":"%","label":"of sampled moments held inner speech","kicker":"One influential study","at":79.4,"compare":{"kind":"dots","filled":26,"total":100,"color":"#5C4A72","caption":"About a quarter of moments"},"compareAt":77,"seed":5} as const)} />},
+    {start: 75.9, in: {"kind":"paper","dir":"left"}, render: (t: number) => <StatShot t={t} a={75.9} b={81.5} {...({"value":"26","unit":"%","label":"of sampled moments held inner speech","kicker":"One influential study","at":79.4,"compare":{"kind":"dots","filled":26,"total":100,"color":"#5C4A72","caption":"About a quarter of moments"},"compareAt":76.2,"seed":5} as const)} />},
     // S5 · 81.50–88.30 · custom: 6 people with snapshot strips: Never / Roughly 3 out of 4
     {start: 81.5, render: (t: number) => <Custom.S5 t={t} />},
     // S6 · 88.30–97.10 · ClaimShot

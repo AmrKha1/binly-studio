@@ -12,6 +12,9 @@ awareness/wordless), `Beeper` (+`beepFlash`), `DecoderRig` (person + implant + c
 `NameTag`s (no likeness). The BCI participant is shown with dignity (calm, seated, no medical gore).
 **Text:** only the strings in the brief (no subtitles). Tags ≥ 34 px, Kickers ≥ 30 px, body ≥ 40 px, headlines ≥ 64 px,
 all inside SAFE (96 px) and in clear space — never over a busy shape. Ink on paper or paper on ink.
+**Verify text size on 1–2 full-res stills (`node tools/still.mjs --at …`) — contact-sheet tiles hide small text. Earlier chapters came back with 25–30 px labels: too small.** Keep content large: few elements, big, centred in the action area; no tiny props in wide empty frames.
+**NameTags:** the kit `NameTag` sub-line is fixed at 22 px (too small) — use C02's local `NTag` pattern (name ≥ 52 px, sub ≥ 34 px on a light backing) for researcher names.
+**Text must never shimmer:** no noise/sin wobble, micro-rotation or pulsing scale on ANY text (or groups containing text); text moves only with eased entrances/exits and the camera. Idle life goes on shapes, not letters.
 **Timing:** times in the briefs are sentence starts; get exact word times with
 `node tools/cue.mjs --slug inner-voice "word"` (ALWAYS pass `--slug inner-voice`). Reveal 0.1–0.25 s before the stressed word.
 ⚠ C01 only: word times before 8.3 s are wrong (speech recognition missed the cold open) — use the times in the C01 brief.

@@ -1,0 +1,16 @@
+[
+ {"t": 513.0, "kind": "wind", "dur": 8, "gain": 0.4},
+ {"t": 519.8, "kind": "pop", "gain": 0.6},
+ {"t": 525.3, "kind": "swish", "gain": 0.6},
+ {"t": 529.3, "kind": "ding"},
+ {"t": 533.7, "kind": "pop", "gain": 0.5},
+ {"t": 534.5, "kind": "pop", "gain": 0.5},
+ {"t": 535.3, "kind": "pop", "gain": 0.5},
+ {"t": 536.3, "kind": "scribble", "dur": 0.5},
+ {"t": 537.2, "kind": "scribble", "dur": 0.6},
+ {"t": 547.5, "kind": "scribble", "dur": 0.5},
+ {"t": 551.0, "kind": "low_drone", "gain": 0.5},
+ {"t": 556.0, "kind": "ding", "gain": 0.7},
+ {"t": 560.0, "kind": "whoosh"},
+ {"t": 567.0, "kind": "chime"}
+]

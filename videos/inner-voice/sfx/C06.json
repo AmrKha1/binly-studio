@@ -1,0 +1,10 @@
+[
+  {"t": 354.8, "kind": "clack", "gain": 0.5},
+  {"t": 361.0, "kind": "pop"},
+  {"t": 362.4, "kind": "chime", "gain": 0.6},
+  {"t": 381.2, "kind": "paper", "gain": 0.6},
+  {"t": 395.95, "kind": "thump"},
+  {"t": 406.8, "kind": "clack", "gain": 0.7},
+  {"t": 419.5, "kind": "stamp"},
+  {"t": 426.35, "kind": "impact", "gain": 0.8}
+]

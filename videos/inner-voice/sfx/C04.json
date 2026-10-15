@@ -1,0 +1,11 @@
+[
+  {"t": 205.25, "kind": "scribble", "dur": 0.4, "gain": 0.7},
+  {"t": 206.93, "kind": "scribble", "dur": 0.4, "gain": 0.7},
+  {"t": 208.3, "kind": "chime", "gain": 0.6},
+  {"t": 222.0, "kind": "typing", "dur": 3},
+  {"t": 226.3, "kind": "ding"},
+  {"t": 232.45, "kind": "tick", "gain": 0.6},
+  {"t": 241.4, "kind": "click"},
+  {"t": 250.55, "kind": "scribble", "dur": 0.6},
+  {"t": 251.4, "kind": "whoosh", "gain": 0.6}
+]

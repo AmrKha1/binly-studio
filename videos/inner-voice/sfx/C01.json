@@ -1,0 +1,15 @@
+[
+  {"t": 0.0, "kind": "low_drone", "dur": 7, "gain": 0.3},
+  {"t": 5.6, "kind": "tick", "gain": 0.5},
+  {"t": 5.95, "kind": "tick", "gain": 0.5},
+  {"t": 6.5, "kind": "tick", "gain": 0.5},
+  {"t": 6.75, "kind": "tick", "gain": 0.5},
+  {"t": 9.9, "kind": "click", "gain": 0.6},
+  {"t": 11.3, "kind": "ding", "gain": 0.7},
+  {"t": 13.2, "kind": "typing", "dur": 3, "gain": 0.5},
+  {"t": 24.0, "kind": "whoosh", "gain": 0.7},
+  {"t": 32.7, "kind": "breath", "gain": 0.4},
+  {"t": 41.9, "kind": "pop", "gain": 0.5},
+  {"t": 44.1, "kind": "pop", "gain": 0.5},
+  {"t": 46.0, "kind": "pop", "gain": 0.5}
+]

@@ -1,0 +1,10 @@
+[
+ {"t":60.7,"kind":"shutter"},
+ {"t":68.4,"kind":"pop"},
+ {"t":70.0,"kind":"paper"},
+ {"t":73.65,"kind":"scribble","dur":0.35},
+ {"t":80.5,"kind":"clack"},
+ {"t":88.3,"kind":"paper"},
+ {"t":97.5,"kind":"impact","gain":0.7},
+ {"t":104.5,"kind":"whoosh"}
+]

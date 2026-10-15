@@ -1,8 +1,8 @@
 {"shots":[
- {"id":"S1","start":49.2,"template":"ClaimShot","props":{"text":"That voice is just what thinking sounds like.","kind":"caution","tag":"The obvious answer","highlight":["thinking"],"at":51.3,"tagAt":49.5,"seed":3}},
+ {"id":"S1","start":49.2,"template":"ClaimShot","props":{"text":"That voice is just what thinking sounds like.","kind":"caution","tag":"The obvious answer","highlight":["thinking"],"at":49.5,"tagAt":49.4,"seed":3}},
  {"id":"S2","start":54.4,"custom":true,"note":"chain Thought→Words→A voice, pull back to street of nonstop narrators","in":{"kind":"push","dir":"left"}},
  {"id":"S3","start":60.6,"custom":true,"note":"street freezes; volunteer with Beeper; NameTags Hurlburt/Heavey; beep → snapshot card; USUALLY struck; snapshot circled"},
- {"id":"S4","start":75.9,"template":"StatShot","props":{"value":"26","unit":"%","label":"of sampled moments held inner speech","kicker":"One influential study","at":79.4,"compare":{"kind":"dots","filled":26,"total":100,"color":"#5C4A72","caption":"About a quarter of moments"},"compareAt":77.0,"seed":5},"in":{"kind":"paper","dir":"left"}},
+ {"id":"S4","start":75.9,"template":"StatShot","props":{"value":"26","unit":"%","label":"of sampled moments held inner speech","kicker":"One influential study","at":79.4,"compare":{"kind":"dots","filled":26,"total":100,"color":"#5C4A72","caption":"About a quarter of moments"},"compareAt":76.2,"seed":5},"in":{"kind":"paper","dir":"left"}},
  {"id":"S5","start":81.5,"custom":true,"note":"6 people with snapshot strips: Never / Roughly 3 out of 4"},
  {"id":"S6","start":88.3,"template":"ClaimShot","props":{"text":"Humans think in words a quarter of the time.","kind":"caution","tag":"Be careful","stamp":"Not what it means","stampAt":90.3,"but":"About 30 people · sampled moments · one method","butAt":92.8,"at":89.7,"seed":8},"in":{"kind":"paper","dir":"left"}},
  {"id":"S7","start":97.1,"custom":true,"note":"callback street: nonstop bubbles crack and fall apart","in":{"kind":"cut"}},

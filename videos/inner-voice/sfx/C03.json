@@ -1,0 +1,10 @@
+[{"t":121.8,"kind":"ding"},
+{"t":123.98,"kind":"pop","gain":0.7},
+{"t":124.48,"kind":"pop","gain":0.7},
+{"t":125.6,"kind":"pop","gain":0.7},
+{"t":131.6,"kind":"scribble","dur":0.5},
+{"t":143.0,"kind":"paper","gain":0.6},
+{"t":148.3,"kind":"tick","gain":0.5},
+{"t":170.5,"kind":"clack","gain":0.7},
+{"t":190.0,"kind":"whoosh"},
+{"t":201.0,"kind":"sweep_down"}]
