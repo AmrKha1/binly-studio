@@ -15,7 +15,7 @@ let browser = null;
 // webpack bundles are ~0.17 GB each and used to pile up in the system temp folder (hundreds of them).
 const BUNDLES = path.join(ROOT, '.cache', 'bundles');
 const myBundle = path.join(BUNDLES, `${process.pid}-${Date.now()}`);
-const STALE_MS = 2 * 3600 * 1000;
+const STALE_MS = 10 * 3600 * 1000; // only leftovers of crashed runs older than 10 h
 function cleanStale() {
   const sweep = (dir, match) => {
     try {
