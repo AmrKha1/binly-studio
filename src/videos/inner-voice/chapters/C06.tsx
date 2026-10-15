@@ -25,7 +25,7 @@ export const C06: React.FC<{t: number}> = ({t}) => (
     // S7 · 422.50–427.50 · custom: TWIST: Task switching card, level scale, No difference. oxblood
     {start: 422.5, in: {"kind":"cut"}, render: (t: number) => <Custom.S7 t={t} />},
     // S8 · 427.50–434.50 · CompareShot
-    {start: 427.5, in: {"kind":"push","dir":"left"}, render: (t: number) => <CompareShot t={t} a={427.5} b={434.5} {...({"kicker":"Two findings, both real","left":{"title":"Disturb the voice","icon":"speech","kind":"confirmed","bullets":["Switching gets worse"]},"right":{"title":"Live with little voice","icon":"thought","kind":"confirmed","bullets":["Switching looks no different"]},"at":429.6,"rightAt":432.1,"seed":7} as const)} />},
+    {start: 427.5, in: {"kind":"push","dir":"left"}, render: (t: number) => <CompareShot t={t} a={427.5} b={434.5} {...({"kicker":"Two findings, both real","left":{"title":"Disturb the voice","icon":"speech","kind":"confirmed","bullets":["Switching gets worse"]},"right":{"title":"Live with little voice","icon":"thought","kind":"confirmed","bullets":["Switching looks no different"]},"at":427.7,"rightAt":432.1,"seed":7} as const)} />},
     ]}
   />
 );

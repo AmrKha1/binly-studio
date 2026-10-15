@@ -21,7 +21,7 @@ export const C03: React.FC<{t: number}> = ({t}) => (
     // S5 · 156.40–164.90 · custom: ink: conversation with yourself; one word Keys! carries a thought
     {start: 156.4, in: {"kind":"iris","x":560,"y":420}, render: (t: number) => <Custom.S5 t={t} />},
     // S6 · 164.90–169.80 · QuestionShot
-    {start: 164.9, in: {"kind":"fade","dur":0.4}, render: (t: number) => <QuestionShot t={t} a={164.9} b={169.8} {...({"kicker":"Which makes the question sharper","question":"If thinking can happen without it, why does the voice exist at all?","highlight":["exist"],"mark":"question","at":166.5,"seed":6} as const)} />},
+    {start: 164.9, in: {"kind":"fade","dur":0.4}, render: (t: number) => <QuestionShot t={t} a={164.9} b={169.8} {...({"kicker":"Which makes the question sharper","question":"If thinking can happen without it, why does the voice exist at all?","highlight":["exist"],"mark":"question","at":165.1,"seed":6} as const)} />},
     // S7 · 169.80–181.30 · custom: toddler private speech, solid bubbles, grows, bubble goes inside dashed
     {start: 169.8, in: {"kind":"irisOut","x":960,"y":540}, render: (t: number) => <Custom.S7 t={t} />},
     // S8 · 181.30–202.20 · custom: two heads: line between people bends back, folds inward, splits into 3 origins

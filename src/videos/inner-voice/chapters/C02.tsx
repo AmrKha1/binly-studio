@@ -21,13 +21,13 @@ export const C02: React.FC<{t: number}> = ({t}) => (
     // S5 · 81.50–88.30 · custom: 6 people with snapshot strips: Never / Roughly 3 out of 4
     {start: 81.5, render: (t: number) => <Custom.S5 t={t} />},
     // S6 · 88.30–97.10 · ClaimShot
-    {start: 88.3, in: {"kind":"paper","dir":"left"}, render: (t: number) => <ClaimShot t={t} a={88.3} b={97.1} {...({"text":"Humans think in words a quarter of the time.","kind":"caution","tag":"Be careful","stamp":"Not what it means","stampAt":90.3,"but":"About 30 people · sampled moments · one method","butAt":92.8,"at":89.7,"seed":8} as const)} />},
+    {start: 88.3, in: {"kind":"paper","dir":"left"}, render: (t: number) => <ClaimShot t={t} a={88.3} b={97.1} {...({"text":"Humans think in words a quarter of the time.","kind":"caution","tag":"Be careful","stamp":"Not what it means","stampAt":90.3,"but":"About 30 people · sampled moments · one method","butAt":92.8,"at":88.6,"seed":8} as const)} />},
     // S7 · 97.10–100.20 · custom: callback street: nonstop bubbles crack and fall apart
     {start: 97.1, in: {"kind":"cut"}, render: (t: number) => <Custom.S7 t={t} />},
     // S8 · 100.20–107.40 · custom: person arms crossed, inner bubble I talk to myself constantly.; split vs snapshot wall
     {start: 100.2, in: {"kind":"wipe","dir":"left"}, render: (t: number) => <Custom.S8 t={t} />},
     // S9 · 107.40–121.60 · CompareShot
-    {start: 107.4, in: {"kind":"push","dir":"left"}, render: (t: number) => <CompareShot t={t} a={107.4} b={121.6} {...({"kicker":"Two ways of asking","left":{"title":"Questionnaire","icon":"document","kind":"caution","bullets":["\"How often do you talk to yourself?\"","Higher estimates"]},"right":{"title":"Random moments","icon":"clock","kind":"evidence","bullets":["A beep, one random second","Lower estimates"]},"at":108.6,"rightAt":113,"verdict":{"text":"Two different measurements","side":"both","kind":"signal","at":118.6},"seed":4} as const)} />},
+    {start: 107.4, in: {"kind":"push","dir":"left"}, render: (t: number) => <CompareShot t={t} a={107.4} b={121.6} {...({"kicker":"Two ways of asking","left":{"title":"Questionnaire","icon":"document","kind":"caution","bullets":["\"How often do you talk to yourself?\"","Higher estimates"]},"right":{"title":"Random moments","icon":"clock","kind":"evidence","bullets":["A beep, one random second","Lower estimates"]},"at":107.6,"rightAt":113,"verdict":{"text":"Two different measurements","side":"both","kind":"signal","at":118.6},"seed":4} as const)} />},
     ]}
   />
 );

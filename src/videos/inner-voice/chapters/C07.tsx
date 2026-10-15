@@ -25,7 +25,7 @@ export const C07: React.FC<{t: number}> = ({t}) => (
     // S7 · 482.40–489.70 · custom: line between two heads folds inward; Tag Best-supported picture
     {start: 482.4, in: {"kind":"push","dir":"left"}, render: (t: number) => <Custom.S7 t={t} />},
     // S8 · 489.70–497.60 · ListShot
-    {start: 489.7, in: {"kind":"paper","dir":"left"}, render: (t: number) => <ListShot t={t} a={489.7} b={497.6} {...({"title":"What the voice gets used for","items":[{"label":"Hold a number","icon":"phone"},{"label":"Rehearse a conversation","icon":"speech"},{"label":"Give yourself an instruction","icon":"arrow-right"},{"label":"Imagine someone's answer","icon":"people"}],"cues":[490.2,491.3,493.6,495.3],"seed":15} as const)} />},
+    {start: 489.7, in: {"kind":"paper","dir":"left"}, render: (t: number) => <ListShot t={t} a={489.7} b={497.6} {...({"title":"What the voice gets used for","items":[{"label":"Hold a number","icon":"phone"},{"label":"Rehearse a conversation","icon":"speech"},{"label":"Give yourself an instruction","icon":"arrow-right"},{"label":"Imagine someone's answer","icon":"people"}],"cues":[490.2,491.3,493.6,495.3],"at":489.9,"seed":15} as const)} />},
     // S9 · 497.60–506.60 · custom: row of 7 heads, bubbles constantly ↔ rarely; Tag No single theory
     {start: 497.6, in: {"kind":"push","dir":"left"}, render: (t: number) => <Custom.S9 t={t} />},
     // S10 · 506.60–512.60 · custom: ear + dashed wave flowing in; Headline Why does it feel like hearing?

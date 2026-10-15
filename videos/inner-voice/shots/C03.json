@@ -4,7 +4,7 @@
  {"id":"S3","start":138.1,"custom":true,"note":"pull back, card wall alive; Headline Not an empty mind."},
  {"id":"S4","start":142.9,"custom":true,"note":"two people one room: narrator vs images; invisible dashed wall","in":{"kind":"push","dir":"left"}},
  {"id":"S5","start":156.4,"custom":true,"note":"ink: conversation with yourself; one word Keys! carries a thought","in":{"kind":"iris","x":560,"y":420}},
- {"id":"S6","start":164.9,"template":"QuestionShot","props":{"kicker":"Which makes the question sharper","question":"If thinking can happen without it, why does the voice exist at all?","highlight":["exist"],"mark":"question","at":166.5,"seed":6},"in":{"kind":"fade","dur":0.4}},
+ {"id":"S6","start":164.9,"template":"QuestionShot","props":{"kicker":"Which makes the question sharper","question":"If thinking can happen without it, why does the voice exist at all?","highlight":["exist"],"mark":"question","at":165.1,"seed":6},"in":{"kind":"fade","dur":0.4}},
  {"id":"S7","start":169.8,"custom":true,"note":"toddler private speech, solid bubbles, grows, bubble goes inside dashed","in":{"kind":"irisOut","x":960,"y":540}},
  {"id":"S8","start":181.3,"custom":true,"note":"two heads: line between people bends back, folds inward, splits into 3 origins","in":{"kind":"push","dir":"left"}}
 ]}

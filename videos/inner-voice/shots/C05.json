@@ -8,6 +8,6 @@
  {"id":"S7","start":312.9,"custom":true,"note":"curves overlaid; SilentWave sentence with forecast ghost; ba vs bi differ"},
  {"id":"S8","start":327.8,"custom":true,"note":"luggage tag MINE on the inner voice; Tag A model, not a settled fact"},
  {"id":"S9","start":335.4,"custom":true,"note":"Measured: a brain response / Not measured: what anyone heard","in":{"kind":"paper","dir":"left"}},
- {"id":"S10","start":341.2,"template":"CompareShot","props":{"mode":"venn","kicker":"A 2023 analysis of imaging studies","title":"Kinds of inner speech lean on…","left":{"title":"Speech production","icon":"mouth","kind":"theory"},"right":{"title":"Simulating the sound","icon":"ear","kind":"theory"},"overlap":"Both","at":342.0,"rightAt":347.0,"seed":9},"in":{"kind":"push","dir":"left"}},
+ {"id":"S10","start":341.2,"template":"CompareShot","props":{"mode":"venn","kicker":"A 2023 analysis of imaging studies","title":"Kinds of inner speech lean on…","left":{"title":"Speech production","icon":"mouth","kind":"theory"},"right":{"title":"Simulating the sound","icon":"ear","kind":"theory"},"overlap":"Both","at":341.4,"rightAt":347.0,"seed":9},"in":{"kind":"push","dir":"left"}},
  {"id":"S11","start":351.2,"custom":true,"note":"jigsaw: Forecast piece solid, rest dashed"}
 ]}

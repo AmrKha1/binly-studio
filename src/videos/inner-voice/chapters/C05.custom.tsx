@@ -225,8 +225,8 @@ export const S3: React.FC<{t: number}> = ({t}) => {
       <MindSpace t={t} bg="ink" seed={3} density={0.8} />
       {/* A: forecast wave with ghost */}
       <g opacity={A}>
-        <SilentWave x={330} y={560} w={1260} amp={110} t={t} p={ramp(t, T.fc, T.fc + 1.6)} silent={1} tone="ink" words={['If', 'I', 'said', 'it']} labelSize={42} seed={8} ghost={{offset: 80, color: C.theoryTint, match: 1, silent: 1, p: ramp(t, T.fc + 0.9, T.fc + 2.2)}} />
-        <Kicker x={960} y={300} text="FORECAST" size={46} color={C.paperLight} p={ramp(t, T.fc + 1.4, T.fc + 2.0, ease.out)} />
+        <SilentWave x={310} y={560} w={1300} amp={140} t={t} p={ramp(t, T.fc - 0.4, T.fc + 0.8)} silent={1} tone="ink" words={['If', 'I', 'said', 'it']} labelSize={42} seed={8} ghost={{offset: 80, color: C.theoryTint, match: 1, silent: 1, p: ramp(t, T.fc - 0.2, T.fc + 1.2)}} />
+        <Kicker x={960} y={300} text="FORECAST" size={46} color={C.paperLight} p={ramp(t, T.fc, T.fc + 0.6, ease.out)} />
       </g>
       {/* B: command + copy */}
       <g opacity={B}>
@@ -400,9 +400,9 @@ export const S8: React.FC<{t: number}> = ({t}) => {
 
 // S9 · 335.40 · measured / not measured
 export const S9: React.FC<{t: number}> = ({t}) => {
-  const a = ramp(t, T.measured - 0.3, T.measured + 0.5, ease.out);
+  const a = ramp(t, T.limits - 0.3, T.limits + 0.5, ease.out);
   const b = ramp(t, T.notm - 0.3, T.notm + 0.5, ease.out);
-  const k = ramp(t, T.measured + 0.4, T.measured + 0.9, ease.outBack);
+  const k = ramp(t, T.measured, T.measured + 0.5, ease.outBack);
   return (
     <Stage bg={C.paperShade}>
       <Card x={960} y={340} w={1340} h={280} p={a} rot={-0.6}>

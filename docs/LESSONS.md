@@ -32,3 +32,15 @@
 - (kit) Remaining text "vibration" = Skia snaps axis-aligned glyph baselines to whole pixels (1 px sawtooth vs shapes on slow drifts). Fixed in Stage: constant 0.1° tilt on text/foreignObject.ktext. Measure with tools/jitter-test.mjs (--kit / --at / --mp4); a snap shows as ~1 px residuals.
 - (polish, owner) Bath scenes: a figure is either a bather IN a tub (head + shoulders only) or a standing person fully in front of / behind the tub — never drawn behind a tub front with legs showing below it ("people wearing barrels").
 - (polish, owner) A plain parchment + 2 small icons in the hook read as "cheap" → rebuilt as archive shelf → illuminated manuscript with two painted miniatures. Hook beats need a place, depth and light.
+
+## inner-voice (2026-10-16)
+- ASR can silently drop a cold open (here 0–7.4 s: cue.mjs times were wrong, transcript started mid-hook). Check the first words with `cue.mjs --range 0 10` + an RMS loudness map of the WAV; time the hook by hand; add the missing lines to captions.srt.
+- Builders still default to 25–30 px labels and small elements in big empty frames; a COMMON.md brief per video (visual language + "verify text on full-res stills" + no-shimmer rule) cut fix rounds. Kit NameTag sub is fixed 22 px → use a big local name plate.
+- QA "near-empty" warnings were real: templates/cards entering ~1 s late on blank paper. Set template `at` ≤ shot start + 0.2 s; custom shots must have content on their first frame.
+- Text jitter verified on the cloud mp4 with tools/jitter-test.mjs --mp4 (0.22–0.28 px residual on a drifting card vs 0.6–0.94 px snap before). Long-term option: text as vector outlines + lint against raw <text>.
+- (owner) Every on-screen text rock-steady — in PLAYBOOK owner prefs.
+
+## Kit backlog (inner-voice)
+- `NightRoom` (shared/NightRoom.tsx: night room, window city, flat lights behind the figure) was copied into 3 chapters before being shared → promote with DecoderRig.
+- C02 `Street` walkers + `MiniBubble` (crack dial) and C03 `Bub` (bubble holding child shapes, solid/dashed) are reusable.
+- Kit StudyCard / NameTag / Photo credit text sizes too small for 1080p (22 px) → add a size dial.

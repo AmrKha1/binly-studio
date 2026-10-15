@@ -30,7 +30,7 @@ export const C05: React.FC<{t: number}> = ({t}) => (
     // S9 · 335.40–341.20 · custom: Measured: a brain response / Not measured: what anyone heard
     {start: 335.4, in: {"kind":"paper","dir":"left"}, render: (t: number) => <Custom.S9 t={t} />},
     // S10 · 341.20–351.20 · CompareShot
-    {start: 341.2, in: {"kind":"push","dir":"left"}, render: (t: number) => <CompareShot t={t} a={341.2} b={351.2} {...({"mode":"venn","kicker":"A 2023 analysis of imaging studies","title":"Kinds of inner speech lean on…","left":{"title":"Speech production","icon":"mouth","kind":"theory"},"right":{"title":"Simulating the sound","icon":"ear","kind":"theory"},"overlap":"Both","at":342,"rightAt":347,"seed":9} as const)} />},
+    {start: 341.2, in: {"kind":"push","dir":"left"}, render: (t: number) => <CompareShot t={t} a={341.2} b={351.2} {...({"mode":"venn","kicker":"A 2023 analysis of imaging studies","title":"Kinds of inner speech lean on…","left":{"title":"Speech production","icon":"mouth","kind":"theory"},"right":{"title":"Simulating the sound","icon":"ear","kind":"theory"},"overlap":"Both","at":341.4,"rightAt":347,"seed":9} as const)} />},
     // S11 · 351.20–354.60 · custom: jigsaw: Forecast piece solid, rest dashed
     {start: 351.2, render: (t: number) => <Custom.S11 t={t} />},
     ]}

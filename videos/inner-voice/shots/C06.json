@@ -6,5 +6,5 @@
  {"id":"S5","start":397.9,"custom":true,"note":"Nedergaard & Lupyan; 46 low vs 47 a lot","in":{"kind":"paper","dir":"left"}},
  {"id":"S6","start":411.7,"custom":true,"note":"scoreboard: verbal WM worse, rhyme slower; predicted stamp"},
  {"id":"S7","start":422.5,"custom":true,"note":"TWIST: Task switching card, level scale, No difference. oxblood","in":{"kind":"cut"}},
- {"id":"S8","start":427.5,"template":"CompareShot","props":{"kicker":"Two findings, both real","left":{"title":"Disturb the voice","icon":"speech","kind":"confirmed","bullets":["Switching gets worse"]},"right":{"title":"Live with little voice","icon":"thought","kind":"confirmed","bullets":["Switching looks no different"]},"at":429.6,"rightAt":432.1,"seed":7},"in":{"kind":"push","dir":"left"}}
+ {"id":"S8","start":427.5,"template":"CompareShot","props":{"kicker":"Two findings, both real","left":{"title":"Disturb the voice","icon":"speech","kind":"confirmed","bullets":["Switching gets worse"]},"right":{"title":"Live with little voice","icon":"thought","kind":"confirmed","bullets":["Switching looks no different"]},"at":427.7,"rightAt":432.1,"seed":7},"in":{"kind":"push","dir":"left"}}
 ]}

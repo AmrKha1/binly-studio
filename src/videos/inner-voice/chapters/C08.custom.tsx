@@ -336,7 +336,7 @@ export const S3: React.FC<{t: number}> = ({t}) => {
               USUALLY…
             </text>
           </Slip>
-          <line x1={1380} y1={452} x2={1380 + 360 * strike} y2={440 - 14 * strike} stroke={C.oxblood} strokeWidth={10} strokeLinecap="round" />
+          {strike > 0 && <line x1={1380} y1={452} x2={1380 + 360 * strike} y2={440 - 14 * strike} stroke={C.oxblood} strokeWidth={10} strokeLinecap="round" />}
         </g>
       )}
       <Circled x={1000} y={450} rx={300} ry={225} rot={-3} p={e(t, T.moment - 0.1, T.moment + 0.6, (x) => x)} thick={9} />
@@ -363,10 +363,11 @@ export const S3: React.FC<{t: number}> = ({t}) => {
 // ───────────────────────── S4 · 542.30 · "ask them about a moment too. Not 'do you hear a voice?' but 'what was in your head just then?'" ─────────────────────────
 export const S4: React.FC<{t: number}> = ({t}) => {
   const FY = 960;
-  const talkA = (t > T.what - 0.1 && t < T.what + 2.0) || (t > T.hear - 0.1 && t < T.hear + 1.4) ? Math.abs(Math.sin(t * 9)) : 0;
+  const talkA = (t > 544.0 && t < 545.8) || (t > T.what - 0.1 && t < T.what + 2.0) || (t > T.hear - 0.1 && t < T.hear + 1.4) ? Math.abs(Math.sin(t * 9)) : 0;
   const talkB = t > T.reply + 0.4 ? Math.abs(Math.sin(t * 8)) * 0.8 : 0;
   const strike = e(t, T.hear + 0.9, T.hear + 1.4);
-  const b1 = e(t, T.hear - 0.1, T.hear + 0.4);
+  const b1 = e(t, 544.0, 544.7);
+  const turn = e(t, 542.6, 543.4, ease.inOut);
   const b1out = e(t, T.what - 0.15, T.what + 0.25);
   const cam = breathe(camAt(t, [[T.s4, 960, 540, 1.02], [T.end, 960, 540, 1.1]]), t, 0.5);
   return (
@@ -384,15 +385,15 @@ export const S4: React.FC<{t: number}> = ({t}) => {
         <rect x={-200} y={FY - 40} width={2400} height={400} fill={C.paperDeep} />
         <rect x={-200} y={FY - 40} width={2400} height={10} fill={C.paperDark} />
         <Bench x={960} y={FY + 6} w={1040} h={150} />
-        <Person x={720} y={FY} s={1.35} sit={1} facing={1} t={t} outfit="casual" top={C.evidenceLight} skin={2} hair="ponytail" seed={32} talk={talkA} expression="neutral" />
+        <Person x={720} y={FY} s={1.35} sit={1} facing={1} t={t} outfit="casual" top={C.evidenceLight} skin={2} hair="ponytail" seed={32} talk={talkA} look={turn} expression="neutral" />
         <Person x={1210} y={FY} s={1.35} sit={1} facing={-1} t={t} outfit="casual" top={C.theoryLight} skin={3} hair="curly" seed={33} talk={talkB} expression={t > T.what + 1.0 ? 'smile' : 'neutral'} />
         <LightPool x={960} y={300} r={800} color={C.lamp} strength={0.35} />
       </Cam>
       <Particles t={t} x={0} y={0} w={1920} h={900} n={16} seed={3} size={[2, 4]} color={C.paperLight} opacity={[0.4, 0.8]} vx={8} vy={-3} />
       {/* real talk = solid bubbles */}
       <g opacity={1 - b1out}>
-        <Bubble x={760} y={190} w={820} h={140} to={{x: 590, y: 340}} kind="speech" size={60} text="Do you hear a voice?" p={b1} />
-        <line x1={470} y1={196} x2={470 + 600 * strike} y2={186 - 8 * strike} stroke={C.oxblood} strokeWidth={10} strokeLinecap="round" />
+        <Bubble x={760} y={190} w={820} h={140} to={{x: 590, y: 340}} kind="speech" size={60} text={t >= T.hear - 0.1 ? "Do you hear a voice?" : undefined} type={e(t, T.hear - 0.1, T.hear + 0.5, (x) => x)} p={b1} />
+        {strike > 0 && <line x1={470} y1={196} x2={470 + 600 * strike} y2={186 - 8 * strike} stroke={C.oxblood} strokeWidth={10} strokeLinecap="round" />}
       </g>
       <Bubble x={880} y={190} w={1200} h={140} to={{x: 590, y: 340}} kind="speech" size={60} text="What was in your head just then?" p={e(t, T.what - 0.05, T.what + 0.45)} type={e(t, T.what, T.what + 1.0, (x) => x)} />
       <Bubble x={1500} y={250} w={240} h={190} to={{x: 1380, y: 340}} kind="speech" p={e(t, T.reply, T.reply + 0.5)} />
