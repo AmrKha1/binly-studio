@@ -99,6 +99,10 @@ short list for /polish-video; move on. Spot-check only boundaries with a special
 — simple fades/cuts don't need a picture.
 `node tools/status.mjs` shows which chapters are still placeholders.
 
+**5b · Hook pass (once, before the final render)** — when all chapters are done, look at C01's frame sheet with everything
+learned during production. If every shot in the first ~60 s is signature-level, move on. Otherwise rebuild only the weak
+shots (usually 1–2) with an Opus builder on medium effort (the same builder if it's still alive) — one round only, never a loop.
+
 **6 · Render** — `node tools/check.mjs` must pass. Then `node tools/cloud.mjs render <slug>` in the background
 (parallel cloud render, ~10–20 min for 15 min of video). Optional earlier: a partial preview of a chapter
 `node tools/cloud.mjs render <slug> --from 120 --to 210 --scale 0.5`.
