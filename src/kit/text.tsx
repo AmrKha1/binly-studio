@@ -1,6 +1,7 @@
 import React from 'react';
 import {C, FONT_HAND, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
 import {clamp01, countUp, ease, lerp, ramp} from './anim';
+import {TEXT_FO} from './stage';
 
 // Typography. Rules: short editorial headlines/labels only, no burned-in subtitles,
 // ink on paper or paper on ink, keep inside SAFE margins, numbers EXACTLY as spoken.
@@ -136,7 +137,7 @@ export const Para: React.FC<{
   if (p <= 0) return null;
   const k = ease.out(clamp01(p));
   return (
-    <foreignObject x={x} y={y + (1 - k) * 14} width={w} height={h} opacity={k}>
+    <foreignObject className={TEXT_FO} x={x} y={y + (1 - k) * 14} width={w} height={h} opacity={k}>
       <div
         style={{
           fontFamily: font === 'serif' ? FONT_SERIF : FONT_SANS,

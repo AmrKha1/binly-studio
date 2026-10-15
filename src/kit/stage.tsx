@@ -4,14 +4,26 @@ import {C, H, W} from './theme';
 import {camAt, CamKey, CamState, ease, EaseFn, noise1} from './anim';
 
 /**
+ * Text steadiness (the "vibrating text" fix). Chrome/Skia snaps glyph baselines to whole device pixels whenever text
+ * is drawn axis-aligned (sub-pixel positioning is horizontal-only), so during slow camera drifts text lags and then
+ * jumps ~1 px while shapes glide (sawtooth). A constant, invisible 0.1° tilt on every text element makes the glyph
+ * matrix non-axis-aligned → Skia positions glyphs sub-pixel in BOTH axes and text glides with the shapes.
+ * Applied per text element around its own centre (max 0.9 px shift at the ends of a 1000 px line), never to shapes
+ * or photos. Text with its own transform attribute is skipped (it's already rotated or self-positioned).
+ * HTML text in a <foreignObject> gets it via className={TEXT_FO} (RichText, Para, Bubble use it).
+ * Measured with tools/jitter-test.mjs --kit: vertical sawtooth 1.0 px → < 0.1 px (MapShot drift 0.83 → 0.10 px).
+ */
+export const TEXT_FO = 'ktext';
+const TEXT_NUDGE = `text:not([transform]), foreignObject.${TEXT_FO} { rotate: 0.1deg; transform-box: fill-box; transform-origin: 50% 50%; }`;
+/**
  * Stage: one full-frame 1920x1080 SVG. Every shot/chapter draws inside a Stage.
  * World units = pixels of the 1920x1080 frame when the camera is at rest.
  */
 export const Stage: React.FC<{bg?: string; children?: React.ReactNode; style?: React.CSSProperties}> = ({bg = C.paper, children, style}) => (
   <AbsoluteFill style={{background: bg, ...style}}>
-    {/* geometricPrecision: glyphs follow sub-pixel camera moves smoothly instead of snapping to the pixel grid
-        frame by frame (hinting snap = text "vibrating in place" during slow drifts/pushes). Inherited by HTML in foreignObject. */}
+    {/* geometricPrecision: no hinting snap (inherited by HTML in foreignObject); TEXT_NUDGE: sub-pixel glyphs in y too. */}
     <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{position: 'absolute', inset: 0, overflow: 'hidden', textRendering: 'geometricPrecision'}}>
+      <style>{TEXT_NUDGE}</style>
       {children}
     </svg>
   </AbsoluteFill>

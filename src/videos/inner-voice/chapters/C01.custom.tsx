@@ -10,6 +10,7 @@ import {LightPool, Particles, Pulse, DrawPath} from '../../../kit/fx';
 import {HeadProfile, Waveform} from '../../../kit/science';
 import {MindSpace, Window, Plant} from '../../../kit/env';
 import {DecoderRig, DECODER_HEAD, SilentWave} from '../shared';
+import {NightRig} from '../shared/NightRoom';
 import {mix} from '../shared/util';
 
 // Measured times (word cues before 8.3 s are wrong — these come from the brief)
@@ -70,119 +71,7 @@ const scr = (cam: CamState, p: {x: number; y: number}) => ({x: (p.x - cam.cx) * 
 const FlatLine: React.FC<{x: number; y: number; w: number; p: number; color: string; width?: number}> = ({x, y, w, p, color, width = 5}) =>
   p <= 0 ? null : <line x1={x} y1={y} x2={x + w * p} y2={y} stroke={color} strokeWidth={width} strokeLinecap="round" />;
 
-/** Night city inside the rig's window (rig-local coords). */
-const NightCity: React.FC<{t: number}> = ({t}) => {
-  const bx = [-950, -905, -860, -800, -760, -715];
-  const bh = [120, 190, 90, 160, 210, 110];
-  return (
-    <g>
-      {bx.map((x, i) => (
-        <g key={i}>
-          <rect x={x} y={-440 - bh[i]} width={42} height={bh[i]} fill={C.inkSoft} />
-          {[0, 1, 2, 3].map((k) =>
-            k * 40 + 24 < bh[i] ? (
-              <rect key={k} x={x + 10 + (k % 2) * 14} y={-440 - bh[i] + 16 + k * 40} width={8} height={10} fill={C.lamp} opacity={rand(i * 7 + k) > 0.45 ? 0.55 + 0.15 * Math.sin(t * 0.7 + i + k) : 0.08} />
-            ) : null,
-          )}
-        </g>
-      ))}
-    </g>
-  );
-};
-
-/** Dark foreground shelf edge (bottom-left, nearer than the rig) — pure ink silhouette. */
-const Shelf: React.FC = () => (
-  <g fill={C.ink}>
-    <rect x={-500} y={860} width={940} height={440} />
-    <path d="M300 860 L300 770 L372 770 L372 860 Z" />
-    <path d="M372 790 C410 790 410 840 372 842" stroke={C.ink} strokeWidth={12} fill="none" />
-    <rect x={40} y={700} width={46} height={160} />
-    <rect x={92} y={730} width={38} height={130} />
-    <rect x={134} y={712} width={50} height={148} transform="rotate(8 159 860)" />
-  </g>
-);
-
-// night lighting (world coords): monitor pool (cool) + window (warm city / moon)
-const WIN = rw(-820, -610); // window centre
-const NIGHT_WALL = mix(C.night, C.slate, 0.2);
-const ell = (cx: number, cy: number, rx: number, ry: number) => `M${cx - rx} ${cy} a${rx} ${ry} 0 1 0 ${rx * 2} 0 a${rx} ${ry} 0 1 0 ${-rx * 2} 0 Z`;
-const DARK_RECT = 'M-2500 -1500 H4500 V2600 H-2500 Z ';
-const POOL_OUT = ell(950, 500, 840, 500);
-const POOL_IN = ell(960, 460, 640, 330);
-const WIN_HOLE = ell(WIN.x, WIN.y, 230, 270);
-
-const NightRoom: React.FC<{t: number}> = ({t}) => {
-  const fl = RIG.y;
-  return (
-    <g>
-      <rect x={-2500} y={-1500} width={7000} height={2600} fill={NIGHT_WALL} />
-      <rect x={-2500} y={fl - 250 * RIG.s} width={7000} height={250 * RIG.s} fill={mix(NIGHT_WALL, C.ink, 0.5)} />
-      <line x1={-2500} y1={fl - 250 * RIG.s} x2={4500} y2={fl - 250 * RIG.s} stroke={C.inkLift} strokeWidth={6} />
-      <rect x={-2500} y={fl} width={7000} height={1600} fill={C.ink} />
-      {/* warm city light spilling from the window */}
-      <path d={`M${WIN.x - 190} ${WIN.y + 225} L${WIN.x + 190} ${WIN.y + 225} L${WIN.x + 420} ${fl + 120} L${WIN.x - 60} ${fl + 120} Z`} fill={C.lamp} opacity={0.07} />
-      <ellipse cx={WIN.x} cy={WIN.y} rx={300} ry={340} fill={C.lamp} opacity={0.06} />
-      <g transform={`translate(${RIG.x} ${RIG.y}) scale(${RIG.s})`}>
-        <Window x={-820} y={-430} w={300} h={360} sky="night" moon t={t} seed={1} frame={C.inkLift} />
-        <NightCity t={t} />
-        <Plant x={560} y={0} kind="tall" t={t} seed={3} />
-      </g>
-    </g>
-  );
-};
-
-type RigOpts = {
-  t: number;
-  cam: CamState;
-  text?: string;
-  typeP?: number;
-  signal?: number;
-  glint?: number; // 0→1 pulse ring at the implant
-  overlay?: React.ReactNode; // drawn over the monitor glass, in glass coords (0..500 × 0..300)
-  extra?: React.ReactNode; // world-space extras (above the rig)
-  dim?: number; // 0..1 darken everything except the screen glow
-};
-
-const RigWorld: React.FC<RigOpts> = ({t, cam, text = '', typeP = 0, signal = 0, glint = 0, overlay, extra, dim = 0}) => {
-  const rigG = (el: React.ReactNode) => <g transform={`translate(${RIG.x} ${RIG.y}) scale(${RIG.s})`}>{el}</g>;
-  return (
-    <World
-      cam={cam}
-      layers={[
-        {
-          depth: 1,
-          el: (
-            <g>
-              <NightRoom t={t} />
-              <DecoderRig x={RIG.x} y={RIG.y} s={RIG.s} t={t} layer="front" text={text} typeP={typeP} signal={signal} person={{skin: 3, hair: 'short', hairColor: C.hair[0], expression: 'neutral'}} />
-              {/* darkness outside the monitor's light pool (two flat steps), window kept bright */}
-              <path d={DARK_RECT + POOL_OUT + ' ' + WIN_HOLE} fill={C.ink} fillRule="evenodd" opacity={0.72} />
-              <path d={DARK_RECT + POOL_IN + ' ' + WIN_HOLE} fill={mix(C.ink, C.night, 0.5)} fillRule="evenodd" opacity={0.32} />
-              {/* cool monitor light on face, desk and wall */}
-              <path d={POOL_IN} fill={C.theoryTint} opacity={0.1} />
-              <LightPool x={HEAD.x + 60} y={HEAD.y + 10} r={170} color={C.theoryTint} strength={0.45} sy={1} />
-              {overlay &&
-                rigG(
-                  <g transform={`translate(${GLASS.x} ${GLASS.y})`}>
-                    <clipPath id="c01-glass">
-                      <rect x={0} y={0} width={GLASS.w} height={GLASS.h} rx={6} />
-                    </clipPath>
-                    <g clipPath="url(#c01-glass)">{overlay}</g>
-                  </g>,
-                )}
-              {glint > 0 && glint < 1 && <Pulse x={PED.x} y={PED.y} r={46} p={glint} color={C.theoryTint} width={6} />}
-              {glint > 0 && glint < 1 && <Pulse x={PED.x} y={PED.y} r={80} p={clamp01(glint * 1.3 - 0.3)} color={C.theoryLight} width={4} />}
-              {dim > 0 && <rect x={-2000} y={-1500} width={6000} height={4000} fill={C.ink} opacity={0.55 * dim} />}
-              {extra}
-            </g>
-          ),
-        },
-        {depth: 1.08, el: <Particles t={t} x={700} y={160} w={900} h={620} n={22} seed={11} size={[2, 4]} color={C.theoryTint} opacity={[0.15, 0.4]} vx={4} vy={-6} />},
-        {depth: 1.35, el: <Shelf />},
-      ]}
-    />
-  );
-};
+const RigWorld = NightRig; // shared night room + flat lighting (../shared/NightRoom)
 
 // ───────────────────────── S1 · 0.00 · "A person with severe paralysis thinks four words." ─────────────────────────
 export const S1: React.FC<{t: number}> = ({t}) => {

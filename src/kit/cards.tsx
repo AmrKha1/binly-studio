@@ -2,6 +2,7 @@ import React from 'react';
 import {C, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
 import {clamp01, ease, ramp} from './anim';
 import {Para, Tag, textW} from './text';
+import {TEXT_FO} from './stage';
 
 // Paper objects: cards, documents, photos, notes, screens. Origin = CENTRE unless noted.
 // All accept p (0→1 entrance: rises + settles) and rot (deg).
@@ -352,7 +353,7 @@ export const Bubble: React.FC<{
       )}
       {tail && kind !== 'thought' && <path d={tail} fill={fill} stroke="none" transform={`translate(${(x - (to?.x ?? x)) * 0.02} ${(y - (to?.y ?? y)) * 0.02})`} />}
       {text && (
-        <foreignObject x={x - w / 2 + 24} y={y - h / 2} width={w - 48} height={h}>
+        <foreignObject className={TEXT_FO} x={x - w / 2 + 24} y={y - h / 2} width={w - 48} height={h}>
           <div style={{height: h, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontFamily: FONT_SERIF, fontStyle: kind === 'inner' ? 'italic' : 'normal', fontWeight: 600, fontSize: size, lineHeight: 1.15, color: kind === 'inner' ? C.theory : color}}>
             {shown}
           </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {C, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
 import {CamState, clamp01, ease, keys, lerp, mixHex, noise1, rand, ramp} from './anim';
-import {Stage, World, breathe} from './stage';
+import {Stage, TEXT_FO, World, breathe} from './stage';
 import {HandNote, Headline, Kicker, NameTag, Stamp, Stat, Tag, textW} from './text';
 import {LightPool, Particles, Pulse, Vignette} from './fx';
 import {Icon, IconName} from './icons';
@@ -253,7 +253,7 @@ export const RichText: React.FC<{
     );
   });
   return (
-    <foreignObject x={x} y={y} width={w} height={h} opacity={fadeK}>
+    <foreignObject className={TEXT_FO} x={x} y={y} width={w} height={h} opacity={fadeK}>
       <div style={{width: w, height: h, display: 'flex', flexDirection: 'column', justifyContent: valign === 'top' ? 'flex-start' : valign === 'bottom' ? 'flex-end' : 'center'}}>
         <div style={{position: 'relative'}}>
         <div

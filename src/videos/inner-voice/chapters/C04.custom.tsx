@@ -12,6 +12,7 @@ import {Person} from '../../../kit/people';
 import {Icon, IconName} from '../../../kit/icons';
 import {Photo} from '../../../kit/photo';
 import {DecoderRig, DECODER_HEAD, SilentWave} from '../shared';
+import {NightRig} from '../shared/NightRoom';
 
 const T = {
   open: 202.2, // "Which brings us back to the computer."
@@ -70,71 +71,7 @@ const PEDL = {x: DECODER_HEAD.x - 16, y: DECODER_HEAD.y - 58};
 const CABLE_D = `M${PEDL.x + 2} ${PEDL.y - 22} C${PEDL.x + 10} ${PEDL.y - 150} ${90 - 250 - 120} ${-526 - 110} ${90 - 250 + 6} ${-526 + 70}`;
 const CABLE_LEN = getLength(CABLE_D);
 
-const NightCity: React.FC<{t: number}> = ({t}) => {
-  const bx = [-950, -905, -860, -800, -760, -715];
-  const bh = [120, 190, 90, 160, 210, 110];
-  return (
-    <g>
-      {bx.map((x, i) => (
-        <g key={i}>
-          <rect x={x} y={-440 - bh[i]} width={42} height={bh[i]} fill={C.inkSoft} />
-          {[0, 1, 2, 3].map((k) =>
-            k * 40 + 24 < bh[i] ? (
-              <rect key={k} x={x + 10 + (k % 2) * 14} y={-440 - bh[i] + 16 + k * 40} width={8} height={10} fill={C.lamp} opacity={rand(i * 7 + k) > 0.45 ? 0.55 + 0.15 * Math.sin(t * 0.7 + i + k) : 0.08} />
-            ) : null,
-          )}
-        </g>
-      ))}
-    </g>
-  );
-};
-
-const Shelf: React.FC = () => (
-  <g>
-    <rect x={-500} y={860} width={940} height={40} fill={C.inkSoft} />
-    <rect x={-500} y={900} width={940} height={400} fill={C.ink} />
-    <path d="M300 860 L300 770 L372 770 L372 860 Z" fill={C.ink} />
-    <path d="M372 790 C410 790 410 840 372 842" stroke={C.ink} strokeWidth={12} fill="none" />
-    <rect x={40} y={700} width={46} height={160} fill={C.ink} />
-    <rect x={92} y={730} width={38} height={130} fill={C.inkSoft} />
-    <rect x={134} y={712} width={50} height={148} fill={C.ink} transform="rotate(8 159 860)" />
-  </g>
-);
-
-type RigOpts = {t: number; cam: CamState; signal?: number; text?: string; typeP?: number; overlay?: React.ReactNode; extra?: React.ReactNode; id: string};
-const RigWorld: React.FC<RigOpts> = ({t, cam, signal = 0, text = '', typeP = 0, overlay, extra, id}) => {
-  const rigG = (el: React.ReactNode) => <g transform={`translate(${RIG.x} ${RIG.y}) scale(${RIG.s})`}>{el}</g>;
-  return (
-    <World
-      cam={cam}
-      layers={[
-        {
-          depth: 1,
-          el: (
-            <g>
-              <DecoderRig x={RIG.x} y={RIG.y} s={RIG.s} t={t} night layer="back" />
-              {rigG(<NightCity t={t} />)}
-              <DecoderRig x={RIG.x} y={RIG.y} s={RIG.s} t={t} night layer="front" text={text} typeP={typeP} signal={signal} person={{skin: 3, hair: 'short', hairColor: C.hair[1]}} />
-              <LightPool x={HEAD.x + 70} y={HEAD.y + 10} r={130} color={C.theoryTint} strength={0.22} sy={1} />
-              {overlay &&
-                rigG(
-                  <g transform={`translate(${GLASS.x} ${GLASS.y})`}>
-                    <clipPath id={`c04-glass-${id}`}>
-                      <rect x={0} y={0} width={GLASS.w} height={GLASS.h} rx={6} />
-                    </clipPath>
-                    <g clipPath={`url(#c04-glass-${id})`}>{overlay}</g>
-                  </g>,
-                )}
-              {extra}
-            </g>
-          ),
-        },
-        {depth: 1.08, el: <Particles t={t} x={700} y={160} w={900} h={620} n={22} seed={11} size={[2, 4]} color={C.theoryTint} opacity={[0.15, 0.4]} vx={4} vy={-6} />},
-        {depth: 1.35, el: <Shelf />},
-      ]}
-    />
-  );
-};
+const RigWorld = NightRig; // shared night room + flat lighting (../shared/NightRoom)
 
 /** dashed plum wave flowing across the screen's top strip (glass coords) */
 const FlowWave: React.FC<{t: number; p: number; w?: number; y?: number; amp?: number}> = ({t, p, w = GLASS.w - 60, y = 58, amp = 26}) => {

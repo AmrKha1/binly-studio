@@ -6,3 +6,5 @@ export {Beeper, beepFlash} from './Beeper';
 export type {BeeperProps} from './Beeper';
 export {DecoderRig, DECODER_HEAD} from './DecoderRig';
 export type {DecoderRigProps} from './DecoderRig';
+export {NightRig, NightRoom, NightCity, NightShelf, NIGHT_PERSON, RIG, rigPt, RIG_HEAD, RIG_GLASS, RIG_SCREEN} from './NightRoom';
+export type {NightRigProps} from './NightRoom';
