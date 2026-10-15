@@ -1,0 +1,87 @@
+A person with severe paralysis thinks four words. They don't say them. Nothing leaves their mouth.
+
+Chitty chitty bang bang.
+
+A computer connected to electrodes in their brain recognizes the phrase more than 98 percent of the time. Then it starts turning their silent sentences into text on a screen.
+
+That was a real experiment at Stanford, published in 2025. And the strange part isn't that it worked. It's what the computer had to read. A voice that makes no sound.
+
+You have one too. Say this in your head: I should call him tomorrow.
+
+Look at what just happened. Your lips didn't move. Nothing vibrated in the air. And yet a sentence played inside you, words in order, maybe even in a tone, in something that felt exactly like a voice.
+
+So what did that computer actually read? What is a voice with no sound? And if it can be found, why do some people say they've never had one?
+
+The obvious answer is the one you already believe. That voice is just what thinking sounds like. Thought is made of words, the words come with a voice, and everyone's is running all day, the way yours is.
+
+Then researchers tried to catch it in the act.
+
+In studies by Russell Hurlburt and Chris Heavey, volunteers carried a beeper. At random moments it went off, and they had to freeze and record what was in their mind at that exact instant. Not what they usually think. What was there.
+
+In one influential study, inner speech showed up in about a quarter of those moments. Twenty-six percent. And the average hides what matters. Some people never reported it. Others reported it in roughly three out of four moments.
+
+Be careful with that number. It doesn't mean humans think in words a quarter of the time. It's what about thirty people reported at sampled moments, using one method. But it breaks the picture of a narrator that never stops.
+
+Your instinct is already pushing back. I talk to myself constantly. But there's a reason your instinct and the data can disagree. When researchers compared the two ways of asking, questionnaires, the "how often do you talk to yourself" kind, gave higher estimates than random moments did. What you remember about your mind and what was in it at one random second are two different measurements.
+
+So what filled the other moments? Pictures. A feeling. Awareness of the room, the chair, the light. And one report that's harder to picture: a specific thought, with no words and no image attached. That one is still debated, so treat it as a report, not a verdict. But the pattern holds. A mind without a constant voice is not an empty mind.
+
+Picture two people sitting silently in the same room. One is narrating. Why did I say that? I need to leave in five minutes. The other is moving through images and sensations, with hardly a word. Neither suspects the other's mind works differently.
+
+And even for people who do hear a voice, it isn't one thing. Sometimes it's a conversation with yourself. Sometimes it's a single word that carries a whole thought.
+
+Which makes the question sharper. If thinking can happen without it, why does the voice exist at all?
+
+Watch a two- or three-year-old working through a problem. They talk out loud, to nobody, steering themselves. Researchers call it private speech. As children grow, it gets quieter. Then it goes silent.
+
+One influential idea says that's where your inner voice comes from. Language, which starts as a line between you and other people, gets aimed back at yourself, then folded inward. There's real evidence behind it. But it explains how the voice could appear, not how it definitely did. Later work has made the picture messier, with different kinds of inner speech that may not share one origin.
+
+Which brings us back to the computer.
+
+It wasn't listening to the ears. It wasn't listening to the throat. It was listening to the motor cortex, a part of the brain involved in controlling speech. In four participants, the Stanford team found that imagining a sentence produced a pattern similar to trying to say it. Weaker, but close, and different enough to tell apart. From that, the computer decoded imagined sentences in real time, with up to 74 percent accuracy, from a vocabulary of 125,000 words. It even caught numbers participants were silently counting, without being asked.
+
+That last detail is part of why the team built the password. The system only translates after the user chooses to start. This is not mind reading. It's four people, implanted electrodes, controlled tasks, and a lock the user holds. What the computer found wasn't a secret thought. It was speech with the sound taken out.
+
+So is the inner voice just your brain preparing to speak, and stopping short? Not quite. Two things argue against that simple picture.
+
+First, some people with aphasia, who struggle to produce speech aloud, keep aspects of their inner speech. Aphasia varies widely and inner speech is hard to measure, so that's a clue, not a proof. But it suggests inner speech is related to speaking, yet isn't simply speaking with the volume turned down.
+
+Second, silent speech seems to carry a forecast of how it would sound. When your brain sends a command to move, it keeps an internal copy and uses it to predict the result. It's why you can't tickle yourself. In 2017, Thomas Whitford and his colleagues tested whether silent speech does the same. Participants wore EEG caps. At a precisely timed moment, they silently imagined saying a single syllable, like "ba," while a real syllable played through headphones. When the imagined syllable matched the real one, the brain's early response to the sound got weaker. When it didn't match, it didn't.
+
+Imagining a sound, in complete silence, changed how the brain answered the real thing, but only if it was the right sound. So when you say a sentence in your head, your brain appears to forecast how it would sound, in detail fine enough to tell one syllable from another. One leading idea says that same forecast helps the brain tag the voice as yours. That's a model, not a settled fact.
+
+And keep the limits straight. The experiment measured a brain response, not what anyone consciously heard. A 2023 analysis of imaging studies also suggests that different kinds of inner speech lean on speech production, on simulating how speech sounds, or on both. So the forecast is a strong clue to the voice, not the whole of it.
+
+Still, a voice built from borrowed machinery could just be a side effect. A feeling with no job. Does it do anything?
+
+Hold a phone number in your head by repeating it silently. Now someone makes you say an unrelated word out loud, again and again, while you try to keep it. The number starts to slip. That's called articulatory suppression, and it can disrupt some kinds of verbal memory.
+
+It does something similar to switching between tasks. In experiments by Emerson and Miyake, people alternating between, say, math and color got slower at switching when their inner speech was disrupted. Their reading was that people silently cue themselves. Next, color.
+
+So the voice looks like a tool. A 2024 study complicated that.
+
+Two researchers, Johanne Nedergaard and Gary Lupyan, went the other direction. Instead of disrupting the voice, they found people who report having little of it. Forty-six adults with low inner speech, compared with forty-seven with a lot. The low group did worse at verbal working memory. They were also slower and less accurate at deciding whether the names of two pictured objects rhyme. Exactly what the voice-as-tool idea predicts.
+
+But on task switching, the very thing the voice is supposed to help with, there was no difference.
+
+Two findings, both real. Disturb the voice, and switching gets worse. Live with little voice, and switching looks no different.
+
+Nobody knows yet how both can be true. Suppression isn't a clean off switch, and a 2026 review stresses how uncertain it still is what those experiments actually disrupt. A mind with less voice might also be doing the same job another way, though that's a possibility the evidence doesn't settle.
+
+The authors named the low end anendophasia, a lack of inner speech. But critics say the data don't show anyone has none at all. A 2025 commentary found no compelling evidence for complete absence, and a 2026 one took up how absence could ever be established. It's a fair worry. A few random moments can't prove a mind never does something.
+
+So "do you have a voice?" turns out to be the wrong question. Too crude. The better one is what language is doing inside a mind, and what a mind does when it doesn't use it that way.
+
+The best-supported picture so far is that the voice is a tool. Language, built to carry messages between people, turned inward. Used to hold a number, to rehearse a conversation that hasn't happened, to give yourself an instruction, to imagine how someone else would answer. Some minds reach for it constantly. Some rarely. And no one has a single theory that explains every form of it, because "inner speech" isn't one thing. What no one has fully explained is the feeling itself: why any of this is experienced as hearing.
+
+Which is where this stops being about the brain and starts being about you.
+
+You've lived your whole life inside exactly one mind. Of course you assumed it was the average one. The mistake isn't believing something false about neuroscience. It's assuming the person next to you hears what you hear.
+
+So try one move. The next time you catch yourself mid-thought, ask what was actually there a second ago. Words? A picture? A feeling? Not your habit. That moment. Researchers lean on moments over summaries because summaries tend to run high. And when you talk to someone whose mind seems foreign to yours, ask them about a moment too. Not "do you hear a voice?" but "what was in your head just then?"
+
+Four words, thought, never spoken. A computer, listening to the part of the brain that prepares speech, recognized them. There was no sound to catch. What it found was language with the sound taken out.
+
+Language was built to travel between minds. In yours, it also learned to stay home.
+
+The sources for this video are in the description. And if you enjoyed the video, hit that like button and subscribe — I'll see you in the next one.

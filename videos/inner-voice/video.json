@@ -1,0 +1,11 @@
+{
+ "slug": "inner-voice",
+ "title": "A person with severe paralysis thinks four words. They don't say them. Nothing l",
+ "duration": 574.81,
+ "sampleRate": 44100,
+ "channels": 2,
+ "codec": "pcm_s16le",
+ "audio": "voiceover.wav",
+ "source": "Inner Voice Voiceover.WAV",
+ "created": "2026-10-15T18:07:58.954Z"
+}
