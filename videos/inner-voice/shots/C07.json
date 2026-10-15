@@ -1,0 +1,12 @@
+{"shots":[
+ {"id":"S1","start":434.5,"custom":true,"note":"? between findings; switch only dims voice; 2026 review card"},
+ {"id":"S2","start":445.7,"custom":true,"note":"two routes to the same flag; Tag Possible — not settled"},
+ {"id":"S3","start":451.7,"custom":true,"note":"slider inner speech; anendophasia term card; None end dashed ?","in":{"kind":"paper","dir":"left"}},
+ {"id":"S4","start":459.2,"custom":true,"note":"2025 and 2026 commentary cards"},
+ {"id":"S5","start":467.4,"custom":true,"note":"day timeline, 4 snapshots, dashed unknown gaps; never struck","in":{"kind":"push","dir":"left"}},
+ {"id":"S6","start":471.9,"template":"ClaimShot","props":{"text":"Do you have a voice?","kind":"caution","tag":"The question","stamp":"Too crude","stampAt":475.3,"but":"Better: what is language doing inside a mind?","butAt":476.5,"at":472.0,"seed":14},"in":{"kind":"paper","dir":"left"}},
+ {"id":"S7","start":482.4,"custom":true,"note":"line between two heads folds inward; Tag Best-supported picture","in":{"kind":"push","dir":"left"}},
+ {"id":"S8","start":489.7,"template":"ListShot","props":{"title":"What the voice gets used for","items":[{"label":"Hold a number","icon":"phone"},{"label":"Rehearse a conversation","icon":"speech"},{"label":"Give yourself an instruction","icon":"arrow-right"},{"label":"Imagine someone's answer","icon":"people"}],"cues":[490.2,491.3,493.6,495.3],"seed":15},"in":{"kind":"paper","dir":"left"}},
+ {"id":"S9","start":497.6,"custom":true,"note":"row of 7 heads, bubbles constantly ↔ rarely; Tag No single theory","in":{"kind":"push","dir":"left"}},
+ {"id":"S10","start":506.6,"custom":true,"note":"ear + dashed wave flowing in; Headline Why does it feel like hearing?","in":{"kind":"ink","x":960,"y":540}}
+]}

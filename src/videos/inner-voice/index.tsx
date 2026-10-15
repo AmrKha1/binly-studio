@@ -3,10 +3,24 @@ import React from 'react';
 import {Chapters, ChapterDef, VideoModule} from '../../kit/video';
 import {Stage} from '../../kit/stage';
 import META from '../../../videos/inner-voice/video.json';
-
+import {C01} from './chapters/C01';
+import {C02} from './chapters/C02';
+import {C03} from './chapters/C03';
+import {C04} from './chapters/C04';
+import {C05} from './chapters/C05';
+import {C06} from './chapters/C06';
+import {C07} from './chapters/C07';
+import {C08} from './chapters/C08';
 
 export const CHAPTERS: ChapterDef[] = [
-
+  {id: 'C01', start: 0, end: 49.2, C: C01},
+  {id: 'C02', start: 49.2, end: 121.6, C: C02, in: {"kind":"cut"}},
+  {id: 'C03', start: 121.6, end: 202.2, C: C03, in: {"kind":"iris","x":960,"y":540}},
+  {id: 'C04', start: 202.2, end: 253.7, C: C04, in: {"kind":"ink","x":960,"y":540}},
+  {id: 'C05', start: 253.7, end: 354.6, C: C05, in: {"kind":"fade"}},
+  {id: 'C06', start: 354.6, end: 434.5, C: C06, in: {"kind":"push","dir":"left"}},
+  {id: 'C07', start: 434.5, end: 512.6, C: C07, in: {"kind":"ink","x":960,"y":540}},
+  {id: 'C08', start: 512.6, end: 574.81, C: C08, in: {"kind":"iris","x":960,"y":540}},
 ];
 
 const Video: React.FC<{t: number}> = ({t}) => (CHAPTERS.length ? <Chapters t={t} chapters={CHAPTERS} /> : <Stage />);

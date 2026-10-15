@@ -1,0 +1,10 @@
+{"shots":[
+ {"id":"S1","start":202.2,"custom":true,"note":"DecoderRig head: ears crossed out, throat crossed out"},
+ {"id":"S2","start":207.4,"custom":true,"note":"HeadProfile showBrain implant motor highlight; Motor cortex callout"},
+ {"id":"S3","start":212.3,"custom":true,"note":"4 participants; trying vs imagining neural patterns, weaker but close","in":{"kind":"iris","x":800,"y":360}},
+ {"id":"S4","start":221.9,"custom":true,"note":"screen decodes; UP TO 74%; 125,000-word vocabulary wall","in":{"kind":"zoom","x":1300,"y":480}},
+ {"id":"S5","start":232.1,"custom":true,"note":"screen counts 1..4 dashed; Tag Without being asked"},
+ {"id":"S6","start":236.4,"custom":true,"note":"password: chitty chitty bang bang travel to screen, padlock opens","in":{"kind":"fade","dur":0.4}},
+ {"id":"S7","start":242.6,"custom":true,"note":"Not mind reading list of 4 + braingate print","in":{"kind":"paper","dir":"left"}},
+ {"id":"S8","start":249.4,"custom":true,"note":"secret thought struck; hero SilentWave; Headline Speech with the sound taken out.","in":{"kind":"cut"}}
+]}

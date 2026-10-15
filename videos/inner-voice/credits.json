@@ -1,0 +1,26 @@
+[
+ {
+  "file": "img/stanford.jpg",
+  "title": "Stanford University Main Quad May 2011 005.jpg",
+  "author": "King of Hearts",
+  "licence": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Stanford_University_Main_Quad_May_2011_005.jpg",
+  "attributionRequired": true
+ },
+ {
+  "file": "img/eeg-cap.jpg",
+  "title": "EEG Recording Cap.jpg",
+  "author": "Chris Hope",
+  "licence": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:EEG_Recording_Cap.jpg",
+  "attributionRequired": true
+ },
+ {
+  "file": "img/braingate.jpg",
+  "title": "BrainGate.jpg",
+  "author": "PaulWicks at English Wikipedia",
+  "licence": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:BrainGate.jpg",
+  "attributionRequired": false
+ }
+]

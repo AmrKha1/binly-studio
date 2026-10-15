@@ -1,0 +1,13 @@
+{"shots":[
+ {"id":"S1","start":253.7,"template":"ClaimShot","props":{"text":"The inner voice is just speech, stopped short.","kind":"caution","tag":"The simple picture","stamp":"Not quite","stampAt":258.0,"but":"Two things argue against it","butAt":259.1,"at":254.2,"seed":11}},
+ {"id":"S2","start":261.4,"custom":true,"note":"aphasia: broken solid bubble vs fuller dashed inner bubble; Tag A clue, not a proof; volume slider struck","in":{"kind":"paper","dir":"left"}},
+ {"id":"S3","start":278.5,"custom":true,"note":"forecast ghost; brain command + copy → Predicted result; can't tickle yourself","in":{"kind":"ink","x":960,"y":540}},
+ {"id":"S4","start":289.7,"custom":true,"note":"StudyCard Whitford & colleagues 2017","in":{"kind":"paper","dir":"left"}},
+ {"id":"S5","start":295.6,"template":"KenBurnsShot","props":{"src":"img/eeg-cap.jpg","aspect":1.5,"from":[0.5,0.45,1.0],"to":[0.42,0.4,1.3],"caption":"An EEG cap records the brain's electrical responses","captionAt":296.0,"credit":"Chris Hope · CC BY 2.0","at":295.7},"in":{"kind":"fade","dur":0.4}},
+ {"id":"S6","start":301.0,"custom":true,"note":"EEG experiment: imagined ba + heard ba → weaker; bi vs ba → no change","in":{"kind":"cut"}},
+ {"id":"S7","start":312.9,"custom":true,"note":"curves overlaid; SilentWave sentence with forecast ghost; ba vs bi differ"},
+ {"id":"S8","start":327.8,"custom":true,"note":"luggage tag MINE on the inner voice; Tag A model, not a settled fact"},
+ {"id":"S9","start":335.4,"custom":true,"note":"Measured: a brain response / Not measured: what anyone heard","in":{"kind":"paper","dir":"left"}},
+ {"id":"S10","start":341.2,"template":"CompareShot","props":{"mode":"venn","kicker":"A 2023 analysis of imaging studies","title":"Kinds of inner speech lean on…","left":{"title":"Speech production","icon":"mouth","kind":"theory"},"right":{"title":"Simulating the sound","icon":"ear","kind":"theory"},"overlap":"Both","at":342.0,"rightAt":347.0,"seed":9},"in":{"kind":"push","dir":"left"}},
+ {"id":"S11","start":351.2,"custom":true,"note":"jigsaw: Forecast piece solid, rest dashed"}
+]}

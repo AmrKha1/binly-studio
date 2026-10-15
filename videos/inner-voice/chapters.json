@@ -1,1 +1,10 @@
-[]
+[
+ {"id":"C01","start":0,"end":49.2,"title":"A voice that makes no sound"},
+ {"id":"C02","start":49.2,"end":121.6,"title":"Catching the voice in the act","in":{"kind":"cut"}},
+ {"id":"C03","start":121.6,"end":202.2,"title":"What fills the silence","in":{"kind":"iris","x":960,"y":540}},
+ {"id":"C04","start":202.2,"end":253.7,"title":"What the computer actually heard","in":{"kind":"ink","x":960,"y":540}},
+ {"id":"C05","start":253.7,"end":354.6,"title":"Your brain forecasts your own voice","in":{"kind":"fade"}},
+ {"id":"C06","start":354.6,"end":434.5,"title":"Is the voice a tool?","in":{"kind":"push","dir":"left"}},
+ {"id":"C07","start":434.5,"end":512.6,"title":"The wrong question","in":{"kind":"ink","x":960,"y":540}},
+ {"id":"C08","start":512.6,"end":574.81,"title":"The mind next to yours","in":{"kind":"iris","x":960,"y":540}}
+]
