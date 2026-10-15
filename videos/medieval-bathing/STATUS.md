@@ -1,5 +1,5 @@
 # STATUS · medieval-bathing (keep current)
-Step: 6 · cloud render. Owner rules (2026-10-15): NO image with any nudity (even croppable); free licences only; live preview NOT wanted (don't open it).
+Step: 8 · DELIVERED (v2 final). Owner rules (2026-10-15): NO image with any nudity (even croppable); free licences only; live preview NOT wanted (don't open it).
 Images (all checked clean): philip6, erasmus, etuves-atget, tournai, zurich-murer, physician, alhambra.
 Shared: PoreSkin, HumorWheel, Miasma, HeroTub ✓ (in ASSETS.md). Never use Person hat "scholar" (looks like a mortarboard).
 All briefs + shots written & compiled (C01–C08); score.json ✓.

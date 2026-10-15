@@ -15,7 +15,7 @@
 
 ## QA (cloud, real file)
 - v1: duration diff −0.000 s · 38,568 frames, constant 60 fps · voiceover sync offset 0 ms (corr 0.997) · loudness −13.5 LUFS, true peak −1.5 dBFS, voice dominant (music −21 dB under speech) · no black segments, no static holds ≥ 4 s · 1 warning: 17 short near-empty stretches — all 214 QA tiles inspected; 5 real weak spots fixed for v2 (C03 germ beat + folk charm, C07 timeline, C08 missing "Avoid the bath" step + sparse road) plus C02 soap bar.
-- v2: (see below)
+- v2 (final): identical technical results (−0.000 s, 60 fps constant, sync 0 ms, −13.5 LUFS, no black/static); all 5 fixes verified in the QA tiles; the C08 road stretch is no longer flagged. The 17 remaining "near-empty" flags are minimal paper/ink frames (titles, templates building in, the germ/charm beats on plain paper) — inspected, none broken.
 
 ## Honest limitations
 - Some template shots build in from a mostly empty paper frame for 1–2 s (QuestionShot typing, ListShot first tile) — by design, but they read sparse.
