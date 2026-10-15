@@ -43,8 +43,8 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   each `{"id":"C01","start":0,"end":84.2,"title":"…","in":{"kind":"ink","x":960,"y":540}}` (C01 has no `in`;
   `start` of each chapter = `end` of the previous; last `end` = video duration). Then `node tools/scaffold.mjs <slug>`.
 - `videos/<slug>/briefs/Cxx.md` per chapter (≤ 400 words): time range + paragraphs · purpose of the chapter ·
-  a numbered **shot list** — the chapter is a sequence of shots of ~4–15 s, normally one shot per narration
-  sentence or idea (`node tools/transcript.mjs --from a --to b` prints sentence start times):
+  a numbered **shot list** — the chapter is a sequence of shots of ~4–8 s (longer only when a moving camera carries
+  several beats), normally one shot per narration sentence or idea (`node tools/transcript.mjs --from a --to b` prints sentence start times):
   `S3 [01:42.6–01:51.0] "In Paris, there were enough public baths…" → what we see · camera · transition in`
   with components from KIT.md — **name a shot template** (KIT.md → templates: StatShot, QuoteShot, EvidenceShot, ClaimShot,
   CompareShot, ListShot, TimelineShot, MapShot, PersonShot, ProcessShot, QuestionShot, TitleShot) for standard beats and
@@ -60,13 +60,24 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   DONE WHEN (one line: what must read clearly, by when). Specify the WHAT; leave the HOW to the builder.
   **No-guess test before sending a brief:** could a builder build every shot without asking one question? Any
   "something like…", "maybe", missing image or unnamed piece → decide it now (a line for you; a guess costs a rebuild).
+  **Beat rule (explain, don't narrate over a still):** EVERY spoken sentence gets its own visible change on its cue
+  word — a new element, a camera move, or a cut. An explanation shows the MECHANISM moving (cause → effect animated:
+  the signal travels, the pattern lights up, the number fills), never a label or text card restating what is said.
+  **Flow line** at the top of each brief: the chapter's visual journey — which world(s), how the camera travels
+  (push into the detail, pull back to reveal, pan to the next idea, one world rather than a slideshow), and how each
+  shot hands over to the next (match cut, push-through, ink, iris — motivated and varied, never the same one in a row).
+  Reference for this craft: the shot lists of a past video the owner liked (`videos/medieval-bathing/shots/` + briefs)
+  — read the text, never re-render it.
 - `videos/<slug>/score.json` — music: `{"key":"D","mode":"minor","bpm":68,"seed":3,"sections":[{"t":0,"mood":"curious"},…],"accents":[{"t":…,"kind":"drop","dur":2},…]}`
   Moods: curious, wonder, tension, dark, build, reflective, warm, neutral, playful, sad, triumphant.
   Accents: swell, drop, resolve, sting, silence. Change mood at pivots/chapters, not every 10 s.
   If `library/music/` has tracks the user added, a section may use `"track":"library/music/x.mp3","offset":0`.
 
 **2b · Shot lists as data** — for each chapter also write `videos/<slug>/shots/Cxx.json` (format in
-`tools/compile-shots.mjs`): template shots with their props, custom shots as `{"id":"S4","start":…,"custom":true,"note":"…"}`.
+`tools/compile-shots.mjs`): template shots with their props, custom shots as `{"id":"S4","start":…,"custom":true,"note":"…","beats":[t1,t2,…]}` (`beats` = cue times of
+the visible changes inside the shot, one per sentence after the first). Then run `node tools/plan-check.mjs` — it flags
+shots > 10 s and sentences with no visible change (text only, costs nothing). Fix every flag (split the shot, add a beat
+or a camera travel) or accept it on purpose with `"ok":"why"` on that shot. **No builder starts before plan-check passes.**
 Run `node tools/compile-shots.mjs` → chapter code is generated; builders then build ONLY the custom shots in
 `Cxx.custom.tsx`. A chapter with no custom shots needs no builder at all. Fixes to template shots = edit the JSON and
 re-run the compiler (no builder). Look at `docs/catalog/templates.png` once (one image) to choose templates visually.

@@ -59,6 +59,7 @@ final render only in the cloud (this PC is too slow; local = stills/sheets only)
 | `node tools/silhouette.mjs list` · `search "name"` · `get <#> --as n` | shared animal/organism silhouettes (PhyloPic) |
 | `node tools/upload-pack.mjs` | YouTube description + captions.srt |
 | `node tools/compile-shots.mjs [Cxx]` | shot lists (videos/<slug>/shots/*.json) → chapter code |
+| `node tools/plan-check.mjs [Cxx]` | BEFORE building: flags shots > 10 s and sentences with no visible change |
 | `node tools/kit-test.mjs` | render-test the whole kit + refresh docs/catalog/*.png |
 
 # Compact instructions
