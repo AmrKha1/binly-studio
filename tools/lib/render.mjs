@@ -1,5 +1,6 @@
 // Shared local rendering helpers (stills only — full videos render in the cloud).
 import path from 'node:path';
+import os from 'node:os';
 import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {bundle} from '@remotion/bundler';
@@ -9,6 +10,33 @@ export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 
 let serveUrl = null;
 let browser = null;
+
+// Each run bundles into its OWN folder inside the project (.cache/bundles/<pid>) and deletes it when done —
+// webpack bundles are ~0.17 GB each and used to pile up in the system temp folder (hundreds of them).
+const BUNDLES = path.join(ROOT, '.cache', 'bundles');
+const myBundle = path.join(BUNDLES, `${process.pid}-${Date.now()}`);
+const STALE_MS = 2 * 3600 * 1000;
+function cleanStale() {
+  const sweep = (dir, match) => {
+    try {
+      for (const n of fs.readdirSync(dir)) {
+        if (!match(n)) continue;
+        const p = path.join(dir, n);
+        try {
+          if (Date.now() - fs.statSync(p).mtimeMs > STALE_MS) fs.rmSync(p, {recursive: true, force: true});
+        } catch {}
+      }
+    } catch {}
+  };
+  sweep(BUNDLES, () => true); // leftovers of crashed runs
+  sweep(os.tmpdir(), (n) => n.startsWith('remotion-webpack-bundle-')); // old-style leftovers in the system temp
+}
+const removeMine = () => {
+  try {
+    fs.rmSync(myBundle, {recursive: true, force: true});
+  } catch {}
+};
+process.on('exit', removeMine);
 
 // Several agents may render at once: webpack's shared cache must not be written concurrently,
 // so bundling is serialised with a lock directory (stale after 3 minutes).
@@ -37,12 +65,15 @@ async function withLock(fn) {
 export async function getBundle() {
   if (serveUrl) return serveUrl;
   fs.mkdirSync(path.join(ROOT, 'public'), {recursive: true});
+  cleanStale();
+  fs.mkdirSync(BUNDLES, {recursive: true});
   const t0 = Date.now();
   serveUrl = await withLock(() =>
     bundle({
       entryPoint: path.join(ROOT, 'src', 'index.ts'),
       publicDir: path.join(ROOT, 'public'),
       enableCaching: true,
+      outDir: myBundle,
       onProgress: () => {},
     })
   );
@@ -65,6 +96,7 @@ export async function stills({id, props = {}, frames, outFiles, scale = 1, quiet
 
 export async function done() {
   if (browser) await browser.close({silent: true});
+  removeMine();
 }
 
 /** Tiny argv parser: --key value, repeated keys become arrays, bare flags = true. */
