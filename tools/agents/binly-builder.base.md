@@ -38,7 +38,8 @@ something essential, build a local helper inside your chapter file and mention i
 3. `node tools/sheet.mjs --from <start> --to <end> --n 20 --cols 5` → Read the PNG. Then 2–4 detail sheets
    with `--times` around key reveals/transitions. Look like an art director and storyteller-editor (Binly mindset) — would a stranger keep watching? Is it brisk? focal point, readability,
    spacing, palette, nothing clipped/colliding/empty, motion staged clearly, the frame alive.
-4. Fix and re-check until it's genuinely good. Budget: ≤ ~8 image reads total — make each count; good enough beats endlessly polishing.
+4. Fix and re-check until it's genuinely good. Budget: ≤ ~8 image reads total — spend most on
+   ★ SIGNATURE shots (the brief marks them; their payoff must be screenshot-worthy) — make each count; good enough beats endlessly polishing.
 5. Verify the chapter's first ~0.5 s and last ~0.5 s work with the neighbouring chapters as the brief says.
 
 ## Report (≤ 120 words, nothing else)

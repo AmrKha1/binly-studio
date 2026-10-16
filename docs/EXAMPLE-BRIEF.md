@@ -20,11 +20,17 @@ Three modes in 29 s, no cut without a reason.
 - KIT: CitySkyline(medieval, layer far/mid), Sky(dusk), Steam, Kicker. CAMERA: slow push toward the bathhouse (1.0 → 1.25).
 - DONE WHEN: the bathhouse is clearly the focal point by 01:29; nothing static > 2 s.
 
-**S2 [01:31.6–01:38.9] "…you go to the bathhouse."** — custom
+**S2 [01:31.6–01:38.9] "…you go to the bathhouse."** — custom · ★ SIGNATURE
 - SIZE + FOCUS: medium; interior of the bathhouse, two shared wooden tubs, 5–6 bathers (Crowd medieval, Person), steam.
-- ACTION: camera continues the push THROUGH the roof (zoom transition) into the interior; bathers laugh/talk (talk dials) on "go".
-- KIT: Bathhouse(back/front layers), Person ×2, Crowd, Steam, LightShaft. IN: zoom-through from S1. CAMERA: drift right.
-- DONE WHEN: reads instantly as "crowded social bath", not a hospital; faces readable.
+- STAGING: foreground = steam wisps + a tub rim (dark, out of focus feel via flat value); mid = the two tubs with laughing
+  bathers; background = stone arcade with light shafts through the oculi.
+- CAMERA PATH: continues S1's push THROUGH the roof (zoom transition, 91.6) → settles medium on the left tub (93.0) →
+  slow drift right across both tubs to 98.5.
+- PAYOFF (93.0, on "go"): the steam parts and the room bursts into life at once — bathers laugh and turn (talk dials), a cup
+  is raised, light shafts brighten. That instant is the moment a viewer would screenshot.
+- MOTION: steam drifting up, water ripples, lantern flicker; nothing static > 2 s. SOUND: `crowd` swell at 91.8, `splash` 93.0.
+- KIT: Bathhouse(back/front layers), Person ×2, Crowd, Steam, LightShaft. IN: zoom-through from S1.
+- DONE WHEN: reads instantly as "crowded, joyful social bath", not a hospital; faces readable; the payoff lands on "go".
 
 **S3 [01:38.9–01:46.0] "There was food, drink, and conversation."** — template ListShot
 - TEXT (exact): title "What the bathhouse offered"; items "Food" (icon `flame`), "Drink" (`drop`), "Conversation" (`speech`) — each pops ON its spoken word (cues from tools/cue.mjs).
@@ -43,7 +49,7 @@ shots/C02.json (the template shots as data):
 ```json
 {"shots":[
  {"id":"S1","start":84.0,"custom":true,"mode":"scene","note":"medieval city at dusk, push toward steaming bathhouse; Kicker PARIS · 1300s","beats":[86.3,89.4]},
- {"id":"S2","start":91.6,"custom":true,"mode":"scene","note":"bathhouse interior, shared tubs, laughing bathers","beats":[93.0,96.2],"in":{"kind":"zoom","x":1250,"y":420}},
+ {"id":"S2","start":91.6,"custom":true,"mode":"scene","note":"bathhouse interior, shared tubs, laughing bathers","beats":[93.0,96.2],"signature":true,"in":{"kind":"zoom","x":1250,"y":420}},
  {"id":"S3","start":98.9,"template":"ListShot","props":{"title":"What the bathhouse offered","items":[{"label":"Food","icon":"flame"},{"label":"Drink","icon":"drop"},{"label":"Conversation","icon":"speech"}],"cues":[99.4,100.2,101.0]},"in":{"kind":"paper","dir":"left"}},
  {"id":"S4","start":106.0,"template":"EvidenceShot","props":{"src":"img/paris-bathhouse.jpg","caption":"A bathhouse, Paris, 15th century","mark":{"rx":0.7,"ry":0.2,"rw":0.2,"rh":0.15,"at":110.8},"tag":{"text":"Documented","kind":"confirmed"}}}
 ]}

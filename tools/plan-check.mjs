@@ -66,7 +66,7 @@ for (const ch of chapters) {
     const end = i + 1 < shots.length ? shots[i + 1].start : ch.end;
     const mode = s.mode ?? (s.custom ? null : TEMPLATE_MODE[s.template] ?? null);
     if (s.custom && !s.mode) noMode++;
-    seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok});
+    seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok, sig: !!s.signature});
     const dur = end - s.start;
     const changes = [s.start, ...(s.beats ?? []), ...(s.custom ? [] : templateBeats(s.props))];
     const said = sentences.filter((x) => x.s >= s.start - 0.3 && x.s < end - 0.3);
@@ -107,5 +107,11 @@ for (let i = 0; i < seq.length; ) {
 }
 if (flow.length) { console.log('\nRetention flow:'); flow.forEach((l) => console.log(l)); }
 if (noMode) console.log(`\nnote: ${noMode} custom shots have no "mode" — add it so the flow check can see them`);
+const sigs = seq.filter((x) => x.sig);
+console.log(`\nSignature shots: ${sigs.length}${sigs.length ? ' — ' + sigs.map((x) => `${x.ch} ${x.id} ${mmss(x.start)}`).join(', ') : ''}`);
+if (!only && (sigs.length < 5 || sigs.length > 8)) {
+  flags++;
+  console.log(`  SIGNATURE count ${sigs.length} → mark 5–8 shots "signature": true, each with a ★ hero brief`);
+}
 console.log(`\nplan-check ${slug}: ${shotsTotal} shots · ${longTotal} long · ${stillTotal} still sentences · ${sameTotal} same-in-a-row · ${flatTotal} flat · ${flags ? `${flags} flag(s) — fix or justify ("ok") before building` : 'PASS'}`);
 process.exit(flags ? 1 : 0);

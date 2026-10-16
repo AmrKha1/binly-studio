@@ -79,6 +79,10 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   Reference for pacing and structure (not for beats): the shot lists of a past video the owner liked
   (`videos/medieval-bathing/shots/` + briefs) — read the text, never re-render it. The standard for beats is
   `docs/EXAMPLE-BRIEF.md` + the beat rule.
+  **Signature shots (5–8 per video):** the moments people will remember and share — mark them `"signature": true` in
+  the shots JSON and give each a **hero brief** (★ SIGNATURE in the brief): layered staging (foreground / mid /
+  background), the exact camera path (start → end), the PAYOFF beat (the instant it lands, on which word), what moves
+  and how, a sound accent, and DONE WHEN "a viewer would screenshot it". Detail here is cheap; a weak signature shot is not.
 - `videos/<slug>/score.json` — music: `{"key":"D","mode":"minor","bpm":68,"seed":3,"sections":[{"t":0,"mood":"curious"},…],"accents":[{"t":…,"kind":"drop","dur":2},…]}`
   Moods: curious, wonder, tension, dark, build, reflective, warm, neutral, playful, sad, triumphant.
   Accents: swell, drop, resolve, sting, silence. Change mood at pivots/chapters, not every 10 s.
@@ -132,9 +136,11 @@ short list for /polish-video; move on. Spot-check only boundaries with a special
 — simple fades/cuts don't need a picture.
 `node tools/status.mjs` shows which chapters are still placeholders.
 
-**5b · Hook pass (once, before the final render)** — when all chapters are done, look at C01's frame sheet with everything
-learned during production. If every shot in the first ~60 s is signature-level, move on. Otherwise rebuild only the weak
-shots (usually 1–2) with an Opus builder on medium effort (the same builder if it's still alive) — one round only, never a loop.
+**5b · Hook & signature pass (once, before the final render)** — when all chapters are done, look with everything learned
+during production at C01's frame sheet AND at each signature shot's payoff (`node tools/sheet.mjs --times …`, one sheet
+for all of them). If every one is "wow" — screenshot-worthy, story-specific, the mechanism or payoff unmistakable — move
+on. Otherwise upgrade ONLY the weak ones with one Opus builder on medium effort (the hook's builder if it's still alive),
+which edits just those shots' exports in the chapters' `.custom.tsx` files — one round only, never a loop.
 
 **5c · Sync check (once, before the final render)** — `node tools/sync-check.mjs` (background, ~1 min per chapter, no
 tokens: it compares pixels itself) lists sentences whose picture barely changes. Fix the real ones in one round (send the
