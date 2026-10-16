@@ -28,6 +28,9 @@ const T = {
   artic: 372.22, // "That's called articulatory suppression"
   s3: 376.97, // "It does something similar to switching between tasks."
   emerson: 380.56, // "Emerson and Miyake"
+  s3x: 379.3, // "In experiments by…" (NameTag lands on the sentence)
+  alt: 382.3, // "people alternating between"
+  altStart: 381.3, // flips begin (FIXES #12)
   math: 384.64, // "math and color"
   slower: 386.04, // "got slower at switching"
   disrupted: 388.3, // "inner speech was disrupted"
@@ -210,6 +213,51 @@ export const S1: React.FC<{t: number}> = ({t}) => {
   );
 };
 
+// one "speech channel" pipe from the mouth to the inner loop (fix #11)
+const SpeechChannel: React.FC<{t: number; a: {x: number; y: number}; b: {x: number; y: number}}> = ({t, a, b}) => {
+  const t0 = T.artic + 0.3; // "(that's called) articulatory suppression"
+  const pp = ramp(t, t0 - 0.2, t0 + 0.35, ease.out);
+  const out = 1 - ramp(t, T.s3 - 1.2, T.s3 - 0.6);
+  if (pp <= 0 || out <= 0) return null;
+  const c = {x: b.x + 30, y: a.y + 20};
+  const at = (u: number) => ({
+    x: (1 - u) * (1 - u) * a.x + 2 * u * (1 - u) * c.x + u * u * b.x,
+    y: (1 - u) * (1 - u) * a.y + 2 * u * (1 - u) * c.y + u * u * b.y,
+  });
+  const tan = (u: number) => Math.atan2(2 * (1 - u) * (c.y - a.y) + 2 * u * (b.y - c.y), 2 * (1 - u) * (c.x - a.x) + 2 * u * (b.x - c.x)) * 180 / Math.PI;
+  const d = `M${a.x} ${a.y} Q${c.x} ${c.y} ${b.x} ${b.y}`;
+  const fill = ramp(t, t0 + 0.1, t0 + 0.8, ease.out);
+  const bars = Array.from({length: 7}).map((_, i) => {
+    const u = (((t - t0) * 0.55 + i / 7) % 1 + 1) % 1;
+    if (u > fill) return null;
+    const q = at(u);
+    return <rect key={i} x={-21} y={-13} width={42} height={26} rx={13} fill={C.ink} transform={`translate(${q.x} ${q.y}) rotate(${tan(u)})`} />;
+  });
+  // two silent digits try to get down the channel, bump and drop
+  const blocked = [{d: '0', at: t0 + 0.9, dx: -1}, {d: '9', at: t0 + 1.7, dx: 1}].map((g, i) => {
+    const come = ramp(t, g.at - 0.5, g.at, ease.in);
+    const drop = ramp(t, g.at, g.at + 1.1, ease.in);
+    if (come <= 0 || drop >= 1) return null;
+    const x = b.x + g.dx * 18 + drop * g.dx * 90;
+    const y = b.y - 70 + come * 44 + drop * 260;
+    return (
+      <g key={i} transform={`translate(${x} ${y})`} opacity={1 - drop}>
+        <circle r={32} fill={C.paperLight} stroke={C.theory} strokeWidth={4} strokeDasharray="9 7" />
+        <text y={14} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={700} fontSize={40} fill={C.theory}>{g.d}</text>
+      </g>
+    );
+  });
+  return (
+    <g opacity={pp * out}>
+      <path d={d} stroke={C.ink} strokeWidth={72} fill="none" strokeLinecap="round" />
+      <path d={d} stroke={C.paperLight} strokeWidth={54} fill="none" strokeLinecap="round" />
+      {bars}
+      <rect x={b.x - 48} y={b.y - 16} width={96} height={22} rx={11} fill={C.ink} />
+      {blocked}
+    </g>
+  );
+};
+
 // ================= S2 · 361.98 · "Hold a phone number in your head…"
 const DIGITS = ['5', '5', '5', '0', '1', '9', '3'];
 const LINE_X = [-180, -126, -72, 18, 72, 126, 180];
@@ -274,8 +322,10 @@ export const S2: React.FC<{t: number}> = ({t}) => {
           );
         })}
       </Bub>
+      {/* fix #11 · the mechanism: one speech channel, filled by "the…", blocks the silent digits */}
+      <SpeechChannel t={t} a={{x: head.x + 62, y: head.y + 30}} b={{x: 860, y: 354}} />
       {/* spoken out loud: solid ink */}
-      <Bub x={1010} y={470} w={480} h={118} to={{x: head.x + 70, y: head.y + 40}} p={ramp(t, T.loud - 0.25, T.loud + 0.3)}>
+      <Bub x={1060} y={590} w={460} h={118} to={{x: head.x + 70, y: head.y + 40}} p={ramp(t, T.loud - 0.25, T.loud + 0.3)}>
         {['the…', 'the…', 'the…'].map((w, i) => {
           const beat = (t - T.loud) / 0.55;
           const shown = beat >= i;
@@ -287,8 +337,8 @@ export const S2: React.FC<{t: number}> = ({t}) => {
           ) : null;
         })}
       </Bub>
-      <Tag x={1070} y={150} text="Articulatory suppression" kind="confirmed" size={40} p={ramp(t, T.artic + 0.3, T.artic + 0.9)} />
-      <Kicker x={1074} y={258} text="CAN DISRUPT SOME VERBAL MEMORY" size={32} anchor="start" p={ramp(t, T.artic + 1.1, T.artic + 1.7)} />
+      <Tag x={1070} y={150} text="Articulatory suppression" kind="confirmed" size={40} p={ramp(t, T.artic + 0.1, T.artic + 0.65)} />
+      <Kicker x={1074} y={258} text="CAN DISRUPT SOME VERBAL MEMORY" size={32} anchor="start" p={ramp(t, T.artic + 0.6, T.artic + 1.15)} />
     </Stage>
   );
 };
@@ -297,10 +347,10 @@ export const S2: React.FC<{t: number}> = ({t}) => {
 // flip schedule: brisk, then slow once inner speech is disrupted
 const FLIPS: number[] = (() => {
   const a: number[] = [];
-  let f = 381.2;
-  while (f < 386) {
+  let f = T.altStart; // alternation starts with "alternating" (director: ≈381.3)
+  while (f < 385) {
     a.push(f);
-    f += 1.05;
+    f += 0.8;
   }
   return [...a, 388.6, T.next - 0.12]; // odd count → colour face lands on "Next, color."
 })();
@@ -344,7 +394,7 @@ const Stopwatch: React.FC<{x: number; y: number; r: number; t: number; p: number
   const k = ease.outBack(clamp01(p));
   const fast = 300;
   const slow = 120;
-  const t0 = 381.2;
+  const t0 = T.altStart;
   const tb = T.slower - 0.1;
   const ang = t < t0 ? 0 : fast * (Math.min(t, tb) - t0) + slow * Math.max(0, t - tb);
   const lag = ramp(t, tb, tb + 3, ease.out);
@@ -387,7 +437,7 @@ const S3Room: React.FC<{t: number}> = ({t}) => {
         <text x={0} y={17} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={700} fontSize={50} fill={C.ink}>the… the…</text>
       </Bub>
       <Tag x={1560} y={850} anchor="center" text="Slower switching" kind="caution" size={40} p={ramp(t, T.slower + 0.1, T.slower + 0.7)} />
-      <NTag x={200} y={250} name="Emerson & Miyake" sub="Task-switching experiments" p={ramp(t, T.emerson - 0.4, T.emerson + 0.3) * (1 - ramp(t, T.slower - 0.9, T.slower - 0.4))} />
+      <NTag x={200} y={250} name="Emerson & Miyake" sub="Task-switching experiments" p={ramp(t, T.s3x - 0.15, T.s3x + 0.45) * (1 - ramp(t, T.slower - 0.9, T.slower - 0.4))} />
     </Stage>
   );
 };

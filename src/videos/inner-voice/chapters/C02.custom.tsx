@@ -10,7 +10,7 @@ import {Person} from '../../../kit/people';
 import {Icon} from '../../../kit/icons';
 import {Clock} from '../../../kit/env';
 import {Particles} from '../../../kit/fx';
-import {Beeper, ThoughtContent} from '../shared';
+import {Beeper, ThoughtContent, beepFlash} from '../shared';
 
 // ---- cues (spoken words as comments)
 const T = {
@@ -274,6 +274,19 @@ export const S3: React.FC<{t: number}> = ({t}) => {
       </Card>
       <Circled x={1120} y={470} rx={218} ry={240} p={circp} color={C.oxblood} thick={9} rot={-4} />
 
+      {/* the volunteer's day: random ticks, one fires with the beep */}
+      <g opacity={ramp(t, 67.1, 67.6) * (1 - ramp(t, 71.5, 72.3))} transform={`translate(0 ${(1 - ramp(t, 67.1, 67.7, ease.out)) * -30})`}>
+        <rect x={720} y={96} width={1080} height={84} rx={14} fill={C.paperLight} opacity={0.92} />
+        <line x1={760} y1={138} x2={1760} y2={138} stroke={C.ink} strokeWidth={5} strokeLinecap="round" />
+        {[800, 905, 1010, 1180, 1330, 1465, 1650].map((tx, i) => {
+          const hit = i === 3;
+          const tp = ramp(t, 67.25 + i * 0.1, 67.6 + i * 0.1, ease.outBack);
+          const fl = hit ? beepFlash(t, [T.beep]) : 0;
+          return (
+            <rect key={i} x={tx - 5 - fl * 4} y={138 - 20 - fl * 14} width={10 + fl * 8} height={(40 + fl * 28) * tp} rx={5} fill={hit ? C.theory : C.inkMute} />
+          );
+        })}
+      </g>
       <NTag x={120} y={200} name="Russell Hurlburt" sub="Psychologists" p={ramp(t, T.hurl - 0.45, T.hurl + 0.3)} />
       <NTag x={120} y={340} name="Chris Heavey" p={ramp(t, T.hurl + 0.05, T.hurl + 0.7)} />
     </Stage>
@@ -292,12 +305,14 @@ export const S5: React.FC<{t: number}> = ({t}) => {
   const lx = 960;
   const ly = lerp(560, 190, sp);
   const hl = ramp(t, T.never - 0.2, T.never + 0.3);
+  const cz = 1 + 0.1 * ease.inOut(ramp(t, 85.0, 85.8)) * (1 - ease.inOut(ramp(t, 87.5, 88.2)));
   return (
     <Stage bg={C.paperShade}>
       <rect x={0} y={760} width={1920} height={320} fill={C.stone} opacity={0.4} />
       <text x={lx} y={ly + fs * 0.34} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={700} fontSize={fs} fill={C.oxblood}>
         26%
       </text>
+      <g transform={`translate(810 760) scale(${cz}) translate(-810 -760)`}>
       {STRIPS.map((n, i) => {
         const x = 210 + i * 300;
         const ip = ramp(t, T.s5 + 0.3 + i * 0.12, T.s5 + 0.9 + i * 0.12, ease.out);
@@ -308,7 +323,8 @@ export const S5: React.FC<{t: number}> = ({t}) => {
             <ellipse cx={x} cy={692} rx={80} ry={10} fill={C.ink} opacity={0.12} />
             <Person x={x} y={690} s={0.62} t={t} skin={SKIN[i]} hair={HAIR[i]} outfit={OUT[i]} top={TOPS[(i + 2) % TOPS.length]} bottom={BOTS[i % BOTS.length]} seed={30 + i} expression="neutral" />
             {Array.from({length: 8}).map((_, k) => {
-              const fp = ramp(t, T.s5 + 1.2 + i * 0.1 + k * 0.07, T.s5 + 1.45 + i * 0.1 + k * 0.07, ease.outBack);
+              const f0 = i === 2 ? 85.2 + k * 0.23 : T.s5 + 1.2 + i * 0.1 + k * 0.07;
+              const fp = ramp(t, f0, f0 + 0.25, ease.outBack);
               const sx = x - 4 * 33 + k * 33 + 3;
               return (
                 <g key={k}>
@@ -322,6 +338,7 @@ export const S5: React.FC<{t: number}> = ({t}) => {
       })}
       <Tag x={510} y={850} anchor="center" text="Never" kind="theory" size={42} p={ramp(t, T.never - 0.1, T.never + 0.5)} />
       <Tag x={810} y={935} anchor="center" text="Roughly 3 out of 4" kind="theory" size={42} p={ramp(t, T.three - 0.15, T.three + 0.5)} />
+      </g>
       <Particles t={t} x={0} y={0} w={1920} h={1080} n={10} seed={7} size={[3,5]} color={C.theory} opacity={[0.1,0.3]} vy={-5} />
     </Stage>
   );

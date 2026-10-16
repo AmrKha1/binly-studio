@@ -51,6 +51,7 @@ const T = {
   end: 202.2,
 };
 
+const typed = (str: string, t: number, at: number, dur: number) => str.slice(0, Math.floor(str.length * ramp(t, at, at + dur, ease.linear) + 0.0001));
 const e = (t: number, a: number, b: number) => ramp(t, a, b, ease.out);
 const inv = (v: number) => 1 - v;
 
@@ -241,8 +242,9 @@ export const S4: React.FC<{t: number}> = ({t}) => {
     camAt(t, [
       [T.s4, 960, 540, 1.0],
       [T.s4 + 2.4, 960, 540, 1.04],
-      [T.narr - 0.3, 800, 500, 1.12],
-      [T.other - 0.4, 800, 500, 1.12],
+      [T.narr - 0.3, 800, 500, 1.1],
+      [T.why + 0.4, 690, 490, 1.24],
+      [T.other - 0.4, 690, 490, 1.24],
       [T.other + 0.9, 1000, 510, 1.04],
       [T.neither - 0.2, 1000, 510, 1.04],
       [T.neither + 1.6, 960, 540, 0.98],
@@ -277,11 +279,11 @@ export const S4: React.FC<{t: number}> = ({t}) => {
         <Person x={1400} y={FLOOR_Y - 8} s={SC} sit={1} facing={-1} outfit="casual" top={C.evidenceLight} skin={3} hair="curly" t={t} seed={7} look={glance * 0.8} expression={smile > 0.5 ? 'smile' : 'neutral'} />
 
         {/* left: narrating (dashed words) */}
-        <Bub x={480} y={330} w={560} h={120} dashed stroke={C.theory} to={HEAD_L} p={ramp(t, T.why - 0.1, T.why + 0.4)}>
-          <text x={0} y={14} textAnchor="middle" fontFamily="Fraunces, Georgia, serif" fontStyle="italic" fontSize={48} fill={C.theory}>Why did I say that?</text>
+        <Bub x={480} y={330} w={560} h={120} dashed stroke={C.theory} to={HEAD_L} p={ramp(t, T.narr - 0.15, T.narr + 0.5)}>
+          <text x={-235} y={14} textAnchor="start" fontFamily="Fraunces, Georgia, serif" fontStyle="italic" fontSize={48} fill={C.theory}>{typed('Why did I say that?', t, T.why, 0.9)}</text>
         </Bub>
-        <Bub x={760} y={185} w={800} h={120} dashed stroke={C.theory} p={ramp(t, T.leave - 0.1, T.leave + 0.4)}>
-          <text x={0} y={14} textAnchor="middle" fontFamily="Fraunces, Georgia, serif" fontStyle="italic" fontSize={46} fill={C.theory}>I need to leave in five minutes.</text>
+        <Bub x={760} y={185} w={800} h={120} dashed stroke={C.theory} p={ramp(t, T.leave - 0.35, T.leave + 0.2)}>
+          <text x={-350} y={14} textAnchor="start" fontFamily="Fraunces, Georgia, serif" fontStyle="italic" fontSize={46} fill={C.theory}>{typed('I need to leave in five minutes.', t, T.leave, 1.5)}</text>
         </Bub>
 
         {/* right: images and sensations, no words */}
@@ -513,7 +515,8 @@ export const S8: React.FC<{t: number}> = ({t}) => {
   const L = {x: 540, y: 570};
   const R = {x: 1380, y: 570};
   const SH = 1.05;
-  const draw = ramp(t, T.between - 0.2, T.between + 2.0, ease.inOut);
+  const draw = ramp(t, T.between - 0.4, T.between + 1.4, ease.inOut);
+  const trav = Math.min(draw, ramp(t, T.between + 0.2, T.between + 2.5, ease.inOut));
   const bend = ramp(t, T.back - 0.3, T.back + 1.5, ease.inOut);
   const fold = ramp(t, T.fold - 0.1, T.fold + 1.4, ease.inOut);
   const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
@@ -526,6 +529,12 @@ export const S8: React.FC<{t: number}> = ({t}) => {
   const ctlY = lerp(lerp(P0.y - 40, 190, bend), L.y - 280 * SH, fold);
   const d = `M${P0.x} ${P0.y} Q${ctlX} ${ctlY} ${endX} ${endY}`;
   const col = mixHex(C.ink, C.theory, fold);
+  const bez = (u: number) => ({x: (1 - u) * (1 - u) * P0.x + 2 * (1 - u) * u * ctlX + u * u * endX, y: (1 - u) * (1 - u) * P0.y + 2 * (1 - u) * u * ctlY + u * u * endY});
+  const bp = bez(trav);
+  const bubP = ramp(t, T.between - 0.4, T.between + 0.1);
+  const bubSc = 1 - 0.65 * ramp(t, T.fold, T.fold + 1.0, ease.inOut);
+  const bubPlum = ramp(t, T.fold + 0.1, T.fold + 0.5);
+  const bubOp = 1 - ramp(t, T.fold + 1.1, T.fold + 1.6);
   // spiral inside the head
   const sp = ramp(t, T.fold + 0.4, T.fold + 1.4);
   const spiral = (() => {
@@ -543,11 +552,11 @@ export const S8: React.FC<{t: number}> = ({t}) => {
   const split = ramp(t, T.messy, T.messy + 1.4, ease.inOut);
   const rFade = 1;
   const strands = [
-    {from: {x: 140, y: 190}, c: {x: 330, y: 190}, ph: 0},
-    {from: {x: 1000, y: 160}, c: {x: 780, y: 190}, ph: 7},
-    {from: {x: 160, y: 900}, c: {x: 330, y: 760}, ph: 13},
+    {from: {x: 70, y: 150}, c: {x: 330, y: 190}, ph: 0},
+    {from: {x: 1060, y: 90}, c: {x: 800, y: 150}, ph: 7},
+    {from: {x: 80, y: 990}, c: {x: 330, y: 780}, ph: 13},
   ];
-  const cam = camAt(t, [[T.messy + 1.4, 960, 540, 1.0], [T.messy + 2.2, 960, 540, 1.0], [T.end, L.x - 10, L.y - 50, 5.2]], ease.inOut);
+  const cam = camAt(t, [[T.messy - 0.2, 960, 540, 1.0], [T.messy + 1.2, 930, 540, 0.9], [T.messy + 2.2, 930, 540, 0.9], [T.end, L.x - 10, L.y - 50, 5.2]], ease.inOut);
   const inkR = ramp(t, T.end - 1.5, T.end - 0.2, ease.inOut);
   return (
     <Stage bg={C.paper}>
@@ -557,17 +566,54 @@ export const S8: React.FC<{t: number}> = ({t}) => {
         </g>
         <HeadProfile x={L.x} y={L.y} s={SH} facing="right" skin={C.skin[1]} t={t} />
         {draw > 0 && <path d={d} fill="none" stroke={col} strokeWidth={10} strokeLinecap="round" strokeDasharray={fold > 0.7 ? '16 12' : undefined} pathLength={1} style={draw < 1 ? {strokeDasharray: `${draw} 1`} : undefined} opacity={1 - split * 0.5} />}
-        {draw > 0 && draw < 1 && <circle cx={lerp(P0.x, endX, draw)} cy={lerp(P0.y, endY, draw) - 20 * Math.sin(draw * Math.PI)} r={10} fill={C.ink} />}
+        {bubP > 0 && (
+          <Bub x={bp.x} y={bp.y - 30} w={210} h={140} p={bubP} sc={bubSc} op={bubOp} dashed={bubPlum > 0.5} stroke={bubPlum > 0.5 ? C.theory : C.ink} fill={bubPlum > 0.5 ? C.theoryTint : C.paperLight}>
+            <rect x={-66} y={-34} width={132} height={17} rx={6} fill={bubPlum > 0.5 ? C.theory : C.ink} />
+            <rect x={-66} y={-4} width={92} height={17} rx={6} fill={bubPlum > 0.5 ? C.theory : C.ink} />
+            <rect x={-66} y={26} width={112} height={17} rx={6} fill={bubPlum > 0.5 ? C.theory : C.ink} />
+          </Bub>
+        )}
+        {/* #5 evidence cards pinned on the folded line */}
+        {[0, 1, 2].map((i) => {
+          const q = ease.outBack(ramp(t, T.evid - 0.15 + i * 0.25, T.evid + 0.35 + i * 0.25)) * (1 - ramp(t, T.messy - 0.5, T.messy + 0.1));
+          if (q <= 0.01) return null;
+          const cpos = [{x: 930, y: 610}, {x: 900, y: 440}, {x: 720, y: 350}][i];
+          const pin = bez([0.15, 0.45, 0.7][i]);
+          return (
+            <g key={i}>
+              <line x1={pin.x} y1={pin.y} x2={cpos.x} y2={cpos.y} stroke={C.evidence} strokeWidth={4} opacity={q} />
+              <g transform={`translate(${cpos.x} ${cpos.y}) rotate(${[-4, 3, -3][i]}) scale(${q})`}>
+                <rect x={-100} y={-70} width={200} height={140} rx={12} fill={C.paperLight} stroke={C.evidence} strokeWidth={6} />
+                <rect x={-70} y={-40} width={140} height={14} rx={5} fill={C.evidenceTint} />
+                <rect x={-70} y={-12} width={100} height={14} rx={5} fill={C.evidenceTint} />
+                <rect x={-70} y={16} width={120} height={14} rx={5} fill={C.evidenceTint} />
+              </g>
+              <circle cx={pin.x} cy={pin.y} r={9 * q} fill={C.evidence} />
+            </g>
+          );
+        })}
+        {/* #6 could / did: origin gets a dashed mustard circle with ? */}
+        {(() => {
+          const qp = ramp(t, T.could - 0.2, T.could + 0.4) * (1 - ramp(t, T.messy - 0.4, T.messy + 0.1));
+          if (qp <= 0) return null;
+          const k = ease.outBack(qp);
+          return (
+            <g transform={`translate(${P0.x} ${P0.y}) scale(${k})`} opacity={qp}>
+              <circle r={82} fill={C.paperLight} fillOpacity={0.85} stroke={C.caution} strokeWidth={7} strokeDasharray="14 11" />
+              <text x={0} y={34} textAnchor="middle" fontFamily="Fraunces, Georgia, serif" fontWeight={700} fontSize={104} fill={C.caution}>?</text>
+            </g>
+          );
+        })()}
         {sp > 0 && <path d={spiral} fill="none" stroke={C.theory} strokeWidth={9} strokeLinecap="round" strokeDasharray="16 12" opacity={sp * (1 - 0.3 * split)} />}
         {split > 0 &&
           strands.map((s, i) => {
-            const p2 = ramp(t, T.messy + i * 0.25, T.messy + i * 0.25 + 1.3, ease.inOut);
+            const p2 = ramp(t, T.messy - 0.1 + i * 0.2, T.messy - 0.1 + i * 0.2 + 1.2, ease.out);
             const tx = L.x - 10;
             const ty = L.y - 50;
             return (
               <g key={i}>
-                <path d={`M${s.from.x} ${s.from.y} Q${s.c.x} ${s.c.y} ${tx} ${ty}`} fill="none" stroke={C.theory} strokeWidth={6} strokeLinecap="round" strokeDasharray="14 12" pathLength={1} style={{strokeDasharray: p2 < 1 ? `${p2} 1` : '0.025 0.02'}} strokeDashoffset={p2 < 1 ? 0 : -((t * 0.06 + s.ph) % 0.045)} />
-                <circle cx={s.from.x} cy={s.from.y} r={13 * p2} fill={C.theory} />
+                <path d={`M${tx} ${ty} Q${s.c.x} ${s.c.y} ${s.from.x} ${s.from.y}`} fill="none" stroke={C.theory} strokeWidth={9} strokeLinecap="round" strokeDasharray="14 12" pathLength={1} style={{strokeDasharray: p2 < 1 ? `${p2} 1` : '0.025 0.02'}} strokeDashoffset={p2 < 1 ? 0 : -((t * 0.06 + s.ph) % 0.045)} />
+                <circle cx={s.from.x} cy={s.from.y} r={17 * ease.outBack(ramp(p2, 0.8, 1))} fill={C.theory} />
               </g>
             );
           })}

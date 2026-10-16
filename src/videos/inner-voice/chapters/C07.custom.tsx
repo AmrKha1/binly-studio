@@ -160,9 +160,11 @@ export const S3: React.FC<{t: number}> = ({t}) => {
   const dashed = ramp(t, T.critics + 0.3, T.critics + 0.9);
   const card = ramp(t, T.anend - 0.2, T.anend + 0.6);
   const bar = ramp(t, T.s3 - 0.1, T.s3 + 0.7, ease.inOut);
+  const cam = camAt(t, [[T.critics - 0.4, 960, 540, 1, 0], [T.critics + 0.7, 560, 640, 1.45, 0]], ease.inOut);
+  const ring = ramp(t, T.critics + 0.5, T.critics + 1.4, ease.inOut);
   return (
     <Stage bg={C.paperShade}>
-      <Cam cam={breathe({cx: 960, cy: 540, z: 1, r: 0}, t, 0.5)}>
+      <Cam cam={breathe(cam, t, 0.4)}>
         <Kicker x={1680} y={610} text="INNER SPEECH" anchor="end" size={42} color={C.inkSoft} p={ramp(t, T.s3, T.s3 + 0.6)} />
         <g opacity={bar}>
           {/* main bar */}
@@ -175,14 +177,16 @@ export const S3: React.FC<{t: number}> = ({t}) => {
         <Txt x={240} y={y + 100} text="None" size={44} anchor="start" color={dashed > 0.5 ? C.caution : ink} p={ramp(t, T.critics - 0.1, T.critics + 0.5)} />
         {/* marker at low end */}
         <path d={`M560 ${y - 34} l-22 -40 h44 Z`} fill={C.theory} opacity={card} />
-        <QuestionMark x={285} y={y - 80} size={110} p={ramp(t, T.critics + 0.5, T.critics + 1.1)} color={C.caution} />
+        <QuestionMark x={285} y={y - 80} size={110} p={ramp(t, 458.0, 458.6)} color={C.caution} />
+        {ring > 0.02 && <ellipse cx={297} cy={y + 88} rx={104} ry={52} fill="none" stroke={C.oxblood} strokeWidth={9} strokeLinecap="butt" pathLength={1} strokeDasharray={`${ring} 1`} transform={`rotate(-4 297 ${y + 88})`} />}
         {/* term card */}
-        <Card x={960} y={340} w={940} h={290} p={card} rot={-1}>
+        <g opacity={1 - ramp(t, T.critics - 0.2, T.critics + 0.5)}><Card x={960} y={340} w={940} h={290} p={card} rot={-1}>
           <rect x={0} y={0} width={14} height={290} fill={C.theory} />
           <Txt x={50} y={160} text="anendophasia" size={124} font="serif" anchor="start" />
           <Txt x={52} y={242} text="a lack of inner speech" size={52} font="serif" weight={500} color={C.inkSoft} anchor="start" p={ramp(t, T.anend + 1.2, T.anend + 1.9)} />
         </Card>
         <path d={`M560 ${y - 36} L560 500`} stroke={C.theory} strokeWidth={6} strokeDasharray="12 10" strokeLinecap="round" fill="none" opacity={card} />
+        </g>
       </Cam>
     </Stage>
   );
@@ -245,8 +249,9 @@ export const S7: React.FC<{t: number}> = ({t}) => {
   const R = {x: 1380, y: 600};
   const SH = 1.05;
   const draw = ramp(t, T.s7 + 0.6, T.s7 + 3.0, ease.inOut);
-  const bend = ramp(t, T.inward - 0.3, T.inward + 1.4, ease.inOut);
-  const fold = ramp(t, T.fold - 0.1, T.fold + 1.3, ease.inOut);
+  const trav = ramp(t, T.inward - 0.1, 488.3, ease.inOut);
+  const bend = ramp(t, 488.3, 489.1, ease.inOut);
+  const fold = ramp(t, 488.6, 489.7, ease.inOut);
   const P0 = {x: L.x + 215 * SH, y: L.y + 80 * SH};
   const endX = lerp(lerp(R.x - 170 * SH, L.x + 40, bend), L.x - 20, fold);
   const endY = lerp(lerp(R.y - 10, L.y - 120 * SH, bend), L.y - 40, fold);
@@ -254,7 +259,13 @@ export const S7: React.FC<{t: number}> = ({t}) => {
   const ctlY = lerp(lerp(P0.y - 40, 190, bend), L.y - 280 * SH, fold);
   const d = `M${P0.x} ${P0.y} Q${ctlX} ${ctlY} ${endX} ${endY}`;
   const col = mixHex(ink, C.theory, fold);
-  const sp = ramp(t, T.fold + 0.4, T.fold + 1.4);
+  const sp = ramp(t, 489.0, 489.8);
+  const u = trav;
+  const bx = (1 - u) * (1 - u) * P0.x + 2 * (1 - u) * u * ctlX + u * u * endX;
+  const by = (1 - u) * (1 - u) * P0.y + 2 * (1 - u) * u * ctlY + u * u * endY;
+  const bpop = ease.outBack(ramp(t, T.inward - 0.2, T.inward + 0.3));
+  const bsc = 1.7 * bpop * (1 - 0.5 * fold);
+  const plum = fold > 0.5;
   let spiral = '';
   for (let i = 0; i <= 40; i++) {
     const a = i * 0.34;
@@ -268,6 +279,14 @@ export const S7: React.FC<{t: number}> = ({t}) => {
         <HeadProfile x={L.x} y={L.y} s={SH} facing="right" skin={C.skin[1]} t={t} />
         {draw > 0 && <path d={d} fill="none" stroke={col} strokeWidth={10} strokeLinecap="round" strokeDasharray={fold > 0.7 ? '16 12' : undefined} pathLength={1} style={draw < 1 ? {strokeDasharray: `${draw} 1`} : undefined} />}
         {draw > 0 && draw < 1 && <circle cx={lerp(P0.x, endX, draw)} cy={lerp(P0.y, endY, draw) - 20 * Math.sin(draw * Math.PI)} r={10} fill={ink} />}
+        {bpop > 0 && (
+          <g transform={`translate(${bx} ${by - 30}) scale(${bsc})`} opacity={1 - 0.2 * fold}>
+            <rect x={-80} y={-55} width={160} height={110} rx={30} fill={plum ? mixHex(C.paperLight, C.theoryTint, 0.5) : C.paperLight} stroke={plum ? C.theory : ink} strokeWidth={8} strokeDasharray={plum ? "16 11" : undefined} />
+            {[[-48, -22, 96], [-48, 2, 66], [-48, 26, 82]].map(([a, b, w], j) => (
+              <rect key={j} x={a} y={b} width={w} height={12} rx={6} fill={plum ? C.theory : ink} />
+            ))}
+          </g>
+        )}
         {sp > 0 && <path d={spiral} fill="none" stroke={C.theory} strokeWidth={9} strokeLinecap="round" strokeDasharray="16 12" opacity={sp} />}
       </Cam>
       <Tag x={960} y={150} anchor="center" kind="confirmed" size={46} text="Best-supported picture" p={ramp(t, T.s7 + 0.2, T.s7 + 0.8)} />

@@ -16,7 +16,7 @@ import {mix} from '../shared/util';
 const T = {
   s1: 512.6, // "…starts being about you."
   oneMind: 518.0, // "exactly one mind"
-  average: 520.8, // "the average one"
+  average: 520.05, // "assumed it was the average one"
   s2: 521.9, // "The mistake isn't believing something false"
   nextTo: 525.5, // "the person next to you"
   s3: 527.9, // "So try one move."
@@ -221,7 +221,7 @@ export const S1: React.FC<{t: number}> = ({t}) => {
         {/* "everyone has a copy of mine" */}
         {copies.map((p, i) => {
           const h = headOf(p.x);
-          return <MindBubble key={p.seed} x={h.x} y={h.y - 150} p={e(t, T.average + i * 0.12, T.average + 0.5 + i * 0.12)} color={C.caution} t={t} seed={p.seed} />;
+          return <MindBubble key={p.seed} x={h.x} y={h.y - 150} s={1.25} p={e(t, T.average + i * 0.12, T.average + 0.45 + i * 0.12)} color={C.caution} t={t} seed={p.seed} />;
         })}
         <MindBubble x={you.x} y={you.y - 150} p={e(t, T.average - 0.1, T.average + 0.4)} color={C.theory} t={t} seed={7} />
       </Cam>

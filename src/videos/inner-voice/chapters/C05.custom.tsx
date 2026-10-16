@@ -280,10 +280,14 @@ export const S6: React.FC<{t: number}> = ({t}) => {
   const mark = 1260;
   const cx = lerp(tx0, mark, cur) + (cur >= 1 ? (t - T.ba) * 90 : 0);
   const m1 = ramp(t, 300.9, 301.8, ease.out);
-  const dipA = ramp(t, 306.2, 308.0, ease.inOut);
-  const dipB = ramp(t, T.nomatch - 0.2, T.nomatch + 1.4, ease.inOut);
+  const dipA = ramp(t, 307.4, 309.0, ease.inOut);
+  const shrink = ramp(t, 310.1, 310.9, ease.inOut);
+  const slideA = ramp(t, 306.9, 307.5, ease.out);
+  const slideB = ramp(t, 311.0, 311.45, ease.in);
+  const bounce = ramp(t, 311.45, 312.0, ease.out);
+  const dipB = ramp(t, 312.0, 312.9, ease.out);
   const yb = 735;
-  const curA = erp(640, 1160, yb, 70, t);
+  const curA = erp(640, 1160, yb, lerp(150, 70, shrink), t);
   const curB = erp(1260, 1780, yb, 150, t);
   const ref = erp(640, 1160, yb, 150, t);
   const HX = 300;
@@ -317,9 +321,10 @@ export const S6: React.FC<{t: number}> = ({t}) => {
         {[{x: 620, a: 'ba', c: 'ba', wait: 1 - dipA}, {x: 1240, a: 'bi', c: 'ba', wait: 1 - dipB}].map((pn, i) => (
           <g key={i}>
             <rect x={pn.x} y={500} width={560} height={410} rx={28} fill={C.paperLight} stroke={C.paperDark} strokeWidth={3} />
-            <Chip x={pn.x + 150} y={585} text={pn.a} inner p={1} size={60} w={130} />
-            <Txt x={pn.x + 280} y={606} text="+" size={56} color={C.inkMute} />
+            <Chip x={pn.x + 150 + (i === 0 ? slideA * 126 : slideB * 126 - bounce * 70)} y={585} text={pn.a} inner p={1} size={60} w={130} />
+            <Txt x={pn.x + 280} y={606} text="+" size={56} color={C.inkMute} o={i === 0 ? 1 - slideA : 1 - slideB * (1 - bounce)} />
             <Chip x={pn.x + 410} y={585} text={pn.c} p={1} size={60} w={130} />
+            {i === 0 ? <Txt x={pn.x + 280} y={672} text="✓ MATCH" size={42} color={C.evidence} font={FONT_SANS} weight={700} o={slideA > 0.9 ? 1 : 0} /> : <Txt x={pn.x + 280} y={672} text="✗ NO MATCH" size={42} color={C.caution} font={FONT_SANS} weight={700} o={bounce > 0.3 ? 1 : 0} />}
             <path d={`M${pn.x + 20} ${yb} H${pn.x + 540}`} stroke={C.paperDark} strokeWidth={3} />
             <Txt x={pn.x + 280} y={yb + 40} text="?" size={110} color={C.theoryLight} o={pn.wait * 0.55} />
           </g>
@@ -328,7 +333,7 @@ export const S6: React.FC<{t: number}> = ({t}) => {
         <path d={smoothD(curA)} fill="none" stroke={C.evidence} strokeWidth={9} strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray={`${dipA} 1.01`} />
         <path d={smoothD(curB)} fill="none" stroke={C.theory} strokeWidth={9} strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray={`${dipB} 1.01`} />
       </g>
-      <Tag x={640} y={975} text="Weaker response" kind="confirmed" size={42} p={ramp(t, T.matched + 0.6, T.matched + 1.1, ease.out)} />
+      <Tag x={640} y={975} text="Weaker response" kind="confirmed" size={42} p={ramp(t, 310.4, 310.9, ease.out)} />
       <Tag x={1260} y={975} text="No change" kind="ink" size={42} p={ramp(t, T.nomatch + 1.0, T.nomatch + 1.5, ease.out)} />
     </Stage>
   );
@@ -400,11 +405,15 @@ export const S8: React.FC<{t: number}> = ({t}) => {
 
 // S9 · 335.40 · measured / not measured
 export const S9: React.FC<{t: number}> = ({t}) => {
-  const a = ramp(t, T.limits - 0.3, T.limits + 0.5, ease.out);
-  const b = ramp(t, T.notm - 0.3, T.notm + 0.5, ease.out);
-  const k = ramp(t, T.measured, T.measured + 0.5, ease.outBack);
+  const a = ramp(t, 337.0, 337.7, ease.out);
+  const b = ramp(t, 339.1, 339.8, ease.out);
+  const k = ramp(t, 337.5, 338.0, ease.outBack);
+  const ic = ramp(t, 335.3, 336.3, ease.out);
+  const icon = erp(810, 1110, 135, 55, t);
   return (
     <Stage bg={C.paperShade}>
+      <path d="M790 135 H1130" stroke={C.paperDark} strokeWidth={4} opacity={ic} />
+      <path d={smoothD(icon)} fill="none" stroke={C.theory} strokeWidth={8} strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray={`${ic} 1.01`} />
       <Card x={960} y={340} w={1340} h={280} p={a} rot={-0.6}>
         <circle cx={150} cy={140} r={62} fill={C.evidence} />
         <path d="M118 140 L142 166 L186 112" fill="none" stroke={C.paperLight} strokeWidth={18} strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1 1" pathLength={1} style={{strokeDasharray: `${k} 1.01`}} />
