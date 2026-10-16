@@ -117,5 +117,12 @@ if (!only && (sigs.length < 5 || sigs.length > 8)) {
   flags++;
   console.log(`  SIGNATURE count ${sigs.length} → mark 5–8 shots "signature": true, each with a ★ hero brief`);
 }
+// pace: the owner's videos — 6.8 s per shot felt right, 8.2 s felt slow
+const avg = seq.length ? (seq[seq.length - 1].end - seq[0].start) / seq.length : 0;
+console.log(`\nPace: ${seq.length} shots, average ${avg.toFixed(1)} s per shot (aim ~6–7 s)`);
+if (!only && avg > 8) {
+  flags++;
+  console.log('  PACE average over 8 s → too slow for brisk storytelling: split the longest shots');
+}
 console.log(`\nplan-check ${slug}: ${shotsTotal} shots · ${longTotal} long · ${stillTotal} still sentences · ${sameTotal} same-in-a-row · ${flatTotal} flat · ${flags ? `${flags} flag(s) — fix or justify ("ok") before building` : 'PASS'}`);
 process.exit(flags ? 1 : 0);
