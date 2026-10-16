@@ -7,7 +7,8 @@ every decision serves a viewer who should not want to stop watching (docs/RETENT
 2. **Then create** what this video needs that doesn't exist yet — new shots, art, characters, ideas — and always for the
    hook, the big reveals and the signature moments. That's what makes each video special.
 3. **Reuse is the default for supporting beats** — create something new there only when reuse would be *clearly* worse.
-   But every video gets its OWN identity: its motif and roughly 3–6 new pieces made for THIS story (a guide, not a quota) (hook, signature moments,
+   But every video gets its OWN identity: its motif and 3–6 new shared pieces made for THIS story (a guide, not a quota; up to ~8 for image-poor topics
+   like science/psychology) (hook, signature moments,
    the core ideas' visuals). A video that only re-arranges past pieces feels like a repeat — viewers notice.
 The user puts a voiceover + script in `input/` (the VOICEOVER is the truth — timing and wording follow what was said;
 the script only fixes spelling of names/numbers) and uses these commands (skills):

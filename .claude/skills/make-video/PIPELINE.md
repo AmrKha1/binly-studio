@@ -33,8 +33,10 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   ONE big visual idea/world) · palette leaning (within the Binly system) · recurring motifs and what they mean ·
   recurring characters/objects/places → **reuse first**: check `docs/KIT-INDEX.md` and `docs/ASSETS.md` (pieces built in
   past videos); only what's missing becomes a **new shared component** in `src/videos/<slug>/shared/` (name, file, props,
-  look) — **roughly 3–6 per video, made for THIS story** (a guide, not a quota: the story decides — never build a
-  piece just to reach a number) (its motif, the signature moments, the core ideas' visuals — what makes
+  look) — **3–6 new shared pieces per video, made for THIS story** (a guide, not a quota); **up to ~8 for image-poor
+  topics** (science, psychology — animation carries everything there), sized by the story's core ideas and signature
+  moments. More only with a reason written in plan.md; never build a piece just to reach a number. One-off custom
+  visuals inside chapters are not counted (its motif, the signature moments, the core ideas' visuals — what makes
   this video unlike the last one); reuse covers the supporting beats (every NEW piece is built FLEXIBLY — props for era, colour, pose, size — so
   future videos can reuse it by changing a setting instead of building again); everything else uses existing pieces · **visual concept**: a concrete, moving visual for EACH core idea (the mechanism,
   not a label) and the 5–8 signature moments people will remember · **retention map**: what changes every ~30–60 s (open
