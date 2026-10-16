@@ -1,6 +1,7 @@
 // Plan check — runs on the shot lists BEFORE any building (cheap: text only, no rendering).
 // Catches the "words said but nothing new on screen" problem:
-//   • LONG shot     — longer than 10 s (aim ≤ ~8 s; a moving camera carrying several beats may justify more)
+//   • LONG shot     — longer than 10 s with a sentence that has no beat, or longer than 20 s (a 10–20 s shot where
+//                     every sentence has its own beat — moving camera, new elements — passes as "long ok")
 //   • STILL SENTENCE — a spoken sentence that starts with no visible change near it (no shot start, no beat)
 //   • SAME  — 3 shots in a row with the same template, or 3 text / diagram / image / data shots in a row
 //   • FLAT  — more than 60 s (story scenes: 120 s) without a switch of visual mode (scene / character / diagram / map / image / text / data)
@@ -17,7 +18,8 @@ const a = args();
 const active = fs.readFileSync(path.join(ROOT, 'src', 'active.ts'), 'utf8').match(/videos\/([^']+)'/)?.[1];
 const slug = a.slug ?? active;
 const vdir = path.join(ROOT, 'videos', slug);
-const LONG = 10; // s
+const LONG = 10; // s — a long shot passes if every sentence in it has its own beat (alive); flagged if not
+const TOO_LONG = 20; // s — always flagged (even a lively shot this long should usually be split)
 const NEAR = 1.2; // s — a change this close to a sentence start counts as its visual
 
 const words = JSON.parse(fs.readFileSync(path.join(vdir, 'timing', 'words.json'), 'utf8'));
@@ -71,11 +73,13 @@ for (const ch of chapters) {
     const changes = [s.start, ...(s.beats ?? []), ...(s.custom ? [] : templateBeats(s.props))];
     const said = sentences.filter((x) => x.s >= s.start - 0.3 && x.s < end - 0.3);
     const still = said.filter((x) => !changes.some((c) => Math.abs(c - x.s) <= NEAR || (c > x.s && c < x.s + NEAR)));
-    const isLong = dur > LONG;
+    const isLong = dur > TOO_LONG || (dur > LONG && still.length > 0);
+    const longAlive = dur > LONG && !isLong;
     if (s.ok) {
       if (isLong || still.length) lines.push(`  ok   ${s.id} ${mmss(s.start)} ${dur.toFixed(1)} s — accepted: ${s.ok}`);
       return;
     }
+    if (longAlive) lines.push(`  long ok ${s.id} ${mmss(s.start)} ${dur.toFixed(1)} s — alive: every sentence has a beat`);
     if (isLong) { longTotal++; flags++; lines.push(`  LONG ${s.id} ${mmss(s.start)}–${mmss(end)} ${dur.toFixed(1)} s, ${said.length} sentences, ${changes.length - 1} beats → split, or add beats + camera travel`); }
     for (const x of still) { stillTotal++; flags++; lines.push(`  STILL ${s.id} ${mmss(x.s)} "${x.text.slice(0, 70)}${x.text.length > 70 ? '…' : ''}" → give it a visible change (beat at ${x.s.toFixed(2)})`); }
   });

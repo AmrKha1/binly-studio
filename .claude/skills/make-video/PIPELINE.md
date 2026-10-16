@@ -92,7 +92,8 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
 `tools/compile-shots.mjs`): template shots with their props, custom shots as `{"id":"S4","start":…,"custom":true,"note":"…","beats":[t1,t2,…]}` (`beats` = cue times of
 the visible changes inside the shot, one per sentence after the first; `mode` = scene | character | diagram | map |
 image | text | data — templates set it themselves). Then run `node tools/plan-check.mjs` — it flags
-shots > 10 s and sentences with no visible change (text only, costs nothing). Fix every flag (split the shot, add a beat
+long shots that go still (> 10 s with a beat-less sentence, or > 20 s — a lively 10–20 s shot with a beat per sentence
+passes), sentences with no visible change (text only, costs nothing). Fix every flag (split the shot, add a beat
 or a camera travel) or accept it on purpose with `"ok":"why"` on that shot.
 
 **2c · Plan improvement (one round, text only)** — re-read plan + briefs as a tough YouTube editor who wants viewers
