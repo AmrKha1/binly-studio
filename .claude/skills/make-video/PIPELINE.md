@@ -39,9 +39,11 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   visuals inside chapters are not counted (its motif, the signature moments, the core ideas' visuals — what makes
   this video unlike the last one); reuse covers the supporting beats (every NEW piece is built FLEXIBLY — props for era, colour, pose, size — so
   future videos can reuse it by changing a setting instead of building again); everything else uses existing pieces · **visual concept**: a concrete, moving visual for EACH core idea (the mechanism,
-  not a label) and the 5–8 signature moments people will remember · **retention map**: what changes every ~30–60 s (open
-  loop, reveal, re-hook at each chapter start, a switch of visual mode — scene / character / diagram / map / real image)
-  so no minute feels the same as the last · chapter overview · music arc · the hook (what the first ~30 s show) · the real archival images the story needs — as many as truly help, no fixed limit (delegate searching
+  not a label) and the 5–8 signature moments people will remember · **retention map**: what changes every ~30–60 s (a reveal,
+  a re-hook at each chapter start, a switch of visual mode — scene / character / diagram / map / real image) so no minute
+  feels the same as the last; **1–2 big open loops across the whole video**, paid off at the climax — never answer them
+  early, never bury the payoff under setup (too many teases and viewers stop trusting the payoff); smaller questions are
+  raised and answered within a chapter · chapter overview · music arc · the hook (what the first ~30 s show) · the real archival images the story needs — as many as truly help, no fixed limit (delegate searching
   to `binly-scout` subagents — cheap Haiku — with the queries, in batches per chapter; pick from their shortlists, fetch
   with `tools/photo.mjs get`, and name them in the shot lists with an archival template: KenBurnsShot, DetailHuntShot,
   MontageShot, CollageShot, CompareImagesShot, DocumentScanShot, AnnotatedImageShot, ImageInWorldShot,
