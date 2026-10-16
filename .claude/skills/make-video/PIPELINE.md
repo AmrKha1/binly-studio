@@ -68,11 +68,15 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   **Beat rule (explain, don't narrate over a still):** EVERY spoken sentence gets its own visible change on its cue
   word — a new element, a camera move, or a cut. An explanation shows the MECHANISM moving (cause → effect animated:
   the signal travels, the pattern lights up, the number fills), never a label or text card restating what is said.
+  Don't over-correct: a visible change can be a camera move, a highlight or ONE element appearing — not a new cut every
+  sentence. Payoff moments and big reveals may hold 2–3 s (mark them `"ok":"payoff hold"`). Busy and choppy loses
+  viewers as surely as still does.
   **Flow line** at the top of each brief: the chapter's visual journey — which world(s), how the camera travels
   (push into the detail, pull back to reveal, pan to the next idea, one world rather than a slideshow), and how each
   shot hands over to the next (match cut, push-through, ink, iris — motivated and varied, never the same one in a row).
-  Reference for this craft: the shot lists of a past video the owner liked (`videos/medieval-bathing/shots/` + briefs)
-  — read the text, never re-render it.
+  Reference for pacing and structure (not for beats): the shot lists of a past video the owner liked
+  (`videos/medieval-bathing/shots/` + briefs) — read the text, never re-render it. The standard for beats is
+  `docs/EXAMPLE-BRIEF.md` + the beat rule.
 - `videos/<slug>/score.json` — music: `{"key":"D","mode":"minor","bpm":68,"seed":3,"sections":[{"t":0,"mood":"curious"},…],"accents":[{"t":…,"kind":"drop","dur":2},…]}`
   Moods: curious, wonder, tension, dark, build, reflective, warm, neutral, playful, sad, triumphant.
   Accents: swell, drop, resolve, sting, silence. Change mood at pivots/chapters, not every 10 s.
@@ -129,6 +133,10 @@ short list for /polish-video; move on. Spot-check only boundaries with a special
 **5b · Hook pass (once, before the final render)** — when all chapters are done, look at C01's frame sheet with everything
 learned during production. If every shot in the first ~60 s is signature-level, move on. Otherwise rebuild only the weak
 shots (usually 1–2) with an Opus builder on medium effort (the same builder if it's still alive) — one round only, never a loop.
+
+**5c · Sync check (once, before the final render)** — `node tools/sync-check.mjs` (background, ~1 min per chapter, no
+tokens: it compares pixels itself) lists sentences whose picture barely changes. Fix the real ones in one round (send the
+list to the chapter's builder); an intentional payoff hold is fine — leave it.
 
 **6 · Render** — `node tools/check.mjs` must pass. Then `node tools/cloud.mjs render <slug>` in the background
 (parallel cloud render, ~10–20 min for 15 min of video). Optional earlier: a partial preview of a chapter

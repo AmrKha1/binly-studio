@@ -2,12 +2,17 @@
 A builder must be able to build every shot WITHOUT GUESSING: what we see (size + focus), what moves in what order on
 which words, exact on-screen text, which kit pieces/images, the camera, how it enters and leaves, and when it's done.
 Specify the WHAT precisely; leave the HOW (exact curves, small details, polish) to the builder's craft.
+Beat rule: every spoken sentence gets its own visible change on its cue word (camera move, highlight or ONE strong
+element — not a cut per sentence); the shots JSON declares those cue times as `beats` and each custom shot's `mode`.
 
 ---
 # C02 · 01:24.0–02:51.0 · "A public square with water in it"
 **Purpose:** destroy the "medieval people were dirty" myth with a lively, crowded, joyful bathhouse — then pivot to medicine.
 **Enters from:** C01 ends on a single steaming tub (close). **Hands off to:** C03 enters from the four-humors diagram (ink).
 **Mood:** warm, playful → curious. Palette leaning: warm paper, wood, steam; oxblood only on "medicine".
+**Flow line:** one continuous journey — a dusk city → the camera pushes THROUGH the bathhouse roof into the warm interior
+(scene) → paper slide to what it offered (diagram) → match to a real manuscript of a Paris bathhouse street (image).
+Three modes in 29 s, no cut without a reason.
 
 **S1 [01:24.0–01:31.6] "Picture a medieval European city in the 1300s."** — custom
 - SIZE + FOCUS: wide establishing; a medieval city skyline at dusk, focus on a steaming bathhouse roof centre-right.
@@ -37,10 +42,12 @@ Specify the WHAT precisely; leave the HOW (exact curves, small details, polish) 
 shots/C02.json (the template shots as data):
 ```json
 {"shots":[
- {"id":"S1","start":84.0,"custom":true,"note":"medieval city at dusk, push toward steaming bathhouse; Kicker PARIS · 1300s"},
- {"id":"S2","start":91.6,"custom":true,"note":"bathhouse interior, shared tubs, laughing bathers","in":{"kind":"zoom","x":1250,"y":420}},
+ {"id":"S1","start":84.0,"custom":true,"mode":"scene","note":"medieval city at dusk, push toward steaming bathhouse; Kicker PARIS · 1300s","beats":[86.3,89.4]},
+ {"id":"S2","start":91.6,"custom":true,"mode":"scene","note":"bathhouse interior, shared tubs, laughing bathers","beats":[93.0,96.2],"in":{"kind":"zoom","x":1250,"y":420}},
  {"id":"S3","start":98.9,"template":"ListShot","props":{"title":"What the bathhouse offered","items":[{"label":"Food","icon":"flame"},{"label":"Drink","icon":"drop"},{"label":"Conversation","icon":"speech"}],"cues":[99.4,100.2,101.0]},"in":{"kind":"paper","dir":"left"}},
  {"id":"S4","start":106.0,"template":"EvidenceShot","props":{"src":"img/paris-bathhouse.jpg","caption":"A bathhouse, Paris, 15th century","mark":{"rx":0.7,"ry":0.2,"rw":0.2,"rh":0.15,"at":110.8},"tag":{"text":"Documented","kind":"confirmed"}}}
 ]}
 ```
+(`beats` = the cue times of the visible changes inside a custom shot: S1's smoke rising on "city" and the PARIS · 1300s
+kicker on "1300s". Template shots count their own reveal times — S3's `cues`, S4's `mark.at`. Then `node tools/plan-check.mjs`.)
 (Prop names match src/kit/templates.tsx; EvidenceShot gets `slug` automatically. If a compile fails, check docs/kit/templates.md.)
