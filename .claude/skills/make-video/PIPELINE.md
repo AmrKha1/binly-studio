@@ -33,8 +33,12 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   ONE big visual idea/world) · palette leaning (within the Binly system) · recurring motifs and what they mean ·
   recurring characters/objects/places → **reuse first**: check `docs/KIT-INDEX.md` and `docs/ASSETS.md` (pieces built in
   past videos); only what's missing becomes a **new shared component** in `src/videos/<slug>/shared/` (name, file, props,
-  look) — at most ~4 per video, the ones the story really needs (every NEW piece is built FLEXIBLY — props for era, colour, pose, size — so
-  future videos can reuse it by changing a setting instead of building again); everything else uses existing pieces or simpler staging · chapter overview · music arc · the hook (what the first ~30 s show) · the real archival images the story needs — as many as truly help, no fixed limit (delegate searching
+  look) — **3–6 per video, made for THIS story** (its motif, the signature moments, the core ideas' visuals — what makes
+  this video unlike the last one); reuse covers the supporting beats (every NEW piece is built FLEXIBLY — props for era, colour, pose, size — so
+  future videos can reuse it by changing a setting instead of building again); everything else uses existing pieces · **visual concept**: a concrete, moving visual for EACH core idea (the mechanism,
+  not a label) and the 5–8 signature moments people will remember · **retention map**: what changes every ~30–60 s (open
+  loop, reveal, re-hook at each chapter start, a switch of visual mode — scene / character / diagram / map / real image)
+  so no minute feels the same as the last · chapter overview · music arc · the hook (what the first ~30 s show) · the real archival images the story needs — as many as truly help, no fixed limit (delegate searching
   to `binly-scout` subagents — cheap Haiku — with the queries, in batches per chapter; pick from their shortlists, fetch
   with `tools/photo.mjs get`, and name them in the shot lists with an archival template: KenBurnsShot, DetailHuntShot,
   MontageShot, CollageShot, CompareImagesShot, DocumentScanShot, AnnotatedImageShot, ImageInWorldShot,
@@ -75,9 +79,19 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
 
 **2b · Shot lists as data** — for each chapter also write `videos/<slug>/shots/Cxx.json` (format in
 `tools/compile-shots.mjs`): template shots with their props, custom shots as `{"id":"S4","start":…,"custom":true,"note":"…","beats":[t1,t2,…]}` (`beats` = cue times of
-the visible changes inside the shot, one per sentence after the first). Then run `node tools/plan-check.mjs` — it flags
+the visible changes inside the shot, one per sentence after the first; `mode` = scene | character | diagram | map |
+image | text | data — templates set it themselves). Then run `node tools/plan-check.mjs` — it flags
 shots > 10 s and sentences with no visible change (text only, costs nothing). Fix every flag (split the shot, add a beat
-or a camera travel) or accept it on purpose with `"ok":"why"` on that shot. **No builder starts before plan-check passes.**
+or a camera travel) or accept it on purpose with `"ok":"why"` on that shot.
+
+**2c · Plan improvement (one round, text only)** — re-read plan + briefs as a tough YouTube editor who wants viewers
+to stay: for each minute, where could a viewer get bored, confused or feel "this again"? Which 5 shots are the weakest
+(a label instead of a mechanism, a safe idea where a signature moment belongs, a reused piece where this story needed
+its own)? Upgrade them in the briefs and shots JSON, then run `node tools/plan-check.mjs` again.
+
+**2d · Ready gate** — production starts only when: plan-check PASSES (or every flag has an "ok" reason) · the editor
+round is done · the no-guess test holds for every brief. Write one line in STATUS.md: "Plan ready — <n> shots, <m> new
+pieces". No builder starts before this line.
 Run `node tools/compile-shots.mjs` → chapter code is generated; builders then build ONLY the custom shots in
 `Cxx.custom.tsx`. A chapter with no custom shots needs no builder at all. Fixes to template shots = edit the JSON and
 re-run the compiler (no builder). Look at `docs/catalog/templates.png` once (one image) to choose templates visually.
@@ -102,7 +116,8 @@ Each builder writes only `src/videos/<slug>/chapters/C03.tsx` (+ `videos/<slug>/
 
 **5 · Review each chapter** as it arrives: `node tools/sheet.mjs --from <start> --to <end> --n 20 --cols 5`,
 then Read the PNG. Judge like a demanding art director with the Binly mindset (docs/RETENTION.md): would a stranger keep watching?
-Focal point, readability, variety, sync with the shot list, each shot's DONE WHEN met, the builder's "Decided myself"
+Against the PLAN, not from scratch: the signature moments land as planned, the builder's "Beats:" line (any beat off
+its cue = a sentence over a still frame), focal point, readability, each shot's DONE WHEN met, the builder's "Decided myself"
 items acceptable, nothing broken/empty/colliding. Send back only what
 really matters. Send concrete fixes to the SAME builder with SendMessage
 (it keeps its context). **At most 2 fix rounds per chapter** — after that, anything imperfect but not broken goes on a

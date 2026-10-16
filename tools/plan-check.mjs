@@ -2,6 +2,9 @@
 // Catches the "words said but nothing new on screen" problem:
 //   • LONG shot     — longer than 10 s (aim ≤ ~8 s; a moving camera carrying several beats may justify more)
 //   • STILL SENTENCE — a spoken sentence that starts with no visible change near it (no shot start, no beat)
+//   • SAME  — 3 shots in a row with the same template, or 3 text / diagram / image / data shots in a row
+//   • FLAT  — more than 60 s (story scenes: 120 s) without a switch of visual mode (scene / character / diagram / map / image / text / data)
+// Custom shots declare their mode: "mode":"scene" (templates know theirs).
 // Custom shots list their visible changes as cue times: {"id":"S3","start":98.9,"custom":true,"note":"…","beats":[100.2,103.6]}
 // Template shots count their own reveal times (props named at / …At / cues / items[].at).
 // A flag can be accepted on purpose with  "ok": "why"  on that shot (e.g. "slow push holds the big idea").
@@ -43,7 +46,12 @@ const templateBeats = (props = {}) => {
   return out;
 };
 
-let flags = 0, shotsTotal = 0, longTotal = 0, stillTotal = 0;
+const TEMPLATE_MODE = {StatShot: 'data', QuoteShot: 'text', ClaimShot: 'text', QuestionShot: 'text', TitleShot: 'text', CompareShot: 'diagram',
+  ListShot: 'diagram', TimelineShot: 'diagram', ProcessShot: 'diagram', MapShot: 'map', PersonShot: 'character', EvidenceShot: 'image',
+  KenBurnsShot: 'image', DetailHuntShot: 'image', MontageShot: 'image', CollageShot: 'image', CompareImagesShot: 'image',
+  DocumentScanShot: 'image', AnnotatedImageShot: 'image', ImageInWorldShot: 'image', ParallaxCutoutShot: 'image'};
+const seq = []; // the whole video in order, for the retention-flow checks
+let flags = 0, shotsTotal = 0, longTotal = 0, stillTotal = 0, sameTotal = 0, flatTotal = 0, noMode = 0;
 for (const ch of chapters) {
   if (only && ch.id !== only) continue;
   const f = path.join(vdir, 'shots', `${ch.id}.json`);
@@ -56,6 +64,9 @@ for (const ch of chapters) {
   shots.forEach((s, i) => {
     shotsTotal++;
     const end = i + 1 < shots.length ? shots[i + 1].start : ch.end;
+    const mode = s.mode ?? (s.custom ? null : TEMPLATE_MODE[s.template] ?? null);
+    if (s.custom && !s.mode) noMode++;
+    seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok});
     const dur = end - s.start;
     const changes = [s.start, ...(s.beats ?? []), ...(s.custom ? [] : templateBeats(s.props))];
     const said = sentences.filter((x) => x.s >= s.start - 0.3 && x.s < end - 0.3);
@@ -71,5 +82,30 @@ for (const ch of chapters) {
   console.log(`${ch.id} (${shots.length} shots, avg ${((ch.end - ch.start) / Math.max(1, shots.length)).toFixed(1)} s): ${lines.length ? '' : 'OK'}`);
   lines.forEach((l) => console.log(l));
 }
-console.log(`\nplan-check ${slug}: ${shotsTotal} shots · ${longTotal} long · ${stillTotal} still sentences · ${flags ? `${flags} flag(s) — fix or justify ("ok") before building` : 'PASS'}`);
+// retention flow across the whole video (chapter borders included)
+const flow = [];
+for (let i = 2; i < seq.length; i++) {
+  const [x, y, z] = [seq[i - 2], seq[i - 1], seq[i]];
+  if (z.ok) continue;
+  const sameTpl = x.kind !== 'custom' && x.kind === y.kind && y.kind === z.kind;
+  const sameMode = x.mode && x.mode !== 'scene' && x.mode === y.mode && y.mode === z.mode; // story scenes in a row are normal
+  if (sameTpl || sameMode) {
+    sameTotal++; flags++;
+    flow.push(`  SAME ${x.ch} ${x.id} → ${z.ch} ${z.id} (${mmss(x.start)}): 3× ${sameTpl ? z.kind : z.mode} in a row → vary the treatment`);
+  }
+}
+for (let i = 0; i < seq.length; ) {
+  let j = i;
+  while (seq[i].mode && j + 1 < seq.length && seq[j + 1].mode === seq[i].mode) j++;
+  const dur = seq[j].end - seq[i].start;
+  const limit = seq[i].mode === 'scene' ? 120 : 60; // story scenes may run longer before a change of mode
+  if (seq[i].mode && dur > limit && !seq.slice(i, j + 1).some((x) => x.ok)) {
+    flatTotal++; flags++;
+    flow.push(`  FLAT ${mmss(seq[i].start)}–${mmss(seq[j].end)} ${dur.toFixed(0)} s all "${seq[i].mode}" → switch mode (character / map / real image / diagram)`);
+  }
+  i = j + 1;
+}
+if (flow.length) { console.log('\nRetention flow:'); flow.forEach((l) => console.log(l)); }
+if (noMode) console.log(`\nnote: ${noMode} custom shots have no "mode" — add it so the flow check can see them`);
+console.log(`\nplan-check ${slug}: ${shotsTotal} shots · ${longTotal} long · ${stillTotal} still sentences · ${sameTotal} same-in-a-row · ${flatTotal} flat · ${flags ? `${flags} flag(s) — fix or justify ("ok") before building` : 'PASS'}`);
 process.exit(flags ? 1 : 0);
