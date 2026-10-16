@@ -1,6 +1,6 @@
 // Plan check — runs on the shot lists BEFORE any building (cheap: text only, no rendering).
 // Catches the "words said but nothing new on screen" problem:
-//   • LONG shot     — longer than 10 s with a sentence that has no beat, or longer than 20 s (a 10–20 s shot where
+//   • LONG shot     — longer than 10 s with a sentence that has no beat, or longer than 15 s (a 10–15 s shot where
 //                     every sentence has its own beat — moving camera, new elements — passes as "long ok")
 //   • STILL SENTENCE — a spoken sentence that starts with no visible change near it (no shot start, no beat)
 //   • SAME  — 3 shots in a row with the same template, or 3 text / diagram / image / data shots in a row
@@ -19,7 +19,7 @@ const active = fs.readFileSync(path.join(ROOT, 'src', 'active.ts'), 'utf8').matc
 const slug = a.slug ?? active;
 const vdir = path.join(ROOT, 'videos', slug);
 const LONG = 10; // s — a long shot passes if every sentence in it has its own beat (alive); flagged if not
-const TOO_LONG = 20; // s — always flagged (even a lively shot this long should usually be split)
+const TOO_LONG = 15; // s — always flagged (split it, or justify a real camera journey with "ok")
 const NEAR = 1.2; // s — a change this close to a sentence start counts as its visual
 
 const words = JSON.parse(fs.readFileSync(path.join(vdir, 'timing', 'words.json'), 'utf8'));
