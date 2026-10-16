@@ -159,7 +159,8 @@ video** (first render + one fix round) unless something is clearly broken — co
 use a partial render (`--from/--to`, `--scale 0.5`) to verify a single fix. Do not claim a check you did not do.
 
 **8 · Deliver** — run `node tools/upload-pack.mjs` → `videos/<slug>/youtube/` (description draft with clickable
-chapter timestamps — so give chapters viewer-friendly titles in chapters.json — subtitles `captions.srt` with the exact
+chapter timestamps — so give chapters viewer-friendly titles in chapters.json: curiosity, never spoilers ("The king's
+report", not "Doctors thought baths let the plague in"; a title must never give away an open loop or a reveal) — subtitles `captions.srt` with the exact
 script, image credits). Tell the user to paste the description and upload the .srt in YouTube Studio. Write `videos/<slug>/REPORT.md` (≤ 400 words: video path, chapters, style decisions,
 QA results with numbers, render settings, honest limitations). Append 1–5 reusable lessons to
 `docs/LESSONS.md`. Register every reusable piece built for this video (shared components and good local helpers) in
