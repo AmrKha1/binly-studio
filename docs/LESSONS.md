@@ -44,3 +44,4 @@
 - `NightRoom` (shared/NightRoom.tsx: night room, window city, flat lights behind the figure) was copied into 3 chapters before being shared → promote with DecoderRig.
 - C02 `Street` walkers + `MiniBubble` (crack dial) and C03 `Bub` (bubble holding child shapes, solid/dashed) are reusable.
 - Kit StudyCard / NameTag / Photo credit text sizes too small for 1080p (22 px) → add a size dial.
+- (inner-voice polish) sync-check samples ~0.8 s after the sentence start: a beat placed on the stressed word 1–2 s in still reads "WEAK" — check those on a sheet before "fixing" again. Moving a card's entrance onto its word can re-create an empty lead-in: keep a real element on screen from the shot's first frame.

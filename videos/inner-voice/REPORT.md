@@ -1,6 +1,6 @@
 # inner-voice · REPORT
 **"The Voice in Your Head Makes No Sound"** · 9:34.8 (574.81 s) · 1920×1080 · 60 fps · H.264 + AAC · cloud render.
-Final file: `videos/inner-voice/output/inner-voice-v2.mp4` (v1 kept as inner-voice.mp4). YouTube package: `videos/inner-voice/youtube/`.
+Final file: `videos/inner-voice/output/inner-voice-v3.mp4` (v1 and v2 kept). YouTube package: `videos/inner-voice/youtube/`.
 
 ## Chapters
 0:00 A voice that makes no sound · 0:49 Catching the voice in the act · 2:01 What fills the silence ·
@@ -30,6 +30,15 @@ no black segments. Near-empty warnings: 17 in v1 → 12 in v2. v1's real defects
 ink question frames (0:42), the ink dive (3:21), the pause before the twist (7:02), the ear (8:27), and a few title-first entrances (5:41, 8:10).
 All 7 QA sheets of v1 were reviewed; v2 fixes were verified on stills, not on a second full sheet review.
 
+## Polish v3 (narration sync)
+tools/sync-check.mjs: 28 of 168 sentences had only a weak visible change in v2. 15 were fixed with real beats (the speech
+bubble travelling between heads and folding inward, the ba/bi MATCH lock, the suppression pipe, cascading bubble copies, …)
+→ 19 weak in v3. 9 of the 15 now pass; the other 6 have their new visual on the key word 1–2 s into the sentence, after the
+tool's sample point (checked on sheets). The remaining flags are deliberate (payoff holds, short lines, CTA).
+v3 cloud QA: duration exact, voice in sync (0.0 ms), no holds/black. New: 5:35.8–5:37.0 is ~1.2 s of near-empty paper (only a
+small curve icon before the limits card lands on measured) — a small regression from the polish, not re-rendered (one-render
+rule). 7:36 is a deliberate close-up on the slider's None end.
+
 ## Honest limitations
 - The speech recogniser missed the cold open (0–7.4 s); its timing was set by hand from the audio's loudness map.
   captions.srt has the first four lines added by hand — please play the first 8 s once to confirm sync.
@@ -38,5 +47,5 @@ All 7 QA sheets of v1 were reviewed; v2 fixes were verified on stills, not on a 
 - The jitter fix is measured on two real shots, not on every shot; the long-term "text as vector outlines" upgrade is not done.
 - Polish list (not defects): the opening room is still a little mid-tone; card wall at 2:02 starts sparse; C05 venn/jigsaw
   and C07's first shot are smallish; the participant's "neutral" face has a faint smile (kit has no straight mouth).
-- Owner feedback after v1: some spoken phrases have no matching visual. Confirmed: 20 shots run ≥ 10 s and cover 2–4 sentences with one setup; my review checked layout, not sentence-by-sentence sync. Not fixed in v2 → proposed /polish-video pass.
+- Owner feedback after v1: some spoken phrases have no matching visual. Confirmed: 20 shots run ≥ 10 s and cover 2–4 sentences with one setup; my review checked layout, not sentence-by-sentence sync. Addressed in v3 (see above).
 - Two render rounds used (v1 + one fix round), as the pipeline allows.
