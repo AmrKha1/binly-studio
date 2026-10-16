@@ -50,8 +50,8 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   each `{"id":"C01","start":0,"end":84.2,"title":"…","in":{"kind":"ink","x":960,"y":540}}` (C01 has no `in`;
   `start` of each chapter = `end` of the previous; last `end` = video duration). Then `node tools/scaffold.mjs <slug>`.
 - `videos/<slug>/briefs/Cxx.md` per chapter (≤ 400 words): time range + paragraphs · purpose of the chapter ·
-  a numbered **shot list** — the chapter is a sequence of shots of ~4–8 s (longer only when a moving camera carries
-  several beats), normally one shot per narration sentence or idea (`node tools/transcript.mjs --from a --to b` prints sentence start times):
+  a numbered **shot list** — the chapter is a sequence of shots of mostly 4–10 s, **averaging ~6–7 s** (the owner's
+  videos: 6.8 s felt right, 8.2 s felt slow; 10–15 s only for a lively camera journey), normally one shot per narration sentence or idea (`node tools/transcript.mjs --from a --to b` prints sentence start times):
   `S3 [01:42.6–01:51.0] "In Paris, there were enough public baths…" → what we see · camera · transition in`
   with components from KIT.md — **name a shot template** (KIT.md → templates: StatShot, QuoteShot, EvidenceShot, ClaimShot,
   CompareShot, ListShot, TimelineShot, MapShot, PersonShot, ProcessShot, QuestionShot, TitleShot) for standard beats and
