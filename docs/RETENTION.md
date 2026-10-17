@@ -25,8 +25,10 @@ pace of a TV documentary.
    then; vary scale from shot to shot (wide → detail → meaning); place claim beside evidence, myth beside reality, cause
    before effect — juxtaposition makes meaning. Kill any shot, however beautiful, that slows the story.
 6. **Every image must clarify.** One focal point; the point readable in a second; motion with meaning only.
-7. **Make it tangible and human.** Numbers become things you can see and compare; ideas become places, objects and
-   people with feelings. Someone to care about, "you" in the story, light wit where it fits, respect always.
+7. **Show, don't tell — the viewer lives inside the story.** Every idea is ACTED OUT: places, objects, people with
+   feelings, mechanisms that move; numbers become things you can see and compare. A card of words is the rare exception
+   (the words themselves are the point) — never the picture of an idea. Someone to care about, "you" in the story, light
+   wit where it fits, respect always.
 8. **Truth is the spice.** Exact facts, real evidence. Real archival images — as many as the story needs — are cut and
    moved like a storyteller would: punching in on the detail being spoken, flowing in and out of animated worlds,
    with Binly animation drawn over reality. Where no free images exist, animation carries it.

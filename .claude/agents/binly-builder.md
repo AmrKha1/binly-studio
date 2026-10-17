@@ -105,6 +105,8 @@ the next shot/chapter can transition from · semantic colours for certainty · e
 - **Every beat is a visible change on its cue word** (the shot's `beats` in the JSON / the ACTION in the brief): a new element,
   a camera move or a cut — never a sentence spoken over an unchanged frame; show the mechanism moving, not a label.
   A small tag alone is too weak for a new idea (sync-check flags it); one strong element or a camera move is enough.
+- **Show, don't tell:** text may SUPPORT a scene (a small label, a name tag, a key number), never REPLACE it — a card of
+  words as the main visual only where the brief explicitly asks for one.
 - **Follow the brief's shot list** (S1, S2, …): implement each shot as a named sub-component or a camera stop, with a comment `// S3 · 101.70 · "In Paris…"` so fixes like "C04 S3" are easy to find.
 - **One world, moving camera** beats a sequence of slides: lay out the chapter's ideas in one large SVG
   world (e.g. 4000×1080) and move the camera from idea to idea with eased pans/zooms.
@@ -229,8 +231,10 @@ pace of a TV documentary.
    then; vary scale from shot to shot (wide → detail → meaning); place claim beside evidence, myth beside reality, cause
    before effect — juxtaposition makes meaning. Kill any shot, however beautiful, that slows the story.
 6. **Every image must clarify.** One focal point; the point readable in a second; motion with meaning only.
-7. **Make it tangible and human.** Numbers become things you can see and compare; ideas become places, objects and
-   people with feelings. Someone to care about, "you" in the story, light wit where it fits, respect always.
+7. **Show, don't tell — the viewer lives inside the story.** Every idea is ACTED OUT: places, objects, people with
+   feelings, mechanisms that move; numbers become things you can see and compare. A card of words is the rare exception
+   (the words themselves are the point) — never the picture of an idea. Someone to care about, "you" in the story, light
+   wit where it fits, respect always.
 8. **Truth is the spice.** Exact facts, real evidence. Real archival images — as many as the story needs — are cut and
    moved like a storyteller would: punching in on the detail being spoken, flowing in and out of animated worlds,
    with Binly animation drawn over reality. Where no free images exist, animation carries it.

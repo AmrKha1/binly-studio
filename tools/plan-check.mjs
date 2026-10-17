@@ -4,7 +4,8 @@
 //                     every sentence has its own beat — moving camera, new elements — passes as "long ok")
 //   • STILL SENTENCE — a spoken sentence that starts with no visible change near it (no shot start, no beat)
 //   • SAME  — 3 shots in a row with the same template, or 3 text / diagram / image / data shots in a row
-//   • FLAT  — more than 60 s (story scenes: 120 s) without a switch of visual mode (scene / character / diagram / map / image / text / data)
+//   • FLAT  — more than 60 s (story scenes: 120 s) without a switch of visual mode
+//   • TEXT  — show, do not tell: more than 1 text card per chapter, a text card without an "ok" reason, or > 8 % of shots (scene / character / diagram / map / image / text / data)
 // Custom shots declare their mode: "mode":"scene" (templates know theirs).
 // Custom shots list their visible changes as cue times: {"id":"S3","start":98.9,"custom":true,"note":"…","beats":[100.2,103.6]}
 // Template shots count their own reveal times (props named at / …At / cues / items[].at).
@@ -117,6 +118,16 @@ if (!only && (sigs.length < 5 || sigs.length > 8)) {
   flags++;
   console.log(`  SIGNATURE count ${sigs.length} → mark 5–8 shots "signature": true, each with a ★ hero brief`);
 }
+// show, don't tell: text cards (words as the main visual) are the rare exception — ≤ 1 per chapter, each with an "ok" reason
+const texts = seq.filter((x) => x.mode === 'text');
+console.log(`\nText cards: ${texts.length}${texts.length ? ' — ' + texts.map((x) => `${x.ch} ${x.id} ${x.kind}`).join(', ') : ''}`);
+const perCh = {};
+for (const x of texts) (perCh[x.ch] ??= []).push(x);
+for (const [chId, list] of Object.entries(perCh)) {
+  if (list.length > 1) { flags++; console.log(`  TEXT ${chId}: ${list.length} text cards → max 1 per chapter; act the others out (scene, characters, mechanism)`); }
+}
+for (const x of texts) if (!x.ok) { flags++; console.log(`  TEXT ${x.ch} ${x.id}: a text card needs "ok": "why this can't be shown" — or turn it into a scene`); }
+if (!only && seq.length && texts.length / seq.length > 0.08) { flags++; console.log(`  TEXT share ${((100 * texts.length) / seq.length).toFixed(0)}% of shots → keep text cards under ~8%`); }
 // pace: the owner's videos — 6.8 s per shot felt right, 8.2 s felt slow
 const avg = seq.length ? (seq[seq.length - 1].end - seq[0].start) / seq.length : 0;
 console.log(`\nPace: ${seq.length} shots, average ${avg.toFixed(1)} s per shot (aim ~6–7 s)`);

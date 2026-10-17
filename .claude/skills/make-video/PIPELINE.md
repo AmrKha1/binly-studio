@@ -55,9 +55,15 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   a numbered **shot list** — the chapter is a sequence of shots of mostly 4–10 s, **averaging ~6–7 s** (the owner's
   videos: 6.8 s felt right, 8.2 s felt slow; 10–15 s only for a lively camera journey), normally one shot per narration sentence or idea (`node tools/transcript.mjs --from a --to b` prints sentence start times):
   `S3 [01:42.6–01:51.0] "In Paris, there were enough public baths…" → what we see · camera · transition in`
-  with components from KIT.md — **name a shot template** (KIT.md → templates: StatShot, QuoteShot, EvidenceShot, ClaimShot,
-  CompareShot, ListShot, TimelineShot, MapShot, PersonShot, ProcessShot, QuestionShot, TitleShot) for standard beats and
-  keep custom shots for the hook, reveals and signature moments — EXACT on-screen strings and numbers, certainty colours. A shot may continue the
+  with components from KIT.md — **show, don't tell:** act every idea out (scene, characters, a mechanism that moves);
+  name a shot template where it SHOWS (EvidenceShot and the archival image templates, MapShot, TimelineShot, StatShot,
+  ProcessShot, PersonShot, CompareShot). **Text cards** — ClaimShot, QuestionShot, QuoteShot, TitleShot, or a custom shot
+  whose main visual is words — are the rare exception: **at most 1 per chapter**, only when the words themselves are the
+  point (a famous myth being busted, the video's central question once, a real quote), each with `"ok":"why this can't be
+  shown"` in the shots JSON. Turn a would-be card into a scene: "How did the Middle Ages actually think?" → the camera dives
+  into a medieval physician's head where the four humors swirl; "Bathing is about hygiene" → a modern shower cuts to a
+  physician PRESCRIBING a hot bath as medicine, the red pen striking the modern idea. Custom shots carry the hook, reveals
+  and signature moments — EXACT on-screen strings and numbers, certainty colours. A shot may continue the
   same world with a camera move (preferred) or cut/transition to a new one. Also: how the chapter begins
   (continuity from the previous chapter's last frame) and ends (what the next chapter enters from) · 3–8 SFX
   moments · music mood. Be concrete: builders execute, they should not have to invent the direction — but

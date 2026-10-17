@@ -52,6 +52,8 @@ the next shot/chapter can transition from · semantic colours for certainty · e
 - **Every beat is a visible change on its cue word** (the shot's `beats` in the JSON / the ACTION in the brief): a new element,
   a camera move or a cut — never a sentence spoken over an unchanged frame; show the mechanism moving, not a label.
   A small tag alone is too weak for a new idea (sync-check flags it); one strong element or a camera move is enough.
+- **Show, don't tell:** text may SUPPORT a scene (a small label, a name tag, a key number), never REPLACE it — a card of
+  words as the main visual only where the brief explicitly asks for one.
 - **Follow the brief's shot list** (S1, S2, …): implement each shot as a named sub-component or a camera stop, with a comment `// S3 · 101.70 · "In Paris…"` so fixes like "C04 S3" are easy to find.
 - **One world, moving camera** beats a sequence of slides: lay out the chapter's ideas in one large SVG
   world (e.g. 4000×1080) and move the camera from idea to idea with eased pans/zooms.
