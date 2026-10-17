@@ -80,7 +80,9 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   the signal travels, the pattern lights up, the number fills), never a label or text card restating what is said.
   Don't over-correct: a visible change can be a camera move, a highlight or ONE element appearing — not a new cut every
   sentence. Payoff moments and big reveals may hold 2–3 s (mark them `"ok":"payoff hold"`). Busy and choppy loses
-  viewers as surely as still does.
+  viewers as surely as still does. **Parts first, then the mechanism:** before an explanation uses several new parts
+  (the four humors, the motor cortex and the ear), introduce them visually one by one, then show them working together —
+  never names and process at the same time.
   **Flow line** at the top of each brief: the chapter's visual journey — which world(s), how the camera travels
   (push into the detail, pull back to reveal, pan to the next idea, one world rather than a slideshow), and how each
   shot hands over to the next (match cut, push-through, ink, iris — motivated and varied, never the same one in a row).
