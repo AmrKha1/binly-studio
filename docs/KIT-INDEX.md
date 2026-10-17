@@ -8,7 +8,7 @@
 - **Ideas made visible:** flows, cycles, Venn, comparisons, timelines, maps, exact-number stats with dot grids/bars/rings, claims with certainty captions and red-pen verdicts, open questions, quotes and documents, study cards, screens, speech/thought/inner-voice bubbles.
 - **Science:** brain regions, heads with EEG/implants, body & organs, eye cross-section, neurons/synapses, cells, immune cells, germs/viruses, DNA, molecules, waveforms.
 - **Life & atmosphere:** steam, flames, particles (dust/spores/embers), light shafts and pools, ripples, camera breathe/shake; transitions: fade, dip, ink, iris in/out, push, paper, zoom-through, wipe, cut.
-- **Shot templates:** 21 ready full shots (12 info beats + 9 real-image treatments) — see docs/catalog/templates.png.
+- **Shot templates:** 21 ready full shots — SHOW-first: real-image treatments (9), Map, Timeline, Stat, Process, Person, Compare, List; words-first (RARE — max 1 per chapter, only when the words are the point): Claim, Question, Quote, Title — see docs/catalog/templates.png.
 **Not in the kit yet** (build ONLY if this video needs it): ancient/prehistoric eras, non-European architecture (Middle-Eastern, East-Asian, …) and dress, historical territories / moving front lines on maps, drawn animals beyond the horse (others: silhouettes).
 **How to build a missing piece:** one shared component in `src/videos/<slug>/shared/` with kit-style dials (x, y, s, flip, t, tone + era/style/colour/pose — never hard-coded for one shot), same palette `C` and flat style, checked on a test sheet, then registered in docs/ASSETS.md with its dials. `/improve-studio` later promotes reused pieces into the kit.
 
@@ -16,7 +16,7 @@ Import from `../../../kit/<module>` (chapters) · visual catalogs: `docs/catalog
 
 ## docs/kit/core.md — Stage, camera (Cam/World/breathe/shake), time maths (ramp/keys/win/camAt/rand/noise1/countUp), Shots + transitions, palette C/SEM
 modules: kit/stage, kit/anim, kit/shots, kit/theme, kit/video
-Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, FONT_HAND, W, H, FPS, SAFE, VideoModule, ChapterDef, Chapters
+TEXT_FO, Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, FONT_HAND, W, H, FPS, SAFE, VideoModule, ChapterDef, Chapters
 
 ## docs/kit/text-cards-diagrams.md — Typography, paper objects & screens & bubbles, diagrams/arrows/flows, light & motion fx, characters (Person/Crowd)
 modules: kit/text, kit/cards, kit/diagrams, kit/fx, kit/people

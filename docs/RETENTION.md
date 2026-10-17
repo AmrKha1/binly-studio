@@ -10,6 +10,11 @@ you need to know what happens next, and it pays you off. Think of the best YouTu
 story, the clarity of a great explainer, the craft of a great animation channel — never the polite, slow, reverent
 pace of a TV documentary.
 
+**The viewer promise (every decision serves it):** the viewer feels INSIDE the story — engaged, enjoying it,
+understanding without effort, never bored, happy to keep watching for a long time. The VISUALS tell the story, the
+narration guides it, text only supports. **Mute test:** with the sound off, could someone still follow what happens?
+If not, the pictures aren't telling the story yet.
+
 ## Principles
 1. **Story first.** Every video is a journey with a question, stakes, tension, turns and a payoff — not a list of facts.
    Facts are the evidence inside the story; the story is what people stay for.

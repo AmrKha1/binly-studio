@@ -107,7 +107,9 @@ or a camera travel) or accept it on purpose with `"ok":"why"` on that shot.
 **2c · Plan improvement (one round, text only)** — re-read plan + briefs as a tough YouTube editor who wants viewers
 to stay: for each minute, where could a viewer get bored, confused or feel "this again"? Which 5 shots are the weakest
 (a label instead of a mechanism, a safe idea where a signature moment belongs, a reused piece where this story needed
-its own)? Upgrade them in the briefs and shots JSON, then run `node tools/plan-check.mjs` again.
+its own)? **Mute test:** read each chapter's shots without the narration — would a viewer with the sound off still
+follow the story? Every place where only the words carry it gets a visual. Upgrade them in the briefs and shots JSON,
+then run `node tools/plan-check.mjs` again.
 
 **2d · Ready gate** — production starts only when: plan-check PASSES (or every flag has an "ok" reason) · the editor
 round is done · the no-guess test holds for every brief. Write one line in STATUS.md: "Plan ready — <n> shots, <m> new
@@ -136,7 +138,7 @@ Each builder writes only `src/videos/<slug>/chapters/C03.tsx` (+ `videos/<slug>/
 
 **5 · Review each chapter** as it arrives: `node tools/sheet.mjs --from <start> --to <end> --n 20 --cols 5`,
 then Read the PNG. Judge like a demanding art director with the Binly mindset (docs/RETENTION.md): would a stranger keep watching?
-Against the PLAN, not from scratch: the signature moments land as planned, the builder's "Beats:" line (any beat off
+Against the PLAN, not from scratch — and the **mute test** on the sheet (does the story read from the pictures alone?): the signature moments land as planned, the builder's "Beats:" line (any beat off
 its cue = a sentence over a still frame), focal point, readability, each shot's DONE WHEN met, the builder's "Decided myself"
 items acceptable, nothing broken/empty/colliding. Send back only what
 really matters. Send concrete fixes to the SAME builder with SendMessage

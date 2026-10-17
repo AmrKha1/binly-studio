@@ -16,9 +16,15 @@ metal, lamp, fire, water/waterDeep, slate, sky, dusk, night, skin[0..4], skinSha
 
 **stage**
 - `<Stage bg={C.paper}>…svg children…</Stage>` full 1920×1080 frame (every shot/chapter renders one).
+- **Steady text (rule):** Chrome snaps axis-aligned glyphs to whole pixels vertically, so under slow camera drifts text
+  lags then jumps ~1 px against shapes. Stage fixes it globally with a constant, invisible 0.1° tilt on every `<text>`
+  (without its own `transform` attribute) and every `<foreignObject className={TEXT_FO}>` (export of kit/stage; RichText,
+  Para, Bubble use it) → glyphs land sub-pixel in both axes. Your own HTML text in a foreignObject: add
+  `className={TEXT_FO}`. Never animate text with noise/wobble. Check: `node tools/jitter-test.mjs --kit`, or a real shot
+  `--at <sec> --text x0,y0,x1,y1 --ref x0,y0,x1,y1` (ref = a solid shape on the same layer), or a cloud render `--mp4 file --at <sec>`.
 - `<Cam cam={state} depth={1}>` camera group (depth<1 far/slow, >1 foreground). `<CamKeys t keys={[...]} depth>` shorthand.
 - `<World cam={cam} layers={[{depth:0.3, el:<Far/>},{depth:1, el:<Main/>},{depth:1.4, el:<Front/>}]}/>` parallax.
-- `breathe(cam,t,amount=1)` subtle handheld life for holds · `shake(cam,t,t0,strength=14,decay=5)` impacts.
+- `breathe(cam,t,amount=1)` subtle handheld life for holds (translation only — never add micro rotation/zoom noise on text: it shimmers) · `shake(cam,t,t0,strength=14,decay=5)` impacts.
 - `<At x y s sx sy r o>` transform wrapper · `uid(...parts)` stable ids for clip paths.
 
 **shots**
@@ -36,7 +42,7 @@ metal, lamp, fire, water/waterDeep, slate, sky, dusk, night, skin[0..4], skinSha
 - `Kicker {x,y,text,p=1,size=24,color=inkMute,anchor}` small tracked caps label.
 - `Para {x,y,w,h=600,text,p,size=36,color,align,font,weight,italic,lineHeight}` wrapped paragraph (keep short).
 - `Tag {x,y,text,kind:Sem,p,size=26,to?:{x,y},anchor:'left'|'right'|'center',look:'caption'|'pill'}` certainty label.
-  Default look 'caption' = museum caption (colour stripe + italic serif on a paper slip); 'pill' = old solid chip (rarely).
+  Default look 'caption' = museum caption (colour stripe + italic serif on a paper slip); 'pill' = old solid chip (legacy — don't use).
 - Red-pen verdict (Binly's ONLY verdict style; for the climax use it at hero size — full-screen claim, big handwritten note): in templates `ClaimShot … stamp="Wrong"` (verdict 'pen' is default);
   in custom scenes `RichText … strike={ramp(t,T.x,T.x+0.5)}` crosses the words out exactly + a `HandNote` verdict;
   `RedPen {lines:[{x,y,w}],p,note,noteX,noteY,strike}` for SVG text whose line widths you know.

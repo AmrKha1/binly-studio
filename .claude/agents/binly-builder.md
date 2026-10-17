@@ -106,7 +106,8 @@ the next shot/chapter can transition from · semantic colours for certainty · e
   a camera move or a cut — never a sentence spoken over an unchanged frame; show the mechanism moving, not a label.
   A small tag alone is too weak for a new idea (sync-check flags it); one strong element or a camera move is enough.
 - **Show, don't tell:** text may SUPPORT a scene (a small label, a name tag, a key number), never REPLACE it — a card of
-  words as the main visual only where the brief explicitly asks for one.
+  words as the main visual only where the brief explicitly asks for one. On-screen words: few and short (a label names a
+  thing, the picture explains it), readable in under 2 s, never the sentence the narrator is saying.
 - **Follow the brief's shot list** (S1, S2, …): implement each shot as a named sub-component or a camera stop, with a comment `// S3 · 101.70 · "In Paris…"` so fixes like "C04 S3" are easy to find.
 - **One world, moving camera** beats a sequence of slides: lay out the chapter's ideas in one large SVG
   world (e.g. 4000×1080) and move the camera from idea to idea with eased pans/zooms.
@@ -215,6 +216,11 @@ reason to exist, a reason to end, and a reason for what comes next.
 you need to know what happens next, and it pays you off. Think of the best YouTube storytellers — the pull of a great
 story, the clarity of a great explainer, the craft of a great animation channel — never the polite, slow, reverent
 pace of a TV documentary.
+
+**The viewer promise (every decision serves it):** the viewer feels INSIDE the story — engaged, enjoying it,
+understanding without effort, never bored, happy to keep watching for a long time. The VISUALS tell the story, the
+narration guides it, text only supports. **Mute test:** with the sound off, could someone still follow what happens?
+If not, the pictures aren't telling the story yet.
 
 ## Principles
 1. **Story first.** Every video is a journey with a question, stakes, tension, turns and a payoff — not a list of facts.
@@ -364,7 +370,7 @@ Silhouettes: `tools/silhouette.mjs` (PhyloPic organism shapes → shared library
 - **Ideas made visible:** flows, cycles, Venn, comparisons, timelines, maps, exact-number stats with dot grids/bars/rings, claims with certainty captions and red-pen verdicts, open questions, quotes and documents, study cards, screens, speech/thought/inner-voice bubbles.
 - **Science:** brain regions, heads with EEG/implants, body & organs, eye cross-section, neurons/synapses, cells, immune cells, germs/viruses, DNA, molecules, waveforms.
 - **Life & atmosphere:** steam, flames, particles (dust/spores/embers), light shafts and pools, ripples, camera breathe/shake; transitions: fade, dip, ink, iris in/out, push, paper, zoom-through, wipe, cut.
-- **Shot templates:** 21 ready full shots (12 info beats + 9 real-image treatments) — see docs/catalog/templates.png.
+- **Shot templates:** 21 ready full shots — SHOW-first: real-image treatments (9), Map, Timeline, Stat, Process, Person, Compare, List; words-first (RARE — max 1 per chapter, only when the words are the point): Claim, Question, Quote, Title — see docs/catalog/templates.png.
 **Not in the kit yet** (build ONLY if this video needs it): ancient/prehistoric eras, non-European architecture (Middle-Eastern, East-Asian, …) and dress, historical territories / moving front lines on maps, drawn animals beyond the horse (others: silhouettes).
 **How to build a missing piece:** one shared component in `src/videos/<slug>/shared/` with kit-style dials (x, y, s, flip, t, tone + era/style/colour/pose — never hard-coded for one shot), same palette `C` and flat style, checked on a test sheet, then registered in docs/ASSETS.md with its dials. `/improve-studio` later promotes reused pieces into the kit.
 
@@ -372,7 +378,7 @@ Import from `../../../kit/<module>` (chapters) · visual catalogs: `docs/catalog
 
 ## docs/kit/core.md — Stage, camera (Cam/World/breathe/shake), time maths (ramp/keys/win/camAt/rand/noise1/countUp), Shots + transitions, palette C/SEM
 modules: kit/stage, kit/anim, kit/shots, kit/theme, kit/video
-Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, FONT_HAND, W, H, FPS, SAFE, VideoModule, ChapterDef, Chapters
+TEXT_FO, Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, FONT_HAND, W, H, FPS, SAFE, VideoModule, ChapterDef, Chapters
 
 ## docs/kit/text-cards-diagrams.md — Typography, paper objects & screens & bubbles, diagrams/arrows/flows, light & motion fx, characters (Person/Crowd)
 modules: kit/text, kit/cards, kit/diagrams, kit/fx, kit/people
