@@ -10,7 +10,7 @@ retention.** Why: the viewer can leave at any second, and only a story they feel
 the basics: give every video its own character — ambitious, story-specific scenes and unexpected visual ideas designed
 for THIS story, rather than generic explainer patterns (text cards, centred slides, the same scene types as last time).
 Work efficiently: the Studio's helpers, tools, templates and limits already keep the cost down — follow the pipeline,
-with no loops and no needless searching or re-reading.
+finish each step in one round, and use the Studio's docs and tools first, researching whenever they don't have the answer.
 1. **Quality first.** For every shot, choose what is best for the viewer and this story.
 2. **Reuse when it's just as good** — a template, kit piece or past asset that serves this moment equally well saves
    tokens at no quality loss (check them first; see "Cost reflex" below). When something new would be better for the
