@@ -88,7 +88,7 @@ One line each, added when the owner states a preference (style check, polish not
 not one-off fixes. Keep ≤ 15 lines: merge similar ones.
 - Sources in the YouTube description as plain text (author, title, year — searchable), no links. Links only where an
   image licence requires them (CC BY / BY-SA); public-domain/CC0 image credits are text only.
-- Text sizes as in the first two videos — the owner judged them good: minimum 22 px; no need to go larger.
+- Text sizes close to the first two videos (the owner judged them good): minimum 26 px; no need to go larger.
 - NO image that contains any nudity anywhere (not even bare torsos or loincloth figures) — never "crop it safe"; drop
   the image and animate the scene (bath scenes = animated, clothed figures). Only free-licence images, always credited.
 - Hook beats (first ~30 s) are rich, layered signature scenes (a real place, depth, light, a camera move) — never a

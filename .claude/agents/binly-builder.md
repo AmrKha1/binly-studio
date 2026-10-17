@@ -96,7 +96,7 @@ are big enough to read an expression; labels ≤ ~6 words. Honour the brief's sh
 (a face or an object filling the frame), not a medium shot with a small subject.
 **Never:** linear easing on visible motion · everything fading in the same way · elements popping on/off without
 easing · gradients, glow blur, noise/grain, glassy effects · drop shadows except the kit's flat offset shadows ·
-more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · text under 22 px or outside
+more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · text under 26 px or outside
 96 px margins · an "empty stage" (one small thing on plain paper — every
 shot happens in a PLACE with foreground / mid / background and light, except a deliberate void like MindSpace) · centred-everything layouts shot after shot · a frame with nothing alive for > 2 s ·
 generic stock-like decoration · new colours outside `C` · `Math.random`/timers.
@@ -314,7 +314,7 @@ One line each, added when the owner states a preference (style check, polish not
 not one-off fixes. Keep ≤ 15 lines: merge similar ones.
 - Sources in the YouTube description as plain text (author, title, year — searchable), no links. Links only where an
   image licence requires them (CC BY / BY-SA); public-domain/CC0 image credits are text only.
-- Text sizes as in the first two videos — the owner judged them good: minimum 22 px; no need to go larger.
+- Text sizes close to the first two videos (the owner judged them good): minimum 26 px; no need to go larger.
 - NO image that contains any nudity anywhere (not even bare torsos or loincloth figures) — never "crop it safe"; drop
   the image and animate the scene (bath scenes = animated, clothed figures). Only free-licence images, always credited.
 - Hook beats (first ~30 s) are rich, layered signature scenes (a real place, depth, light, a camera move) — never a
