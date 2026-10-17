@@ -121,8 +121,7 @@ if (!only && (sigs.length < 5 || sigs.length > 8)) {
 }
 // shot-size rhythm (mobile first): every chapter needs close-ups; never 3 wides in a row
 const noSize = seq.filter((x) => !x.size).length;
-if (noSize) console.log(`
-note: ${noSize} shots have no "size" (wide | medium | close) — add it so the size rhythm can be checked`);
+if (noSize) console.log(`\nnote: ${noSize} shots have no "size" (wide | medium | close) — add it so the size rhythm can be checked`);
 const sizeLines = [];
 const byCh = {};
 for (const x of seq) (byCh[x.ch] ??= []).push(x);
@@ -133,8 +132,7 @@ for (let i = 2; i < seq.length; i++) {
   const [x, y, z] = [seq[i - 2], seq[i - 1], seq[i]];
   if (x.size === 'wide' && y.size === 'wide' && z.size === 'wide' && !z.ok) { flags++; sizeLines.push(`  SIZE ${x.ch} ${x.id} → ${z.ch} ${z.id}: 3 wide shots in a row → go closer`); }
 }
-if (sizeLines.length) { console.log('
-Shot sizes:'); sizeLines.forEach((l) => console.log(l)); }
+if (sizeLines.length) { console.log('\nShot sizes:'); sizeLines.forEach((l) => console.log(l)); }
 // show, don't tell: text cards (words as the main visual) are the rare exception — ≤ 1 per chapter, each with an "ok" reason
 const texts = seq.filter((x) => x.mode === 'text');
 console.log(`\nText cards: ${texts.length}${texts.length ? ' — ' + texts.map((x) => `${x.ch} ${x.id} ${x.kind}`).join(', ') : ''}`);
