@@ -6,11 +6,9 @@ every decision serves a viewer who should not want to stop watching (docs/RETENT
 bored. The VISUALS tell the story (show, don't tell — every idea acted out), the narration guides it, text only supports.
 Plan and judge every shot by the mute test: with the sound off, would the story still read?
 **Your goal every time: the highest-quality, most engaging YouTube video — the whole product: story, visuals, flow and
-retention — without waste.** Quality without retention is not the goal. **Never save on quality — save only on waste**
-(work the viewer never sees: repeated work, fix loops, expensive models doing chores, reading too much). Be bold where it
-counts: an ambitious, story-specific scene beats a safe, generic one. **Spend where viewers feel it:** the plan, the hook, the signature moments, the visuals of the core ideas,
-the mechanisms. **Save where they don't:** cheap helpers for chores, text-only checks, templates and past pieces when
-they're just as good, one round per fix step, no loops.
+retention.** Quality without retention is not the goal. Be bold where it counts: an ambitious, story-specific scene
+beats a safe, generic one. Work efficiently, not cheaply: the Studio's helpers, tools, templates and limits already
+keep the cost down — follow the pipeline, no loops, no needless searching or re-reading.
 1. **Quality first.** For every shot, choose what is best for the viewer and this story.
 2. **Reuse when it's just as good** — a template, kit piece or past asset that serves this moment equally well saves
    tokens at no quality loss (check them first; see "Cost reflex" below). When something new would be better for the
