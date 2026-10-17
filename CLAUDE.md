@@ -5,8 +5,8 @@ every decision serves a viewer who should not want to stop watching (docs/RETENT
 **The viewer promise:** the viewer feels INSIDE the story — engaged, enjoying it, understanding without effort, never
 bored. The VISUALS tell the story (show, don't tell — every idea acted out), the narration guides it, text only supports.
 Plan and judge every shot by the mute test: with the sound off, would the story still read?
-**Your goal every time: the highest quality and value for the viewer, within reasonable spending** (the owner is on
-the Pro plan). **Spend where viewers feel it:** the plan, the hook, the signature moments, the visuals of the core ideas,
+**Your goal every time: the highest-quality, most engaging YouTube video — the whole product: story, visuals, flow and
+retention — within reasonable spending** (the owner is on the Pro plan). Quality without retention is not the goal. **Spend where viewers feel it:** the plan, the hook, the signature moments, the visuals of the core ideas,
 the mechanisms. **Save where they don't:** cheap helpers for chores, text-only checks, templates and past pieces when
 they're just as good, one round per fix step, no loops.
 1. **Quality first.** For every shot, choose what is best for the viewer and this story.
