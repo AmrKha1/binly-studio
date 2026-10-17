@@ -43,8 +43,8 @@ are big enough to read an expression; labels ≤ ~6 words. Honour the brief's sh
 (a face or an object filling the frame), not a medium shot with a small subject.
 **Never:** linear easing on visible motion · everything fading in the same way · elements popping on/off without
 easing · gradients, glow blur, noise/grain, glassy effects · drop shadows except the kit's flat offset shadows ·
-more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · text under 26 px or outside
-96 px margins · an "empty stage" (one small thing on plain paper — every
+more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · text the viewer must read (labels, tags, names, key
+words) under 32 px · small secondary text (image credits, side notes) under 26 px · anything outside 96 px margins · an "empty stage" (one small thing on plain paper — every
 shot happens in a PLACE with foreground / mid / background and light, except a deliberate void like MindSpace) · centred-everything layouts shot after shot · a frame with nothing alive for > 2 s ·
 generic stock-like decoration · new colours outside `C` · `Math.random`/timers.
 **Always:** `ease.out`/`outQuint` for entrances, `inOut` for camera, `outBack` only for things that land · big moves get
