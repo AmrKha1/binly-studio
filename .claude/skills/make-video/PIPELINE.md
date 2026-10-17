@@ -58,8 +58,8 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   with components from KIT.md — **show, don't tell:** act every idea out (scene, characters, a mechanism that moves);
   name a shot template where it SHOWS (EvidenceShot and the archival image templates, MapShot, TimelineShot, StatShot,
   ProcessShot, PersonShot, CompareShot). **Text cards** — ClaimShot, QuestionShot, QuoteShot, TitleShot, or a custom shot
-  whose main visual is words — are the rare exception: **at most 1 per chapter**, only when the words themselves are the
-  point (a famous myth being busted, the video's central question once, a real quote), each with `"ok":"why this can't be
+  whose main visual is words — are the rare exception: **0 by default, at most 1 per chapter**, only when the words
+  themselves are the point (a famous myth being busted, the video's central question once, a real quote), each with `"ok":"why this can't be
   shown"` in the shots JSON. Turn a would-be card into a scene: "How did the Middle Ages actually think?" → the camera dives
   into a medieval physician's head where the four humors swirl; "Bathing is about hygiene" → a modern shower cuts to a
   physician PRESCRIBING a hot bath as medicine, the red pen striking the modern idea. Custom shots carry the hook, reveals

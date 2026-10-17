@@ -43,7 +43,9 @@ easing · gradients, glow blur, noise/grain, glassy effects · drop shadows exce
 more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · text under 22 px or
 outside 96 px margins · centred-everything layouts shot after shot · a frame with nothing alive for > 2 s ·
 generic stock-like decoration · new colours outside `C` · `Math.random`/timers.
-**Always:** `ease.out`/`outQuint` for entrances, `inOut` for camera, `outBack` only for things that land · stagger
+**Always:** `ease.out`/`outQuint` for entrances, `inOut` for camera, `outBack` only for things that land · big moves get
+a tiny anticipation (wind-up) before and a small settle (follow-through) after, so motion feels alive, not mechanical ·
+keep screen direction consistent (a journey, army or timeline that moves left→right keeps doing so across shots) · stagger
 groups by 0.08–0.15 s · enter ~0.15 s before the spoken word · one focal point per frame · a held final state that
 the next shot/chapter can transition from · semantic colours for certainty · exact numbers as spoken.
 
