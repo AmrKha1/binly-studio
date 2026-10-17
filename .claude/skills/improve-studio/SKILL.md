@@ -13,7 +13,7 @@ old mistake. Work through helpers for any code; keep your own context small.
      the user's OK), `.claude/skills/make-video/PIPELINE.md` (process). Rewrite/replace instead of appending; keep
      each doc short (RETENTION ≤ ~700 words, CRAFT ≤ ~1000, BUILDER ≤ ~1400).
    - **Trim only what is clearly repeated or outdated — never remove a rule the owner decided** (anything marked
-     "channel owner's decision", the owner's preferences list, the goal/reuse mindset, voiceover-first, YouTube-safe,
+     "channel owner's decision", the owner's preferences list, the quality-first goal (reuse only when just as good), voiceover-first, YouTube-safe,
      storytelling-not-documentary, real images, the red-pen/caption styles). When unsure, keep it.
    - Remove lessons that are now built into the docs or kit, outdated, or contradicted by real data.
    - Leave LESSONS.md with only fresh, not-yet-merged notes (target < 20 lines) + the Kit backlog.

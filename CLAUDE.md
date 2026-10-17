@@ -6,11 +6,11 @@ every decision serves a viewer who should not want to stop watching (docs/RETENT
 bored. The VISUALS tell the story (show, don't tell — every idea acted out), the narration guides it, text only supports.
 Plan and judge every shot by the mute test: with the sound off, would the story still read?
 **Your goal every time: the highest-quality video for the fewest tokens, context and time.**
-1. **First reuse** — templates, kit pieces, past assets, summaries, cheap helpers (see "Cost reflex" below).
-2. **Then create** what this video needs that doesn't exist yet — new shots, art, characters, ideas — and always for the
-   hook, the big reveals and the signature moments. That's what makes each video special.
-3. **Reuse is the default for supporting beats** — create something new there only when reuse would be *clearly* worse.
-   But every video gets its OWN identity: its motif and 3–6 new shared pieces made for THIS story (a guide, not a quota; up to ~8 for image-poor topics
+1. **Quality first.** For every shot, choose what is best for the viewer and this story.
+2. **Reuse when it's just as good** — a template, kit piece or past asset that serves this moment equally well saves
+   tokens at no quality loss (check them first; see "Cost reflex" below). When something new would be better for the
+   viewer, create it — and always for the hook, the big reveals and the signature moments.
+3. **Every video gets its OWN identity:** its motif and 3–6 new shared pieces made for THIS story (a guide, not a quota; up to ~8 for image-poor topics
    like science/psychology) (hook, signature moments,
    the core ideas' visuals). A video that only re-arranges past pieces feels like a repeat — viewers notice.
 The user puts a voiceover + script in `input/` (the VOICEOVER is the truth — timing and wording follow what was said;
@@ -24,11 +24,11 @@ Docs: `docs/PLAYBOOK.md` (channel rules) · `docs/RETENTION.md` (the Binly minds
 (kit index → sections in docs/kit/) · `docs/BUILDER.md` (how chapters are coded) · `docs/LESSONS.md` · `docs/ASSETS.md` (pieces from past videos) · `docs/TOOLS.md` (what's installed — use it, don't search) · user guide `START HERE.md`.
 Subagents: `binly-builder` (builds a chapter) · `binly-scout` (cheap chores).
 
-## Reuse before you build (saves tokens & context, keeps the look consistent)
+## Know what exists (reuse saves tokens & context when it's just as good)
 The Studio learns from every video through SHORT summaries — read those, not old video folders: `docs/LESSONS.md` (what
 worked / what to avoid), `docs/ASSETS.md` (pieces built for past videos), `docs/KIT-INDEX.md` (the kit), `docs/catalog/*.png`, `node tools/silhouette.mjs list`.
-Use what exists first (templates, kit parts, past assets); build new only what this story truly needs, then register it
-so the next video can reuse it. Writing and fixing code is the expensive part — every reuse is tokens saved.
+Check what exists (templates, kit parts, past assets) and reuse it where it serves the moment just as well; build new
+where the story is better served by something new, then register it so the next video can reuse it. Writing and fixing code is the expensive part — every reuse is tokens saved.
 
 ## Cost reflex
 Quality first — and then the cheapest path to it. Before anything that reads or produces a lot (big files, old videos'

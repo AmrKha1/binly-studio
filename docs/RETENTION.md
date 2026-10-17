@@ -42,6 +42,6 @@ If not, the pictures aren't telling the story yet.
 10. **Land the ending.** Pay off the opening question with the strongest image, echo the first shot, stop when the
     idea is complete.
 
-**Efficiency is part of craft:** reuse before you build (templates, kit, past assets, lessons — to save tokens and
-context), decide quickly, one strong idea per shot, don't re-litigate what works.
+**Quality first, efficiently:** choose what's best for the viewer; reuse templates, kit, past assets and lessons when
+they're just as good (that saves tokens and context at no quality loss), decide quickly, one strong idea per shot, don't re-litigate what works.
 A great video in one session beats a perfect plan.

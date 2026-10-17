@@ -31,8 +31,9 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
 - `videos/<slug>/plan.md` (≤ 700 words): logline · **the story spine** (hook → the question & why it matters → rising tension / turns → the big reveal →
   payoff; mark where each lands in time — the plan must read like a story, not a topic outline) · the question that drives the video · visual thesis (the
   ONE big visual idea/world) · palette leaning (within the Binly system) · recurring motifs and what they mean ·
-  recurring characters/objects/places → **reuse first**: check `docs/KIT-INDEX.md` and `docs/ASSETS.md` (pieces built in
-  past videos); only what's missing becomes a **new shared component** in `src/videos/<slug>/shared/` (name, file, props,
+  recurring characters/objects/places → **quality first**: check `docs/KIT-INDEX.md` and `docs/ASSETS.md` (pieces built in
+  past videos) and reuse what serves the story just as well; what's missing, or would be better made new for this
+  story, becomes a **new shared component** in `src/videos/<slug>/shared/` (name, file, props,
   look) — **3–6 new shared pieces per video, made for THIS story** (a guide, not a quota); **up to ~8 for image-poor
   topics** (science, psychology — animation carries everything there), sized by the story's core ideas and signature
   moments. More only with a reason written in plan.md; never build a piece just to reach a number. One-off custom
