@@ -9,6 +9,10 @@ numbers like average view duration, average % viewed, CTR, and maybe notable com
 not production.
 
 1. Identify the video (ask only if unclear) → `videos/<slug>/chapters.json`, `plan.md`, `briefs/`.
+**Benchmarks** (what creators and strategists treat as good for long-form — rules of thumb, not YouTube's numbers; the
+channel's own average across videos becomes the better baseline over time): ≥ 50–70 % still watching at 0:30 ·
+≥ 40–60 % at 1:00 · ~30–35 % average percentage viewed for 10+ min videos. Say where this video stands against them.
+
 2. Read the graph: the first-30-seconds drop, the steady slope, every sharp drop (> ~5 points within ~20 s), spikes
    (re-watches) and the ending. Convert each to a timestamp → chapter + shot (briefs list shots with times). Use
    `node tools/sheet.mjs --times …` on 2–4 key moments if you need to see what was on screen (activate the video
