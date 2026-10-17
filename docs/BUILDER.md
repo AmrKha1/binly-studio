@@ -38,10 +38,14 @@ Progress values: `ramp(t, a, b, ease.x)`, `keys(t, [[t0,v0],[t1,v1]])`, `win(t, 
 `<World cam={cam} layers=[{depth, el}]/>` for parallax. Holds: `breathe(cam, t)`.
 
 ## Bans and defaults (decide nothing twice)
+**Mobile first (most viewers watch on a phone):** the main subject fills ≥ ~⅓ of the frame height; faces in close shots
+are big enough to read an expression; labels ≤ ~6 words. Honour the brief's shot size — a CLOSE shot is truly close
+(a face or an object filling the frame), not a medium shot with a small subject.
 **Never:** linear easing on visible motion · everything fading in the same way · elements popping on/off without
 easing · gradients, glow blur, noise/grain, glassy effects · drop shadows except the kit's flat offset shadows ·
-more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · text under 22 px or
-outside 96 px margins · centred-everything layouts shot after shot · a frame with nothing alive for > 2 s ·
+more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · readable text under 32 px
+(small labels/credits under 28 px) or outside 96 px margins · an "empty stage" (one small thing on plain paper — every
+shot happens in a PLACE with foreground / mid / background and light, except a deliberate void like MindSpace) · centred-everything layouts shot after shot · a frame with nothing alive for > 2 s ·
 generic stock-like decoration · new colours outside `C` · `Math.random`/timers.
 **Always:** `ease.out`/`outQuint` for entrances, `inOut` for camera, `outBack` only for things that land · big moves get
 a tiny anticipation (wind-up) before and a small settle (follow-through) after, so motion feels alive, not mechanical ·

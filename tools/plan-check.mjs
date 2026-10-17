@@ -5,6 +5,7 @@
 //   • STILL SENTENCE — a spoken sentence that starts with no visible change near it (no shot start, no beat)
 //   • SAME  — 3 shots in a row with the same template, or 3 text / diagram / image / data shots in a row
 //   • FLAT  — more than 60 s (story scenes: 120 s) without a switch of visual mode
+//   • SIZE  — a chapter without a close-up, or 3 wide shots in a row (mobile first: get close)
 //   • TEXT  — show, do not tell: more than 1 text card per chapter, a text card without an "ok" reason, or > 8 % of shots (scene / character / diagram / map / image / text / data)
 // Custom shots declare their mode: "mode":"scene" (templates know theirs).
 // Custom shots list their visible changes as cue times: {"id":"S3","start":98.9,"custom":true,"note":"…","beats":[100.2,103.6]}
@@ -69,7 +70,7 @@ for (const ch of chapters) {
     const end = i + 1 < shots.length ? shots[i + 1].start : ch.end;
     const mode = s.mode ?? (s.custom ? null : TEMPLATE_MODE[s.template] ?? null);
     if (s.custom && !s.mode) noMode++;
-    seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok, sig: !!s.signature});
+    seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok, sig: !!s.signature, size: s.size ?? null});
     const dur = end - s.start;
     const changes = [s.start, ...(s.beats ?? []), ...(s.custom ? [] : templateBeats(s.props))];
     const said = sentences.filter((x) => x.s >= s.start - 0.3 && x.s < end - 0.3);
@@ -118,6 +119,22 @@ if (!only && (sigs.length < 5 || sigs.length > 8)) {
   flags++;
   console.log(`  SIGNATURE count ${sigs.length} → mark 5–8 shots "signature": true, each with a ★ hero brief`);
 }
+// shot-size rhythm (mobile first): every chapter needs close-ups; never 3 wides in a row
+const noSize = seq.filter((x) => !x.size).length;
+if (noSize) console.log(`
+note: ${noSize} shots have no "size" (wide | medium | close) — add it so the size rhythm can be checked`);
+const sizeLines = [];
+const byCh = {};
+for (const x of seq) (byCh[x.ch] ??= []).push(x);
+for (const [chId, list] of Object.entries(byCh)) {
+  if (list.some((x) => x.size) && !list.some((x) => x.size === 'close')) { flags++; sizeLines.push(`  SIZE ${chId}: no close-up → add close shots for emotion, reactions and key details`); }
+}
+for (let i = 2; i < seq.length; i++) {
+  const [x, y, z] = [seq[i - 2], seq[i - 1], seq[i]];
+  if (x.size === 'wide' && y.size === 'wide' && z.size === 'wide' && !z.ok) { flags++; sizeLines.push(`  SIZE ${x.ch} ${x.id} → ${z.ch} ${z.id}: 3 wide shots in a row → go closer`); }
+}
+if (sizeLines.length) { console.log('
+Shot sizes:'); sizeLines.forEach((l) => console.log(l)); }
 // show, don't tell: text cards (words as the main visual) are the rare exception — ≤ 1 per chapter, each with an "ok" reason
 const texts = seq.filter((x) => x.mode === 'text');
 console.log(`\nText cards: ${texts.length}${texts.length ? ' — ' + texts.map((x) => `${x.ch} ${x.id} ${x.kind}`).join(', ') : ''}`);

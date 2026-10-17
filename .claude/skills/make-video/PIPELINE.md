@@ -69,7 +69,8 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   moments · music mood. Be concrete: builders execute, they should not have to invent the direction — but
   leave them room for craft. Shot numbers make later fixes precise ("C04 S3: …").
   **The standard is `docs/EXAMPLE-BRIEF.md`** (read it once before the first brief). Each shot answers:
-  SIZE + FOCUS (wide/medium/close · the one thing the eye goes to) · ACTION (what appears/moves, in order, on which
+  SIZE + FOCUS (wide/medium/close · the one thing the eye goes to; mobile first: the subject fills ≥ ~⅓ of the frame) ·
+  PLACE (where it happens — foreground / mid / background and light; no empty stage) · ACTION (what appears/moves, in order, on which
   spoken words) · exact TEXT · KIT/IMAGE (named pieces, image files already fetched and looked at — YouTube-safe per
   PLAYBOOK, with the crop/pan region if the image has nudity elsewhere) · CAMERA + IN-transition ·
   DONE WHEN (one line: what must read clearly, by when). Specify the WHAT; leave the HOW to the builder.
@@ -101,7 +102,10 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
 **2b · Shot lists as data** — for each chapter also write `videos/<slug>/shots/Cxx.json` (format in
 `tools/compile-shots.mjs`): template shots with their props, custom shots as `{"id":"S4","start":…,"custom":true,"note":"…","beats":[t1,t2,…]}` (`beats` = cue times of
 the visible changes inside the shot, one per sentence after the first; `mode` = scene | character | diagram | map |
-image | text | data — templates set it themselves). Then run `node tools/plan-check.mjs` — it flags
+image | text | data — templates set it themselves; `size` = wide | medium | close). **Shot-size rhythm:** mix wide,
+medium and close in every chapter — close-ups for emotion, reactions and key details; never 3 wides in a row.
+**Light & colour variety:** no long stretch in the same flat paper light — time of day, interiors, dark mind-space, a
+dramatic light on a reveal are story moments (plan them in the retention map). Then run `node tools/plan-check.mjs` — it flags
 long shots that go still (> 10 s with a beat-less sentence, or > 15 s — a lively 10–15 s shot with a beat per sentence
 passes), sentences with no visible change (text only, costs nothing). Fix every flag (split the shot, add a beat
 or a camera travel) or accept it on purpose with `"ok":"why"` on that shot.
@@ -140,7 +144,8 @@ Each builder writes only `src/videos/<slug>/chapters/C03.tsx` (+ `videos/<slug>/
 
 **5 · Review each chapter** as it arrives: `node tools/sheet.mjs --from <start> --to <end> --n 20 --cols 5`,
 then Read the PNG. Judge like a demanding art director with the Binly mindset (docs/RETENTION.md): would a stranger keep watching?
-Against the PLAN, not from scratch — and the **mute test** on the sheet (does the story read from the pictures alone?): the signature moments land as planned, the builder's "Beats:" line (any beat off
+Against the PLAN, not from scratch — the **mute test** on the sheet (does the story read from the pictures alone?) and
+the **phone test** (would each frame read on a phone — big subject, a real place, close-ups that land, no empty stage?): the signature moments land as planned, the builder's "Beats:" line (any beat off
 its cue = a sentence over a still frame), focal point, readability, each shot's DONE WHEN met, the builder's "Decided myself"
 items acceptable, nothing broken/empty/colliding. Send back only what
 really matters. Send concrete fixes to the SAME builder with SendMessage

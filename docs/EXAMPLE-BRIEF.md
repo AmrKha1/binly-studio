@@ -48,10 +48,10 @@ Three modes in 29 s, no cut without a reason.
 shots/C02.json (the template shots as data):
 ```json
 {"shots":[
- {"id":"S1","start":84.0,"custom":true,"mode":"scene","note":"medieval city at dusk, push toward steaming bathhouse; Kicker PARIS · 1300s","beats":[86.3,89.4]},
- {"id":"S2","start":91.6,"custom":true,"mode":"scene","note":"bathhouse interior, shared tubs, laughing bathers","beats":[93.0,96.2],"signature":true,"in":{"kind":"zoom","x":1250,"y":420}},
- {"id":"S3","start":98.9,"template":"ListShot","props":{"title":"What the bathhouse offered","items":[{"label":"Food","icon":"flame"},{"label":"Drink","icon":"drop"},{"label":"Conversation","icon":"speech"}],"cues":[99.4,100.2,101.0]},"in":{"kind":"paper","dir":"left"}},
- {"id":"S4","start":106.0,"template":"EvidenceShot","props":{"src":"img/paris-bathhouse.jpg","caption":"A bathhouse, Paris, 15th century","mark":{"rx":0.7,"ry":0.2,"rw":0.2,"rh":0.15,"at":110.8},"tag":{"text":"Documented","kind":"confirmed"}}}
+ {"id":"S1","start":84.0,"custom":true,"mode":"scene","size":"wide","note":"medieval city at dusk, push toward steaming bathhouse; Kicker PARIS · 1300s","beats":[86.3,89.4]},
+ {"id":"S2","start":91.6,"custom":true,"mode":"scene","size":"medium","note":"bathhouse interior, shared tubs, laughing bathers","beats":[93.0,96.2],"signature":true,"in":{"kind":"zoom","x":1250,"y":420}},
+ {"id":"S3","start":98.9,"template":"ListShot","size":"medium","props":{"title":"What the bathhouse offered","items":[{"label":"Food","icon":"flame"},{"label":"Drink","icon":"drop"},{"label":"Conversation","icon":"speech"}],"cues":[99.4,100.2,101.0]},"in":{"kind":"paper","dir":"left"}},
+ {"id":"S4","start":106.0,"template":"EvidenceShot","size":"close","props":{"src":"img/paris-bathhouse.jpg","caption":"A bathhouse, Paris, 15th century","mark":{"rx":0.7,"ry":0.2,"rw":0.2,"rh":0.15,"at":110.8},"tag":{"text":"Documented","kind":"confirmed"}}}
 ]}
 ```
 (`beats` = the cue times of the visible changes inside a custom shot: S1's smoke rising on "city" and the PARIS · 1300s
