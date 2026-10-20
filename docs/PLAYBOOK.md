@@ -81,6 +81,18 @@ thumbnail and title stay fully clean. When unsure about an image, don't use it �
 - Write ALL on-screen text in Arabic (titles, pills, labels, chapter titles in chapters.json). Numbers in Western
   digits (123) exactly as spoken. Same visual stories — only the words change.
 - Speech timing uses the multilingual large-v3 model (slower: start ingest early). Formal Arabic times best.
+- **The Arabic channel is "ازتيكا" (Aztika) and has a HOST: Aztika, the Aztec storyteller (kit/host, owner 2026-10-20).**
+  He is the narrator talking to the viewer, on every topic: he appears in MOST of the video but not everywhere —
+  the hook, the explaining moments, reactions, chapter turns, the ending — standing at the side of the frame and pointing
+  at / presenting / reacting to the story elements. MODERATE, MEANINGFUL animation (owner 2026-10-20): alive and natural —
+  breathing, sway, head tilt, nods while talking, gestures gliding between poses, expressions, blinks, lip movement
+  (talkFrom + src/videos/<slug>/speech.ts) — but never popping/bouncing around without a reason. How much, where, which
+  poses, whether a pose change makes a sound and whether he mirrors in RTL: the video director decides per video/shot
+  (`life` 0–2, `sfx`, `mirror`, kit/motion wrappers for a jump-in or a tada). He is the guide; the visuals still tell it.
+  **He is NOT a fixed full-body figure:** vary the framing like a real presenter — full body, waist-up, head-and-shoulders
+  close-up for reactions, peeking in from an edge, tiny in a wide scene — and MOVE him (walk across, slide in from the
+  side, rise from below, step aside to reveal) wherever it helps the viewer follow and keeps them watching.
+  English videos have no host.
 
 ## 5. Motion
 - Every move has a purpose: advance the story, create curiosity, clarify, reveal a relation/contrast/

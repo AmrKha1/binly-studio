@@ -106,6 +106,10 @@ flipIn · zoomSpin · whip* · stamp; headlines bounce by default). For every sh
 the key object's Attention move on its word (heartBeat emphasis · tada win · shake myth · float held hero) and its exit;
 vary the presets inside a scene. Every movement makes a sound automatically + 10–30 story sounds per chapter (cash,
 impact, power-up, error …). White-mode backgrounds: GlowBackdrop / GlowFloor; 3–6 SlamTitle pivots per video.
+**Arabic channel (lang "ar") = host AZTIKA:** plan where he is on screen (most of the video, not everywhere), his pose +
+face track per shot (point/present at the element being named, react on twists), how lively he is (moderate,
+meaningful — your call per shot) and his FRAMING + movement (full / waist-up / close-up / peek / tiny; walks, slides in,
+steps aside) — vary it like a real presenter. Write it in each brief.
 
 **2b · Shot lists as data** — for each chapter also write `videos/<slug>/shots/Cxx.json` (format in
 `tools/compile-shots.mjs`): template shots with their props, custom shots as `{"id":"S4","start":…,"custom":true,"note":"…","beats":[t1,t2,…]}` (`beats` = cue times of

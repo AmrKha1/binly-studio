@@ -21,12 +21,16 @@ import {Jitter} from './pages/jitter';
 import {Glow, GlowFloorPage} from './pages/glow';
 import {Arabic} from './pages/arabic';
 import {Motion} from './pages/motion';
+import {HostPage, HostPage2, HostPage3} from './pages/host';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
   glow: Glow,
   arabic: Arabic,
   motion: Motion,
+  host: HostPage,
+  host2: HostPage2,
+  host3: HostPage3,
   glowfloor: GlowFloorPage,
   text: Text,
   cards: Cards,

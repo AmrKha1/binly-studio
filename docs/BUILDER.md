@@ -76,6 +76,19 @@ key object an `<Attention>` on its word (heartBeat for emphasis, tada for a win,
 for fun, float for a held hero), leave with `<Exit>`. Headlines on hooks/pivots: `mode="bounce"`. Vary the presets —
 never the same entrance for every element in a scene. Each preset sounds automatically.
 
+## The host — AZTIKA (Arabic channel only)
+`<Host t x y s poses={[[t0,'idle'],[t1,'pointRight'],…]} faces={[[t0,'neutral'],[t1,'surprised'],…]} talk={talkFrom(t, WORDS)} p={entrance} />`
+from kit/host (`import {WORDS} from '../speech'`). (x, y) = between his feet; s 0.6–1.1 (≈ 500–880 px tall). Stand him at the
+frame's side, feet near the bottom (y ≈ 1000–1040), facing the story element; poses on the words they belong to
+(point at what is named, present a result, shrug at a mystery, think at a question, thumbsUp at a win, surprised at a
+twist). Poses: idle pointLeft pointRight present presentRight shrug think wave thumbsUp surprised explain count handsOnHips ·
+faces: neutral happy surprised thinking worried excited wink. Options (your choice, per the brief): `life` 0 still · 1 natural
+(default) · 2 lively · `sfx` (a soft swish on pose changes, off by default) · `mirror` (false keeps his real orientation in
+Arabic) · move him or wrap him in Enter/Attention/Exit. Moderate and meaningful: every gesture has a reason in the story.
+Framing: `hostShot('full'|'half'|'close'|'peek'|'tiny', 'left'|'center'|'right')` → {x, y, s(, lean)} — spread it into <Host>;
+the frame edge crops what is below (half = waist up, close = head & shoulders, peek = leans in from the edge). Moving:
+animate x/y/s between framings with keys/ramp; set `walk={1}` while he walks so his legs step and he bobs.
+
 ## Backgrounds & big moments (white mode)
 - `GlowBackdrop` = THE default background behind a hero object (light pours out from behind it: soft glow + slow rays +
   faint stars; tones gold/lavender/green/sky/warm). `GlowFloor` = the "stage" (glowing horizon + perspective grid floor)

@@ -25,6 +25,14 @@ kit Kicker/Tag/LabelPlate/chart labels enforce the floor). Keep important text a
   pulse · jello · float. `<Exit kind p x y>`: popOut · shrink · flyUp · flyDown · fade. Headline `mode="bounce"` = words pop
   up one by one (kinetic type). Showcase: Gallery page "motion".
 
+**host** (kit/host — AZTIKA, the Arabic channel's narrator): `<Host t x y s poses faces talk p id/>` · poses idle ·
+pointLeft · pointRight · present · presentRight · shrug · think · wave · thumbsUp · surprised · explain · count · handsOnHips ·
+faces neutral · happy · surprised · thinking · worried · excited · wink · `talkFrom(t, WORDS)` mouth from the generated
+`src/videos/<slug>/speech.ts` (tools/speech-map.mjs). Blinks, breathes, sways, nods while talking; poses blend with a spring.
+`life` 0–2 (idle motion, default 1) · `sfx` (pose-change swish, default off) · `mirror` (default true; false = real orientation in RTL) ·
+`walk` (steps while you move x) · `lean` · `hostShot(framing, side)` → {x,y,s} for full · half · close · peek · tiny. Gallery "host3" = framings.
+Showcase: Gallery pages "host" (all poses) and "host2" (talking).
+
 **stage**
 - `<Stage bg={C.paper}>…svg children…</Stage>` full 1920×1080 frame (every shot/chapter renders one).
 - **Steady text (rule):** Chrome snaps axis-aligned glyphs to whole pixels vertically, so under slow camera drifts text

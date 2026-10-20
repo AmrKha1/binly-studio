@@ -70,5 +70,6 @@ if (!a['no-analyze']) {
   console.log(`voiceover uploaded (release ${tag})`);
   const r = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'cloud.mjs'), 'analyze', slug], {stdio: 'inherit'});
   if (r.status !== 0) process.exit(r.status ?? 1);
+  spawnSync(process.execPath, [path.join(ROOT, 'tools', 'speech-map.mjs'), '--slug', slug], {stdio: 'inherit'}); // host lip movement
 }
 console.log(`\nNEXT: read videos/${slug}/timing/transcript.md, then plan (see .claude/skills/make-video/PIPELINE.md).`);

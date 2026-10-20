@@ -131,6 +131,19 @@ key object an `<Attention>` on its word (heartBeat for emphasis, tada for a win,
 for fun, float for a held hero), leave with `<Exit>`. Headlines on hooks/pivots: `mode="bounce"`. Vary the presets —
 never the same entrance for every element in a scene. Each preset sounds automatically.
 
+## The host — AZTIKA (Arabic channel only)
+`<Host t x y s poses={[[t0,'idle'],[t1,'pointRight'],…]} faces={[[t0,'neutral'],[t1,'surprised'],…]} talk={talkFrom(t, WORDS)} p={entrance} />`
+from kit/host (`import {WORDS} from '../speech'`). (x, y) = between his feet; s 0.6–1.1 (≈ 500–880 px tall). Stand him at the
+frame's side, feet near the bottom (y ≈ 1000–1040), facing the story element; poses on the words they belong to
+(point at what is named, present a result, shrug at a mystery, think at a question, thumbsUp at a win, surprised at a
+twist). Poses: idle pointLeft pointRight present presentRight shrug think wave thumbsUp surprised explain count handsOnHips ·
+faces: neutral happy surprised thinking worried excited wink. Options (your choice, per the brief): `life` 0 still · 1 natural
+(default) · 2 lively · `sfx` (a soft swish on pose changes, off by default) · `mirror` (false keeps his real orientation in
+Arabic) · move him or wrap him in Enter/Attention/Exit. Moderate and meaningful: every gesture has a reason in the story.
+Framing: `hostShot('full'|'half'|'close'|'peek'|'tiny', 'left'|'center'|'right')` → {x, y, s(, lean)} — spread it into <Host>;
+the frame edge crops what is below (half = waist up, close = head & shoulders, peek = leans in from the edge). Moving:
+animate x/y/s between framings with keys/ramp; set `walk={1}` while he walks so his legs step and he bobs.
+
 ## Backgrounds & big moments (white mode)
 - `GlowBackdrop` = THE default background behind a hero object (light pours out from behind it: soft glow + slow rays +
   faint stars; tones gold/lavender/green/sky/warm). `GlowFloor` = the "stage" (glowing horizon + perspective grid floor)
@@ -337,6 +350,18 @@ thumbnail and title stay fully clean. When unsure about an image, don't use it �
 - Write ALL on-screen text in Arabic (titles, pills, labels, chapter titles in chapters.json). Numbers in Western
   digits (123) exactly as spoken. Same visual stories — only the words change.
 - Speech timing uses the multilingual large-v3 model (slower: start ingest early). Formal Arabic times best.
+- **The Arabic channel is "ازتيكا" (Aztika) and has a HOST: Aztika, the Aztec storyteller (kit/host, owner 2026-10-20).**
+  He is the narrator talking to the viewer, on every topic: he appears in MOST of the video but not everywhere —
+  the hook, the explaining moments, reactions, chapter turns, the ending — standing at the side of the frame and pointing
+  at / presenting / reacting to the story elements. MODERATE, MEANINGFUL animation (owner 2026-10-20): alive and natural —
+  breathing, sway, head tilt, nods while talking, gestures gliding between poses, expressions, blinks, lip movement
+  (talkFrom + src/videos/<slug>/speech.ts) — but never popping/bouncing around without a reason. How much, where, which
+  poses, whether a pose change makes a sound and whether he mirrors in RTL: the video director decides per video/shot
+  (`life` 0–2, `sfx`, `mirror`, kit/motion wrappers for a jump-in or a tada). He is the guide; the visuals still tell it.
+  **He is NOT a fixed full-body figure:** vary the framing like a real presenter — full body, waist-up, head-and-shoulders
+  close-up for reactions, peeking in from an edge, tiny in a wide scene — and MOVE him (walk across, slide in from the
+  side, rise from below, step aside to reveal) wherever it helps the viewer follow and keeps them watching.
+  English videos have no host.
 
 ## 5. Motion
 - Every move has a purpose: advance the story, create curiosity, clarify, reveal a relation/contrast/
