@@ -7,6 +7,10 @@ The owner rejected a warm, yellow, moody result ("the colours are yellow and the
 Approved example: docs/art/approved-background.jpg (use it as the reference image for new plates). Rejected:
 docs/art/rejected-yellow.jpg (warm, yellow, light beams, painterly) — never this.
 
+## Model (owner, 2026-10-21)
+Always generate with **model: "Nano Banana 2 Lite"** and **max_credits: 0** (images must stay free; Flow skips any
+image that would cost credits). Never use another model unless the owner says so.
+
 ## STYLE block (append to every prompt)
 > Clean flat 2D cartoon illustration in the style of a modern animated explainer video. Crisp uniform black outlines on
 > everything, flat colour fills with only very light simple cel shading, no texture, no grain, no painterly brushwork.
