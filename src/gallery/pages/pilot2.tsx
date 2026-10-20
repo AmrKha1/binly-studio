@@ -9,7 +9,7 @@ import {ramp, ease} from '../../kit/anim';
 
 // Pilot 2: Flow background plate (illustrated, empty) + cut-out Flow elements landing ON the table + host. 0–6 s.
 // Stills at 1.2, 3.2, 5.
-const TABLE = 690; // table-top line in frame px (objects stand on it)
+const TABLE = 765; // table-top line in frame px (objects stand on it)
 const OBJ: [string, number, number, number, string][] = [
   // name, x, width, aspect, entrance
   ['cowrie-shells', 620, 190, 654 / 464, 'bounceDrop'],
