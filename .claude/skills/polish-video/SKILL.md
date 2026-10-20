@@ -9,8 +9,8 @@ production: quality first, keep YOUR context lean, helpers do the work.
 1. **Collect issues.**
    - From the user's message (timestamps → chapter via `videos/<slug>/chapters.json`).
    - Self-review: read the latest `videos/<slug>/qa/<version>/qa_report.md` and look at every `sheet-NN.png`;
-     check flagged times with `node tools/sheet.mjs --times …`. Look for: collisions/overlaps, clipped or
-     tiny text, empty or dead frames, broken/floating anatomy, things showing through other things, jarring
+     check flagged times with `node tools/sheet.mjs --times …` (add `--phone` for the phone-size view). Look for: collisions/overlaps, clipped or
+     tiny text (anything that doesn't read on a `--phone` sheet), empty or dead frames, broken/floating anatomy, things showing through other things, jarring
      transitions, off-palette colours, text that doesn't match the narration, holds that drag, anything not
      YouTube-safe (visible nudity in an image, graphic gore — PLAYBOOK §4).
    - Write the list to `videos/<slug>/FIXES.md` grouped by chapter (precise: time, what is wrong, what it

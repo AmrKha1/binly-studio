@@ -70,7 +70,7 @@ export const Node: React.FC<{
   filled?: boolean;
   size?: number;
   icon?: React.ReactNode; // optional element drawn above the label (node-local, centre 0,0)
-}> = ({x, y, text, p = 1, w, h = 110, kind = 'ink', filled = false, size = 34, icon}) => {
+}> = ({x, y, text, p = 1, w, h = 110, kind = 'ink', filled = false, size = 44, icon}) => {
   if (p <= 0) return null;
   const col = SEM[kind];
   const ww = w ?? Math.max(220, textW(text, size, 'serif', 600) + 70);
@@ -101,7 +101,7 @@ export const FlowChain: React.FC<{
   kinds?: Sem[];
   size?: number;
   nodeW?: number;
-}> = ({x, y, items, p, gap = 140, dir = 'row', kinds, size = 34, nodeW}) => {
+}> = ({x, y, items, p, gap = 140, dir = 'row', kinds, size = 44, nodeW}) => {
   const widths = items.map((s) => nodeW ?? Math.max(220, textW(s, size, 'serif', 600) + 70));
   const total = dir === 'row' ? widths.reduce((a, b) => a + b, 0) + gap * (items.length - 1) : items.length * 110 + gap * (items.length - 1);
   let cursor = (dir === 'row' ? x : y) - total / 2;
@@ -140,7 +140,7 @@ export const FlowChain: React.FC<{
 };
 
 /** Cycle diagram: items around a circle with curved arrows between them; `spin` rotates (deg). */
-export const Cycle: React.FC<{x: number; y: number; r: number; items: string[]; p: number; spin?: number; kinds?: Sem[]; size?: number}> = ({x, y, r, items, p, spin = 0, kinds, size = 30}) => {
+export const Cycle: React.FC<{x: number; y: number; r: number; items: string[]; p: number; spin?: number; kinds?: Sem[]; size?: number}> = ({x, y, r, items, p, spin = 0, kinds, size = 40}) => {
   const n = items.length;
   return (
     <g>
@@ -187,7 +187,7 @@ export const Venn: React.FC<{x: number; y: number; r: number; labels: string[]; 
         );
       })}
       {overlap && (
-        <text x={x} y={y + 12} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={800} fontSize={26} letterSpacing={2} fill={C.oxblood} opacity={ramp(p, 0.7, 1)}>
+        <text x={x} y={y + 12} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={800} fontSize={Math.max(26, Math.min(36, (r * 0.62) / (overlap.length * 0.78)))} letterSpacing={2.5} fill={C.oxblood} opacity={ramp(p, 0.7, 1)}>
           {overlap.toUpperCase()}
         </text>
       )}
@@ -196,7 +196,7 @@ export const Venn: React.FC<{x: number; y: number; r: number; labels: string[]; 
 };
 
 /** Curly bracket spanning a→b (draws on) with an optional label on its outer side. */
-export const Bracket: React.FC<{a: Pt; b: Pt; p: number; depth?: number; label?: string; color?: string; size?: number}> = ({a, b, p, depth = 30, label, color = C.ink, size = 30}) => {
+export const Bracket: React.FC<{a: Pt; b: Pt; p: number; depth?: number; label?: string; color?: string; size?: number}> = ({a, b, p, depth = 30, label, color = C.ink, size = 40}) => {
   if (p <= 0) return null;
   const dx = b.x - a.x;
   const dy = b.y - a.y;
@@ -220,7 +220,7 @@ export const Bracket: React.FC<{a: Pt; b: Pt; p: number; depth?: number; label?:
 };
 
 /** Callout: a leader line from a target point to a label (elbow line), semantic colour. */
-export const Callout: React.FC<{target: Pt; label: Pt; text: string; p: number; kind?: Sem; size?: number; anchor?: 'start' | 'end'}> = ({target, label, text, p, kind = 'ink', size = 28, anchor}) => {
+export const Callout: React.FC<{target: Pt; label: Pt; text: string; p: number; kind?: Sem; size?: number; anchor?: 'start' | 'end'}> = ({target, label, text, p, kind = 'ink', size = 40, anchor}) => {
   if (p <= 0) return null;
   const col = SEM[kind];
   const k = ease.inOut(clamp01(p * 1.4));

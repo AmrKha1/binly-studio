@@ -38,13 +38,20 @@ Progress values: `ramp(t, a, b, ease.x)`, `keys(t, [[t0,v0],[t1,v1]])`, `win(t, 
 `<World cam={cam} layers=[{depth, el}]/>` for parallax. Holds: `breathe(cam, t)`.
 
 ## Bans and defaults (decide nothing twice)
-**Mobile first (most viewers watch on a phone):** the main subject fills ≥ ~⅓ of the frame height; faces in close shots
-are big enough to read an expression; labels ≤ ~6 words. Honour the brief's shot size — a CLOSE shot is truly close
+**Small screens first (≈ ⅓ of watch time is on phones, often held upright = a picture ~6 cm wide):** the main subject
+fills ≥ ~½ of the frame height and the composition uses ~70% of the width — never a frame that is mostly empty paper;
+rows, lists and comparisons start CENTRED and grow outward (never reserve empty slots for items still to come); cards
+hug their content; a detail that carries meaning is ≥ ~60 px — if it is smaller (a label inside a diagram, a chart inside
+a book) push the camera in on it instead; faces in close shots big enough to read an expression; labels ≤ ~6 words.
+Keep text clear of YouTube's player overlays: nothing important below y = 970 (progress bar, controls) or in the
+top-left corner (title in fullscreen). Check every chapter with `sheet.mjs --phone` (phone-sized tiles).
+Honour the brief's shot size — a CLOSE shot is truly close
 (a face or an object filling the frame), not a medium shot with a small subject.
 **Never:** linear easing on visible motion · everything fading in the same way · elements popping on/off without
 easing · gradients, glow blur, noise/grain, glassy effects · drop shadows except the kit's flat offset shadows ·
-more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · text the viewer must read (labels, tags, names, key
-words) under 32 px · small secondary text (image credits, side notes) under 26 px · anything outside 96 px margins · an "empty stage" (one small thing on plain paper — every
+more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · the shot's key word/line under 72 px · text
+the viewer must read (labels, tags, names) under 48 px · secondary text under 36 px (only image credits / source notes
+may be 26 px; sizes: `TYPE` in kit/theme) · anything outside 96 px margins · an "empty stage" (one small thing on plain paper — every
 shot happens in a PLACE with foreground / mid / background and light, except a deliberate void like MindSpace) · centred-everything layouts shot after shot · a frame with nothing alive for > 2 s ·
 generic stock-like decoration · new colours outside `C` · `Math.random`/timers.
 **Always:** `ease.out`/`outQuint` for entrances, `inOut` for camera, `outBack` only for things that land · big moves get
@@ -74,7 +81,7 @@ the next shot/chapter can transition from · semantic colours for certainty · e
   flame flicker, steam) — never a dead frame > 2 s.
 - **Depth order with objects**: a figure is either IN an object (bather in a tub: head + shoulders only above the rim)
   or fully in front of / behind it — never drawn behind an object's front while its legs show below it.
-- **Readable labels**: Tags ≥ 34 px, Kickers ≥ 30 px, inside SAFE, in clear space near their subject.
+- **Readable labels**: Tags ≥ 48 px, Kickers ≥ 36 px, inside SAFE, in clear space near their subject.
 - **Semantic colour** on claims: confirmed → `kind="confirmed"`, theory → `"theory"`, caution → `"caution"`.
   Oxblood (`C.oxblood`) only on the single key beat of a scene.
 - **Exact numbers**: `<Stat value="0.061" unit="%" …/>` — `value` is the spoken figure exactly.

@@ -36,7 +36,9 @@ something essential, build a local helper inside your chapter file and mention i
    the top with the spoken words as comments).
 2. `node tools/check.mjs` → must pass (fix every error in your file).
 3. `node tools/sheet.mjs --from <start> --to <end> --n 20 --cols 5` → Read the PNG. Then 2–4 detail sheets
-   with `--times` around key reveals/transitions. Look like an art director and storyteller-editor (Binly mindset) — would a stranger keep watching? Is it brisk? focal point, readability,
+   with `--times` around key reveals/transitions, and ONE phone sheet (`--n 12 --cols 4 --phone`: tiles at upright-phone
+   size — every label must still read and the subject must fill the tile; if not, make it bigger or push the camera in;
+   heed `check.mjs`'s PHONE TEXT warnings). Look like an art director and storyteller-editor (Binly mindset) — would a stranger keep watching? Is it brisk? focal point, readability,
    spacing, palette, nothing clipped/colliding/empty, motion staged clearly, the frame alive.
 4. Fix and re-check until it's genuinely good. Budget: ≤ ~8 image reads total — spend most on
    ★ SIGNATURE shots (the brief marks them; their payoff must be screenshot-worthy) — make each count; good enough beats endlessly polishing.

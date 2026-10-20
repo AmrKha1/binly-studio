@@ -36,7 +36,9 @@ something essential, build a local helper inside your chapter file and mention i
    the top with the spoken words as comments).
 2. `node tools/check.mjs` → must pass (fix every error in your file).
 3. `node tools/sheet.mjs --from <start> --to <end> --n 20 --cols 5` → Read the PNG. Then 2–4 detail sheets
-   with `--times` around key reveals/transitions. Look like an art director and storyteller-editor (Binly mindset) — would a stranger keep watching? Is it brisk? focal point, readability,
+   with `--times` around key reveals/transitions, and ONE phone sheet (`--n 12 --cols 4 --phone`: tiles at upright-phone
+   size — every label must still read and the subject must fill the tile; if not, make it bigger or push the camera in;
+   heed `check.mjs`'s PHONE TEXT warnings). Look like an art director and storyteller-editor (Binly mindset) — would a stranger keep watching? Is it brisk? focal point, readability,
    spacing, palette, nothing clipped/colliding/empty, motion staged clearly, the frame alive.
 4. Fix and re-check until it's genuinely good. Budget: ≤ ~8 image reads total — spend most on
    ★ SIGNATURE shots (the brief marks them; their payoff must be screenshot-worthy) — make each count; good enough beats endlessly polishing.
@@ -91,13 +93,20 @@ Progress values: `ramp(t, a, b, ease.x)`, `keys(t, [[t0,v0],[t1,v1]])`, `win(t, 
 `<World cam={cam} layers=[{depth, el}]/>` for parallax. Holds: `breathe(cam, t)`.
 
 ## Bans and defaults (decide nothing twice)
-**Mobile first (most viewers watch on a phone):** the main subject fills ≥ ~⅓ of the frame height; faces in close shots
-are big enough to read an expression; labels ≤ ~6 words. Honour the brief's shot size — a CLOSE shot is truly close
+**Small screens first (≈ ⅓ of watch time is on phones, often held upright = a picture ~6 cm wide):** the main subject
+fills ≥ ~½ of the frame height and the composition uses ~70% of the width — never a frame that is mostly empty paper;
+rows, lists and comparisons start CENTRED and grow outward (never reserve empty slots for items still to come); cards
+hug their content; a detail that carries meaning is ≥ ~60 px — if it is smaller (a label inside a diagram, a chart inside
+a book) push the camera in on it instead; faces in close shots big enough to read an expression; labels ≤ ~6 words.
+Keep text clear of YouTube's player overlays: nothing important below y = 970 (progress bar, controls) or in the
+top-left corner (title in fullscreen). Check every chapter with `sheet.mjs --phone` (phone-sized tiles).
+Honour the brief's shot size — a CLOSE shot is truly close
 (a face or an object filling the frame), not a medium shot with a small subject.
 **Never:** linear easing on visible motion · everything fading in the same way · elements popping on/off without
 easing · gradients, glow blur, noise/grain, glassy effects · drop shadows except the kit's flat offset shadows ·
-more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · text the viewer must read (labels, tags, names, key
-words) under 32 px · small secondary text (image credits, side notes) under 26 px · anything outside 96 px margins · an "empty stage" (one small thing on plain paper — every
+more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · the shot's key word/line under 72 px · text
+the viewer must read (labels, tags, names) under 48 px · secondary text under 36 px (only image credits / source notes
+may be 26 px; sizes: `TYPE` in kit/theme) · anything outside 96 px margins · an "empty stage" (one small thing on plain paper — every
 shot happens in a PLACE with foreground / mid / background and light, except a deliberate void like MindSpace) · centred-everything layouts shot after shot · a frame with nothing alive for > 2 s ·
 generic stock-like decoration · new colours outside `C` · `Math.random`/timers.
 **Always:** `ease.out`/`outQuint` for entrances, `inOut` for camera, `outBack` only for things that land · big moves get
@@ -127,7 +136,7 @@ the next shot/chapter can transition from · semantic colours for certainty · e
   flame flicker, steam) — never a dead frame > 2 s.
 - **Depth order with objects**: a figure is either IN an object (bather in a tub: head + shoulders only above the rim)
   or fully in front of / behind it — never drawn behind an object's front while its legs show below it.
-- **Readable labels**: Tags ≥ 34 px, Kickers ≥ 30 px, inside SAFE, in clear space near their subject.
+- **Readable labels**: Tags ≥ 48 px, Kickers ≥ 36 px, inside SAFE, in clear space near their subject.
 - **Semantic colour** on claims: confirmed → `kind="confirmed"`, theory → `"theory"`, caution → `"caution"`.
   Oxblood (`C.oxblood`) only on the single key beat of a scene.
 - **Exact numbers**: `<Stat value="0.061" unit="%" …/>` — `value` is the spoken figure exactly.
@@ -314,8 +323,9 @@ One line each, added when the owner states a preference (style check, polish not
 not one-off fixes. Keep ≤ 15 lines: merge similar ones.
 - Sources in the YouTube description as plain text (author, title, year — searchable), no links. Links only where an
   image licence requires them (CC BY / BY-SA); public-domain/CC0 image credits are text only.
-- Text sizes: 32 px minimum for text the viewer must read (labels, tags, names, key words), 26 px for small secondary
-  text (credits, side notes) — readable on phones, calm on big screens; no need to go larger.
+- Every frame reads on a small phone AND stays calm on a TV (YouTube watch time ≈ ⅓ TV, ⅓ phones, ⅓ computers). Text:
+  the shot's key word/line ≥ 72 px · text the viewer must read (labels, tags, names) ≥ 48 px · secondary text ≥ 36 px ·
+  only image credits / source notes may be 26 px (legibility rule: 16–22 arc-minutes; 32 px was too small on phones).
 - NO image that contains any nudity anywhere (not even bare torsos or loincloth figures) — never "crop it safe"; drop
   the image and animate the scene (bath scenes = animated, clothed figures). Only free-licence images, always credited.
 - Hook beats (first ~30 s) are rich, layered signature scenes (a real place, depth, light, a camera move) — never a
@@ -387,7 +397,7 @@ Import from `../../../kit/<module>` (chapters) · visual catalogs: `docs/catalog
 
 ## docs/kit/core.md — Stage, camera (Cam/World/breathe/shake), time maths (ramp/keys/win/camAt/rand/noise1/countUp), Shots + transitions, palette C/SEM
 modules: kit/stage, kit/anim, kit/shots, kit/theme, kit/video
-TEXT_FO, Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, FONT_HAND, W, H, FPS, SAFE, VideoModule, ChapterDef, Chapters
+TEXT_FO, Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, FONT_HAND, W, H, FPS, SAFE, TYPE, VideoModule, ChapterDef, Chapters
 
 ## docs/kit/text-cards-diagrams.md — Typography, paper objects & screens & bubbles, diagrams/arrows/flows, light & motion fx, characters (Person/Crowd)
 modules: kit/text, kit/cards, kit/diagrams, kit/fx, kit/people

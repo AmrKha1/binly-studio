@@ -1,5 +1,5 @@
 import React from 'react';
-import {C, FONT_HAND, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
+import {C, FONT_HAND, FONT_SANS, FONT_SERIF, SEM, Sem, TYPE} from './theme';
 import {clamp01, countUp, ease, lerp, ramp} from './anim';
 import {TEXT_FO} from './stage';
 
@@ -101,13 +101,14 @@ export const Kicker: React.FC<{x: number; y: number; text: string; p?: number; s
   y,
   text,
   p = 1,
-  size = 24,
+  size = TYPE.small,
   color = C.inkMute,
   anchor = 'middle',
   weight = 700,
 }) => {
   if (p <= 0) return null;
   const k = ease.out(clamp01(p));
+  size = Math.max(size, TYPE.small); // phone-readable floor
   return (
     <text x={x} y={y + (1 - k) * 10} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={weight} fontSize={size} letterSpacing={size * 0.16} fill={color} opacity={k}>
       {text.toUpperCase()}
@@ -133,7 +134,7 @@ export const Para: React.FC<{
   weight?: number;
   italic?: boolean;
   lineHeight?: number;
-}> = ({x, y, w, h = 600, text, p = 1, size = 36, color = C.ink, align = 'left', font = 'serif', weight = 500, italic = false, lineHeight = 1.25}) => {
+}> = ({x, y, w, h = 600, text, p = 1, size = TYPE.read, color = C.ink, align = 'left', font = 'serif', weight = 500, italic = false, lineHeight = 1.25}) => {
   if (p <= 0) return null;
   const k = ease.out(clamp01(p));
   return (
@@ -171,11 +172,12 @@ export const Tag: React.FC<{
   anchor?: 'left' | 'right' | 'center';
   dot?: boolean;
   look?: 'caption' | 'pill';
-}> = ({x, y, text, kind = 'ink', p, size = 26, to, anchor = 'left', dot = true, look = 'caption'}) => {
+}> = ({x, y, text, kind = 'ink', p, size: size0 = 43, to, anchor = 'left', dot = true, look = 'caption'}) => {
   if (p <= 0) return null;
   const col = SEM[kind];
   const onCol = kind === 'caution' ? C.ink : C.paperLight; // dark text on mustard for contrast
   const cap = look === 'caption';
+  const size = Math.max(size0, cap ? TYPE.read / 1.12 : TYPE.label); // phone-readable floor (caption text renders at size × 1.12)
   const label = cap ? text : text.toUpperCase();
   const fs = cap ? size * 1.12 : size;
   const w = cap ? size * 0.22 + size * 0.55 + textW(label, fs, 'serif', 600) * 1.06 + size * 0.75 : textW(label, size, 'sansCaps', 700) + size * (dot ? 2.3 : 1.6);
@@ -310,7 +312,7 @@ export const Stat: React.FC<{
         )}
       </text>
       {label && (
-        <text x={x} y={y + size * 0.42} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={700} fontSize={Math.max(22, size * 0.15)} letterSpacing={size * 0.02} fill={labelColor} opacity={ramp(p, 0.4, 1)}>
+        <text x={x} y={y + size * 0.42} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={700} fontSize={Math.max(TYPE.label, size * 0.2)} letterSpacing={size * 0.02} fill={labelColor} opacity={ramp(p, 0.4, 1)}>
           {label.toUpperCase()}
         </text>
       )}
@@ -357,8 +359,8 @@ export const NameTag: React.FC<{x: number; y: number; name: string; sub?: string
 }) => {
   if (p <= 0) return null;
   const k = ease.out(clamp01(p));
-  const nameSize = 46;
-  const subSize = 22;
+  const nameSize = 64;
+  const subSize = TYPE.small;
   const w = Math.max(textW(name, nameSize, 'serif'), sub ? textW(sub.toUpperCase(), subSize, 'sansCaps') : 0) + 60;
   const ox = anchor === 'left' ? 0 : -w;
   const fg = dark ? C.paperLight : C.ink;
@@ -393,7 +395,7 @@ export const TitleCard: React.FC<{x?: number; y?: number; kicker?: string; title
   const lineW = lerp(0, Math.min(520, textW(title, size) * 0.6), ease.inOut(ramp(p, 0.15, 0.8)));
   return (
     <g opacity={1 - ease.in(clamp01(out))}>
-      {kicker && <Kicker x={x} y={y - size * 0.95} text={kicker} p={ramp(p, 0, 0.5)} color={kickerColor} size={26} />}
+      {kicker && <Kicker x={x} y={y - size * 0.95} text={kicker} p={ramp(p, 0, 0.5)} color={kickerColor} />}
       <Headline x={x} y={y} text={title} p={ramp(p, 0.1, 0.9)} size={size} color={color} mode="mask" />
       <rect x={x - lineW / 2} y={y + size * 0.42} width={lineW} height={5} fill={kickerColor} />
     </g>
@@ -410,7 +412,7 @@ export const HandNote: React.FC<{x: number; y: number; text: string; p?: number;
   const n = Math.ceil(text.length * clamp01(p));
   if (n <= 0) return null;
   return (
-    <text x={x} y={y} transform={`rotate(${rot} ${x} ${y})`} textAnchor={anchor} fontFamily={FONT_HAND} fontWeight={weight} fontSize={Math.max(34, size)} fill={color}>
+    <text x={x} y={y} transform={`rotate(${rot} ${x} ${y})`} textAnchor={anchor} fontFamily={FONT_HAND} fontWeight={weight} fontSize={Math.max(TYPE.read, size)} fill={color}>
       {text.slice(0, n)}
     </text>
   );

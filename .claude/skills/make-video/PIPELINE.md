@@ -146,7 +146,8 @@ Each builder writes only `src/videos/<slug>/chapters/C03.tsx` (+ `videos/<slug>/
 **5 · Review each chapter** as it arrives: `node tools/sheet.mjs --from <start> --to <end> --n 20 --cols 5`,
 then Read the PNG. Judge like a demanding art director with the Binly mindset (docs/RETENTION.md): would a stranger keep watching?
 Against the PLAN, not from scratch — the **mute test** on the sheet (does the story read from the pictures alone?) and
-the **phone test** (would each frame read on a phone — big subject, a real place, close-ups that land, no empty stage?): the signature moments land as planned, the builder's "Beats:" line (any beat off
+the **phone test** (would each frame read on a phone — big subject, a real place, close-ups that land, no empty stage? check one
+`--phone` sheet per chapter: tiles at upright-phone size; text that doesn't read there is too small): the signature moments land as planned, the builder's "Beats:" line (any beat off
 its cue = a sentence over a still frame), focal point, readability, each shot's DONE WHEN met, the builder's "Decided myself"
 items acceptable, nothing broken/empty/colliding. Send back only what
 really matters. Send concrete fixes to the SAME builder with SendMessage

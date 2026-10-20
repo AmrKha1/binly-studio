@@ -88,8 +88,9 @@ One line each, added when the owner states a preference (style check, polish not
 not one-off fixes. Keep ≤ 15 lines: merge similar ones.
 - Sources in the YouTube description as plain text (author, title, year — searchable), no links. Links only where an
   image licence requires them (CC BY / BY-SA); public-domain/CC0 image credits are text only.
-- Text sizes: 32 px minimum for text the viewer must read (labels, tags, names, key words), 26 px for small secondary
-  text (credits, side notes) — readable on phones, calm on big screens; no need to go larger.
+- Every frame reads on a small phone AND stays calm on a TV (YouTube watch time ≈ ⅓ TV, ⅓ phones, ⅓ computers). Text:
+  the shot's key word/line ≥ 72 px · text the viewer must read (labels, tags, names) ≥ 48 px · secondary text ≥ 36 px ·
+  only image credits / source notes may be 26 px (legibility rule: 16–22 arc-minutes; 32 px was too small on phones).
 - NO image that contains any nudity anywhere (not even bare torsos or loincloth figures) — never "crop it safe"; drop
   the image and animate the scene (bath scenes = animated, clothed figures). Only free-licence images, always credited.
 - Hook beats (first ~30 s) are rich, layered signature scenes (a real place, depth, light, a camera move) — never a

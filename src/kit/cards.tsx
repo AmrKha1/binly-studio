@@ -1,5 +1,5 @@
 import React from 'react';
-import {C, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
+import {C, FONT_SANS, FONT_SERIF, SEM, Sem, TYPE} from './theme';
 import {clamp01, ease, ramp} from './anim';
 import {Para, Tag, textW} from './text';
 import {TEXT_FO} from './stage';
@@ -81,18 +81,18 @@ export const DocumentPage: React.FC<{
       <rect x={-w / 2 + 26} y={-h / 2 + 26} width={w - 52} height={h - 52} fill="none" stroke={edge} strokeWidth={3} rx={4} />
       {style === 'journal' && <rect x={-w / 2} y={-h / 2} width={w} height={14} fill={C.oxblood} />}
       {title && (
-        <text x={0} y={top + 50} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={700} fontSize={title.length > 22 ? 36 : 44} fill={ink}>
+        <text x={0} y={top + 50} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={700} fontSize={title.length > 22 ? 42 : 52} fill={ink}>
           {title}
         </text>
       )}
       {subtitle && (
-        <text x={0} y={top + 92} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={18} letterSpacing={3} fill={C.inkMute}>
+        <text x={0} y={top + 96} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={Math.min(26, (26 * (w - 100)) / textW(subtitle.toUpperCase(), 26, 'sansCaps', 700))} letterSpacing={3} fill={C.inkMute}>
           {subtitle.toUpperCase()}
         </text>
       )}
       {title && <line x1={-120} x2={120} y1={top + (subtitle ? 112 : 78)} y2={top + (subtitle ? 112 : 78)} stroke={edge} strokeWidth={3} />}
       {text ? (
-        <Para x={-w / 2 + 60} y={lineY(0) - 30} w={w - 120} h={h - 260} text={text} size={26} p={write} color={ink} italic={style === 'parchment'} />
+        <Para x={-w / 2 + 60} y={lineY(0) - 30} w={w - 120} h={h - 260} text={text} size={TYPE.small} p={write} color={ink} italic={style === 'parchment'} />
       ) : (
         Array.from({length: lines}, (_, i) => {
           const lw = (w - 140) * (i === lines - 1 ? 0.55 : 0.82 + ((i * 37) % 17) / 100);
@@ -148,7 +148,7 @@ export const Polaroid: React.FC<{
       <rect x={-img / 2} y={-img / 2} width={img} height={img} fill={imageBg} />
       <g clipPath={`url(#${id}-win)`}>{children}</g>
       {caption && (
-        <text x={0} y={img / 2 + w * 0.14} textAnchor="middle" fontFamily={FONT_SERIF} fontStyle="italic" fontWeight={600} fontSize={w * 0.062} fill={C.ink}>
+        <text x={0} y={img / 2 + w * 0.14} textAnchor="middle" fontFamily={FONT_SERIF} fontStyle="italic" fontWeight={600} fontSize={Math.max(TYPE.small, w * 0.07)} fill={C.ink}>
           {caption}
         </text>
       )}
@@ -157,7 +157,7 @@ export const Polaroid: React.FC<{
 };
 
 /**
- * Research study card — who/when/what + a certainty tag. Size 640×380.
+ * Research study card — who/when/what + a certainty tag. Size 760×460.
  * <StudyCard x y title="Inner speech sampling" who="Hurlburt & Heavey" year="2011" finding="Inner speech in 26% of sampled moments" n="~30 people" tag={{text:'One method', kind:'caution'}} p={p}/>
  */
 export const StudyCard: React.FC<{
@@ -173,27 +173,27 @@ export const StudyCard: React.FC<{
   tag?: {text: string; kind: Sem};
   accent?: string;
 }> = ({x, y, p = 1, rot = 0, title, who, year, finding, n, tag, accent = C.oxblood}) => {
-  const w = 640;
-  const h = 380;
+  const w = 760;
+  const h = 460;
   return (
     <Card x={x} y={y} w={w} h={h} p={p} rot={rot}>
       <rect x={0} y={0} width={14} height={h} fill={accent} />
-      <text x={48} y={66} fontFamily={FONT_SANS} fontWeight={700} fontSize={20} letterSpacing={3} fill={C.inkMute}>
+      <text x={48} y={72} fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={3.5} fill={C.inkMute}>
         {[who, year].filter(Boolean).join(' · ').toUpperCase()}
       </text>
-      <Para x={46} y={84} w={w - 90} h={120} text={title} size={40} weight={700} p={ramp(p, 0.2, 0.8)} />
-      {finding && <Para x={48} y={196} w={w - 90} h={110} text={finding} size={28} weight={500} color={C.inkSoft} p={ramp(p, 0.4, 1)} />}
+      <Para x={46} y={94} w={w - 90} h={130} text={title} size={TYPE.read} weight={700} p={ramp(p, 0.2, 0.8)} />
+      {finding && <Para x={48} y={226} w={w - 90} h={120} text={finding} size={TYPE.small} weight={500} color={C.inkSoft} p={ramp(p, 0.4, 1)} />}
       {n && (
-        <text x={48} y={h - 40} fontFamily={FONT_SANS} fontWeight={600} fontSize={22} fill={C.inkMute}>
+        <text x={48} y={h - 40} fontFamily={FONT_SANS} fontWeight={600} fontSize={30} fill={C.inkMute}>
           {n}
         </text>
       )}
-      {tag && <Tag x={w - 40} y={h - 48} text={tag.text} kind={tag.kind} p={ramp(p, 0.6, 1)} anchor="right" size={20} />}
+      {tag && <Tag x={w - 40} y={h - 56} text={tag.text} kind={tag.kind} p={ramp(p, 0.6, 1)} anchor="right" />}
     </Card>
   );
 };
 
-/** Sticky note / index card with a short handwritten-style line. Size ≈ 300×260. */
+/** Sticky note / index card with a short handwritten-style line. Size ≈ 340×300. */
 export const Note: React.FC<{x: number; y: number; text: string; p?: number; rot?: number; color?: string; w?: number; h?: number; size?: number}> = ({
   x,
   y,
@@ -201,9 +201,9 @@ export const Note: React.FC<{x: number; y: number; text: string; p?: number; rot
   p = 1,
   rot = -3,
   color = C.cautionTint,
-  w = 300,
-  h = 260,
-  size = 34,
+  w = 340,
+  h = 300,
+  size = 42,
 }) => (
   <Card x={x} y={y} w={w} h={h} p={p} rot={rot} fill={color} radius={4}>
     <rect x={w / 2 - 50} y={-14} width={100} height={30} fill={C.paperShade} opacity={0.8} transform={`rotate(${-rot} ${w / 2} 0)`} />
@@ -230,7 +230,7 @@ export const OpenBook: React.FC<{x: number; y: number; s?: number; p?: number; r
       <path d={`M0 -190 Q${side * 150} -214 ${side * 300} -196 L${side * 300} 190 Q${side * 150} 172 0 196 Z`} fill={C.paperLight} />
       <path d={`M0 -190 Q${side * 40} -196 ${side * 60} -194 L${side * 60} 192 Q${side * 30} 194 0 196 Z`} fill={C.paperShade} opacity={0.7} />
       {title && (
-        <text x={side * 160} y={-130} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={700} fontSize={30} fill={C.ink}>
+        <text x={side * 160} y={-130} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={700} fontSize={44} fill={C.ink}>
           {title}
         </text>
       )}
@@ -289,7 +289,7 @@ export const Screen: React.FC<{
 };
 
 /** Terminal-style decoded text line for screens (typewriter with cursor). Draw inside <Screen>. */
-export const ScreenText: React.FC<{x: number; y: number; text: string; p: number; t: number; size?: number; color?: string; cursor?: boolean}> = ({x, y, text, p, t, size = 40, color = C.paperLight, cursor = true}) => {
+export const ScreenText: React.FC<{x: number; y: number; text: string; p: number; t: number; size?: number; color?: string; cursor?: boolean}> = ({x, y, text, p, t, size = TYPE.read, color = C.paperLight, cursor = true}) => {
   const n = Math.floor(clamp01(p) * text.length);
   const shown = text.slice(0, n);
   const cw = textW(shown, size, 'sans', 500);
@@ -317,7 +317,7 @@ export const Bubble: React.FC<{
   color?: string;
   size?: number;
   type?: number; // 0→1 typewriter for the text
-}> = ({x, y, w, h, text, to, p = 1, kind = 'speech', fill = C.paperLight, color = C.ink, size = 36, type = 1}) => {
+}> = ({x, y, w, h, text, to, p = 1, kind = 'speech', fill = C.paperLight, color = C.ink, size = 44, type = 1}) => {
   if (p <= 0) return null;
   const k = ease.outBack(clamp01(p));
   const stroke = kind === 'inner' ? C.theory : C.ink;

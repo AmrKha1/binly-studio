@@ -1,5 +1,5 @@
 import React from 'react';
-import {C, FONT_SANS, FONT_SERIF} from './theme';
+import {C, FONT_SANS, FONT_SERIF, TYPE} from './theme';
 import {clamp01, countUp, ease, lerp, mixHex, ramp} from './anim';
 import {Para} from './text';
 
@@ -34,17 +34,22 @@ const seg = (p: number, i: number, n: number, span = 0.5) => {
 };
 
 /** Caps label (sans, tracked). Multi-line with "\n". */
-const Lbl: React.FC<{x: number; y: number; text: string; size?: number; color?: string; anchor?: Anchor; o?: number; weight?: number}> = ({
+const Lbl: React.FC<{x: number; y: number; text: string; size?: number; color?: string; anchor?: Anchor; o?: number; weight?: number; fit?: number}> = ({
   x,
   y,
   text,
-  size = 22,
+  size: size0 = TYPE.small,
   color = C.inkMute,
   anchor = 'middle',
   o = 1,
   weight = 700,
-}) =>
-  o <= 0 ? null : (
+  fit,
+}) => {
+  // phone-readable floor; `fit` (max width) may shrink a crowded label down to 28 px — if that's not enough, make the chart bigger
+  const want = Math.max(size0, TYPE.small);
+  const longest = Math.max(...text.toUpperCase().split('\n').map((l) => l.length));
+  const size = fit ? Math.max(28, Math.min(want, fit / (longest * 0.82))) : want;
+  return o <= 0 ? null : (
     <text x={x} y={y} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={weight} fontSize={size} letterSpacing={size * 0.12} fill={color} opacity={o}>
       {text
         .toUpperCase()
@@ -56,6 +61,7 @@ const Lbl: React.FC<{x: number; y: number; text: string; size?: number; color?: 
         ))}
     </text>
   );
+};
 
 /** Serif number with an optional smaller trailing suffix ("26%" → 26 + small %). */
 const Num: React.FC<{x: number; y: number; text: string; size: number; color?: string; anchor?: Anchor; o?: number}> = ({x, y, text, size, color = C.ink, anchor = 'middle', o = 1}) => {
@@ -105,7 +111,7 @@ export const BarChart: React.FC<{
   highlightColor?: string;
   grid?: boolean;
   labelSize?: number;
-}> = ({x, y, w, h, bars, p, max, highlight, color = C.inkLift, highlightColor = C.oxblood, grid = true, labelSize = 22}) => {
+}> = ({x, y, w, h, bars, p, max, highlight, color = C.inkLift, highlightColor = C.oxblood, grid = true, labelSize = TYPE.small}) => {
   if (p <= 0 || !bars.length) return null;
   const n = bars.length;
   const slot = w / n;
@@ -136,7 +142,7 @@ export const BarChart: React.FC<{
           <g key={i}>
             {bh > 0.5 && <path d={d} fill={fill} />}
             <Num x={cx} y={yB - bh - 14} text={countUp(vText, ease.outQuint(bp))} size={valueSize} color={i === highlight ? highlightColor : C.ink} o={rl(bp, 0.05, 0.4)} />
-            <Lbl x={cx} y={yB + 22 + labelSize} text={b.label} size={labelSize} color={i === highlight ? highlightColor : C.inkMute} o={rl(bp, 0, 0.4)} />
+            <Lbl x={cx} y={yB + 22 + labelSize} text={b.label} size={labelSize} fit={slot * 0.94} color={i === highlight ? highlightColor : C.inkMute} o={rl(bp, 0, 0.4)} />
           </g>
         );
       })}
@@ -287,7 +293,7 @@ export const Comparison: React.FC<{
   gap?: number;
   valueSize?: number;
   bodySize?: number;
-}> = ({x, y, w, h, left, right, p, vs = 'vs', gap = 36, valueSize, bodySize = 30}) => {
+}> = ({x, y, w, h, left, right, p, vs = 'vs', gap = 36, valueSize, bodySize = 40}) => {
   if (p <= 0) return null;
   const pw = (w - gap) / 2;
   const vsz = valueSize ?? Math.min(110, h * 0.3);
@@ -310,7 +316,7 @@ export const Comparison: React.FC<{
           <rect x={px} y={y} width={pw} height={h} fill={mixHex(col, C.paperLight, 0.86)} />
           <rect x={px} y={y} width={pw} height={10} fill={col} />
         </g>
-        <Lbl x={px + pad} y={titleY} text={s.title} anchor="start" size={24} color={col} />
+        <Lbl x={px + pad} y={titleY} text={s.title} anchor="start" color={col} />
         {s.value && <Num x={px + pad} y={valueY} text={vText ?? ''} size={vsz} color={col} anchor="start" />}
         {s.body && <Para x={px + pad} y={bodyY} w={pw - pad * 2} h={Math.max(40, y + h - bodyY)} text={s.body} size={bodySize} color={C.inkSoft} p={rl(sp, 0.3, 1)} lineHeight={1.25} />}
       </g>
@@ -367,7 +373,7 @@ export const TimelineAxis: React.FC<{
   cursorColor?: string;
   labelSize?: number;
   tickLabels?: boolean;
-}> = ({x, y, w, from, to, events = [], p, ticks, cursor, format, color = C.ink, cursorColor = C.oxblood, labelSize = 28, tickLabels = true}) => {
+}> = ({x, y, w, from, to, events = [], p, ticks, cursor, format, color = C.ink, cursorColor = C.oxblood, labelSize = 44, tickLabels = true}) => {
   if (p <= 0) return null;
   const fmt = format ?? ((v: number) => fmtYear(v, from < 0 && to > 0));
   const xOf = (yr: number) => x + ((yr - from) / (to - from || 1)) * w;
@@ -381,9 +387,19 @@ export const TimelineAxis: React.FC<{
   }
   const sorted = events.map((e, i) => ({e, i})).sort((a, b) => a.e.year - b.e.year);
   const order = new Map(sorted.map((s, k) => [s.i, k]));
-  const textW = (txt: string) => txt.length * 20 * 0.8;
+  const textW = (txt: string) => txt.length * TYPE.small * 0.82;
   const cursorX = cursor === undefined || rl(p, 0.3, 0.5) <= 0 ? null : xOf(Math.max(from, Math.min(to, cursor)));
-  const cursorW = cursor === undefined ? 0 : fmt(cursor).length * 14 + 34;
+  const cursorW = cursor === undefined ? 0 : fmt(cursor).length * 21 + 44;
+  // big phone-readable tick labels: drop any tick label that would collide with the previous one
+  const tickShown = new Set<number>();
+  let lastR = -Infinity;
+  for (const v of tv) {
+    const half = textW(fmt(v)) / 2;
+    if (xOf(v) - half > lastR + 18) {
+      tickShown.add(v);
+      lastR = xOf(v) + half;
+    }
+  }
   return (
     <g>
       <line x1={x} x2={x + w * axisK} y1={y} y2={y} stroke={color} strokeWidth={5} strokeLinecap="round" />
@@ -396,7 +412,7 @@ export const TimelineAxis: React.FC<{
         return (
           <g key={v} opacity={o}>
             <line x1={tx} x2={tx} y1={y - 9} y2={y + 9} stroke={color} strokeWidth={4} strokeLinecap="round" />
-            {tickLabels && !hidden && <Lbl x={tx} y={y + 42} text={fmt(v)} size={20} />}
+            {tickLabels && !hidden && tickShown.has(v) && <Lbl x={tx} y={y + 46} text={fmt(v)} />}
           </g>
         );
       })}
@@ -410,8 +426,8 @@ export const TimelineAxis: React.FC<{
           return (
             <g opacity={co}>
               <line x1={x} x2={cx} y1={y} y2={y} stroke={cursorColor} strokeWidth={7} strokeLinecap="round" />
-              <rect x={cx - pw / 2} y={y + 22} width={pw} height={36} rx={18} fill={cursorColor} />
-              <text x={cx} y={y + 47} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={20} letterSpacing={2} fill={C.paperLight}>
+              <rect x={cx - pw / 2} y={y + 22} width={pw} height={50} rx={25} fill={cursorColor} />
+              <text x={cx} y={y + 58} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={2} fill={C.paperLight}>
                 {txt.toUpperCase()}
               </text>
               <circle cx={cx} cy={y} r={12} fill={cursorColor} stroke={C.paperLight} strokeWidth={4} />
@@ -435,7 +451,7 @@ export const TimelineAxis: React.FC<{
           <g key={i}>
             <line x1={ex} x2={ex} y1={y} y2={tipY} stroke={col} strokeWidth={4} strokeLinecap="round" />
             <circle cx={ex} cy={y} r={10 * ease.outBack(ep)} fill={col} stroke={C.paper} strokeWidth={4} />
-            <Lbl x={ex} y={yearY + (1 - lo) * dir * -8} text={e.yearLabel ?? fmt(e.year)} size={20} color={col} o={lo} />
+            <Lbl x={ex} y={yearY + (1 - lo) * dir * -8} text={e.yearLabel ?? fmt(e.year)} color={col} o={lo} />
             <text x={ex} y={labY + (1 - lo) * dir * -8} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={600} fontSize={labelSize} fill={C.ink} opacity={lo}>
               {e.label}
             </text>
@@ -508,11 +524,11 @@ export const LineChart: React.FC<{
       {yt.map((v) => (
         <g key={v} opacity={axisK}>
           <line x1={x} x2={x + w} y1={Y(v)} y2={Y(v)} stroke={C.paperShade} strokeWidth={3} />
-          <Lbl x={x - 18} y={Y(v) + 7} text={fmtY(v)} size={20} anchor="end" />
+          <Lbl x={x - 18} y={Y(v) + 7} text={fmtY(v)} anchor="end" />
         </g>
       ))}
       {xt.map((v) => (
-        <Lbl key={v} x={X(v)} y={y + h + 38} text={fmtX(v)} size={20} o={axisK} />
+        <Lbl key={v} x={X(v)} y={y + h + 38} text={fmtX(v)} o={axisK} />
       ))}
       <g clipPath={`url(#${id})`}>
         {area && <path d={areaD} fill={color} opacity={0.14} />}
@@ -527,8 +543,8 @@ export const LineChart: React.FC<{
           <Num x={pts[hi.index][0]} y={pts[hi.index][1] - 28} text={hi.label ?? fmtY(points[hi.index][1])} size={40} color={color} o={hp} />
         </g>
       )}
-      {yLabel && <Lbl x={x} y={y - 34} text={yLabel} anchor="start" size={20} color={C.ink} o={axisK} />}
-      {xLabel && <Lbl x={x + w} y={y + h + 78} text={xLabel} anchor="end" size={20} color={C.ink} o={axisK} />}
+      {yLabel && <Lbl x={x} y={y - 34} text={yLabel} anchor="start" color={C.ink} o={axisK} />}
+      {xLabel && <Lbl x={x + w} y={y + h + 78} text={xLabel} anchor="end" color={C.ink} o={axisK} />}
     </g>
   );
 };
@@ -577,11 +593,11 @@ export const Meter: React.FC<{
         ))}
       <g opacity={rl(p, 0.15, 0.3)}>
         <path d={`M${vx} ${y - thick / 2 - 4} l-11 -16 h22Z`} fill={C.ink} stroke={C.ink} strokeWidth={3} strokeLinejoin="round" />
-        {valueLabel && <Lbl x={vx} y={y - thick / 2 - 34} text={valueLabel} size={22} color={C.ink} o={rl(p, 0.75, 1)} />}
+        {valueLabel && <Lbl x={vx} y={y - thick / 2 - 34} text={valueLabel} color={C.ink} o={rl(p, 0.75, 1)} />}
       </g>
-      {title && <Lbl x={x} y={y - thick / 2 - 84} text={title} anchor="start" size={22} color={C.inkMute} />}
-      <Lbl x={x} y={y + thick / 2 + 36} text={labels[0]} anchor="start" size={20} />
-      <Lbl x={x + w} y={y + thick / 2 + 36} text={labels[1]} anchor="end" size={20} />
+      {title && <Lbl x={x} y={y - thick / 2 - 84} text={title} anchor="start" color={C.inkMute} />}
+      <Lbl x={x} y={y + thick / 2 + 40} text={labels[0]} anchor="start" fit={w * 0.46} />
+      <Lbl x={x + w} y={y + thick / 2 + 40} text={labels[1]} anchor="end" fit={w * 0.46} />
     </g>
   );
 };
@@ -630,9 +646,9 @@ export const Gauge: React.FC<{
       </g>
       <circle cx={x} cy={y} r={14} fill={C.ink} />
       <circle cx={x} cy={y} r={5} fill={color} />
-      <Lbl x={x - r} y={y + 44} text={labels[0]} size={20} />
-      <Lbl x={x + r} y={y + 44} text={labels[1]} size={20} />
-      {valueLabel && <Lbl x={x} y={y + 46} text={valueLabel} size={24} color={color} o={rl(p, 0.7, 1)} />}
+      <Lbl x={x - r} y={y + 44} text={labels[0]} fit={r * 0.6} />
+      <Lbl x={x + r} y={y + 44} text={labels[1]} fit={r * 0.6} />
+      {valueLabel && <Lbl x={x} y={y + 46} text={valueLabel} color={color} o={rl(p, 0.7, 1)} fit={r * 0.75} />}
     </g>
   );
 };
@@ -659,7 +675,7 @@ export const BalanceScale: React.FC<{
   s?: number;
   p?: number;
   labelSize?: number;
-}> = ({x, y, tilt, leftLabel, rightLabel, leftItems, rightItems, leftColor = C.theory, rightColor = C.evidence, color = C.ink, s = 1, p = 1, labelSize = 22}) => {
+}> = ({x, y, tilt, leftLabel, rightLabel, leftItems, rightItems, leftColor = C.theory, rightColor = C.evidence, color = C.ink, s = 1, p = 1, labelSize = TYPE.small}) => {
   if (p <= 0) return null;
   const L = 230;
   const th = (Math.max(-1, Math.min(1, tilt)) * 14 * Math.PI) / 180;
@@ -742,7 +758,7 @@ export const CounterRow: React.FC<{
           <g key={i} opacity={ease.out(clamp01(ip * 3))}>
             {i > 0 && <line x1={x + slot * i} x2={x + slot * i} y1={y - size * 0.75} y2={y + 44} stroke={C.paperDeep} strokeWidth={3} />}
             <Num x={cx} y={y} text={it.count === false ? it.value : countUp(it.value, ease.outQuint(ip))} size={size} color={it.color ?? C.ink} />
-            <Lbl x={cx} y={y + 42} text={it.label} size={20} o={rl(ip, 0.3, 1)} />
+            <Lbl x={cx} y={y + 42} text={it.label} o={rl(ip, 0.3, 1)} />
           </g>
         );
       })}

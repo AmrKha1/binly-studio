@@ -60,7 +60,7 @@ final render only in the cloud (this PC is too slow; local = stills/sheets only)
 | `node tools/scaffold.mjs <slug>` | regenerate index.tsx + placeholders from chapters.json |
 | `node tools/status.mjs` | chapter build status |
 | `node tools/check.mjs` | typecheck + determinism lint |
-| `node tools/sheet.mjs --from a --to b [--n 20 --cols 5]` / `--times a,b,c` | contact sheet → .cache/sheets/ |
+| `node tools/sheet.mjs --from a --to b [--n 20 --cols 5]` / `--times a,b,c` [`--phone`] | contact sheet → .cache/sheets/ (`--phone` = upright-phone-size tiles) |
 | `node tools/still.mjs --at 12.5[,13]` | full-res stills → .cache/stills/ |
 | `node tools/cloud.mjs render <slug> [--scale 0.5] [--from a --to b]` | cloud render + QA download |
 | `node tools/cloud.mjs analyze <slug>` · `push` · `runs` | cloud timing · commit+push · recent runs |

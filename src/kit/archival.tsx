@@ -1,6 +1,6 @@
 import React from 'react';
 import {Img, staticFile} from 'remotion';
-import {C, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
+import {C, FONT_SANS, FONT_SERIF, SAFE, SEM, Sem, TYPE} from './theme';
 import {CamState, clamp, clamp01, ease, lerp, mixHex, noise1, rand, ramp} from './anim';
 import {Stage, World, breathe} from './stage';
 import {Kicker, Para, Tag, textW} from './text';
@@ -113,7 +113,7 @@ export const CreditLine: React.FC<{text?: string; x?: number; y?: number; p?: nu
   dark = false,
 }) => {
   if (!text || p <= 0) return null;
-  const size = 22;
+  const size = TYPE.credit;
   const w = textW(text, size, 'sans', 500) + 28;
   const x0 = anchor === 'end' ? x - w : x;
   return (
@@ -127,11 +127,12 @@ export const CreditLine: React.FC<{text?: string; x?: number; y?: number; p?: nu
 };
 
 /** Lower third: ink plate + oxblood bar, optional kicker, serif italic caption. origin = bottom-left. */
-export const LowerThird: React.FC<{text: string; kicker?: string; p: number; x?: number; y?: number; size?: number}> = ({text, kicker, p, x = 96, y = 1000, size = 40}) => {
+export const LowerThird: React.FC<{text: string; kicker?: string; p: number; x?: number; y?: number; size?: number}> = ({text, kicker, p, x = 96, y = 950, size: size0 = 54}) => {
   if (p <= 0) return null;
+  const size = Math.max(size0, TYPE.read); // phone-readable floor; y = 950 keeps it above YouTube's player controls
   const k = ease.outQuint(clamp01(p));
-  const w = Math.max(textW(text, size, 'serif'), kicker ? textW(kicker.toUpperCase(), 22, 'sansCaps', 700) * 1.1 : 0) + 84;
-  const h = kicker ? size * 1.3 + 62 : size * 1.3 + 34;
+  const w = Math.max(textW(text, size, 'serif'), kicker ? textW(kicker.toUpperCase(), TYPE.small, 'sansCaps', 700) * 1.1 : 0) + 84;
+  const h = kicker ? size * 1.3 + 84 : size * 1.3 + 34;
   const top = y - h;
   return (
     <g>
@@ -139,7 +140,7 @@ export const LowerThird: React.FC<{text: string; kicker?: string; p: number; x?:
       <rect x={x} y={top} width={9} height={h * k} fill={C.oxblood} />
       <g opacity={ramp(p, 0.4, 1)}>
         {kicker && (
-          <text x={x + 36} y={top + 40} fontFamily={FONT_SANS} fontWeight={700} fontSize={22} letterSpacing={3.5} fill={C.oxTint}>
+          <text x={x + 36} y={top + 58} fontFamily={FONT_SANS} fontWeight={700} fontSize={TYPE.small} letterSpacing={5} fill={C.oxTint}>
             {kicker.toUpperCase()}
           </text>
         )}
@@ -160,15 +161,18 @@ const LabelPlate: React.FC<{x: number; y: number; text: string; note?: string; k
   kind = 'signal',
   p,
   anchor = 'start',
-  size = 28,
+  size: size0 = TYPE.label,
   dark = false,
 }) => {
   if (p <= 0) return null;
+  const size = Math.max(size0, TYPE.small); // phone-readable floor (kicker plates use TYPE.small, labels default TYPE.label)
   const k = ease.outQuint(clamp01(p));
   const label = text.toUpperCase();
   const w = Math.max(textW(label, size, 'sansCaps', 700) * 1.08, note ? textW(note, size * 0.95, 'serif') : 0) + 64;
   const h = note ? size * 3.1 : size * 2.1;
-  const x0 = anchor === 'start' ? x : anchor === 'middle' ? x - w / 2 : x - w;
+  // stay inside the title-safe frame and above YouTube's player controls (y ≤ 970)
+  const x0 = clamp(anchor === 'start' ? x : anchor === 'middle' ? x - w / 2 : x - w, SAFE, 1920 - SAFE - w);
+  y = clamp(y, SAFE + h / 2, 970 - h / 2);
   const col = dark ? mixHex(SEM[kind], C.paperLight, 0.25) : SEM[kind];
   return (
     <g opacity={clamp01(p * 2.5)} transform={`translate(${(1 - k) * (anchor === 'start' ? -16 : anchor === 'end' ? 16 : 0)} ${anchor === 'middle' ? (1 - k) * 12 : 0})`}>
@@ -397,13 +401,13 @@ export const DetailHuntShot: React.FC<ArchBase & {src: string; aspect?: number; 
               <g opacity={summary}>
                 <HaloShape shape={d.shape ?? 'ellipse'} cx={c.x} cy={c.y} w={w} h={h} p={1} color={col} width={4} />
                 <Badge x={c.x - (w / 2) * 0.72} y={c.y - (h / 2) * 0.72} n={i + 1} p={ramp(t, ret + 0.5 + i * 0.12, ret + 0.9 + i * 0.12, ease.linear)} color={col} />
-                <LabelPlate x={c.x + (w / 2) * 0.72 + 14} y={c.y + (h / 2) * 0.72} text={d.label} kind={d.kind ?? 'signal'} p={ramp(t, ret + 0.6 + i * 0.12, ret + 1.1 + i * 0.12, ease.linear)} size={22} />
+                <LabelPlate x={c.x + (w / 2) * 0.72 + 14} y={c.y + (h / 2) * 0.72} text={d.label} kind={d.kind ?? 'signal'} p={ramp(t, ret + 0.6 + i * 0.12, ret + 1.1 + i * 0.12, ease.linear)} />
               </g>
             )}
           </g>
         );
       })}
-      {kicker && <LabelPlate x={96} y={110} text={kicker} kind="ink" p={ramp(t, t0, t0 + 0.6, ease.linear) * (1 - ramp(t, ats[0] - 0.2, ats[0] + 0.2) * (1 - summary))} size={24} />}
+      {kicker && <LabelPlate x={96} y={110} text={kicker} kind="ink" p={ramp(t, t0, t0 + 0.6, ease.linear) * (1 - ramp(t, ats[0] - 0.2, ats[0] + 0.2) * (1 - summary))} size={TYPE.small} />}
       {caption && <LowerThird text={caption} p={ramp(t, t0 + 0.2, t0 + 0.9, ease.linear) * (1 - ramp(t, (ats[0] ?? b) - 0.1, (ats[0] ?? b) + 0.3) * (1 - summary))} />}
       <CreditLine text={credit} p={ramp(t, t0 + 0.2, t0 + 0.6)} />
     </Bleed>
@@ -472,14 +476,14 @@ export const MontageShot: React.FC<ShotBase & {slug: string; items: MontageItem[
         {cur > 0 && tr < 1 && draw(cur - 1, transition === 'slide' ? -480 * tr : 0)}
         {draw(cur, transition === 'slide' && cur > 0 ? 1920 * (1 - tr) : 0, transition === 'dissolve' && cur > 0 ? tr : 1)}
       </g>
-      {kicker && <LabelPlate x={96} y={110} text={kicker} kind="ink" p={ramp(t, t0, t0 + 0.6, ease.linear)} size={24} />}
+      {kicker && <LabelPlate x={96} y={110} text={kicker} kind="ink" p={ramp(t, t0, t0 + 0.6, ease.linear)} size={TYPE.small} />}
       {counter && (
         <g opacity={ramp(t, t0, t0 + 0.5)}>
-          <text x={1824} y={124} textAnchor="end" fontFamily={FONT_SANS} fontWeight={700} fontSize={26} letterSpacing={3} fill={C.paperLight}>
+          <text x={1824} y={124} textAnchor="end" fontFamily={FONT_SANS} fontWeight={700} fontSize={TYPE.small} letterSpacing={3} fill={C.paperLight}>
             {`${String(cur + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`}
           </text>
           {items.map((_, i) => (
-            <rect key={i} x={1824 - (n - i) * 34 + 6} y={144} width={26} height={6} rx={3} fill={i === cur ? C.oxLight : C.paperLight} opacity={i <= cur ? 0.95 : 0.4} />
+            <rect key={i} x={1824 - (n - i) * 34 + 6} y={150} width={26} height={6} rx={3} fill={i === cur ? C.oxLight : C.paperLight} opacity={i <= cur ? 0.95 : 0.4} />
           ))}
         </g>
       )}
@@ -527,7 +531,7 @@ const SLOTS: Record<number, [number, number, number][]> = {
 
 /** Split a credit into lines that fit a print's inner width (breaks at " · " first, then at spaces). */
 const wrapCredit = (text: string, maxW: number): string[] => {
-  const fit = (x: string) => textW(x, 22, 'sans', 500) <= maxW;
+  const fit = (x: string) => textW(x, TYPE.credit, 'sans', 500) <= maxW;
   const lines: string[] = [];
   let cur = '';
   for (const unit of text.split(' · ')) {
@@ -571,9 +575,9 @@ export const CollageShot: React.FC<
     const h = w / asp;
     const rot = it.rot ?? (rand(seed * 3.3 + i * 1.7) - 0.5) * 9;
     const cl = it.credit ? wrapCredit(it.credit, Math.max(w, 340)) : [];
-    const pw = Math.max(w + 28, ...cl.map((ln) => textW(ln, 22, 'sans', 500) + 28)); // paper widens for a long credit line
-    const ex = Math.max(0, cl.length - 1) * 28; // extra room for wrapped credit lines
-    return {x: it.x ?? sl[0], y: it.y ?? sl[1], w, h, rot, at: it.at ?? t0 + i * gap, pad: 14, bottom: (it.label && it.credit ? 80 : it.label ? 56 : it.credit ? 40 : 14) + ex, cl, pw};
+    const pw = Math.max(w + 28, ...cl.map((ln) => textW(ln, TYPE.credit, 'sans', 500) + 28)); // paper widens for a long credit line
+    const ex = Math.max(0, cl.length - 1) * 32; // extra room for wrapped credit lines
+    return {x: it.x ?? sl[0], y: it.y ?? sl[1], w, h, rot, at: it.at ?? t0 + i * gap, pad: 14, bottom: (it.label && it.credit ? 100 : it.label ? 66 : it.credit ? 44 : 14) + ex, cl, pw};
   });
   // Axis-aligned bounds of each (rotated) print incl. paper margin and shadow.
   const boxOf = (L: (typeof lay)[number]) => {
@@ -587,7 +591,7 @@ export const CollageShot: React.FC<
   };
   // A string-link label must fit between the two linked prints: when they sit side by side, push the columns apart.
   const lbl = link?.label;
-  const lblW = lbl ? textW(lbl.toUpperCase(), 26, 'sansCaps', 700) + 26 * 2.3 + 16 : 0;
+  const lblW = lbl ? textW(lbl, TYPE.read, 'serif', 600) * 1.06 + 43 * 0.97 + 16 : 0;
   if (link && lbl && link.style !== 'arrow' && items[link.from].x === undefined && items[link.to].x === undefined) {
     const A = boxOf(lay[link.from]);
     const B = boxOf(lay[link.to]);
@@ -659,16 +663,16 @@ export const CollageShot: React.FC<
         <rect x={-W / 2} y={-L.h / 2 - L.pad} width={W} height={H} rx={3} fill={C.paperLight} />
         <ArchImage slug={slug} src={it.src} x={-L.w / 2} y={-L.h / 2} w={L.w} h={L.h} aspect={it.aspect ?? 1.4} focus={f} tint={tint} />
         {it.credit && (
-          <text x={L.w / 2} y={L.h / 2 + (it.label ? 68 : 30)} textAnchor="end" fontFamily={FONT_SANS} fontWeight={500} fontSize={22} fill={C.inkFaint}>
+          <text x={L.w / 2} y={L.h / 2 + (it.label ? 88 : 34)} textAnchor="end" fontFamily={FONT_SANS} fontWeight={500} fontSize={TYPE.credit} fill={C.inkFaint}>
             {L.cl.map((ln, j) => (
-              <tspan key={j} x={L.w / 2} dy={j ? 28 : 0}>
+              <tspan key={j} x={L.w / 2} dy={j ? 32 : 0}>
                 {ln}
               </tspan>
             ))}
           </text>
         )}
         {it.label && (
-          <text x={-L.w / 2} y={L.h / 2 + 40} textAnchor="start" fontFamily={FONT_SERIF} fontStyle="italic" fontWeight={600} fontSize={26} fill={C.ink}>
+          <text x={-L.w / 2} y={L.h / 2 + 50} textAnchor="start" fontFamily={FONT_SERIF} fontStyle="italic" fontWeight={600} fontSize={TYPE.small} fill={C.ink}>
             {it.label}
           </text>
         )}
@@ -717,7 +721,7 @@ export const CollageShot: React.FC<
   if (link && lbl) {
     // Keep the label clear of every print: search around the default spot for the nearest free position (else least overlap).
     const lw = lblW;
-    const lh = 26 * 1.9 + 16;
+    const lh = 43 * 1.9 + 16; // Tag height at its phone-readable floor
     const bs = lay.map(boxOf);
     const fa = bs[link.from];
     const ta = bs[link.to];
@@ -750,7 +754,7 @@ export const CollageShot: React.FC<
               <g>
                 {prints}
                 {linkEl}
-                {lbl && <Tag x={lblX} y={lblY} text={lbl} kind={link?.kind ?? 'signal'} p={ramp(t, linkAt + 0.6, linkAt + 1.2, ease.linear)} anchor="center" size={26} />}
+                {lbl && <Tag x={lblX} y={lblY} text={lbl} kind={link?.kind ?? 'signal'} p={ramp(t, linkAt + 0.6, linkAt + 1.2, ease.linear)} anchor="center" />}
               </g>
             ),
           },
@@ -804,9 +808,9 @@ export const CompareImagesShot: React.FC<ShotBase & {slug: string; left: Compare
           <path d={`M${X - 10} 524 L${X - 24} 540 L${X - 10} 556 M${X + 10} 524 L${X + 24} 540 L${X + 10} 556`} stroke={C.ink} strokeWidth={5} fill="none" strokeLinecap="round" strokeLinejoin="round" />
         </g>
         <LabelPlate x={96} y={120} text={left.label} note={left.sub} kind={left.tag?.kind ?? 'ink'} p={lp} />
-        {left.tag && <Tag x={96} y={left.sub ? 222 : 196} text={left.tag.text} kind={left.tag.kind ?? 'ink'} p={ramp(t, t0 + 0.3, t0 + 0.9, ease.linear)} size={24} />}
+        {left.tag && <Tag x={96} y={left.sub ? 222 : 196} text={left.tag.text} kind={left.tag.kind ?? 'ink'} p={ramp(t, t0 + 0.3, t0 + 0.9, ease.linear)} />}
         <LabelPlate x={1824} y={120} text={right.label} note={right.sub} kind={right.tag?.kind ?? 'ink'} p={ramp(t, tR + 0.8, tR + 1.4, ease.linear)} anchor="end" />
-        {right.tag && <Tag x={1824} y={right.sub ? 222 : 196} text={right.tag.text} kind={right.tag.kind ?? 'ink'} p={ramp(t, tR + 1.1, tR + 1.7, ease.linear)} size={24} anchor="right" />}
+        {right.tag && <Tag x={1824} y={right.sub ? 222 : 196} text={right.tag.text} kind={right.tag.kind ?? 'ink'} p={ramp(t, tR + 1.1, tR + 1.7, ease.linear)} anchor="right" />}
         <CreditLine text={left.credit} x={48} anchor="start" p={ramp(t, t0 + 0.2, t0 + 0.6)} />
         <CreditLine text={right.credit} p={ramp(t, tR + 0.6, tR + 1)} />
       </Bleed>
@@ -826,11 +830,11 @@ export const CompareImagesShot: React.FC<ShotBase & {slug: string; left: Compare
         <rect x={x - 14 + 12} y={py - 14 + 16} width={pw + 28} height={ph + 28} rx={4} fill={C.ink} opacity={P.dark ? 0.45 : 0.16} />
         <rect x={x - 14} y={py - 14} width={pw + 28} height={ph + 28} rx={4} fill={C.paperLight} />
         <ArchImage slug={slug} src={s.src} x={x} y={py} w={pw} h={ph} aspect={s.aspect ?? 1.5} focus={fOf(s, i)} tint={tint} />
-        {s.tag && <Tag x={x + 24} y={py + 40} text={s.tag.text} kind={s.tag.kind ?? 'ink'} p={ramp(t, tIn + 0.4, tIn + 1, ease.linear)} size={24} />}
+        {s.tag && <Tag x={x + 24} y={py + 40} text={s.tag.text} kind={s.tag.kind ?? 'ink'} p={ramp(t, tIn + 0.4, tIn + 1, ease.linear)} />}
         <text x={x} y={py + ph + 80} fontFamily={FONT_SERIF} fontWeight={700} fontSize={46} fill={P.fg} opacity={ramp(t, tIn + 0.15, tIn + 0.6)}>
           {s.label}
         </text>
-        {s.sub && <Kicker x={x} y={py + ph + 122} text={s.sub} anchor="start" size={22} color={P.mute} p={ramp(t, tIn + 0.3, tIn + 0.8)} />}
+        {s.sub && <Kicker x={x} y={py + ph + 122} text={s.sub} anchor="start" color={P.mute} p={ramp(t, tIn + 0.3, tIn + 0.8)} />}
         <CreditLine text={s.credit} x={x + pw - 12} y={py + ph - 14} anchor="end" p={ramp(t, tIn + 0.3, tIn + 0.8)} />
       </g>
     );
@@ -929,9 +933,9 @@ export const DocumentScanShot: React.FC<ArchBase & {src: string; aspect?: number
   const cardTop = title || kicker ? 330 : 230;
   let cy = cardTop;
   const cards = regions.map((r, i) => {
-    const size = 34;
+    const size = TYPE.read;
     const lines = r.text ? Math.max(1, Math.ceil((textW(r.text, size, 'serif') * 1.12) / (colW - 90))) : 0;
-    const h = (r.label ? 58 : 20) + lines * size * 1.3 + 34;
+    const h = (r.label ? 74 : 20) + lines * size * 1.3 + 34;
     const c = {y: cy, h};
     cy += h + 28;
     return c;
@@ -1002,8 +1006,8 @@ export const DocumentScanShot: React.FC<ArchBase & {src: string; aspect?: number
                               <rect x={colX + 10} y={cd.y + 12} width={colW} height={cd.h} rx={10} fill={C.ink} opacity={P.dark ? 0.4 : 0.14} />
                               <rect x={colX} y={cd.y} width={colW} height={cd.h} rx={10} fill={P.dark ? C.inkSoft : C.paperLight} />
                               <rect x={colX} y={cd.y} width={9} height={cd.h} rx={3} fill={col} />
-                              {r.label && <Kicker x={colX + 40} y={cd.y + 50} text={r.label} anchor="start" size={22} color={col} />}
-                              {r.text && <Para x={colX + 40} y={cd.y + (r.label ? 64 : 22)} w={colW - 80} h={cd.h} text={`“${r.text}”`} size={34} italic weight={500} color={P.fg} lineHeight={1.3} p={ramp(cp, 0.3, 1)} />}
+                              {r.label && <Kicker x={colX + 40} y={cd.y + 56} text={r.label} anchor="start" size={TYPE.small} color={col} />}
+                              {r.text && <Para x={colX + 40} y={cd.y + (r.label ? 80 : 22)} w={colW - 80} h={cd.h} text={`“${r.text}”`} size={TYPE.read} italic weight={500} color={P.fg} lineHeight={1.3} p={ramp(cp, 0.3, 1)} />}
                             </g>
                           )}
                         </g>
@@ -1030,7 +1034,7 @@ export const DocumentScanShot: React.FC<ArchBase & {src: string; aspect?: number
                 )}
                 {(kicker || title) && (
                   <g opacity={ramp(t, t0, t0 + 0.6)}>
-                    {kicker && <Kicker x={colX} y={title ? 200 : 210} text={kicker} anchor="start" color={P.accent} size={24} />}
+                    {kicker && <Kicker x={colX} y={title ? 200 : 210} text={kicker} anchor="start" color={P.accent} />}
                     {title && (
                       <text x={colX} y={kicker ? 268 : 240} fontFamily={FONT_SERIF} fontWeight={700} fontSize={54} fill={P.fg}>
                         {title}
@@ -1131,7 +1135,7 @@ export const AnnotatedImageShot: React.FC<ArchBase & {src: string; aspect?: numb
         <g key={i}>
           <Arrow from={A} to={B} p={p} bend={ov.bend ?? 40} color={C.paperLight} width={15} head={30} />
           <Arrow from={A} to={B} p={p} bend={ov.bend ?? 40} color={col} width={8} head={26} />
-          {ov.label && <LabelPlate x={A.x + (A.x > B.x ? 26 : -26)} y={A.y} text={ov.label} kind={ov.sem ?? 'signal'} p={ramp(t, s + 0.3, s + 0.9, ease.linear)} anchor={A.x > B.x ? 'start' : 'end'} size={26} />}
+          {ov.label && <LabelPlate x={A.x + (A.x > B.x ? 26 : -26)} y={A.y} text={ov.label} kind={ov.sem ?? 'signal'} p={ramp(t, s + 0.3, s + 0.9, ease.linear)} anchor={A.x > B.x ? 'start' : 'end'} />}
         </g>
       );
     }
@@ -1144,7 +1148,7 @@ export const AnnotatedImageShot: React.FC<ArchBase & {src: string; aspect?: numb
       return (
         <g key={i}>
           <HaloShape shape={ov.shape ?? 'ellipse'} cx={c.x} cy={c.y} w={w} h={h} p={p} color={col2} width={6} dashed={ov.dashed} t={t} />
-          {ov.label && <LabelPlate x={right ? c.x - w * 0.3 : c.x + w * 0.3} y={Math.max(130, c.y - h / 2 - 34)} text={ov.label} kind={ov.sem ?? (ov.dashed ? 'theory' : 'signal')} p={ramp(t, s + 0.4, s + 1, ease.linear)} anchor={right ? 'start' : 'end'} size={26} />}
+          {ov.label && <LabelPlate x={right ? c.x - w * 0.3 : c.x + w * 0.3} y={Math.max(130, c.y - h / 2 - 34)} text={ov.label} kind={ov.sem ?? (ov.dashed ? 'theory' : 'signal')} p={ramp(t, s + 0.4, s + 1, ease.linear)} anchor={right ? 'start' : 'end'} />}
         </g>
       );
     }
@@ -1158,7 +1162,7 @@ export const AnnotatedImageShot: React.FC<ArchBase & {src: string; aspect?: numb
           <path d={`M${c.x} ${c.y} L${c.x + dx} ${c.y + dy}`} stroke={C.paperLight} strokeWidth={10} opacity={0.85 * lk} />
           <path d={`M${c.x} ${c.y} L${c.x + dx} ${c.y + dy}`} stroke={col} strokeWidth={4.5} pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - lk} />
           <circle cx={c.x} cy={c.y} r={11 * ease.outBack(clamp01(p * 2))} fill={col} stroke={C.paperLight} strokeWidth={4} />
-          <LabelPlate x={c.x + dx} y={c.y + dy} text={ov.text} note={ov.note} kind={ov.sem ?? 'signal'} p={ramp(t, s + 0.35, s + 0.95, ease.linear)} anchor={dx >= 0 ? 'start' : 'end'} size={26} />
+          <LabelPlate x={c.x + dx} y={c.y + dy} text={ov.text} note={ov.note} kind={ov.sem ?? 'signal'} p={ramp(t, s + 0.35, s + 0.95, ease.linear)} anchor={dx >= 0 ? 'start' : 'end'} />
         </g>
       );
     }
@@ -1173,7 +1177,7 @@ export const AnnotatedImageShot: React.FC<ArchBase & {src: string; aspect?: numb
             <circle r={52} fill="none" stroke={col} strokeWidth={5} />
           </g>
           <Icon name={ov.icon} x={c.x} y={c.y + noise1(t * 0.5, i) * 4} s={0.78} color={C.ink} accent={col} knock={C.paperLight} p={ramp(t, s + 0.15, s + 0.7, ease.linear)} />
-          {ov.label && <LabelPlate x={c.x} y={c.y + 100} text={ov.label} kind={ov.sem ?? 'signal'} p={ramp(t, s + 0.4, s + 0.9, ease.linear)} anchor="middle" size={22} />}
+          {ov.label && <LabelPlate x={c.x} y={c.y + 100} text={ov.label} kind={ov.sem ?? 'signal'} p={ramp(t, s + 0.4, s + 0.9, ease.linear)} anchor="middle" />}
         </g>
       );
     }
@@ -1193,7 +1197,7 @@ export const AnnotatedImageShot: React.FC<ArchBase & {src: string; aspect?: numb
           <circle key={j} cx={q.x} cy={q.y} r={9} fill={C.paperLight} stroke={col} strokeWidth={4} />
         ))}
         {dp > 0.95 && <circle cx={end.x} cy={end.y} r={14} fill={col} stroke={C.paperLight} strokeWidth={4} />}
-        {ov.label && <LabelPlate x={end.x + 30} y={end.y} text={ov.label} kind={ov.sem ?? 'signal'} p={ramp(t, s + dur * 0.7, s + dur + 0.4, ease.linear)} size={26} anchor={end.x > 1400 ? 'end' : 'start'} />}
+        {ov.label && <LabelPlate x={end.x + 30} y={end.y} text={ov.label} kind={ov.sem ?? 'signal'} p={ramp(t, s + dur * 0.7, s + dur + 0.4, ease.linear)} anchor={end.x > 1400 ? 'end' : 'start'} />}
       </g>
     );
   });
@@ -1201,7 +1205,7 @@ export const AnnotatedImageShot: React.FC<ArchBase & {src: string; aspect?: numb
     <Bleed>
       <ArchImage slug={slug} src={src} x={0} y={0} w={1920} h={1080} aspect={aspect} focus={f} tint={tint} dim={dim * ramp(t, t0, t0 + 0.6)} o={ramp(t, a - 0.35, a + 0.05, ease.linear)} bg={C.ink} />
       {els}
-      {kicker && <LabelPlate x={96} y={110} text={kicker} kind="ink" p={ramp(t, t0, t0 + 0.6, ease.linear)} size={24} />}
+      {kicker && <LabelPlate x={96} y={110} text={kicker} kind="ink" p={ramp(t, t0, t0 + 0.6, ease.linear)} size={TYPE.small} />}
       {caption && <LowerThird text={caption} p={ramp(t, t0 + 0.2, t0 + 0.9, ease.linear)} />}
       <CreditLine text={credit} p={ramp(t, t0 + 0.2, t0 + 0.6)} />
     </Bleed>
@@ -1355,7 +1359,7 @@ export const ImageInWorldShot: React.FC<
         <World cam={cam} layers={[{depth: 1, el: scene}]} />
       </g>
       <Vignette strength={lerp(0.8, 0.9, pk)} />
-      {label && <LabelPlate x={96} y={110} text={label} kind="ink" p={tagP} size={24} />}
+      {label && <LabelPlate x={96} y={110} text={label} kind="ink" p={tagP} size={TYPE.small} />}
       {caption && <LowerThird text={caption} kicker={kicker} p={after} />}
       <CreditLine text={credit} p={ramp(t, t0 + 0.4, t0 + 0.8)} />
     </Stage>
@@ -1458,10 +1462,10 @@ export const ParallaxCutoutShot: React.FC<ArchBase & {src: string; aspect?: numb
       )}
       {label && (
         <g transform={`translate(${par.x} ${par.y})`}>
-          <Tag x={cen.x} y={lblBelow ? bottom * sc + 60 : top - 50 - (sc - 1) * 100} text={label.text} kind={label.kind ?? 'signal'} p={lp} anchor="center" size={26} />
+          <Tag x={cen.x} y={lblBelow ? bottom * sc + 60 : top - 50 - (sc - 1) * 100} text={label.text} kind={label.kind ?? 'signal'} p={lp} anchor="center" />
         </g>
       )}
-      {kicker && <LabelPlate x={96} y={110} text={kicker} kind="ink" p={ramp(t, a + 0.1, a + 0.7, ease.linear)} size={24} />}
+      {kicker && <LabelPlate x={96} y={110} text={kicker} kind="ink" p={ramp(t, a + 0.1, a + 0.7, ease.linear)} size={TYPE.small} />}
       {caption && <LowerThird text={caption} p={ramp(t, t0 + 0.5, t0 + 1.2, ease.linear)} />}
       <CreditLine text={credit} p={ramp(t, a + 0.2, a + 0.6)} />
     </Bleed>

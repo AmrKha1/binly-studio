@@ -86,3 +86,7 @@ export const H = 1080;
 export const FPS = 60;
 /** Title-safe margin (px). Keep text inside [SAFE, W-SAFE] x [SAFE, H-SAFE]. */
 export const SAFE = 96;
+/** Text sizes (px at 1080p) that read on an upright phone and stay calm on a TV (16–22 arc-minute legibility rule).
+ *  key: the shot's key word/line · read: text the viewer must read · label: ALL-CAPS sans text the viewer must read (caps read
+ *  bigger per px) · small: secondary text (kickers, side notes) · credit: image credits/source notes only. */
+export const TYPE = {key: 72, read: 48, label: 40, small: 36, credit: 26} as const;

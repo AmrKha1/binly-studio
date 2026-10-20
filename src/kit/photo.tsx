@@ -78,12 +78,12 @@ export const Photo: React.FC<{
         </div>
       </foreignObject>
       {caption && (
-        <text x={0} y={h / 2 + pad + (frame === 'polaroid' ? 50 : 44)} textAnchor="middle" fontFamily={FONT_SERIF} fontStyle="italic" fontWeight={600} fontSize={Math.max(24, Math.min(34, w * 0.04))} fill={frame === 'none' ? textCol : C.ink}>
+        <text x={0} y={h / 2 + pad + (frame === 'polaroid' ? 56 : 50)} textAnchor="middle" fontFamily={FONT_SERIF} fontStyle="italic" fontWeight={600} fontSize={Math.max(36, Math.min(48, w * 0.055))} fill={frame === 'none' ? textCol : C.ink}>
           {caption}
         </text>
       )}
       {credit && (
-        <text x={W / 2 - 4} y={h / 2 + pad + (caption ? 78 : 30) + (frame === 'polaroid' ? 10 : 0)} textAnchor="end" fontFamily={FONT_SANS} fontWeight={600} fontSize={22} letterSpacing={1} fill={textCol} opacity={0.85}>
+        <text x={W / 2 - 4} y={h / 2 + pad + (caption ? 92 : 34) + (frame === 'polaroid' ? 10 : 0)} textAnchor="end" fontFamily={FONT_SANS} fontWeight={600} fontSize={26} letterSpacing={1} fill={textCol} opacity={0.85}>
           {credit}
         </text>
       )}

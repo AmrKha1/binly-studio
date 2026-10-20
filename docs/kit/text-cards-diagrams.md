@@ -1,9 +1,9 @@
 ## Text (`kit/text`) — p = reveal progress 0→1
 - `Headline {x,y,text,p,size=72,color,anchor='middle',italic,weight=600,mode:'rise'|'words'|'type'|'mask',accent?:{word:colour},font:'serif'|'sans',out?}`
   e.g. `<Headline x={960} y={220} text="A hot bath was medicine." mode="words" accent={{medicine: C.oxblood}} p={ramp(t,T.a,T.a+1)}/>`
-- `Kicker {x,y,text,p=1,size=24,color=inkMute,anchor}` small tracked caps label.
-- `Para {x,y,w,h=600,text,p,size=36,color,align,font,weight,italic,lineHeight}` wrapped paragraph (keep short).
-- `Tag {x,y,text,kind:Sem,p,size=26,to?:{x,y},anchor:'left'|'right'|'center',look:'caption'|'pill'}` certainty label.
+- `Kicker {x,y,text,p=1,size=36,color=inkMute,anchor}` tracked caps label (never below 36 — phone floor).
+- `Para {x,y,w,h=600,text,p,size=48,color,align,font,weight,italic,lineHeight}` wrapped paragraph (keep short).
+- `Tag {x,y,text,kind:Sem,p,size=43 (caption text renders ×1.12 = 48; floor),to?:{x,y},anchor:'left'|'right'|'center',look:'caption'|'pill'}` certainty label.
   Default look 'caption' = museum caption (colour stripe + italic serif on a paper slip); 'pill' = old solid chip (legacy — don't use).
 - Red-pen verdict (Binly's ONLY verdict style; for the climax use it at hero size — full-screen claim, big handwritten note): in templates `ClaimShot … stamp="Wrong"` (verdict 'pen' is default);
   in custom scenes `RichText … strike={ramp(t,T.x,T.x+0.5)}` crosses the words out exactly + a `HandNote` verdict;
@@ -21,8 +21,8 @@
 - `Card {x,y,w,h,p,rot,fill,stroke,radius,shadow,children}` children in card-local coords (0,0 top-left).
 - `DocumentPage {x,y,s,p,rot,title?,subtitle?,lines=11,text?,highlight?:{line,p,color},seal,sealColor,signature,style:'parchment'|'modern'|'journal',write}` ≈560×740.
 - `Polaroid {id,x,y,w=460,p,rot,imageBg,caption,children}` children inside square window (centre 0,0).
-- `StudyCard {x,y,p,rot,title,who?,year?,finding?,n?,tag?:{text,kind},accent}` 640×380 research card.
-- `Note {x,y,text,p,rot,color,w,h,size}` sticky note · `OpenBook {x,y,s,p,rot,cover,lines,leftTitle,rightTitle}` ≈640×420.
+- `StudyCard {x,y,p,rot,title,who?,year?,finding?,n?,tag?:{text,kind},accent}` 760×460 research card.
+- `Note {x,y,text,p,rot,color,w=340,h=300,size=42}` sticky note · `OpenBook {x,y,s,p,rot,cover,lines,leftTitle,rightTitle}` ≈640×420.
 - `Screen {id,x,y,w=760,h=440,p,frame:'monitor'|'tablet'|'phone',bg,children}` children in screen coords (top-left 0,0).
 - `ScreenText {x,y,text,p,t,size,color,cursor}` typewriter line for screens.
 - `Bubble {x,y,w,h,text?,to?:{x,y},p,kind:'speech'|'thought'|'inner',fill,color,size,type}` — `inner` = dashed plum (silent inner voice).

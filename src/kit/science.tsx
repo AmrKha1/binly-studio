@@ -130,7 +130,7 @@ const Ball: React.FC<{x: number; y: number; r: number; fill: string; shade: stri
   </g>
 );
 
-/** Small diagram label: anchor dot + leader + tracked caps (sans 22). Drawn in absolute coords. */
+/** Small diagram label: anchor dot + leader + tracked caps (sans 34). Drawn in absolute coords. */
 const Leader: React.FC<{ax: number; ay: number; lx: number; ly: number; text: string; p?: number; color?: string; dot?: string}> = ({ax, ay, lx, ly, text, p = 1, color = C.inkMute, dot = C.ink}) => {
   if (p <= 0) return null;
   const k = ease.out(clamp01(p));
@@ -139,7 +139,7 @@ const Leader: React.FC<{ax: number; ay: number; lx: number; ly: number; text: st
     <g opacity={k}>
       <path d={`M${ax} ${ay} L${lerp(ax, lx, k)} ${lerp(ay, ly, k)}`} stroke={color} strokeWidth={3} strokeLinecap="round" fill="none" />
       <circle cx={ax} cy={ay} r={5.5} fill={dot} stroke={C.paperLight} strokeWidth={2.5} />
-      <text x={lx + (right ? 10 : -10)} y={ly + 8} textAnchor={right ? 'start' : 'end'} fontFamily={FONT_SANS} fontWeight={700} fontSize={22} letterSpacing={3} fill={C.ink}>
+      <text x={lx + (right ? 10 : -10)} y={ly + 12} textAnchor={right ? 'start' : 'end'} fontFamily={FONT_SANS} fontWeight={700} fontSize={34} letterSpacing={3.5} fill={C.ink}>
         {text.toUpperCase()}
       </text>
     </g>
@@ -1453,7 +1453,7 @@ export const Molecule: React.FC<{x: number; y: number; s?: number; kind?: keyof 
         ))}
     </g>
       {label && (
-        <text x={x} y={y + 74 * s + 26} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={26} fill={C.inkMute}>
+        <text x={x} y={y + 74 * s + 36} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={36} fill={C.inkMute}>
           {sub}
         </text>
       )}

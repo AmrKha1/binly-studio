@@ -356,7 +356,7 @@ export const MapLabel: React.FC<{x: number; y: number; text: string; kind?: 'sea
 }) => {
   if (p <= 0) return null;
   const k = ease.out(clamp01(p));
-  const sz = size ?? (kind === 'sea' ? 30 : kind === 'region' ? 22 : 26);
+  const sz = size ?? (kind === 'sea' ? 40 : kind === 'region' ? 34 : 38);
   const common = {x: 0, y: sz * 0.35, textAnchor: 'middle' as const};
   return (
     <g transform={`translate(${x} ${y + (1 - k) * 8}) rotate(${rotate})`} opacity={k}>
@@ -366,7 +366,7 @@ export const MapLabel: React.FC<{x: number; y: number; text: string; kind?: 'sea
         </text>
       )}
       {kind === 'region' && (
-        <text {...common} fontFamily={FONT_SANS} fontWeight={700} fontSize={sz} letterSpacing={sz * 0.28} fill={color ?? C.inkMute} {...halo}>
+        <text {...common} fontFamily={FONT_SANS} fontWeight={700} fontSize={sz} letterSpacing={sz * 0.22} fill={color ?? C.inkMute} {...halo}>
           {text.toUpperCase()}
         </text>
       )}
@@ -399,7 +399,7 @@ export const MapPin: React.FC<{x: number; y: number; p?: number; label?: string;
   const pin = 'M0 0 C-5 -12 -21 -24 -21 -40 A21 21 0 1 1 21 -40 C21 -24 5 -12 0 0 Z';
   const half = 'M0 0 C5 -12 21 -24 21 -40 A21 21 0 0 0 4 -60.6 C14 -52 14 -30 0 0 Z';
   const tx = side === 'left' ? -34 : side === 'top' ? 0 : 34;
-  const ty = side === 'top' ? -78 : -38;
+  const ty = side === 'top' ? (sub ? -122 : -84) : -38;
   const anchor = side === 'left' ? 'end' : side === 'top' ? 'middle' : 'start';
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
@@ -411,11 +411,11 @@ export const MapPin: React.FC<{x: number; y: number; p?: number; label?: string;
       </g>
       {label && (
         <g opacity={lk}>
-          <text x={tx} y={ty + (sub ? 0 : 10)} textAnchor={anchor} fontFamily={FONT_SERIF} fontWeight={600} fontSize={32} fill={C.ink} {...halo}>
+          <text x={tx} y={ty + (sub ? 0 : 10)} textAnchor={anchor} fontFamily={FONT_SERIF} fontWeight={600} fontSize={44} fill={C.ink} {...halo}>
             {label}
           </text>
           {sub && (
-            <text x={tx} y={ty + 30} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={700} fontSize={22} letterSpacing={2.6} fill={C.inkMute} {...halo} strokeWidth={6}>
+            <text x={tx} y={ty + 40} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={3} fill={C.inkMute} {...halo} strokeWidth={6}>
               {sub.toUpperCase()}
             </text>
           )}
@@ -433,7 +433,7 @@ export const CityDot: React.FC<{x: number; y: number; label?: string; p?: number
   p = 1,
   color = C.ink,
   side = 'right',
-  size = 28,
+  size = 40,
   italic = false,
 }) => {
   if (p <= 0) return null;

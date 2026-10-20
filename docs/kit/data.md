@@ -11,7 +11,7 @@ Vertical bars growing staggered; value labels count up on top, category labels b
 Box (x,y)=top-left, w×h **includes** value + category labels. `highlight` index → oxblood, others muted.
 ```ts
 <BarChart x y w h bars: {label; value; color?; valueLabel?}[]; p; max?; highlight?; color?=C.inkLift;
-  highlightColor?=C.oxblood; grid?=true; labelSize?=22 />
+  highlightColor?=C.oxblood; grid?=true; labelSize?=36 />
 ```
 ```tsx
 <BarChart x={200} y={200} w={800} h={500} p={ramp(t,1,3)} highlight={0}
@@ -60,7 +60,7 @@ Origin = left end of the axis; needs ~110 px above/below for event labels, ~60 p
 ```ts
 <TimelineAxis x y w from to p; events?: {year; label; above?; color?; stem?=70; yearLabel?}[];
   ticks?: number[] | step; cursor?: year; format?: (y)=>string; color?=C.ink; cursorColor?=C.oxblood;
-  labelSize?=28; tickLabels?=true />
+  labelSize?=44; tickLabels?=true />
 ```
 ```tsx
 <TimelineAxis x={160} y={600} w={1600} from={-500} to={2000} ticks={500} p={ramp(t,0,3)}
@@ -109,7 +109,7 @@ Semicircular dial with needle (gentle overshoot). Origin = needle pivot. `valueL
 side colour) or any SVG node drawn at the pan rim centre. Labels stay true-size at any `s`.
 ```ts
 <BalanceScale x y tilt; leftLabel?; rightLabel?; leftItems?: number | ReactNode; rightItems?;
-  leftColor?=C.theory; rightColor?=C.evidence; color?=C.ink; s?=1; p?=1; labelSize?=22 />
+  leftColor?=C.theory; rightColor?=C.evidence; color?=C.ink; s?=1; p?=1; labelSize?=36 />
 ```
 ```tsx
 <BalanceScale x={960} y={380} tilt={keys(t,[[1,0],[2,-0.6],[3.5,0.8]])} leftLabel="Miasma" rightLabel="Germs"

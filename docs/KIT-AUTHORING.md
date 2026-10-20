@@ -22,7 +22,7 @@ assembled from it, so components must be **reliable, generic, beautiful, on-bran
    should be available via a `t` prop where it makes sense.
 6. **clipPath / mask ids must be unique per instance** — derive them from a required `id` prop or
    from position/size props.
-7. **Readable at 1080p**: strokes ≥ 3px at scale 1, text ≥ 22px.
+7. **Readable at 1080p**: strokes ≥ 3px at scale 1, text ≥ 36 px (image credits 26 px) — use the `TYPE` scale in theme.ts for default sizes; check new parts at phone size (`sheet.mjs --phone`).
 8. **Typed props + JSDoc on every export** (one line: what it is, origin, size at s=1, key props).
 9. Keep each file self-contained (import only from react, ./theme, ./anim, ./stage, ./text, ./fx).
 

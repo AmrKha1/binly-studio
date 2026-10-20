@@ -348,9 +348,9 @@ const Plate: React.FC<{x: number; y: number; w: number; h: number; p: number; da
 };
 
 /** Kicker + optional headline block (top-left or centred). */
-const Heading: React.FC<{x: number; y: number; kicker?: string; title?: string; p: number; P: Pal; anchor?: 'start' | 'middle'; size?: number; kickerColor?: string}> = ({x, y, kicker, title, p, P, anchor = 'start', size = 64, kickerColor}) => (
+const Heading: React.FC<{x: number; y: number; kicker?: string; title?: string; p: number; P: Pal; anchor?: 'start' | 'middle'; size?: number; kickerColor?: string}> = ({x, y, kicker, title, p, P, anchor = 'start', size = 72, kickerColor}) => (
   <g>
-    {kicker && <Kicker x={x} y={y} text={kicker} p={ramp(p, 0, 0.6)} color={kickerColor ?? P.accent} anchor={anchor} size={24} />}
+    {kicker && <Kicker x={x} y={y} text={kicker} p={ramp(p, 0, 0.6)} color={kickerColor ?? P.accent} anchor={anchor} />}
     {title && <Headline x={x} y={y + (kicker ? size * 1.05 : size * 0.4)} text={title} p={ramp(p, 0.15, 1)} size={size} color={P.fg} anchor={anchor} mode="mask" />}
   </g>
 );
@@ -403,12 +403,12 @@ export const TitleShot: React.FC<
           {!children && <circle r={(center ? 104 : 200) + 44} fill="none" stroke={P.line} strokeWidth={2.5} strokeDasharray="3 14" strokeLinecap="round" opacity={ramp(t, t0 + 0.4, t0 + 1.2)} transform={`rotate(${t * -3})`} />}
         </g>
       )}
-      {kicker && <Kicker x={tx} y={titleTop - size * 0.95} text={kicker} p={ramp(t, t0 + 0.1, t0 + 0.7)} color={P.accent} anchor={anchor} size={26} />}
+      {kicker && <Kicker x={tx} y={titleTop - size * 0.95} text={kicker} p={ramp(t, t0 + 0.1, t0 + 0.7)} color={P.accent} anchor={anchor} />}
       {lines.map((ln, i) => (
         <Headline key={i} x={tx} y={titleTop + i * lineH} text={ln} p={ramp(t, t0 + 0.2 + i * 0.18, t0 + 1.1 + i * 0.18)} size={size} color={P.fg} anchor={anchor} mode="mask" accent={acc} />
       ))}
       <rect x={center ? 960 - ruleW / 2 : tx} y={ruleY} width={ruleW} height={5} fill={P.accent} />
-      {sub && <Kicker x={tx} y={ruleY + 64} text={sub} p={ramp(t, t0 + 0.9, t0 + 1.5)} color={P.mute} anchor={anchor} size={24} />}
+      {sub && <Kicker x={tx} y={ruleY + 64} text={sub} p={ramp(t, t0 + 0.9, t0 + 1.5)} color={P.mute} anchor={anchor} />}
     </ShotShell>
   );
 };
@@ -448,10 +448,10 @@ export const StatShot: React.FC<
       <circle cx={nx} cy={numY - size * 0.3} r={(compare ? 330 : 400) * discP} fill={P.motif} />
       <circle cx={nx} cy={numY - size * 0.3} r={(compare ? 360 : 440) * discP} fill="none" stroke={P.line} strokeWidth={2.5} strokeDasharray="3 16" strokeLinecap="round" transform={`rotate(${t * 3} ${nx} ${numY - size * 0.3})`} opacity={0.8} />
       {icon && <Icon name={icon} x={nx} y={numY - size - (kicker ? 120 : 60)} s={1.15} p={ramp(t, t0 - 0.1, t0 + 0.5)} color={P.fg} accent={col} knock={P.bg} />}
-      {kicker && <Kicker x={nx} y={numY - size * 0.98} text={kicker} p={ramp(t, t0 - 0.1, t0 + 0.4)} color={P.mute} size={26} />}
+      {kicker && <Kicker x={nx} y={numY - size * 0.98} text={kicker} p={ramp(t, t0 - 0.1, t0 + 0.4)} color={P.mute} />}
       <Stat x={nx} y={numY} value={value} unit={unit} label={label} p={sp} count={count} size={size} color={col} labelColor={P.fg} />
       {labelLines > 0 && <rect x={nx - 40} y={numY + size * 0.55} width={80 * ease.inOut(ramp(t, t0 + 0.8, t0 + 1.3))} height={4} fill={col} opacity={0.8} />}
-      {note && <Kicker x={nx} y={numY + size * 0.55 + 70} text={note} p={ramp(t, t0 + 1, t0 + 1.5)} color={P.mute} size={22} weight={600} />}
+      {note && <Kicker x={nx} y={numY + size * 0.55 + 70} text={note} p={ramp(t, t0 + 1, t0 + 1.5)} color={P.mute} weight={600} />}
       {compare && <StatCompareView c={compare} x={cx} t={t} t0={tc} P={P} col={col} />}
     </ShotShell>
   );
@@ -459,7 +459,7 @@ export const StatShot: React.FC<
 
 const StatCompareView: React.FC<{c: StatCompare; x: number; t: number; t0: number; P: Pal; col: string}> = ({c, x, t, t0, P, col}) => {
   const p = ramp(t, t0, t0 + 1.6, ease.linear);
-  const caption = (capY: number) => c.caption && <Kicker x={x} y={capY} text={c.caption} p={ramp(t, t0 + 0.8, t0 + 1.4)} color={P.mute} size={24} />;
+  const caption = (capY: number) => c.caption && <Kicker x={x} y={capY} text={c.caption} p={ramp(t, t0 + 0.8, t0 + 1.4)} color={P.mute} />;
   if (c.kind === 'dots') {
     const total = c.total ?? 100;
     const cols = c.cols ?? Math.ceil(Math.sqrt(total));
@@ -504,11 +504,11 @@ const StatCompareView: React.FC<{c: StatCompare; x: number; t: number; t0: numbe
                 {it.display}
               </text>
             )}
-            <Kicker x={ix} y={base + 48} text={it.label} p={ramp(p, 0.3 + i * 0.15, 0.6 + i * 0.15)} color={P.fg} size={22} />
+            <Kicker x={ix} y={base + 48} text={it.label} p={ramp(p, 0.3 + i * 0.15, 0.6 + i * 0.15)} color={P.fg} />
           </g>
         );
       })}
-      {c.caption && <Kicker x={x} y={base + 110} text={c.caption} p={ramp(t, t0 + 0.8, t0 + 1.4)} color={P.mute} size={22} weight={600} />}
+      {c.caption && <Kicker x={x} y={base + 110} text={c.caption} p={ramp(t, t0 + 0.8, t0 + 1.4)} color={P.mute} weight={600} />}
     </g>
   );
 };
@@ -543,7 +543,7 @@ export const QuoteShot: React.FC<
             <rect x={436} y={156} width={1048} height={840} fill="none" stroke={C.boneShade} strokeWidth={3} rx={4} />
             <line x1={520} x2={520} y1={160} y2={990} stroke={C.oxTint} strokeWidth={3} opacity={0.8} />
             {docTitle && (
-              <text x={960} y={232} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={22} letterSpacing={4} fill={C.inkMute}>
+              <text x={960} y={236} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={4} fill={C.inkMute}>
                 {docTitle.toUpperCase()}
               </text>
             )}
@@ -556,7 +556,7 @@ export const QuoteShot: React.FC<
             ))}
           </g>
         </g>
-        {source && <Tag x={960} y={1000} anchor="center" text={source} kind="ink" p={ramp(t, t0 + dur * 0.6, t0 + dur * 0.6 + 0.6)} size={22} />}
+        {source && <Tag x={960} y={1000} anchor="center" text={source} kind="ink" p={ramp(t, t0 + dur * 0.6, t0 + dur * 0.6 + 0.6)} />}
       </ShotShell>
     );
   }
@@ -587,11 +587,11 @@ export const QuoteShot: React.FC<
         {source && (
           <g>
             <rect x={170} y={548} width={lerp(0, 60, ease.inOut(ramp(t, t0 + dur * 0.7, t0 + dur * 0.7 + 0.5)))} height={4} fill={P.accent} />
-            <text x={250} y={562} fontFamily={FONT_SERIF} fontWeight={700} fontSize={36} fill={P.fg} opacity={ramp(t, t0 + dur * 0.7, t0 + dur * 0.7 + 0.5)}>
+            <text x={250} y={562} fontFamily={FONT_SERIF} fontWeight={700} fontSize={44} fill={P.fg} opacity={ramp(t, t0 + dur * 0.7, t0 + dur * 0.7 + 0.5)}>
               {source}
             </text>
             {sub && (
-              <text x={250} y={602} fontFamily={FONT_SANS} fontWeight={700} fontSize={22} letterSpacing={2.6} fill={P.mute} opacity={ramp(t, t0 + dur * 0.8, t0 + dur * 0.8 + 0.5)}>
+              <text x={250} y={612} fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={3} fill={P.mute} opacity={ramp(t, t0 + dur * 0.8, t0 + dur * 0.8 + 0.5)}>
                 {sub.toUpperCase()}
               </text>
             )}
@@ -683,12 +683,12 @@ export const EvidenceShot: React.FC<
             <g opacity={ramp(t, mAt + 0.5, mAt + 0.9)}>
               <path d={`M${mx + (labelRight ? 1 : -1) * ((mark.rw * z * w) / 2 + 4)} ${my} L${labelRight ? fr + 30 : fl - 30} ${my}`} stroke={P.dark ? C.oxLight : C.oxblood} strokeWidth={4} pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - ease.inOut(ramp(t, mAt + 0.5, mAt + 1))} />
               <Plate x={labelRight ? fr + 30 : fl - 30 - (textW(mark.label.toUpperCase(), 24, 'sansCaps') + 40)} y={my - 30} w={textW(mark.label.toUpperCase(), 24, 'sansCaps') + 40} h={60} p={ramp(t, mAt + 0.7, mAt + 1.1)} dark={P.dark} />
-              <Kicker x={labelRight ? fr + 50 : fl - 50} y={my + 9} text={mark.label} anchor={labelRight ? 'start' : 'end'} p={ramp(t, mAt + 0.8, mAt + 1.2)} color={P.dark ? C.paperLight : C.oxblood} size={24} />
+              <Kicker x={labelRight ? fr + 50 : fl - 50} y={my + 9} text={mark.label} anchor={labelRight ? 'start' : 'end'} p={ramp(t, mAt + 0.8, mAt + 1.2)} color={P.dark ? C.paperLight : C.oxblood} />
             </g>
           )}
         </g>
       )}
-      {tag && <Tag x={fl + 30} y={ft + 4} text={tag.text} kind={tag.kind ?? 'confirmed'} p={ramp(t, tag.at ?? t0 + 0.6, (tag.at ?? t0 + 0.6) + 0.6)} size={24} />}
+      {tag && <Tag x={fl + 30} y={ft + 4} text={tag.text} kind={tag.kind ?? 'confirmed'} p={ramp(t, tag.at ?? t0 + 0.6, (tag.at ?? t0 + 0.6) + 0.6)} />}
       {nameTag && (
         <g>
           <Plate x={fl - 50} y={fb - 96} w={Math.max(textW(nameTag.name, 46), nameTag.sub ? textW(nameTag.sub.toUpperCase(), 22, 'sansCaps') : 0) + 110} h={nameTag.sub ? 122 : 90} p={ramp(t, nameTag.at ?? t0 + 0.9, (nameTag.at ?? t0 + 0.9) + 0.5)} dark={P.dark} />
@@ -746,12 +746,12 @@ export const ClaimShot: React.FC<
         )}
       </g>
       <rect x={x0 - 40} y={top} width={12} height={ruleH} fill={col} rx={2} />
-      <Tag x={x0} y={top - 50} text={tag ?? KIND_TAG[kind]} kind={kind} p={ramp(t, tagAt ?? t0, (tagAt ?? t0) + 0.6)} size={24} />
+      <Tag x={x0} y={top - 50} text={tag ?? KIND_TAG[kind]} kind={kind} p={ramp(t, tagAt ?? t0, (tagAt ?? t0) + 0.6)} />
       <RichText x={x0} y={top} w={cw} h={ch + 20} text={text} size={size} color={P.fg} lineHeight={1.15} p={ramp(t, t0 + 0.1, t0 + 0.1 + dur, ease.linear)} mark={highlight} markP={1} markColor="transparent" accent={col} valign="top" weight={600} strike={stamp && verdict === 'pen' && kind !== 'confirmed' ? ramp(t, ts, ts + 0.5, ease.inOut) : 0} strikeColor={P.accent} />
       {but && (
         <g>
           <rect x={x0} y={top + ch + 24} width={lerp(0, 120, ease.inOut(ramp(t, tb - 0.2, tb + 0.3)))} height={3} fill={P.line} />
-          <Kicker x={x0} y={top + ch + 92} text="But" p={ramp(t, tb, tb + 0.4)} color={P.accent} anchor="start" size={26} />
+          <Kicker x={x0} y={top + ch + 92} text="But" p={ramp(t, tb, tb + 0.4)} color={P.accent} anchor="start" />
           <RichText x={x0 + 96} y={top + ch + 50} w={cw - 96} h={100} text={but} size={Math.min(44, fitSize(but.length, cw - 96, 90, 30, 44))} italic color={P.fg} p={ramp(t, tb + 0.05, tb + 0.9, ease.linear)} weight={500} />
         </g>
       )}
@@ -786,12 +786,12 @@ export const CompareShot: React.FC<
   const dimOf = (i: number) => (verdict && verdict.side && verdict.side !== 'both' && (verdict.side === 'left' ? 1 : 0) === i ? 1 - 0.5 * vp : 1);
   const win = (i: number) => verdict?.side === 'both' || (verdict?.side === 'left' && i === 0) || (verdict?.side === 'right' && i === 1);
   const colOf = (i: number) => semColor(sides[i].kind ?? (i === 0 ? 'theory' : 'confirmed'), P.dark);
-  const verdictEl = verdict && <Tag x={960} y={head ? 952 : 930} anchor="center" text={verdict.text} kind={verdict.kind ?? 'signal'} p={vp} size={26} />;
+  const verdictEl = verdict && <Tag x={960} y={head ? 922 : 908} anchor="center" text={verdict.text} kind={verdict.kind ?? 'signal'} p={vp} />;
   const lists = (y0: number, xl: number, xr: number) =>
     sides.map((s, i) =>
       (s.bullets ?? []).slice(0, 3).map((bl, j) => (
         <g key={`${i}-${j}`} opacity={dimOf(i)}>
-          <RichText x={i === 0 ? xl - 360 : xr} y={y0 + j * 92} w={360} h={90} text={bl} size={30} color={P.fg} align={i === 0 ? 'right' : 'left'} valign="middle" p={ramp(t, sideT[i] + 0.4 + j * 0.15, sideT[i] + 0.9 + j * 0.15)} mode="fade" weight={500} />
+          <RichText x={i === 0 ? xl - 360 : xr} y={y0 + j * 100} w={360} h={96} text={bl} size={40} color={P.fg} align={i === 0 ? 'right' : 'left'} valign="middle" p={ramp(t, sideT[i] + 0.4 + j * 0.15, sideT[i] + 0.9 + j * 0.15)} mode="fade" weight={500} />
         </g>
       ))
     );
@@ -813,7 +813,7 @@ export const CompareShot: React.FC<
     return (
       <ShotShell t={t} a={a} b={b} tone={tone} seed={seed} motif={motif ?? 'none'}>
         {head && <Heading x={960} y={140} kicker={kicker} title={title} p={ramp(t, t0 - 0.3, t0 + 0.6)} P={P} anchor="middle" size={56} />}
-        <BalanceScale x={960} y={by} s={1.3} tilt={tl} p={ramp(t, t0 - 0.2, t0 + 0.5)} leftLabel={left.title} rightLabel={right.title} leftItems={Math.round((left.weight ?? 2) * ramp(t, t0 + 0.2, t0 + 0.8, ease.linear))} rightItems={Math.round((right.weight ?? 2) * ramp(t, tr, tr + 0.6, ease.linear))} leftColor={colOf(0)} rightColor={colOf(1)} color={P.fg} labelSize={30} />
+        <BalanceScale x={960} y={by} s={1.3} tilt={tl} p={ramp(t, t0 - 0.2, t0 + 0.5)} leftLabel={left.title} rightLabel={right.title} leftItems={Math.round((left.weight ?? 2) * ramp(t, t0 + 0.2, t0 + 0.8, ease.linear))} rightItems={Math.round((right.weight ?? 2) * ramp(t, tr, tr + 0.6, ease.linear))} leftColor={colOf(0)} rightColor={colOf(1)} color={P.fg} labelSize={40} />
         {lists(by + 30, 470, 1450)}
         {verdict?.side && verdict.side !== 'both' && <Pulse x={960 + (verdict.side === 'left' ? -299 : 299)} y={by + 195 + 299 * 0.24 * (verdict.side === 'left' ? -tilt : tilt)} r={150} p={ramp(t, tv + 0.3, tv + 1.3)} color={P.accent} />}
         {verdictEl}
@@ -821,16 +821,18 @@ export const CompareShot: React.FC<
     );
   }
   // columns
-  const cy = head ? 590 : 530;
-  const chh = head ? 560 : 620;
+  const cy = head ? 585 : 530;
+  const chh = head ? 580 : 640;
+  // Phone-first: when the right card comes clearly later, the left card starts CENTRED and slides aside as the right one enters.
+  const solo = tr - t0 >= 1.2 ? 1 - ease.inOut(ramp(t, tr - 0.45, tr + 0.15)) : 0;
   return (
     <ShotShell t={t} a={a} b={b} tone={tone} seed={seed} motif={motif ?? 'none'}>
       {head && <Heading x={960} y={135} kicker={kicker} title={title} p={ramp(t, t0 - 0.3, t0 + 0.6)} P={P} anchor="middle" size={56} />}
       {sides.map((s, i) => {
-        const x = i === 0 ? 590 : 1330;
+        const x = i === 0 ? lerp(570, 960, solo) : 1350;
         const c = colOf(i);
         const pp = ramp(t, sideT[i] - 0.2, sideT[i] + 0.6, ease.linear);
-        const w = 660;
+        const w = 700;
         const wn = win(i) ? vp : 0;
         const nb = (s.bullets ?? []).slice(0, 3);
         const hasTop = !!(s.icon || s.value);
@@ -845,14 +847,14 @@ export const CompareShot: React.FC<
                   {s.value}
                 </text>
               )}
-              <text x={w / 2} y={titleY} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={700} fontSize={s.title.length > 18 ? 40 : 50} fill={P.fg}>
+              <text x={w / 2} y={titleY} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={700} fontSize={s.title.length > 18 ? 46 : 56} fill={P.fg}>
                 {s.title}
               </text>
               <rect x={w / 2 - 30} y={titleY + 26} width={60} height={4} fill={c} />
               {nb.map((bl, j) => (
                 <g key={j} opacity={ramp(t, sideT[i] + 0.45 + j * 0.15, sideT[i] + 0.85 + j * 0.15)}>
-                  <circle cx={70} cy={titleY + 92 + j * 84} r={9} fill={c} />
-                  <RichText x={96} y={titleY + 62 + j * 84} w={w - 140} h={70} text={bl} size={nb.some((q) => q.length > 30) ? 28 : 32} color={P.fg} valign="middle" weight={500} lineHeight={1.12} />
+                  <circle cx={70} cy={titleY + 104 + j * 98} r={10} fill={c} />
+                  <RichText x={96} y={titleY + 59 + j * 98} w={w - 140} h={90} text={bl} size={nb.some((q) => q.length > 26) ? 36 : 42} color={P.fg} valign="middle" weight={500} lineHeight={1.12} />
                 </g>
               ))}
               {s.icon && s.value && (
@@ -930,11 +932,11 @@ export const ListShot: React.FC<
                 </text>
               )}
               {it.icon && <Icon name={it.icon} x={numbered ? 330 : 220} y={y} s={0.75} p={p} color={P.fg} accent={c} knock={P.bg} />}
-              <text x={it.icon ? (numbered ? 400 : 290) : numbered ? 290 : 180} y={y + (it.sub ? 4 : 16)} fontFamily={FONT_SERIF} fontWeight={600} fontSize={rowH > 120 ? 50 : 42} fill={P.fg}>
+              <text x={it.icon ? (numbered ? 400 : 290) : numbered ? 290 : 180} y={y + (it.sub ? 4 : 16)} fontFamily={FONT_SERIF} fontWeight={600} fontSize={rowH > 120 ? 56 : 48} fill={P.fg}>
                 {it.label}
               </text>
-              {it.sub && <Kicker x={it.icon ? (numbered ? 402 : 292) : numbered ? 292 : 182} y={y + 44} text={it.sub} anchor="start" color={P.mute} size={22} p={ramp(p, 0.4, 1)} />}
-              {isH && <rect x={it.icon ? (numbered ? 400 : 290) : 290} y={y + (it.sub ? 64 : 34)} width={lerp(0, Math.min(520, textW(it.label, 50)), ease.inOut(hp))} height={5} fill={P.accent} />}
+              {it.sub && <Kicker x={it.icon ? (numbered ? 402 : 292) : numbered ? 292 : 182} y={y + 52} text={it.sub} anchor="start" color={P.mute} p={ramp(p, 0.4, 1)} />}
+              {isH && <rect x={it.icon ? (numbered ? 400 : 290) : 290} y={y + (it.sub ? 70 : 36)} width={lerp(0, Math.min(560, textW(it.label, 56)), ease.inOut(hp))} height={5} fill={P.accent} />}
             </g>
           );
         })}
@@ -954,21 +956,24 @@ export const ListShot: React.FC<
       </ShotShell>
     );
   }
-  // tiles
-  const slot = 1560 / n;
-  const r = Math.min(110, slot * 0.29);
-  const cy = head ? 590 : 510;
-  const lsize = n <= 3 ? 44 : n === 4 ? 38 : 34;
+  // tiles — phone-first: the row starts CENTRED and grows outward as items arrive (no empty slots reserved for later items)
+  const slot = Math.min(1560 / n, 560);
+  const r = Math.min(150, slot * 0.3);
+  const cy = head ? 580 : 500;
+  const lsize = n <= 3 ? 52 : n === 4 ? 46 : 40;
+  const shown = items.reduce((s, _, i) => s + ease.inOut(ramp(t, cue(cues, i, t0, gap) - 0.35, cue(cues, i, t0, gap) + 0.25)), 0);
+  const m = Math.max(1, shown);
+  const xAt = (i: number) => 960 + (i - (m - 1) / 2) * slot;
   return (
     <ShotShell t={t} a={a} b={b} tone={tone} seed={seed} motif={motif ?? 'none'}>
       {head && <Heading x={960} y={190} kicker={kicker} title={title} p={ramp(t, a, t0 + 0.4)} P={P} anchor="middle" size={60} />}
       {items.slice(1).map((_, i) => (
-        <line key={i} x1={180 + slot * (i + 0.5) + r + 30} x2={180 + slot * (i + 1.5) - r - 30} y1={cy} y2={cy} stroke={P.line} strokeWidth={3} strokeDasharray="2 14" strokeLinecap="round" opacity={ramp(t, t0 - 0.3, t0 + 0.3)} />
+        <line key={i} x1={xAt(i) + r + 30} x2={xAt(i + 1) - r - 30} y1={cy} y2={cy} stroke={P.line} strokeWidth={3} strokeDasharray="2 14" strokeLinecap="round" opacity={tp(i + 1)} />
       ))}
       {items.map((it, i) => {
         const p = tp(i);
         if (p <= 0) return null;
-        const x = 180 + slot * (i + 0.5);
+        const x = xAt(i);
         const isH = highlight === i;
         const o = highlight !== undefined && !isH ? 1 - 0.55 * hp : 1;
         const lift = isH ? -18 * ease.outBack(hp) : 0;
@@ -979,14 +984,14 @@ export const ListShot: React.FC<
             <Medal x={x} y={cy} r={r} p={p} fill={fill} ring={isH ? P.accent : c} icon={it.icon} iconColor={isH && hp > 0.5 ? C.paperLight : P.fg} accent={isH && hp > 0.5 ? C.paperLight : it.kind ? c : P.accent} />
             {numbered && (
               <g opacity={ramp(p, 0.4, 0.8)}>
-                <circle cx={x - r * 0.78} cy={cy - r * 0.78} r={24} fill={isH ? P.accent : P.fg} />
-                <text x={x - r * 0.78} y={cy - r * 0.78 + 8} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={800} fontSize={22} fill={P.bg}>
+                <circle cx={x - r * 0.78} cy={cy - r * 0.78} r={30} fill={isH ? P.accent : P.fg} />
+                <text x={x - r * 0.78} y={cy - r * 0.78 + 11} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={800} fontSize={30} fill={P.bg}>
                   {i + 1}
                 </text>
               </g>
             )}
-            <RichText x={x - slot / 2 + 14} y={cy + r + 34} w={slot - 28} h={130} text={it.label} size={lsize} color={P.fg} align="center" p={ramp(p, 0.3, 1)} mode="fade" weight={600} lineHeight={1.1} />
-            {it.sub && <Kicker x={x} y={cy + r + 34 + 150} text={it.sub} color={P.mute} size={22} p={ramp(p, 0.5, 1)} />}
+            <RichText x={x - slot / 2 + 14} y={cy + r + 30} w={slot - 28} h={130} text={it.label} size={lsize} color={P.fg} align="center" p={ramp(p, 0.3, 1)} mode="fade" weight={600} lineHeight={1.1} />
+            {it.sub && <Kicker x={x} y={cy + r + 30 + 160} text={it.sub} color={P.mute} p={ramp(p, 0.5, 1)} />}
           </g>
         );
       })}
@@ -1032,8 +1037,8 @@ export const TimelineShot: React.FC<
         return (
           <g key={i} opacity={ep}>
             <rect x={xa} y={head ? 290 : 220} width={(xb - xa) * ease.inOut(ep)} height={ay - (head ? 290 : 220)} fill={mixHex(P.bg, c, P.dark ? 0.2 : 0.1)} />
-            <rect x={xa + 2} y={ay + 96} width={Math.max(0, xb - xa - 4) * ease.inOut(ep)} height={44} rx={6} fill={mixHex(P.bg, c, P.dark ? 0.55 : 0.3)} />
-            <text x={(xa + xb) / 2} y={ay + 126} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={22} letterSpacing={2.6} fill={P.fg} opacity={ramp(ep, 0.5, 1)}>
+            <rect x={xa + 2} y={ay + 96} width={Math.max(0, xb - xa - 4) * ease.inOut(ep)} height={56} rx={6} fill={mixHex(P.bg, c, P.dark ? 0.55 : 0.3)} />
+            <text x={(xa + xb) / 2} y={ay + 135} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={32} letterSpacing={3} fill={P.fg} opacity={ramp(ep, 0.5, 1)}>
               {er.label.toUpperCase()}
             </text>
           </g>
@@ -1048,7 +1053,7 @@ export const TimelineShot: React.FC<
         const stem = (tier ? 300 : 150) * ease.out(ramp(ep, 0, 0.6));
         const c = e.kind ? semColor(e.kind, P.dark) : P.fg;
         const lbl = e.label;
-        const lw = Math.max(textW(lbl, 34) + 40, 150);
+        const lw = Math.max(textW(lbl, 44) + 48, 180);
         const cx = Math.max(x0 + lw / 2 - 40, Math.min(x0 + w - lw / 2 + 40, ex));
         const ty = ay - stem;
         const lo = ramp(ep, 0.45, 1);
@@ -1062,12 +1067,12 @@ export const TimelineShot: React.FC<
         return (
           <g key={i}>
             <g opacity={lo} transform={`translate(0 ${(1 - ease.out(lo)) * 12})`}>
-              <rect x={cx - lw / 2} y={ty - 104} width={lw} height={104} rx={10} fill={P.dark ? C.inkSoft : C.paperLight} />
-              <rect x={cx - lw / 2} y={ty - 104} width={lw} height={8} rx={4} fill={c === P.fg ? P.accent : c} />
-              <text x={cx} y={ty - 64} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={800} fontSize={22} letterSpacing={2.6} fill={c === P.fg ? P.accent : c}>
+              <rect x={cx - lw / 2} y={ty - 128} width={lw} height={128} rx={10} fill={P.dark ? C.inkSoft : C.paperLight} />
+              <rect x={cx - lw / 2} y={ty - 128} width={lw} height={8} rx={4} fill={c === P.fg ? P.accent : c} />
+              <text x={cx} y={ty - 80} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={800} fontSize={32} letterSpacing={3} fill={c === P.fg ? P.accent : c}>
                 {(e.yearLabel ?? fmt(e.year)).toUpperCase()}
               </text>
-              <text x={cx} y={ty - 24} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={600} fontSize={34} fill={P.fg}>
+              <text x={cx} y={ty - 26} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={600} fontSize={44} fill={P.fg}>
                 {lbl}
               </text>
             </g>
@@ -1153,26 +1158,26 @@ export const MapShot: React.FC<
       {full ? (
         (kicker || title) && (
           <g>
-            <Plate x={130} y={110} w={Math.max(title ? textW(title, 56) : 0, kicker ? textW(kicker.toUpperCase(), 24, 'sansCaps') : 0) + 90} h={title ? 150 : 80} p={ramp(t, t0, t0 + 0.6)} dark={P.dark} />
+            <Plate x={130} y={110} w={Math.max(title ? textW(title, 56) : 0, kicker ? textW(kicker.toUpperCase(), 36, 'sansCaps') * 1.1 : 0) + 90} h={title ? 150 : 80} p={ramp(t, t0, t0 + 0.6)} dark={P.dark} />
             <Heading x={175} y={170} kicker={kicker} title={title} p={ramp(t, t0 + 0.1, t0 + 0.9)} P={P} size={56} />
           </g>
         )
       ) : (
         <g>
-          {kicker && <Kicker x={1350} y={200} text={kicker} p={ramp(t, t0, t0 + 0.6)} color={P.accent} anchor="start" size={24} />}
+          {kicker && <Kicker x={1350} y={200} text={kicker} p={ramp(t, t0, t0 + 0.6)} color={P.accent} anchor="start" />}
           {title && <RichText x={1350} y={225} w={440} h={240} text={title} size={fitSize(title.length, 440, 220, 44, 64, 1.1)} color={P.fg} p={ramp(t, t0 + 0.1, t0 + 0.9, ease.linear)} lineHeight={1.08} weight={700} />}
-          {sub && <RichText x={1350} y={460} w={440} h={120} text={sub} size={30} color={P.mute} italic p={ramp(t, t0 + 0.5, t0 + 1.1)} mode="fade" weight={500} />}
+          {sub && <RichText x={1350} y={460} w={440} h={120} text={sub} size={36} color={P.mute} italic p={ramp(t, t0 + 0.5, t0 + 1.1)} mode="fade" weight={500} />}
           {pins.map((pn, i) => {
             const lp = ramp(t, pinAt(i), pinAt(i) + 0.5);
             if (lp <= 0 || !pn.label) return null;
-            const y = 620 + i * 66;
+            const y = 620 + i * 76;
             return (
               <g key={i} opacity={lp} transform={`translate(${(1 - ease.out(lp)) * 20} 0)`}>
-                <circle cx={1370} cy={y - 10} r={18} fill={pinCol(pn)} />
-                <text x={1370} y={y - 2} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={800} fontSize={22} fill={C.paperLight}>
+                <circle cx={1370} cy={y - 12} r={22} fill={pinCol(pn)} />
+                <text x={1370} y={y - 2} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={800} fontSize={28} fill={C.paperLight}>
                   {i + 1}
                 </text>
-                <text x={1406} y={y} fontFamily={FONT_SERIF} fontWeight={600} fontSize={32} fill={P.fg}>
+                <text x={1406} y={y} fontFamily={FONT_SERIF} fontWeight={600} fontSize={40} fill={P.fg}>
                   {pn.label}
                 </text>
               </g>
@@ -1249,8 +1254,8 @@ export const PersonShot: React.FC<
     ) : (
       <Room era={era} t={t} seed={seed} night={night} windowX={sd === 'left' ? 1500 : 420} doorX={sd === 'left' ? 1150 : 760} door={false} />
     );
-  const tagW = Math.max(textW(name, 46), sub ? textW(sub.toUpperCase(), 22, 'sansCaps') : 0) + 110;
-  const tagX = sd === 'left' ? 1060 : 860 - tagW;
+  const tagW = Math.max(textW(name, 64), sub ? textW(sub.toUpperCase(), 36, 'sansCaps') * 1.17 : 0) + 110;
+  const tagX = sd === 'left' ? Math.min(1060, 1824 - tagW) : Math.max(96, 860 - tagW);
   const tagY = env === 'study' ? 420 : 560;
   return (
     <ShotShell t={t} a={a} b={b} tone={night ? 'ink' : tone} seed={seed} focus={[px, 420]} zoom={[1, 1.06]} dust={darkEnv} vignette={darkEnv ? 1.2 : 0.8} bg={scene}>
@@ -1259,9 +1264,9 @@ export const PersonShot: React.FC<
       <Person {...pprops} />
       {prop && <Icon name={prop} x={hands.front.x + facing * 20} y={hands.front.y - 70} s={0.95} p={ramp(t, t0 + 0.3, t0 + 0.9)} color={darkEnv ? C.paperLight : C.ink} accent={C.oxblood} knock={darkEnv ? C.inkSoft : C.paperShade} />}
       {env === 'study' && <Study t={t} seed={seed} layer="front" />}
-      <Plate x={tagX} y={tagY} w={tagW} h={(sub ? 130 : 96) + (kicker ? 46 : 0)} p={ramp(t, tn, tn + 0.5)} dark={darkEnv} />
-      {kicker && <Kicker x={tagX + 34} y={tagY + 44} text={kicker} anchor="start" p={ramp(t, tn + 0.05, tn + 0.5)} color={darkEnv ? C.oxTint : P.accent} size={22} />}
-      <NameTag x={tagX + 30} y={tagY + 72 + (kicker ? 46 : 0)} name={name} sub={sub} p={ramp(t, tn + 0.1, tn + 0.8)} color={P.accent} dark={darkEnv} />
+      <Plate x={tagX} y={tagY} w={tagW} h={(sub ? 170 : 124) + (kicker ? 56 : 0)} p={ramp(t, tn, tn + 0.5)} dark={darkEnv} />
+      {kicker && <Kicker x={tagX + 34} y={tagY + 54} text={kicker} anchor="start" p={ramp(t, tn + 0.05, tn + 0.5)} color={darkEnv ? C.oxTint : P.accent} />}
+      <NameTag x={tagX + 30} y={tagY + 92 + (kicker ? 56 : 0)} name={name} sub={sub} p={ramp(t, tn + 0.1, tn + 0.8)} color={P.accent} dark={darkEnv} />
     </ShotShell>
   );
 };
@@ -1336,11 +1341,11 @@ export const ProcessShot: React.FC<
                   {i + 1}
                 </text>
               )}
-              <text x={lp.x} y={ly} textAnchor={anchor} fontFamily={FONT_SERIF} fontWeight={600} fontSize={36} fill={P.fg} opacity={ramp(p, 0.4, 1)}>
+              <text x={lp.x} y={ly} textAnchor={anchor} fontFamily={FONT_SERIF} fontWeight={600} fontSize={46} fill={P.fg} opacity={ramp(p, 0.4, 1)}>
                 {s.label}
               </text>
               {s.sub && (
-                <text x={lp.x} y={ly + 34} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={700} fontSize={22} letterSpacing={2.4} fill={P.mute} opacity={ramp(p, 0.6, 1)}>
+                <text x={lp.x} y={ly + 42} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={3} fill={P.mute} opacity={ramp(p, 0.6, 1)}>
                   {s.sub.toUpperCase()}
                 </text>
               )}
@@ -1380,7 +1385,7 @@ export const ProcessShot: React.FC<
               </text>
             )}
             <RichText x={xs[i] - slot / 2 + 12} y={cy + r + 40} w={slot - 24} h={130} text={s.label} size={lsize} color={P.fg} align="center" p={ramp(p, 0.3, 1)} mode="fade" weight={600} lineHeight={1.1} />
-            {s.sub && <Kicker x={xs[i]} y={cy + r + 40 + 150} text={s.sub} color={P.mute} size={22} p={ramp(p, 0.5, 1)} />}
+            {s.sub && <Kicker x={xs[i]} y={cy + r + 40 + 150} text={s.sub} color={P.mute} p={ramp(p, 0.5, 1)} />}
           </g>
         );
       })}
@@ -1428,7 +1433,7 @@ export const QuestionShot: React.FC<
           </g>
         ) : null}
       </g>
-      {kicker && <Kicker x={textX} y={qTop - 34} text={kicker} anchor="start" p={ramp(t, t0 - 0.2, t0 + 0.4)} color={plum} size={26} />}
+      {kicker && <Kicker x={textX} y={qTop - 34} text={kicker} anchor="start" p={ramp(t, t0 - 0.2, t0 + 0.4)} color={plum} />}
       <RichText x={textX} y={qTop} w={900} h={qH + 40} text={question} size={size} color={P.fg} valign="top" lineHeight={1.12} p={ramp(t, t0, t0 + Math.min(1.8, 0.3 + nW * 0.12), ease.linear)} mark={highlight} markP={1} markColor="transparent" accent={P.accent} weight={600} />
     </ShotShell>
   );

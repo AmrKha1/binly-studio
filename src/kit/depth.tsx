@@ -350,7 +350,7 @@ export const Globe: React.FC<{
                 textAnchor={left ? 'end' : 'start'}
                 fontFamily={FONT_SERIF}
                 fontWeight={600}
-                fontSize={Math.max(24, Math.min(32, r / 10))}
+                fontSize={Math.max(36, Math.min(48, r / 8))}
                 fill={C.ink}
                 paintOrder="stroke"
                 stroke={C.paperLight}

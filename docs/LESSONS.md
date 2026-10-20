@@ -7,7 +7,7 @@
 - (kit) GeoMap is the heaviest component (~2 s/frame locally, ~0.7 s in the cloud): one map per shot, keep map shots short (≤ 12 s) and avoid maps inside contact sheets with many tiles.
 - (test) Sonnet builders produce good chapters from concrete briefs (≈8 min, ≈200k tokens each in their own context). Concrete beat lists with exact cue words are what makes this work.
 - (test) Contact sheets render each tile as a separate still (tools/sheet.mjs) — SVG ids would collide otherwise.
-- (test) Small Tags (size < 22) get hard to read at 1080p; keep labels ≥ 22 px.
+- (superseded 2026-10-20) Text sizes: see PLAYBOOK owner prefs (key ≥ 72 · read ≥ 48 · secondary ≥ 36 · credits 26).
 
 ## Kit backlog
 - See docs/ASSETS.md (catalog of reusable pieces from past videos).
@@ -17,7 +17,7 @@
 ## medieval-bathing (2026-10-15)
 - (owner) NO image with any nudity, not even croppable (bath art, Adam/Eve, flagellants, Dürer syphilis sheet, near-nude patients) → animate those scenes; also check every caption is literally true (a "Rue des Étuves" sign turned out to be Lagny, not Paris).
 - (owner) Don't open the live preview; show contact sheets for the style check.
-- Builders default Tags/labels to ~26 px → unreadable at 1080p; put "Tags ≥ 34, Kickers ≥ 30, inside SAFE, in clear space" in every brief.
+- Builders default Tags/labels to ~26 px → unreadable at 1080p; put "Tags ≥ 48, Kickers ≥ 36, inside SAFE, in clear space" in every brief (raised 2026-10-20).
 - Kit hat 'scholar' renders as a modern mortarboard — use 'hood'/'beret'/'coif' for medieval scholars.
 - One shared builder (opus) for 4 motif pieces first, then chapters: worked well; a 4-chapter usage-limit pause was recovered with SendMessage, nothing lost.
 - upload-pack's auto logline may invent numbers ("150 years") and captions keep ASR slips — always proofread description.md + captions.srt against the script.
@@ -45,3 +45,11 @@
 - C02 `Street` walkers + `MiniBubble` (crack dial) and C03 `Bub` (bubble holding child shapes, solid/dashed) are reusable.
 - Kit StudyCard / NameTag / Photo credit text sizes too small for 1080p (22 px) → add a size dial.
 - (inner-voice polish) sync-check samples ~0.8 s after the sentence start: a beat placed on the stressed word 1–2 s in still reads "WEAK" — check those on a sheet before "fixing" again. Moving a card's entrance onto its word can re-create an empty lead-in: keep a real element on screen from the shot's first frame.
+
+## Mobile audit (2026-10-20)
+- (owner) Visuals felt small on phones. Audit of medieval-bathing + inner-voice at real phone size: 40 px bullets ≈ 8 pt
+  (upright phone), 26 px kickers ≈ 5 pt, diagram labels unreadable; many frames ⅔ empty (one card left, rows reserving
+  slots for later items, a figure in a corner). Full-frame photos + 80 px+ headlines held up.
+- Research: TV ≈ 35% of YouTube watch time, phones ≈ 30%, computers ≈ 30% (Digital i 2025) → design for BOTH small phones
+  and TVs. Legibility = 16–22 arc-min character height → 1080p sizes: key ≥ 72, read ≥ 48, secondary ≥ 36, credits 26.
+- New: TYPE scale in kit/theme, kit defaults raised, `sheet.mjs --phone`, check.mjs warns on text < 36 px.

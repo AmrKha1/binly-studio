@@ -33,6 +33,25 @@ for (const dir of ['src/kit', `src/videos/${activeSlug}`]) {
   }
 }
 
+// 1b) phone-readability warnings (active video only — warns, never fails): literal text sizes under 36 px.
+//     26–35 px is fine ONLY for image credits / source notes; text the viewer must read needs ≥ 48 (ALL-CAPS labels ≥ 40).
+const small = [];
+const vdir = path.join(ROOT, 'src', 'videos', activeSlug);
+if (fs.existsSync(vdir)) {
+  for (const f of walk(vdir)) {
+    fs.readFileSync(f, 'utf8').split(/\r?\n/).forEach((ln, i) => {
+      if (/^\s*(\/\/|\*)/.test(ln)) return;
+      for (const m of ln.matchAll(/\b(fontSize|size|labelSize|bodySize|noteSize)\s*[=:]\s*\{?\s*(\d+(?:\.\d+)?)\b/g)) {
+        const v = Number(m[2]);
+        // fontSize always counts; a bare `size` only on a line that draws text (not icons/shapes)
+        if (v >= 8 && v < 36 && (m[1] !== 'size' || /<(Para|RichText|Kicker|Tag|Headline|Callout|HandNote|ScreenText|NameTag|Note|SpeechBubble|Lbl|Node|Flow|Cycle|Bracket|CityDot|LabelPlate|LowerThird)\b/.test(ln))) {
+          small.push(`${path.relative(ROOT, f)}:${i + 1}  ${m[1]} ${v}`);
+        }
+      }
+    });
+  }
+}
+
 // 2) typecheck
 const base = JSON.parse(fs.readFileSync(path.join(ROOT, 'tsconfig.json'), 'utf8'));
 const scoped = {...base, include: ['../src/*.ts', '../src/*.tsx', '../src/kit', '../src/gallery', '../src/assets', '../src/videos/_empty', `../src/videos/${activeSlug}`]};
@@ -49,6 +68,10 @@ if (problems.length) {
 if (tsErrors.length) {
   console.log(`TYPESCRIPT: ${tsErrors.length} error(s)`);
   tsErrors.slice(0, 40).forEach((p) => console.log('  ' + p));
+}
+if (small.length) {
+  console.log(`PHONE TEXT (warning): ${small.length} text size(s) under 36 px — OK only for image credits / source notes; text the viewer must read ≥ 48 (caps labels ≥ 40). Check with sheet.mjs --phone:`);
+  small.slice(0, 30).forEach((p) => console.log('  ' + p));
 }
 if (!problems.length && !tsErrors.length) console.log('check OK (typecheck + determinism lint)');
 process.exit(problems.length || tsErrors.length ? 1 : 0);
