@@ -2,6 +2,14 @@
 // Poses named full-* are FULL BODY (feet at the bottom edge); all others are waist-up (cut at the waist).
 export const HOST_IMAGES = {
  "aztika": {
+  "amazed": [
+   944,
+   1229
+  ],
+  "angry": [
+   716,
+   1054
+  ],
   "explain": [
    718,
    1115
@@ -61,6 +69,26 @@ export const HOST_IMAGES = {
   "idea": [
    679,
    1126
+  ],
+  "sad": [
+   648,
+   1168
+  ],
+  "smug": [
+   646,
+   1051
+  ],
+  "wave": [
+   732,
+   1225
+  ],
+  "wink-point": [
+   766,
+   1053
+  ],
+  "worried": [
+   647,
+   1055
   ]
  },
  "oddestory": {
