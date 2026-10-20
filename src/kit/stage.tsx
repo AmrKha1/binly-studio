@@ -2,6 +2,7 @@ import React from 'react';
 import {AbsoluteFill} from 'remotion';
 import {C, H, W} from './theme';
 import {camAt, CamKey, CamState, ease, EaseFn, noise1} from './anim';
+import {FONT_AR, FONT_AR_HAND, isAr} from './lang';
 
 /**
  * Text steadiness (the "vibrating text" fix). Chrome/Skia snaps glyph baselines to whole device pixels whenever text
@@ -19,12 +20,60 @@ const TEXT_NUDGE = `text:not([transform]), foreignObject.${TEXT_FO} { rotate: 0.
  * Stage: one full-frame 1920x1080 SVG. Every shot/chapter draws inside a Stage.
  * World units = pixels of the 1920x1080 frame when the camera is at rest.
  */
+/**
+ * Arabic (lang 'ar'): fonts → Baloo Bhaijaan 2 (hand notes → Marhey), no letter-spacing (it breaks Arabic joining), no
+ * italics, RTL paragraphs. The whole scene is MIRRORED (k-rtl) so layouts read right→left; every <text>/<foreignObject>
+ * is flipped back in place (readable glyphs, photos the right way round). Anything that must keep its real geometry
+ * (maps, a photo with overlays at image coordinates) wraps itself in className="k-nomirror".
+ */
+const AR_CSS = `
+.k-ar text, .k-ar tspan { font-family: ${FONT_AR} !important; letter-spacing: 0 !important; font-style: normal !important; }
+.k-ar text { unicode-bidi: plaintext; }
+.k-ar text, .k-ar tspan, .k-ar foreignObject * { font-weight: 800 !important; } /* owner pick: heavy rounded Arabic everywhere */
+.k-ar [font-family*="Caveat"], .k-ar foreignObject [style*="Caveat"] { font-weight: 700 !important; }
+.k-ar [font-family*="Caveat"], .k-ar [font-family*="Caveat"] tspan { font-family: ${FONT_AR_HAND} !important; }
+.k-ar foreignObject, .k-ar foreignObject * { font-family: ${FONT_AR} !important; letter-spacing: 0 !important; font-style: normal !important; }
+.k-ar foreignObject [style*="Caveat"] { font-family: ${FONT_AR_HAND} !important; }
+.k-ar foreignObject div { direction: rtl; }
+.k-ar foreignObject [style*="text-align: left"] { text-align: right !important; }
+.k-rtl text, .k-rtl foreignObject, .k-rtl .k-nomirror { scale: -1 1; transform-box: fill-box; transform-origin: 50% 50%; }
+.k-rtl .k-nomirror text, .k-rtl .k-nomirror foreignObject, .k-rtl .k-nomirror .k-nomirror { scale: none; }
+`;
+
+/** Shared elegant-glow filters (GLOW in kit/theme). Two stacked soft halos: a tight one + a wide faint one. */
+const halo = (id: string, color: string, a: number, b: number) => (
+  <filter id={id} x="-60%" y="-60%" width="220%" height="220%" colorInterpolationFilters="sRGB">
+    <feDropShadow dx={0} dy={0} stdDeviation={10} floodColor={color} floodOpacity={a} />
+    <feDropShadow dx={0} dy={0} stdDeviation={28} floodColor={color} floodOpacity={b} />
+  </filter>
+);
+export const GlowDefs: React.FC = () => (
+  <defs>
+    <filter id="kSoft" x="-30%" y="-30%" width="160%" height="175%" colorInterpolationFilters="sRGB">
+      <feDropShadow dx={0} dy={10} stdDeviation={16} floodColor={C.ink} floodOpacity={0.13} />
+      <feDropShadow dx={0} dy={2} stdDeviation={3} floodColor={C.ink} floodOpacity={0.08} />
+    </filter>
+    {halo('kGlowGold', C.goldLight, 0.6, 0.35)}
+    {halo('kGlowLav', C.theoryLight, 0.55, 0.35)}
+    {halo('kGlowGreen', C.evidenceLight, 0.45, 0.28)}
+    {halo('kGlowOx', C.oxLight, 0.45, 0.28)}
+    {halo('kGlowWhite', '#FFFFFF', 0.95, 0.6)}
+  </defs>
+);
+
 export const Stage: React.FC<{bg?: string; children?: React.ReactNode; style?: React.CSSProperties}> = ({bg = C.paper, children, style}) => (
   <AbsoluteFill style={{background: bg, ...style}}>
     {/* geometricPrecision: no hinting snap (inherited by HTML in foreignObject); TEXT_NUDGE: sub-pixel glyphs in y too. */}
     <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{position: 'absolute', inset: 0, overflow: 'hidden', textRendering: 'geometricPrecision'}}>
-      <style>{TEXT_NUDGE}</style>
-      {children}
+      <style>{TEXT_NUDGE + (isAr() ? AR_CSS : '')}</style>
+      <GlowDefs />
+      {isAr() ? (
+        <g className="k-ar k-rtl" transform={`matrix(-1 0 0 1 ${W} 0)`}>
+          {children}
+        </g>
+      ) : (
+        children
+      )}
     </svg>
   </AbsoluteFill>
 );

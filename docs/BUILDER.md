@@ -48,8 +48,9 @@ top-left corner (title in fullscreen). Check every chapter with `sheet.mjs --pho
 Honour the brief's shot size — a CLOSE shot is truly close
 (a face or an object filling the frame), not a medium shot with a small subject.
 **Never:** linear easing on visible motion · everything fading in the same way · elements popping on/off without
-easing · gradients, glow blur, noise/grain, glassy effects · drop shadows except the kit's flat offset shadows ·
-more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · the shot's key word/line under 72 px · text
+easing · neon or glow on everything (glow = the kit's soft GLOW filters / GlowPill / Halo / Sparkles on the 1–3 things
+that matter), big gradients, noise/grain, glassy effects · cream/off-white or dark backgrounds unless the scene is
+naturally dark (white mode) · more than one gold key accent per frame · more than 2 text elements at once (lists excepted) · the shot's key word/line under 72 px · text
 the viewer must read (labels, tags, names) under 48 px · secondary text under 36 px (only image credits / source notes
 may be 26 px; sizes: `TYPE` in kit/theme) · anything outside 96 px margins · an "empty stage" (one small thing on plain paper — every
 shot happens in a PLACE with foreground / mid / background and light, except a deliberate void like MindSpace) · centred-everything layouts shot after shot · a frame with nothing alive for > 2 s ·
@@ -59,6 +60,19 @@ a tiny anticipation (wind-up) before and a small settle (follow-through) after, 
 keep screen direction consistent (a journey, army or timeline that moves left→right keeps doing so across shots) · stagger
 groups by 0.08–0.15 s · enter ~0.15 s before the spoken word · one focal point per frame · a held final state that
 the next shot/chapter can transition from · semantic colours for certainty · exact numbers as spoken.
+
+## Arabic videos (`"lang": "ar"` in video.json)
+Write the scene exactly as for English (x grows to the right, anchor 'start' = left). Stage MIRRORS the frame for Arabic
+and flips every text/foreignObject/photo back so it reads correctly — so: on-screen strings in Arabic; never build your
+own RTL logic; anything that must keep real geometry (a map, an image with marks at image coordinates, a clock, a
+logo) goes inside `<g className="k-nomirror">` (kit maps, archival shots, EvidenceShot and ticks already do). No
+letter-spacing/caps/italic effects for meaning (they vanish in Arabic). Check with `sheet.mjs` like any chapter.
+
+## Backgrounds & big moments (white mode)
+- `GlowBackdrop` = THE default background behind a hero object (light pours out from behind it: soft glow + slow rays +
+  faint stars; tones gold/lavender/green/sky/warm). `GlowFloor` = the "stage" (glowing horizon + perspective grid floor)
+  for things standing in a row (bars, objects, characters). Put the hero ON them; add `Halo` + `Sparkles` for gems/gold.
+- `SlamTitle` = the giant one-word headline that slams toward the viewer (3–6 per video, at the big pivots only).
 
 ## Patterns
 - **Templates first for standard beats** (docs/KIT.md → templates): stats, quotes, evidence images, claims, comparisons, lists, timelines, maps, person intros, processes, questions — then spend your effort on the custom shots.

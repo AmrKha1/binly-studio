@@ -26,3 +26,23 @@ Promise.all(
 )
   .then(() => continueRender(handle))
   .catch(() => continueRender(handle));
+
+// Arabic (lang 'ar'): Baloo Bhaijaan 2 (heavy rounded — the Arabic channel's face) + Marhey (hand notes).
+import '@fontsource/baloo-bhaijaan-2/arabic-500.css';
+import '@fontsource/baloo-bhaijaan-2/arabic-600.css';
+import '@fontsource/baloo-bhaijaan-2/arabic-700.css';
+import '@fontsource/baloo-bhaijaan-2/arabic-800.css';
+import '@fontsource/baloo-bhaijaan-2/latin-500.css';
+import '@fontsource/baloo-bhaijaan-2/latin-700.css';
+import '@fontsource/baloo-bhaijaan-2/latin-800.css';
+import '@fontsource/marhey/arabic-600.css';
+import '@fontsource/marhey/arabic-700.css';
+
+const handleAr = delayRender('Loading Arabic fonts');
+Promise.all(
+  ['500', '600', '700', '800'].map((w) => document.fonts.load(`${w} 40px "Baloo Bhaijaan 2"`, 'أبجد 123')).concat(
+    ['600', '700'].map((w) => document.fonts.load(`${w} 40px Marhey`, 'أبجد'))
+  )
+)
+  .then(() => continueRender(handleAr))
+  .catch(() => continueRender(handleAr));

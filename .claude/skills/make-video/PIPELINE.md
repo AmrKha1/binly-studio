@@ -20,6 +20,8 @@ Use `binly-scout` (Haiku, cheap) for mechanical chores: image research, timing l
 **0 · Preflight** — `node tools/doctor.mjs` (fixes/prints anything missing: deps, GitHub login, input files).
 
 **1 · Ingest** — `node tools/new-video.mjs` (optional `--slug short-name --title "..."`), run in background.
+  Arabic voiceover/script → give an English `--slug` (e.g. `ar-diamonds`); lang "ar" is detected automatically and the
+  timing uses the Arabic model (takes longer — plan meanwhile from the script). All on-screen text then in Arabic.
 It moves the inputs to `videos/<slug>/`, scaffolds `src/videos/<slug>/`, activates it, uploads the voiceover
 to GitHub (release `vo-<slug>`) and runs the cloud timing analysis (~5–10 min) → `videos/<slug>/timing/`.
 The VOICEOVER is the truth: transcript.md follows what was actually said (script only fixes spelling). If the output

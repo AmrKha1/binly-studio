@@ -1,8 +1,186 @@
 import React from 'react';
-import {C} from './theme';
+import {C, GLOW} from './theme';
 import {clamp01, ease, EaseFn, noise1, rand, randRange} from './anim';
 
-// Light, emphasis and motion helpers. Flat only: no blur, no gradients over large areas, no noise.
+// Light, emphasis and motion helpers. ELEGANT GLOW (owner, 2026-10-20): soft halos (Halo, GLOW filters) and a few
+// twinkling Sparkles on the hero object / key number — never neon, never on everything. No noise.
+
+/** 4-point sparkle star path, radius 1 (scale it). */
+const STAR = 'M0 -1 C0.11 -0.14 0.14 -0.11 1 0 C0.14 0.11 0.11 0.14 0 1 C-0.11 0.14 -0.14 0.11 -1 0 C-0.14 -0.11 -0.11 -0.14 0 -1Z';
+
+/**
+ * Sparkles — a few twinkling 4-point stars around a hero object (diamond, gold, a discovery). Deterministic in t.
+ * (x, y) = centre, r = spread radius, n = count (3–6 is elegant), size = biggest star radius (px).
+ */
+export const Sparkles: React.FC<{t: number; x: number; y: number; r: number; n?: number; size?: number; color?: string; seed?: number; p?: number; period?: number}> = ({
+  t, x, y, r, n = 4, size = 22, color = C.goldLight, seed = 1, p = 1, period = 2.4,
+}) => {
+  if (p <= 0) return null;
+  return (
+    <g opacity={clamp01(p)} filter={GLOW.gold}>
+      {Array.from({length: n}, (_, i) => {
+        const a = rand(seed * 7.1 + i * 3.3) * Math.PI * 2;
+        const d = r * (0.55 + 0.45 * rand(seed * 2.3 + i * 5.7));
+        const ph = rand(seed + i * 1.9) * Math.PI * 2;
+        const tw = 0.5 + 0.5 * Math.sin((t / period) * Math.PI * 2 + ph); // 0..1 twinkle
+        const s = size * (i === 0 ? 1 : 0.45 + 0.4 * rand(seed * 4.4 + i)) * (0.55 + 0.6 * tw);
+        return <path key={i} d={STAR} transform={`translate(${x + Math.cos(a) * d} ${y + Math.sin(a) * d}) scale(${s})`} fill="#FFF8E6" stroke={color} strokeWidth={1.4 / s} opacity={0.45 + 0.55 * tw} />;
+      })}
+    </g>
+  );
+};
+
+/**
+ * GlowBackdrop — THE channel background (white mode): clean white page with light pouring OUT from behind the hero
+ * object: a soft radial glow + gentle sunburst rays that turn very slowly + a few faint twinkling stars. Put it first
+ * (behind everything); place your object/character/title on top at (x, y).
+ *   tone: 'gold' (discovery, money, treasure, wins) · 'lavender' (gems, mystery, mind, science) · 'green' (nature, life,
+ *   health) · 'sky' (cool blue-grey: tech, water, space-by-day) · 'warm' (gentle peach: people, home, history)
+ *   rays: number of rays (0 = no rays) · spin: degrees per second (0.6–2 is elegant) · strength 0..1.5 · p reveal.
+ * Deterministic (pure function of t). Use one per shot — it IS the background, not decoration on top.
+ */
+export const GlowBackdrop: React.FC<{
+  t: number; id: string; x?: number; y?: number; tone?: 'gold' | 'lavender' | 'green' | 'sky' | 'warm';
+  rays?: number; spin?: number; strength?: number; stars?: number; p?: number; seed?: number; r?: number;
+}> = ({t, id, x = 960, y = 560, tone = 'gold', rays = 16, spin = 1, strength = 1, stars = 10, p = 1, seed = 1, r = 900}) => {
+  const TONES = {
+    gold: {glow: C.goldLight, ray: '#FBF1D6', star: C.goldLight},
+    lavender: {glow: C.lavender, ray: '#ECE6F4', star: C.theoryLight},
+    green: {glow: C.evidenceTint, ray: '#E7EEE2', star: C.evidenceLight},
+    sky: {glow: '#D6E2EE', ray: '#EAF0F6', star: '#8FA6BD'},
+    warm: {glow: '#F3D9C9', ray: '#F8EAE1', star: C.oxTint},
+  } as const;
+  const T = TONES[tone];
+  const k = clamp01(p) * strength * (tone === 'gold' ? 0.7 : 1); // gold reads strong on white: keep it airy
+  const L = 2600; // ray length: always past the frame corners
+  const rot = t * spin;
+  const half = (Math.PI / Math.max(1, rays)) * 0.42; // ray half-angle: rays fill ~42% of the circle (soft, airy)
+  return (
+    <g>
+      <rect x={-200} y={-200} width={2320} height={1480} fill={C.paper} />
+      <radialGradient id={`${id}-glow`} cx={x} cy={y} r={r} gradientUnits="userSpaceOnUse">
+        <stop offset="0" stopColor={T.glow} stopOpacity={0.7 * k} />
+        <stop offset="0.3" stopColor={T.glow} stopOpacity={0.28 * k} />
+        <stop offset="1" stopColor={T.glow} stopOpacity={0} />
+      </radialGradient>
+      <radialGradient id={`${id}-rayfade`} cx={x} cy={y} r={r * 1.25} gradientUnits="userSpaceOnUse">
+        <stop offset="0" stopColor="#FFFFFF" stopOpacity={1} />
+        <stop offset="0.55" stopColor="#FFFFFF" stopOpacity={0.55} />
+        <stop offset="1" stopColor="#FFFFFF" stopOpacity={0} />
+      </radialGradient>
+      <mask id={`${id}-raymask`} maskUnits="userSpaceOnUse" x={-200} y={-200} width={2320} height={1480}>
+        <rect x={-200} y={-200} width={2320} height={1480} fill={`url(#${id}-rayfade)`} />
+      </mask>
+      {rays > 0 && (
+        <g mask={`url(#${id}-raymask)`} opacity={0.7 * k}>
+          <g transform={`translate(${x} ${y}) rotate(${rot})`}>
+            {Array.from({length: rays}, (_, i) => {
+              const a = (i / rays) * Math.PI * 2;
+              return <path key={i} d={`M0 0 L${Math.cos(a - half) * L} ${Math.sin(a - half) * L} L${Math.cos(a + half) * L} ${Math.sin(a + half) * L} Z`} fill={T.ray} />;
+            })}
+          </g>
+        </g>
+      )}
+      <circle cx={x} cy={y} r={r} fill={`url(#${id}-glow)`} />
+      {stars > 0 && (
+        <g opacity={k}>
+          {Array.from({length: stars}, (_, i) => {
+            const sx = 120 + rand(seed * 3.1 + i * 7.7) * 1680;
+            const sy = 90 + rand(seed * 5.3 + i * 2.9) * 900;
+            const tw = 0.5 + 0.5 * Math.sin(t * (1.6 + rand(seed + i) * 1.2) + i * 2.1);
+            const sz = (5 + rand(seed * 9.1 + i) * 9) * (0.6 + 0.6 * tw);
+            return <path key={i} d={STAR} transform={`translate(${sx} ${sy}) scale(${sz})`} fill={T.star} opacity={0.18 + 0.4 * tw} />;
+          })}
+        </g>
+      )}
+    </g>
+  );
+};
+
+/**
+ * GlowFloor — the "stage" background (white mode): clean white sky, a softly glowing horizon line, and a perspective
+ * grid floor whose lines fade toward the horizon (objects, bars, characters stand ON it). A few faint stars in the sky.
+ *   horizon: y of the horizon line (560–700 typical) · tone: glow colour of the horizon · drift: floor scroll speed
+ *   (px/s toward the viewer, 0 = still; 20–60 = gentle travel) · p reveal. Deterministic in t. Use instead of GlowBackdrop.
+ */
+export const GlowFloor: React.FC<{
+  t: number; id: string; horizon?: number; tone?: 'gold' | 'lavender' | 'green' | 'sky' | 'warm';
+  drift?: number; strength?: number; stars?: number; p?: number; seed?: number; vx?: number;
+}> = ({t, id, horizon = 640, tone = 'lavender', drift = 0, strength = 1, stars = 12, p = 1, seed = 2, vx = 960}) => {
+  const TONES = {gold: C.goldLight, lavender: C.theoryLight, green: C.evidenceLight, sky: '#8FA6BD', warm: C.oxLight} as const;
+  const glow = TONES[tone];
+  const k = clamp01(p) * strength;
+  const H0 = horizon;
+  const floorH = 1080 - H0;
+  // radial lines from a vanishing point far above the horizon centre → floor perspective
+  const n = 24;
+  const lines = Array.from({length: n + 1}, (_, i) => {
+    const xb = vx + (i - n / 2) * 260; // x at the bottom edge of the frame
+    const xt = vx + (i - n / 2) * 34; // x at the horizon
+    return <line key={i} x1={xt} y1={H0} x2={xb} y2={1080 + 40} />;
+  });
+  // horizontal lines: perspective spacing (denser near the horizon), scrolling toward the viewer with drift
+  const rows = 14;
+  const ph = ((t * drift) / 120) % 1;
+  const hl = Array.from({length: rows}, (_, j) => {
+    const u = (j + ph) / rows; // 0 at horizon → 1 at bottom
+    const y = H0 + floorH * Math.pow(u, 2.1);
+    return <line key={j} x1={-200} y1={y} x2={2120} y2={y} opacity={0.25 + 0.75 * u} />;
+  });
+  return (
+    <g>
+      <rect x={-200} y={-200} width={2320} height={1480} fill={C.paper} />
+      <linearGradient id={`${id}-sky`} x1="0" y1={H0 - 420} x2="0" y2={H0} gradientUnits="userSpaceOnUse">
+        <stop offset="0" stopColor={glow} stopOpacity={0} />
+        <stop offset="1" stopColor={glow} stopOpacity={0.16 * k} />
+      </linearGradient>
+      <rect x={-200} y={H0 - 420} width={2320} height={420} fill={`url(#${id}-sky)`} />
+      <linearGradient id={`${id}-floorfade`} x1="0" y1={H0} x2="0" y2={1080} gradientUnits="userSpaceOnUse">
+        <stop offset="0" stopColor="#FFFFFF" stopOpacity={0.15} />
+        <stop offset="1" stopColor="#FFFFFF" stopOpacity={1} />
+      </linearGradient>
+      <mask id={`${id}-fm`} maskUnits="userSpaceOnUse" x={-200} y={H0} width={2320} height={floorH + 200}>
+        <rect x={-200} y={H0} width={2320} height={floorH + 200} fill={`url(#${id}-floorfade)`} />
+      </mask>
+      <rect x={-200} y={H0} width={2320} height={floorH + 200} fill={glow} opacity={0.07 * k} />
+      <g mask={`url(#${id}-fm)`} stroke={glow} strokeWidth={2.2} opacity={0.55 * k}>
+        {lines}
+        {hl}
+      </g>
+      <rect x={-200} y={H0 - 3} width={2320} height={6} rx={3} fill={glow} opacity={k} filter={`url(#${id}-hz)`} />
+      <rect x={-200} y={H0 - 1} width={2320} height={2} fill="#FFFFFF" opacity={0.9 * k} />
+      <filter id={`${id}-hz`} x="-10%" y="-800%" width="120%" height="1700%" colorInterpolationFilters="sRGB">
+        <feDropShadow dx={0} dy={0} stdDeviation={6} floodColor={glow} floodOpacity={1} />
+        <feDropShadow dx={0} dy={0} stdDeviation={22} floodColor={glow} floodOpacity={0.8} />
+        <feDropShadow dx={0} dy={0} stdDeviation={60} floodColor={glow} floodOpacity={0.45} />
+      </filter>
+      {stars > 0 && (
+        <g opacity={k}>
+          {Array.from({length: stars}, (_, i) => {
+            const sx = 100 + rand(seed * 3.7 + i * 6.1) * 1720;
+            const sy = 70 + rand(seed * 1.9 + i * 4.3) * (H0 - 160);
+            const tw = 0.5 + 0.5 * Math.sin(t * (1.5 + rand(seed + i) * 1.3) + i * 1.7);
+            const sz = (5 + rand(seed * 7.3 + i) * 9) * (0.6 + 0.6 * tw);
+            return <path key={i} d={STAR} transform={`translate(${sx} ${sy}) scale(${sz})`} fill={glow} opacity={0.15 + 0.4 * tw} />;
+          })}
+        </g>
+      )}
+    </g>
+  );
+};
+
+/** Halo — a soft radial glow behind a hero object (lavender for gems, gold for treasure/discovery). origin = centre. */
+export const Halo: React.FC<{id: string; x: number; y: number; r: number; color?: string; p?: number; strength?: number}> = ({id, x, y, r, color = C.lavender, p = 1, strength = 1}) =>
+  p <= 0 ? null : (
+    <g opacity={clamp01(p) * strength}>
+      <radialGradient id={id}>
+        <stop offset="0" stopColor={color} stopOpacity={0.95} />
+        <stop offset="0.45" stopColor={color} stopOpacity={0.45} />
+        <stop offset="1" stopColor={color} stopOpacity={0} />
+      </radialGradient>
+      <circle cx={x} cy={y} r={r} fill={`url(#${id})`} />
+    </g>
+  );
 
 /** Flat light pool: concentric low-opacity discs (no gradients → no banding). origin = centre. */
 export const LightPool: React.FC<{x: number; y: number; r: number; color?: string; strength?: number; sy?: number}> = ({x, y, r, color = C.lamp, strength = 1, sy = 1}) => (

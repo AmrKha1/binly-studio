@@ -7,6 +7,10 @@ Prefer docs/KIT-INDEX.md + the 1–3 sections you need. Visual catalogs: docs/ca
 evidence(+Light/Tint), theory(+Light/Tint), caution(+Light/Tint), bone, wood/woodDark/woodLight, stone/stoneShade/stoneDark,
 metal, lamp, fire, water/waterDeep, slate, sky, dusk, night, skin[0..4], skinShade[0..4], hair[0..4], strata[0..6]),
 `SEM` (confirmed|evidence|theory|speculation|caution|debated|signal|ink → colour), `FONT_SERIF`, `FONT_SANS`, `W`=1920, `H`=1080, `SAFE`=96,
+`lang` (kit/lang): `isAr()`, `lang()`, `word('vs'|'VS'|'but')` (kit-written words), `FONT_AR`. Set per render from
+video.json → Stage applies Arabic fonts + RTL mirroring; `className="k-nomirror"` keeps a group's real geometry.
+`GLOW` = {soft, gold, lavender, green, oxblood, white} filter urls (defined in every Stage) + `glowFor(color)` — elegant
+soft halos: `<g filter={GLOW.gold}>`. `C.gold` (key accent) · `C.goldLight` · `C.goldTint` · `C.lavender`. Paper = clean white.
 `TYPE` = {key 72 · read 48 · label 40 (all-caps sans) · small 36 · credit 26} — phone-readable text sizes (never go below them;
 kit Kicker/Tag/LabelPlate/chart labels enforce the floor). Keep important text above y = 970 (YouTube player controls).
 
@@ -43,6 +47,8 @@ kit Kicker/Tag/LabelPlate/chart labels enforce the floor). Keep important text a
   e.g. `<Headline x={960} y={220} text="A hot bath was medicine." mode="words" accent={{medicine: C.oxblood}} p={ramp(t,T.a,T.a+1)}/>`
 - `Kicker {x,y,text,p=1,size=36,color=inkMute,anchor}` tracked caps label (never below 36 — phone floor).
 - `Para {x,y,w,h=600,text,p,size=48,color,align,font,weight,italic,lineHeight}` wrapped paragraph (keep short).
+- `GlowPill {x,y,text,kind:Sem,p,size=44,to?,anchor}` THE channel label: rounded pill, heavy text, soft glow in its colour
+  (ink = white pill, caution = gold, theory = lavender, confirmed = green, signal = oxblood). `Tag` defaults to it (look='pill').
 - `Tag {x,y,text,kind:Sem,p,size=43 (caption text renders ×1.12 = 48; floor),to?:{x,y},anchor:'left'|'right'|'center',look:'caption'|'pill'}` certainty label.
   Default look 'caption' = museum caption (colour stripe + italic serif on a paper slip); 'pill' = old solid chip (legacy — don't use).
 - Red-pen verdict (Binly's ONLY verdict style; for the climax use it at hero size — full-screen claim, big handwritten note): in templates `ClaimShot … stamp="Wrong"` (verdict 'pen' is default);
@@ -80,6 +86,14 @@ kit Kicker/Tag/LabelPlate/chart labels enforce the floor). Keep important text a
 - `GroundShadow {x,y,w,h?,o}` · `Vignette {strength,color}` · `Pulse {x,y,r,p,color}` one ring · `Beacon {x,y,r,t,period}` repeating
 - `DrawPath {d,p,stroke,width,fill,dash,cap,o}` draw any path on · `Pop {x,y,p,from,r,children}` scale-in · `SlideIn {p,dx,dy,children}`
 - `WipeReveal {id,x,y,w,h,p,dir,children}` · `Particles {t,x,y,w,h,n,seed,size,color,opacity,vx,vy,wobble,shape:'dot'|'ring'|'blob',twinkle}`
+- `GlowBackdrop {t,id,x=960,y=560,tone:'gold'|'lavender'|'green'|'sky'|'warm',rays=16,spin=1,strength,stars=10,p,seed,r}`
+  THE white-mode background: light pours out from behind the hero at (x,y). Draw it first.
+- `GlowFloor {t,id,horizon=640,tone,drift=0,strength,stars,p,seed,vx}` "stage" background: glowing horizon line + perspective
+  grid floor (things stand on it). `drift` px/s makes the floor travel toward the viewer.
+- `SlamTitle {t,at,out?,text,tone:'red'|'gold'|'lavender'|'green',size?,sub?,wash=0.88,y}` giant one-word headline that
+  slams toward the viewer (overshoot + impact shake, thick outline + glow, scene fades to white behind). 3–6 per video.
+- `Sparkles {t,x,y,r,n=4,size=22,color=goldLight,seed,p,period}` a few twinkling 4-point stars around a hero object ·
+  `Halo {id,x,y,r,color=lavender,p,strength}` soft radial glow behind it (gems = lavender, treasure/discovery = gold).
 - `Steam {t,x,y,w,h,n,color,strength}` rising wisps · `Flame {t,x,y,s,seed,glow}` candle/torch · `Ripples {t,x,y,r,n,period,color,sy}`
 
 ## People (`kit/people`) — origin = feet, ≈540 px tall at s=1, drawn facing right (`facing=-1` mirrors)

@@ -37,15 +37,17 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
   narration benefits (e.g. "picture two people sitting in the same room").
 
 ## 4. Look (VISUAL_STYLE + color_system)
-- **Palette = Warm Editorial on paper** (`src/kit/theme.ts`): paper #EDE4D3 default background; ink #2B2420
-  for text/dark panels/night interiors; oxblood #8B2E1F = the ONE most important beat per scene (title
-  reveal, key stat, realisation) — never decoration; evidence green #2F5233, theory plum #5C4A72, caution
+- **Palette = WHITE MODE, elegant glow** (`src/kit/theme.ts`, owner 2026-10-20): CLEAN WHITE #FFFFFF background (never
+  cream/off-white); dark scenes ONLY when the scene is naturally dark (night, a dark room, space). Ink #2B2420 for text;
+  **gold #B07D0C = the key accent** (key word, big number) and it always glows softly (GLOW.gold); oxblood #8B2E1F =
+  warnings / signal only; evidence green #2F5233, theory plum #5C4A72, caution
   mustard #B8860B for meaning. Tints/shades within these families are fine; NO new hue families, no
   saturated primaries, no neon, no candy pastels. Each video may lean its emphasis (a dark tense story may
   sit more in ink panels; a warm historical one in paper/wood), recorded in the plan.
 - Flat vector, bold clean silhouettes, colour blocking, layered depth, flat shade shapes on the side away
-  from the light, light as flat low-opacity shapes. **No gradients over large areas, no noise/grain/
-  texture, no blur** (they band or look dirty after encoding). Output must be perfectly clean.
+  from the light, light as flat low-opacity shapes. **Elegant glow, never neon:** the kit's soft halos only (GLOW filters,
+  GlowPill, Halo, Sparkles) on the few things that matter in a frame (key word, big number, hero object, pills); cards
+  lift off the white with a soft shadow (GLOW.soft). No noise/grain/texture, no glow on everything, no big gradients.
 - Typography: Fraunces (serif) for headlines/quotes/numbers, Inter caps for labels/tags. Rare accent only: Caveat
   handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Certainty labels look
   like museum captions (`Tag`, default); myth-busting verdicts use the editor's red pen (strike + handwritten verdict);
@@ -71,6 +73,15 @@ old art (medieval bath scenes often have them): pick another image, or crop/pan/
 parts show at every moment of the move. Nothing sexual or suggestive, no graphic gore or close-up wounds/corpses. The
 thumbnail and title stay fully clean. When unsure about an image, don't use it — there is always another.
 
+### Arabic videos (one Studio, two channels — owner, 2026-10-20)
+- A video is Arabic when its `video.json` has `"lang": "ar"` (auto-detected from an Arabic script by new-video.mjs).
+  Same Binly look (white mode, gold glow, pills); the kit switches automatically: every font → **Baloo Bhaijaan 2 heavy**
+  (rounded bold — the owner's pick; hand notes → Marhey), no letter-spacing, no italics, and the whole layout is MIRRORED
+  right-to-left (lists, timelines, arrows, comparisons read right→left). Photos and maps keep their real orientation.
+- Write ALL on-screen text in Arabic (titles, pills, labels, chapter titles in chapters.json). Numbers in Western
+  digits (123) exactly as spoken. Same visual stories — only the words change.
+- Speech timing uses the multilingual large-v3 model (slower: start ingest early). Formal Arabic times best.
+
 ## 5. Motion
 - Every move has a purpose: advance the story, create curiosity, clarify, reveal a relation/contrast/
   cause, set place/time/stakes, make a discovery satisfying.
@@ -86,6 +97,9 @@ thumbnail and title stay fully clean. When unsure about an image, don't use it �
 ### Channel owner's preferences (grows with every video — follow them like rules)
 One line each, added when the owner states a preference (style check, polish notes). Only lasting preferences,
 not one-off fixes. Keep ≤ 15 lines: merge similar ones.
+- WHITE MODE + ELEGANT GLOW (both channels, 2026-10-20): clean white pages, gold glowing key word/number, glowing
+  rounded pills (GlowPill) for labels, hero objects glow (soft halo + a few twinkling sparkles). Reference: the owner's
+  pick in .cache/arabic-font-test.html (A3). Dark only when the scene itself is dark.
 - Sources in the YouTube description as plain text (author, title, year — searchable), no links. Links only where an
   image licence requires them (CC BY / BY-SA); public-domain/CC0 image credits are text only.
 - Every frame reads on a small phone AND stays calm on a TV (YouTube watch time ≈ ⅓ TV, ⅓ phones, ⅓ computers). Text:

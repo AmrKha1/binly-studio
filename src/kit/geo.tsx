@@ -287,7 +287,7 @@ export const GeoMap: React.FC<{
   const rip = ripples ?? !isWorld;
   const seaLine = C.paperDeep;
   return (
-    <g opacity={k}>
+    <g opacity={k} className="k-nomirror">{/* RTL: maps keep real geography */}
       <clipPath id={`${id}c`}>{isWorld ? <path d={m.sphere} transform={`translate(${x} ${y})`} /> : <rect x={x} y={y} width={w} height={h} />}</clipPath>
       <g clipPath={`url(#${id}c)`}>
         <g transform={`translate(${x} ${y})`}>

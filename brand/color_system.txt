@@ -1,4 +1,7 @@
-# BINLY — COLOR SYSTEM (Warm Editorial — light background)
+# BINLY — COLOR SYSTEM (WHITE MODE + elegant glow — owner decision 2026-10-20; overrides the cream/paper notes below)
+# Background = clean white #FFFFFF (never cream). Key accent = gold #B07D0C with a soft gold glow. Labels = glowing
+# rounded pills. Hero objects get a soft halo + a few sparkles. Dark only for naturally dark scenes. Elegant, never neon.
+
 
 ## Creative direction
 A warm, paper-toned palette inspired by old scientific print and archival documents — not a dark/night/space palette. The feel is "a well-preserved old scientific journal or medical document," not "cartoon nighttime adventure."

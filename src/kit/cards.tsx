@@ -1,5 +1,5 @@
 import React from 'react';
-import {C, FONT_SANS, FONT_SERIF, SEM, Sem, TYPE} from './theme';
+import {C, FONT_SANS, FONT_SERIF, GLOW, SEM, Sem, TYPE} from './theme';
 import {clamp01, ease, ramp} from './anim';
 import {Para, Tag, textW} from './text';
 import {TEXT_FO} from './stage';
@@ -30,8 +30,8 @@ export const Card: React.FC<{
   const e = entrance(p);
   return (
     <g transform={`translate(${x} ${y + e.dy}) rotate(${rot}) scale(${e.s})`} opacity={e.o}>
-      <rect x={-w / 2 + 12} y={-h / 2 + 16} width={w} height={h} rx={radius} fill={C.ink} opacity={0.14 * shadow} />
-      <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={radius} fill={fill} stroke={stroke} strokeWidth={stroke ? 3 : 0} />
+      {/* white mode: soft lifted shadow (GLOW.soft) instead of a flat offset block */}
+      <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={radius} fill={fill} stroke={stroke} strokeWidth={stroke ? 3 : 0} filter={shadow > 0 ? GLOW.soft : undefined} />
       <g transform={`translate(${-w / 2} ${-h / 2})`}>{children}</g>
     </g>
   );

@@ -4,7 +4,7 @@
 
 export const C = {
   // ---- core system (brand/color_system.txt)
-  paper: '#EDE4D3', // default background
+  paper: '#FFFFFF', // default background — CLEAN WHITE (owner, 2026-10-20: white mode, never cream/off-white)
   ink: '#2B2420', // text on paper, dark panels, night interiors
   oxblood: '#8B2E1F', // signal accent: ONE key beat per scene
   evidence: '#2F5233', // semantic: confirmed / documented
@@ -12,10 +12,10 @@ export const C = {
   caution: '#B8860B', // semantic: warning / debated / handle with care
 
   // ---- paper family
-  paperLight: '#F5EFE3',
-  paperShade: '#E2D6C0',
-  paperDeep: '#D3C4A8',
-  paperDark: '#BFAE8E',
+  paperLight: '#FFFFFF', // cards/pills: white, separated from the white page by soft shadow + glow (kit filters)
+  paperShade: '#F1F1F4', // neutral light greys (no beige) for panels, lines, shading on white
+  paperDeep: '#E2E2E7',
+  paperDark: '#C8C8CF',
 
   // ---- ink family
   inkSoft: '#3A312B',
@@ -35,6 +35,11 @@ export const C = {
   theoryTint: '#D8CFDC',
   cautionLight: '#D4A73C',
   cautionTint: '#EAD7A6',
+  // gold = the KEY accent (key word, big number) — always with its soft gold glow (GLOW.gold)
+  gold: '#B07D0C',
+  goldLight: '#E0B23E',
+  goldTint: '#F7EBC8',
+  lavender: '#D9CDEA', // glowing lavender pill / diamond halo
 
   // ---- materials (all inside the families above)
   bone: '#E6D8BC',
@@ -51,7 +56,7 @@ export const C = {
   water: '#7E8F8C', // muted grey-green (evidence family, greyed) — water, glass, steam tint
   waterDeep: '#5B6B69',
   slate: '#5E5866', // ink+plum: cool shadow, steel, night sky
-  sky: '#E9DCC4', // day sky = lighter paper
+  sky: '#EEF2F7', // day sky = clean, very light
   dusk: '#D9B98C', // dusk sky (caution family, softened)
   night: '#2F2A33', // night sky (ink + plum)
 
@@ -90,3 +95,25 @@ export const SAFE = 96;
  *  key: the shot's key word/line · read: text the viewer must read · label: ALL-CAPS sans text the viewer must read (caps read
  *  bigger per px) · small: secondary text (kickers, side notes) · credit: image credits/source notes only. */
 export const TYPE = {key: 72, read: 48, label: 40, small: 36, credit: 26} as const;
+
+/**
+ * ELEGANT GLOW (owner, 2026-10-20): soft halos only — never neon, never on everything. Filters are defined once per
+ * <Stage> (kit/stage). Use: <g filter={GLOW.gold}>…</g>. soft = soft lifted shadow for cards/pills on white.
+ */
+export const GLOW = {
+  soft: 'url(#kSoft)',
+  gold: 'url(#kGlowGold)',
+  lavender: 'url(#kGlowLav)',
+  green: 'url(#kGlowGreen)',
+  oxblood: 'url(#kGlowOx)',
+  white: 'url(#kGlowWhite)',
+} as const;
+/** The glow that belongs to an accent colour (undefined = no glow). */
+export const glowFor = (color?: string): string | undefined => {
+  const c = (color ?? '').toUpperCase();
+  if ([C.gold, C.goldLight, C.caution, C.cautionLight].some((k) => k.toUpperCase() === c)) return GLOW.gold;
+  if ([C.oxblood, C.oxLight].some((k) => k.toUpperCase() === c)) return GLOW.oxblood;
+  if ([C.theory, C.theoryLight, C.lavender].some((k) => k.toUpperCase() === c)) return GLOW.lavender;
+  if ([C.evidence, C.evidenceLight].some((k) => k.toUpperCase() === c)) return GLOW.green;
+  return undefined;
+};

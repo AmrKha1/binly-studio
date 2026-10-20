@@ -3,7 +3,7 @@ import {Shot, Shots, Transition} from './shots';
 
 /** What every video folder (src/videos/<slug>/index.tsx) exports as `active`. */
 export type VideoModule = {
-  meta: {slug: string; title: string; duration: number; audio?: string};
+  meta: {slug: string; title: string; duration: number; audio?: string; lang?: string};
   Video: React.FC<{t: number}>;
 };
 

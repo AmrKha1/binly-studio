@@ -19,6 +19,8 @@ const TEMPLATE_TILES = [
   ['archival2', 3.5, 'ImageInWorldShot'], ['archival2', 7.5, 'ParallaxCutoutShot'],
 ];
 const KIT_TILES = [
+  ['glow', 5, 'glow · GlowBackdrop + Halo + Sparkles'], ['glowfloor', 2.5, 'glow · GlowFloor'],
+  ['arabic', 2.5, 'ARABIC · hero scene', 'ar'], ['arabic', 5, 'ARABIC · SlamTitle', 'ar'], ['arabic', 8.5, 'ARABIC · ListShot RTL', 'ar'], ['arabic', 11.5, 'ARABIC · CompareShot RTL', 'ar'],
   ['text', 3.5, 'text'], ['cards', 4, 'cards'], ['diagrams', 4, 'diagrams'], ['data', 4, 'data'], ['icons', 4, 'icons'],
   ['env', 2, 'env · environments 1'], ['env', 5, 'env · cities & streets'], ['env', 8, 'env · interiors'], ['env', 11, 'env · rooms'],
   ['env', 14, 'env · props 1'], ['env', 17, 'env · props 2'], ['env', 20, 'env · props 3'], ['science', 4, 'science'], ['geo', 4, 'geo'],
@@ -39,10 +41,10 @@ const failures = [];
 async function renderTiles(tiles, tag) {
   const files = [];
   const labels = [];
-  for (const [page, t, name] of tiles) {
-    const f = path.join(tmp, `${tag}-${page}-${t}.png`);
+  for (const [page, t, name, lang] of tiles) {
+    const f = path.join(tmp, `${tag}-${page}-${t}${lang ? '-' + lang : ''}.png`);
     try {
-      await stills({id: 'Gallery', props: {page}, frames: [Math.round(t * 60)], outFiles: [f], scale: 0.25, quiet: true});
+      await stills({id: 'Gallery', props: {page, lang}, frames: [Math.round(t * 60)], outFiles: [f], scale: 0.25, quiet: true});
       files.push(f);
       labels.push(name);
     } catch (e) {

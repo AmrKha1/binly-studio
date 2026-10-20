@@ -9,9 +9,11 @@
     "check": "node tools/check.mjs"
   },
   "dependencies": {
+    "@fontsource/baloo-bhaijaan-2": "5.3.0",
     "@fontsource/caveat": "5.3.0",
     "@fontsource/fraunces": "5.3.0",
     "@fontsource/inter": "5.3.0",
+    "@fontsource/marhey": "5.3.0",
     "@remotion/bundler": "4.0.534",
     "@remotion/cli": "4.0.534",
     "@remotion/layout-utils": "4.0.534",

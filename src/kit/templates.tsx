@@ -1,4 +1,5 @@
 import React from 'react';
+import {word} from './lang';
 import {C, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
 import {CamState, clamp01, ease, keys, lerp, mixHex, noise1, rand, ramp} from './anim';
 import {Stage, TEXT_FO, World, breathe} from './stage';
@@ -33,9 +34,9 @@ type Pal = {bg: string; fg: string; mute: string; panel: string; motif: string; 
 /** Colour set for a background tone (bg, fg text, mute, panel, motif tint, line, dust, accent, dark). */
 export const tonePal = (tone: Tone = 'paper'): Pal => {
   if (tone === 'ink')
-    return {bg: C.ink, fg: C.paperLight, mute: C.paperDeep, panel: C.inkSoft, motif: mixHex(C.ink, C.paperLight, 0.045), line: mixHex(C.ink, C.paperLight, 0.16), dust: C.paperDeep, accent: C.oxLight, dark: true};
-  const bg = tone === 'shade' ? C.paperShade : C.paper;
-  return {bg, fg: C.ink, mute: C.inkMute, panel: C.paperLight, motif: mixHex(bg, C.ink, 0.045), line: mixHex(bg, C.ink, 0.15), dust: C.paperDark, accent: C.oxblood, dark: false};
+    return {bg: C.ink, fg: C.paperLight, mute: C.paperDeep, panel: C.inkSoft, motif: mixHex(C.ink, C.paperLight, 0.045), line: mixHex(C.ink, C.paperLight, 0.16), dust: C.paperDeep, accent: C.goldLight, dark: true};
+  const bg = tone === 'shade' ? '#F8F8FA' : C.paper; // white mode: 'shade' is only a whisper of grey
+  return {bg, fg: C.ink, mute: C.inkMute, panel: C.paperLight, motif: mixHex(bg, C.ink, 0.045), line: mixHex(bg, C.ink, 0.15), dust: C.paperDark, accent: C.gold, dark: false}; // white mode: gold key accent (glows)
 };
 
 /** Semantic colour, lifted for legibility on dark tones. */
@@ -675,6 +676,7 @@ export const EvidenceShot: React.FC<
         </g>
       }
     >
+      <g className="k-nomirror">{/* RTL: photo + marks keep real image geometry */}
       <Photo slug={slug} src={src} x={px} y={py} w={w} h={h} t={t} p={ramp(t, t0 - 0.35, t0 + 0.6, ease.linear)} frame={frame} tint={tint} caption={caption} credit={credit} dark={P.dark} pan={{a: pa, b: pb, from: pz.from, to: pz.to}} />
       {mark && (
         <g>
@@ -695,6 +697,7 @@ export const EvidenceShot: React.FC<
           <NameTag x={fl - 20} y={fb - 40} name={nameTag.name} sub={nameTag.sub} p={ramp(t, (nameTag.at ?? t0 + 0.9) + 0.1, (nameTag.at ?? t0 + 0.9) + 0.7)} color={P.accent} dark={P.dark} />
         </g>
       )}
+      </g>
     </ShotShell>
   );
 };
@@ -875,7 +878,7 @@ export const CompareShot: React.FC<
       <g opacity={ramp(t, tr + 0.1, tr + 0.5)} transform={`translate(960 ${cy}) scale(${ease.outBack(ramp(t, tr + 0.1, tr + 0.6))})`}>
         <circle r={58} fill={P.dark ? C.paperLight : C.ink} />
         <text y={12} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={800} fontSize={32} letterSpacing={2} fill={P.dark ? C.ink : C.paperLight}>
-          VS
+          {word('VS')}
         </text>
       </g>
       {verdictEl}

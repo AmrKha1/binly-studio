@@ -238,7 +238,11 @@ const Badge: React.FC<{x: number; y: number; n: number; p: number; color: string
 /** Full-frame stage for bleed images: background + content + fixed overlays + vignette. */
 const Bleed: React.FC<{bg?: string; vignette?: number; children?: React.ReactNode}> = ({bg = C.ink, vignette = 0.9, children}) => (
   <Stage bg={bg}>
-    {children}
+    {/* RTL: full-frame image shots keep their real geometry (overlays sit at image coordinates) */}
+    <g className="k-nomirror">
+      <rect x={0} y={0} width={1920} height={1080} fill="none" />
+      {children}
+    </g>
     {vignette > 0 && <Vignette strength={vignette} />}
   </Stage>
 );

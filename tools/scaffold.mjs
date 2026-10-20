@@ -55,7 +55,7 @@ ${list}
 
 const Video: React.FC<{t: number}> = ({t}) => (CHAPTERS.length ? <Chapters t={t} chapters={CHAPTERS} /> : <Stage />);
 
-export const active: VideoModule = {meta: {slug: META.slug, title: META.title, duration: META.duration, audio: META.audio}, Video};
+export const active: VideoModule = {meta: {slug: META.slug, title: META.title, duration: META.duration, audio: META.audio, lang: (META as {lang?: string}).lang}, Video};
 `
 );
 console.log(`scaffold: ${chapters.length} chapter(s) in index.tsx, ${created} placeholder file(s) created`);

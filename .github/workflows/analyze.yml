@@ -11,6 +11,10 @@ on:
         description: "faster-whisper model"
         required: false
         default: "small.en"
+      lang:
+        description: "Voiceover language (en | ar)"
+        required: false
+        default: "en"
       token:
         description: "Unique id so tools can find this run"
         required: false
@@ -22,7 +26,7 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 180
     env:
       SLUG: ${{ inputs.slug }}
       GH_TOKEN: ${{ github.token }}
@@ -59,7 +63,7 @@ jobs:
           VO=$(ls in/voiceover.* | head -1)
           SCRIPT=videos/$SLUG/script.txt
           [ -f "$SCRIPT" ] || SCRIPT=-
-          python tools/cloud/transcribe.py "$VO" "$SCRIPT" out/timing "${{ inputs.model }}"
+          python tools/cloud/transcribe.py "$VO" "$SCRIPT" out/timing "${{ inputs.model }}" "${{ inputs.lang }}"
 
       - uses: actions/upload-artifact@v5
         with:

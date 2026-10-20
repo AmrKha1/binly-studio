@@ -18,9 +18,14 @@ import {Silhouettes} from './pages/silhouettes';
 import {World} from './pages/world';
 import {Biomes} from './pages/biomes';
 import {Jitter} from './pages/jitter';
+import {Glow, GlowFloorPage} from './pages/glow';
+import {Arabic} from './pages/arabic';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
+  glow: Glow,
+  arabic: Arabic,
+  glowfloor: GlowFloorPage,
   text: Text,
   cards: Cards,
   diagrams: Diagrams,

@@ -53,3 +53,8 @@
 - Research: TV ≈ 35% of YouTube watch time, phones ≈ 30%, computers ≈ 30% (Digital i 2025) → design for BOTH small phones
   and TVs. Legibility = 16–22 arc-min character height → 1080p sizes: key ≥ 72, read ≥ 48, secondary ≥ 36, credits 26.
 - New: TYPE scale in kit/theme, kit defaults raised, `sheet.mjs --phone`, check.mjs warns on text < 36 px.
+
+## White mode + elegant glow (2026-10-20)
+- (owner) Both channels: clean white background (not cream), gold glowing key word/number, glowing rounded pills
+  (GlowPill = Tag default), hero objects with Halo + a few Sparkles. Dark only for naturally dark scenes. Elegant, never neon.
+- Glow on a WHITE page: a white glow is invisible — use coloured halos (lavender/gold) + soft lifted shadows (GLOW.soft).

@@ -1,14 +1,16 @@
 import React from 'react';
-import {C, FONT_HAND, FONT_SANS, FONT_SERIF, SEM, Sem, TYPE} from './theme';
+import {C, FONT_HAND, FONT_SANS, FONT_SERIF, GLOW, glowFor, SEM, Sem, TYPE} from './theme';
 import {clamp01, countUp, ease, lerp, ramp} from './anim';
 import {TEXT_FO} from './stage';
+import {isAr} from './lang';
 
 // Typography. Rules: short editorial headlines/labels only, no burned-in subtitles,
 // ink on paper or paper on ink, keep inside SAFE margins, numbers EXACTLY as spoken.
 
 /** Approximate rendered width (px) of a single line — good enough for layout boxes. */
 export const textW = (text: string, size: number, font: 'serif' | 'sans' | 'sansCaps' = 'serif', weight = 600) => {
-  const k = font === 'serif' ? 0.52 : font === 'sansCaps' ? 0.7 : 0.56;
+  // Arabic (Baloo Bhaijaan 2, no tracking, no caps): one width for every role
+  const k = isAr() ? 0.5 : font === 'serif' ? 0.52 : font === 'sansCaps' ? 0.7 : 0.56;
   return text.length * size * k * (weight >= 700 ? 1.04 : 1);
 };
 
@@ -42,7 +44,15 @@ export const Headline: React.FC<{
   const exitK = ease.in(clamp01(out));
   const style = {fontFamily: ff, fontStyle: italic ? 'italic' : 'normal', fontWeight: weight, fontSize: size} as const;
   const words = text.split(' ');
-  const tint = (w: string) => accent?.[w.toLowerCase().replace(/[^\w']/g, '')] ?? color;
+  const tint = (w: string) => accent?.[w.toLowerCase().replace(/[^\p{L}\p{N}']/gu, '')] ?? color;
+  // elegant glow under accent words only (gold key word = gold halo): a twin text whose other words are invisible
+  const glowF = accent ? glowFor(Object.values(accent)[0]) : undefined;
+  const glowSpans = (fo?: (i: number) => number) =>
+    words.map((w, i) => (
+      <tspan key={i} fill={tint(w) !== color ? tint(w) : 'transparent'} fillOpacity={fo ? fo(i) : 1}>
+        {w + (i < words.length - 1 ? ' ' : '')}
+      </tspan>
+    ));
   if (mode === 'type') {
     const n = Math.floor(clamp01(p) * text.length);
     return (
@@ -53,6 +63,12 @@ export const Headline: React.FC<{
   }
   if (mode === 'words') {
     return (
+      <g>
+      {glowF && (
+        <text x={x} y={y - exitK * 20} textAnchor={anchor} opacity={1 - exitK} filter={glowF} {...style}>
+          {glowSpans((i) => ease.out(clamp01(p * words.length * 1.15 - i * 1.0)))}
+        </text>
+      )}
       <text x={x} y={y - exitK * 20} textAnchor={anchor} opacity={1 - exitK} {...style}>
         {words.map((w, i) => {
           const k = ease.out(clamp01(p * words.length * 1.15 - i * 1.0));
@@ -63,6 +79,7 @@ export const Headline: React.FC<{
           );
         })}
       </text>
+      </g>
     );
   }
   if (mode === 'mask') {
@@ -73,6 +90,13 @@ export const Headline: React.FC<{
         <clipPath id={id}>
           <rect x={-10000} y={y - size * 1.05} width={20000} height={size * 1.4} />
         </clipPath>
+        {glowF && (
+          <g clipPath={`url(#${id})`}>
+            <text x={x} y={y + (1 - k) * size * 1.2} textAnchor={anchor} filter={glowF} {...style}>
+              {glowSpans()}
+            </text>
+          </g>
+        )}
         <text x={x} y={y + (1 - k) * size * 1.2} textAnchor={anchor} clipPath={`url(#${id})`} {...style}>
           {words.map((w, i) => (
             <tspan key={i} fill={tint(w)}>
@@ -85,13 +109,20 @@ export const Headline: React.FC<{
   }
   const k = ease.out(clamp01(p));
   return (
-    <text x={x} y={y + (1 - k) * size * 0.35 - exitK * 20} textAnchor={anchor} opacity={k * (1 - exitK)} {...style}>
-      {words.map((w, i) => (
-        <tspan key={i} fill={tint(w)}>
-          {w + (i < words.length - 1 ? ' ' : '')}
-        </tspan>
-      ))}
-    </text>
+    <g>
+      {glowF && (
+        <text x={x} y={y + (1 - k) * size * 0.35 - exitK * 20} textAnchor={anchor} opacity={k * (1 - exitK)} filter={glowF} {...style}>
+          {glowSpans()}
+        </text>
+      )}
+      <text x={x} y={y + (1 - k) * size * 0.35 - exitK * 20} textAnchor={anchor} opacity={k * (1 - exitK)} {...style}>
+        {words.map((w, i) => (
+          <tspan key={i} fill={tint(w)}>
+            {w + (i < words.length - 1 ? ' ' : '')}
+          </tspan>
+        ))}
+      </text>
+    </g>
   );
 };
 
@@ -172,8 +203,9 @@ export const Tag: React.FC<{
   anchor?: 'left' | 'right' | 'center';
   dot?: boolean;
   look?: 'caption' | 'pill';
-}> = ({x, y, text, kind = 'ink', p, size: size0 = 43, to, anchor = 'left', dot = true, look = 'caption'}) => {
+}> = ({x, y, text, kind = 'ink', p, size: size0 = 44, to, anchor = 'left', dot = false, look = 'pill'}) => {
   if (p <= 0) return null;
+  if (look === 'pill') return <GlowPill x={x} y={y} text={text} kind={kind} p={p} size={size0} to={to} anchor={anchor} />;
   const col = SEM[kind];
   const onCol = kind === 'caution' ? C.ink : C.paperLight; // dark text on mustard for contrast
   const cap = look === 'caption';
@@ -303,7 +335,7 @@ export const Stat: React.FC<{
   const shown = count ? countUp(value, ease.outQuint(clamp01(p))) : value;
   return (
     <g opacity={k}>
-      <text x={x} y={y} textAnchor={anchor} fontFamily={FONT_SERIF} fontWeight={700} fontSize={size} fill={color} style={{fontVariantNumeric: 'tabular-nums'}}>
+      <text x={x} y={y} textAnchor={anchor} fontFamily={FONT_SERIF} fontWeight={700} fontSize={size} fill={color} filter={glowFor(color)} style={{fontVariantNumeric: 'tabular-nums'}}>
         {shown}
         {unit && (
           <tspan fontSize={size * 0.42} fontWeight={600} dx={size * 0.08}>
@@ -342,6 +374,52 @@ export const Circled: React.FC<{x: number; y: number; rx: number; ry?: number; p
   return (
     <g transform={`translate(${x} ${y}) rotate(${rot})`}>
       <path d={d} stroke={color} strokeWidth={thick} fill="none" strokeLinecap="round" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - ease.inOut(clamp01(p))} />
+    </g>
+  );
+};
+
+/** Pill colours per certainty kind (white mode): fill, text, glow. */
+const PILL: Record<Sem, {bg: string; fg: string; glow: string}> = {
+  ink: {bg: '#FFFFFF', fg: C.ink, glow: GLOW.soft},
+  caution: {bg: C.goldLight, fg: C.ink, glow: GLOW.gold},
+  debated: {bg: C.goldLight, fg: C.ink, glow: GLOW.gold},
+  theory: {bg: C.lavender, fg: C.ink, glow: GLOW.lavender},
+  speculation: {bg: C.lavender, fg: C.ink, glow: GLOW.lavender},
+  confirmed: {bg: C.evidenceTint, fg: C.evidence, glow: GLOW.green},
+  evidence: {bg: C.evidenceTint, fg: C.evidence, glow: GLOW.green},
+  signal: {bg: C.oxblood, fg: '#FFFFFF', glow: GLOW.oxblood},
+};
+
+/**
+ * GlowPill — the channel's signature label (owner's pick, 2026-10-20): a fully rounded pill, heavy text, soft glow in
+ * its colour. kind picks the colour (ink = white pill with a soft lift). Pops in (scale + fade); optional leader `to`.
+ */
+export const GlowPill: React.FC<{x: number; y: number; text: string; kind?: Sem; p: number; size?: number; to?: {x: number; y: number}; anchor?: 'left' | 'right' | 'center'; font?: string}> = ({
+  x, y, text, kind = 'ink', p, size: size0 = 44, to, anchor = 'left', font = FONT_SANS,
+}) => {
+  if (p <= 0) return null;
+  const size = Math.max(size0, 44); // heavy 800 text: phone-readable floor
+  const st = PILL[kind];
+  const h = size * 1.75;
+  const w = textW(text, size, 'sans', 800) * 1.12 + size * 1.5; // Inter 800 runs ~10% wider than the estimate
+  const ox = anchor === 'left' ? 0 : anchor === 'right' ? -w : -w / 2;
+  const k = ease.outBack(clamp01(p * 1.4));
+  const cx = x + ox + w / 2;
+  return (
+    <g>
+      {to && (
+        <g opacity={clamp01(p * 2)}>
+          <path d={`M${cx} ${y} L${to.x} ${to.y}`} stroke={kind === 'ink' ? C.inkMute : st.bg} strokeWidth={4} pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - ease.out(clamp01(p * 1.25))} fill="none" strokeLinecap="round" />
+          <circle cx={to.x} cy={to.y} r={9 * ease.out(clamp01(p * 1.25))} fill={kind === 'ink' ? C.ink : st.bg} stroke="#FFFFFF" strokeWidth={3} />
+        </g>
+      )}
+      <g transform={`translate(${cx} ${y}) scale(${0.82 + 0.18 * k})`} opacity={clamp01(p * 2.2)}>
+        <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={h / 2} fill={st.bg} filter={st.glow} />
+        <rect x={-w / 2 + h * 0.3} y={-h / 2 + 5} width={w - h * 0.6} height={h * 0.22} rx={h * 0.11} fill="#FFFFFF" opacity={kind === 'ink' ? 0 : 0.35} />
+        <text x={0} y={size * 0.36} textAnchor="middle" fontFamily={font} fontWeight={800} fontSize={size} fill={st.fg} opacity={ramp(p, 0.25, 0.8)}>
+          {text}
+        </text>
+      </g>
     </g>
   );
 };
@@ -412,8 +490,50 @@ export const HandNote: React.FC<{x: number; y: number; text: string; p?: number;
   const n = Math.ceil(text.length * clamp01(p));
   if (n <= 0) return null;
   return (
-    <text x={x} y={y} transform={`rotate(${rot} ${x} ${y})`} textAnchor={anchor} fontFamily={FONT_HAND} fontWeight={weight} fontSize={Math.max(TYPE.read, size)} fill={color}>
-      {text.slice(0, n)}
-    </text>
+    <g transform={`rotate(${rot} ${x} ${y})`}>
+      <text x={x} y={y} textAnchor={anchor} fontFamily={FONT_HAND} fontWeight={weight} fontSize={Math.max(TYPE.read, size)} fill={color}>
+        {text.slice(0, n)}
+      </text>
+    </g>
+  );
+};
+
+/**
+ * SlamTitle — the "in your face" headline (owner's request, 2026-10-20): ONE giant word slams toward the viewer
+ * (scale 2.4 → 1, overshoot + a small impact shake), thick deep-colour outline + soft glow in its colour, while the scene
+ * behind fades to a clean white wash. Holds, then flies past the viewer (scales up + fades) at `out`.
+ * Use for the 3–6 BIG pivots of a video (a chapter's one-word theme: "WAR", "الحرب", "MONEY") — never for normal labels.
+ *   tone: 'red' (war, danger, death) · 'gold' (money, treasure, wins) · 'lavender' (mystery, mind) · 'green' (life, nature)
+ *   size: auto-fits the word to ~85% of the frame width (cap 400 px). sub: optional pill under the word.
+ */
+export const SlamTitle: React.FC<{t: number; at: number; out?: number; text: string; tone?: 'red' | 'gold' | 'lavender' | 'green'; size?: number; sub?: string; wash?: number; y?: number}> = ({
+  t, at, out, text, tone = 'red', size, sub, wash = 0.88, y = 560,
+}) => {
+  if (t < at - 0.05 || (out !== undefined && t > out + 0.45)) return null;
+  const TONES = {
+    red: {fill: '#E0645A', deep: C.oxDeep, glow: GLOW.oxblood},
+    gold: {fill: C.goldLight, deep: '#7A5506', glow: GLOW.gold},
+    lavender: {fill: C.theoryLight, deep: C.theory, glow: GLOW.lavender},
+    green: {fill: C.evidenceLight, deep: C.evidence, glow: GLOW.green},
+  } as const;
+  const T = TONES[tone];
+  const fs = size ?? Math.min(400, 1630 / Math.max(2, textW(text, 1, 'serif', 800)));
+  const inP = clamp01((t - at) / 0.38);
+  const outP = out === undefined ? 0 : clamp01((t - out) / 0.4);
+  const s = lerp(2.4, 1, ease.outBack(inP)) * lerp(1, 1.5, ease.in(outP));
+  const hit = Math.max(0, t - at - 0.3); // impact shake right after landing, decays in ~0.4 s
+  const shake = hit > 0 && hit < 0.45 ? Math.sin(hit * 70) * 14 * (1 - hit / 0.45) : 0;
+  const o = clamp01(inP * 3) * (1 - outP);
+  const wk = wash * clamp01((t - at + 0.05) / 0.25) * (1 - outP);
+  return (
+    <g>
+      <rect x={-200} y={-200} width={2320} height={1480} fill="#FFFFFF" opacity={wk} />
+      <g transform={`translate(${960 + shake} ${y + shake * 0.4}) scale(${s})`} opacity={o}>
+        <text x={0} y={fs * 0.34} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={800} fontSize={fs} fill={T.fill} stroke={T.deep} strokeWidth={fs * 0.12} strokeLinejoin="round" paintOrder="stroke" filter={T.glow}>
+          {text}
+        </text>
+      </g>
+      {sub && <GlowPill x={960} y={y + fs * 0.62} text={sub} kind={tone === 'gold' ? 'caution' : tone === 'lavender' ? 'theory' : tone === 'green' ? 'confirmed' : 'ink'} anchor="center" p={clamp01((t - at - 0.45) / 0.4) * (1 - outP)} size={52} />}
+    </g>
   );
 };

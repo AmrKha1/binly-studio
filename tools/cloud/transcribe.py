@@ -9,7 +9,7 @@ as written. Outputs (in <out>):
   transcript.md    compact timed transcript for planning (one line per paragraph)
   info.json        duration, match ratio, model, long pauses
 
-usage: python transcribe.py <voiceover> <script.txt|-> <outdir> [model]
+usage: python transcribe.py <voiceover> <script.txt|-> <outdir> [model] [lang: en|ar]
 """
 import json, re, sys, difflib, os
 import numpy as np
@@ -17,6 +17,7 @@ from faster_whisper import WhisperModel, decode_audio
 
 vo, script_path, out = sys.argv[1], sys.argv[2], sys.argv[3]
 model_name = sys.argv[4] if len(sys.argv) > 4 else "small.en"
+lang = (sys.argv[5] if len(sys.argv) > 5 else "en") or "en"
 os.makedirs(out, exist_ok=True)
 
 SR = 16000
@@ -55,7 +56,7 @@ paras_src = [re.sub(r"\s+", " ", p).strip() for p in re.split(r"\n\s*\n", script
 # ---------------------------------------------------------------- transcription
 model = WhisperModel(model_name, device="cpu", compute_type="int8", cpu_threads=os.cpu_count() or 4)
 prompt = paras_src[0][:220] if paras_src else None
-segments, _ = model.transcribe(vo, language="en", word_timestamps=True, beam_size=5, condition_on_previous_text=False, initial_prompt=prompt, vad_filter=False)
+segments, _ = model.transcribe(vo, language=lang, word_timestamps=True, beam_size=5, condition_on_previous_text=False, initial_prompt=prompt, vad_filter=False)
 hyp = []
 for seg in segments:
     for w in seg.words or []:
@@ -78,7 +79,13 @@ for w in hyp:
 
 # ---------------------------------------------------------------- align to script
 NUMW = {"zero":"0","one":"1","two":"2","three":"3","four":"4","five":"5","six":"6","seven":"7","eight":"8","nine":"9","ten":"10"}
+# Arabic spelling variants that whisper and scripts write differently → one key (only for matching; output keeps the
+# script's spelling): diacritics/tatweel dropped, alef/ya/ta-marbuta/hamza seats unified, Arabic-Indic digits → 0-9.
+AR_DIAC = re.compile(r"[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]")
+AR_MAP = str.maketrans({"أ": "ا", "إ": "ا", "آ": "ا", "ٱ": "ا", "ى": "ي", "ة": "ه", "ؤ": "و", "ئ": "ي", "،": " ", "؛": " ", "؟": " ",
+                        **{chr(0x0660 + i): str(i) for i in range(10)}, **{chr(0x06F0 + i): str(i) for i in range(10)}})
 def norm(t):
+    t = AR_DIAC.sub("", t).translate(AR_MAP)
     t = t.lower().replace("%", " percent").replace("’", "'")
     t = re.sub(r"(?<=\d),(?=\d{3})", "", t)
     t = re.sub(r"[^\w\s'.]", " ", t)

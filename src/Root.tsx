@@ -5,6 +5,7 @@ import {C, FONT_SANS, FPS, H, W} from './kit/theme';
 import {active} from './active';
 import {GALLERY} from './gallery';
 import {VideoAudio} from './kit/audio';
+import {setLang} from './kit/lang';
 
 // Compositions:
 //  Main    — the active video (src/active.ts points at src/videos/<slug>). Full length, 60 fps.
@@ -12,6 +13,7 @@ import {VideoAudio} from './kit/audio';
 //  Gallery — kit showcase pages (src/gallery), used to test/preview kit components.
 
 const Main: React.FC = () => {
+  setLang(active.meta.lang); // 'ar' → Arabic fonts + right-to-left layout in every Stage
   const t = useCurrentFrame() / FPS;
   const V = active.Video;
   return (
@@ -24,6 +26,7 @@ const Main: React.FC = () => {
 
 type SheetProps = {from: number; to: number; n: number; cols: number; times?: number[]};
 const Sheet: React.FC<SheetProps> = ({from, to, n, cols, times}) => {
+  setLang(active.meta.lang);
   const V = active.Video;
   const ts = times && times.length ? times : Array.from({length: n}, (_, i) => (n === 1 ? from : from + ((to - from) * i) / (n - 1)));
   const rows = Math.ceil(ts.length / cols);
@@ -74,7 +77,8 @@ const Grid: React.FC<GridProps> = ({images, labels, cols, fit = 'cover'}) => {
   );
 };
 
-const Gallery: React.FC<{page: string}> = ({page}) => {
+const Gallery: React.FC<{page: string; lang?: string}> = ({page, lang}) => {
+  setLang(lang); // gallery pages render in English unless {lang: 'ar'} is passed (kit-test --ar)
   const t = useCurrentFrame() / FPS;
   const P = GALLERY[page];
   if (!P) return <AbsoluteFill style={{background: C.paper, color: C.ink, font: `700 48px ${FONT_SANS}`, padding: 80}}>Unknown gallery page: {page}. Pages: {Object.keys(GALLERY).join(', ')}</AbsoluteFill>;

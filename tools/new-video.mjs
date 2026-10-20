@@ -1,5 +1,6 @@
 // Start a new video from the files in input/ (voiceover + script + optional notes).
-//   node tools/new-video.mjs [--slug medieval-baths] [--title "Why a Hot Bath Was Medicine"] [--no-analyze]
+//   node tools/new-video.mjs [--slug medieval-baths] [--title "Why a Hot Bath Was Medicine"] [--lang ar] [--no-analyze]
+//   (--lang is auto-detected: an Arabic script → "ar". Give Arabic videos an English --slug, e.g. --slug ar-diamonds.)
 // Does: creates videos/<slug>/ (moves the input files there), scaffolds src/videos/<slug>/, activates it,
 // uploads the voiceover to GitHub (release vo-<slug>), and runs the cloud timing analysis.
 import fs from 'node:fs';
@@ -43,7 +44,10 @@ if (scriptFile) {
 if (notesFile) fs.copyFileSync(path.join(IN, notesFile), path.join(vdir, 'notes.md'));
 const firstLine = scriptText.split(/\r?\n/).map((l) => l.trim()).find((l) => l && !/^[-\d\s]+$/.test(l)) ?? slug;
 const title = a.title ?? firstLine.replace(/^#+\s*/, '').slice(0, 80);
-const meta = {slug, title, duration: Math.round(info.duration * 10000) / 10000, sampleRate: info.sampleRate, channels: info.channels, codec: info.codec, audio: `voiceover${ext}`, source: audio[0], created: new Date().toISOString()};
+// language: Arabic if the script (or file name) is written in Arabic → Arabic fonts, RTL layout, Arabic speech model
+const lang = a.lang ?? (/[؀-ۿ]/.test(scriptText + audio[0]) ? 'ar' : 'en');
+if (lang === 'ar') console.log('Arabic video detected → lang "ar" (Arabic fonts, right-to-left layout, Arabic speech model)');
+const meta = {slug, title, lang, duration: Math.round(info.duration * 10000) / 10000, sampleRate: info.sampleRate, channels: info.channels, codec: info.codec, audio: `voiceover${ext}`, source: audio[0], created: new Date().toISOString()};
 fs.writeFileSync(path.join(vdir, 'video.json'), JSON.stringify(meta, null, 1));
 for (const f of [audio[0], scriptFile, notesFile].filter(Boolean)) fs.rmSync(path.join(IN, f));
 

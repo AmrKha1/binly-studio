@@ -67,9 +67,12 @@ async function wait(id, label) {
 }
 
 async function analyze() {
-  const model = a.model ?? 'small.en';
+  const vj = path.join(ROOT, 'videos', slug, 'video.json');
+  const lang = a.lang ?? (fs.existsSync(vj) ? JSON.parse(fs.readFileSync(vj, 'utf8')).lang : undefined) ?? 'en';
+  // Arabic: the multilingual large-v3 model (most accurate Arabic; slower on the cloud CPU, ~1-2x audio length)
+  const model = a.model ?? (lang === 'ar' ? 'large-v3' : 'small.en');
   push(`timing: ${slug}`);
-  const id = await dispatch('analyze.yml', {slug, model});
+  const id = await dispatch('analyze.yml', {slug, model, lang});
   console.log(`analyze run ${id} started`);
   await wait(id, 'analyze');
   const dir = path.join(ROOT, 'videos', slug, 'timing');

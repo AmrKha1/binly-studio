@@ -103,8 +103,9 @@ top-left corner (title in fullscreen). Check every chapter with `sheet.mjs --pho
 Honour the brief's shot size — a CLOSE shot is truly close
 (a face or an object filling the frame), not a medium shot with a small subject.
 **Never:** linear easing on visible motion · everything fading in the same way · elements popping on/off without
-easing · gradients, glow blur, noise/grain, glassy effects · drop shadows except the kit's flat offset shadows ·
-more than one oxblood accent per frame · more than 2 text elements at once (lists excepted) · the shot's key word/line under 72 px · text
+easing · neon or glow on everything (glow = the kit's soft GLOW filters / GlowPill / Halo / Sparkles on the 1–3 things
+that matter), big gradients, noise/grain, glassy effects · cream/off-white or dark backgrounds unless the scene is
+naturally dark (white mode) · more than one gold key accent per frame · more than 2 text elements at once (lists excepted) · the shot's key word/line under 72 px · text
 the viewer must read (labels, tags, names) under 48 px · secondary text under 36 px (only image credits / source notes
 may be 26 px; sizes: `TYPE` in kit/theme) · anything outside 96 px margins · an "empty stage" (one small thing on plain paper — every
 shot happens in a PLACE with foreground / mid / background and light, except a deliberate void like MindSpace) · centred-everything layouts shot after shot · a frame with nothing alive for > 2 s ·
@@ -114,6 +115,19 @@ a tiny anticipation (wind-up) before and a small settle (follow-through) after, 
 keep screen direction consistent (a journey, army or timeline that moves left→right keeps doing so across shots) · stagger
 groups by 0.08–0.15 s · enter ~0.15 s before the spoken word · one focal point per frame · a held final state that
 the next shot/chapter can transition from · semantic colours for certainty · exact numbers as spoken.
+
+## Arabic videos (`"lang": "ar"` in video.json)
+Write the scene exactly as for English (x grows to the right, anchor 'start' = left). Stage MIRRORS the frame for Arabic
+and flips every text/foreignObject/photo back so it reads correctly — so: on-screen strings in Arabic; never build your
+own RTL logic; anything that must keep real geometry (a map, an image with marks at image coordinates, a clock, a
+logo) goes inside `<g className="k-nomirror">` (kit maps, archival shots, EvidenceShot and ticks already do). No
+letter-spacing/caps/italic effects for meaning (they vanish in Arabic). Check with `sheet.mjs` like any chapter.
+
+## Backgrounds & big moments (white mode)
+- `GlowBackdrop` = THE default background behind a hero object (light pours out from behind it: soft glow + slow rays +
+  faint stars; tones gold/lavender/green/sky/warm). `GlowFloor` = the "stage" (glowing horizon + perspective grid floor)
+  for things standing in a row (bars, objects, characters). Put the hero ON them; add `Halo` + `Sparkles` for gems/gold.
+- `SlamTitle` = the giant one-word headline that slams toward the viewer (3–6 per video, at the big pivots only).
 
 ## Patterns
 - **Templates first for standard beats** (docs/KIT.md → templates): stats, quotes, evidence images, claims, comparisons, lists, timelines, maps, person intros, processes, questions — then spend your effort on the custom shots.
@@ -272,15 +286,17 @@ A great video in one session beats a perfect plan.
 === EMBEDDED: docs/PLAYBOOK.md §4–§5 — look & motion rules ===
 
 ## 4. Look (VISUAL_STYLE + color_system)
-- **Palette = Warm Editorial on paper** (`src/kit/theme.ts`): paper #EDE4D3 default background; ink #2B2420
-  for text/dark panels/night interiors; oxblood #8B2E1F = the ONE most important beat per scene (title
-  reveal, key stat, realisation) — never decoration; evidence green #2F5233, theory plum #5C4A72, caution
+- **Palette = WHITE MODE, elegant glow** (`src/kit/theme.ts`, owner 2026-10-20): CLEAN WHITE #FFFFFF background (never
+  cream/off-white); dark scenes ONLY when the scene is naturally dark (night, a dark room, space). Ink #2B2420 for text;
+  **gold #B07D0C = the key accent** (key word, big number) and it always glows softly (GLOW.gold); oxblood #8B2E1F =
+  warnings / signal only; evidence green #2F5233, theory plum #5C4A72, caution
   mustard #B8860B for meaning. Tints/shades within these families are fine; NO new hue families, no
   saturated primaries, no neon, no candy pastels. Each video may lean its emphasis (a dark tense story may
   sit more in ink panels; a warm historical one in paper/wood), recorded in the plan.
 - Flat vector, bold clean silhouettes, colour blocking, layered depth, flat shade shapes on the side away
-  from the light, light as flat low-opacity shapes. **No gradients over large areas, no noise/grain/
-  texture, no blur** (they band or look dirty after encoding). Output must be perfectly clean.
+  from the light, light as flat low-opacity shapes. **Elegant glow, never neon:** the kit's soft halos only (GLOW filters,
+  GlowPill, Halo, Sparkles) on the few things that matter in a frame (key word, big number, hero object, pills); cards
+  lift off the white with a soft shadow (GLOW.soft). No noise/grain/texture, no glow on everything, no big gradients.
 - Typography: Fraunces (serif) for headlines/quotes/numbers, Inter caps for labels/tags. Rare accent only: Caveat
   handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Certainty labels look
   like museum captions (`Tag`, default); myth-busting verdicts use the editor's red pen (strike + handwritten verdict);
@@ -306,6 +322,15 @@ old art (medieval bath scenes often have them): pick another image, or crop/pan/
 parts show at every moment of the move. Nothing sexual or suggestive, no graphic gore or close-up wounds/corpses. The
 thumbnail and title stay fully clean. When unsure about an image, don't use it — there is always another.
 
+### Arabic videos (one Studio, two channels — owner, 2026-10-20)
+- A video is Arabic when its `video.json` has `"lang": "ar"` (auto-detected from an Arabic script by new-video.mjs).
+  Same Binly look (white mode, gold glow, pills); the kit switches automatically: every font → **Baloo Bhaijaan 2 heavy**
+  (rounded bold — the owner's pick; hand notes → Marhey), no letter-spacing, no italics, and the whole layout is MIRRORED
+  right-to-left (lists, timelines, arrows, comparisons read right→left). Photos and maps keep their real orientation.
+- Write ALL on-screen text in Arabic (titles, pills, labels, chapter titles in chapters.json). Numbers in Western
+  digits (123) exactly as spoken. Same visual stories — only the words change.
+- Speech timing uses the multilingual large-v3 model (slower: start ingest early). Formal Arabic times best.
+
 ## 5. Motion
 - Every move has a purpose: advance the story, create curiosity, clarify, reveal a relation/contrast/
   cause, set place/time/stakes, make a discovery satisfying.
@@ -321,6 +346,9 @@ thumbnail and title stay fully clean. When unsure about an image, don't use it �
 ### Channel owner's preferences (grows with every video — follow them like rules)
 One line each, added when the owner states a preference (style check, polish notes). Only lasting preferences,
 not one-off fixes. Keep ≤ 15 lines: merge similar ones.
+- WHITE MODE + ELEGANT GLOW (both channels, 2026-10-20): clean white pages, gold glowing key word/number, glowing
+  rounded pills (GlowPill) for labels, hero objects glow (soft halo + a few twinkling sparkles). Reference: the owner's
+  pick in .cache/arabic-font-test.html (A3). Dark only when the scene itself is dark.
 - Sources in the YouTube description as plain text (author, title, year — searchable), no links. Links only where an
   image licence requires them (CC BY / BY-SA); public-domain/CC0 image credits are text only.
 - Every frame reads on a small phone AND stays calm on a TV (YouTube watch time ≈ ⅓ TV, ⅓ phones, ⅓ computers). Text:
@@ -397,11 +425,11 @@ Import from `../../../kit/<module>` (chapters) · visual catalogs: `docs/catalog
 
 ## docs/kit/core.md — Stage, camera (Cam/World/breathe/shake), time maths (ramp/keys/win/camAt/rand/noise1/countUp), Shots + transitions, palette C/SEM
 modules: kit/stage, kit/anim, kit/shots, kit/theme, kit/video
-TEXT_FO, Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, FONT_HAND, W, H, FPS, SAFE, TYPE, VideoModule, ChapterDef, Chapters
+TEXT_FO, GlowDefs, Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, FONT_HAND, W, H, FPS, SAFE, TYPE, GLOW, glowFor, VideoModule, ChapterDef, Chapters
 
 ## docs/kit/text-cards-diagrams.md — Typography, paper objects & screens & bubbles, diagrams/arrows/flows, light & motion fx, characters (Person/Crowd)
 modules: kit/text, kit/cards, kit/diagrams, kit/fx, kit/people
-textW, Headline, Kicker, Para, Tag, RedPen, Stat, Underline, Highlight, Circled, NameTag, TitleCard, HandNote, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, WeatherKind, Weather, Expression, Outfit, Hat, Hair, Age, Build, HeldProp, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd, EmoteKind, Emote
+textW, Headline, Kicker, Para, Tag, RedPen, Stat, Underline, Highlight, Circled, GlowPill, NameTag, TitleCard, HandNote, SlamTitle, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, Sparkles, GlowBackdrop, GlowFloor, Halo, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, WeatherKind, Weather, Expression, Outfit, Hat, Hair, Age, Build, HeldProp, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd, EmoteKind, Emote
 
 ## docs/kit/templates.md — Ready-made full shots for standard beats (stat, quote, evidence, claim, compare, list, timeline, map, person, process, question, title)
 modules: kit/templates

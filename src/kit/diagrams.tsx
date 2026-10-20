@@ -1,4 +1,5 @@
 import React from 'react';
+import {isAr} from './lang';
 import {C, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
 import {clamp01, ease, lerp, ramp, stagger} from './anim';
 import {textW} from './text';
@@ -267,7 +268,11 @@ export const CrossOut: React.FC<{x: number; y: number; size: number; p: number; 
 export const CheckMark: React.FC<{x: number; y: number; size: number; p: number; color?: string; width?: number}> = ({x, y, size, p, color = C.evidence, width = 14}) => {
   if (p <= 0) return null;
   const d = `M${x - size * 0.45} ${y} L${x - size * 0.12} ${y + size * 0.32} L${x + size * 0.48} ${y - size * 0.36}`;
-  return <path d={d} stroke={color} strokeWidth={width} fill="none" strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - ease.inOut(clamp01(p))} />;
+  return (
+    <g className="k-nomirror">{/* a tick never mirrors (RTL) */}
+      <path d={d} stroke={color} strokeWidth={width} fill="none" strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - ease.inOut(clamp01(p))} />
+    </g>
+  );
 };
 
 /** Question mark that pops (curiosity beat). origin = centre. */
@@ -275,8 +280,10 @@ export const QuestionMark: React.FC<{x: number; y: number; size?: number; p: num
   if (p <= 0) return null;
   const s = ease.outBack(clamp01(p));
   return (
-    <text x={x} y={y + size * 0.35} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={900} fontSize={size} fill={color} transform={`translate(${x} ${y}) scale(${s}) rotate(${Math.sin(t * 2) * 3}) translate(${-x} ${-y})`}>
-      ?
-    </text>
+    <g transform={`translate(${x} ${y}) scale(${s}) rotate(${Math.sin(t * 2) * 3}) translate(${-x} ${-y})`}>
+      <text x={x} y={y + size * 0.35} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={900} fontSize={size} fill={color}>
+        {isAr() ? '؟' : '?'}
+      </text>
+    </g>
   );
 };

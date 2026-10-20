@@ -89,15 +89,19 @@ const credits = fs.existsSync(path.join(vdir, 'credits.json')) ? JSON.parse(fs.r
 }
 const plan = fs.existsSync(path.join(vdir, 'plan.md')) ? fs.readFileSync(path.join(vdir, 'plan.md'), 'utf8') : '';
 const logline = plan.match(/\*\*Logline:\*\*\s*(.+)/i)?.[1]?.trim() ?? '';
+const AR = meta.lang === 'ar';
+const L = AR
+  ? {hook: '[جملة أو جملتان تثيران الفضول — سؤال الفيديو.]', chapters: 'الفصول:', credits: 'مصادر الصور (ويكيميديا كومنز / PhyloPic):', music: 'الموسيقى: مؤلفة خصيصاً لهذا الفيديو.'}
+  : {hook: "[One or two sentences that make people curious — the video's hook question.]", chapters: 'Chapters:', credits: 'Image credits (Wikimedia Commons / PhyloPic):', music: 'Music: original score composed for this video.'};
 const desc = [
   `<!-- Draft — edit freely before pasting into YouTube. Title: ${meta.title} -->`,
-  logline || '[One or two sentences that make people curious — the video\'s hook question.]',
+  logline || L.hook,
   '',
-  ...(chapterLines.length ? ['Chapters:', ...chapterLines, ''] : []),
+  ...(chapterLines.length ? [L.chapters, ...chapterLines, ''] : []),
   ...(credits.length
-    ? ['Image credits (Wikimedia Commons / PhyloPic):', ...credits.map((c) => `• ${c.title} — ${c.author} — ${c.licence}${/public domain|cc0|pdm/i.test(c.licence) ? '' : ` — ${c.source}`}`) /* links only where the licence asks for them (CC BY / BY-SA) */, '']
+    ? [L.credits, ...credits.map((c) => `• ${c.title} — ${c.author} — ${c.licence}${/public domain|cc0|pdm/i.test(c.licence) ? '' : ` — ${c.source}`}`) /* links only where the licence asks for them (CC BY / BY-SA) */, '']
     : []),
-  'Music: original score composed for this video.',
+  L.music,
   '',
 ].join('\n');
 fs.writeFileSync(path.join(out, 'description.md'), desc);

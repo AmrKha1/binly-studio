@@ -1,4 +1,5 @@
 import React from 'react';
+import {word} from './lang';
 import {C, FONT_SANS, FONT_SERIF, TYPE} from './theme';
 import {clamp01, countUp, ease, lerp, mixHex, ramp} from './anim';
 import {Para} from './text';
@@ -294,6 +295,7 @@ export const Comparison: React.FC<{
   valueSize?: number;
   bodySize?: number;
 }> = ({x, y, w, h, left, right, p, vs = 'vs', gap = 36, valueSize, bodySize = 40}) => {
+  if (vs === 'vs') vs = word('vs');
   if (p <= 0) return null;
   const pw = (w - gap) / 2;
   const vsz = valueSize ?? Math.min(110, h * 0.3);

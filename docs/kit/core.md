@@ -4,6 +4,10 @@
 evidence(+Light/Tint), theory(+Light/Tint), caution(+Light/Tint), bone, wood/woodDark/woodLight, stone/stoneShade/stoneDark,
 metal, lamp, fire, water/waterDeep, slate, sky, dusk, night, skin[0..4], skinShade[0..4], hair[0..4], strata[0..6]),
 `SEM` (confirmed|evidence|theory|speculation|caution|debated|signal|ink → colour), `FONT_SERIF`, `FONT_SANS`, `W`=1920, `H`=1080, `SAFE`=96,
+`lang` (kit/lang): `isAr()`, `lang()`, `word('vs'|'VS'|'but')` (kit-written words), `FONT_AR`. Set per render from
+video.json → Stage applies Arabic fonts + RTL mirroring; `className="k-nomirror"` keeps a group's real geometry.
+`GLOW` = {soft, gold, lavender, green, oxblood, white} filter urls (defined in every Stage) + `glowFor(color)` — elegant
+soft halos: `<g filter={GLOW.gold}>`. `C.gold` (key accent) · `C.goldLight` · `C.goldTint` · `C.lavender`. Paper = clean white.
 `TYPE` = {key 72 · read 48 · label 40 (all-caps sans) · small 36 · credit 26} — phone-readable text sizes (never go below them;
 kit Kicker/Tag/LabelPlate/chart labels enforce the floor). Keep important text above y = 970 (YouTube player controls).
 
