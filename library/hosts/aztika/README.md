@@ -1,3 +1,3 @@
 # AZTIKA — Arabic channel host (pose images)
-Made with Nano Banana Pro (owner, 2026-10-21). All FULL BODY. Cut with tools/cutout.mjs --split (poses touched).
-Missing (regenerate with more space between poses): smug-point, angry-point, yawn, wink-point, think, angry.
+Generated with Flow / Nano Banana 2.1 from reference.jpg (owner, 2026-10-21). full-* = full body, others waist-up.
+Still to make: pointing left/right (full + upper), shocked, laughing, thinking, confused, worried, angry, smug, wink-point, sad, amazed, waving (upper body).

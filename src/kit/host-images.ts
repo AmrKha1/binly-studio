@@ -2,41 +2,65 @@
 // Poses named full-* are FULL BODY (feet at the bottom edge); all others are waist-up (cut at the waist).
 export const HOST_IMAGES = {
  "aztika": {
-  "full-cheer": [
-   639,
-   1420
+  "explain": [
+   718,
+   1115
   ],
-  "full-crying": [
-   486,
-   1271
+  "full-angry": [
+   771,
+   1474
   ],
   "full-jump-joy": [
-   802,
-   1309
+   719,
+   1320
   ],
-  "full-laugh-wave": [
-   615,
-   1433
+  "full-present": [
+   671,
+   1382
   ],
-  "full-scratch-head": [
-   672,
+  "full-sad": [
+   647,
    1491
   ],
-  "full-shocked-crouch": [
-   505,
-   1008
+  "full-scared": [
+   840,
+   1456
   ],
-  "full-smug": [
-   599,
-   1491
+  "full-shrug": [
+   747,
+   1395
+  ],
+  "full-skeptical": [
+   633,
+   1451
   ],
   "full-surprised": [
-   622,
-   1436
+   778,
+   1398
   ],
-  "full-worried": [
-   572,
-   1436
+  "full-thinking": [
+   576,
+   1391
+  ],
+  "full-thumbsup-wink": [
+   694,
+   1456
+  ],
+  "full-walk-2": [
+   721,
+   1449
+  ],
+  "full-walk": [
+   652,
+   1445
+  ],
+  "full-welcome": [
+   774,
+   1380
+  ],
+  "idea": [
+   679,
+   1126
   ]
  },
  "oddestory": {
