@@ -1,15 +1,17 @@
 import React from 'react';
+import {cueSfx} from './sfx';
 import {C, FONT_SANS, FONT_SERIF, GLOW, SEM, Sem, TYPE} from './theme';
-import {clamp01, ease, ramp} from './anim';
+import {clamp01, ease, ramp, spring} from './anim';
 import {Para, Tag, textW} from './text';
 import {TEXT_FO} from './stage';
 
 // Paper objects: cards, documents, photos, notes, screens. Origin = CENTRE unless noted.
 // All accept p (0→1 entrance: rises + settles) and rot (deg).
 
+// cards/panels/documents pop up and settle with a spring (owner 2026-10-20: pop-up and bounce on everything)
 const entrance = (p: number) => {
-  const k = ease.outQuint(clamp01(p));
-  return {o: clamp01(p * 3), dy: (1 - k) * 60, s: 0.96 + 0.04 * k};
+  const k = spring(clamp01(p), 0.4);
+  return {o: clamp01(p * 3), dy: (1 - k) * 70, s: 0.85 + 0.15 * k};
 };
 
 /** Flat card / panel with offset shadow. Children are drawn in card-local coords (0,0 = top-left). */
@@ -27,6 +29,7 @@ export const Card: React.FC<{
   children?: React.ReactNode;
 }> = ({x, y, w, h, p = 1, rot = 0, fill = C.paperLight, stroke, radius = 14, shadow = 1, children}) => {
   if (p <= 0) return null;
+  cueSfx('swoosh', `card@${Math.round(x)},${Math.round(y)},${Math.round(w)}`, true, x, {gain: 0.8});
   const e = entrance(p);
   return (
     <g transform={`translate(${x} ${y + e.dy}) rotate(${rot}) scale(${e.s})`} opacity={e.o}>
@@ -319,6 +322,7 @@ export const Bubble: React.FC<{
   type?: number; // 0→1 typewriter for the text
 }> = ({x, y, w, h, text, to, p = 1, kind = 'speech', fill = C.paperLight, color = C.ink, size = 44, type = 1}) => {
   if (p <= 0) return null;
+  cueSfx('popup', `bubble@${Math.round(x)},${Math.round(y)}`, true, x);
   const k = ease.outBack(clamp01(p));
   const stroke = kind === 'inner' ? C.theory : C.ink;
   const dash = kind === 'inner' ? '14 10' : undefined;

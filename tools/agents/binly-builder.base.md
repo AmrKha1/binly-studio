@@ -25,7 +25,7 @@ what's installed (docs/TOOLS.md) and the kit index (docs/KIT-INDEX.md) are appen
 - `src/videos/<slug>/chapters/<id>.custom.tsx` (custom shots of a compiled chapter — the normal case; you may also edit
   `videos/<slug>/shots/<id>.json` props and re-run `node tools/compile-shots.mjs <id>`) — or `<id>.tsx` for a hand-written
   chapter without a shots JSON — or, if assigned the shared assets, `src/videos/<slug>/shared/*.tsx`.
-- `videos/<slug>/sfx/<id>.json` — SFX cues `[{"t": 123.4, "kind": "stamp"}, …]` (kinds in BUILDER.md).
+- `videos/<slug>/sfx/<id>.json` — STORY sound cues `[{"t": 123.4, "kind": "cash"}, …]`, 10–30 per chapter (kinds in BUILDER.md); kit animations sound automatically, and your custom elements call `cueSfx()` so they sound too. No music, ever.
 New shared pieces follow kit conventions (docs/KIT-AUTHORING.md): props x, y, s, flip, t, tone + dials for era/style/colour/
 pose, palette `C`, flat style — reusable in later videos, never hard-coded for one shot.
 Never edit kit files, other chapters, `index.tsx`, `chapters.json` or briefs. If the kit has a bug or lacks

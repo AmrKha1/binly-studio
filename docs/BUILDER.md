@@ -68,6 +68,14 @@ own RTL logic; anything that must keep real geometry (a map, an image with marks
 logo) goes inside `<g className="k-nomirror">` (kit maps, archival shots, EvidenceShot and ticks already do). No
 letter-spacing/caps/italic effects for meaning (they vanish in Arabic). Check with `sheet.mjs` like any chapter.
 
+## Motion = pop-up and bounce, smooth (owner, 2026-10-20)
+Everything that appears POPS or BOUNCES in with a spring (never a flat fade): wrap custom elements in
+`<Enter kind=…>` (pop for icons/stickers, bounceDrop for objects landing, backIn* for cards/panels, jackInTheBox for
+surprises, flipIn for cards/documents, zoomSpin for coins/badges, whip* for fast arrivals, stamp for verdicts), give the
+key object an `<Attention>` on its word (heartBeat for emphasis, tada for a win, shake for a myth/wrong, rubberBand/jello
+for fun, float for a held hero), leave with `<Exit>`. Headlines on hooks/pivots: `mode="bounce"`. Vary the presets —
+never the same entrance for every element in a scene. Each preset sounds automatically.
+
 ## Backgrounds & big moments (white mode)
 - `GlowBackdrop` = THE default background behind a hero object (light pours out from behind it: soft glow + slow rays +
   faint stars; tones gold/lavender/green/sky/warm). `GlowFloor` = the "stage" (glowing horizon + perspective grid floor)
@@ -104,23 +112,22 @@ letter-spacing/caps/italic effects for meaning (they vanish in Arabic). Check wi
 - Local helpers: small sub-components inside your file are fine (`const Tub = (…) => …`). Reusable
   across chapters → they belong in `../shared/` (ask the director).
 
-## SFX file `videos/<slug>/sfx/<ID>.json`
-`[{"t": 85.1, "kind": "whoosh"}, {"t": 101.7, "kind": "stamp", "gain": 0.8, "pan": -0.3}]` — 3–8 per chapter,
-only on meaningful visible events. Kinds: stamp whoosh swoosh swish sweep_down pop tick click thump impact
-rumble low_drone shutter paper page chime ding bell bell_toll riser clack scribble typing bubble sparkle
-heartbeat breath drip splash wind fire crowd door glass footsteps water coins (`dur` for scribble/typing/wind/fire/crowd/
-water/footsteps). Real recordings (library/sfx: crowd, water, bell_toll, page, door, coins, footsteps) replace the
-code-made versions automatically.
-**Levels are automatic** (each sound levelled, ducked under the voice, felt not noticed) — never raise `gain` above 1;
-use 0.4–0.8 only to make a sound softer.
-**Sound map — pick from this, don't deliberate:** label/tag/text appears → `tick` (bigger element → `pop`) · card/panel/
-image slides in → `swoosh` · fast camera move/push → `whoosh` · ink/iris/wipe transition → `swish` · zoom-through/big
-scene change → `sweep_down` · photo appears → `shutter` · document/paper → `paper` · page/book → `page` · map pin/point
-lands → `click` · number lands → `clack` · red-pen strike or handwriting → `scribble` (dur = drawing time) · verdict/key
-fact lands → `thump` · big reveal → `riser` (ends on the reveal) + `impact` · idea/discovery → `chime` or `sparkle` ·
-tension/danger → `low_drone` or `heartbeat` · money/trade → `coins` · someone walks/arrives → `footsteps` · bell/church/
-hour → `bell_toll` · place ambience → `crowd`/`water`/`wind`/`fire` (short `dur`, at scene start).
-One sound per visible event, never stacked; leave the narrator's key sentence clean; ≤ 8 per chapter.
+## Sound effects — on EVERY movement (no music in Binly videos)
+**Auto (free):** every kit animation already sounds (GlowPill/LabelPlate → popup · Tag/Kicker/RichText → tick · Headline
+→ swish · Card/LowerThird/Photo/NameTag → swoosh · Medal/Icon pop/Node → pop · Stat → ticking count + ding · Sparkles →
+sparkle · CheckMark → confirm · Stamp → stamp · HandNote → scribble · SlamTitle → whoosh + impact · every shot change →
+whoosh). **Your custom elements must sound too:** when something you draw appears/moves on screen, call
+`cueSfx(kind, key, active, x)` from kit/sfx in your component (`active` = it is visible / the move is happening; key =
+stable id like `'coin-3'`; x = its centre for stereo). Pure no-op at render time.
+**Story sounds** `videos/<slug>/sfx/<ID>.json` — the meaning layer, 10–30 per chapter:
+`[{"t": 85.1, "kind": "cash"}, {"t": 101.7, "kind": "impact", "gain": 0.8, "pan": -0.3}]` (they win over auto cues).
+Kinds: popup popdown pop blip tick click toggle swish swoosh whoosh sweep_down riser rise fall slam impact thump stamp
+confirm win error powerup cash coins card ding chime glass sparkle bell bell_toll page paper shutter scribble typing
+bubble drip splash heartbeat breath rumble low_drone door footsteps crowd water wind fire (`dur` for long ones).
+**Sound map:** money/price/value → `cash` (coins → `coins`) · reveal/achievement → `powerup` or `win` · wrong/myth →
+`error` · correct/fact → `confirm` · rising tension → `rise`/`riser` · falling/decline → `fall` · big hit → `impact` ·
+card/document dealt → `card` · switch/state change → `toggle` · place ambience → `crowd`/`water`/`wind`/`fire`.
+Levels are automatic; `gain` 0.4–0.8 only to soften. Don't stack two sounds within 0.1 s by hand (the scan thins bursts).
 
 ## Real examples
 `src/videos/test-dinos/chapters/C01.tsx` (one continuous camera world) and `C02.tsx` (several shots with transitions) — built by builders from the briefs in `videos/test-dinos/briefs/`. Skim one if you want to see a complete chapter.

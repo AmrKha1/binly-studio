@@ -46,7 +46,7 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   a re-hook at each chapter start, a switch of visual mode — scene / character / diagram / map / real image) so no minute
   feels the same as the last; **1–2 big open loops across the whole video**, paid off at the climax — never answer them
   early, never bury the payoff under setup (too many teases and viewers stop trusting the payoff); smaller questions are
-  raised and answered within a chapter · chapter overview · music arc · the hook (what the first ~30 s show) · the real archival images the story needs — as many as truly help, no fixed limit (delegate searching
+  raised and answered within a chapter · chapter overview · sound design (where the big hits, cash, power-ups land) · the hook (what the first ~30 s show) · the real archival images the story needs — as many as truly help, no fixed limit (delegate searching
   to `binly-scout` subagents — cheap Haiku — with the queries, in batches per chapter; pick from their shortlists, fetch
   with `tools/photo.mjs get`, and name them in the shot lists with an archival template: KenBurnsShot, DetailHuntShot,
   MontageShot, CollageShot, CompareImagesShot, DocumentScanShot, AnnotatedImageShot, ImageInWorldShot,
@@ -68,8 +68,8 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   physician PRESCRIBING a hot bath as medicine, the red pen striking the modern idea. Custom shots carry the hook, reveals
   and signature moments — EXACT on-screen strings and numbers, certainty colours. A shot may continue the
   same world with a camera move (preferred) or cut/transition to a new one. Also: how the chapter begins
-  (continuity from the previous chapter's last frame) and ends (what the next chapter enters from) · 3–8 SFX
-  moments · music mood. Be concrete: builders execute, they should not have to invent the direction — but
+  (continuity from the previous chapter's last frame) and ends (what the next chapter enters from) · 10–30 story
+  sounds (cash, impact, power-up …). Be concrete: builders execute, they should not have to invent the direction — but
   leave them room for craft. Shot numbers make later fixes precise ("C04 S3: …").
   **The standard is `docs/EXAMPLE-BRIEF.md`** (read it once before the first brief). Each shot answers:
   SIZE + FOCUS (wide/medium/close · the one thing the eye goes to; mobile first: the subject fills ≥ ~⅓ of the frame) ·
@@ -97,10 +97,15 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
   the shots JSON and give each a **hero brief** (★ SIGNATURE in the brief): layered staging (foreground / mid /
   background), the exact camera path (start → end), the PAYOFF beat (the instant it lands, on which word), what moves
   and how, a sound accent, and DONE WHEN "a viewer would screenshot it". Detail here is cheap; a weak signature shot is not.
-- `videos/<slug>/score.json` — music: `{"key":"D","mode":"minor","bpm":68,"seed":3,"sections":[{"t":0,"mood":"curious"},…],"accents":[{"t":…,"kind":"drop","dur":2},…]}`
-  Moods: curious, wonder, tension, dark, build, reflective, warm, neutral, playful, sad, triumphant.
-  Accents: swell, drop, resolve, sting, silence. Change mood at pivots/chapters, not every 10 s.
-  If `library/music/` has tracks the user added, a section may use `"track":"library/music/x.mp3","offset":0`.
+- NO MUSIC: never write score.json moods/tracks (the engine makes no music). Sound = sfx: automatic from the kit +
+  10–30 story cues per chapter in `videos/<slug>/sfx/<ID>.json` (see BUILDER "Sound effects").
+
+**Motion + sound plan (owner, 2026-10-20 — decide it HERE, builders execute):** almost EVERYTHING on screen pops up and
+bounces in — text, labels, objects, icons, cards, people, numbers (kit/motion: pop · bounceDrop · backIn* · jackInTheBox ·
+flipIn · zoomSpin · whip* · stamp; headlines bounce by default). For every shot the brief names each element's entrance,
+the key object's Attention move on its word (heartBeat emphasis · tada win · shake myth · float held hero) and its exit;
+vary the presets inside a scene. Every movement makes a sound automatically + 10–30 story sounds per chapter (cash,
+impact, power-up, error …). White-mode backgrounds: GlowBackdrop / GlowFloor; 3–6 SlamTitle pivots per video.
 
 **2b · Shot lists as data** — for each chapter also write `videos/<slug>/shots/Cxx.json` (format in
 `tools/compile-shots.mjs`): template shots with their props, custom shots as `{"id":"S4","start":…,"custom":true,"note":"…","beats":[t1,t2,…]}` (`beats` = cue times of

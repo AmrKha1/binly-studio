@@ -16,7 +16,7 @@ Import from `../../../kit/<module>` (chapters) · visual catalogs: `docs/catalog
 
 ## docs/kit/core.md — Stage, camera (Cam/World/breathe/shake), time maths (ramp/keys/win/camAt/rand/noise1/countUp), Shots + transitions, palette C/SEM
 modules: kit/stage, kit/anim, kit/shots, kit/theme, kit/video
-TEXT_FO, GlowDefs, Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, FONT_HAND, W, H, FPS, SAFE, TYPE, GLOW, glowFor, VideoModule, ChapterDef, Chapters
+TEXT_FO, GlowDefs, Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, clamp, clamp01, lerp, ease, ramp, unramp, keys, win, drift, stagger, rand, randRange, noise1, CamKey, CamState, camAt, mixHex, typeOn, countUp, sec, spring, popIn, bob, TransitionKind, Transition, Shot, TransitionView, Shots, C, SEM, Sem, FONT_SERIF, FONT_SANS, FONT_HAND, W, H, FPS, SAFE, TYPE, GLOW, glowFor, VideoModule, ChapterDef, Chapters
 
 ## docs/kit/text-cards-diagrams.md — Typography, paper objects & screens & bubbles, diagrams/arrows/flows, light & motion fx, characters (Person/Crowd)
 modules: kit/text, kit/cards, kit/diagrams, kit/fx, kit/people

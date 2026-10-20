@@ -1,4 +1,5 @@
 import React from 'react';
+import {cueSfx} from './sfx';
 import {C, GLOW} from './theme';
 import {clamp01, ease, EaseFn, noise1, rand, randRange} from './anim';
 
@@ -16,6 +17,7 @@ export const Sparkles: React.FC<{t: number; x: number; y: number; r: number; n?:
   t, x, y, r, n = 4, size = 22, color = C.goldLight, seed = 1, p = 1, period = 2.4,
 }) => {
   if (p <= 0) return null;
+  cueSfx('sparkle', `sp@${Math.round(x)},${Math.round(y)}`, true, x, {gain: 0.7});
   return (
     <g opacity={clamp01(p)} filter={GLOW.gold}>
       {Array.from({length: n}, (_, i) => {
@@ -281,6 +283,7 @@ export const DrawPath: React.FC<{d: string; p: number; stroke?: string; width?: 
 /** Pop-in transform: scales from 0 with a gentle settle. Wrap any element. origin = (x,y). */
 export const Pop: React.FC<{x: number; y: number; p: number; from?: number; children?: React.ReactNode; r?: number}> = ({x, y, p, from = 0, children, r = 0}) => {
   if (p <= 0) return null;
+  cueSfx('pop', `pp@${Math.round(x)},${Math.round(y)}`, true, x);
   const s = from + (1 - from) * ease.outBack(clamp01(p));
   return (
     <g transform={`translate(${x} ${y}) rotate(${r}) scale(${s})`} opacity={clamp01(p * 4)}>

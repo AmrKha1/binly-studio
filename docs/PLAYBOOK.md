@@ -112,14 +112,17 @@ not one-off fixes. Keep ≤ 15 lines: merge similar ones.
   plain object/document on a flat backdrop with small icons (owner: "looks cheap").
 
 ## 6. Sound
-- Music: original, cinematic-atmospheric, evolves with the story (not one loop) — always a BACKGROUND bed, never
-  competing with the voice. The engine mixes it like a pro editor: ~21 dB under the voice while it speaks (with the
-  speech frequencies carved out of the music so words stay crisp), no pumping between words, rising to ~13 dB under
-  in real pauses and scene changes; `score.json` adds the story shape (mood per section, `swell` after reveals,
-  `drop` to near-silence before them, `resolve` at the end).
-- SFX: sparse, subtle, precisely timed to meaningful visual events (stamp lands, card slides, door, bell,
-  a dramatic pause) — "I sense that happened", never "I noticed a sound effect". ~22 dB under voice peak,
-  generated from `videos/<slug>/sfx/<chapter>.json`. Never one on every movement.
+- **NO MUSIC** (owner, 2026-10-20): the voice + sound effects only. Never add music, score.json moods or music tracks.
+- **SOUND EFFECTS ON EVERY MOVEMENT** (owner, 2026-10-20): like a top YouTuber's edit — every pop-up, label, card,
+  slide, count, slam, transition and object is HEARD and felt, so the video feels alive in every second. Clearly
+  audible — a short sound peaks clearly but under the voice (median ≈ 11 dB under; owner-tuned, inside the usual 10–18 dB editing range) — yet it steps aside for the words: a small duck + a dip in the voice band
+  while the narrator speaks, so they never mask a syllable. Two layers:
+  1. **Auto** — every kit animation cues its own sound (pills pop, text swishes, cards swoosh, numbers tick-count and
+     ding, SlamTitle hits, every shot change whooshes). The cloud render scans the video (tools/sfx-scan.mjs) → no
+     hand work. Custom-drawn elements call `cueSfx()` so they sound too.
+  2. **Story** — the meaning sounds by hand in `videos/<slug>/sfx/<chapter>.json`: cash, coins, door, crowd, impact,
+     bell, footsteps, power-up, error … these win over auto cues at the same moment.
+  Real CC0 recordings (library/sfx: Kenney packs, qubodup swooshes) replace code-made sounds automatically.
 
 ## 7. Delivery standard
 1920×1080, 16:9, constant 60 fps, H.264 MP4, AAC 320k, duration = voiceover exactly. Verified on the real

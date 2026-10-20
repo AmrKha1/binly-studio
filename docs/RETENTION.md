@@ -37,8 +37,8 @@ If not, the pictures aren't telling the story yet.
 8. **Truth is the spice.** Exact facts, real evidence. Real archival images — as many as the story needs — are cut and
    moved like a storyteller would: punching in on the detail being spoken, flowing in and out of animated worlds,
    with Binly animation drawn over reality. Where no free images exist, animation carries it.
-9. **Sound drives emotion and pace.** Music follows the story's turns; silence right before a reveal, a lift after;
-   effects on the beats that matter.
+9. **Sound drives emotion and pace.** No music — sound effects on every movement make it alive: pops, swooshes,
+   counts, hits, cash; a beat of silence right before a big reveal makes it land.
 10. **Land the ending.** Pay off the opening question with the strongest image, echo the first shot, stop when the
     idea is complete.
 

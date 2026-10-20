@@ -1,4 +1,5 @@
 import React from 'react';
+import {cueSfx} from './sfx';
 import {isAr} from './lang';
 import {C, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
 import {clamp01, ease, lerp, ramp, stagger} from './anim';
@@ -23,6 +24,7 @@ export const Arrow: React.FC<{
   shorten?: number; // px trimmed from both ends (so arrows don't touch boxes)
 }> = ({from, to, p, bend = 0, color = C.ink, width = 6, head = 22, dashed = false, double = false, shorten = 0}) => {
   if (p <= 0) return null;
+  cueSfx('swish', `ar@${Math.round(from.x)},${Math.round(from.y)}`, true, from.x, {gain: 0.7});
   const dx = to.x - from.x;
   const dy = to.y - from.y;
   const len = Math.hypot(dx, dy) || 1;
@@ -73,6 +75,7 @@ export const Node: React.FC<{
   icon?: React.ReactNode; // optional element drawn above the label (node-local, centre 0,0)
 }> = ({x, y, text, p = 1, w, h = 110, kind = 'ink', filled = false, size = 44, icon}) => {
   if (p <= 0) return null;
+  cueSfx('pop', `nd@${Math.round(x)},${Math.round(y)}`, true, x);
   const col = SEM[kind];
   const ww = w ?? Math.max(220, textW(text, size, 'serif', 600) + 70);
   const k = ease.outBack(clamp01(p));
@@ -267,6 +270,7 @@ export const CrossOut: React.FC<{x: number; y: number; size: number; p: number; 
 /** Check mark drawn on (confirmed). origin = centre. */
 export const CheckMark: React.FC<{x: number; y: number; size: number; p: number; color?: string; width?: number}> = ({x, y, size, p, color = C.evidence, width = 14}) => {
   if (p <= 0) return null;
+  cueSfx('confirm', `ck@${Math.round(x)},${Math.round(y)}`, true, x);
   const d = `M${x - size * 0.45} ${y} L${x - size * 0.12} ${y + size * 0.32} L${x + size * 0.48} ${y - size * 0.36}`;
   return (
     <g className="k-nomirror">{/* a tick never mirrors (RTL) */}

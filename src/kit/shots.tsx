@@ -1,4 +1,5 @@
 import React from 'react';
+import {cueSfx} from './sfx';
 import {AbsoluteFill} from 'remotion';
 import {C, H, W} from './theme';
 import {clamp01, ease, lerp} from './anim';
@@ -175,6 +176,8 @@ export const Shots: React.FC<{t: number; shots: Shot[]}> = ({t, shots}) => {
   }
   const cur = shots[idx];
   const tr = cur.in;
+  // every shot change is heard: transitions whoosh, hard cuts get a soft swish (auto-SFX scan)
+  if (idx > 0) cueSfx(tr && tr.kind !== 'cut' ? 'whoosh' : 'swish', `shot@${cur.start}`, true, 960, {gain: tr && tr.kind !== 'cut' ? 1 : 0.6});
   if (idx > 0 && tr && tr.kind !== 'cut') {
     const dur = tr.dur ?? DEFAULT_DUR[tr.kind];
     const p = (t - (cur.start - dur / 2)) / dur;

@@ -18,11 +18,8 @@ export const ease = {
   inOutSine: (x: number) => -(Math.cos(Math.PI * x) - 1) / 2,
   outSine: (x: number) => Math.sin((x * Math.PI) / 2),
   /** gentle settle (~4% overshoot) — ONLY for things that "land" (stamps, pins, a key object) */
-  outBack: (x: number) => {
-    const c1 = 1.2;
-    const c3 = c1 + 1;
-    return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
-  },
+  /** pop/land with a springy bounce (the channel's signature motion — now a real damped spring, see `spring`) */
+  outBack: (x: number) => spring(x, 0.4),
   /** soft elastic settle for pops, tiny overshoot then rest */
   outElastic: (x: number) => (x <= 0 ? 0 : x >= 1 ? 1 : Math.pow(2, -10 * x) * Math.sin(((x * 10 - 0.75) * 2 * Math.PI) / 4.5) * 0.35 + 1),
 } satisfies Record<string, EaseFn>;
@@ -127,3 +124,33 @@ export const countUp = (value: string, p: number) => {
 
 /** Seconds → frame at 60 fps (for Remotion APIs that want frames). */
 export const sec = (s: number, fps = 60) => Math.round(s * fps);
+
+/**
+ * spring — the channel's signature motion (owner, 2026-10-20: "the popup and bounce is so good — everywhere, smooth").
+ * Damped-spring 0→1 for x in 0..1: rises fast, overshoots once or twice and settles softly (lands exactly at 1).
+ * bounce 0 = no overshoot (smooth), 0.35 = elegant default, 0.7 = playful.
+ */
+export const spring = (x: number, bounce = 0.35): number => {
+  if (x <= 0) return 0;
+  if (x >= 1) return 1;
+  const zeta = Math.max(0.12, 0.75 - bounce * 0.9); // damping ratio
+  const w0 = 11; // natural frequency over the 0..1 span
+  const wd = w0 * Math.sqrt(Math.max(1e-4, 1 - zeta * zeta));
+  const y = 1 - Math.exp(-zeta * w0 * x) * (Math.cos(wd * x) + ((zeta * w0) / wd) * Math.sin(wd * x));
+  const tail = clamp01((x - 0.85) / 0.15); // guarantee an exact, motionless landing
+  return y + (1 - y) * tail * tail * (3 - 2 * tail);
+};
+
+/**
+ * popIn — pop-up with bounce + a touch of squash & stretch (jelly), for anything that appears: pills, icons, medals,
+ * bubbles, stickers, cards. Use: transform={`translate(x y) scale(${q.sx} ${q.sy})`} opacity={q.o}. from = start scale.
+ */
+export const popIn = (p: number, bounce = 0.35, from = 0.3) => {
+  const k = spring(clamp01(p), bounce);
+  const s = from + (1 - from) * k;
+  const over = s - 1; // >0 while overshooting → stretch up a little, squash on the way back
+  return {s, sx: s * (1 - over * 0.35), sy: s * (1 + over * 0.35), o: clamp01(p * 4)};
+};
+
+/** bob — gentle idle float for held hero objects/pills (keeps the frame alive). px amplitude, deterministic. */
+export const bob = (t: number, amp = 6, period = 3.2, phase = 0) => Math.sin((t / period) * Math.PI * 2 + phase) * amp;

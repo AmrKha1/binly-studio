@@ -72,13 +72,17 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
+          cache: npm
       - name: ffmpeg
         run: command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
       - name: Download voiceover
         run: |
           mkdir -p in
           gh release download "vo-$SLUG" --dir in --pattern 'voiceover.*' --repo "$GITHUB_REPOSITORY"
-      - name: Generate music + SFX stems
+      - run: npm ci --no-audit --no-fund
+      - name: Auto sound effects from the kit (every animation → a cue)
+        run: node tools/sfx-scan.mjs --slug "$SLUG"
+      - name: Generate SFX stem (no music)
         run: |
           VO=$(ls in/voiceover.* | head -1)
           node tools/cloud/merge-sfx.mjs "$SLUG" > sfx.json

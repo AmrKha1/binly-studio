@@ -20,6 +20,14 @@ kit Kicker/Tag/LabelPlate/chart labels enforce the floor). Keep important text a
 - `ease.{linear,inOut,out,in,outQuint,inOutQuint,inOutSine,outSine,outBack,outElastic}` · `lerp` · `clamp01` · `mixHex(a,b,k)`
 - `camAt(t, [[time,cx,cy,zoom,rotDeg?],…])` → CamState (log-space zoom) · `typeOn(t,a,text,cps)` · `countUp(value,p)` (exact landing)
 
+**motion** (kit/motion — the channel's pop-up-and-bounce vocabulary; every preset also cues its own sound):
+- `spring(x, bounce=0.35)` damped spring 0→1 (overshoot, soft exact landing) · `popIn(p, bounce, from)` → {s, sx, sy, o} jelly pop ·
+  `bob(t, amp, period)` idle float. `ease.outBack` IS this spring now (every kit pop bounces).
+- `<Enter kind p x y>` (p LINEAR 0→1; pivot x,y): pop · bounceDrop · backInUp/Down/Left/Right · jackInTheBox · flipIn ·
+  zoomSpin · whipLeft/Right · stamp · rise. `<Attention kind t at x y>`: rubberBand · heartBeat · tada · wobble · shake ·
+  pulse · jello · float. `<Exit kind p x y>`: popOut · shrink · flyUp · flyDown · fade. Headline `mode="bounce"` = words pop
+  up one by one (kinetic type). Showcase: Gallery page "motion".
+
 **stage**
 - `<Stage bg={C.paper}>…svg children…</Stage>` full 1920×1080 frame (every shot/chapter renders one).
 - **Steady text (rule):** Chrome snaps axis-aligned glyphs to whole pixels vertically, so under slow camera drifts text

@@ -196,6 +196,10 @@ const secAt = (tt) => {
 // ------------------------------------------------------------------ MUSIC
 const rnd = mulberry(score.seed ?? 7);
 const L = new Float32Array(N), R = new Float32Array(N);
+// NO MUSIC (owner, 2026-10-20): Binly videos use the voice + sound effects only. The generator below is kept but off;
+// music.wav is written silent so the cloud mix stays unchanged.
+const MUSIC_ON = false;
+if (MUSIC_ON) {
 const padL = new Float32Array(N), padR = new Float32Array(N), dry = new Float32Array(N);
 const XF = 2.2; // section/chord crossfade seconds
 
@@ -360,6 +364,8 @@ for (let i = 0; i < N; i++) {
   R[i] *= g;
 }
 
+} // end MUSIC_ON
+
 // ------------------------------------------------------------------ SFX
 const sL = new Float32Array(N), sR = new Float32Array(N);
 const srnd = mulberry(1234);
@@ -438,17 +444,34 @@ const SFX = {
   crowd: (t, p, d = 4) => add(t, d, noise(900, (x) => (0.7 + 0.3 * Math.sin(x * 3)) * Math.sin(Math.PI * Math.min(1, x / d)), 0.05, 250), p),
   door: (t, p) => { add(t, 0.8, tone(80, 70, 6, 0.12), p); add(t, 0.3, noise(600, ex(10), 0.08), p); },
   glass: (t, p) => add(t, 1.2, bell(2800, 5, 0.04), p),
+  popup: (t, p) => add(t, 0.18, tone(520, 1250, 22, 0.1, -30), p),
+  popdown: (t, p) => add(t, 0.18, tone(1100, 480, 22, 0.08, 30), p),
+  confirm: (t, p) => { add(t, 1.2, bell(1320, 3, 0.04), p); add(t + 0.09, 1.2, bell(1980, 3, 0.035), p); },
+  error: (t, p) => { add(t, 0.25, tone(220, 180, 10, 0.1), p); add(t + 0.14, 0.3, tone(180, 150, 10, 0.1), p); },
+  toggle: (t, p) => SFX.click(t, p),
+  cash: (t, p) => [0, 0.06, 0.13].forEach((d, i) => add(t + d, 0.6, bell(3100 + i * 270, 9, 0.03), p)),
+  card: (t, p) => SFX.swish(t, p),
+  blip: (t, p) => SFX.popup(t, p),
+  powerup: (t, p) => SFX.riser(t, p),
+  rise: (t, p) => SFX.riser(t, p),
+  fall: (t, p) => SFX.sweep_down(t, p),
+  win: (t, p) => SFX.confirm(t, p),
 };
 let unknown = 0;
 // ---- levels: felt, never competing with the voice -------------------------------------------------------------
 // Each sound is levelled on its own to the same perceived loudness (loudest 50 ms), then given its kind's character
 // offset (soft textures quieter than hits), ducked ~6 dB while the narrator speaks, and placed relative to the voice:
-// a 0 dB kind sits ~16 dB under the speech level in a pause (~22 dB under it while the narrator talks).
-const KIND_DB = {stamp: 0, impact: 0, bell_toll: 0, thump: -1, heartbeat: -1, heartbeat_slow: -1, whoosh: -2, swoosh: -2, riser: -2,
-  rumble: -2, bell: -2, sweep_down: -3, splash: -3, door: -3, footsteps: -5, swish: -4, paper: -4, page: -4, shutter: -4, chime: -4, pop: -4,
-  click: -5, clack: -5, ding: -5, glass: -5, bubble: -5, drip: -5, sparkle: -5, tick: -6, scribble: -6, typing: -6, breath: -6,
-  low_drone: -6, wind: -8, fire: -8, crowd: -8, water: -8, coins: -5};
-const SFX_OFFSET_DB = -16 + (score.sfxLevel ?? 0); // global trim (score.json "sfxLevel", dB) if a video wants it
+// a 0 dB kind sits ~8 dB under the speech level in a pause (~11 dB under it while the narrator talks) — owner 2026-10-20:
+// sound on every movement, clearly HEARD and felt; it steps aside for the words (small duck + a dip in the voice band).
+// short UI sounds (pop, tick, click) are brief, so they sit close to the voice level to be clearly HEARD (owner 2026-10-20:
+// "I don't hear the sound fx, it is so low"); long beds (crowd, wind) stay lower so they never cover words.
+const KIND_DB = {stamp: 0, impact: 0, bell_toll: -1, thump: 0, heartbeat: -1, heartbeat_slow: -1, whoosh: 0, swoosh: 0, riser: -1,
+  rumble: -2, bell: -1, sweep_down: -1, splash: -1, door: -1, footsteps: -4, swish: -1, paper: -2, page: -2, shutter: -1, chime: -1, pop: 0,
+  click: -1, clack: -1, ding: -1, glass: -1, bubble: -1, drip: -2, sparkle: -1, tick: -2, scribble: -4, typing: -3, breath: -4,
+  low_drone: -6, wind: -9, fire: -9, crowd: -9, water: -9, coins: 0, popup: 0, popdown: -1, confirm: 0, error: 0,
+  toggle: -1, cash: 0, card: -1, slam: 0, count: -3, blip: 0, powerup: 0, rise: -1, fall: -1, win: 0};
+const SFX_OFFSET_DB = -5.9 + (score.sfxLevel ?? 0); // owner-tuned 2026-10-20: median sfx ≈ 11 dB under the voice // global trim (score.json "sfxLevel", dB) if a video wants it
+const VO_PEAK_LIN = (() => { let m = 0; for (let i = 0; i < vo.length; i++) m = Math.max(m, Math.abs(vo[i])); return m || 1; })();
 const voSpeechLvl = (() => { let q = 0, c = 0; for (let i = 0; i < N; i += 4) if (env[i] > 0.5) { q += vo[i] * vo[i]; c++; } return Math.sqrt(q / Math.max(1, c)); })();
 const REF = (voSpeechLvl > 1e-5 ? voSpeechLvl : 0.1) * Math.pow(10, SFX_OFFSET_DB / 20);
 const W50 = Math.round(SR * 0.05);
@@ -464,10 +487,68 @@ const loudOf = (a, b) => {
 // real recordings: library/sfx/<kind>.wav|mp3|ogg|flac (or <kind>-1, <kind>-2 … variants) REPLACE the synthetic kind automatically
 const LIB = path.resolve('library', 'sfx');
 const libFiles = fs.existsSync(LIB) ? fs.readdirSync(LIB).filter((x) => /\.(wav|mp3|ogg|flac)$/i.test(x)) : [];
+// CC0 packs (library/sfx/kenney/<pack>/…): kind → file-name prefixes. A variant is picked per cue (deterministic), so a
+// burst of pops never repeats the exact same sample.
+const KENNEY = {
+  pop: ['interface-sounds/drop_', 'interface-sounds/pluck_'],
+  popup: ['interface-sounds/maximize_'],
+  popdown: ['interface-sounds/minimize_'],
+  tick: ['interface-sounds/tick_', 'interface-sounds/select_'],
+  click: ['interface-sounds/click_', 'ui-audio/click'],
+  toggle: ['interface-sounds/toggle_', 'interface-sounds/switch_'],
+  confirm: ['interface-sounds/confirmation_'],
+  error: ['interface-sounds/error_'],
+  glass: ['interface-sounds/glass_'],
+  cash: ['casino-audio/chips-stack-', 'casino-audio/chips-collide-'],
+  card: ['casino-audio/card-slide-', 'casino-audio/card-place-'],
+  impact: ['impact-sounds/impactPunch_heavy_', 'impact-sounds/impactSoft_heavy_'],
+  thump: ['impact-sounds/impactSoft_medium_', 'impact-sounds/impactSoft_heavy_'],
+  stamp: ['impact-sounds/impactPlate_heavy_', 'impact-sounds/impactWood_heavy_'],
+  // real recorded air movement (qubodup "Swooshes", CC0) — library/sfx/qubodup-swooshes/
+  whoosh: ['../qubodup-swooshes/swosh-'],
+  swoosh: ['../qubodup-swooshes/swosh-'],
+  swish: ['../qubodup-swooshes/swosh-'],
+  // Kenney Digital Audio (CC0): playful game-show accents
+  blip: ['digital-audio/pepSound'],
+  powerup: ['digital-audio/powerUp'],
+  rise: ['digital-audio/phaserUp', 'digital-audio/highUp'],
+  fall: ['digital-audio/phaserDown', 'digital-audio/lowDown'],
+  win: ['digital-audio/threeTone', 'digital-audio/twoTone'],
+};
+const KDIR = path.join(LIB, 'kenney');
+const kCache = new Map();
+const kFiles = (prefixes) => {
+  const key = prefixes.join('|');
+  if (!kCache.has(key))
+    kCache.set(key, prefixes.flatMap((pre) => {
+      const d = path.join(KDIR, path.dirname(pre));
+      const b = path.basename(pre);
+      return fs.existsSync(d) ? fs.readdirSync(d).filter((x) => x.startsWith(b) && /\.(ogg|flac)$/.test(x)).map((x) => path.join(d, x)) : [];
+    }).sort());
+  return kCache.get(key);
+};
+const pick = (arr, t) => arr[Math.floor((Math.abs(Math.sin(t * 12.9898) * 43758.5453) % 1) * arr.length)];
 const libFor = (kind, t) => {
   const c = libFiles.filter((x) => x.replace(/\.[^.]+$/, '').replace(/-\d+$/, '') === kind).sort();
-  return c.length ? path.join(LIB, c[Math.floor(Math.abs(Math.sin(t * 12.9898) * 43758.5453) % 1 * c.length)]) : null;
+  if (c.length) return path.join(LIB, pick(c, t));
+  const k = KENNEY[kind] ? kFiles(KENNEY[kind]) : [];
+  return k.length ? pick(k, t) : null;
 };
+// compound kinds → simple cues: slam = air rushing in + a heavy hit as the word lands; count = a ticking run
+{
+  const expanded = [];
+  for (const s of sfxList) {
+    if (s.kind === 'slam') {
+      expanded.push({...s, kind: 'whoosh', t: s.t + 0.3, gain: 1});
+      expanded.push({...s, kind: 'impact', t: s.t + 0.3});
+    } else if (s.kind === 'count') {
+      const d = Math.min(4, s.dur ?? 1);
+      for (let tt = 0; tt < d; tt += 0.075 + 0.04 * (tt / d)) expanded.push({kind: 'tick', t: s.t + tt, pan: s.pan, gain: 0.55 + 0.45 * (tt / d)});
+    } else expanded.push(s);
+  }
+  sfxList.length = 0;
+  sfxList.push(...expanded.sort((x, y) => x.t - y.t));
+}
 const LEAD = {whoosh: 0.2, swoosh: 0.15, swish: 0.1, sweep_down: 0.3}; // peak lands on the cue
 const decCache = new Map();
 const AMBIENT = new Set(['crowd', 'water', 'wind', 'fire', 'footsteps']); // beds: default 4 s with soft 0.3 s fades
@@ -506,16 +587,39 @@ for (const s of sfxList) {
   }
   const l = loudOf(tgtL, tgtR);
   if (l < 1e-7) continue;
-  const g = (REF / l) * Math.pow(10, (KIND_DB[s.kind] ?? -4) / 20) * (s.gain ?? 1);
+  let g = (REF / l) * Math.pow(10, (KIND_DB[s.kind] ?? -2) / 20) * (s.gain ?? 1);
+  let pk = 0;
+  for (let k = 0; k < tgtL.length; k++) pk = Math.max(pk, Math.abs(tgtL[k]), Math.abs(tgtR[k]));
+  if (pk * g > VO_PEAK_LIN * 0.89) g = (VO_PEAK_LIN * 0.89) / pk; // this cue's peak stays ≥ 1 dB under the voice's peak
   for (let k = 0; k < tgtL.length; k++) {
     const i = tgtOff + k;
     if (i >= N) break;
-    const duck = 1 - 0.5 * env[i]; // ~ -6 dB while the narrator speaks
+    const duck = 1 - 0.15 * env[i]; // ~ -1.4 dB while the narrator speaks (the voice-band dip below keeps words clear)
     sL[i] += tgtL[k] * g * duck;
     sR[i] += tgtR[k] * g * duck;
   }
 }
 tgtL = sL; tgtR = sR; tgtOff = 0;
+// voice-band dip: while the narrator speaks, carve ~6 dB out of the SFX around 1–4 kHz (where words live) so sounds are
+// heard and felt without masking a single syllable; in pauses the SFX play full-band.
+{
+  const peq = (f0, gainDb, q) => {
+    const A = Math.pow(10, gainDb / 40), w = 2 * Math.PI * f0 / SR, al = Math.sin(w) / (2 * q), cw = Math.cos(w);
+    const b0 = 1 + al * A, b1 = -2 * cw, b2 = 1 - al * A, a0 = 1 + al / A, a1 = -2 * cw, a2 = 1 - al / A;
+    return [b0 / a0, b1 / a0, b2 / a0, a1 / a0, a2 / a0];
+  };
+  const [b0, b1, b2, a1, a2] = peq(2200, -4, 0.8);
+  for (const ch of [sL, sR]) {
+    let x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+    for (let i = 0; i < ch.length; i++) {
+      const x = ch[i];
+      const y = b0 * x + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2;
+      x2 = x1; x1 = x; y2 = y1; y1 = y;
+      const e = env[i] ?? 0;
+      ch[i] = x * (1 - e) + y * e;
+    }
+  }
+}
 
 // ------------------------------------------------------------------ gain staging (voice untouched)
 const speech = (i) => env[i] > 0.5;
@@ -528,15 +632,15 @@ const peakDb = (a) => { let m = 0; for (let i = 0; i < a.length; i++) m = Math.m
 const scale = (arrs, db) => { const g = Math.pow(10, db / 20); for (const a of arrs) for (let i = 0; i < a.length; i++) a[i] *= g; };
 const voSpeech = rmsDb(vo, speech);
 const musTarget = (voSpeech < -90 ? -18 : voSpeech - 21) + (score.level ?? 0); // (no voice at all → demo mode, fixed level) // music ~21 dB under the voice while it speaks (background, never competing)
-scale([L, R], musTarget - (voSpeech < -90 ? rmsDb(L, () => true) : rmsDb(L, speech)));
+if (MUSIC_ON) scale([L, R], musTarget - (voSpeech < -90 ? rmsDb(L, () => true) : rmsDb(L, speech)));
 if (sfxList.length) {
-  // safety only: no SFX peak may come closer than 8 dB to the voice peak (levels are set per sound above)
+
   const voPeak = peakDb(vo);
   const sp = Math.max(peakDb(sL), peakDb(sR));
-  if (sp > voPeak - 8) scale([sL, sR], voPeak - 8 - sp);
+  if (sp > voPeak) scale([sL, sR], voPeak - sp); // last-resort safety (overlapping cues): never above the voice peak
 }
 const gap = (i) => env[i] < 0.25 && i > SR * 3 && i < N - SR * 4;
-const levelLine = `levels: VO speech ${voSpeech.toFixed(1)} dBFS · music under speech ${(rmsDb(L, speech) - voSpeech).toFixed(1)} dB rel. VO · music in gaps ${(() => { const v = rmsDb(L, gap); return v < -150 ? 'n/a (no long pauses)' : (v - voSpeech).toFixed(1) + ' dB rel. VO'; })()} · music peak ${peakDb(L).toFixed(1)} · sfx peak ${Math.max(peakDb(sL), peakDb(sR)).toFixed(1)} dBFS${unknown ? ` · ${unknown} unknown sfx kinds` : ''}`;
+const levelLine = !MUSIC_ON ? `levels: VO speech ${voSpeech.toFixed(1)} dBFS · NO MUSIC · sfx peak ${Math.max(peakDb(sL), peakDb(sR)).toFixed(1)} dBFS · ${sfxList.length} sfx${unknown ? ` · ${unknown} unknown sfx kinds` : ""}` : `levels: VO speech ${voSpeech.toFixed(1)} dBFS · music under speech ${(rmsDb(L, speech) - voSpeech).toFixed(1)} dB rel. VO · music in gaps ${(() => { const v = rmsDb(L, gap); return v < -150 ? 'n/a (no long pauses)' : (v - voSpeech).toFixed(1) + ' dB rel. VO'; })()} · music peak ${peakDb(L).toFixed(1)} · sfx peak ${Math.max(peakDb(sL), peakDb(sR)).toFixed(1)} dBFS${unknown ? ` · ${unknown} unknown sfx kinds` : ''}`;
 console.log(levelLine);
 fs.mkdirSync(outDir, {recursive: true});
 fs.writeFileSync(path.join(outDir, 'levels.txt'), levelLine + '\n');

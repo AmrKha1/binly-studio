@@ -19,6 +19,7 @@ const TEMPLATE_TILES = [
   ['archival2', 3.5, 'ImageInWorldShot'], ['archival2', 7.5, 'ParallaxCutoutShot'],
 ];
 const KIT_TILES = [
+  ['motion', 2.5, 'motion · Enter presets'], ['motion', 3.6, 'motion · Attention moves'],
   ['glow', 5, 'glow · GlowBackdrop + Halo + Sparkles'], ['glowfloor', 2.5, 'glow · GlowFloor'],
   ['arabic', 2.5, 'ARABIC · hero scene', 'ar'], ['arabic', 5, 'ARABIC · SlamTitle', 'ar'], ['arabic', 8.5, 'ARABIC · ListShot RTL', 'ar'], ['arabic', 11.5, 'ARABIC · CompareShot RTL', 'ar'],
   ['text', 3.5, 'text'], ['cards', 4, 'cards'], ['diagrams', 4, 'diagrams'], ['data', 4, 'data'], ['icons', 4, 'icons'],

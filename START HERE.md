@@ -70,8 +70,8 @@ If the window was closed: open Claude Code here again and say **"continue the vi
 ## Good to know
 - **Model:** the main session works best with **Opus**. The chapter helpers use Sonnet (cheaper) and Opus
   for the opening and climax. To change it, edit the `model:` line in `.claude/agents/binly-builder.md`.
-- **Music:** generated automatically. For even better music, drop royalty-free tracks (e.g. from the free
-  YouTube Audio Library) into `library/music/` and tell Claude to use them.
+- **Sound:** no music — only sound effects, on every movement (automatic from the animations + story sounds).
+  Free CC0 sounds live in `library/sfx/`.
 - **Preview by yourself:** `npx remotion studio` opens an interactive preview in your browser.
 - **Where things are:** `videos/<name>/` = everything about one video · `src/kit/` = the animation library ·
   `docs/` = the rules and guides Claude follows · `brand/` = your original channel documents.

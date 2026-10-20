@@ -1,6 +1,6 @@
 import React from 'react';
 import {C} from './theme';
-import {clamp01, ease, lerp} from './anim';
+import {clamp01, ease, lerp, popIn} from './anim';
 
 // Binly pictogram family. Every glyph is drawn in a 96×96 box centred on (0,0) (content within ±44),
 // built from bold flat shapes + 6px round-capped strokes. Two-tone: `color` (main) + `accent` (one detail).
@@ -647,10 +647,10 @@ export const Icon: React.FC<{
   const glyph = GLYPHS[name];
   if (!glyph) return null;
   const k = clamp01(p);
-  const sc = s * lerp(0.35, 1, ease.outBack(k));
+  const q = popIn(k, 0.45, 0.3); // pop-up with bounce + jelly
   const rot = r + (1 - ease.out(k)) * -10;
   return (
-    <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${sc})`} opacity={clamp01(k * 3)}>
+    <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s * q.sx} ${s * q.sy})`} opacity={q.o}>
       {glyph({c: color, a: accent, k: knock})}
     </g>
   );

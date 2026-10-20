@@ -1,4 +1,5 @@
 import React from 'react';
+import {cueSfx} from './sfx';
 import {Img, staticFile} from 'remotion';
 import {C, FONT_SANS, FONT_SERIF} from './theme';
 import {clamp01, ease, lerp} from './anim';
@@ -32,6 +33,7 @@ export const Photo: React.FC<{
   dark?: boolean; // caption/credit colours for dark backgrounds
 }> = ({slug, src, x, y, w, h, p = 1, t = 0, rot = 0, frame = 'print', tint = 'paper', pan, credit, caption, dark = false}) => {
   if (p <= 0) return null;
+  cueSfx('swoosh', `ph@${src}`, true, x);
   const k = ease.outQuint(clamp01(p));
   const o = clamp01(p * 3);
   let fx = 0.5, fy = 0.5, z = 1;

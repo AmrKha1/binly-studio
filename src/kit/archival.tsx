@@ -1,4 +1,5 @@
 import React from 'react';
+import {cueSfx} from './sfx';
 import {Img, staticFile} from 'remotion';
 import {C, FONT_SANS, FONT_SERIF, SAFE, SEM, Sem, TYPE} from './theme';
 import {CamState, clamp, clamp01, ease, lerp, mixHex, noise1, rand, ramp} from './anim';
@@ -129,6 +130,7 @@ export const CreditLine: React.FC<{text?: string; x?: number; y?: number; p?: nu
 /** Lower third: ink plate + oxblood bar, optional kicker, serif italic caption. origin = bottom-left. */
 export const LowerThird: React.FC<{text: string; kicker?: string; p: number; x?: number; y?: number; size?: number}> = ({text, kicker, p, x = 96, y = 950, size: size0 = 54}) => {
   if (p <= 0) return null;
+  cueSfx('swoosh', `lt@${text}`, true, x);
   const size = Math.max(size0, TYPE.read); // phone-readable floor; y = 950 keeps it above YouTube's player controls
   const k = ease.outQuint(clamp01(p));
   const w = Math.max(textW(text, size, 'serif'), kicker ? textW(kicker.toUpperCase(), TYPE.small, 'sansCaps', 700) * 1.1 : 0) + 84;
@@ -165,6 +167,7 @@ const LabelPlate: React.FC<{x: number; y: number; text: string; note?: string; k
   dark = false,
 }) => {
   if (p <= 0) return null;
+  cueSfx('popup', `lp@${text}@${Math.round(x)},${Math.round(y)}`, true, x);
   const size = Math.max(size0, TYPE.small); // phone-readable floor (kicker plates use TYPE.small, labels default TYPE.label)
   const k = ease.outQuint(clamp01(p));
   const label = text.toUpperCase();

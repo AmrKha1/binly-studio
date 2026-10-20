@@ -1,6 +1,7 @@
 import React from 'react';
+import {cueSfx} from './sfx';
 import {C, FONT_HAND, FONT_SANS, FONT_SERIF, GLOW, glowFor, SEM, Sem, TYPE} from './theme';
-import {clamp01, countUp, ease, lerp, ramp} from './anim';
+import {clamp01, countUp, ease, lerp, popIn, ramp, spring} from './anim';
 import {TEXT_FO} from './stage';
 import {isAr} from './lang';
 
@@ -33,13 +34,14 @@ export const Headline: React.FC<{
   anchor?: Anchor;
   italic?: boolean;
   weight?: number;
-  mode?: 'rise' | 'words' | 'type' | 'mask';
+  mode?: 'rise' | 'words' | 'type' | 'mask' | 'bounce'; // bounce = words pop up one by one and land with a spring (kinetic type)
   /** words to tint (exact word match, case-insensitive) → colour */
   accent?: Record<string, string>;
   font?: 'serif' | 'sans';
   out?: number; // 0→1 exit progress (fades/lifts out)
-}> = ({x, y, text, p, size = 72, color = C.ink, anchor = 'middle', italic = false, weight = 600, mode = 'rise', accent, font = 'serif', out = 0}) => {
+}> = ({x, y, text, p, size = 72, color = C.ink, anchor = 'middle', italic = false, weight = 600, mode = 'bounce', accent, font = 'serif', out = 0}) => { // default: words pop up and bounce (owner 2026-10-20)
   if (p <= 0 || out >= 1) return null;
+  cueSfx('swish', `${text}@${Math.round(x)},${Math.round(y)}`, true, x);
   const ff = font === 'serif' ? FONT_SERIF : FONT_SANS;
   const exitK = ease.in(clamp01(out));
   const style = {fontFamily: ff, fontStyle: italic ? 'italic' : 'normal', fontWeight: weight, fontSize: size} as const;
@@ -59,6 +61,37 @@ export const Headline: React.FC<{
       <text x={x} y={y} textAnchor={anchor} fill={color} opacity={1 - exitK} {...style}>
         {text.slice(0, n)}
       </text>
+    );
+  }
+  if (mode === 'bounce') {
+    // each word jumps up into place with a springy landing, one after another (≈0.12 s apart at p speed)
+    const n = words.length;
+    // relative dy per word (an absolute y would start a new text chunk → words re-centred on top of each other)
+    const lifts = words.map((_, i) => (1 - spring(clamp01((p * (n + 2) - i) / 2.2), 0.55)) * size * 0.55);
+    const dyOf = (i: number) => lifts[i] - (i ? lifts[i - 1] : 0);
+    return (
+      <g>
+        {glowF && (
+          <text x={x} y={y} textAnchor={anchor} opacity={1 - exitK} filter={glowF} {...style}>
+            {words.map((w, i) => (
+              <tspan key={i} dy={dyOf(i)} fill={tint(w) !== color ? tint(w) : 'transparent'} fillOpacity={clamp01((p * (n + 2) - i) * 3)}>
+                {w + (i < n - 1 ? ' ' : '')}
+              </tspan>
+            ))}
+          </text>
+        )}
+        <text x={x} y={y} textAnchor={anchor} opacity={1 - exitK} {...style}>
+          {words.map((w, i) => {
+            const wp = clamp01((p * (n + 2) - i) / 2.2);
+            cueSfx('pop', `hw${i}:${w}@${Math.round(x)},${Math.round(y)}`, wp > 0, x, {gain: 0.6});
+            return (
+              <tspan key={i} dy={dyOf(i)} fill={tint(w)} fillOpacity={clamp01(wp * 4)}>
+                {w + (i < n - 1 ? ' ' : '')}
+              </tspan>
+            );
+          })}
+        </text>
+      </g>
     );
   }
   if (mode === 'words') {
@@ -107,7 +140,7 @@ export const Headline: React.FC<{
       </g>
     );
   }
-  const k = ease.out(clamp01(p));
+  const k = spring(clamp01(p), 0.45); // rise with a springy landing
   return (
     <g>
       {glowF && (
@@ -138,7 +171,8 @@ export const Kicker: React.FC<{x: number; y: number; text: string; p?: number; s
   weight = 700,
 }) => {
   if (p <= 0) return null;
-  const k = ease.out(clamp01(p));
+  cueSfx('tick', `${text}@${Math.round(x)},${Math.round(y)}`, true, x, {gain: 0.7});
+  const k = spring(clamp01(p), 0.45);
   size = Math.max(size, TYPE.small); // phone-readable floor
   return (
     <text x={x} y={y + (1 - k) * 10} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={weight} fontSize={size} letterSpacing={size * 0.16} fill={color} opacity={k}>
@@ -205,6 +239,7 @@ export const Tag: React.FC<{
   look?: 'caption' | 'pill';
 }> = ({x, y, text, kind = 'ink', p, size: size0 = 44, to, anchor = 'left', dot = false, look = 'pill'}) => {
   if (p <= 0) return null;
+  if (look !== 'pill') cueSfx('tick', `${text}@${Math.round(x)},${Math.round(y)}`, true, x);
   if (look === 'pill') return <GlowPill x={x} y={y} text={text} kind={kind} p={p} size={size0} to={to} anchor={anchor} />;
   const col = SEM[kind];
   const onCol = kind === 'caution' ? C.ink : C.paperLight; // dark text on mustard for contrast
@@ -258,6 +293,7 @@ export const Tag: React.FC<{
 /** @legacy Rubber stamp — NOT used by Binly any more (verdicts = the red pen). Kept only so old code still renders. */
 export const Stamp: React.FC<{x: number; y: number; text: string; p: number; color?: string; size?: number; rot?: number}> = ({x, y, text, p, color = C.oxblood, size = 56, rot = -6}) => {
   if (p <= 0) return null;
+  cueSfx('stamp', `${text}@${Math.round(x)},${Math.round(y)}`, true, x);
   const s = 1.35 - 0.35 * ease.outBack(Math.min(1, p));
   const label = text.toUpperCase();
   const w = textW(label, size, 'sansCaps', 800) + size * 1.2;
@@ -331,6 +367,8 @@ export const Stat: React.FC<{
   labelColor?: string;
 }> = ({x, y, value, unit, label, p, count = true, size = 180, color = C.ink, anchor = 'middle', labelColor = C.inkMute}) => {
   if (p <= 0) return null;
+  cueSfx(count ? 'count' : 'pop', `stat${value}@${Math.round(x)},${Math.round(y)}`, count ? p < 1 : true, x, {sustain: count});
+  cueSfx('ding', `stat${value}@${Math.round(x)},${Math.round(y)}`, count && p >= 1, x);
   const k = ease.out(clamp01(p * 3));
   const shown = count ? countUp(value, ease.outQuint(clamp01(p))) : value;
   return (
@@ -398,12 +436,13 @@ export const GlowPill: React.FC<{x: number; y: number; text: string; kind?: Sem;
   x, y, text, kind = 'ink', p, size: size0 = 44, to, anchor = 'left', font = FONT_SANS,
 }) => {
   if (p <= 0) return null;
+  cueSfx('popup', `${text}@${Math.round(x)},${Math.round(y)}`, true, x);
   const size = Math.max(size0, 44); // heavy 800 text: phone-readable floor
   const st = PILL[kind];
   const h = size * 1.75;
   const w = textW(text, size, 'sans', 800) * 1.12 + size * 1.5; // Inter 800 runs ~10% wider than the estimate
   const ox = anchor === 'left' ? 0 : anchor === 'right' ? -w : -w / 2;
-  const k = ease.outBack(clamp01(p * 1.4));
+  const q = popIn(p * 1.25, 0.45, 0.25); // pop-up with bounce + jelly
   const cx = x + ox + w / 2;
   return (
     <g>
@@ -413,7 +452,7 @@ export const GlowPill: React.FC<{x: number; y: number; text: string; kind?: Sem;
           <circle cx={to.x} cy={to.y} r={9 * ease.out(clamp01(p * 1.25))} fill={kind === 'ink' ? C.ink : st.bg} stroke="#FFFFFF" strokeWidth={3} />
         </g>
       )}
-      <g transform={`translate(${cx} ${y}) scale(${0.82 + 0.18 * k})`} opacity={clamp01(p * 2.2)}>
+      <g transform={`translate(${cx} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
         <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={h / 2} fill={st.bg} filter={st.glow} />
         <rect x={-w / 2 + h * 0.3} y={-h / 2 + 5} width={w - h * 0.6} height={h * 0.22} rx={h * 0.11} fill="#FFFFFF" opacity={kind === 'ink' ? 0 : 0.35} />
         <text x={0} y={size * 0.36} textAnchor="middle" fontFamily={font} fontWeight={800} fontSize={size} fill={st.fg} opacity={ramp(p, 0.25, 0.8)}>
@@ -436,6 +475,7 @@ export const NameTag: React.FC<{x: number; y: number; name: string; sub?: string
   dark = false,
 }) => {
   if (p <= 0) return null;
+  cueSfx('swoosh', `${name}@${Math.round(x)},${Math.round(y)}`, true, x);
   const k = ease.out(clamp01(p));
   const nameSize = 64;
   const subSize = TYPE.small;
@@ -489,6 +529,7 @@ export const HandNote: React.FC<{x: number; y: number; text: string; p?: number;
 }) => {
   const n = Math.ceil(text.length * clamp01(p));
   if (n <= 0) return null;
+  cueSfx('scribble', `${text}@${Math.round(x)},${Math.round(y)}`, p < 1, x, {sustain: true});
   return (
     <g transform={`rotate(${rot} ${x} ${y})`}>
       <text x={x} y={y} textAnchor={anchor} fontFamily={FONT_HAND} fontWeight={weight} fontSize={Math.max(TYPE.read, size)} fill={color}>
@@ -510,6 +551,8 @@ export const SlamTitle: React.FC<{t: number; at: number; out?: number; text: str
   t, at, out, text, tone = 'red', size, sub, wash = 0.88, y = 560,
 }) => {
   if (t < at - 0.05 || (out !== undefined && t > out + 0.45)) return null;
+  cueSfx('slam', `${text}@${at}`, t >= at, 960);
+  cueSfx('whoosh', `${text}@out`, out !== undefined && t >= out, 960);
   const TONES = {
     red: {fill: '#E0645A', deep: C.oxDeep, glow: GLOW.oxblood},
     gold: {fill: C.goldLight, deep: '#7A5506', glow: GLOW.gold},

@@ -1,4 +1,5 @@
 import React from 'react';
+import {cueSfx} from './sfx';
 import {word} from './lang';
 import {C, FONT_SANS, FONT_SERIF, SEM, Sem} from './theme';
 import {CamState, clamp01, ease, keys, lerp, mixHex, noise1, rand, ramp} from './anim';
@@ -199,6 +200,7 @@ export const RichText: React.FC<{
   strikeColor?: string;
 }> = ({x, y, w, h, text, size = 56, color = C.ink, font = 'serif', italic = false, weight = 600, align = 'left', valign = 'top', lineHeight = 1.18, p = 1, mode = 'words', mark, markP = 1, markColor = C.cautionLight, markStyle = 'marker', accent, caret = false, t = 0, caps = false, tracking = 0, strike = 0, strikeColor = C.oxblood}) => {
   if (p <= 0) return null;
+  cueSfx('tick', `rt@${Math.round(x)},${Math.round(y)}`, true, x + w / 2, {gain: 0.6});
   const words = text.split(/\s+/).filter(Boolean);
   const marked = new Set((mark ?? []).flatMap((m) => m.split(/\s+/)).map(norm));
   const total = text.length;
@@ -319,6 +321,7 @@ const Medal: React.FC<{x: number; y: number; r: number; p: number; fill: string;
   children,
 }) => {
   if (p <= 0) return null;
+  cueSfx('pop', `medal@${Math.round(x)},${Math.round(y)}`, true, x);
   const k = ease.outBack(clamp01(p * 1.4));
   const rk = ease.inOut(ramp(p, 0.2, 1));
   return (

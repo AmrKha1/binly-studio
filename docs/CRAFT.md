@@ -56,10 +56,8 @@ Practical technique from the best YouTube storytellers and animation channels, s
   or shock, on a hard consonant/beat). Best of all: an in-world camera move or a match cut on a shape.
 
 ## Sound design rhythm
-- Music recedes under dense facts, rises in pauses and at reveals; a "drop" (near silence) right before a
-  big reveal makes it land; "resolve" at the end of an argument.
-- SFX only for events the viewer sees and that matter: ~1 every 10–20 s on average, clustered at key
-  moments, silent stretches are fine.
+- No music. A beat of near-silence (no sfx) right before a big reveal makes it land.
+- Sound effects on every visible movement (auto from the kit) + story sounds on meaning: the video never sounds empty.
 
 ## Quality traps to avoid
 Generic fade-ups on everything · constant wobble · elements popping on/off without easing · text
