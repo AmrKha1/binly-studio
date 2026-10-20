@@ -3,7 +3,8 @@ import {clamp01, ease, lerp, spring} from './anim';
 import {cueSfx} from './sfx';
 
 // ════════════════════════════════════════════════════════════════════════════════════════════════════════════
-// AZTIKA — "ازتيكا", the host of the Arabic channel (owner, 2026-10-20). A friendly Aztec storyteller who talks to the
+// CODE-DRAWN AZTIKA — fallback until his illustrated pose sheet exists (the hosts are image-based: kit/image-host).
+// AZTIKA details: A friendly Aztec storyteller who talks to the
 // viewer: points at things, presents, shrugs, thinks, reacts. MODERATE, MEANINGFUL animation (owner 2026-10-20): alive
 // (breathing, sway, head tilt, nods while talking, hands drifting, poses gliding on a spring, blinking, lip movement),
 // never jumpy for no reason. HOW MUCH and WHERE is the video director's choice: `life` 0 still · 1 natural (default) ·
@@ -102,8 +103,8 @@ export const talkFrom = (t: number, words: [number, number][]): number => {
 };
 
 // ─── hands (drawn pointing along +x, wrist at 0,0) ───
-const HandShape: React.FC<{kind: Hand}> = ({kind}) => {
-  const st = {fill: INK, stroke: INK, strokeWidth: 2, strokeLinejoin: 'round' as const};
+const HandShape: React.FC<{kind: Hand; fill?: string}> = ({kind, fill = INK}) => {
+  const st = {fill, stroke: INK, strokeWidth: fill === INK ? 2 : 3.2, strokeLinejoin: 'round' as const};
   if (kind === 'point')
     return (
       <g {...st}>
@@ -141,7 +142,7 @@ const HandShape: React.FC<{kind: Hand}> = ({kind}) => {
   );
 };
 
-const ArmView: React.FC<{sx: number; sy: number; up: number; fore: number; hand: Hand; rot: number}> = ({sx, sy, up, fore, hand, rot}) => {
+const ArmView: React.FC<{sx: number; sy: number; up: number; fore: number; hand: Hand; rot: number; sleeve?: string; handFill?: string}> = ({sx, sy, up, fore, hand, rot, sleeve, handFill}) => {
   const U = 118;
   const F = 112;
   const ex = sx + Math.cos(rad(up)) * U;
@@ -152,12 +153,70 @@ const ArmView: React.FC<{sx: number; sy: number; up: number; fore: number; hand:
   const left = Math.cos(rad(fore)) < 0;
   return (
     <g>
-      <path d={`M${sx} ${sy} Q${ex} ${ey} ${hx} ${hy}`} stroke={INK} strokeWidth={10} fill="none" strokeLinecap="round" />
+      {sleeve ? (
+        <>
+          <path d={`M${sx} ${sy} Q${ex} ${ey} ${hx} ${hy}`} stroke={INK} strokeWidth={40} fill="none" strokeLinecap="round" />
+          <path d={`M${sx} ${sy} Q${ex} ${ey} ${hx} ${hy}`} stroke={sleeve} strokeWidth={30} fill="none" strokeLinecap="round" />
+        </>
+      ) : (
+        <path d={`M${sx} ${sy} Q${ex} ${ey} ${hx} ${hy}`} stroke={INK} strokeWidth={10} fill="none" strokeLinecap="round" />
+      )}
       <g transform={`translate(${hx} ${hy}) rotate(${fore + rot}) scale(1.75 ${left ? -1.75 : 1.75})`}>
-        <HandShape kind={hand} />
+        <HandShape kind={hand} fill={handFill} />
       </g>
     </g>
   );
+};
+
+// ─── entrances / exits (director's choice; small, tested vocabulary) ───
+export type HostMoveKind = 'pop' | 'slideLeft' | 'slideRight' | 'rise' | 'drop' | 'peek' | 'walkInLeft' | 'walkInRight' | 'sink' | 'fly' | 'popOut' | 'slideOutLeft' | 'slideOutRight' | 'walkOutLeft' | 'walkOutRight';
+export type HostMove = {kind: HostMoveKind; at: number; dur?: number};
+export const MOVE_SFX: Record<HostMoveKind, string> = {
+  pop: 'popup', slideLeft: 'swoosh', slideRight: 'swoosh', rise: 'rise', drop: 'thump', peek: 'swish', walkInLeft: 'footsteps', walkInRight: 'footsteps',
+  sink: 'fall', fly: 'whoosh', popOut: 'popdown', slideOutLeft: 'swoosh', slideOutRight: 'swoosh', walkOutLeft: 'footsteps', walkOutRight: 'footsteps',
+};
+/** offset/scale/opacity of the host for his entrance (spring) and exit; slides travel ~1100 px (fully off-frame) */
+export const hostMove = (t: number, enter?: HostMove, exit?: HostMove) => {
+  let dx = 0, dy = 0, sc = 1, o = 1, walking = false;
+  if (enter) {
+    const d = enter.dur ?? (enter.kind.startsWith('walk') ? 1.4 : 0.7);
+    const u = (t - enter.at) / d;
+    if (u < 0) return {visible: false, dx, dy, s: sc, o, walking};
+    if (u < 1) {
+      const k = spring(u, enter.kind === 'drop' ? 0.6 : 0.35);
+      const lin = ease.inOut(u);
+      switch (enter.kind) {
+        case 'pop': sc = lerp(0.2, 1, k); o = clamp01(u * 4); break;
+        case 'slideLeft': dx = -(1 - k) * 1100; break;
+        case 'slideRight': dx = (1 - k) * 1100; break;
+        case 'rise': dy = (1 - k) * 900; break;
+        case 'drop': dy = -(1 - k) * 1100; break;
+        case 'peek': dx = (1 - k) * -360; break;
+        case 'walkInLeft': dx = -(1 - lin) * 1100; walking = true; break;
+        case 'walkInRight': dx = (1 - lin) * 1100; walking = true; break;
+        default: break;
+      }
+    }
+  }
+  if (exit) {
+    const d = exit.dur ?? (exit.kind.startsWith('walk') ? 1.4 : 0.55);
+    const u = (t - exit.at) / d;
+    if (u >= 1) return {visible: false, dx, dy, s: sc, o, walking};
+    if (u > 0) {
+      const k = ease.in(u);
+      switch (exit.kind) {
+        case 'popOut': sc *= u < 0.3 ? lerp(1, 1.1, u / 0.3) : lerp(1.1, 0, (u - 0.3) / 0.7); break;
+        case 'sink': dy += k * 900; break;
+        case 'fly': dy -= k * 1200; break;
+        case 'slideOutLeft': dx -= k * 1100; break;
+        case 'slideOutRight': dx += k * 1100; break;
+        case 'walkOutLeft': dx -= ease.inOut(u) * 1100; walking = true; break;
+        case 'walkOutRight': dx += ease.inOut(u) * 1100; walking = true; break;
+        default: o *= 1 - u;
+      }
+    }
+  }
+  return {visible: true, dx, dy, s: sc, o, walking};
 };
 
 const Feather: React.FC<{ang: number; len: number; w: number; fill: string}> = ({ang, len, w, fill}) => (
@@ -206,8 +265,20 @@ export const Host: React.FC<{
   mirror?: boolean; // Arabic videos: true (default) = mirror with the RTL layout; false = keep his real orientation
   walk?: number; // 0 = standing; >0 = walking (steps per second ≈ 2×walk) while you move x — legs swing, body bobs
   lean?: number; // extra body lean in degrees (peeking in from an edge, hostShot('peek') sets it)
-}> = ({t, x, y, s = 1, poses = [[0, 'idle']], faces = [[0, 'neutral']], talk = 0, p = 1, id = 'host', life = 1, sfx = false, mirror = true, walk = 0, lean: leanX = 0}) => {
+  enter?: HostMove; // animated arrival (director's choice): {kind, at, dur?}
+  exit?: HostMove; // animated departure: {kind, at, dur?}
+}> = ({t, x, y, s = 1, poses = [[0, 'idle']], faces = [[0, 'neutral']], talk = 0, p = 1, id = 'host', life = 1, sfx = false, mirror = true, walk = 0, lean: leanX = 0, enter, exit}) => {
   if (p <= 0) return null;
+  const mv = hostMove(t, enter, exit);
+  if (!mv.visible) return null;
+  // entrance/exit sounds (footsteps last exactly as long as the walk)
+  for (const [m, tag] of [[enter, 'in'], [exit, 'out']] as [HostMove | undefined, string][]) {
+    if (!m) continue;
+    const isWalk = m.kind.startsWith('walk');
+    const d = m.dur ?? (isWalk ? 1.4 : 0.6);
+    cueSfx(MOVE_SFX[m.kind], `${id}-${tag}@${m.at}`, t >= m.at && (!isWalk || t < m.at + d), x, {sustain: isWalk});
+  }
+  const odd = false; // the code-drawn rig is AZTIKA only (ODDESTORY is image-based)
   const pt = track(t, poses);
   const ft = track(t, faces, 0.25);
   // a soft swish whenever he changes pose (auto-SFX), quiet so it never competes with the voice
@@ -237,8 +308,9 @@ export const Host: React.FC<{
   // life: breathing + blink (deterministic)
   const breath = Math.sin(t * 1.9) * 0.009 * (0.6 + 0.6 * life);
   const sway = Math.sin(t * 0.9) * 1.1 * life + leanX; // degrees, whole body around the feet
-  const step = walk > 0 ? Math.sin(t * Math.PI * 2 * walk) : 0; // −1..1 leg swing
-  const bobY = walk > 0 ? -Math.abs(step) * 10 : 0;
+  const walkNow = walk > 0 ? walk : mv.walking ? 1.1 : 0;
+  const step = walkNow > 0 ? Math.sin(t * Math.PI * 2 * walkNow) : 0; // −1..1 leg swing
+  const bobY = walkNow > 0 ? -Math.abs(step) * 10 : 0;
   const headTilt = Math.sin(t * 1.25 + 0.6) * 2.2 * life + talk * 1.6 * Math.sin(t * 7) * Math.min(1, life); // nods while talking
   const bphase = (t + 0.7) % 3.7;
   const blink = bphase < 0.13 ? Math.abs(Math.cos((bphase / 0.13) * Math.PI)) : 1;
@@ -254,24 +326,30 @@ export const Host: React.FC<{
   ];
 
   return (
-    <g transform={`translate(${x} ${y}) scale(${s * es}) `} opacity={clamp01(p * 4)} className={mirror ? undefined : 'k-nomirror'}>
+    <g transform={`translate(${x + mv.dx} ${y + mv.dy}) scale(${s * es * mv.s}) `} opacity={clamp01(p * 4) * mv.o} className={mirror ? undefined : 'k-nomirror'}>
       {/* ground shadow */}
       <ellipse cx={0} cy={4} rx={120} ry={16} fill={INK} opacity={0.12} />
       <g transform={`translate(0 ${bobY}) rotate(${lean + sway} 0 0) scale(${1 - breath * 0.4} ${1 + breath})`}>
         <g transform="translate(0 80)">
-        {/* cape (behind) */}
-        <path d="M-70 -548 C-120 -400 -150 -250 -128 -170 L128 -170 C150 -250 120 -400 70 -548 Z" fill={COL.creamShade} stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+        {/* cape (behind) — AZTIKA only */}
+        {!odd && <path d="M-70 -548 C-120 -400 -150 -250 -128 -170 L128 -170 C150 -250 120 -400 70 -548 Z" fill={COL.creamShade} stroke={INK} strokeWidth={5} strokeLinejoin="round" />}
         </g>
-        {/* legs + sandals (short: the owner's character is compact, big head) */}
-        <path d={`M-30 -182 L${-34 + step * 26} -10 M30 -182 L${34 - step * 26} -10`} stroke={INK} strokeWidth={10} strokeLinecap="round" />
-        {[-1, 1].map((d) => (
-          <g key={d} transform={`translate(${d * 40 + (d < 0 ? step : -step) * 26} ${walk > 0 && (d < 0 ? step : -step) > 0 ? -Math.abs(step) * 8 : 0})`}>
-            <path d="M-30 -2 C-30 -22 30 -22 34 -6 C34 2 -30 4 -30 -2 Z" fill="#FFFFFF" stroke={INK} strokeWidth={4} />
-            <rect x={-34} y={-6} width={72} height={12} rx={6} fill={COL.sandal} stroke={INK} strokeWidth={4} />
-            <path d="M-10 -16 L6 -10" stroke={COL.sandal} strokeWidth={6} strokeLinecap="round" />
-          </g>
-        ))}
+        {/* legs: AZTIKA thin legs + sandals · ODDESTORY black trousers + shoes */}
+        {(
+          <>
+            <path d={`M-30 -182 L${-34 + step * 26} -10 M30 -182 L${34 - step * 26} -10`} stroke={INK} strokeWidth={10} strokeLinecap="round" />
+            {[-1, 1].map((d) => (
+              <g key={d} transform={`translate(${d * 40 + (d < 0 ? step : -step) * 26} ${walkNow > 0 && (d < 0 ? step : -step) > 0 ? -Math.abs(step) * 8 : 0})`}>
+                <path d="M-30 -2 C-30 -22 30 -22 34 -6 C34 2 -30 4 -30 -2 Z" fill="#FFFFFF" stroke={INK} strokeWidth={4} />
+                <rect x={-34} y={-6} width={72} height={12} rx={6} fill={COL.sandal} stroke={INK} strokeWidth={4} />
+                <path d="M-10 -16 L6 -10" stroke={COL.sandal} strokeWidth={6} strokeLinecap="round" />
+              </g>
+            ))}
+          </>
+        )}
         <g transform="translate(0 80)">
+        {(
+        <>
         {/* tunic */}
         <path d="M-62 -560 L62 -560 L88 -255 L-88 -255 Z" fill={COL.cream} stroke={INK} strokeWidth={5} strokeLinejoin="round" />
         {/* loincloth panel */}
@@ -300,18 +378,22 @@ export const Host: React.FC<{
         <ellipse cx={-4} cy={-526} rx={4} ry={5} fill={COL.turqLight} />
         {/* neck */}
         <path d="M0 -590 L0 -606" stroke={INK} strokeWidth={10} />
+        </>
+        )}
         {/* arms (behind nothing; drawn over the tunic) */}
-        <ArmView sx={-58} sy={-546} up={L[0]} fore={L[1]} hand={L[2]} rot={L[3]} />
-        <ArmView sx={58} sy={-546} up={R[0]} fore={R[1]} hand={R[2]} rot={R[3]} />
+        <ArmView sx={odd ? -72 : -58} sy={-546} up={L[0]} fore={L[1]} hand={L[2]} rot={L[3]} />
+        <ArmView sx={odd ? 72 : 58} sy={-546} up={R[0]} fore={R[1]} hand={R[2]} rot={R[3]} />
         {/* feathers (behind the head) */}
         <g transform={`rotate(${headTilt} 0 -600)`}>
-        <g transform="translate(0 -780)">
-          {feathers.map(([a, l, c], i) => (
-            <Feather key={i} ang={a} len={l} w={l * 0.17} fill={c} />
-          ))}
-        </g>
-        {/* ear spools */}
-        {[-1, 1].map((d) => (
+        {!odd && (
+          <g transform="translate(0 -780)">
+            {feathers.map(([a, l, c], i) => (
+              <Feather key={i} ang={a} len={l} w={l * 0.17} fill={c} />
+            ))}
+          </g>
+        )}
+        {/* ear spools — AZTIKA */}
+        {!odd && [-1, 1].map((d) => (
           <g key={d} transform={`translate(${d * 98} -690)`}>
             <rect x={-8} y={18} width={16} height={34} rx={3} fill={COL.gold} stroke={INK} strokeWidth={3} />
             <path d={`M-9 52 h18`} stroke={COL.goldDeep} strokeWidth={4} />
@@ -321,7 +403,9 @@ export const Host: React.FC<{
         ))}
         {/* head */}
         <circle cx={0} cy={-690} r={100} fill={COL.skin} stroke={INK} strokeWidth={6} />
-        {/* headdress band with key pattern + gem */}
+        {/* headdress band with key pattern + gem — AZTIKA */}
+        {!odd && (
+        <>
         <path d="M-92 -722 C-60 -790 60 -790 92 -722 L84 -700 C52 -760 -52 -760 -84 -700 Z" fill={COL.gold} stroke={INK} strokeWidth={4} strokeLinejoin="round" />
         {Array.from({length: 7}, (_, i) => {
           const a = Math.PI * (0.18 + (i / 6) * 0.64);
@@ -332,6 +416,8 @@ export const Host: React.FC<{
         <ellipse cx={0} cy={-756} rx={18} ry={22} fill={COL.turq} stroke={INK} strokeWidth={4} />
         <ellipse cx={-5} cy={-762} rx={5} ry={7} fill={COL.turqLight} />
         <path d="M-10 -780 L0 -796 L10 -780 Z" fill={COL.gold} stroke={INK} strokeWidth={3} />
+        </>
+        )}
         {/* face */}
         <g>
           {[-1, 1].map((d) => {
@@ -339,11 +425,19 @@ export const Host: React.FC<{
             const eyeSY = eyeS * blink * (face.wink && d > 0 ? winkK : 1);
             return (
               <g key={d}>
-                <path d={`M${d * 16} ${by + d * tilt * 0.3} Q${d * 32} ${by - 8} ${d * 48} ${by - d * tilt * 0.3 + 2}`} stroke={INK} strokeWidth={6} fill="none" strokeLinecap="round" />
-                <g transform={`translate(${d * 32 + lookX} ${-688 + lookY}) scale(${eyeS} ${eyeSY})`}>
-                  <ellipse rx={12} ry={22} fill={INK} />
-                  <ellipse cx={-3} cy={-9} rx={4} ry={6} fill="#FFFFFF" />
-                </g>
+                <path d={`M${d * 16} ${by + d * tilt * 0.3 - (odd ? 10 : 0)} Q${d * 34} ${by - 8 - (odd ? 12 : 0)} ${d * 54} ${by - d * tilt * 0.3 + 2 - (odd ? 8 : 0)}`} stroke={INK} strokeWidth={odd ? 9 : 6} fill="none" strokeLinecap="round" />
+                {odd ? (
+                  <g transform={`translate(${d * 42} -680) scale(${eyeS} ${eyeSY})`}>
+                    <ellipse rx={38} ry={42} fill="#FFFFFF" stroke={INK} strokeWidth={5} />
+                    <circle cx={lookX * 1.8 + 4} cy={lookY * 1.6 - 6} r={18} fill={INK} />
+                    <circle cx={lookX * 1.8 + 10} cy={lookY * 1.6 - 13} r={5.5} fill="#FFFFFF" />
+                  </g>
+                ) : (
+                  <g transform={`translate(${d * 32 + lookX} ${-688 + lookY}) scale(${eyeS} ${eyeSY})`}>
+                    <ellipse rx={12} ry={22} fill={INK} />
+                    <ellipse cx={-3} cy={-9} rx={4} ry={6} fill="#FFFFFF" />
+                  </g>
+                )}
               </g>
             );
           })}

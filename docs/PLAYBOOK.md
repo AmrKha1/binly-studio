@@ -92,7 +92,20 @@ thumbnail and title stay fully clean. When unsure about an image, don't use it �
   **He is NOT a fixed full-body figure:** vary the framing like a real presenter — full body, waist-up, head-and-shoulders
   close-up for reactions, peeking in from an edge, tiny in a wide scene — and MOVE him (walk across, slide in from the
   side, rise from below, step aside to reveal) wherever it helps the viewer follow and keeps them watching.
-  English videos have no host.
+  **He never just appears or vanishes:** when he joins a scene that is already running he ARRIVES with an animation
+  (pop, slide in from a side, rise, drop, peek, walk in) and leaves with one; after a cut he may already be there, but a
+  small settle-in is usually nicer for the eye. Which animation and when: the director decides (`enter`/`exit`).
+  **Control (keeps cost + mistakes low):** use the built-in poses, faces, framings and entrances; never hand-animate his
+  body inside a chapter. A video MAY add a FEW new poses/faces to kit/host if the story really needs them (at most ~2–3 per
+  video, added to the kit + tested with kit-test, then free for every later video). He never covers key text or the
+  object being explained.
+  English videos: the host is **ODDESTORY** (black suit + tie, spiky black hair with orange tips, white face and hands) —
+  same role, same rules. Both hosts are REAL ILLUSTRATED POSE IMAGES (owner 2026-10-21: the code-drawn cartoon looked
+  cheap) shown with kit/image-host: `<ImageHost who="oddestory" poses={[[t, 'pose'], …]} …/>`. Poses live in
+  public/_hosts/<who>/ (list: src/kit/host-images.ts; ODDESTORY 27 poses, 10 full body). AZTIKA's image sheet is coming;
+  until then the code-drawn kit/host AZTIKA is the fallback. New poses: generate a white-background sheet (Nano Banana
+  Pro, same character reference), `node tools/cutout.mjs <sheet> --out public/_hosts/<who> --names a,b,c`, then
+  `node tools/host-manifest.mjs` — at most ~2–3 new poses per video.
 
 ## 5. Motion
 - Every move has a purpose: advance the story, create curiosity, clarify, reveal a relation/contrast/

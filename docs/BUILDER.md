@@ -76,7 +76,14 @@ key object an `<Attention>` on its word (heartBeat for emphasis, tada for a win,
 for fun, float for a held hero), leave with `<Exit>`. Headlines on hooks/pivots: `mode="bounce"`. Vary the presets —
 never the same entrance for every element in a scene. Each preset sounds automatically.
 
-## The host — AZTIKA (Arabic channel only)
+## The hosts — ODDESTORY (English) · AZTIKA (Arabic)
+**Image hosts (preferred):** `<ImageHost t who="oddestory" {...imageHostShot('corner'|'big'|'full'|'peek'|'tiny', side)} poses={[[t0,'think-point'],[t1,'shocked']]}
+talk={talkFrom(t, WORDS)} enter={{kind,at}} exit={{kind,at}} flip />` (kit/image-host). Pose names = file names in
+src/kit/host-images.ts (`full-*` = full body, feet at y; others waist-up, keep y ≥ 1080 so the cut waist is hidden).
+`flip` makes him face/point the other way (point-angry points right → flip it when he stands on the right). Pose switches
+pop with a squash + soft sound; he breathes, floats, bounces slightly while talking. Choose the pose whose meaning fits
+the words (shocked on a twist, laughing on a joke, idea on a solution, think-point while explaining).
+Code-drawn fallback for AZTIKA until his image sheet exists:
 `<Host t x y s poses={[[t0,'idle'],[t1,'pointRight'],…]} faces={[[t0,'neutral'],[t1,'surprised'],…]} talk={talkFrom(t, WORDS)} p={entrance} />`
 from kit/host (`import {WORDS} from '../speech'`). (x, y) = between his feet; s 0.6–1.1 (≈ 500–880 px tall). Stand him at the
 frame's side, feet near the bottom (y ≈ 1000–1040), facing the story element; poses on the words they belong to
@@ -88,6 +95,10 @@ Arabic) · move him or wrap him in Enter/Attention/Exit. Moderate and meaningful
 Framing: `hostShot('full'|'half'|'close'|'peek'|'tiny', 'left'|'center'|'right')` → {x, y, s(, lean)} — spread it into <Host>;
 the frame edge crops what is below (half = waist up, close = head & shoulders, peek = leans in from the edge). Moving:
 animate x/y/s between framings with keys/ramp; set `walk={1}` while he walks so his legs step and he bobs.
+Arrive/leave (never pop on/off): `enter={{kind, at, dur?}}` pop · slideLeft · slideRight · rise · drop · peek · walkInLeft ·
+walkInRight; `exit={{kind, at}}` popOut · sink · fly · slideOutLeft · slideOutRight · walkOutLeft · walkOutRight (each
+sounds automatically). Use ONLY the built-in vocabulary — no hand-drawn host animation; a new pose goes into kit/host
+(max ~2–3 per video, ask the director).
 
 ## Backgrounds & big moments (white mode)
 - `GlowBackdrop` = THE default background behind a hero object (light pours out from behind it: soft glow + slow rays +

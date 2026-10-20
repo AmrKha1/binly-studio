@@ -560,7 +560,8 @@ export const SlamTitle: React.FC<{t: number; at: number; out?: number; text: str
     green: {fill: C.evidenceLight, deep: C.evidence, glow: GLOW.green},
   } as const;
   const T = TONES[tone];
-  const fs = size ?? Math.min(400, 1630 / Math.max(2, textW(text, 1, 'serif', 800)));
+  const caps = /[A-Z]/.test(text) && text === text.toUpperCase(); // capitals run ~40% wider than the serif estimate
+  const fs = size ?? Math.min(400, 1630 / Math.max(2, textW(text, 1, 'serif', 800) * (caps ? 1.45 : 1)));
   const inP = clamp01((t - at) / 0.38);
   const outP = out === undefined ? 0 : clamp01((t - out) / 0.4);
   const s = lerp(2.4, 1, ease.outBack(inP)) * lerp(1, 1.5, ease.in(outP));

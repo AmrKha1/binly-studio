@@ -71,3 +71,13 @@ export const HostPage3: React.FC<{t: number}> = ({t}) => {
     </Stage>
   );
 };
+
+// page "host5": entrances/exits — Oddestory slides in from the right (0.3), AZTIKA rises from below (0.5), both exit at 2.
+// Stills at 0.55 (mid-entrance), 1.6 (settled), 2.3 (mid-exit).
+export const HostPage5: React.FC<{t: number}> = ({t}) => (
+  <Stage>
+    <GlowBackdrop t={t} id="hp5" tone="sky" strength={0.7} />
+    <Host t={t} {...hostShot('half', 'right')} poses={[[0, 'pointLeft']]} faces={[[0, 'happy']]} enter={{kind: 'slideRight', at: 0.3}} exit={{kind: 'slideOutRight', at: 2}} id="e1" />
+    <Host t={t} x={520} y={1030} s={0.9} poses={[[0, 'wave']]} faces={[[0, 'excited']]} enter={{kind: 'rise', at: 0.5}} exit={{kind: 'sink', at: 2.1}} id="e2" />
+  </Stage>
+);

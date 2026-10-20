@@ -131,7 +131,14 @@ key object an `<Attention>` on its word (heartBeat for emphasis, tada for a win,
 for fun, float for a held hero), leave with `<Exit>`. Headlines on hooks/pivots: `mode="bounce"`. Vary the presets —
 never the same entrance for every element in a scene. Each preset sounds automatically.
 
-## The host — AZTIKA (Arabic channel only)
+## The hosts — ODDESTORY (English) · AZTIKA (Arabic)
+**Image hosts (preferred):** `<ImageHost t who="oddestory" {...imageHostShot('corner'|'big'|'full'|'peek'|'tiny', side)} poses={[[t0,'think-point'],[t1,'shocked']]}
+talk={talkFrom(t, WORDS)} enter={{kind,at}} exit={{kind,at}} flip />` (kit/image-host). Pose names = file names in
+src/kit/host-images.ts (`full-*` = full body, feet at y; others waist-up, keep y ≥ 1080 so the cut waist is hidden).
+`flip` makes him face/point the other way (point-angry points right → flip it when he stands on the right). Pose switches
+pop with a squash + soft sound; he breathes, floats, bounces slightly while talking. Choose the pose whose meaning fits
+the words (shocked on a twist, laughing on a joke, idea on a solution, think-point while explaining).
+Code-drawn fallback for AZTIKA until his image sheet exists:
 `<Host t x y s poses={[[t0,'idle'],[t1,'pointRight'],…]} faces={[[t0,'neutral'],[t1,'surprised'],…]} talk={talkFrom(t, WORDS)} p={entrance} />`
 from kit/host (`import {WORDS} from '../speech'`). (x, y) = between his feet; s 0.6–1.1 (≈ 500–880 px tall). Stand him at the
 frame's side, feet near the bottom (y ≈ 1000–1040), facing the story element; poses on the words they belong to
@@ -143,6 +150,10 @@ Arabic) · move him or wrap him in Enter/Attention/Exit. Moderate and meaningful
 Framing: `hostShot('full'|'half'|'close'|'peek'|'tiny', 'left'|'center'|'right')` → {x, y, s(, lean)} — spread it into <Host>;
 the frame edge crops what is below (half = waist up, close = head & shoulders, peek = leans in from the edge). Moving:
 animate x/y/s between framings with keys/ramp; set `walk={1}` while he walks so his legs step and he bobs.
+Arrive/leave (never pop on/off): `enter={{kind, at, dur?}}` pop · slideLeft · slideRight · rise · drop · peek · walkInLeft ·
+walkInRight; `exit={{kind, at}}` popOut · sink · fly · slideOutLeft · slideOutRight · walkOutLeft · walkOutRight (each
+sounds automatically). Use ONLY the built-in vocabulary — no hand-drawn host animation; a new pose goes into kit/host
+(max ~2–3 per video, ask the director).
 
 ## Backgrounds & big moments (white mode)
 - `GlowBackdrop` = THE default background behind a hero object (light pours out from behind it: soft glow + slow rays +
@@ -361,7 +372,20 @@ thumbnail and title stay fully clean. When unsure about an image, don't use it �
   **He is NOT a fixed full-body figure:** vary the framing like a real presenter — full body, waist-up, head-and-shoulders
   close-up for reactions, peeking in from an edge, tiny in a wide scene — and MOVE him (walk across, slide in from the
   side, rise from below, step aside to reveal) wherever it helps the viewer follow and keeps them watching.
-  English videos have no host.
+  **He never just appears or vanishes:** when he joins a scene that is already running he ARRIVES with an animation
+  (pop, slide in from a side, rise, drop, peek, walk in) and leaves with one; after a cut he may already be there, but a
+  small settle-in is usually nicer for the eye. Which animation and when: the director decides (`enter`/`exit`).
+  **Control (keeps cost + mistakes low):** use the built-in poses, faces, framings and entrances; never hand-animate his
+  body inside a chapter. A video MAY add a FEW new poses/faces to kit/host if the story really needs them (at most ~2–3 per
+  video, added to the kit + tested with kit-test, then free for every later video). He never covers key text or the
+  object being explained.
+  English videos: the host is **ODDESTORY** (black suit + tie, spiky black hair with orange tips, white face and hands) —
+  same role, same rules. Both hosts are REAL ILLUSTRATED POSE IMAGES (owner 2026-10-21: the code-drawn cartoon looked
+  cheap) shown with kit/image-host: `<ImageHost who="oddestory" poses={[[t, 'pose'], …]} …/>`. Poses live in
+  public/_hosts/<who>/ (list: src/kit/host-images.ts; ODDESTORY 27 poses, 10 full body). AZTIKA's image sheet is coming;
+  until then the code-drawn kit/host AZTIKA is the fallback. New poses: generate a white-background sheet (Nano Banana
+  Pro, same character reference), `node tools/cutout.mjs <sheet> --out public/_hosts/<who> --names a,b,c`, then
+  `node tools/host-manifest.mjs` — at most ~2–3 new poses per video.
 
 ## 5. Motion
 - Every move has a purpose: advance the story, create curiosity, clarify, reveal a relation/contrast/

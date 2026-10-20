@@ -19,6 +19,7 @@ const TEMPLATE_TILES = [
   ['archival2', 3.5, 'ImageInWorldShot'], ['archival2', 7.5, 'ParallaxCutoutShot'],
 ];
 const KIT_TILES = [
+  ['ihost', 1.5, 'ODDESTORY · corner presenter'], ['ihost', 3, 'ODDESTORY · big reaction'], ['ihost', 5, 'ODDESTORY · full body walk'], ['ihost-all', 1, 'ODDESTORY · all poses'],
   ['host', 2, 'host · AZTIKA poses'], ['host2', 1.6, 'host · AZTIKA talking'], ['host3', 1, 'host · half'], ['host3', 3, 'host · close'], ['host3', 5, 'host · peek'],
   ['motion', 2.5, 'motion · Enter presets'], ['motion', 3.6, 'motion · Attention moves'],
   ['glow', 5, 'glow · GlowBackdrop + Halo + Sparkles'], ['glowfloor', 2.5, 'glow · GlowFloor'],

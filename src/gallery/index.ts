@@ -21,7 +21,10 @@ import {Jitter} from './pages/jitter';
 import {Glow, GlowFloorPage} from './pages/glow';
 import {Arabic} from './pages/arabic';
 import {Motion} from './pages/motion';
-import {HostPage, HostPage2, HostPage3} from './pages/host';
+import {HostPage, HostPage2, HostPage3, HostPage5} from './pages/host';
+import {IHost, IHostAll} from './pages/ihost';
+import {Pilot} from './pages/pilot';
+import {Pilot2} from './pages/pilot2';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
@@ -31,6 +34,11 @@ export const GALLERY: Record<string, React.FC<{t: number}>> = {
   host: HostPage,
   host2: HostPage2,
   host3: HostPage3,
+  host5: HostPage5,
+  ihost: IHost,
+  pilot: Pilot,
+  pilot2: Pilot2,
+  'ihost-all': IHostAll,
   glowfloor: GlowFloorPage,
   text: Text,
   cards: Cards,

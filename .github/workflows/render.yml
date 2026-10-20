@@ -52,6 +52,7 @@ jobs:
             tools
             library
             public/${{ inputs.slug }}
+            public/_hosts
             videos/${{ inputs.slug }}
       - id: m
         run: node tools/cloud/chunks.mjs "$SLUG" "${{ inputs.from_s }}" "${{ inputs.to_s }}" "${{ inputs.chunk_s }}" >> "$GITHUB_OUTPUT"
@@ -68,6 +69,7 @@ jobs:
             tools
             library
             public/${{ inputs.slug }}
+            public/_hosts
             videos/${{ inputs.slug }}
       - uses: actions/setup-node@v5
         with:
@@ -113,6 +115,7 @@ jobs:
             tools
             library
             public/${{ inputs.slug }}
+            public/_hosts
             videos/${{ inputs.slug }}
       - uses: actions/setup-node@v5
         with:
@@ -152,6 +155,7 @@ jobs:
             tools
             library
             public/${{ inputs.slug }}
+            public/_hosts
             videos/${{ inputs.slug }}
       - uses: actions/setup-node@v5
         with:

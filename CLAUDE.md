@@ -49,7 +49,7 @@ Delegate heavy work to subagents; read docs, not source (kit: docs/KIT-INDEX.md,
 
 ## Rules that never bend
 Voiceover untouched and the master clock · no invented facts/numbers/quotes · numbers exactly as spoken ·
-Binly palette only · no logo/HUD/subtitles · the ONLY recurring character is the Arabic channel's host AZTIKA (kit/host) · deterministic code (`node tools/check.mjs`) ·
+Binly palette only · no logo/HUD/subtitles · the ONLY recurring characters are the channel hosts — ODDESTORY (English) and AZTIKA (Arabic), kit/image-host · deterministic code (`node tools/check.mjs`) ·
 final render only in the cloud (this PC is too slow; local = stills/sheets only) · 1920×1080 60 fps H.264/AAC.
 
 ## Commands (all from the studio root)
