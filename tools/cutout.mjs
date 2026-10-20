@@ -126,6 +126,36 @@ for (const s of small) {
     host.y1 = Math.max(host.y1, s.y1);
   }
 }
+// --split (opt-in): split figures that TOUCH (e.g. overlapping feathers): find empty columns in the lower half of a figure (between the
+// bodies/legs) and cut there. Upper parts that overlap are divided at the same line (a straight cut through a feather
+// tip can show — if it does, regenerate the sheet with more space between poses).
+if (a.split) {
+  const out = [];
+  for (const c of big) {
+    const hgt = c.y1 - c.y0 + 1, wid = c.x1 - c.x0 + 1;
+    const col = new Int32Array(wid);
+    const yb = c.y0 + hgt * 0.5;
+    for (const i of c.px) if (((i / W) | 0) >= yb) col[(i % W) - c.x0]++;
+    const cuts = [];
+    let run = -1;
+    for (let x = 0; x < wid; x++) {
+      if (col[x] === 0) { if (run < 0) run = x; }
+      else if (run >= 0) { if (x - run >= 6 && run > wid * 0.08 && x < wid * 0.92) cuts.push(c.x0 + ((run + x) >> 1)); run = -1; }
+    }
+    if (!cuts.length) { out.push(c); continue; }
+    const edges = [c.x0 - 1, ...cuts, c.x1 + 1];
+    for (let k = 0; k < edges.length - 1; k++) {
+      const part = {id: c.id, n: 0, x0: W, y0: H, x1: 0, y1: 0, px: []};
+      for (const i of c.px) {
+        const x = i % W, y = (i / W) | 0;
+        if (x > edges[k] && x <= edges[k + 1]) { part.px.push(i); part.n++; if (x < part.x0) part.x0 = x; if (x > part.x1) part.x1 = x; if (y < part.y0) part.y0 = y; if (y > part.y1) part.y1 = y; }
+      }
+      if (part.n > N * 0.005) out.push(part);
+    }
+  }
+  big.length = 0;
+  big.push(...out);
+}
 // order: rows (by vertical centre, tolerance 15% of height), then left → right
 big.sort((p, q) => {
   const cy = (c) => (c.y0 + c.y1) / 2;
