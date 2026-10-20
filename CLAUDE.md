@@ -28,7 +28,7 @@ the script only fixes spelling of names/numbers) and uses these commands (skills
 - **/learn-from-youtube** → turn real YouTube analytics into lessons for future videos.
 - **/improve-studio** → every ~3–5 videos: merge lessons into the core docs, promote builder-made parts into the kit.
 Docs: `docs/PLAYBOOK.md` (channel rules) · `docs/RETENTION.md` (the Binly mindset) · `docs/CRAFT.md` · `docs/KIT-INDEX.md`
-(kit index → sections in docs/kit/) · `docs/BUILDER.md` (how chapters are coded) · `docs/LESSONS.md` · `docs/ASSETS.md` (pieces from past videos) · `docs/TOOLS.md` (what's installed — use it, don't search) · user guide `START HERE.md`.
+(kit index → sections in docs/kit/) · `docs/BUILDER.md` (how chapters are coded) · `docs/LESSONS.md` · `docs/ASSETS.md` (pieces from past videos) · `docs/ART-STYLE.md` (exact prompt blocks for every generated image — always use them) · `docs/TOOLS.md` (what's installed — use it, don't search) · user guide `START HERE.md`.
 Subagents: `binly-builder` (builds a chapter) · `binly-scout` (cheap chores).
 
 ## Know what exists (reuse saves tokens & context when it's just as good)
