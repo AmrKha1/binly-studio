@@ -82,4 +82,4 @@ final render only in the cloud (this PC is too slow; local = stills/sheets only)
 # Compact instructions
 When compacting, preserve: the active video slug; the pipeline step reached; the chapter table with each chapter's state
 (placeholder / building by which builder id / built / reviewed / fixes pending); open fix requests and decisions the user made
-(style-check answer, notes); the latest render version and QA warnings. Drop: tool outputs, file contents, image details.
+(owner notes); the latest render version and QA warnings. Drop: tool outputs, file contents, image details.

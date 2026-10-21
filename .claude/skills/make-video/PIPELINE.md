@@ -121,6 +121,10 @@ lists, timelines and infographics — alternate with story scenes for rhythm.
   and how, a sound accent, and DONE WHEN "a viewer would screenshot it". Detail here is cheap; a weak signature shot is not.
 - NO MUSIC: never write score.json moods/tracks (the engine makes no music). Sound = sfx: automatic from the kit +
   10–30 story cues per chapter in `videos/<slug>/sfx/<ID>.json` (see BUILDER "Sound effects").
+- **SOUND DESIGN IS PLANNED HERE, not left to the render** (the render only mixes it): in every brief, per shot, write the
+  story sounds on their cue words (cash on "money", impact on the twist, error on the myth, power-up on the reveal,
+  ambience at a new place), the 1–2 moments of near-silence right before big reveals, and which edit FX hits carry a
+  sound. Kit animations add their own pops/swooshes automatically — plan the MEANING layer on top of them.
 
 **Motion + sound plan (owner, 2026-10-20 — decide it HERE, builders execute):** almost EVERYTHING on screen pops up and
 bounces in — text, labels, objects, icons, cards, people, numbers (kit/motion: pop · bounceDrop · backIn* · jackInTheBox ·
@@ -170,12 +174,11 @@ re-run the compiler (no builder). Look at `docs/catalog/templates.png` once (one
 **3 · Shared assets** (if plan.md lists any): one `binly-builder` (model opus) builds them first in
 `src/videos/<slug>/shared/` and shows them on a test sheet. Chapters then import them (consistency!).
 
-**3b · Style check with the user (fast, no time lost)** — build C01 (the hook) FIRST, and immediately start the next
-2 builders in parallel. When C01 is done, show the user its contact sheet (and the live preview) and ask with
-AskUserQuestion: "Continue in this direction" / "Change something" (+ their notes). Apply the answer to C01 and to
-the briefs of chapters not yet started; message running builders if it affects them. A lasting preference in their
-notes → one line in docs/PLAYBOOK.md → "Channel owner's preferences" (+ `node tools/sync-agents.mjs`). Skip this step only if the
-user said not to ask (e.g. "don't ask me anything" in notes / the command).
+**3b · Style self-check (no waiting for the owner — the style is already decided, owner 2026-10-21)** — build C01
+(the hook) FIRST and start the next 2 builders in parallel. When C01 is done, judge its contact sheet yourself against
+THE LOOK (PLAYBOOK), docs/art/references/ and RETENTION §11–12 (clean bright frames, bold text, alive every 2–4 s, hook
+payoff in 5 s). Fix C01 and update the remaining briefs if anything is off; never stop to ask the owner. Only ask if
+something truly cannot be decided from the docs.
 
 **4 · Build chapters** — spawn `binly-builder` subagents, **at most 3 running at once** (this PC is slow).
 Builder prompts: always the same short form (identical opening = shared prompt cache): `Build the custom shots of chapter C03 of video <slug> (src/videos/<slug>/chapters/C03.custom.tsx). Brief: videos/<slug>/briefs/C03.md, shot list: videos/<slug>/shots/C03.json` (+ anything special).
