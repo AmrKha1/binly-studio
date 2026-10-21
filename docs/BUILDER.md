@@ -76,6 +76,11 @@ key object an `<Attention>` on its word (heartBeat for emphasis, tada for a win,
 for fun, float for a held hero), leave with `<Exit>`. Headlines on hooks/pivots: `mode="bounce"`. Vary the presets —
 never the same entrance for every element in a scene. Each preset sounds automatically.
 
+## Places & objects: CODE FIRST (owner 2026-10-21)
+Build every scene so it works without Flow: kit places (env rooms/landscapes/streets, GlowBackdrop/GlowFloor), kit objects
+and icons, your own clean code-drawn objects (THE LOOK: thick outlines, clean colours, light shading, glow on the hero).
+If the brief marks a Flow upgrade and the art exists in public/<slug>/, use it; if not, the code version ships.
+
 ## Generated art (backgrounds + objects) — kit/asset
 Files are in public/<slug>/bg/ and public/<slug>/el/; sizes in public/<slug>/art.json ({name: {kind, file, ar}}).
 `<BgPlate slug file="palace-hall.jpg" t a b push="in"|"out"|"left"|"right" />` fills the frame with a slow camera move;

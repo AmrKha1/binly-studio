@@ -1,5 +1,7 @@
 # Generated art style (Flow / Nano Banana) — owner-approved look, 2026-10-21
 
+Flow is a SUPPORTER, not the base: every video is complete with code-built scenes; Flow upgrades ≤ 12 chosen images.
+
 Every generated image (background plates, element sheets, host costumes) uses the blocks below WORD FOR WORD.
 The owner rejected a warm, yellow, moody result ("the colours are yellow and the atmosphere…"). The target is the
 **clean, flat, evenly lit cartoon look**: easy on the eyes, neutral colours, crisp lines.

@@ -42,23 +42,23 @@ export const C = {
   lavender: '#D9CDEA', // glowing lavender pill / diamond halo
 
   // ---- materials (all inside the families above)
-  bone: '#E6D8BC',
-  boneShade: '#CDBB98',
-  wood: '#7A5A43',
-  woodDark: '#5E4433',
-  woodLight: '#9C7A5C',
-  stone: '#B9AC97',
-  stoneShade: '#9A8D79',
-  stoneDark: '#7C7062',
-  metal: '#8E8A84',
+  bone: '#F2E9D8', // CLEAN LOOK retune (owner 2026-10-21): brighter, cleaner, no brown/beige mud
+  boneShade: '#DCCDB2',
+  wood: '#A6764F',
+  woodDark: '#7D5435',
+  woodLight: '#C99B6E',
+  stone: '#DCD9D3',
+  stoneShade: '#BEB9B1',
+  stoneDark: '#8E8981',
+  metal: '#A9AFB7',
   lamp: '#E8C67A', // warm light (caution family, lifted)
   fire: '#D9822B', // flame core (caution → oxblood)
-  water: '#7E8F8C', // muted grey-green (evidence family, greyed) — water, glass, steam tint
-  waterDeep: '#5B6B69',
-  slate: '#5E5866', // ink+plum: cool shadow, steel, night sky
-  sky: '#EEF2F7', // day sky = clean, very light
-  dusk: '#D9B98C', // dusk sky (caution family, softened)
-  night: '#2F2A33', // night sky (ink + plum)
+  water: '#8EC5E0', // clear light blue — water, glass, steam tint
+  waterDeep: '#4E91BC',
+  slate: '#5F6B7D', // cool shadow, steel
+  sky: '#DDEEFA', // day sky = clean light blue
+  dusk: '#F6CDB0', // dusk sky = soft peach (no brown)
+  night: '#26304D', // night sky = clean deep blue (not muddy)
 
   // ---- skin tones (muted, varied; oxblood/caution families)
   skin: ['#E3C3A8', '#D4A98A', '#B9876A', '#946650', '#6E4A3A'],
@@ -66,7 +66,7 @@ export const C = {
   hair: ['#2B2420', '#4A3F37', '#6E4A30', '#9C7A5C', '#BFB2A0'],
 
   // ---- earth ramp (paper → ink), for strata / depth
-  strata: ['#C9B595', '#B29C79', '#9A8263', '#7D6750', '#5F4E40', '#463A31', '#342B25'],
+  strata: ['#E2D3B5', '#CDB892', '#B49B74', '#957C5A', '#765F45', '#574535', '#3B2F27'],
 };
 
 /** Semantic certainty colours. Use them for MEANING (confirmed / theory / caution), not decoration. */

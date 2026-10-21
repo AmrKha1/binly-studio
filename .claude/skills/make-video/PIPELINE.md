@@ -28,7 +28,10 @@ The VOICEOVER is the truth: transcript.md follows what was actually said (script
 shows a WARNING (script differs a lot), tell the user in one line (maybe a wrong script file) and continue.
 While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `docs/KIT-INDEX.md`, `docs/LESSONS.md`, and `notes.md` if present (the user's special requests override defaults).
 
-**1b · Art (start it EARLY — it runs in the background while you plan and build)** — as soon as the story is clear from
+**1b · Art (start it EARLY — it runs in the background while you plan and build)** — CODE FIRST, FLOW AS A BONUS (owner
+2026-10-21): the plan must work completely WITHOUT Flow — every scene has a code-built version (kit places/objects,
+white mode, glow backdrops, templates, editfx) that you design in full. Flow only UPGRADES a few chosen scenes (richer
+backgrounds/objects) when it works; if Flow is slow, refuses or is down, nothing changes in the plan. As soon as the story is clear from
 the script/transcript, decide the generated art (rules + exact prompt blocks: docs/ART-STYLE.md):
 1. `node tools/art.mjs find <words>` — reuse library backgrounds/objects first (the library grows with every video).
 2. Write `videos/<slug>/art/plan.json`: **≤ 12 images** — 4–6 key BACKGROUNDS (hook, the story's main places, climax;
@@ -42,8 +45,10 @@ the script/transcript, decide the generated art (rules + exact prompt blocks: do
 **If Flow refuses ("unusual activity") or fails:** stop generating (never retry in a burst), tell the owner in one line
 that art/prompts.md is ready to paste into Flow by hand, and continue — chapters without art use the white-mode kit
 scenes (GlowBackdrop/GlowFloor, templates); swap art in later with `node tools/art.mjs ingest <slug> --dir input`.
-Where art goes: generated BACKGROUNDS for story scenes (places, eras, events), WHITE MODE for explanations, numbers,
-lists, timelines and infographics — alternate them for rhythm.
+Where art goes: the planner writes, per scene, its CODE version (always) + optional FLOW upgrade (≤ 12 images per video,
+only where it clearly adds value: the hook, the main places, the climax). Build every chapter with the code version first
+so the video is complete; when Flow art arrives, swap it into the marked scenes. WHITE MODE for explanations, numbers,
+lists, timelines and infographics — alternate with story scenes for rhythm.
 
 **2 · Plan** (your most important work — this is where quality is decided). Read `videos/<slug>/timing/transcript.md`
 (one line per paragraph with times). Then write:
