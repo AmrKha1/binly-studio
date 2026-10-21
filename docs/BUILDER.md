@@ -84,6 +84,8 @@ x y w ar t enter={{kind,p}} attention={{kind,at}} />` (kit/motion presets; each 
 surface a soft ellipse shadow under them; place them ON the plate's furniture (check on a still). Big and readable:
 hero objects ≥ ~300 px wide. Never generate or draw text into art — labels are kit pills/text on top.
 
+**Speed (RETENTION §13):** entrances 0.3–0.6 s, exits ≤ 0.4 s, transitions ≤ 0.5 s, never a slow fade or a crawl; a
+hold only on a payoff (2–3 s, still moving). If an animation feels slow, it is.
 **Alive (RETENTION §11):** something new every 2–4 s; supporting words/numbers pop up where they help (next to the
 object, on the path, above the speaker via `<SayPop t x y spoken={SPOKEN} from to accent tail/>` from kit/text with
 `import {SPOKEN} from '../speech'`), then leave; objects and hosts move with purpose; big numbers can use

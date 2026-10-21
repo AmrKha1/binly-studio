@@ -133,6 +133,10 @@ vocabulary only; at most ~2–3 new poses per video, added to kit/host. Write it
 the object, above the speaker with SayPop, along an arrow, on the map, on the reveal), how objects and the host move,
 and the camera move. A shot with nothing new for > 4 s gets a beat (pop, move, punch-in, reaction) — RETENTION §11.
 
+**Hook & pacing gate (plan, RETENTION §13):** mark in plan.md (a) what is on screen at 0–5 s (the payoff/most striking
+image of the title's promise), (b) one RE-HOOK every 60–90 s (question / "but…" / teaser / twist) with its time, (c) the
+ending: payoff → echo of the hook → stop. If any is missing, the plan is not ready.
+
 **2b · Shot lists as data** — for each chapter also write `videos/<slug>/shots/Cxx.json` (format in
 `tools/compile-shots.mjs`): template shots with their props, custom shots as `{"id":"S4","start":…,"custom":true,"note":"…","beats":[t1,t2,…]}` (`beats` = cue times of
 the visible changes inside the shot, one per sentence after the first; `mode` = scene | character | diagram | map |
@@ -198,6 +202,11 @@ which edits just those shots' exports in the chapters' `.custom.tsx` files — o
 **5c · Sync check (once, before the final render)** — `node tools/sync-check.mjs` (background, ~1 min per chapter, no
 tokens: it compares pixels itself) lists sentences whose picture barely changes. Fix the real ones in one round (send the
 list to the chapter's builder); an intentional payoff hold is fine — leave it.
+
+**5d · High-end editor pass (once, before the final render)** — watch the whole video as contact sheets at 2 s spacing
+(`node tools/sheet.mjs --from a --to b --n 30` per ~1 min) with RETENTION §13 in mind: any second where nothing changes,
+a slow entrance/fade, a long transition, a sag in the middle without a re-hook, a hook that doesn't deliver the
+promise in 5 s, an outro that drags → fix it (one builder round per chapter at most), then render.
 
 **6 · Render** — `node tools/check.mjs` must pass. Then `node tools/cloud.mjs render <slug>` in the background
 (parallel cloud render, ~10–20 min for 15 min of video). Optional earlier: a partial preview of a chapter
