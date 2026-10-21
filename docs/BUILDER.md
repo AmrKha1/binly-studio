@@ -84,6 +84,10 @@ x y w ar t enter={{kind,p}} attention={{kind,at}} />` (kit/motion presets; each 
 surface a soft ellipse shadow under them; place them ON the plate's furniture (check on a still). Big and readable:
 hero objects ≥ ~300 px wide. Never generate or draw text into art — labels are kit pills/text on top.
 
+**Alive (RETENTION §11):** something new every 2–4 s; supporting words/numbers pop up where they help (next to the
+object, on the path, above the speaker via `<SayPop t x y spoken={SPOKEN} from to accent tail/>` from kit/text with
+`import {SPOKEN} from '../speech'`), then leave; objects and hosts move with purpose; big numbers can use
+`<Stat … sticker="#2F4C8C">` (white with a thick outline, like a sticker). Never a static frame under narration.
 **Depth (polish, sparingly):** `<Depth blur={10}>…foreground host/object…</Depth>` softens a near layer like a camera
 focus; animate blur 0→10 for a rack-focus. For dialogue/reveal shots only — never text, never the whole frame.
 **Size on phones:** characters big — close/medium shots most of the time (face ≈ ⅓ frame height in a close-up).

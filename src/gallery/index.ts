@@ -26,6 +26,7 @@ import {IHost, IHostAll} from './pages/ihost';
 import {Pilot} from './pages/pilot';
 import {Pilot2} from './pages/pilot2';
 import {DepthDemo} from './pages/depth2';
+import {Alive} from './pages/alive';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
@@ -40,6 +41,7 @@ export const GALLERY: Record<string, React.FC<{t: number}>> = {
   pilot: Pilot,
   pilot2: Pilot2,
   depthdemo: DepthDemo,
+  alive: Alive,
   'ihost-all': IHostAll,
   glowfloor: GlowFloorPage,
   text: Text,

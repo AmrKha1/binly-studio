@@ -40,6 +40,9 @@ const AR_CSS = `
 .k-rtl .k-nomirror text, .k-rtl .k-nomirror foreignObject, .k-rtl .k-nomirror .k-nomirror { scale: none; }
 `;
 
+/** English: Baloo 2 has no italic — keep it upright (a fake slant looks cheap). */
+const EN_CSS = `text[font-family*="Baloo"], text[font-family*="Baloo"] tspan, [style*="Baloo"] { font-style: normal !important; }`;
+
 /** Shared elegant-glow filters (GLOW in kit/theme). Two stacked soft halos: a tight one + a wide faint one. */
 const halo = (id: string, color: string, a: number, b: number) => (
   <filter id={id} x="-60%" y="-60%" width="220%" height="220%" colorInterpolationFilters="sRGB">
@@ -65,7 +68,7 @@ export const Stage: React.FC<{bg?: string; children?: React.ReactNode; style?: R
   <AbsoluteFill style={{background: bg, ...style}}>
     {/* geometricPrecision: no hinting snap (inherited by HTML in foreignObject); TEXT_NUDGE: sub-pixel glyphs in y too. */}
     <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{position: 'absolute', inset: 0, overflow: 'hidden', textRendering: 'geometricPrecision'}}>
-      <style>{TEXT_NUDGE + (isAr() ? AR_CSS : '')}</style>
+      <style>{TEXT_NUDGE + (isAr() ? AR_CSS : EN_CSS)}</style>
       <GlowDefs />
       {isAr() ? (
         <g className="k-ar k-rtl" transform={`matrix(-1 0 0 1 ${W} 0)`}>

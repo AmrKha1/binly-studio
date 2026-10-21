@@ -52,7 +52,8 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
   close-up — only for ~5–10 special shots per video (dialogue, reveals), never on text or the whole frame.
 - **Big characters, mostly close and medium shots** (phone viewers): a host or story character's face fills ~⅓ of the
   frame in close shots; wide shots only to establish a place. Generated art is checked on the --phone sheet too.
-- Typography: Fraunces (serif) for headlines/quotes/numbers, Inter caps for labels/tags. Rare accent only: Caveat
+- Typography (owner 2026-10-21): **Baloo 2 ExtraBold** (rounded, heavy — same family as the Arabic Baloo Bhaijaan 2) for
+  headlines/quotes/numbers/pills, Inter (up to Black) for labels/tags. Rare accent only: Caveat
   handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Certainty labels look
   like museum captions (`Tag`, default); myth-busting verdicts use the editor's red pen (strike + handwritten verdict);
   for the climax verdict the same red pen at hero size (full-screen claim, heavy strike, big handwritten verdict). Ink on paper or

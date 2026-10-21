@@ -139,6 +139,10 @@ x y w ar t enter={{kind,p}} attention={{kind,at}} />` (kit/motion presets; each 
 surface a soft ellipse shadow under them; place them ON the plate's furniture (check on a still). Big and readable:
 hero objects ≥ ~300 px wide. Never generate or draw text into art — labels are kit pills/text on top.
 
+**Alive (RETENTION §11):** something new every 2–4 s; supporting words/numbers pop up where they help (next to the
+object, on the path, above the speaker via `<SayPop t x y spoken={SPOKEN} from to accent tail/>` from kit/text with
+`import {SPOKEN} from '../speech'`), then leave; objects and hosts move with purpose; big numbers can use
+`<Stat … sticker="#2F4C8C">` (white with a thick outline, like a sticker). Never a static frame under narration.
 **Depth (polish, sparingly):** `<Depth blur={10}>…foreground host/object…</Depth>` softens a near layer like a camera
 focus; animate blur 0→10 for a rack-focus. For dialogue/reveal shots only — never text, never the whole frame.
 **Size on phones:** characters big — close/medium shots most of the time (face ≈ ⅓ frame height in a close-up).
@@ -319,7 +323,15 @@ If not, the pictures aren't telling the story yet.
    with Binly animation drawn over reality. Where no free images exist, animation carries it.
 9. **Sound drives emotion and pace.** No music — sound effects on every movement make it alive: pops, swooshes,
    counts, hits, cash; a beat of silence right before a big reveal makes it land.
-10. **Land the ending.** Pay off the opening question with the strongest image, echo the first shot, stop when the
+11. **ALIVE and ENGAGING, like the best YouTube editors (owner, 2026-10-21).** Never a still slide with a voice over it.
+   Every few seconds the eye gets something: a word or number pops up exactly where it supports the story (beside the
+   object it names, above the character who says it, along an arrow, on a map, on top of a reveal) and leaves when its
+   job is done; objects arrive, move, land, react; the host walks, turns, points, reacts, peeks in, talks to the viewer
+   (SayPop for the key line); the camera pushes in on what matters, punches in on a surprise, pans to the next thing; a
+   rack-focus or a slam headline lands the big beats. Supporting text lives IN the scene, in many positions — not in one
+   fixed caption spot, never as running subtitles. Every element moves for a reason the narration gives it, and every
+   movement is heard. Ask of every second: "would a great YouTube editor leave this frame like this?" If not, animate it.
+12. **Land the ending.** Pay off the opening question with the strongest image, echo the first shot, stop when the
     idea is complete.
 
 **Quality first, efficiently:** choose what's best for the viewer; reuse templates, kit, past assets and lessons when
@@ -344,7 +356,8 @@ A great video in one session beats a perfect plan.
   close-up — only for ~5–10 special shots per video (dialogue, reveals), never on text or the whole frame.
 - **Big characters, mostly close and medium shots** (phone viewers): a host or story character's face fills ~⅓ of the
   frame in close shots; wide shots only to establish a place. Generated art is checked on the --phone sheet too.
-- Typography: Fraunces (serif) for headlines/quotes/numbers, Inter caps for labels/tags. Rare accent only: Caveat
+- Typography (owner 2026-10-21): **Baloo 2 ExtraBold** (rounded, heavy — same family as the Arabic Baloo Bhaijaan 2) for
+  headlines/quotes/numbers/pills, Inter (up to Black) for labels/tags. Rare accent only: Caveat
   handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Certainty labels look
   like museum captions (`Tag`, default); myth-busting verdicts use the editor's red pen (strike + handwritten verdict);
   for the climax verdict the same red pen at hero size (full-screen claim, heavy strike, big handwritten verdict). Ink on paper or
@@ -501,7 +514,7 @@ TEXT_FO, GlowDefs, Stage, Cam, CamKeys, World, breathe, shake, At, uid, EaseFn, 
 
 ## docs/kit/text-cards-diagrams.md — Typography, paper objects & screens & bubbles, diagrams/arrows/flows, light & motion fx, characters (Person/Crowd)
 modules: kit/text, kit/cards, kit/diagrams, kit/fx, kit/people
-textW, Headline, Kicker, Para, Tag, RedPen, Stat, Underline, Highlight, Circled, GlowPill, NameTag, TitleCard, HandNote, SlamTitle, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, Sparkles, GlowBackdrop, GlowFloor, Halo, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, WeatherKind, Weather, Expression, Outfit, Hat, Hair, Age, Build, HeldProp, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd, EmoteKind, Emote
+textW, Headline, Kicker, Para, Tag, RedPen, Stat, Underline, Highlight, Circled, GlowPill, NameTag, TitleCard, HandNote, SlamTitle, SayPop, Card, DocumentPage, Polaroid, StudyCard, Note, OpenBook, Screen, ScreenText, Bubble, Arrow, Node, FlowChain, Cycle, Venn, Bracket, Callout, DashedOutline, CrossOut, CheckMark, QuestionMark, Sparkles, GlowBackdrop, GlowFloor, Halo, LightPool, LightShaft, GroundShadow, Vignette, Pulse, Beacon, DrawPath, Pop, SlideIn, WipeReveal, Particles, Steam, Flame, Ripples, WeatherKind, Weather, Expression, Outfit, Hat, Hair, Age, Build, HeldProp, PosePreset, ArmAngles, PersonProps, personHands, Person, Crowd, EmoteKind, Emote
 
 ## docs/kit/templates.md — Ready-made full shots for standard beats (stat, quote, evidence, claim, compare, list, timeline, map, person, process, question, title)
 modules: kit/templates

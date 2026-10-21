@@ -129,6 +129,10 @@ meaningful — your call per shot) and his FRAMING + movement (full / waist-up /
 steps aside) — vary it like a real presenter — and how he ARRIVES and LEAVES (`enter`/`exit`; never just appears). Built-in
 vocabulary only; at most ~2–3 new poses per video, added to kit/host. Write it in each brief.
 
+**Alive pass (in every brief):** for each shot list what changes every 2–4 s and WHERE supporting text appears (beside
+the object, above the speaker with SayPop, along an arrow, on the map, on the reveal), how objects and the host move,
+and the camera move. A shot with nothing new for > 4 s gets a beat (pop, move, punch-in, reaction) — RETENTION §11.
+
 **2b · Shot lists as data** — for each chapter also write `videos/<slug>/shots/Cxx.json` (format in
 `tools/compile-shots.mjs`): template shots with their props, custom shots as `{"id":"S4","start":…,"custom":true,"note":"…","beats":[t1,t2,…]}` (`beats` = cue times of
 the visible changes inside the shot, one per sentence after the first; `mode` = scene | character | diagram | map |

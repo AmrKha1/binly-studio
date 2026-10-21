@@ -39,7 +39,15 @@ If not, the pictures aren't telling the story yet.
    with Binly animation drawn over reality. Where no free images exist, animation carries it.
 9. **Sound drives emotion and pace.** No music — sound effects on every movement make it alive: pops, swooshes,
    counts, hits, cash; a beat of silence right before a big reveal makes it land.
-10. **Land the ending.** Pay off the opening question with the strongest image, echo the first shot, stop when the
+11. **ALIVE and ENGAGING, like the best YouTube editors (owner, 2026-10-21).** Never a still slide with a voice over it.
+   Every few seconds the eye gets something: a word or number pops up exactly where it supports the story (beside the
+   object it names, above the character who says it, along an arrow, on a map, on top of a reveal) and leaves when its
+   job is done; objects arrive, move, land, react; the host walks, turns, points, reacts, peeks in, talks to the viewer
+   (SayPop for the key line); the camera pushes in on what matters, punches in on a surprise, pans to the next thing; a
+   rack-focus or a slam headline lands the big beats. Supporting text lives IN the scene, in many positions — not in one
+   fixed caption spot, never as running subtitles. Every element moves for a reason the narration gives it, and every
+   movement is heard. Ask of every second: "would a great YouTube editor leave this frame like this?" If not, animate it.
+12. **Land the ending.** Pay off the opening question with the strongest image, echo the first shot, stop when the
     idea is complete.
 
 **Quality first, efficiently:** choose what's best for the viewer; reuse templates, kit, past assets and lessons when

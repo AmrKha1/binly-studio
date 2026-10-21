@@ -11,7 +11,7 @@ import {isAr} from './lang';
 /** Approximate rendered width (px) of a single line — good enough for layout boxes. */
 export const textW = (text: string, size: number, font: 'serif' | 'sans' | 'sansCaps' = 'serif', weight = 600) => {
   // Arabic (Baloo Bhaijaan 2, no tracking, no caps): one width for every role
-  const k = isAr() ? 0.5 : font === 'serif' ? 0.52 : font === 'sansCaps' ? 0.7 : 0.56;
+  const k = isAr() ? 0.5 : font === 'serif' ? 0.55 : font === 'sansCaps' ? 0.7 : 0.56; // serif = Baloo 2 (a bit wider than Fraunces)
   return text.length * size * k * (weight >= 700 ? 1.04 : 1);
 };
 
@@ -39,7 +39,7 @@ export const Headline: React.FC<{
   accent?: Record<string, string>;
   font?: 'serif' | 'sans';
   out?: number; // 0→1 exit progress (fades/lifts out)
-}> = ({x, y, text, p, size = 72, color = C.ink, anchor = 'middle', italic = false, weight = 600, mode = 'bounce', accent, font = 'serif', out = 0}) => { // default: words pop up and bounce (owner 2026-10-20)
+}> = ({x, y, text, p, size = 72, color = C.ink, anchor = 'middle', italic = false, weight = 800, mode = 'bounce', accent, font = 'serif', out = 0}) => { // default: words pop up and bounce (owner 2026-10-20)
   if (p <= 0 || out >= 1) return null;
   cueSfx('swish', `${text}@${Math.round(x)},${Math.round(y)}`, true, x);
   const ff = font === 'serif' ? FONT_SERIF : FONT_SANS;
@@ -365,7 +365,8 @@ export const Stat: React.FC<{
   color?: string;
   anchor?: Anchor;
   labelColor?: string;
-}> = ({x, y, value, unit, label, p, count = true, size = 180, color = C.ink, anchor = 'middle', labelColor = C.inkMute}) => {
+  sticker?: string; // owner 2026-10-21: white number with a thick coloured outline + soft drop (like a sticker / '18:9')
+}> = ({x, y, value, unit, label, p, count = true, size = 180, color = C.ink, anchor = 'middle', labelColor = C.inkMute, sticker}) => {
   if (p <= 0) return null;
   cueSfx(count ? 'count' : 'pop', `stat${value}@${Math.round(x)},${Math.round(y)}`, count ? p < 1 : true, x, {sustain: count});
   cueSfx('ding', `stat${value}@${Math.round(x)},${Math.round(y)}`, count && p >= 1, x);
@@ -373,7 +374,7 @@ export const Stat: React.FC<{
   const shown = count ? countUp(value, ease.outQuint(clamp01(p))) : value;
   return (
     <g opacity={k}>
-      <text x={x} y={y} textAnchor={anchor} fontFamily={FONT_SERIF} fontWeight={700} fontSize={size} fill={color} filter={glowFor(color)} style={{fontVariantNumeric: 'tabular-nums'}}>
+      <text x={x} y={y} textAnchor={anchor} fontFamily={FONT_SERIF} fontWeight={800} fontSize={size} fill={sticker ? '#FFFFFF' : color} stroke={sticker} strokeWidth={sticker ? size * 0.07 : 0} strokeLinejoin="round" paintOrder="stroke" filter={sticker ? GLOW.soft : glowFor(color)} style={{fontVariantNumeric: 'tabular-nums'}}>
         {shown}
         {unit && (
           <tspan fontSize={size * 0.42} fontWeight={600} dx={size * 0.08}>
@@ -578,6 +579,68 @@ export const SlamTitle: React.FC<{t: number; at: number; out?: number; text: str
         </text>
       </g>
       {sub && <GlowPill x={960} y={y + fs * 0.62} text={sub} kind={tone === 'gold' ? 'caution' : tone === 'lavender' ? 'theory' : tone === 'green' ? 'confirmed' : 'ink'} anchor="center" p={clamp01((t - at - 0.45) / 0.4) * (1 - outP)} size={52} />}
+    </g>
+  );
+};
+
+/**
+ * SayPop — the "alive" text (owner 2026-10-21): the KEY words of a line pop up one by one above a character exactly as
+ * they are spoken (word timings from src/videos/<slug>/speech.ts SPOKEN), in a white speech bubble with a tail toward
+ * the speaker, then fade at `out`. For short key phrases only (≤ ~6 words, a few per minute) — NEVER running subtitles.
+ *   <SayPop t={t} x={1500} y={300} spoken={SPOKEN} from={42.1} to={44.0} accent={{gold: C.gold}} tail="down-left" />
+ * x/y = bubble centre. words outside [from, to] are ignored. accent colours words (lower-case keys) like Headline.
+ */
+export const SayPop: React.FC<{t: number; x: number; y: number; spoken: [number, number, string][]; from: number; to: number; out?: number; size?: number; accent?: Record<string, string>; tail?: 'down-left' | 'down-right' | 'down' | 'none'; maxW?: number}> = ({
+  t, x, y, spoken, from, to, out, size = 54, accent, tail = 'down-left', maxW = 900,
+}) => {
+  const ws = spoken.filter(([s]) => s >= from - 0.05 && s <= to);
+  if (!ws.length || t < ws[0][0] - 0.1) return null;
+  const end = out ?? to + 1.2;
+  const fade = 1 - clamp01((t - end) / 0.3);
+  if (fade <= 0) return null;
+  const clean = (w: string) => w.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}%!?.,]+$/gu, '');
+  // lay words out in lines that fit maxW
+  const lines: {w: string; s: number; x: number}[][] = [[]];
+  let lw = 0;
+  for (const [s, , w0] of ws) {
+    const w = clean(w0);
+    const ww = textW(w, size, 'serif', 800) * 0.98 + size * 0.3;
+    if (lw + ww > maxW && lines[lines.length - 1].length) { lines.push([]); lw = 0; }
+    lines[lines.length - 1].push({w, s, x: lw});
+    lw += ww;
+  }
+  const widths = lines.map((l) => (l.length ? l[l.length - 1].x + textW(l[l.length - 1].w, size, 'serif', 800) * 0.98 : 0));
+  const W = Math.max(...widths) + size * 1.2;
+  const lh = size * 1.18;
+  const Hh = lines.length * lh + size * 0.7;
+  const bk = popIn(clamp01((t - ws[0][0] + 0.1) / 0.35), 0.45, 0.4);
+  const tx = tail === 'down-left' ? -W * 0.28 : tail === 'down-right' ? W * 0.28 : 0;
+  cueSfx('popup', `say@${from}`, true, x, {gain: 0.5});
+  return (
+    <g opacity={fade} transform={`translate(${x} ${y}) scale(${bk.sx} ${bk.sy})`}>
+      <g filter={GLOW.soft}>
+        <rect x={-W / 2} y={-Hh / 2} width={W} height={Hh} rx={Math.min(48, Hh / 2)} fill="#FFFFFF" stroke={C.ink} strokeWidth={5} />
+        {tail !== 'none' && <path d={`M${tx - 26} ${Hh / 2 - 3} L${tx + (tail === 'down-left' ? -54 : tail === 'down-right' ? 54 : 0)} ${Hh / 2 + 48} L${tx + 26} ${Hh / 2 - 3}`} fill="#FFFFFF" stroke={C.ink} strokeWidth={5} strokeLinejoin="round" />}
+        {tail !== 'none' && <rect x={tx - 24} y={Hh / 2 - 9} width={48} height={8} fill="#FFFFFF" />}
+      </g>
+      {lines.map((l, li) =>
+        l.map(({w, s, x: wx}, k) => {
+          const wp = clamp01((t - s + 0.04) / 0.28);
+          if (wp <= 0) return null;
+          const q = popIn(wp, 0.55, 0.3);
+          const col = accent?.[w.toLowerCase().replace(/[^\p{L}\p{N}']/gu, '')] ?? C.ink;
+          const px = -widths[li] / 2 + wx + textW(w, size, 'serif', 800) * 0.49;
+          const py = -Hh / 2 + size * 0.35 + lh * (li + 0.5) + size * 0.33;
+          cueSfx('tick', `sayw@${s}`, true, x, {gain: 0.35});
+          return (
+            <g key={li + '-' + k} transform={`translate(${px} ${py - size * 0.33}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
+              <text x={0} y={size * 0.33} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={800} fontSize={size} fill={col} filter={col !== C.ink ? glowFor(col) : undefined}>
+                {w}
+              </text>
+            </g>
+          );
+        }),
+      )}
     </g>
   );
 };
