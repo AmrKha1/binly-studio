@@ -4,6 +4,7 @@ Every generated image (background plates, element sheets, host costumes) uses th
 The owner rejected a warm, yellow, moody result ("the colours are yellow and the atmosphere…"). The target is the
 **clean, flat, evenly lit cartoon look**: easy on the eyes, neutral colours, crisp lines.
 
+More owner-approved references (other channels, the look we aim for): docs/art/references/.
 Approved example: docs/art/approved-background.jpg (use it as the reference image for new plates). Rejected:
 docs/art/rejected-yellow.jpg (warm, yellow, light beams, painterly) — never this.
 

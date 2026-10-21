@@ -185,10 +185,11 @@ export const Halo: React.FC<{id: string; x: number; y: number; r: number; color?
   );
 
 /** Flat light pool: concentric low-opacity discs (no gradients → no banding). origin = centre. */
-export const LightPool: React.FC<{x: number; y: number; r: number; color?: string; strength?: number; sy?: number}> = ({x, y, r, color = C.lamp, strength = 1, sy = 1}) => (
+export const LightPool: React.FC<{x: number; y: number; r: number; color?: string; strength?: number; sy?: number}> = ({x, y, r, color = '#FFFFFF', strength = 1, sy = 1}) => (
+  // CLEAN LOOK (owner 2026-10-21): neutral light by default — no yellow cast; pass C.lamp only for a real lamp/fire scene
   <g transform={`translate(${x} ${y}) scale(1 ${sy})`} fill={color}>
     {[1, 0.78, 0.58, 0.4].map((k, i) => (
-      <circle key={i} r={r * k} opacity={0.07 * strength} />
+      <circle key={i} r={r * k} opacity={(color === C.lamp || color === C.fire ? 0.05 : 0.07) * strength} />
     ))}
   </g>
 );
@@ -225,7 +226,7 @@ export const Vignette: React.FC<{strength?: number; color?: string; w?: number; 
     <g fill="none" stroke={color} pointerEvents="none">
       {Array.from({length: steps}, (_, i) => {
         const sw = 60 + i * 55;
-        return <rect key={i} x={-sw / 2} y={-sw / 2} width={w + sw} height={h + sw} strokeWidth={sw} opacity={(0.05 * strength) / (1 + i * 0.15)} />;
+        return <rect key={i} x={-sw / 2} y={-sw / 2} width={w + sw} height={h + sw} strokeWidth={sw} opacity={(0.02 * strength) / (1 + i * 0.15)} /> // clean look: a whisper of edge darkening only;
       })}
     </g>
   );

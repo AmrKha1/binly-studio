@@ -154,6 +154,13 @@ lavender for mystery, green for life, red for danger) — 1–3 per scene, not e
 focus; animate blur 0→10 for a rack-focus. For dialogue/reveal shots only — never text, never the whole frame.
 **Size on phones:** characters big — close/medium shots most of the time (face ≈ ⅓ frame height in a close-up).
 
+## The look (PLAYBOOK "THE LOOK") — applies to everything you draw in code too
+Bright and clean: white/light-neutral grounds, crisp thick dark outlines (≥ 4 px at 1080p on objects), clean flat colours
++ light shading, one glowing hero. No yellow/brown/sepia casts, no dark murky frames (unless the story is at night), no
+heavy vignettes, no neon/oversaturated colours, no thin scratchy or crude shapes. Prefer generated art (public/<slug>/bg|el)
+and image hosts over the old code-drawn kit rooms/streets/people when they look dated next to them. Light pools are
+neutral white by default (warm only for a real lamp/fire). References: docs/art/references/*.
+
 ## Language (never mixed)
 Every on-screen string is in the video's language (video.json `lang`): English video → English only, Arabic video →
 Arabic only (names in Arabic letters). Omit `who` on <ImageHost> — the host follows the language. `check.mjs` fails on
@@ -376,6 +383,14 @@ A great video in one session beats a perfect plan.
   lift off the white with a soft shadow (GLOW.soft). No noise/grain/texture, no glow on everything. Allowed polish (owner 2026-10-21): soft gradient skies and gentle
   shading in generated art; a camera-focus DEPTH blur (kit/asset Depth) on a foreground host/object or on the plate in a
   close-up — only for ~5–10 special shots per video (dialogue, reveals), never on text or the whole frame.
+- **THE LOOK — clean, polished, modern (owner 2026-10-21), for EVERYTHING on screen (Flow art AND code-drawn elements,
+  hosts, icons, charts, text):** bright clean frames — white or light neutral grounds, clear daylight, crisp thick black
+  outlines, clean flat colours with light simple shading, a few strong accents (one hero element may glow). Cartoon is
+  fine when it is the polished modern kind (like the reference frames in docs/art/references/) — never the cheap kind.
+  NEVER: yellow/sepia/orange casts, brown-beige "old paper" mood, muddy or dark frames (dark only when the story is
+  literally at night/underground), heavy vignettes, over-saturated or neon colours, flat lifeless grey, crude/wobbly
+  shapes, thin scratchy lines, clip-art. If a code-drawn piece (old kit rooms/streets/props) looks dated or murky next to
+  the generated art, use generated art or white mode instead. Judge every contact sheet with this list.
 - **Big characters, mostly close and medium shots** (phone viewers): a host or story character's face fills ~⅓ of the
   frame in close shots; wide shots only to establish a place. Generated art is checked on the --phone sheet too.
 - Typography (owner 2026-10-21): **Poppins Black** (geometric, bold, clean — picked by the owner from a test page; Arabic = Baloo Bhaijaan 2) for

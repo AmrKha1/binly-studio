@@ -649,7 +649,7 @@ export const CollageShot: React.FC<
       {Array.from({length: 28}, (_, i) => (
         <rect key={`h${i}`} x={-300} y={-300 + i * 64} width={2520} height={2} fill={lineCol} />
       ))}
-      <LightPool x={960} y={480} r={900} sy={0.75} strength={dark ? 1.4 : 0.8} color={C.lamp} />
+      <LightPool x={960} y={480} r={900} sy={0.75} strength={dark ? 1.4 : 0.8} />
     </g>
   );
   const prints = lay.map((L, i) => {
@@ -973,7 +973,7 @@ export const DocumentScanShot: React.FC<ArchBase & {src: string; aspect?: number
             depth: 1,
             el: (
               <g>
-                <LightPool x={x0 + dw / 2} y={y0 + dh * 0.4} r={dh * 0.9} strength={P.dark ? 1.4 : 0.9} color={C.lamp} />
+                <LightPool x={x0 + dw / 2} y={y0 + dh * 0.4} r={dh * 0.9} strength={P.dark ? 1.4 : 0.9} />
                 <g opacity={docP} transform={`translate(0 ${(1 - ease.outQuint(docP)) * 40})`}>
                   <rect x={x0 - 12 + 14} y={y0 - 12 + 18} width={dw + 24} height={dh + 24} rx={3} fill={C.ink} opacity={P.dark ? 0.45 : 0.2} />
                   <rect x={x0 - 12} y={y0 - 12} width={dw + 24} height={dh + 24} rx={3} fill={C.paperLight} />
@@ -1286,7 +1286,7 @@ export const ImageInWorldShot: React.FC<
         <rect x={-400} y={80} width={2720} height={10} fill={mixC(wall, C.ink, 0.15)} />
         <rect x={-400} y={700} width={2720} height={14} fill={mixC(wall, C.ink, 0.12)} />
         <Floor y={880} color={C.paperDeep} kind="tiles" seed={seed} />
-        <LightPool x={cx} y={cy - 80} r={620} sy={0.9} strength={1.2} color={C.lamp} />
+        <LightPool x={cx} y={cy - 80} r={620} sy={0.9} strength={1.2} />
         {[-1, 1].map((sd) => (
           <g key={sd} opacity={0.55}>
             <rect x={960 + sd * 640 - 150} y={300} width={300} height={220} fill={C.paperLight} />
@@ -1311,7 +1311,7 @@ export const ImageInWorldShot: React.FC<
       <g>
         <Study t={t} seed={seed} layer="back" />
         <rect x={-400} y={-300} width={2720} height={1700} fill={C.ink} opacity={0.25} />
-        <LightPool x={cx} y={cy} r={700} strength={1.3} color={C.lamp} />
+        <LightPool x={cx} y={cy} r={700} strength={1.3} />
         {hands && <Person {...hands} />}
         <g transform={`rotate(${rot} ${cx} ${cy})`}>
           <rect x={cx - w / 2 - pad + 12} y={cy - h / 2 - pad + 16} width={w + pad * 2} height={h + pad * 2} fill={C.ink} opacity={0.35} />
@@ -1333,7 +1333,7 @@ export const ImageInWorldShot: React.FC<
             <rect x={-400 + rand(seed + i) * 1600} y={-300 + i * plank} width={4} height={plank} fill={C.woodDark} opacity={0.5} />
           </g>
         ))}
-        <LightPool x={cx - 120} y={cy - 60} r={900} strength={1.5} color={C.lamp} />
+        <LightPool x={cx - 120} y={cy - 60} r={900} strength={1.5} />
         <rect x={cx - 640} y={cy - 360} width={420} height={540} fill={C.paperShade} transform={`rotate(-12 ${cx - 430} ${cy - 90})`} />
         <rect x={cx + 260} y={cy + 40} width={520} height={380} fill={C.paperLight} transform={`rotate(9 ${cx + 520} ${cy + 230})`} />
         {[0, 1, 2, 3, 4].map((i) => (

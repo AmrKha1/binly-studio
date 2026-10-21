@@ -99,6 +99,13 @@ lavender for mystery, green for life, red for danger) — 1–3 per scene, not e
 focus; animate blur 0→10 for a rack-focus. For dialogue/reveal shots only — never text, never the whole frame.
 **Size on phones:** characters big — close/medium shots most of the time (face ≈ ⅓ frame height in a close-up).
 
+## The look (PLAYBOOK "THE LOOK") — applies to everything you draw in code too
+Bright and clean: white/light-neutral grounds, crisp thick dark outlines (≥ 4 px at 1080p on objects), clean flat colours
++ light shading, one glowing hero. No yellow/brown/sepia casts, no dark murky frames (unless the story is at night), no
+heavy vignettes, no neon/oversaturated colours, no thin scratchy or crude shapes. Prefer generated art (public/<slug>/bg|el)
+and image hosts over the old code-drawn kit rooms/streets/people when they look dated next to them. Light pools are
+neutral white by default (warm only for a real lamp/fire). References: docs/art/references/*.
+
 ## Language (never mixed)
 Every on-screen string is in the video's language (video.json `lang`): English video → English only, Arabic video →
 Arabic only (names in Arabic letters). Omit `who` on <ImageHost> — the host follows the language. `check.mjs` fails on

@@ -673,7 +673,7 @@ export const EvidenceShot: React.FC<
           <rect x={-300} y={44} width={2520} height={10} fill={mixHex(wall, C.ink, P.dark ? 0.45 : 0.16)} />
           <rect x={-300} y={1010} width={2520} height={400} fill={mixHex(wall, C.ink, P.dark ? 0.3 : 0.07)} />
           <rect x={-300} y={1004} width={2520} height={8} fill={mixHex(wall, C.ink, P.dark ? 0.45 : 0.16)} />
-          <LightPool x={px} y={py - 120} r={760} sy={0.85} strength={P.dark ? 1.6 : 1.1} color={C.lamp} />
+          <LightPool x={px} y={py - 120} r={760} sy={0.85} strength={P.dark ? 1.6 : 1.1} />
           <path d={`M${px} 54 L${fl + 80} ${ft + 4} M${px} 54 L${fr - 80} ${ft + 4}`} stroke={mixHex(wall, C.ink, 0.5)} strokeWidth={3} fill="none" opacity={ramp(t, t0 - 0.3, t0 + 0.2)} />
           <circle cx={px} cy={54} r={8} fill={mixHex(wall, C.ink, 0.55)} />
         </g>

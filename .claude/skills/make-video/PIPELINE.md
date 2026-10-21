@@ -203,7 +203,8 @@ which edits just those shots' exports in the chapters' `.custom.tsx` files — o
 tokens: it compares pixels itself) lists sentences whose picture barely changes. Fix the real ones in one round (send the
 list to the chapter's builder); an intentional payoff hold is fine — leave it.
 
-**5d · High-end editor pass (once, before the final render)** — watch the whole video as contact sheets at 2 s spacing
+**5d · High-end editor pass (once, before the final render)** — check THE LOOK (PLAYBOOK: clean bright polished, no
+yellow/dark/murky/cheap frames) and watch the whole video as contact sheets at 2 s spacing
 (`node tools/sheet.mjs --from a --to b --n 30` per ~1 min) with RETENTION §12 in mind: any second where nothing changes,
 a slow entrance/fade, a long transition, a sag in the middle without a re-hook, a hook that doesn't deliver the
 promise in 5 s, an outro that drags → fix it (one builder round per chapter at most), then render.

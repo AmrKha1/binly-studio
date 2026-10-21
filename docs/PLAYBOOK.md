@@ -50,6 +50,14 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
   lift off the white with a soft shadow (GLOW.soft). No noise/grain/texture, no glow on everything. Allowed polish (owner 2026-10-21): soft gradient skies and gentle
   shading in generated art; a camera-focus DEPTH blur (kit/asset Depth) on a foreground host/object or on the plate in a
   close-up — only for ~5–10 special shots per video (dialogue, reveals), never on text or the whole frame.
+- **THE LOOK — clean, polished, modern (owner 2026-10-21), for EVERYTHING on screen (Flow art AND code-drawn elements,
+  hosts, icons, charts, text):** bright clean frames — white or light neutral grounds, clear daylight, crisp thick black
+  outlines, clean flat colours with light simple shading, a few strong accents (one hero element may glow). Cartoon is
+  fine when it is the polished modern kind (like the reference frames in docs/art/references/) — never the cheap kind.
+  NEVER: yellow/sepia/orange casts, brown-beige "old paper" mood, muddy or dark frames (dark only when the story is
+  literally at night/underground), heavy vignettes, over-saturated or neon colours, flat lifeless grey, crude/wobbly
+  shapes, thin scratchy lines, clip-art. If a code-drawn piece (old kit rooms/streets/props) looks dated or murky next to
+  the generated art, use generated art or white mode instead. Judge every contact sheet with this list.
 - **Big characters, mostly close and medium shots** (phone viewers): a host or story character's face fills ~⅓ of the
   frame in close shots; wide shots only to establish a place. Generated art is checked on the --phone sheet too.
 - Typography (owner 2026-10-21): **Poppins Black** (geometric, bold, clean — picked by the owner from a test page; Arabic = Baloo Bhaijaan 2) for
