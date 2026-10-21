@@ -25,8 +25,10 @@ image that would cost credits). Never use another model unless the owner says so
 > no letters, no signs, no logos, no watermark.
 
 ## ELEMENT SHEET block (cut-out objects)
-> An asset sheet of 7 separate objects: <LIST>. Generous empty space between them, no object touching another, each
-> shown whole. Background: one flat solid colour everywhere, no floor, no shadows, no scenery, no text, no labels.
+> An asset sheet of 6 separate objects arranged in 2 rows of 3, in this order (left to right, top row first): <LIST>.
+> Generous empty white space between them, no object touching or overlapping another, each shown whole and front-facing,
+> each enclosed by a closed black outline. Background: plain pure flat white everywhere, no floor, no shadows, no
+> scenery, no text, no labels, no numbers.
 
 ## Rules
 - Never write "warm", "golden hour", "sunset", "cinematic lighting", "moody", "atmospheric" or "dramatic light" in a

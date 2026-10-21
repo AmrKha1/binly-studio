@@ -28,6 +28,23 @@ The VOICEOVER is the truth: transcript.md follows what was actually said (script
 shows a WARNING (script differs a lot), tell the user in one line (maybe a wrong script file) and continue.
 While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `docs/KIT-INDEX.md`, `docs/LESSONS.md`, and `notes.md` if present (the user's special requests override defaults).
 
+**1b · Art (start it EARLY — it runs in the background while you plan and build)** — as soon as the story is clear from
+the script/transcript, decide the generated art (rules + exact prompt blocks: docs/ART-STYLE.md):
+1. `node tools/art.mjs find <words>` — reuse library backgrounds/objects first (the library grows with every video).
+2. Write `videos/<slug>/art/plan.json`: **≤ 12 images** — 4–6 key BACKGROUNDS (hook, the story's main places, climax;
+   empty, an open area for host/objects) + 4–6 OBJECT SHEETS (6 objects each, in reading order). No text, no real
+   people/events presented as real (those stay archival), clean flat style only.
+3. `node tools/art.mjs prompts <slug>` → art/prompts.json + art/prompts.md (owner fallback).
+4. ONE `flow_generate` call: project `art-<slug>`, scenes = art/prompts.json (model Nano Banana 2 Lite, max_credits 0).
+   Then keep working; check back with `flow_wait` only when you need the art (never poll in a loop).
+5. When done: `node tools/art.mjs ingest <slug>` → objects cut out, named, added to the library, copied into
+   public/<slug>/ (sizes in public/<slug>/art.json). Look at ONE contact sheet of everything; regenerate bad ones (free).
+**If Flow refuses ("unusual activity") or fails:** stop generating (never retry in a burst), tell the owner in one line
+that art/prompts.md is ready to paste into Flow by hand, and continue — chapters without art use the white-mode kit
+scenes (GlowBackdrop/GlowFloor, templates); swap art in later with `node tools/art.mjs ingest <slug> --dir input`.
+Where art goes: generated BACKGROUNDS for story scenes (places, eras, events), WHITE MODE for explanations, numbers,
+lists, timelines and infographics — alternate them for rhythm.
+
 **2 · Plan** (your most important work — this is where quality is decided). Read `videos/<slug>/timing/transcript.md`
 (one line per paragraph with times). Then write:
 - `videos/<slug>/plan.md` (≤ 700 words): logline · **the story spine** (hook → the question & why it matters → rising tension / turns → the big reveal →

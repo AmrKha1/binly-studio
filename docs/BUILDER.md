@@ -76,6 +76,14 @@ key object an `<Attention>` on its word (heartBeat for emphasis, tada for a win,
 for fun, float for a held hero), leave with `<Exit>`. Headlines on hooks/pivots: `mode="bounce"`. Vary the presets —
 never the same entrance for every element in a scene. Each preset sounds automatically.
 
+## Generated art (backgrounds + objects) — kit/asset
+Files are in public/<slug>/bg/ and public/<slug>/el/; sizes in public/<slug>/art.json ({name: {kind, file, ar}}).
+`<BgPlate slug file="palace-hall.jpg" t a b push="in"|"out"|"left"|"right" />` fills the frame with a slow camera move;
+put objects/host on it inside `<PlateCam t a b push>` so they move with the plate. Objects: `<ImageAsset slug name
+x y w ar t enter={{kind,p}} attention={{kind,at}} />` (kit/motion presets; each sounds). Give objects that stand on a
+surface a soft ellipse shadow under them; place them ON the plate's furniture (check on a still). Big and readable:
+hero objects ≥ ~300 px wide. Never generate or draw text into art — labels are kit pills/text on top.
+
 ## The hosts — ODDESTORY (English) · AZTIKA (Arabic)
 **Image hosts (preferred):** `<ImageHost t who="oddestory" {...imageHostShot('corner'|'big'|'full'|'peek'|'tiny', side)} poses={[[t0,'think-point'],[t1,'shocked']]}
 talk={talkFrom(t, WORDS)} enter={{kind,at}} exit={{kind,at}} flip />` (kit/image-host). Pose names = file names in

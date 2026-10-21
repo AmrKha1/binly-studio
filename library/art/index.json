@@ -1,0 +1,82 @@
+{
+ "treasury-room": {
+  "kind": "bg",
+  "tags": [
+   "treasury",
+   "bazaar",
+   "market",
+   "money",
+   "storeroom"
+  ],
+  "file": "bg/treasury-room.jpg",
+  "w": 2752,
+  "h": 1536,
+  "from": "manual"
+ },
+ "gold-coin": {
+  "kind": "el",
+  "tags": [
+   "money",
+   "trade"
+  ],
+  "file": "el/gold-coin.png",
+  "w": 610,
+  "h": 607,
+  "from": "manual"
+ },
+ "cowrie-shells": {
+  "kind": "el",
+  "tags": [
+   "money",
+   "trade"
+  ],
+  "file": "el/cowrie-shells.png",
+  "w": 654,
+  "h": 464,
+  "from": "manual"
+ },
+ "coin-pouch": {
+  "kind": "el",
+  "tags": [
+   "money",
+   "trade"
+  ],
+  "file": "el/coin-pouch.png",
+  "w": 528,
+  "h": 604,
+  "from": "manual"
+ },
+ "banknotes": {
+  "kind": "el",
+  "tags": [
+   "money",
+   "trade"
+  ],
+  "file": "el/banknotes.png",
+  "w": 675,
+  "h": 527,
+  "from": "manual"
+ },
+ "treasure-chest": {
+  "kind": "el",
+  "tags": [
+   "money",
+   "trade"
+  ],
+  "file": "el/treasure-chest.png",
+  "w": 753,
+  "h": 701,
+  "from": "manual"
+ },
+ "credit-card": {
+  "kind": "el",
+  "tags": [
+   "money",
+   "trade"
+  ],
+  "file": "el/credit-card.png",
+  "w": 734,
+  "h": 577,
+  "from": "manual"
+ }
+}
