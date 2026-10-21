@@ -1,5 +1,8 @@
 # Lessons learned (append 1–5 short lines after every video)
 
+> Lessons before 2026-10-20 were written for the OLD style (cream paper, Fraunces/Inter caps, music, small labels).
+> Where one contradicts PLAYBOOK / RETENTION / BUILDER, the docs win — lines marked (old style) are history only.
+
 - (seed) Sync reveals ~0.1–0.25 s BEFORE the stressed word; exactly on the word reads late.
 - (seed) Contact sheets with 20 tiles catch most layout problems; use `--times` around transitions.
 - (seed) Keep chapters 60–120 s; longer chapters make builders run out of attention, shorter ones multiply overhead.
@@ -16,7 +19,7 @@
 
 ## medieval-bathing (2026-10-15)
 - (owner) NO image with any nudity, not even croppable (bath art, Adam/Eve, flagellants, Dürer syphilis sheet, near-nude patients) → animate those scenes; also check every caption is literally true (a "Rue des Étuves" sign turned out to be Lagny, not Paris).
-- (owner) Don't open the live preview; show contact sheets for the style check.
+- (owner) Don't open the live preview; review with contact sheets. (The owner style check was retired 2026-10-21 — self-check instead.)
 - Builders default Tags/labels to ~26 px → unreadable at 1080p; put "Tags ≥ 48, Kickers ≥ 36, inside SAFE, in clear space" in every brief (raised 2026-10-20).
 - Kit hat 'scholar' renders as a modern mortarboard — use 'hood'/'beret'/'coif' for medieval scholars.
 - One shared builder (opus) for 4 motif pieces first, then chapters: worked well; a 4-chapter usage-limit pause was recovered with SendMessage, nothing lost.
@@ -24,14 +27,14 @@
 
 ## Kit backlog (medieval-bathing)
 - ListShot layout='column' + kicker → kicker overlaps the title (template bug; worked around by dropping kickers).
-- `BathSign` (hanging sign + bath emblem + lantern) was rebuilt in C01/C02/C05/C06/C07 → promote to kit/env.
+- (old style) `BathSign` (hanging sign + bath emblem + lantern) was rebuilt in C01/C02/C05/C06/C07 → promote to kit/env.
 - HeroTub clip ids derive from seed+x+y → two instances at the same spot collide; use a per-instance id.
 - tools/sheet.mjs now uses a per-run tiles folder (parallel builders used to overwrite each other's tiles).
 - tools/compile-shots.mjs now compiles archival templates (KenBurnsShot, AnnotatedImageShot, MontageShot, …).
 - (polish, kit) Text "vibrating in place" = breathe's micro rotation/zoom noise + hinted text rendering → glyphs snapped differently every frame. Fixed in kit/stage.tsx: breathe is translation-only and Stage uses text-rendering: geometricPrecision. Measure, don't guess: render consecutive frames (tools/still.mjs) and compare text vs shape centroids.
 - (kit) Remaining text "vibration" = Skia snaps axis-aligned glyph baselines to whole pixels (1 px sawtooth vs shapes on slow drifts). Fixed in Stage: constant 0.1° tilt on text/foreignObject.ktext. Measure with tools/jitter-test.mjs (--kit / --at / --mp4); a snap shows as ~1 px residuals.
 - (polish, owner) Bath scenes: a figure is either a bather IN a tub (head + shoulders only) or a standing person fully in front of / behind the tub — never drawn behind a tub front with legs showing below it ("people wearing barrels").
-- (polish, owner) A plain parchment + 2 small icons in the hook read as "cheap" → rebuilt as archive shelf → illuminated manuscript with two painted miniatures. Hook beats need a place, depth and light.
+- (old style) (polish, owner) A plain parchment + 2 small icons in the hook read as "cheap" → rebuilt as archive shelf → illuminated manuscript with two painted miniatures. Hook beats need a place, depth and light.
 
 ## inner-voice (2026-10-16)
 - ASR can silently drop a cold open (here 0–7.4 s: cue.mjs times were wrong, transcript started mid-hook). Check the first words with `cue.mjs --range 0 10` + an RMS loudness map of the WAV; time the hook by hand; add the missing lines to captions.srt.
@@ -41,8 +44,8 @@
 - (owner) Every on-screen text rock-steady — in PLAYBOOK owner prefs.
 
 ## Kit backlog (inner-voice)
-- `NightRoom` (shared/NightRoom.tsx: night room, window city, flat lights behind the figure) was copied into 3 chapters before being shared → promote with DecoderRig.
-- C02 `Street` walkers + `MiniBubble` (crack dial) and C03 `Bub` (bubble holding child shapes, solid/dashed) are reusable.
+- (old style) `NightRoom` (shared/NightRoom.tsx: night room, window city, flat lights behind the figure) was copied into 3 chapters before being shared → promote with DecoderRig.
+- (old style) C02 `Street` walkers + `MiniBubble` (crack dial) and C03 `Bub` (bubble holding child shapes, solid/dashed) are reusable.
 - Kit StudyCard / NameTag / Photo credit text sizes too small for 1080p (22 px) → add a size dial.
 - (inner-voice polish) sync-check samples ~0.8 s after the sentence start: a beat placed on the stressed word 1–2 s in still reads "WEAK" — check those on a sheet before "fixing" again. Moving a card's entrance onto its word can re-create an empty lead-in: keep a real element on screen from the shot's first frame.
 

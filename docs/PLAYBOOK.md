@@ -143,6 +143,9 @@ not one-off fixes. Keep ≤ 15 lines: merge similar ones.
 - WHITE MODE + ELEGANT GLOW (both channels, 2026-10-20): clean white pages, gold glowing key word/number, glowing
   rounded pills (GlowPill) for labels, hero objects glow (soft halo + a few twinkling sparkles). Reference: the owner's
   pick in .cache/arabic-font-test.html (A3). Dark only when the scene itself is dark.
+- **Words support, never replace (owner):** no frame or scene made only of text. Every idea is shown with a scene,
+  object, character or animation; words (pills, pop words, labels, SayPop) sit on top to support it. Text cards are a
+  rare exception (≤ 1 per chapter with a reason — plan-check enforces it).
 - Sources in the YouTube description as plain text (author, title, year — searchable), no links. Links only where an
   image licence requires them (CC BY / BY-SA); public-domain/CC0 image credits are text only.
 - Every frame reads on a small phone AND stays calm on a TV (YouTube watch time ≈ ⅓ TV, ⅓ phones, ⅓ computers). Text:
