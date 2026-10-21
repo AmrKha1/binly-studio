@@ -18,7 +18,10 @@ finish each step in one round, and use the Studio's docs and tools first, resear
 3. **Every video gets its OWN identity:** its motif and 3–6 new shared pieces made for THIS story (a guide, not a quota; up to ~8 for image-poor topics
    like science/psychology) (hook, signature moments,
    the core ideas' visuals). A video that only re-arranges past pieces feels like a repeat — viewers notice.
-**Two channels, one Studio:** English and Arabic Binly. An Arabic script → `"lang": "ar"` (Arabic fonts + right-to-left
+**Two channels, one Studio — NEVER mixed:** an English video has only English on screen and only ODDESTORY; an Arabic
+video has only Arabic on screen (names written in Arabic letters, digits 123 are fine) and only AZTIKA. The host follows
+the language automatically (omit `who`); `node tools/check.mjs` FAILS on any mix. Flow art prompts stay in English
+(they never put text in images). English and Arabic Binly. An Arabic script → `"lang": "ar"` (Arabic fonts + right-to-left
 layout are automatic; see PLAYBOOK "Arabic videos"). Look for both: WHITE MODE + elegant glow.
 The user puts a voiceover + script in `input/` (the VOICEOVER is the truth — timing and wording follow what was said;
 the script only fixes spelling of names/numbers) and uses these commands (skills):

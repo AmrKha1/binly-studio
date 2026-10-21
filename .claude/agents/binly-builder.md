@@ -154,6 +154,11 @@ lavender for mystery, green for life, red for danger) — 1–3 per scene, not e
 focus; animate blur 0→10 for a rack-focus. For dialogue/reveal shots only — never text, never the whole frame.
 **Size on phones:** characters big — close/medium shots most of the time (face ≈ ⅓ frame height in a close-up).
 
+## Language (never mixed)
+Every on-screen string is in the video's language (video.json `lang`): English video → English only, Arabic video →
+Arabic only (names in Arabic letters). Omit `who` on <ImageHost> — the host follows the language. `check.mjs` fails on
+any mix; fix the text, never silence the check.
+
 ## The hosts — ODDESTORY (English) · AZTIKA (Arabic)
 **Image hosts (preferred):** `<ImageHost t who="oddestory" {...imageHostShot('corner'|'big'|'full'|'peek'|'tiny', side)} poses={[[t0,'think-point'],[t1,'shocked']]}
 talk={talkFrom(t, WORDS)} enter={{kind,at}} exit={{kind,at}} flip />` (kit/image-host). Pose names = file names in
@@ -406,6 +411,8 @@ thumbnail and title stay fully clean. When unsure about an image, don't use it �
   Same Binly look (white mode, gold glow, pills); the kit switches automatically: every font → **Baloo Bhaijaan 2 heavy**
   (rounded bold — the owner's pick; hand notes → Marhey), no letter-spacing, no italics, and the whole layout is MIRRORED
   right-to-left (lists, timelines, arrows, comparisons read right→left). Photos and maps keep their real orientation.
+- **Language guard:** check.mjs fails if an Arabic video shows English sentences or ODDESTORY, or an English video shows
+  Arabic or AZTIKA. Names/places in Arabic letters ("راسل هيرلبرت"), digits stay 123.
 - Write ALL on-screen text in Arabic (titles, pills, labels, chapter titles in chapters.json). Numbers in Western
   digits (123) exactly as spoken. Same visual stories — only the words change.
 - Speech timing uses the multilingual large-v3 model (slower: start ingest early). Formal Arabic times best.

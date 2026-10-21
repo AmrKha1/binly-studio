@@ -4,6 +4,10 @@ import {clamp01, lerp, spring} from './anim';
 import {cueSfx} from './sfx';
 import {HostMove, MOVE_SFX, hostMove} from './host';
 import {HOST_IMAGES, HostImageWho} from './host-images';
+import {isAr} from './lang';
+
+/** The channel's host follows the video language: English → ODDESTORY, Arabic → AZTIKA (never mixed). */
+export const channelHost = (): HostImageWho => (isAr() ? 'aztika' : 'oddestory');
 
 // ════════════════════════════════════════════════════════════════════════════════════════════════════════════
 // ImageHost — the channel hosts as real illustrated pose images (owner, 2026-10-21): ODDESTORY (English channel) and,
@@ -25,7 +29,7 @@ type PoseKey = [number, string];
 
 export const ImageHost: React.FC<{
   t: number;
-  who: HostImageWho;
+  who?: HostImageWho; // omit it: the host follows the video language (channelHost). check.mjs fails on a wrong host.
   x: number;
   y: number;
   h?: number;
@@ -38,7 +42,8 @@ export const ImageHost: React.FC<{
   swapSfx?: boolean; // a soft pop on each pose switch (default on — the director may turn it off)
   shadow?: boolean; // soft ground shadow under full-body poses (default on)
   id?: string;
-}> = ({t, who, x, y, h = 720, poses, talk = 0, enter, exit, life = 1, flip = false, swapSfx = true, shadow = true, id = 'ihost'}) => {
+}> = ({t, who: who0, x, y, h = 720, poses, talk = 0, enter, exit, life = 1, flip = false, swapSfx = true, shadow = true, id = 'ihost'}) => {
+  const who = who0 ?? channelHost();
   const mv = hostMove(t, enter, exit);
   if (!mv.visible) return null;
   for (const [m, tag] of [[enter, 'in'], [exit, 'out']] as [HostMove | undefined, string][]) {

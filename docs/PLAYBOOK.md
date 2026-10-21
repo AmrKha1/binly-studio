@@ -85,6 +85,8 @@ thumbnail and title stay fully clean. When unsure about an image, don't use it �
   Same Binly look (white mode, gold glow, pills); the kit switches automatically: every font → **Baloo Bhaijaan 2 heavy**
   (rounded bold — the owner's pick; hand notes → Marhey), no letter-spacing, no italics, and the whole layout is MIRRORED
   right-to-left (lists, timelines, arrows, comparisons read right→left). Photos and maps keep their real orientation.
+- **Language guard:** check.mjs fails if an Arabic video shows English sentences or ODDESTORY, or an English video shows
+  Arabic or AZTIKA. Names/places in Arabic letters ("راسل هيرلبرت"), digits stay 123.
 - Write ALL on-screen text in Arabic (titles, pills, labels, chapter titles in chapters.json). Numbers in Western
   digits (123) exactly as spoken. Same visual stories — only the words change.
 - Speech timing uses the multilingual large-v3 model (slower: start ingest early). Formal Arabic times best.

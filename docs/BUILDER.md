@@ -99,6 +99,11 @@ lavender for mystery, green for life, red for danger) — 1–3 per scene, not e
 focus; animate blur 0→10 for a rack-focus. For dialogue/reveal shots only — never text, never the whole frame.
 **Size on phones:** characters big — close/medium shots most of the time (face ≈ ⅓ frame height in a close-up).
 
+## Language (never mixed)
+Every on-screen string is in the video's language (video.json `lang`): English video → English only, Arabic video →
+Arabic only (names in Arabic letters). Omit `who` on <ImageHost> — the host follows the language. `check.mjs` fails on
+any mix; fix the text, never silence the check.
+
 ## The hosts — ODDESTORY (English) · AZTIKA (Arabic)
 **Image hosts (preferred):** `<ImageHost t who="oddestory" {...imageHostShot('corner'|'big'|'full'|'peek'|'tiny', side)} poses={[[t0,'think-point'],[t1,'shocked']]}
 talk={talkFrom(t, WORDS)} enter={{kind,at}} exit={{kind,at}} flip />` (kit/image-host). Pose names = file names in
