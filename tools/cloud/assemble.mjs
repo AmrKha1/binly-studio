@@ -1,5 +1,5 @@
 // Joins rendered chunks (lossless concat) and muxes the final audio:
-//   ORIGINAL voiceover (no processing, gain 1) + music stem + SFX stem → AAC 320k.
+//   ORIGINAL voiceover (no processing, gain 1) + music stem (silent — Binly has no music) + SFX stem → AAC 320k.
 // usage: node tools/cloud/assemble.mjs <slug> [from_s] [to_s]     (expects chunks/, stems/, in/)
 import fs from 'node:fs';
 import path from 'node:path';

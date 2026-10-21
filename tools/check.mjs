@@ -84,7 +84,7 @@ const langWarn = [];
         // on-screen English: string props/JSX text with 2+ consecutive English words (names/units/numbers alone are fine)
         const strs = [...code.matchAll(/(?:text|title|kicker|label|sub|caption|name|note)\s*[=:]\s*["'`]([^"'`]*)["'`]|>\s*([^<>{}]*[A-Za-z][^<>{}]*)\s*</g)].map((m) => m[1] ?? m[2] ?? '');
         for (const s of strs) if (/[A-Za-z]{2,}\s+[A-Za-z]{2,}/.test(s) && !AR.test(s)) langErr.push(`${at}  English on-screen text in an ARABIC video: "${s.trim().slice(0, 40)}"`);
-        if (/[A-Za-z]{3,}/.test(strs.join(' ')) && !strs.some((s) => AR.test(s))) langWarn.push(`${at}  check: Latin word on screen in an Arabic video`);
+        // (no soft warnings: code props like kind="caution" are not on-screen text)
       }
     });
   }

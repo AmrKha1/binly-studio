@@ -27,7 +27,8 @@ full ffmpeg, …) → ask the user first. Never use network resources at render 
 - `@remotion/noise` — `noise2D/3D/4D(seed, x, y…)` smooth deterministic noise for organic motion (complements `noise1` in kit/anim)
 - `@remotion/media-utils`, `@remotion/captions`, `@remotion/paths` (already present)
 - `d3-geo`, `topojson-client`, `world-atlas` (maps/globe — used by kit/geo and kit/depth)
-- Fonts: `@fontsource/fraunces`, `@fontsource/inter` (the only brand fonts)
+- Fonts: `@fontsource/poppins` (English, all text) · `@fontsource/baloo-bhaijaan-2` + `@fontsource/marhey` (Arabic) ·
+  Caveat (rare hand notes); Fraunces/Inter only as fallbacks
 - Canvas and SVG are native in Remotion's Chrome — no install needed. Three.js/Lottie/anime.js are deliberately NOT used
   (slow without GPU, off-style, or not frame-deterministic).
 

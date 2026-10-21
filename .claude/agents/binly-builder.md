@@ -400,7 +400,8 @@ A great video in one session beats a perfect plan.
   frame in close shots; wide shots only to establish a place. Generated art is checked on the --phone sheet too.
 - Typography (owner 2026-10-21): **Poppins Black** (geometric, bold, clean — picked by the owner from a test page; Arabic = Baloo Bhaijaan 2) for
   headlines/quotes/numbers/pills AND labels/kickers/tags — one font, normal case, normal letter spacing, no italics
-  (the old tracked capitals / Fraunces italics are retired). All text is heavy (800–900) with a clean halo + soft
+  (the old tracked capitals / Fraunces italics are retired). All text, body text included, is heavy (800–900) and dark (ink, never washed-out grey); lines and outlines are thick.
+  All text is heavy (800–900) with a clean halo + soft
   drop (Stage applies it automatically) so it pops on any background; big moments use PopText / glow / stickers. Rare accent only: Caveat
   handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Certainty labels look
   like museum captions (`Tag`, default); myth-busting verdicts use the editor's red pen (strike + handwritten verdict);
@@ -522,7 +523,8 @@ full ffmpeg, …) → ask the user first. Never use network resources at render 
 - `@remotion/noise` — `noise2D/3D/4D(seed, x, y…)` smooth deterministic noise for organic motion (complements `noise1` in kit/anim)
 - `@remotion/media-utils`, `@remotion/captions`, `@remotion/paths` (already present)
 - `d3-geo`, `topojson-client`, `world-atlas` (maps/globe — used by kit/geo and kit/depth)
-- Fonts: `@fontsource/fraunces`, `@fontsource/inter` (the only brand fonts)
+- Fonts: `@fontsource/poppins` (English, all text) · `@fontsource/baloo-bhaijaan-2` + `@fontsource/marhey` (Arabic) ·
+  Caveat (rare hand notes); Fraunces/Inter only as fallbacks
 - Canvas and SVG are native in Remotion's Chrome — no install needed. Three.js/Lottie/anime.js are deliberately NOT used
   (slow without GPU, off-style, or not frame-deterministic).
 

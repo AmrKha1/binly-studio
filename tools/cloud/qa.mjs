@@ -78,10 +78,10 @@ const loud = (file) => {
 const lf = loud(video);
 const lv = loud(vo);
 log(`- Loudness: final mix ${lf.I} LUFS (true peak ${lf.tp} dBFS); voiceover alone ${lv.I} LUFS (true peak ${lv.tp} dBFS)`);
-log(`- Music + SFX contribution to integrated loudness: ${(lf.I - lv.I).toFixed(2)} LU (small = voice stays dominant)`);
+log(`- SFX contribution to integrated loudness: ${(lf.I - lv.I).toFixed(2)} LU (small = voice stays dominant)`);
 if (lf.tp > -0.1) warn.push(`True peak ${lf.tp} dBFS — possible clipping`);
 
-if (fs.existsSync('stems/levels.txt')) log(`- Music/SFX mix (from the audio engine): ${fs.readFileSync('stems/levels.txt', 'utf8').trim().replace(/^levels: /, '')}`);
+if (fs.existsSync('stems/levels.txt')) log(`- SFX mix (from the audio engine): ${fs.readFileSync('stems/levels.txt', 'utf8').trim().replace(/^levels: /, '')}`);
 
 // narration alignment: cross-correlation of final audio vs the source voiceover
 const pcm = (file, ss, to) => {

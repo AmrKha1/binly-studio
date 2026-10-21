@@ -1,6 +1,6 @@
 // YouTube upload package for a finished video → videos/<slug>/youtube/
 //   node tools/upload-pack.mjs [--slug s]
-//   description.md  — description draft: hook line, clickable chapter timestamps, credits (images, music)
+//   description.md  — description draft: hook line, clickable chapter timestamps, credits (images, sound effects)
 //   captions.srt    — subtitles with the EXACT script wording and the real word timings (upload in YouTube Studio)
 //   chapters.txt    — just the timestamps (YouTube needs: first at 0:00, ≥ 3 chapters, each ≥ 10 s)
 import fs from 'node:fs';
@@ -91,8 +91,8 @@ const plan = fs.existsSync(path.join(vdir, 'plan.md')) ? fs.readFileSync(path.jo
 const logline = plan.match(/\*\*Logline:\*\*\s*(.+)/i)?.[1]?.trim() ?? '';
 const AR = meta.lang === 'ar';
 const L = AR
-  ? {hook: '[جملة أو جملتان تثيران الفضول — سؤال الفيديو.]', chapters: 'الفصول:', credits: 'مصادر الصور (ويكيميديا كومنز / PhyloPic):', music: 'الموسيقى: مؤلفة خصيصاً لهذا الفيديو.'}
-  : {hook: "[One or two sentences that make people curious — the video's hook question.]", chapters: 'Chapters:', credits: 'Image credits (Wikimedia Commons / PhyloPic):', music: 'Music: original score composed for this video.'};
+  ? {hook: '[جملة أو جملتان تثيران الفضول — سؤال الفيديو.]', chapters: 'الفصول:', credits: 'مصادر الصور (ويكيميديا كومنز / PhyloPic):', music: 'المؤثرات الصوتية: Kenney و qubodup (CC0).'}
+  : {hook: "[One or two sentences that make people curious — the video's hook question.]", chapters: 'Chapters:', credits: 'Image credits (Wikimedia Commons / PhyloPic):', music: 'Sound effects: Kenney, qubodup (CC0).'};
 const desc = [
   `<!-- Draft — edit freely before pasting into YouTube. Title: ${meta.title} -->`,
   logline || L.hook,

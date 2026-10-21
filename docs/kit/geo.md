@@ -1,7 +1,7 @@
 # geo — `src/kit/geo.tsx`
 
 Maps for history/geography beats in an old-print style: paper land, slightly darker sea with an engraved
-line along the coast, thin ink coastlines, faint borders + graticule, Fraunces italic sea names.
+line along the coast, thin ink coastlines, faint borders + graticule, sea names (Poppins, upright).
 Data = local world-atlas TopoJSON (`50m` regional, `110m` world) via d3-geo; projections and paths are
 memoised per region+size (first frame computes, later frames are cheap). Gallery: `{"page":"geo"}`.
 
@@ -41,14 +41,14 @@ Country names are Natural Earth names (case-insensitive): 'France', 'Spain', 'Un
 Cost: a 50m regional map ≈1–2 s/frame locally (slow PC); avoid more than two maps on screen at once.
 
 ## MapPin
-Teardrop pin that drops with a gentle settle. Origin = pin tip (the location). Label in Fraunces 32 with a
+Teardrop pin that drops with a gentle settle. Origin = pin tip (the location). Label in Poppins 44 with a
 paper halo, optional `sub` (sans caps 22). `side`: 'right' | 'left' | 'top'.
 ```ts
 <MapPin x y p?=1 label? sub? color?=C.oxblood s?=1 side?='right' />
 ```
 
 ## CityDot
-Ring + centre dot city marker with Fraunces label (halo). `side`: 'right' | 'left' | 'top' | 'bottom'.
+Ring + centre dot city marker with a Poppins label (halo). `side`: 'right' | 'left' | 'top' | 'bottom'.
 ```ts
 <CityDot x y label? p?=1 color?=C.ink side?='right' size?=28 italic?=false />
 ```
@@ -77,7 +77,7 @@ optional label. Origin = centre.
 ```
 
 ## MapLabel
-Map typography. 'sea' = Fraunces italic tracked (no halo), 'region' = sans caps tracked, 'country' = Fraunces caps.
+Map typography (all Poppins, normal case, normal spacing): 'sea' (no halo), 'region', 'country'.
 ```ts
 <MapLabel x y text kind?='sea' size? rotate?=0 p?=1 color? />
 ```
