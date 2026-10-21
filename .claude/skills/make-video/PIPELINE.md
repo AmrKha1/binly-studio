@@ -133,7 +133,7 @@ vocabulary only; at most ~2–3 new poses per video, added to kit/host. Write it
 the object, above the speaker with SayPop, along an arrow, on the map, on the reveal), how objects and the host move,
 and the camera move. A shot with nothing new for > 4 s gets a beat (pop, move, punch-in, reaction) — RETENTION §11.
 
-**Hook & pacing gate (plan, RETENTION §13):** mark in plan.md (a) what is on screen at 0–5 s (the payoff/most striking
+**Hook & pacing gate (plan, RETENTION §12):** mark in plan.md (a) what is on screen at 0–5 s (the payoff/most striking
 image of the title's promise), (b) one RE-HOOK every 60–90 s (question / "but…" / teaser / twist) with its time, (c) the
 ending: payoff → echo of the hook → stop. If any is missing, the plan is not ready.
 
@@ -204,7 +204,7 @@ tokens: it compares pixels itself) lists sentences whose picture barely changes.
 list to the chapter's builder); an intentional payoff hold is fine — leave it.
 
 **5d · High-end editor pass (once, before the final render)** — watch the whole video as contact sheets at 2 s spacing
-(`node tools/sheet.mjs --from a --to b --n 30` per ~1 min) with RETENTION §13 in mind: any second where nothing changes,
+(`node tools/sheet.mjs --from a --to b --n 30` per ~1 min) with RETENTION §12 in mind: any second where nothing changes,
 a slow entrance/fade, a long transition, a sag in the middle without a re-hook, a hook that doesn't deliver the
 promise in 5 s, an outro that drags → fix it (one builder round per chapter at most), then render.
 

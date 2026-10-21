@@ -48,7 +48,7 @@ If not, the pictures aren't telling the story yet.
    fixed caption spot, never as running subtitles. Every element moves for a reason the narration gives it, and every
    movement is heard. Use the editor's toolbox on the beats: fat 3D pop words, comic bursts, speed lines, punch-ins,
    tilted camera angles, emotion marks (kit/editfx) — like the best YouTubers, in Binly's clean style. Ask of every second: "would a great YouTube editor leave this frame like this?" If not, animate it.
-13. **The high-end editor's standard (owner, 2026-10-21) — attention in EVERY second, across the WHOLE video.**
+12. **The high-end editor's standard (owner, 2026-10-21) — attention in EVERY second, across the WHOLE video.**
    YouTube now ranks on viewer satisfaction and average view duration is falling everywhere, so:
    - **Payoff in the first 5 s:** the most striking fact/image of the title's promise is ON SCREEN within 5 s — no build-up.
    - **Promise check:** the hook shows exactly what the title + thumbnail promise (click-then-leave is penalised).
@@ -57,7 +57,7 @@ If not, the pictures aren't telling the story yet.
      element crawling in; holds only for a payoff (2–3 s, still moving). Pace tightens in tension, breathes after payoffs.
    - **No dead air:** no second without something to look at changing or a reason to keep watching.
    - **Satisfying end:** land the payoff, echo the hook, then stop — no long outro; the last seconds lead to the next video.
-14. **Land the ending.** Pay off the opening question with the strongest image, echo the first shot, stop when the
+13. **Land the ending.** Pay off the opening question with the strongest image, echo the first shot, stop when the
     idea is complete.
 
 **Quality first, efficiently:** choose what's best for the viewer; reuse templates, kit, past assets and lessons when
