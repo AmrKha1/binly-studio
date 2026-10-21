@@ -1,6 +1,10 @@
 # Asset catalog — reusable pieces built inside past videos (not yet in src/kit)
 Check this AND docs/KIT.md before planning new shared assets. Reuse by importing from the path below (or copy into
 `src/videos/<slug>/shared/` if you need to change it). `/improve-studio` promotes the best ones into `src/kit/`.
+> **OLD STYLE (owner, 2026-10-22):** every piece listed below was made before the clean white look (cream/brown palette,
+> old fonts, music-era). Reuse only after restyling it to THE LOOK (PLAYBOOK): white/light ground, bold dark outlines,
+> clean colours, Poppins/Baloo text, bigger for phones. Prefer generated art or new clean pieces when that is cheaper.
+> New pieces added from now on are clean-style — mark them (clean).
 Format: `name` — what it is · props/dials · path · (video it came from)
 
 - `TRex` (local, not exported yet) — procedural flat T. rex: bones / flesh / stripes / colour / stride / head turn dials, both feet planted mode · `src/videos/test-dinos/chapters/C01.tsx` · (test-dinos)
