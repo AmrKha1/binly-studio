@@ -40,7 +40,7 @@ fat sticker words with a 3D extruded shadow ("6:30 AM") · `SpeedLines {t,p,cx,c
 
 **alive text** (kit/text): `SayPop {t,x,y,spoken,from,to,out?,size=54,accent,tail}` — key spoken words pop one by one in a
 speech bubble as they are said (SPOKEN from src/videos/<slug>/speech.ts, tools/speech-map.mjs) · `Stat … sticker="<colour>"`
-white number with thick outline. Headlines use Baloo 2 (English) / Baloo Bhaijaan 2 (Arabic), weight 800. Gallery "alive".
+white number with thick outline. Headlines use Poppins Black (English) / Baloo Bhaijaan 2 (Arabic). Gallery "alive".
 
 **asset** (kit/asset): `BgPlate` · `PlateCam` · `ImageAsset` (generated art, tools/art.mjs) · `Depth {blur, dim}` camera-focus blur for a
 foreground layer (≤ ~10 shots/video). Gallery "pilot2" (plate + objects), "depthdemo" (depth).

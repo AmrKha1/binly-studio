@@ -11,7 +11,7 @@ import {isAr} from './lang';
 /** Approximate rendered width (px) of a single line — good enough for layout boxes. */
 export const textW = (text: string, size: number, font: 'serif' | 'sans' | 'sansCaps' = 'serif', weight = 600) => {
   // Arabic (Baloo Bhaijaan 2, no tracking, no caps): one width for every role
-  const k = isAr() ? 0.5 : font === 'serif' ? 0.55 : font === 'sansCaps' ? 0.7 : 0.56; // serif = Baloo 2 (a bit wider than Fraunces)
+  const k = isAr() ? 0.5 : font === 'serif' ? 0.64 : font === 'sansCaps' ? 0.7 : 0.56; // serif = Poppins Black (wide)
   return text.length * size * k * (weight >= 700 ? 1.04 : 1);
 };
 
@@ -39,7 +39,7 @@ export const Headline: React.FC<{
   accent?: Record<string, string>;
   font?: 'serif' | 'sans';
   out?: number; // 0→1 exit progress (fades/lifts out)
-}> = ({x, y, text, p, size = 72, color = C.ink, anchor = 'middle', italic = false, weight = 800, mode = 'bounce', accent, font = 'serif', out = 0}) => { // default: words pop up and bounce (owner 2026-10-20)
+}> = ({x, y, text, p, size = 72, color = C.ink, anchor = 'middle', italic = false, weight = 900, mode = 'bounce', accent, font = 'serif', out = 0}) => { // default: words pop up and bounce (owner 2026-10-20)
   if (p <= 0 || out >= 1) return null;
   cueSfx('swish', `${text}@${Math.round(x)},${Math.round(y)}`, true, x);
   const ff = font === 'serif' ? FONT_SERIF : FONT_SANS;
@@ -374,7 +374,7 @@ export const Stat: React.FC<{
   const shown = count ? countUp(value, ease.outQuint(clamp01(p))) : value;
   return (
     <g opacity={k}>
-      <text x={x} y={y} textAnchor={anchor} fontFamily={FONT_SERIF} fontWeight={800} fontSize={size} fill={sticker ? '#FFFFFF' : color} stroke={sticker} strokeWidth={sticker ? size * 0.07 : 0} strokeLinejoin="round" paintOrder="stroke" filter={sticker ? GLOW.soft : glowFor(color)} style={{fontVariantNumeric: 'tabular-nums'}}>
+      <text x={x} y={y} textAnchor={anchor} fontFamily={FONT_SERIF} fontWeight={900} fontSize={size} fill={sticker ? '#FFFFFF' : color} stroke={sticker} strokeWidth={sticker ? size * 0.07 : 0} strokeLinejoin="round" paintOrder="stroke" filter={sticker ? GLOW.soft : glowFor(color)} style={{fontVariantNumeric: 'tabular-nums'}}>
         {shown}
         {unit && (
           <tspan fontSize={size * 0.42} fontWeight={600} dx={size * 0.08}>
@@ -604,7 +604,7 @@ export const SayPop: React.FC<{t: number; x: number; y: number; spoken: [number,
   let lw = 0;
   for (const [s, , w0] of ws) {
     const w = clean(w0);
-    const ww = textW(w, size, 'serif', 800) * 0.98 + size * 0.3;
+    const ww = textW(w, size, 'serif', 800) * 0.98 + size * 0.38;
     if (lw + ww > maxW && lines[lines.length - 1].length) { lines.push([]); lw = 0; }
     lines[lines.length - 1].push({w, s, x: lw});
     lw += ww;
@@ -634,7 +634,7 @@ export const SayPop: React.FC<{t: number; x: number; y: number; spoken: [number,
           cueSfx('tick', `sayw@${s}`, true, x, {gain: 0.35});
           return (
             <g key={li + '-' + k} transform={`translate(${px} ${py - size * 0.33}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
-              <text x={0} y={size * 0.33} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={800} fontSize={size} fill={col} filter={col !== C.ink ? glowFor(col) : undefined}>
+              <text x={0} y={size * 0.33} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={900} fontSize={size} fill={col} filter={col !== C.ink ? glowFor(col) : undefined}>
                 {w}
               </text>
             </g>

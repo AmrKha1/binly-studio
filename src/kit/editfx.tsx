@@ -29,7 +29,7 @@ export const PopText: React.FC<{
   const s = lerp(0.3, 1, k) * (1 - outP * 0.4);
   const r = rot * (2 - k);
   cueSfx('popup', `pt@${at}:${text}`, true, x);
-  const common = {x: 0, y: fs * 0.35, textAnchor: anchor, fontFamily: FONT_SERIF, fontWeight: 800, fontSize: fs} as const;
+  const common = {x: 0, y: fs * 0.35, textAnchor: anchor, fontFamily: FONT_SERIF, fontWeight: 900, fontSize: fs} as const;
   return (
     <g transform={`translate(${x} ${y}) rotate(${r}) scale(${s})`} opacity={clamp01((t - at) * 8) * (1 - outP)}>
       {/* soft glow so it catches the eye on any background */}

@@ -6,7 +6,7 @@ import {Headline, SayPop, Stat} from '../../kit/text';
 import {C} from '../../kit/theme';
 import {ramp, ease} from '../../kit/anim';
 
-// "alive": SayPop words above the host as they're "spoken" (fake timings), sticker number, Baloo 2 headline. Stills 1.6, 3.
+// "alive": SayPop words above the host as they're "spoken" (fake timings), sticker number, Poppins headline. Stills 1.6, 3.
 const SPOKEN: [number, number, string][] = [[0.4, 0.6, 'more'], [0.65, 0.8, 'than'], [0.85, 1.3, '98'], [1.35, 1.8, 'percent'], [1.85, 2.0, 'of'], [2.05, 2.2, 'the'], [2.25, 2.6, 'time!']];
 export const Alive: React.FC<{t: number}> = ({t}) => (
   <Stage>

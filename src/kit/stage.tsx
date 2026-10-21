@@ -40,8 +40,8 @@ const AR_CSS = `
 .k-rtl .k-nomirror text, .k-rtl .k-nomirror foreignObject, .k-rtl .k-nomirror .k-nomirror { scale: none; }
 `;
 
-/** English: Baloo 2 has no italic — keep it upright (a fake slant looks cheap). */
-const EN_CSS = `text[font-family*="Baloo"], text[font-family*="Baloo"] tspan, [style*="Baloo"] { font-style: normal !important; }`;
+/** English: headline face is upright only (no italic loaded — a fake slant looks cheap). */
+const EN_CSS = `text[font-family*="Poppins"], text[font-family*="Poppins"] tspan, [style*="Poppins"] { font-style: normal !important; }`;
 
 /** Shared elegant-glow filters (GLOW in kit/theme). Two stacked soft halos: a tight one + a wide faint one. */
 const halo = (id: string, color: string, a: number, b: number) => (

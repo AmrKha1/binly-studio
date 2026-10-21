@@ -82,8 +82,9 @@ export const SEM = {
 } as const;
 export type Sem = keyof typeof SEM;
 
-// Headline face (owner 2026-10-21): Baloo 2 — rounded and heavy, same family as the Arabic Baloo Bhaijaan 2.
-export const FONT_SERIF = '"Baloo 2", "Fraunces", Georgia, sans-serif'; // titles, numbers, quotes, pills (name kept for compatibility)
+// Headline face (owner 2026-10-21, picked from a test page): Poppins Black — geometric, bold, clean (Arabic videos
+// swap to Baloo Bhaijaan 2 automatically).
+export const FONT_SERIF = '"Poppins", "Inter", "Segoe UI", sans-serif'; // titles, numbers, quotes, pills (name kept for compatibility)
 export const FONT_SANS = '"Inter", "Segoe UI", Arial, sans-serif'; // labels, tags, UI (Inter up to Black 900)
 export const FONT_HAND = '"Caveat", "Segoe Print", cursive'; // RARE accent: handwritten notes on images/documents only (≥ 34 px)
 

@@ -12,11 +12,11 @@ import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 import '@fontsource/inter/800.css';
 import '@fontsource/inter/900.css';
-// English headline face (owner 2026-10-21): Baloo 2, rounded + heavy (matches Arabic Baloo Bhaijaan 2)
-import '@fontsource/baloo-2/latin-500.css';
-import '@fontsource/baloo-2/latin-600.css';
-import '@fontsource/baloo-2/latin-700.css';
-import '@fontsource/baloo-2/latin-800.css';
+// English headline face (owner 2026-10-21): Poppins (Black 900 for headlines/pop words)
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/poppins/latin-700.css';
+import '@fontsource/poppins/latin-800.css';
+import '@fontsource/poppins/latin-900.css';
 import '@fontsource/caveat/500.css';
 import '@fontsource/caveat/700.css';
 import {continueRender, delayRender} from 'remotion';
@@ -28,7 +28,7 @@ Promise.all(
     'italic 400 40px Fraunces', 'italic 600 40px Fraunces',
     '400 20px Inter', '500 20px Inter', '600 20px Inter', '700 20px Inter', '800 20px Inter',
     '500 40px Caveat', '700 40px Caveat', '900 20px Inter',
-    '500 40px "Baloo 2"', '600 40px "Baloo 2"', '700 40px "Baloo 2"', '800 40px "Baloo 2"',
+    '600 40px Poppins', '700 40px Poppins', '800 40px Poppins', '900 40px Poppins',
   ].map((f) => document.fonts.load(f))
 )
   .then(() => continueRender(handle))

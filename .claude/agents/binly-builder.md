@@ -360,7 +360,7 @@ A great video in one session beats a perfect plan.
   close-up — only for ~5–10 special shots per video (dialogue, reveals), never on text or the whole frame.
 - **Big characters, mostly close and medium shots** (phone viewers): a host or story character's face fills ~⅓ of the
   frame in close shots; wide shots only to establish a place. Generated art is checked on the --phone sheet too.
-- Typography (owner 2026-10-21): **Baloo 2 ExtraBold** (rounded, heavy — same family as the Arabic Baloo Bhaijaan 2) for
+- Typography (owner 2026-10-21): **Poppins Black** (geometric, bold, clean — picked by the owner from a test page; Arabic = Baloo Bhaijaan 2) for
   headlines/quotes/numbers/pills, Inter (up to Black) for labels/tags. Rare accent only: Caveat
   handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Certainty labels look
   like museum captions (`Tag`, default); myth-busting verdicts use the editor's red pen (strike + handwritten verdict);
