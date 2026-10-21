@@ -367,12 +367,12 @@ export const MapLabel: React.FC<{x: number; y: number; text: string; kind?: 'sea
       )}
       {kind === 'region' && (
         <text {...common} fontFamily={FONT_SANS} fontWeight={700} fontSize={sz} letterSpacing={sz * 0.22} fill={color ?? C.inkMute} {...halo}>
-          {text.toUpperCase()}
+          {text}
         </text>
       )}
       {kind === 'country' && (
         <text {...common} fontFamily={FONT_SERIF} fontWeight={600} fontSize={sz} letterSpacing={sz * 0.16} fill={color ?? C.inkLift} {...halo}>
-          {text.toUpperCase()}
+          {text}
         </text>
       )}
     </g>
@@ -416,7 +416,7 @@ export const MapPin: React.FC<{x: number; y: number; p?: number; label?: string;
           </text>
           {sub && (
             <text x={tx} y={ty + 40} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={3} fill={C.inkMute} {...halo} strokeWidth={6}>
-              {sub.toUpperCase()}
+              {sub}
             </text>
           )}
         </g>

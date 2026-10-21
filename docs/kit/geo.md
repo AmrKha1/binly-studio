@@ -71,7 +71,7 @@ Outbreak / spread marker: filled core + rings expanding on a loop driven by `t`.
 
 ## AreaMark
 Region without a modern border (e.g. Brabant, "the Low Countries"): flat tint + dashed rim drawing on,
-optional sans-caps label. Origin = centre.
+optional label. Origin = centre.
 ```ts
 <AreaMark x y rx ry?=rx*0.7 rot?=0 p?=1 color?=C.theory label? labelDy? />
 ```

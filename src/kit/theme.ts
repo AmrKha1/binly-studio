@@ -85,7 +85,8 @@ export type Sem = keyof typeof SEM;
 // Headline face (owner 2026-10-21, picked from a test page): Poppins Black — geometric, bold, clean (Arabic videos
 // swap to Baloo Bhaijaan 2 automatically).
 export const FONT_SERIF = '"Poppins", "Inter", "Segoe UI", sans-serif'; // titles, numbers, quotes, pills (name kept for compatibility)
-export const FONT_SANS = '"Inter", "Segoe UI", Arial, sans-serif'; // labels, tags, UI (Inter up to Black 900)
+// Labels too (owner 2026-10-21: "remove the old text styles"): Poppins everywhere, normal case, normal letter spacing.
+export const FONT_SANS = '"Poppins", "Inter", "Segoe UI", Arial, sans-serif'; // labels, tags, kickers, UI
 export const FONT_HAND = '"Caveat", "Segoe Print", cursive'; // RARE accent: handwritten notes on images/documents only (≥ 34 px)
 
 export const W = 1920;

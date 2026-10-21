@@ -13,6 +13,7 @@ import '@fontsource/inter/700.css';
 import '@fontsource/inter/800.css';
 import '@fontsource/inter/900.css';
 // English headline face (owner 2026-10-21): Poppins (Black 900 for headlines/pop words)
+import '@fontsource/poppins/latin-500.css';
 import '@fontsource/poppins/latin-600.css';
 import '@fontsource/poppins/latin-700.css';
 import '@fontsource/poppins/latin-800.css';
@@ -28,7 +29,7 @@ Promise.all(
     'italic 400 40px Fraunces', 'italic 600 40px Fraunces',
     '400 20px Inter', '500 20px Inter', '600 20px Inter', '700 20px Inter', '800 20px Inter',
     '500 40px Caveat', '700 40px Caveat', '900 20px Inter',
-    '600 40px Poppins', '700 40px Poppins', '800 40px Poppins', '900 40px Poppins',
+    '500 40px Poppins', '600 40px Poppins', '700 40px Poppins', '800 40px Poppins', '900 40px Poppins',
   ].map((f) => document.fonts.load(f))
 )
   .then(() => continueRender(handle))

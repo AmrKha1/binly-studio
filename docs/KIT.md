@@ -80,7 +80,7 @@ Showcase: Gallery pages "host" (all poses) and "host2" (talking).
 ## Text (`kit/text`) — p = reveal progress 0→1
 - `Headline {x,y,text,p,size=72,color,anchor='middle',italic,weight=600,mode:'rise'|'words'|'type'|'mask',accent?:{word:colour},font:'serif'|'sans',out?}`
   e.g. `<Headline x={960} y={220} text="A hot bath was medicine." mode="words" accent={{medicine: C.oxblood}} p={ramp(t,T.a,T.a+1)}/>`
-- `Kicker {x,y,text,p=1,size=36,color=inkMute,anchor}` tracked caps label (never below 36 — phone floor).
+- `Kicker {x,y,text,p=1,size=36,color=inkMute,anchor}` small heading in normal case, Poppins, normal spacing (never below 36 — phone floor).
 - `Para {x,y,w,h=600,text,p,size=48,color,align,font,weight,italic,lineHeight}` wrapped paragraph (keep short).
 - `GlowPill {x,y,text,kind:Sem,p,size=44,to?,anchor}` THE channel label: rounded pill, heavy text, soft glow in its colour
   (ink = white pill, caution = gold, theory = lavender, confirmed = green, signal = oxblood). `Tag` defaults to it (look='pill').
@@ -289,7 +289,7 @@ type Cut = {rx, ry (TOP-LEFT), rw, rh, shape?: 'rect'|'ellipse'} | {points: [rx,
 # data — `src/kit/data.tsx`
 
 Data visualisation for **exact** statistics: every number shown comes from an explicit prop, so the screen
-says exactly what the narration says. Numbers in Fraunces 700, labels in Inter caps. All take `p` 0→1
+says exactly what the narration says. Numbers and labels in Poppins (normal case, no wide letter spacing). All take `p` 0→1
 (build-on; settled at 1). Count-ups land exactly on the given string (uses `countUp`). Gallery: `{"page":"data"}`.
 
 Helpers: `fmtNum(12500) → "12,500"`, `fmtYear(-400) → "400 BCE"` (`fmtYear(y, true)` adds " CE").
@@ -405,7 +405,7 @@ side colour) or any SVG node drawn at the pan rim centre. Labels stay true-size 
 ```
 
 ## CounterRow
-Row of exact figures counting up in turn, separated by thin rules, caps labels below.
+Row of exact figures counting up in turn, separated by thin rules, labels below.
 Origin = left end of the row at the numbers' baseline; total width w.
 ```ts
 <CounterRow x y w items: {value; label; color?; count?}[]; p; size?=88 />
@@ -757,7 +757,7 @@ Outbreak / spread marker: filled core + rings expanding on a loop driven by `t`.
 
 ## AreaMark
 Region without a modern border (e.g. Brabant, "the Low Countries"): flat tint + dashed rim drawing on,
-optional sans-caps label. Origin = centre.
+optional label. Origin = centre.
 ```ts
 <AreaMark x y rx ry?=rx*0.7 rot?=0 p?=1 color?=C.theory label? labelDy? />
 ```

@@ -41,7 +41,7 @@ const AR_CSS = `
 `;
 
 /** English: headline face is upright only (no italic loaded — a fake slant looks cheap). */
-const EN_CSS = `text[font-family*="Poppins"], text[font-family*="Poppins"] tspan, [style*="Poppins"] { font-style: normal !important; }`;
+const EN_CSS = `text, tspan, foreignObject * { font-style: normal !important; letter-spacing: normal !important; } /* owner 2026-10-21: no italics, no wide tracking */`;
 
 /** Shared elegant-glow filters (GLOW in kit/theme). Two stacked soft halos: a tight one + a wide faint one. */
 const halo = (id: string, color: string, a: number, b: number) => (

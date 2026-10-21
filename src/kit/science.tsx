@@ -140,7 +140,7 @@ const Leader: React.FC<{ax: number; ay: number; lx: number; ly: number; text: st
       <path d={`M${ax} ${ay} L${lerp(ax, lx, k)} ${lerp(ay, ly, k)}`} stroke={color} strokeWidth={3} strokeLinecap="round" fill="none" />
       <circle cx={ax} cy={ay} r={5.5} fill={dot} stroke={C.paperLight} strokeWidth={2.5} />
       <text x={lx + (right ? 10 : -10)} y={ly + 12} textAnchor={right ? 'start' : 'end'} fontFamily={FONT_SANS} fontWeight={700} fontSize={34} letterSpacing={3.5} fill={C.ink}>
-        {text.toUpperCase()}
+        {text}
       </text>
     </g>
   );

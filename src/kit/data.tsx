@@ -48,12 +48,12 @@ const Lbl: React.FC<{x: number; y: number; text: string; size?: number; color?: 
 }) => {
   // phone-readable floor; `fit` (max width) may shrink a crowded label down to 28 px — if that's not enough, make the chart bigger
   const want = Math.max(size0, TYPE.small);
-  const longest = Math.max(...text.toUpperCase().split('\n').map((l) => l.length));
+  const longest = Math.max(...text.split('\n').map((l) => l.length));
   const size = fit ? Math.max(28, Math.min(want, fit / (longest * 0.82))) : want;
   return o <= 0 ? null : (
     <text x={x} y={y} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={weight} fontSize={size} letterSpacing={size * 0.12} fill={color} opacity={o}>
       {text
-        .toUpperCase()
+        
         .split('\n')
         .map((ln, i) => (
           <tspan key={i} x={x} dy={i ? size * 1.25 : 0}>
@@ -430,7 +430,7 @@ export const TimelineAxis: React.FC<{
               <line x1={x} x2={cx} y1={y} y2={y} stroke={cursorColor} strokeWidth={7} strokeLinecap="round" />
               <rect x={cx - pw / 2} y={y + 22} width={pw} height={50} rx={25} fill={cursorColor} />
               <text x={cx} y={y + 58} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={2} fill={C.paperLight}>
-                {txt.toUpperCase()}
+                {txt}
               </text>
               <circle cx={cx} cy={y} r={12} fill={cursorColor} stroke={C.paperLight} strokeWidth={4} />
             </g>

@@ -89,8 +89,8 @@ export const DocumentPage: React.FC<{
         </text>
       )}
       {subtitle && (
-        <text x={0} y={top + 96} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={Math.min(26, (26 * (w - 100)) / textW(subtitle.toUpperCase(), 26, 'sansCaps', 700))} letterSpacing={3} fill={C.inkMute}>
-          {subtitle.toUpperCase()}
+        <text x={0} y={top + 96} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={Math.min(26, (26 * (w - 100)) / textW(subtitle, 26, 'sansCaps', 700))} letterSpacing={3} fill={C.inkMute}>
+          {subtitle}
         </text>
       )}
       {title && <line x1={-120} x2={120} y1={top + (subtitle ? 112 : 78)} y2={top + (subtitle ? 112 : 78)} stroke={edge} strokeWidth={3} />}
@@ -182,7 +182,7 @@ export const StudyCard: React.FC<{
     <Card x={x} y={y} w={w} h={h} p={p} rot={rot}>
       <rect x={0} y={0} width={14} height={h} fill={accent} />
       <text x={48} y={72} fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={3.5} fill={C.inkMute}>
-        {[who, year].filter(Boolean).join(' · ').toUpperCase()}
+        {[who, year].filter(Boolean).join(' · ')}
       </text>
       <Para x={46} y={94} w={w - 90} h={130} text={title} size={TYPE.read} weight={700} p={ramp(p, 0.2, 0.8)} />
       {finding && <Para x={48} y={226} w={w - 90} h={120} text={finding} size={TYPE.small} weight={500} color={C.inkSoft} p={ramp(p, 0.4, 1)} />}

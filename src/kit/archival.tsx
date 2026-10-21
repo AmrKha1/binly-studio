@@ -133,7 +133,7 @@ export const LowerThird: React.FC<{text: string; kicker?: string; p: number; x?:
   cueSfx('swoosh', `lt@${text}`, true, x);
   const size = Math.max(size0, TYPE.read); // phone-readable floor; y = 950 keeps it above YouTube's player controls
   const k = ease.outQuint(clamp01(p));
-  const w = Math.max(textW(text, size, 'serif'), kicker ? textW(kicker.toUpperCase(), TYPE.small, 'sansCaps', 700) * 1.1 : 0) + 84;
+  const w = Math.max(textW(text, size, 'serif'), kicker ? textW(kicker, TYPE.small, 'sansCaps', 700) * 1.1 : 0) + 84;
   const h = kicker ? size * 1.3 + 84 : size * 1.3 + 34;
   const top = y - h;
   return (
@@ -143,7 +143,7 @@ export const LowerThird: React.FC<{text: string; kicker?: string; p: number; x?:
       <g opacity={ramp(p, 0.4, 1)}>
         {kicker && (
           <text x={x + 36} y={top + 58} fontFamily={FONT_SANS} fontWeight={700} fontSize={TYPE.small} letterSpacing={5} fill={C.oxTint}>
-            {kicker.toUpperCase()}
+            {kicker}
           </text>
         )}
         <text x={x + 36} y={y - 24} fontFamily={FONT_SERIF} fontStyle="italic" fontWeight={600} fontSize={size} fill={C.paperLight}>
@@ -170,7 +170,7 @@ const LabelPlate: React.FC<{x: number; y: number; text: string; note?: string; k
   cueSfx('popup', `lp@${text}@${Math.round(x)},${Math.round(y)}`, true, x);
   const size = Math.max(size0, TYPE.small); // phone-readable floor (kicker plates use TYPE.small, labels default TYPE.label)
   const k = ease.outQuint(clamp01(p));
-  const label = text.toUpperCase();
+  const label = text;
   const w = Math.max(textW(label, size, 'sansCaps', 700) * 1.08, note ? textW(note, size * 0.95, 'serif') : 0) + 64;
   const h = note ? size * 3.1 : size * 2.1;
   // stay inside the title-safe frame and above YouTube's player controls (y ≤ 970)

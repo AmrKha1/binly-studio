@@ -548,7 +548,7 @@ export const QuoteShot: React.FC<
             <line x1={520} x2={520} y1={160} y2={990} stroke={C.oxTint} strokeWidth={3} opacity={0.8} />
             {docTitle && (
               <text x={960} y={236} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={4} fill={C.inkMute}>
-                {docTitle.toUpperCase()}
+                {docTitle}
               </text>
             )}
             {[0, 1].map((i) => (
@@ -596,7 +596,7 @@ export const QuoteShot: React.FC<
             </text>
             {sub && (
               <text x={250} y={612} fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={3} fill={P.mute} opacity={ramp(t, t0 + dur * 0.8, t0 + dur * 0.8 + 0.5)}>
-                {sub.toUpperCase()}
+                {sub}
               </text>
             )}
           </g>
@@ -687,7 +687,7 @@ export const EvidenceShot: React.FC<
           {mark.label && (
             <g opacity={ramp(t, mAt + 0.5, mAt + 0.9)}>
               <path d={`M${mx + (labelRight ? 1 : -1) * ((mark.rw * z * w) / 2 + 4)} ${my} L${labelRight ? fr + 30 : fl - 30} ${my}`} stroke={P.dark ? C.oxLight : C.oxblood} strokeWidth={4} pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - ease.inOut(ramp(t, mAt + 0.5, mAt + 1))} />
-              <Plate x={labelRight ? fr + 30 : fl - 30 - (textW(mark.label.toUpperCase(), 24, 'sansCaps') + 40)} y={my - 30} w={textW(mark.label.toUpperCase(), 24, 'sansCaps') + 40} h={60} p={ramp(t, mAt + 0.7, mAt + 1.1)} dark={P.dark} />
+              <Plate x={labelRight ? fr + 30 : fl - 30 - (textW(mark.label, 24, 'sansCaps') + 40)} y={my - 30} w={textW(mark.label, 24, 'sansCaps') + 40} h={60} p={ramp(t, mAt + 0.7, mAt + 1.1)} dark={P.dark} />
               <Kicker x={labelRight ? fr + 50 : fl - 50} y={my + 9} text={mark.label} anchor={labelRight ? 'start' : 'end'} p={ramp(t, mAt + 0.8, mAt + 1.2)} color={P.dark ? C.paperLight : C.oxblood} />
             </g>
           )}
@@ -696,7 +696,7 @@ export const EvidenceShot: React.FC<
       {tag && <Tag x={fl + 30} y={ft + 4} text={tag.text} kind={tag.kind ?? 'confirmed'} p={ramp(t, tag.at ?? t0 + 0.6, (tag.at ?? t0 + 0.6) + 0.6)} />}
       {nameTag && (
         <g>
-          <Plate x={fl - 50} y={fb - 96} w={Math.max(textW(nameTag.name, 46), nameTag.sub ? textW(nameTag.sub.toUpperCase(), 22, 'sansCaps') : 0) + 110} h={nameTag.sub ? 122 : 90} p={ramp(t, nameTag.at ?? t0 + 0.9, (nameTag.at ?? t0 + 0.9) + 0.5)} dark={P.dark} />
+          <Plate x={fl - 50} y={fb - 96} w={Math.max(textW(nameTag.name, 46), nameTag.sub ? textW(nameTag.sub, 22, 'sansCaps') : 0) + 110} h={nameTag.sub ? 122 : 90} p={ramp(t, nameTag.at ?? t0 + 0.9, (nameTag.at ?? t0 + 0.9) + 0.5)} dark={P.dark} />
           <NameTag x={fl - 20} y={fb - 40} name={nameTag.name} sub={nameTag.sub} p={ramp(t, (nameTag.at ?? t0 + 0.9) + 0.1, (nameTag.at ?? t0 + 0.9) + 0.7)} color={P.accent} dark={P.dark} />
         </g>
       )}
@@ -1045,7 +1045,7 @@ export const TimelineShot: React.FC<
             <rect x={xa} y={head ? 290 : 220} width={(xb - xa) * ease.inOut(ep)} height={ay - (head ? 290 : 220)} fill={mixHex(P.bg, c, P.dark ? 0.2 : 0.1)} />
             <rect x={xa + 2} y={ay + 96} width={Math.max(0, xb - xa - 4) * ease.inOut(ep)} height={56} rx={6} fill={mixHex(P.bg, c, P.dark ? 0.55 : 0.3)} />
             <text x={(xa + xb) / 2} y={ay + 135} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={32} letterSpacing={3} fill={P.fg} opacity={ramp(ep, 0.5, 1)}>
-              {er.label.toUpperCase()}
+              {er.label}
             </text>
           </g>
         );
@@ -1076,7 +1076,7 @@ export const TimelineShot: React.FC<
               <rect x={cx - lw / 2} y={ty - 128} width={lw} height={128} rx={10} fill={P.dark ? C.inkSoft : C.paperLight} />
               <rect x={cx - lw / 2} y={ty - 128} width={lw} height={8} rx={4} fill={c === P.fg ? P.accent : c} />
               <text x={cx} y={ty - 80} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={800} fontSize={32} letterSpacing={3} fill={c === P.fg ? P.accent : c}>
-                {(e.yearLabel ?? fmt(e.year)).toUpperCase()}
+                {(e.yearLabel ?? fmt(e.year))}
               </text>
               <text x={cx} y={ty - 26} textAnchor="middle" fontFamily={FONT_SERIF} fontWeight={600} fontSize={44} fill={P.fg}>
                 {lbl}
@@ -1164,7 +1164,7 @@ export const MapShot: React.FC<
       {full ? (
         (kicker || title) && (
           <g>
-            <Plate x={130} y={110} w={Math.max(title ? textW(title, 56) : 0, kicker ? textW(kicker.toUpperCase(), 36, 'sansCaps') * 1.1 : 0) + 90} h={title ? 150 : 80} p={ramp(t, t0, t0 + 0.6)} dark={P.dark} />
+            <Plate x={130} y={110} w={Math.max(title ? textW(title, 56) : 0, kicker ? textW(kicker, 36, 'sansCaps') * 1.1 : 0) + 90} h={title ? 150 : 80} p={ramp(t, t0, t0 + 0.6)} dark={P.dark} />
             <Heading x={175} y={170} kicker={kicker} title={title} p={ramp(t, t0 + 0.1, t0 + 0.9)} P={P} size={56} />
           </g>
         )
@@ -1260,7 +1260,7 @@ export const PersonShot: React.FC<
     ) : (
       <Room era={era} t={t} seed={seed} night={night} windowX={sd === 'left' ? 1500 : 420} doorX={sd === 'left' ? 1150 : 760} door={false} />
     );
-  const tagW = Math.max(textW(name, 64), sub ? textW(sub.toUpperCase(), 36, 'sansCaps') * 1.17 : 0) + 110;
+  const tagW = Math.max(textW(name, 64), sub ? textW(sub, 36, 'sansCaps') * 1.17 : 0) + 110;
   const tagX = sd === 'left' ? Math.min(1060, 1824 - tagW) : Math.max(96, 860 - tagW);
   const tagY = env === 'study' ? 420 : 560;
   return (
@@ -1352,7 +1352,7 @@ export const ProcessShot: React.FC<
               </text>
               {s.sub && (
                 <text x={lp.x} y={ly + 42} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={3} fill={P.mute} opacity={ramp(p, 0.6, 1)}>
-                  {s.sub.toUpperCase()}
+                  {s.sub}
                 </text>
               )}
             </g>

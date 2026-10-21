@@ -1,7 +1,7 @@
 ## Text (`kit/text`) — p = reveal progress 0→1
 - `Headline {x,y,text,p,size=72,color,anchor='middle',italic,weight=600,mode:'rise'|'words'|'type'|'mask',accent?:{word:colour},font:'serif'|'sans',out?}`
   e.g. `<Headline x={960} y={220} text="A hot bath was medicine." mode="words" accent={{medicine: C.oxblood}} p={ramp(t,T.a,T.a+1)}/>`
-- `Kicker {x,y,text,p=1,size=36,color=inkMute,anchor}` tracked caps label (never below 36 — phone floor).
+- `Kicker {x,y,text,p=1,size=36,color=inkMute,anchor}` small heading in normal case, Poppins, normal spacing (never below 36 — phone floor).
 - `Para {x,y,w,h=600,text,p,size=48,color,align,font,weight,italic,lineHeight}` wrapped paragraph (keep short).
 - `GlowPill {x,y,text,kind:Sem,p,size=44,to?,anchor}` THE channel label: rounded pill, heavy text, soft glow in its colour
   (ink = white pill, caution = gold, theory = lavender, confirmed = green, signal = oxblood). `Tag` defaults to it (look='pill').

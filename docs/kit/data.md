@@ -1,7 +1,7 @@
 # data — `src/kit/data.tsx`
 
 Data visualisation for **exact** statistics: every number shown comes from an explicit prop, so the screen
-says exactly what the narration says. Numbers in Fraunces 700, labels in Inter caps. All take `p` 0→1
+says exactly what the narration says. Numbers and labels in Poppins (normal case, no wide letter spacing). All take `p` 0→1
 (build-on; settled at 1). Count-ups land exactly on the given string (uses `countUp`). Gallery: `{"page":"data"}`.
 
 Helpers: `fmtNum(12500) → "12,500"`, `fmtYear(-400) → "400 BCE"` (`fmtYear(y, true)` adds " CE").
@@ -117,7 +117,7 @@ side colour) or any SVG node drawn at the pan rim centre. Labels stay true-size 
 ```
 
 ## CounterRow
-Row of exact figures counting up in turn, separated by thin rules, caps labels below.
+Row of exact figures counting up in turn, separated by thin rules, labels below.
 Origin = left end of the row at the numbers' baseline; total width w.
 ```ts
 <CounterRow x y w items: {value; label; color?; count?}[]; p; size?=88 />

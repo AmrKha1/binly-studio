@@ -11,7 +11,7 @@ import {isAr} from './lang';
 /** Approximate rendered width (px) of a single line — good enough for layout boxes. */
 export const textW = (text: string, size: number, font: 'serif' | 'sans' | 'sansCaps' = 'serif', weight = 600) => {
   // Arabic (Baloo Bhaijaan 2, no tracking, no caps): one width for every role
-  const k = isAr() ? 0.5 : font === 'serif' ? 0.64 : font === 'sansCaps' ? 0.7 : 0.56; // serif = Poppins Black (wide)
+  const k = isAr() ? 0.5 : font === 'serif' ? 0.64 : font === 'sansCaps' ? 0.64 : 0.6; // all Poppins now (normal case, no tracking) // serif = Poppins Black (wide)
   return text.length * size * k * (weight >= 700 ? 1.04 : 1);
 };
 
@@ -176,7 +176,7 @@ export const Kicker: React.FC<{x: number; y: number; text: string; p?: number; s
   size = Math.max(size, TYPE.small); // phone-readable floor
   return (
     <text x={x} y={y + (1 - k) * 10} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={weight} fontSize={size} letterSpacing={size * 0.16} fill={color} opacity={k}>
-      {text.toUpperCase()}
+      {text}
     </text>
   );
 };
@@ -245,7 +245,7 @@ export const Tag: React.FC<{
   const onCol = kind === 'caution' ? C.ink : C.paperLight; // dark text on mustard for contrast
   const cap = look === 'caption';
   const size = Math.max(size0, cap ? TYPE.read / 1.12 : TYPE.label); // phone-readable floor (caption text renders at size × 1.12)
-  const label = cap ? text : text.toUpperCase();
+  const label = cap ? text : text;
   const fs = cap ? size * 1.12 : size;
   const w = cap ? size * 0.22 + size * 0.55 + textW(label, fs, 'serif', 600) * 1.06 + size * 0.75 : textW(label, size, 'sansCaps', 700) + size * (dot ? 2.3 : 1.6);
   const h = size * 1.9;
@@ -295,7 +295,7 @@ export const Stamp: React.FC<{x: number; y: number; text: string; p: number; col
   if (p <= 0) return null;
   cueSfx('stamp', `${text}@${Math.round(x)},${Math.round(y)}`, true, x);
   const s = 1.35 - 0.35 * ease.outBack(Math.min(1, p));
-  const label = text.toUpperCase();
+  const label = text;
   const w = textW(label, size, 'sansCaps', 800) + size * 1.2;
   const h = size * 1.7;
   return (
@@ -384,7 +384,7 @@ export const Stat: React.FC<{
       </text>
       {label && (
         <text x={x} y={y + size * 0.42} textAnchor={anchor} fontFamily={FONT_SANS} fontWeight={700} fontSize={Math.max(TYPE.label, size * 0.2)} letterSpacing={size * 0.02} fill={labelColor} opacity={ramp(p, 0.4, 1)}>
-          {label.toUpperCase()}
+          {label}
         </text>
       )}
     </g>
@@ -480,7 +480,7 @@ export const NameTag: React.FC<{x: number; y: number; name: string; sub?: string
   const k = ease.out(clamp01(p));
   const nameSize = 64;
   const subSize = TYPE.small;
-  const w = Math.max(textW(name, nameSize, 'serif'), sub ? textW(sub.toUpperCase(), subSize, 'sansCaps') : 0) + 60;
+  const w = Math.max(textW(name, nameSize, 'serif'), sub ? textW(sub, subSize, 'sansCaps') : 0) + 60;
   const ox = anchor === 'left' ? 0 : -w;
   const fg = dark ? C.paperLight : C.ink;
   return (
@@ -491,7 +491,7 @@ export const NameTag: React.FC<{x: number; y: number; name: string; sub?: string
       </text>
       {sub && (
         <text x={28} y={subSize * 1.7} fontFamily={FONT_SANS} fontWeight={700} fontSize={subSize} letterSpacing={subSize * 0.12} fill={dark ? C.paperShade : C.inkMute} opacity={ramp(p, 0.3, 1)}>
-          {sub.toUpperCase()}
+          {sub}
         </text>
       )}
     </g>
