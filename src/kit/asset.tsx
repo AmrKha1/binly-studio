@@ -55,3 +55,15 @@ export const BgPlate: React.FC<{slug: string; file: string; t: number; a: number
     </g>
   </PlateCam>
 );
+
+/**
+ * Depth — the "camera focus" polish (owner 2026-10-21, use SPARINGLY: ~5–10 shots per video — dialogue, reveals, hero
+ * moments). Wrap a FOREGROUND layer (a host or object close to the camera) to soften it: blur in px (6–14 good), optional
+ * dim. Or wrap a BACKGROUND plate in a close-up so the subject pops. Animate `blur` from 0 for a rack-focus pull.
+ * Blur costs render time — never on the whole frame, never on text.
+ */
+export const Depth: React.FC<{blur: number; dim?: number; children?: React.ReactNode}> = ({blur, dim = 0, children}) => {
+  const b = Math.max(0, blur);
+  if (b < 0.3 && dim <= 0) return <>{children}</>;
+  return <g style={{filter: `blur(${b.toFixed(2)}px)${dim > 0 ? ` brightness(${(1 - dim).toFixed(2)})` : ''}`}}>{children}</g>;
+};

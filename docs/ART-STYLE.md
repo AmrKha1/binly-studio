@@ -17,7 +17,9 @@ image that would cost credits). Never use another model unless the owner says so
 > Bright, even, neutral daylight: no colour grading, no warm or yellow or sepia tint, no orange glow, no light beams,
 > no god rays, no dust, no haze, no vignette, no dramatic shadows. Natural balanced colours: clean off-white and light
 > beige walls, natural wood browns, a few clear accent colours (deep red, emerald green, royal blue, gold) used
-> sparingly. Clear readable shapes, tidy uncluttered composition.
+> sparingly. Soft, slightly muted colours, never over-saturated, never neon or candy-bright. Gentle soft gradients in
+> skies and soft simple shading on large surfaces are fine. Polished, clean and calm. Clear readable shapes, tidy
+> uncluttered composition, large readable forms (it will be watched on a phone).
 
 ## BACKGROUND block (scene plates)
 > Wide 16:9 eye-level view of <PLACE>, symmetrical or calm composition, a clear open area in the <centre/lower middle>

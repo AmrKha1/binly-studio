@@ -47,7 +47,11 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
 - Flat vector, bold clean silhouettes, colour blocking, layered depth, flat shade shapes on the side away
   from the light, light as flat low-opacity shapes. **Elegant glow, never neon:** the kit's soft halos only (GLOW filters,
   GlowPill, Halo, Sparkles) on the few things that matter in a frame (key word, big number, hero object, pills); cards
-  lift off the white with a soft shadow (GLOW.soft). No noise/grain/texture, no glow on everything, no big gradients.
+  lift off the white with a soft shadow (GLOW.soft). No noise/grain/texture, no glow on everything. Allowed polish (owner 2026-10-21): soft gradient skies and gentle
+  shading in generated art; a camera-focus DEPTH blur (kit/asset Depth) on a foreground host/object or on the plate in a
+  close-up — only for ~5–10 special shots per video (dialogue, reveals), never on text or the whole frame.
+- **Big characters, mostly close and medium shots** (phone viewers): a host or story character's face fills ~⅓ of the
+  frame in close shots; wide shots only to establish a place. Generated art is checked on the --phone sheet too.
 - Typography: Fraunces (serif) for headlines/quotes/numbers, Inter caps for labels/tags. Rare accent only: Caveat
   handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Certainty labels look
   like museum captions (`Tag`, default); myth-busting verdicts use the editor's red pen (strike + handwritten verdict);

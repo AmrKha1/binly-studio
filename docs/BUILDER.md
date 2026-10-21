@@ -49,7 +49,7 @@ Honour the brief's shot size — a CLOSE shot is truly close
 (a face or an object filling the frame), not a medium shot with a small subject.
 **Never:** linear easing on visible motion · everything fading in the same way · elements popping on/off without
 easing · neon or glow on everything (glow = the kit's soft GLOW filters / GlowPill / Halo / Sparkles on the 1–3 things
-that matter), big gradients, noise/grain, glassy effects · cream/off-white or dark backgrounds unless the scene is
+that matter), harsh/rainbow gradients, noise/grain, glassy effects · blur except the kit's Depth (≤ ~10 shots/video) · cream/off-white or dark backgrounds unless the scene is
 naturally dark (white mode) · more than one gold key accent per frame · more than 2 text elements at once (lists excepted) · the shot's key word/line under 72 px · text
 the viewer must read (labels, tags, names) under 48 px · secondary text under 36 px (only image credits / source notes
 may be 26 px; sizes: `TYPE` in kit/theme) · anything outside 96 px margins · an "empty stage" (one small thing on plain paper — every
@@ -83,6 +83,10 @@ put objects/host on it inside `<PlateCam t a b push>` so they move with the plat
 x y w ar t enter={{kind,p}} attention={{kind,at}} />` (kit/motion presets; each sounds). Give objects that stand on a
 surface a soft ellipse shadow under them; place them ON the plate's furniture (check on a still). Big and readable:
 hero objects ≥ ~300 px wide. Never generate or draw text into art — labels are kit pills/text on top.
+
+**Depth (polish, sparingly):** `<Depth blur={10}>…foreground host/object…</Depth>` softens a near layer like a camera
+focus; animate blur 0→10 for a rack-focus. For dialogue/reveal shots only — never text, never the whole frame.
+**Size on phones:** characters big — close/medium shots most of the time (face ≈ ⅓ frame height in a close-up).
 
 ## The hosts — ODDESTORY (English) · AZTIKA (Arabic)
 **Image hosts (preferred):** `<ImageHost t who="oddestory" {...imageHostShot('corner'|'big'|'full'|'peek'|'tiny', side)} poses={[[t0,'think-point'],[t1,'shocked']]}
