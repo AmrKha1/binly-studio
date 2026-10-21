@@ -39,7 +39,8 @@ fat sticker words with a 3D extruded shadow ("6:30 AM") · `SpeedLines {t,p,cx,c
 speech bubble as they are said (SPOKEN from src/videos/<slug>/speech.ts, tools/speech-map.mjs) · `Stat … sticker="<colour>"`
 white number with thick outline. Headlines use Poppins Black (English) / Baloo Bhaijaan 2 (Arabic). Gallery "alive".
 
-**asset** (kit/asset): `BgPlate` · `PlateCam` · `ImageAsset` (generated art, tools/art.mjs) · `Depth {blur, dim}` camera-focus blur for a
+**asset** (kit/asset): `BgPlate` · `PlateCam` · `ImageAsset` (generated art, tools/art.mjs) · `Lift {t,x,y,r,glow,strength,shadow,float}` glow hugging the object + soft depth shadow + gentle float (hero objects, key icons,
+cards) · `Depth {blur, dim}` camera-focus blur for a
 foreground layer (≤ ~10 shots/video). Gallery "pilot2" (plate + objects), "depthdemo" (depth).
 
 **host** (kit/host — code-drawn AZTIKA fallback, the Arabic channel's narrator): `<Host t x y s poses faces talk p id/>` · poses idle ·

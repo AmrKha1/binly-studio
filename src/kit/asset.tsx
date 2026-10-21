@@ -67,3 +67,26 @@ export const Depth: React.FC<{blur: number; dim?: number; children?: React.React
   if (b < 0.3 && dim <= 0) return <>{children}</>;
   return <g style={{filter: `blur(${b.toFixed(2)}px)${dim > 0 ? ` brightness(${(1 - dim).toFixed(2)})` : ''}`}}>{children}</g>;
 };
+
+/**
+ * Lift — glow + depth for a hero element (owner 2026-10-21): soft coloured halo behind it, a soft contact shadow under it
+ * and a gentle float, so key objects/icons/cards look polished and 3D instead of flat. Wrap anything centred at (x, y).
+ *   glow: halo colour (default gold) · strength 0..1.5 · shadow: ground shadow width (0 = none, e.g. for flying items)
+ */
+export const Lift: React.FC<{t?: number; x: number; y: number; r?: number; glow?: string; strength?: number; shadow?: number; float?: number; children?: React.ReactNode}> = ({
+  t = 0, x, y, r = 180, glow = '#E0B23E', strength = 1, shadow = 0, float = 6, children,
+}) => {
+  const fy = Math.sin(t * 1.3) * float;
+  const k = Math.max(0, strength);
+  // the glow hugs the object's own shape (coloured drop-shadows at 0 offset) + a soft lift shadow below it
+  const g1 = Math.round(r * 0.06 * k), g2 = Math.round(r * 0.16 * k), d = Math.round(r * 0.07);
+  const f = `drop-shadow(0 0 ${g1}px ${glow}) drop-shadow(0 0 ${g2}px ${glow}) drop-shadow(0 ${d}px ${d}px rgba(43,36,32,0.28))`;
+  return (
+    <g>
+      {shadow > 0 && <ellipse cx={x} cy={y + r * 0.95} rx={shadow * (1 - fy / 120)} ry={shadow * 0.14} fill="#2B2420" opacity={0.2} />}
+      <g transform={`translate(0 ${fy})`} style={{filter: k > 0 ? f : undefined}}>
+        {children}
+      </g>
+    </g>
+  );
+};

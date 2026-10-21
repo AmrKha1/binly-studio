@@ -146,6 +146,8 @@ object, on the path, above the speaker via `<SayPop t x y spoken={SPOKEN} from t
 **Edit FX on beats (kit/editfx):** a big number/word → `PopText` (+ `Burst` for a shock/record, `SpeedLines` for
 "look here"), a twist/hit → `Punch`, a data shot → `Tilt` (+ Depth on its far side), a reaction → `EmoteMark` by the
 host's head. 1–3 FX moments per minute, each on its word; never stacked all the time (they lose power).
+**Glow + depth on key elements:** wrap the hero object / key icon / important card in `<Lift t x y r glow>` (gold for value/wins,
+lavender for mystery, green for life, red for danger) — 1–3 per scene, not everything.
 **Depth (polish, sparingly):** `<Depth blur={10}>…foreground host/object…</Depth>` softens a near layer like a camera
 focus; animate blur 0→10 for a rack-focus. For dialogue/reveal shots only — never text, never the whole frame.
 **Size on phones:** characters big — close/medium shots most of the time (face ≈ ⅓ frame height in a close-up).
@@ -362,7 +364,8 @@ A great video in one session beats a perfect plan.
   frame in close shots; wide shots only to establish a place. Generated art is checked on the --phone sheet too.
 - Typography (owner 2026-10-21): **Poppins Black** (geometric, bold, clean — picked by the owner from a test page; Arabic = Baloo Bhaijaan 2) for
   headlines/quotes/numbers/pills AND labels/kickers/tags — one font, normal case, normal letter spacing, no italics
-  (the old tracked capitals / Fraunces italics are retired). Rare accent only: Caveat
+  (the old tracked capitals / Fraunces italics are retired). All text is heavy (800–900) with a clean halo + soft
+  drop (Stage applies it automatically) so it pops on any background; big moments use PopText / glow / stickers. Rare accent only: Caveat
   handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Certainty labels look
   like museum captions (`Tag`, default); myth-busting verdicts use the editor's red pen (strike + handwritten verdict);
   for the climax verdict the same red pen at hero size (full-screen claim, heavy strike, big handwritten verdict). Ink on paper or

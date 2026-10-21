@@ -91,6 +91,8 @@ object, on the path, above the speaker via `<SayPop t x y spoken={SPOKEN} from t
 **Edit FX on beats (kit/editfx):** a big number/word → `PopText` (+ `Burst` for a shock/record, `SpeedLines` for
 "look here"), a twist/hit → `Punch`, a data shot → `Tilt` (+ Depth on its far side), a reaction → `EmoteMark` by the
 host's head. 1–3 FX moments per minute, each on its word; never stacked all the time (they lose power).
+**Glow + depth on key elements:** wrap the hero object / key icon / important card in `<Lift t x y r glow>` (gold for value/wins,
+lavender for mystery, green for life, red for danger) — 1–3 per scene, not everything.
 **Depth (polish, sparingly):** `<Depth blur={10}>…foreground host/object…</Depth>` softens a near layer like a camera
 focus; animate blur 0→10 for a rack-focus. For dialogue/reveal shots only — never text, never the whole frame.
 **Size on phones:** characters big — close/medium shots most of the time (face ≈ ⅓ frame height in a close-up).

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Stage} from '../../kit/stage';
-import {BgPlate} from '../../kit/asset';
+import {BgPlate, Lift, ImageAsset} from '../../kit/asset';
 import {ImageHost} from '../../kit/image-host';
 import {Headline, SayPop, Stat} from '../../kit/text';
 import {C} from '../../kit/theme';
@@ -12,6 +12,9 @@ export const Alive: React.FC<{t: number}> = ({t}) => (
   <Stage>
     <BgPlate slug="_pilot" file="treasury.jpg" t={t} a={0} b={4} push="in" amount={0.04} />
     <Headline x={700} y={190} text="The brain knows first" size={92} accent={{brain: C.gold}} p={ramp(t, 0.1, 1.1, ease.linear)} />
+    <Lift t={t} x={420} y={760} r={150} shadow={150}>
+      <ImageAsset slug="_pilot" name="treasure-chest" x={420} y={760} w={280} ar={753 / 701} />
+    </Lift>
     <Stat x={700} y={620} value="98%" p={ramp(t, 0.8, 1.6, ease.linear)} size={230} count={false} sticker="#2F4C8C" />
     <ImageHost t={t} who="oddestory" x={1560} y={1110} h={720} flip poses={[[0, 'idea']]} talk={0.6} id="al" />
     <SayPop t={t} x={1430} y={300} spoken={SPOKEN} from={0} to={3} accent={{'98': C.gold}} tail="down-right" />
