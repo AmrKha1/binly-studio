@@ -43,6 +43,18 @@ const AR_CSS = `
 /** English: headline face is upright only (no italic loaded — a fake slant looks cheap). */
 const EN_CSS = `text, tspan, foreignObject * { font-style: normal !important; letter-spacing: normal !important; } /* owner 2026-10-21: no italics, no wide tracking */`;
 
+/**
+ * EYE-CATCHING TEXT for every channel (owner 2026-10-21: "more bold and catchy — not flat fonts"): all plain text gets
+ * a heavy weight, a clean halo in the background colour (separates it from maps, photos, art) and a soft drop for
+ * depth. Text that already styles itself (own stroke or filter: PopText, glow words, stickers) is left alone.
+ */
+const POP_CSS = `
+text:not([font-weight="900"]):not([font-family*="Caveat"]) { font-weight: 800 !important; }
+text:not([stroke]):not([filter]) { paint-order: stroke fill; stroke: #FFFFFF; stroke-width: 0.13em; stroke-linejoin: round;
+  filter: drop-shadow(0 0.04em 0.02em rgba(43, 36, 32, 0.18)); }
+text:not([stroke]):not([filter])[fill="#FFFFFF"], text:not([stroke]):not([filter])[fill="#F5EFE3"] { stroke: #2B2420; }
+`;
+
 /** Shared elegant-glow filters (GLOW in kit/theme). Two stacked soft halos: a tight one + a wide faint one. */
 const halo = (id: string, color: string, a: number, b: number) => (
   <filter id={id} x="-60%" y="-60%" width="220%" height="220%" colorInterpolationFilters="sRGB">
@@ -68,7 +80,7 @@ export const Stage: React.FC<{bg?: string; children?: React.ReactNode; style?: R
   <AbsoluteFill style={{background: bg, ...style}}>
     {/* geometricPrecision: no hinting snap (inherited by HTML in foreignObject); TEXT_NUDGE: sub-pixel glyphs in y too. */}
     <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{position: 'absolute', inset: 0, overflow: 'hidden', textRendering: 'geometricPrecision'}}>
-      <style>{TEXT_NUDGE + (isAr() ? AR_CSS : EN_CSS)}</style>
+      <style>{TEXT_NUDGE + POP_CSS + (isAr() ? AR_CSS : EN_CSS)}</style>
       <GlowDefs />
       {isAr() ? (
         <g className="k-ar k-rtl" transform={`matrix(-1 0 0 1 ${W} 0)`}>

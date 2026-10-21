@@ -54,7 +54,8 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
   frame in close shots; wide shots only to establish a place. Generated art is checked on the --phone sheet too.
 - Typography (owner 2026-10-21): **Poppins Black** (geometric, bold, clean — picked by the owner from a test page; Arabic = Baloo Bhaijaan 2) for
   headlines/quotes/numbers/pills AND labels/kickers/tags — one font, normal case, normal letter spacing, no italics
-  (the old tracked capitals / Fraunces italics are retired). Rare accent only: Caveat
+  (the old tracked capitals / Fraunces italics are retired). All text is heavy (800–900) with a clean halo + soft
+  drop (Stage applies it automatically) so it pops on any background; big moments use PopText / glow / stickers. Rare accent only: Caveat
   handwriting (`HandNote`) for a scribbled note on an image/document — never titles or body text. Certainty labels look
   like museum captions (`Tag`, default); myth-busting verdicts use the editor's red pen (strike + handwritten verdict);
   for the climax verdict the same red pen at hero size (full-screen claim, heavy strike, big handwritten verdict). Ink on paper or
