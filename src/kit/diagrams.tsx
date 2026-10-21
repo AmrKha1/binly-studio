@@ -233,7 +233,7 @@ export const Callout: React.FC<{target: Pt; label: Pt; text: string; p: number; 
   const d = `M${target.x} ${target.y} L${elbow.x} ${elbow.y} L${label.x} ${label.y}`;
   return (
     <g>
-      <circle cx={target.x} cy={target.y} r={8 * ease.outBack(clamp01(p * 3))} fill={col} stroke={C.paperLight} strokeWidth={3} />
+      <circle cx={target.x} cy={target.y} r={8 * ease.outBack(clamp01(p * 3))} fill={col} stroke={C.paperLight} strokeWidth={5} />
       <path d={d} stroke={col} strokeWidth={3.5} fill="none" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - k} />
       <text x={label.x + (an === 'start' ? 10 : -10)} y={label.y + size * 0.35} textAnchor={an} fontFamily={FONT_SANS} fontWeight={700} fontSize={size} letterSpacing={size * 0.05} fill={col} opacity={ramp(p, 0.5, 1)}>
         {text}

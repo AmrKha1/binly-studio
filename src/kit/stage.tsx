@@ -49,6 +49,7 @@ const EN_CSS = `text, tspan, foreignObject * { font-style: normal !important; le
  * depth. Text that already styles itself (own stroke or filter: PopText, glow words, stickers) is left alone.
  */
 const POP_CSS = `
+foreignObject div, foreignObject span, foreignObject p { font-weight: 800 !important; } /* body text bold too (RichText/Para) */
 text:not([font-weight="900"]):not([font-family*="Caveat"]) { font-weight: 800 !important; }
 text:not([stroke]):not([filter]) { paint-order: stroke fill; stroke: #FFFFFF; stroke-width: 0.13em; stroke-linejoin: round;
   filter: drop-shadow(0 0.04em 0.02em rgba(43, 36, 32, 0.18)); }

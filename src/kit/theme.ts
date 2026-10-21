@@ -18,10 +18,10 @@ export const C = {
   paperDark: '#C8C8CF',
 
   // ---- ink family
-  inkSoft: '#3A312B',
+  inkSoft: '#2B2420', // owner 2026-10-21: body text bold and BLACK, not washed-out grey
   inkLift: '#4A3F37',
-  inkMute: '#6B5D50',
-  inkFaint: '#8E8070',
+  inkMute: '#4A423C',
+  inkFaint: '#6E655E',
 
   // ---- signal family (oxblood)
   oxLight: '#B5553F',

@@ -79,7 +79,7 @@ export const Backdrop: React.FC<{tone?: Tone; motif?: Motif; seed?: number; t?: 
         {[300, 450, 600, 750].map((r, i) => (
           <circle key={i} cx={cx} cy={600} r={r} stroke={i === 1 ? P.line : P.motif} strokeWidth={i === 1 ? 2 : 26} opacity={i === 1 ? 0.45 : 1} />
         ))}
-        <circle cx={cx} cy={600} r={530} stroke={P.line} strokeWidth={3} strokeDasharray="4 22" strokeLinecap="round" opacity={0.6} transform={`rotate(${t * 2.5 * s} ${cx} 600)`} />
+        <circle cx={cx} cy={600} r={530} stroke={P.line} strokeWidth={5} strokeDasharray="4 22" strokeLinecap="round" opacity={0.6} transform={`rotate(${t * 2.5 * s} ${cx} 600)`} />
       </g>
     );
   if (m === 'band') {
@@ -88,14 +88,14 @@ export const Backdrop: React.FC<{tone?: Tone; motif?: Motif; seed?: number; t?: 
     return (
       <g>
         <path d={`M${x0} -200 L${x0 + w} -200 L${x0 + w - 640 * s} 1300 L${x0 - 640 * s} 1300 Z`} fill={P.motif} />
-        <path d={`M${x0 + w + 60 * s} -200 L${x0 + w + 60 * s - 640 * s} 1300`} stroke={P.line} strokeWidth={3} opacity={0.5} />
+        <path d={`M${x0 + w + 60 * s} -200 L${x0 + w + 60 * s - 640 * s} 1300`} stroke={P.line} strokeWidth={5} opacity={0.5} />
       </g>
     );
   }
   if (m === 'frame')
     return (
       <g fill="none" stroke={P.line}>
-        <rect x={52} y={52} width={1816} height={976} strokeWidth={2} opacity={0.55} />
+        <rect x={52} y={52} width={1816} height={976} strokeWidth={4} opacity={0.55} />
         <rect x={64} y={64} width={1792} height={952} strokeWidth={1.5} opacity={0.3} />
         {[
           [52, 52],
@@ -544,8 +544,8 @@ export const QuoteShot: React.FC<
           <g transform={`translate(0 ${(1 - ease.outQuint(ramp(t, t0 - 0.3, t0 + 0.6))) * 60})`}>
             <rect x={400 + 16} y={120 + 20} width={1120} height={900} rx={6} fill={C.ink} opacity={0.16} />
             <path d="M400 128 Q680 112 960 124 Q1240 134 1520 118 L1516 1020 Q1240 1032 960 1018 Q680 1006 404 1024 Z" fill={C.bone} />
-            <rect x={436} y={156} width={1048} height={840} fill="none" stroke={C.boneShade} strokeWidth={3} rx={4} />
-            <line x1={520} x2={520} y1={160} y2={990} stroke={C.oxTint} strokeWidth={3} opacity={0.8} />
+            <rect x={436} y={156} width={1048} height={840} fill="none" stroke={C.boneShade} strokeWidth={5} rx={4} />
+            <line x1={520} x2={520} y1={160} y2={990} stroke={C.oxTint} strokeWidth={5} opacity={0.8} />
             {docTitle && (
               <text x={960} y={236} textAnchor="middle" fontFamily={FONT_SANS} fontWeight={700} fontSize={30} letterSpacing={4} fill={C.inkMute}>
                 {docTitle}
@@ -674,7 +674,7 @@ export const EvidenceShot: React.FC<
           <rect x={-300} y={1010} width={2520} height={400} fill={mixHex(wall, C.ink, P.dark ? 0.3 : 0.07)} />
           <rect x={-300} y={1004} width={2520} height={8} fill={mixHex(wall, C.ink, P.dark ? 0.45 : 0.16)} />
           <LightPool x={px} y={py - 120} r={760} sy={0.85} strength={P.dark ? 1.6 : 1.1} />
-          <path d={`M${px} 54 L${fl + 80} ${ft + 4} M${px} 54 L${fr - 80} ${ft + 4}`} stroke={mixHex(wall, C.ink, 0.5)} strokeWidth={3} fill="none" opacity={ramp(t, t0 - 0.3, t0 + 0.2)} />
+          <path d={`M${px} 54 L${fl + 80} ${ft + 4} M${px} 54 L${fr - 80} ${ft + 4}`} stroke={mixHex(wall, C.ink, 0.5)} strokeWidth={5} fill="none" opacity={ramp(t, t0 - 0.3, t0 + 0.2)} />
           <circle cx={px} cy={54} r={8} fill={mixHex(wall, C.ink, 0.55)} />
         </g>
       }
@@ -748,7 +748,7 @@ export const ClaimShot: React.FC<
         {dashed ? (
           <DashedOutline d={`M${fr.x + 14} ${fr.y + 14} H${fr.x + fr.w - 14} V${fr.y + fr.h - 14} H${fr.x + 14} Z`} p={1} color={col} width={4} />
         ) : (
-          <rect x={fr.x + 14} y={fr.y + 14} width={fr.w - 28} height={fr.h - 28} rx={6} fill="none" stroke={col} strokeWidth={3} opacity={0.55} />
+          <rect x={fr.x + 14} y={fr.y + 14} width={fr.w - 28} height={fr.h - 28} rx={6} fill="none" stroke={col} strokeWidth={5} opacity={0.55} />
         )}
       </g>
       <rect x={x0 - 40} y={top} width={12} height={ruleH} fill={col} rx={2} />
@@ -974,7 +974,7 @@ export const ListShot: React.FC<
     <ShotShell t={t} a={a} b={b} tone={tone} seed={seed} motif={motif ?? 'none'}>
       {head && <Heading x={960} y={190} kicker={kicker} title={title} p={ramp(t, a, t0 + 0.4)} P={P} anchor="middle" size={60} />}
       {items.slice(1).map((_, i) => (
-        <line key={i} x1={xAt(i) + r + 30} x2={xAt(i + 1) - r - 30} y1={cy} y2={cy} stroke={P.line} strokeWidth={3} strokeDasharray="2 14" strokeLinecap="round" opacity={tp(i + 1)} />
+        <line key={i} x1={xAt(i) + r + 30} x2={xAt(i + 1) - r - 30} y1={cy} y2={cy} stroke={P.line} strokeWidth={5} strokeDasharray="2 14" strokeLinecap="round" opacity={tp(i + 1)} />
       ))}
       {items.map((it, i) => {
         const p = tp(i);
@@ -1426,7 +1426,7 @@ export const QuestionShot: React.FC<
       <g transform={`translate(${slotX} 540)`}>
         <circle r={270 * ease.outBack(ringP)} fill={P.motif} />
         <circle r={300} fill="none" stroke={plum} strokeWidth={4} strokeDasharray="14 16" strokeLinecap="round" opacity={ringP * 0.8} transform={`rotate(${t * 6})`} />
-        <circle r={340} fill="none" stroke={P.line} strokeWidth={2} strokeDasharray="2 14" strokeLinecap="round" opacity={ringP} transform={`rotate(${-t * 3})`} />
+        <circle r={340} fill="none" stroke={P.line} strokeWidth={4} strokeDasharray="2 14" strokeLinecap="round" opacity={ringP} transform={`rotate(${-t * 3})`} />
         <Particles t={t} x={-300} y={-300} w={600} h={600} n={14} seed={seed + 4} size={[2, 5]} color={plum} opacity={[0.2, 0.55]} vy={-12} vx={2} />
         {children ? (
           <g opacity={ease.out(ramp(t, tm, tm + 0.6))}>{children}</g>

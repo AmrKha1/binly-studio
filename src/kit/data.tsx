@@ -128,7 +128,7 @@ export const BarChart: React.FC<{
     <g>
       {grid &&
         [1 / 3, 2 / 3, 1].map((f) => (
-          <line key={f} x1={x} x2={x + w * axisK} y1={yB - (yB - yT) * f} y2={yB - (yB - yT) * f} stroke={C.paperShade} strokeWidth={3} strokeDasharray="2 10" strokeLinecap="round" />
+          <line key={f} x1={x} x2={x + w * axisK} y1={yB - (yB - yT) * f} y2={yB - (yB - yT) * f} stroke={C.paperShade} strokeWidth={5} strokeDasharray="2 10" strokeLinecap="round" />
         ))}
       {bars.map((b, i) => {
         const bp = seg(rl(p, 0.1, 1), i, n, 0.45);
@@ -294,7 +294,7 @@ export const Comparison: React.FC<{
   gap?: number;
   valueSize?: number;
   bodySize?: number;
-}> = ({x, y, w, h, left, right, p, vs = 'vs', gap = 36, valueSize, bodySize = 40}) => {
+}> = ({x, y, w, h, left, right, p, vs = 'vs', gap = 36, valueSize, bodySize = 36}) => {
   if (vs === 'vs') vs = word('vs');
   if (p <= 0) return null;
   const pw = (w - gap) / 2;
@@ -525,7 +525,7 @@ export const LineChart: React.FC<{
       </clipPath>
       {yt.map((v) => (
         <g key={v} opacity={axisK}>
-          <line x1={x} x2={x + w} y1={Y(v)} y2={Y(v)} stroke={C.paperShade} strokeWidth={3} />
+          <line x1={x} x2={x + w} y1={Y(v)} y2={Y(v)} stroke={C.paperShade} strokeWidth={5} />
           <Lbl x={x - 18} y={Y(v) + 7} text={fmtY(v)} anchor="end" />
         </g>
       ))}
@@ -537,10 +537,10 @@ export const LineChart: React.FC<{
         <path d={line} fill="none" stroke={color} strokeWidth={6} strokeLinejoin="round" strokeLinecap="round" />
       </g>
       <path d={`M${x} ${y - 10} V${y + h} H${x + w * axisK}`} fill="none" stroke={C.ink} strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" />
-      {lead && <circle cx={lead[0]} cy={lead[1]} r={8} fill={color} stroke={C.paperLight} strokeWidth={3} />}
+      {lead && <circle cx={lead[0]} cy={lead[1]} r={8} fill={color} stroke={C.paperLight} strokeWidth={5} />}
       {hi && hp > 0 && (
         <g>
-          <line x1={pts[hi.index][0]} x2={pts[hi.index][0]} y1={pts[hi.index][1]} y2={y + h} stroke={color} strokeWidth={3} strokeDasharray="4 8" strokeLinecap="round" opacity={hp} />
+          <line x1={pts[hi.index][0]} x2={pts[hi.index][0]} y1={pts[hi.index][1]} y2={y + h} stroke={color} strokeWidth={5} strokeDasharray="4 8" strokeLinecap="round" opacity={hp} />
           <circle cx={pts[hi.index][0]} cy={pts[hi.index][1]} r={12 * ease.outBack(hp)} fill={color} stroke={C.paperLight} strokeWidth={4} />
           <Num x={pts[hi.index][0]} y={pts[hi.index][1] - 28} text={hi.label ?? fmtY(points[hi.index][1])} size={40} color={color} o={hp} />
         </g>
@@ -591,10 +591,10 @@ export const Meter: React.FC<{
       </g>
       {zones &&
         zones.slice(1).map((_, i) => (
-          <line key={i} x1={x + (w * (i + 1)) / zones.length} x2={x + (w * (i + 1)) / zones.length} y1={y - thick / 2} y2={y + thick / 2} stroke={C.paper} strokeWidth={3} />
+          <line key={i} x1={x + (w * (i + 1)) / zones.length} x2={x + (w * (i + 1)) / zones.length} y1={y - thick / 2} y2={y + thick / 2} stroke={C.paper} strokeWidth={5} />
         ))}
       <g opacity={rl(p, 0.15, 0.3)}>
-        <path d={`M${vx} ${y - thick / 2 - 4} l-11 -16 h22Z`} fill={C.ink} stroke={C.ink} strokeWidth={3} strokeLinejoin="round" />
+        <path d={`M${vx} ${y - thick / 2 - 4} l-11 -16 h22Z`} fill={C.ink} stroke={C.ink} strokeWidth={5} strokeLinejoin="round" />
         {valueLabel && <Lbl x={vx} y={y - thick / 2 - 34} text={valueLabel} color={C.ink} o={rl(p, 0.75, 1)} />}
       </g>
       {title && <Lbl x={x} y={y - thick / 2 - 84} text={title} anchor="start" color={C.inkMute} />}
@@ -641,10 +641,10 @@ export const Gauge: React.FC<{
         const a = ((180 + i * 18) * Math.PI) / 180;
         const r0 = r - th / 2 - 10;
         const r1 = r0 - (i % 5 === 0 ? 18 : 10);
-        return <line key={i} x1={x + Math.cos(a) * r0} y1={y + Math.sin(a) * r0} x2={x + Math.cos(a) * r1} y2={y + Math.sin(a) * r1} stroke={C.inkFaint} strokeWidth={3} strokeLinecap="round" />;
+        return <line key={i} x1={x + Math.cos(a) * r0} y1={y + Math.sin(a) * r0} x2={x + Math.cos(a) * r1} y2={y + Math.sin(a) * r1} stroke={C.inkFaint} strokeWidth={5} strokeLinecap="round" />;
       })}
       <g transform={`translate(${x} ${y}) rotate(${ang})`}>
-        <path d={`M0 -7 L${nl} 0 L0 7Z`} fill={C.ink} stroke={C.ink} strokeWidth={3} strokeLinejoin="round" />
+        <path d={`M0 -7 L${nl} 0 L0 7Z`} fill={C.ink} stroke={C.ink} strokeWidth={5} strokeLinejoin="round" />
       </g>
       <circle cx={x} cy={y} r={14} fill={C.ink} />
       <circle cx={x} cy={y} r={5} fill={color} />
@@ -758,7 +758,7 @@ export const CounterRow: React.FC<{
         const cx = x + slot * (i + 0.5);
         return (
           <g key={i} opacity={ease.out(clamp01(ip * 3))}>
-            {i > 0 && <line x1={x + slot * i} x2={x + slot * i} y1={y - size * 0.75} y2={y + 44} stroke={C.paperDeep} strokeWidth={3} />}
+            {i > 0 && <line x1={x + slot * i} x2={x + slot * i} y1={y - size * 0.75} y2={y + 44} stroke={C.paperDeep} strokeWidth={5} />}
             <Num x={cx} y={y} text={it.count === false ? it.value : countUp(it.value, ease.outQuint(ip))} size={size} color={it.color ?? C.ink} />
             <Lbl x={cx} y={y + 42} text={it.label} o={rl(ip, 0.3, 1)} />
           </g>
