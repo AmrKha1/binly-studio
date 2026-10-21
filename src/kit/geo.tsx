@@ -9,7 +9,7 @@ import {clamp01, ease, lerp} from './anim';
 import {uid} from './stage';
 
 // Maps for history / geography beats, styled like elegant old-print maps: paper land, slightly
-// darker sea with engraved coast lines, thin ink coastlines, faint graticule, Fraunces italic seas.
+// darker sea with engraved coast lines, thin ink coastlines, faint graticule, upright sea names.
 // All data is local (world-atlas TopoJSON) and every projection/path is memoised per region+size.
 
 type Topo = Topology<{countries: GeometryCollection<{name: string}>; land: GeometryCollection}>;
@@ -229,7 +229,7 @@ export type MapLabelSpec = {text: string; lon: number; lat: number; kind?: 'sea'
  * Old-print style map rendered in the box (x, y, w, h), clipped. region: preset name or bbox
  * [[W,S],[E,N]]; projection defaults per preset (conicConformal for Europe, equalEarth for world).
  * detail: '50m' (default, regional) | '110m' (default for world). highlight: countries by name or ISO
- * numeric with colour + progress. labels: seas/regions in Fraunces italic. p: map fades/settles in.
+ * numeric with colour + progress. labels: seas/regions in the kit font (upright). p: map fades/settles in.
  * children are drawn on top, clipped to the box (place them with makeProjection(region, w, h, {x, y})).
  * World maps show the globe outline (outside = page background).
  */

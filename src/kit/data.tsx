@@ -6,7 +6,7 @@ import {Para} from './text';
 
 // Data visualisation for EXACT statistics. Every number on screen comes from an explicit prop
 // (value / label strings), so what is shown is exactly what the narration says.
-// Big numbers: Fraunces 700. Labels: Inter 700 caps, tracked. Ink on paper, oxblood = the key datum.
+// Big numbers + labels: Poppins (FONT_SERIF/FONT_SANS), heavy, normal case. Ink on white, oxblood = the key datum.
 
 /** Linear sub-ramp (components apply their own easing on top). */
 const rl = (p: number, a: number, b: number) => ramp(p, a, b, ease.linear);
