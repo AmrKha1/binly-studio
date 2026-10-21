@@ -10,6 +10,10 @@ export const HOST_IMAGES = {
    716,
    1054
   ],
+  "confused": [
+   761,
+   1226
+  ],
   "explain": [
    718,
    1115
@@ -21,6 +25,22 @@ export const HOST_IMAGES = {
   "full-jump-joy": [
    719,
    1320
+  ],
+  "full-point-both-smile": [
+   804,
+   1491
+  ],
+  "full-point-both": [
+   803,
+   1491
+  ],
+  "full-point-left": [
+   920,
+   1491
+  ],
+  "full-point-right": [
+   928,
+   1489
   ],
   "full-present": [
    671,
@@ -70,9 +90,41 @@ export const HOST_IMAGES = {
    679,
    1126
   ],
+  "laughing-2": [
+   670,
+   1229
+  ],
+  "laughing": [
+   746,
+   1183
+  ],
+  "point-left-excited": [
+   835,
+   1169
+  ],
+  "point-left-serious-2": [
+   759,
+   1226
+  ],
+  "point-left-serious": [
+   894,
+   1226
+  ],
+  "point-left-talk": [
+   761,
+   1170
+  ],
   "sad": [
    648,
    1168
+  ],
+  "shocked-2": [
+   648,
+   1170
+  ],
+  "shocked": [
+   648,
+   1170
   ],
   "smug": [
    646,
