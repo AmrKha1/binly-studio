@@ -143,6 +143,9 @@ hero objects ≥ ~300 px wide. Never generate or draw text into art — labels a
 object, on the path, above the speaker via `<SayPop t x y spoken={SPOKEN} from to accent tail/>` from kit/text with
 `import {SPOKEN} from '../speech'`), then leave; objects and hosts move with purpose; big numbers can use
 `<Stat … sticker="#2F4C8C">` (white with a thick outline, like a sticker). Never a static frame under narration.
+**Edit FX on beats (kit/editfx):** a big number/word → `PopText` (+ `Burst` for a shock/record, `SpeedLines` for
+"look here"), a twist/hit → `Punch`, a data shot → `Tilt` (+ Depth on its far side), a reaction → `EmoteMark` by the
+host's head. 1–3 FX moments per minute, each on its word; never stacked all the time (they lose power).
 **Depth (polish, sparingly):** `<Depth blur={10}>…foreground host/object…</Depth>` softens a near layer like a camera
 focus; animate blur 0→10 for a rack-focus. For dialogue/reveal shots only — never text, never the whole frame.
 **Size on phones:** characters big — close/medium shots most of the time (face ≈ ⅓ frame height in a close-up).
@@ -330,7 +333,8 @@ If not, the pictures aren't telling the story yet.
    (SayPop for the key line); the camera pushes in on what matters, punches in on a surprise, pans to the next thing; a
    rack-focus or a slam headline lands the big beats. Supporting text lives IN the scene, in many positions — not in one
    fixed caption spot, never as running subtitles. Every element moves for a reason the narration gives it, and every
-   movement is heard. Ask of every second: "would a great YouTube editor leave this frame like this?" If not, animate it.
+   movement is heard. Use the editor's toolbox on the beats: fat 3D pop words, comic bursts, speed lines, punch-ins,
+   tilted camera angles, emotion marks (kit/editfx) — like the best YouTubers, in Binly's clean style. Ask of every second: "would a great YouTube editor leave this frame like this?" If not, animate it.
 12. **Land the ending.** Pay off the opening question with the strongest image, echo the first shot, stop when the
     idea is complete.
 

@@ -88,6 +88,9 @@ hero objects ≥ ~300 px wide. Never generate or draw text into art — labels a
 object, on the path, above the speaker via `<SayPop t x y spoken={SPOKEN} from to accent tail/>` from kit/text with
 `import {SPOKEN} from '../speech'`), then leave; objects and hosts move with purpose; big numbers can use
 `<Stat … sticker="#2F4C8C">` (white with a thick outline, like a sticker). Never a static frame under narration.
+**Edit FX on beats (kit/editfx):** a big number/word → `PopText` (+ `Burst` for a shock/record, `SpeedLines` for
+"look here"), a twist/hit → `Punch`, a data shot → `Tilt` (+ Depth on its far side), a reaction → `EmoteMark` by the
+host's head. 1–3 FX moments per minute, each on its word; never stacked all the time (they lose power).
 **Depth (polish, sparingly):** `<Depth blur={10}>…foreground host/object…</Depth>` softens a near layer like a camera
 focus; animate blur 0→10 for a rack-focus. For dialogue/reveal shots only — never text, never the whole frame.
 **Size on phones:** characters big — close/medium shots most of the time (face ≈ ⅓ frame height in a close-up).

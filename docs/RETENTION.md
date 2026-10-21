@@ -46,7 +46,8 @@ If not, the pictures aren't telling the story yet.
    (SayPop for the key line); the camera pushes in on what matters, punches in on a surprise, pans to the next thing; a
    rack-focus or a slam headline lands the big beats. Supporting text lives IN the scene, in many positions — not in one
    fixed caption spot, never as running subtitles. Every element moves for a reason the narration gives it, and every
-   movement is heard. Ask of every second: "would a great YouTube editor leave this frame like this?" If not, animate it.
+   movement is heard. Use the editor's toolbox on the beats: fat 3D pop words, comic bursts, speed lines, punch-ins,
+   tilted camera angles, emotion marks (kit/editfx) — like the best YouTubers, in Binly's clean style. Ask of every second: "would a great YouTube editor leave this frame like this?" If not, animate it.
 12. **Land the ending.** Pay off the opening question with the strongest image, echo the first shot, stop when the
     idea is complete.
 
