@@ -23,10 +23,9 @@ Your PC only does light work (planning and small preview pictures). The heavy re
   `captions.srt` (upload in YouTube Studio → Subtitles; exact script wording, perfectly timed)
 - `videos/<name>/REPORT.md` — what was made and the quality-check results
 
-## One quick question during production
-After the opening chapter (the hook) is built, Claude shows it to you and asks: **continue or change?**
-Answer in a few words — the other chapters keep building meanwhile, so no time is lost. (Say "don't ask me
-anything" after `/make-video` if you want it fully automatic.)
+## No questions during production
+The style is fixed (clean look, hosts, fonts, sound). Claude checks the first chapter against it itself and keeps going
+— it only asks you if something truly can't be decided from the rules.
 
 ## After publishing: make the next video better
 A few days after a video is live, open YouTube Studio → the video → Analytics → Engagement, take screenshots
@@ -38,13 +37,9 @@ Type `/improve-studio`. Claude merges the lessons from your last videos into the
 things the helpers built (characters, objects, scenes) into permanent kit parts, adds new ready-made shots, and keeps
 the instructions short — so each video is faster, cheaper and better than the last.
 
-## Watch it live while it's being made
-Claude opens a **live preview** (player + timeline) in the side panel. Chapters appear there as soon as
-the helpers finish them — no rendering. Pause on any problem, take a screenshot (with the time visible),
-paste it into the chat with a few words. Fixes show up in the preview within seconds of being saved.
-When everything looks right, Claude renders the final file in the cloud (that's the "export").
-Open it yourself any time: `node tools/preview.mjs` in the Binly Studio folder → http://localhost:3000
-(playback can stutter on this PC in heavy scenes; pausing/scrubbing is always fine).
+## Watching progress
+Claude does NOT open a live preview (it slows this PC). It reviews with contact sheets and shows you results.
+If you want to watch yourself: `node tools/preview.mjs` in the Binly Studio folder → http://localhost:3000.
 
 ## Fixing / polishing a video after it's done
 - Your own list: `/polish-video at 2:31 the label covers the king's face; at 7:10 the transition is too abrupt`
@@ -66,6 +61,11 @@ If the window was closed: open Claude Code here again and say **"continue the vi
   If you must stop, just come back and say "continue the video" — progress is in files.
 - **Send fixes together** (one message with all screenshots/notes), not one by one.
 - Check your usage any time: Claude app → Settings → Usage.
+
+## Two channels
+- **English** script → English video with **Oddestory**, Poppins font. **Arabic** script → Arabic video with **AZTIKA**,
+  Arabic font, right-to-left. Detected automatically; the two are never mixed (a check blocks any mix).
+- Generated art (Flow, free) is a bonus: if Flow refuses, the video is still made with code-built scenes.
 
 ## Good to know
 - **Model:** the main session works best with **Opus**. The chapter helpers use Sonnet (cheaper) and Opus

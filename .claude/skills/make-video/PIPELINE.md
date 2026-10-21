@@ -246,13 +246,9 @@ says "continue", resume each interrupted builder with SendMessage (it keeps its 
 fresh builder for that chapter (it will see the partial file). Before heavy phases, write `videos/<slug>/STATUS.md`.
 Run at most 3 builders at once — it also spreads usage.
 
-## Live preview for the user
-Right after the video is activated (step 1), open the live preview so the user can watch the video grow and
-spot problems: preview_start with name `binly-preview` (config in `.claude/launch.json` → `node tools/preview.mjs`,
-Remotion Studio on http://localhost:3000). It hot-reloads in seconds whenever a chapter file is saved — no
-render needed. Tell the user once: "watch it in the preview panel; pause on any problem and send me a screenshot".
-User feedback with screenshots → treat exactly like `/polish-video` (route fixes to the chapter's builder).
-The preview is for looking only; the delivered file always comes from the cloud render ("export").
+## Live preview — OFF (owner preference)
+Do NOT open the live preview (Remotion Studio) — the owner does not want it and it slows this PC. Review with contact
+sheets. Open it only if the owner asks. Owner screenshots/notes → treat like `/polish-video`.
 
 ## Other requests
 - **"continue the video"** → `node tools/status.mjs` + read `videos/<slug>/STATUS.md` (if any), `plan.md`, `chapters.json`;
