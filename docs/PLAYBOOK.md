@@ -37,7 +37,10 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
   narration benefits (e.g. "picture two people sitting in the same room").
 
 ## 4. Look (VISUAL_STYLE + color_system)
-- **Palette = WHITE MODE, elegant glow** (`src/kit/theme.ts`, owner 2026-10-20): CLEAN WHITE #FFFFFF background (never
+- **ARABIC (AZTIKA) = THE NIGHT LOOK (owner 2026-11-08, replaces white mode for Arabic):** copy the model video's style as
+  it is — exact specs in references/universe-claude/STYLE-BIBLE.md, built in kit/night (NightSky, GridFloor, GlowText,
+  WordPop, NPill, Podium, RevealRing, YearBadge, HostGlow). AZTIKA is our fingerprint. The white-mode rules below = English.
+- **Palette = WHITE MODE, elegant glow** (English videos) (`src/kit/theme.ts`, owner 2026-10-20): CLEAN WHITE #FFFFFF background (never
   cream/off-white); dark scenes ONLY when the scene is naturally dark (night, a dark room, space). Ink #2B2420 for text;
   **gold #B07D0C = the key accent** (key word, big number) and it always glows softly (GLOW.gold); oxblood #8B2E1F =
   warnings / signal only; evidence green #2F5233, theory plum #5C4A72, caution

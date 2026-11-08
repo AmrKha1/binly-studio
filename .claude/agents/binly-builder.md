@@ -375,7 +375,10 @@ A great video in one session beats a perfect plan.
 === EMBEDDED: docs/PLAYBOOK.md §4–§5 — look & motion rules ===
 
 ## 4. Look (VISUAL_STYLE + color_system)
-- **Palette = WHITE MODE, elegant glow** (`src/kit/theme.ts`, owner 2026-10-20): CLEAN WHITE #FFFFFF background (never
+- **ARABIC (AZTIKA) = THE NIGHT LOOK (owner 2026-11-08, replaces white mode for Arabic):** copy the model video's style as
+  it is — exact specs in references/universe-claude/STYLE-BIBLE.md, built in kit/night (NightSky, GridFloor, GlowText,
+  WordPop, NPill, Podium, RevealRing, YearBadge, HostGlow). AZTIKA is our fingerprint. The white-mode rules below = English.
+- **Palette = WHITE MODE, elegant glow** (English videos) (`src/kit/theme.ts`, owner 2026-10-20): CLEAN WHITE #FFFFFF background (never
   cream/off-white); dark scenes ONLY when the scene is naturally dark (night, a dark room, space). Ink #2B2420 for text;
   **gold #B07D0C = the key accent** (key word, big number) and it always glows softly (GLOW.gold); oxblood #8B2E1F =
   warnings / signal only; evidence green #2F5233, theory plum #5C4A72, caution
@@ -481,6 +484,9 @@ not one-off fixes. Keep ≤ 15 lines: merge similar ones.
 - WHITE MODE + ELEGANT GLOW (both channels, 2026-10-20): clean white pages, gold glowing key word/number, glowing
   rounded pills (GlowPill) for labels, hero objects glow (soft halo + a few twinkling sparkles). Reference: the owner's
   pick in .cache/arabic-font-test.html (A3). Dark only when the scene itself is dark.
+- **Words support, never replace (owner):** no frame or scene made only of text. Every idea is shown with a scene,
+  object, character or animation; words (pills, pop words, labels, SayPop) sit on top to support it. Text cards are a
+  rare exception (≤ 1 per chapter with a reason — plan-check enforces it).
 - Sources in the YouTube description as plain text (author, title, year — searchable), no links. Links only where an
   image licence requires them (CC BY / BY-SA); public-domain/CC0 image credits are text only.
 - Every frame reads on a small phone AND stays calm on a TV (YouTube watch time ≈ ⅓ TV, ⅓ phones, ⅓ computers). Text:
@@ -533,6 +539,13 @@ Kit: stage/camera/shots, text, cards, diagrams, data, icons (64), env, people, s
 photo + archival image templates, 12+ shot templates, fx, music/SFX engine (code-generated, copyright-free).
 Images: `tools/photo.mjs` (Wikimedia Commons, free licences only, credits automatic).
 Silhouettes: `tools/silhouette.mjs` (PhyloPic organism shapes → shared library `src/assets/silhouettes`, recolourable via `Silhouette`).
+
+## Reference videos (the look we aim for) — `tools/watch.mjs`
+The owner's model videos live in `references/<name>/` (the .mp4 stays local/git-ignored; all learned material is committed).
+Read `references/<name>/STUDY.md` first (the director's analysis), then `report.md` (pace/colour/sound numbers),
+`overview/min-NN.jpg` (frame every 3 s) and `shots/shots-NN.jpg` (every shot). To look closer: `watch.mjs sheet <ref> --from a --to b`,
+`strip <ref> --at t` (dense frames = how a move animates), `frames <ref> --at t` (full res), `audio <ref> --from a --to b`
+(loudness + words = the sound rhythm), `transcript <ref>`. New reference: `watch.mjs ingest <file> --as <name>` then `transcribe <name>`.
 
 ## Optional, outside the Studio
 - **Google Flow** via the `flow` MCP server (spare Google account) — AI-generated images/clips. Off-style for the main video;
@@ -603,6 +616,10 @@ LonLat, BBox, ProjName, RegionName, Region, REGIONS, makeProjection, Proj, MapHi
 ## docs/kit/silhouette.md — Shared library of free organism silhouettes (animals, dinosaurs, microbes…) — recolourable, dashed = inferred
 modules: kit/silhouette
 Silhouette, SILHOUETTE_NAMES
+
+## docs/kit/night.md — AZTIKA look (Arabic channel, copied from references/universe-claude): NightSky, GridFloor, GlowText (4-layer bold glowing text), WordPop (word-by-word headline), NPill, Podium, RevealRing, YearBadge, HostGlow
+modules: kit/night
+N, Tone, nightFont, textWidth, NightScreen, NightSky, Sparkle, GridFloor, GlowText, PopWord, WordPop, PillKind, NPill, Podium, RevealRing, YearBadge, HostGlow
 
 ## docs/kit/depth.md — "Looks 3D" drawn flat: Globe, isometric buildings/rooms/props, shaded spheres, DepthStack
 modules: kit/depth

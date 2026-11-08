@@ -62,6 +62,10 @@ LonLat, BBox, ProjName, RegionName, Region, REGIONS, makeProjection, Proj, MapHi
 modules: kit/silhouette
 Silhouette, SILHOUETTE_NAMES
 
+## docs/kit/night.md — AZTIKA look (Arabic channel, copied from references/universe-claude): NightSky, GridFloor, GlowText (4-layer bold glowing text), WordPop (word-by-word headline), NPill, Podium, RevealRing, YearBadge, HostGlow
+modules: kit/night
+N, Tone, nightFont, textWidth, NightScreen, NightSky, Sparkle, GridFloor, GlowText, PopWord, WordPop, PillKind, NPill, Podium, RevealRing, YearBadge, HostGlow
+
 ## docs/kit/depth.md — "Looks 3D" drawn flat: Globe, isometric buildings/rooms/props, shaded spheres, DepthStack
 modules: kit/depth
 mixTone, crescentPath, LonLat, globeProject, globeFacing, GlobeHighlight, GlobePin, GlobeRoute, Globe, iso, IsoColors, isoShades, IsoBox, IsoTile, IsoFloor, IsoStairs, isoChimneyTop, IsoBuilding, IsoRoom, IsoCylinder, Sphere, DepthCam, depthAt, DepthStack
