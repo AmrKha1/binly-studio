@@ -4,7 +4,7 @@
 1. Put these in the `input` folder:
    - your voiceover (`.wav`, `.mp3`, `.m4a` or `.flac`) — one file, OR all its recorded **parts** (loose or in one folder),
      numbered in order ("1 …", "2 …", … "10 …"). The Studio levels every part to the same loudness, joins them and
-     shortens every pause longer than 0.25 s to 0.19 s, with exactly 0.35 s between two parts. Then a **voice check** listens
+     shortens every pause longer than 0.23 s to 0.19 s, with exactly 0.35 s between two parts. Then a **voice check** listens
      for problems (volume jumps, clicks, noise, hum, distortion, cut words); if it finds something it stops and tells you
      the exact times to listen to (report: `input/vo-check.md`). The finished video is mastered to −14 LUFS / −1 dB true peak.
    - the script as a `.txt` file — just as you wrote it, no need to transcribe anything. **The voiceover is the main

@@ -5,7 +5,7 @@
 // uploads the voiceover to GitHub (release vo-<slug>), and runs the cloud timing analysis.
 // VOICEOVER IN PARTS (owner 2026-11-08): put all parts in input/ (loose files or one folder, numbered "1…", "2…" …).
 // tools/vo-prep.mjs levels every part to the same loudness, joins them in number order with 0.35 s, trims every pause
-// > 0.25 s to 0.19 s → videos/<slug>/voiceover.wav = the master clock, verified by the voice gate (tools/vo-check.mjs). (--raw keeps a single file exactly as recorded.)
+// > 0.23 s to 0.19 s → videos/<slug>/voiceover.wav = the master clock, verified by the voice gate (tools/vo-check.mjs). (--raw keeps a single file exactly as recorded.)
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
@@ -102,7 +102,7 @@ if (!a['no-analyze']) {
   const tag = `vo-${slug}`;
   const exists = sh('gh', ['release', 'view', tag], {allowFail: true}) !== null;
   if (exists) gh('release', 'upload', tag, voDest, '--clobber');
-  else gh('release', 'create', tag, voDest, '--title', `Voiceover: ${slug}`, '--notes', a.raw ? 'Original voiceover (unprocessed). Used by the cloud render.' : 'Voiceover made by tools/vo-prep.mjs (parts levelled to equal loudness, joined with 0.35 s, pauses > 0.25 s → 0.19 s) and passed tools/vo-check.mjs. Used by the cloud render.');
+  else gh('release', 'create', tag, voDest, '--title', `Voiceover: ${slug}`, '--notes', a.raw ? 'Original voiceover (unprocessed). Used by the cloud render.' : 'Voiceover made by tools/vo-prep.mjs (parts levelled to equal loudness, joined with 0.35 s, pauses > 0.23 s → 0.19 s) and passed tools/vo-check.mjs. Used by the cloud render.');
   console.log(`voiceover uploaded (release ${tag})`);
   const r = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'cloud.mjs'), 'analyze', slug], {stdio: 'inherit'});
   if (r.status !== 0) process.exit(r.status ?? 1);
