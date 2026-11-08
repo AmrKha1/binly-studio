@@ -296,7 +296,7 @@ export const YearBadge: React.FC<{t: number; at: number; year: number; from?: nu
   const steps = from !== undefined ? Math.abs(year - from) : 0;
   const k = steps ? Math.min(steps, Math.floor((t - at) / 0.1)) : 0;
   const shown = from !== undefined ? from + Math.sign(year - from) * k : year;
-  const w = textWidth(String(year), size) + size * 0.9, h = size * 1.15;
+  const w = textWidth(String(year), size) + size * 0.8, h = size * 1.4; // measured 0:40.6: box ≈ 1.4× the digit size
   const q = popIn(p, 0.45, 0.4);
   return (
     <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>

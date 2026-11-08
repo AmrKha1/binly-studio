@@ -17,7 +17,7 @@ export const NightPage5: React.FC<{t: number}> = ({t}) => {
     s = (
       <>
         <SunsetWorld t={t} id="w1" />
-        <YearBadge t={t} at={0.2} year={1503} from={1506} x={960} y={515} label="سنة" place="إيطاليا" id="yb" size={150} />
+        <YearBadge t={t} at={0.2} year={1503} from={1506} x={960} y={500} label="سنة" place="إيطاليا" id="yb" size={270} />
       </>
     );
   } else if (t < 4) {

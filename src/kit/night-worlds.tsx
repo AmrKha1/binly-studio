@@ -30,7 +30,7 @@ const skylinePath = (kind: Skyline, base: number, seed: number, tall: number) =>
       x += w;
     } else {
       const w = (kind === 'city' ? 70 : 90) + r * 110, h = (kind === 'city' ? 0.6 + r * 1.4 : 0.35 + r * 0.6) * tall;
-      const roof = kind === 'town' && r > 0.35 ? w * 0.32 : 0;
+      const roof = kind === 'town' && r > 0.3 ? w * 0.35 : 0;
       d += ` L${x} ${base - h}` + (roof ? ` L${x + w / 2} ${base - h - roof} L${x + w} ${base - h}` : ` L${x + w} ${base - h}`) + ` L${x + w} ${base}`;
       x += w + (rand(seed + i) > 0.7 ? 20 : 0);
     }
@@ -39,41 +39,50 @@ const skylinePath = (kind: Skyline, base: number, seed: number, tall: number) =>
 };
 
 export const SunsetWorld: React.FC<{t: number; id: string; skyline?: Skyline; sunX?: number; sunY?: number}> = ({t, id, skyline = 'town', sunX = 1390, sunY = 530}) => {
+  // measured from 0:40.6: warm orange around the sun → darker brown corners; small houses low in the frame (rooftops
+  // ~630–760), a lighter back row + a dark plum front row, flat dark plum ground below ~775.
   const g = uid('nsun', id);
-  const a0 = t * 0.04;
+  const a0 = t * 0.035;
   return (
     <g>
       <defs>
-        <radialGradient id={g} cx={sunX / W} cy={sunY / H} r="0.9">
-          <stop offset="0" stopColor="#FFE3A0" />
-          <stop offset="0.35" stopColor="#FAA94F" />
-          <stop offset="1" stopColor="#D2794A" />
+        <radialGradient id={g} cx={sunX / W} cy={sunY / H} r="1">
+          <stop offset="0" stopColor="#FFD58A" />
+          <stop offset="0.3" stopColor="#F7A757" />
+          <stop offset="0.75" stopColor="#D97A45" />
+          <stop offset="1" stopColor="#B9643F" />
+        </radialGradient>
+        <radialGradient id={g + 'v'} cx="0.55" cy="0.55" r="0.8">
+          <stop offset="0.5" stopColor="#3A1E10" stopOpacity="0" />
+          <stop offset="1" stopColor="#3A1E10" stopOpacity="0.55" />
         </radialGradient>
         <linearGradient id={g + 'f'} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#5A1A3A" />
-          <stop offset="1" stopColor="#2C091D" />
+          <stop offset="0" stopColor="#56263F" />
+          <stop offset="1" stopColor="#310D21" />
         </linearGradient>
         <filter id={g + 'b'} x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation={30} />
+          <feGaussianBlur stdDeviation={34} />
         </filter>
       </defs>
       <rect x={0} y={0} width={W} height={H} fill={`url(#${g})`} />
-      {Array.from({length: 16}, (_, i) => {
-        const a = a0 + (i * Math.PI) / 8, b = a + Math.PI / 16, R = 2600;
-        return <path key={i} d={`M${sunX} ${sunY} L${sunX + Math.cos(a) * R} ${sunY + Math.sin(a) * R} L${sunX + Math.cos(b) * R} ${sunY + Math.sin(b) * R}Z`} fill="#FFF0B8" opacity={0.28} />;
+      {Array.from({length: 18}, (_, i) => {
+        const a = a0 + (i * Math.PI) / 9, b = a + Math.PI / 20, R = 2600;
+        return <path key={i} d={`M${sunX} ${sunY} L${sunX + Math.cos(a) * R} ${sunY + Math.sin(a) * R} L${sunX + Math.cos(b) * R} ${sunY + Math.sin(b) * R}Z`} fill="#FFF0B8" opacity={0.32} />;
       })}
-      <circle cx={sunX} cy={sunY} r={150} fill="#FFF3C0" opacity={0.6} filter={`url(#${g}b)`} />
-      <circle cx={sunX} cy={sunY} r={88} fill="#FFF3C8" />
-      {[[700, 95, 1], [1330, 120, 0.8], [1050, 230, 0.9], [40, 50, 0.6]].map(([cx, cy, s], i) => {
-        const x = ((cx + t * 12 * (1 + i * 0.3)) % (W + 400)) - 200;
+      <circle cx={sunX} cy={sunY} r={170} fill="#FFF3C0" opacity={0.55} filter={`url(#${g}b)`} />
+      <circle cx={sunX} cy={sunY} r={90} fill="#FFF5CC" />
+      {[[700, 95, 1], [1330, 105, 0.85], [1050, 225, 0.95], [40, 45, 0.6]].map(([cx, cy, sc], i) => {
+        const x = ((cx + t * 10 * (1 + i * 0.3)) % (W + 400)) - 200;
         return (
-          <g key={i} transform={`translate(${x} ${cy}) scale(${s})`} opacity={0.42}>
+          <g key={i} transform={`translate(${x} ${cy}) scale(${sc})`} opacity={0.4}>
             <path d="M-170 40 Q-170 0 -120 0 Q-110 -55 -45 -55 Q0 -95 60 -60 Q120 -70 130 -10 Q175 -5 170 40 Z" fill="#FFF6E6" />
           </g>
         );
       })}
-      <path d={skylinePath(skyline, 780, 11, 150)} fill="#9A4A5A" opacity={0.6} />
-      <path d={skylinePath(skyline, 870, 29, 130)} fill={`url(#${g}f)`} />
+      <rect x={0} y={0} width={W} height={H} fill={`url(#${g}v)`} />
+      <path d={skylinePath(skyline, 715, 11, 125)} fill="#A85A63" opacity={0.6} />
+      <path d={skylinePath(skyline, 778, 29, 95)} fill="#56263F" />
+      <rect x={0} y={776} width={W} height={H - 776} fill={`url(#${g}f)`} />
     </g>
   );
 };

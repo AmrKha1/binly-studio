@@ -11,6 +11,7 @@
 //   node tools/watch.mjs frames <name> --at t[,t2]              full-res 1920×1080 frames
 //   node tools/watch.mjs zoom <name> --at t[,t2] --box x,y,w,h [--fps 30 --span 1]   crop+enlarge (text/glow detail, pop-in frame by frame)
 //   node tools/watch.mjs color <name> --at t --pts "x,y;x,y" | --line x1,y1,x2,y2 [--n 12]   exact colour codes
+//   node tools/watch.mjs spectro <name> --from a --to b | --file x.ogg   SEE the sound: spectrogram under the frames
 //   node tools/watch.mjs hits <name> [--from a --to b --db 9]   sound-effect hits + the words around them
 //   node tools/watch.mjs audio <name> --from a --to b [--step 0.25]   loudness bars + words (hear the mix/rhythm)
 //   node tools/watch.mjs transcribe <name> [--lang ar]          cloud whisper (large-v3), ENCRYPTED both ways → references/<name>/timing/ (local only)
@@ -666,6 +667,130 @@ function cmdHits() {
   }
 }
 
-const cmds = {zoom: cmdZoom, color: cmdColor, hits: cmdHits, ingest, list: cmdList, shots: cmdShots, sheet: cmdSheet, strip: cmdStrip, frames: cmdFrames, audio: cmdAudio, transcribe: cmdTranscribe, transcript: cmdTranscript, report: () => (report(nameArg), console.log(`references/${nameArg}/report.md`))};
+/**
+ * See the sound: a spectrogram (log frequency 60 Hz–8 kHz, time →) lined up under video frames of the same moment.
+ *   watch.mjs spectro <ref> --from a --to b [--pps 220]     reference video moment
+ *   watch.mjs spectro --file x.ogg [--from a --to b]        any audio file (compare candidate SFX with the reference)
+ * Read the shapes: whoosh = a sweeping noise band · pop/click = a short vertical blip · ding/chime = clean horizontal
+ * lines that ring out · hit/thump = a heavy low blob · riser = a band climbing · speech = stacked wavy stripes (formants).
+ * Vertical white ticks = word starts (if a transcript exists).
+ */
+function cmdSpectro() {
+  const SR = 16000, NFFT = 1024, pps = +(a.pps ?? 220), HGT = 300;
+  let pcm, video = null, words = [], lbl;
+  const from = +(a.from ?? 0);
+  if (a.file) {
+    const tmp = path.join(ROOT, '.cache', 'ref', '_spectro.wav');
+    fs.mkdirSync(path.dirname(tmp), {recursive: true});
+    ff(['-y', '-i', String(a.file), '-ac', '1', '-ar', String(SR), '-c:a', 'pcm_s16le', tmp]);
+    pcm = readWav(tmp);
+    lbl = path.basename(String(a.file));
+  } else {
+    const meta = loadRef(nameArg);
+    pcm = readWav(path.join(cacheDir(nameArg), 'audio.wav'));
+    video = fs.existsSync(meta.video) ? meta.video : null;
+    const wf = path.join(refDir(nameArg), 'timing', 'words.json');
+    if (fs.existsSync(wf)) words = JSON.parse(fs.readFileSync(wf, 'utf8'));
+    lbl = nameArg;
+  }
+  const to = +(a.to ?? Math.min(pcm.length / SR, from + 4));
+  const n0 = Math.floor(from * SR), n1 = Math.min(pcm.length, Math.floor(to * SR));
+  const cols = Math.max(1, Math.round((to - from) * pps));
+  // radix-2 FFT
+  const fft = (re, im) => {
+    const n = re.length;
+    for (let i = 1, j = 0; i < n; i++) {
+      let bit = n >> 1;
+      for (; j & bit; bit >>= 1) j ^= bit;
+      j ^= bit;
+      if (i < j) [re[i], re[j]] = [re[j], re[i]], [im[i], im[j]] = [im[j], im[i]];
+    }
+    for (let len = 2; len <= n; len <<= 1) {
+      const ang = (-2 * Math.PI) / len;
+      for (let i = 0; i < n; i += len)
+        for (let k = 0; k < len / 2; k++) {
+          const wr = Math.cos(ang * k), wi = Math.sin(ang * k);
+          const ur = re[i + k], ui = im[i + k];
+          const vr = re[i + k + len / 2] * wr - im[i + k + len / 2] * wi, vi = re[i + k + len / 2] * wi + im[i + k + len / 2] * wr;
+          re[i + k] = ur + vr, im[i + k] = ui + vi, re[i + k + len / 2] = ur - vr, im[i + k + len / 2] = ui - vi;
+        }
+    }
+  };
+  const hann = Float64Array.from({length: NFFT}, (_, i) => 0.5 - 0.5 * Math.cos((2 * Math.PI * i) / (NFFT - 1)));
+  const fLo = 60, fHi = 8000;
+  const binOf = (row) => (fLo * Math.pow(fHi / fLo, 1 - row / (HGT - 1)) * NFFT) / SR;
+  const mag = [];
+  let peak = -200;
+  for (let c = 0; c < cols; c++) {
+    const center = n0 + Math.round(((n1 - n0) * c) / cols);
+    const re = new Float64Array(NFFT), im = new Float64Array(NFFT);
+    for (let i = 0; i < NFFT; i++) {
+      const k = center - NFFT / 2 + i;
+      re[i] = k >= 0 && k < pcm.length ? (pcm[k] / 32768) * hann[i] : 0;
+    }
+    fft(re, im);
+    const col = new Float64Array(HGT);
+    for (let r = 0; r < HGT; r++) {
+      const b = binOf(r), b0 = Math.floor(b), b1 = Math.min(NFFT / 2 - 1, b0 + 1), fr = b - b0;
+      const m0 = Math.hypot(re[b0], im[b0]), m1 = Math.hypot(re[b1], im[b1]);
+      col[r] = 20 * Math.log10(m0 * (1 - fr) + m1 * fr + 1e-9);
+      if (col[r] > peak) peak = col[r];
+    }
+    mag.push(col);
+  }
+  const ramp = (v) => {
+    // magma-like: black → purple → orange → pale yellow
+    const st = [[0, 0, 0, 4], [0.3, 80, 18, 123], [0.6, 222, 73, 104], [0.85, 252, 170, 95], [1, 252, 253, 191]];
+    for (let i = 1; i < st.length; i++)
+      if (v <= st[i][0]) {
+        const k = (v - st[i - 1][0]) / (st[i][0] - st[i - 1][0]);
+        return [0, 1, 2].map((j) => Math.round(st[i - 1][j + 1] + (st[i][j + 1] - st[i - 1][j + 1]) * k));
+      }
+    return st[st.length - 1].slice(1);
+  };
+  const tileW = 192, tileH = 108;
+  const top = video ? tileH + 6 : 0;
+  const img = canvas(cols, top + HGT + 22, [18, 18, 22]);
+  if (video) {
+    for (let x = 0; x + tileW <= cols + tileW / 2; x += tileW) {
+      const t = from + (x + tileW / 2) / pps;
+      if (t > to) break;
+      const fr = resize(grab(video, t, tileW, tileH), tileW, tileH);
+      const cut = {w: Math.min(tileW, cols - x), h: tileH, data: Buffer.alloc(Math.min(tileW, cols - x) * tileH * 3)};
+      for (let yy = 0; yy < tileH; yy++) fr.data.copy(cut.data, yy * cut.w * 3, yy * tileW * 3, yy * tileW * 3 + cut.w * 3);
+      blit(img, cut, x, 0);
+    }
+  }
+  for (let c = 0; c < cols; c++)
+    for (let r = 0; r < HGT; r++) {
+      const v = clamp01v((mag[c][r] - (peak - 75)) / 75);
+      img.data.set(ramp(v), ((top + r) * cols + c) * 3);
+    }
+  // frequency guides (500 Hz, 1k, 2k, 4k) + word ticks + time labels
+  for (const f of [250, 1000, 4000]) {
+    const r = Math.round((1 - Math.log(f / fLo) / Math.log(fHi / fLo)) * (HGT - 1));
+    for (let c = 0; c < cols; c += 6) img.data.set([120, 120, 140], ((top + r) * cols + c) * 3);
+  }
+  for (const w of words.filter((x) => x.s >= from && x.s < to)) {
+    const c = Math.round((w.s - from) * pps);
+    for (let r = 0; r < 14; r++) img.data.set([255, 255, 255], ((top + r) * cols + c) * 3);
+  }
+  for (let s = Math.ceil(from * 4) / 4; s < to; s += 0.25) {
+    const c = Math.round((s - from) * pps);
+    const big = Math.abs(s - Math.round(s)) < 1e-6;
+    for (let r = 0; r < (big ? 10 : 5); r++) img.data.set([200, 200, 200], ((top + HGT + r) * cols + c) * 3);
+    if (Math.abs((s * 2) - Math.round(s * 2)) < 1e-6) label(img, fmt(s), Math.min(cols - 70, c + 2), top + HGT + 8, 1);
+  }
+  const out = path.join(ROOT, '.cache', 'ref', a.file ? '_files' : nameArg, 'spectro', `${lbl.replace(/[^\w.-]/g, '_')}-${from.toFixed(2)}.jpg`);
+  fs.mkdirSync(path.dirname(out), {recursive: true});
+  const tmp = out.replace(/\.jpg$/, '.tmp.png');
+  fs.writeFileSync(tmp, encodePNG(img));
+  ff(['-y', '-i', tmp, '-q:v', '3', out]);
+  fs.rmSync(tmp);
+  console.log(`${path.relative(ROOT, out)}  (${(to - from).toFixed(2)} s, ${cols}px)`);
+}
+const clamp01v = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
+
+const cmds = {spectro: cmdSpectro, zoom: cmdZoom, color: cmdColor, hits: cmdHits, ingest, list: cmdList, shots: cmdShots, sheet: cmdSheet, strip: cmdStrip, frames: cmdFrames, audio: cmdAudio, transcribe: cmdTranscribe, transcript: cmdTranscript, report: () => (report(nameArg), console.log(`references/${nameArg}/report.md`))};
 if (!cmds[cmd]) console.log(fs.readFileSync(new URL(import.meta.url), 'utf8').split('\n').filter((l) => l.startsWith('//')).map((l) => l.slice(3)).join('\n'));
 else await cmds[cmd]();
