@@ -16,6 +16,7 @@
 // (ar is printed by ingest/use and stored in public/<slug>/art.json).
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import {spawnSync} from 'node:child_process';
 import {ROOT, args} from './lib/render.mjs';
 
@@ -27,7 +28,8 @@ fs.mkdirSync(path.join(LIB, 'bg'), {recursive: true});
 fs.mkdirSync(path.join(LIB, 'el'), {recursive: true});
 const index = fs.existsSync(IDX) ? JSON.parse(fs.readFileSync(IDX, 'utf8')) : {};
 const save = () => fs.writeFileSync(IDX, JSON.stringify(index, null, 1));
-const FLOW_OUT = 'C:/Users/malika/flow-mcp-out';
+// where flow-mcp saves its downloads (its own default: ~/flow-mcp-out, or FLOW_MCP_OUTPUT) — follows the logged-in user
+const FLOW_OUT = process.env.FLOW_MCP_OUTPUT ?? path.join(os.homedir(), 'flow-mcp-out');
 
 // image size from PNG/JPEG header
 const dims = (f) => {
