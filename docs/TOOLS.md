@@ -53,6 +53,14 @@ render masters the final mix to −14 LUFS / −1 dBTP (two-pass loudnorm, linea
 per part, peaks/clipping, DC, pauses, joins, cuts in silence, clicks at edits + anywhere, start/end, over-trim, noise
 floor, mains hum, clipping in the original parts, even delivery) → vo-check.md; FAIL stops, WARN needs `--vo-ok`.
 
+## YouTube master (owner 2026-11-08)
+Chunks render near-lossless (`--color-space=bt709 --jpeg-quality=100 --crf=12`), then assemble encodes ONCE to YouTube's
+upload spec (tools/cloud/youtube.mjs, support.google.com/youtube/answer/1722171): MP4, H.264 High, yuv420p, BT.709
+tagged, CFR 60, closed GOP 0.5 s, 2 B-frames, CRF 12 VBR + aq-mode 3 (no banding in dark gradients), AAC-LC 384k 48 kHz
+stereo, faststart, audio −14 LUFS / −1 dBTP. The QA report lists every spec check. `cloud.mjs render <slug> --yt 1440` =
+optional 2560×1440 upscale (YouTube gives 1440p+ its better codecs; A/B test it once). `tools/youtube-export.mjs` does
+the same for any existing file. This PC also has a FULL ffmpeg on PATH (winget Gyan.FFmpeg 9.0.2) — the export tool uses it.
+
 ## Optional, outside the Studio
 - **Google Flow** via the `flow` MCP server (spare Google account) — AI-generated images/clips. Off-style for the main video;
   possible use: thumbnails/background plates. Stills free, video clips cost credits — always ask the user before spending.

@@ -6,6 +6,7 @@ import path from 'node:path';
 const FF = process.env.FFMPEG ?? "ffmpeg";
 const FP = process.env.FFPROBE ?? "ffprobe";
 import {execFileSync, spawnSync} from 'node:child_process';
+import {ytCheck} from './youtube.mjs';
 
 const [, , video, vo, qaDir, fromS, toS] = process.argv;
 fs.mkdirSync(qaDir, {recursive: true});
@@ -124,6 +125,19 @@ for (let k = 0; k < sheets; k++) {
   spawnSync(FF, ['-v', 'error', '-y', '-ss', String(k * 90), '-t', '90', '-i', video, '-vf', `select='not(mod(n\\,180))',scale=320:-1${label},tile=6x5:padding=4:color=gray`, '-fps_mode', 'vfr', '-frames:v', '1', path.join(qaDir, `sheet-${String(k + 1).padStart(2, '0')}.png`)]);
 }
 log(`- Contact sheets: ${sheets} (sheet-NN.png, one tile every 3 s${off ? `, times relative to ${off}s` : ''})`);
+// YouTube export spec (tools/cloud/youtube.mjs) — container, faststart, codec, colour tags, CFR, bitrate, audio
+{
+  const probe = JSON.parse(spawnSync(FP, ['-v', 'error', '-show_streams', '-show_format', '-of', 'json', video], {encoding: 'utf8'}).stdout || '{"streams":[]}');
+  const fd = fs.openSync(video, 'r'), head = Buffer.alloc(4 << 20);
+  fs.readSync(fd, head, 0, head.length, 0);
+  fs.closeSync(fd);
+  const checks = ytCheck(probe, head.toString('latin1'));
+  log(`- YouTube export: ${checks.filter((c) => c.ok).length}/${checks.length} spec checks pass · ${Math.round(fs.statSync(video).size / 1e6)} MB`);
+  for (const c of checks) {
+    log(`  - ${c.ok ? '✓' : '✗'} ${c.label}: ${c.value}`);
+    if (!c.ok) warn.push(`YouTube spec: ${c.label} — ${c.value}`);
+  }
+}
 // delivery loudness (owner 2026-11-08: −14 LUFS, −1 dBTP) — measured by assemble.mjs on the final file
 const loudFile = path.join(path.dirname(video), 'loudness.json');
 if (fs.existsSync(loudFile)) {

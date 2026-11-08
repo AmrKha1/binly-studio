@@ -53,7 +53,7 @@ Delegate heavy work to subagents; read docs, not source (kit: docs/KIT-INDEX.md,
 ## Rules that never bend
 Voiceover prepared once at ingest (parts levelled + joined with 0.35 s, pauses > 0.23 s → 0.19 s) and VERIFIED by the voice gate (vo-check), then untouched and the master clock · no invented facts/numbers/quotes · numbers exactly as spoken ·
 Binly palette only · no logo/HUD/subtitles · the ONLY recurring characters are the channel hosts — ODDESTORY (English) and AZTIKA (Arabic), kit/image-host · deterministic code (`node tools/check.mjs`) ·
-final render only in the cloud (this PC is too slow; local = stills/sheets only) · 1920×1080 60 fps H.264/AAC, −14 LUFS / −1 dBTP.
+final render only in the cloud (this PC is too slow; local = stills/sheets only) · 1920×1080 60 fps, delivered as a YOUTUBE MASTER (H.264 High, BT.709 tagged, CFR, closed GOP, CRF 12 + aq-mode 3, AAC-LC 384k 48 kHz, faststart), −14 LUFS / −1 dBTP — checked in the QA report.
 
 ## Commands (all from the studio root)
 | | |
@@ -71,6 +71,7 @@ final render only in the cloud (this PC is too slow; local = stills/sheets only)
 | `node tools/still.mjs --at 12.5[,13]` | full-res stills → .cache/stills/ |
 | `node tools/cloud.mjs render <slug> [--scale 0.5] [--from a --to b]` | cloud render + QA download |
 | `node tools/cloud.mjs analyze <slug>` · `push` · `runs` | cloud timing · commit+push · recent runs |
+| `node tools/youtube-export.mjs <in.mp4> [out.mp4] [--res 1440] [--copy]` | make ANY video YouTube-ready (same master + loudness) and check it |
 | `node tools/preview.mjs` | live preview (Remotion Studio, http://localhost:3000) |
 | `node tools/photo.mjs search "q"` · `get <#> --as name` | free archival images (Wikimedia) |
 | `node tools/art.mjs find <words>` · `prompts <slug>` · `ingest <slug>` · `use <slug> <names>` | generated art: library search → Flow prompts → cut-out + register |

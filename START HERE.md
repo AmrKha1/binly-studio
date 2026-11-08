@@ -6,7 +6,8 @@
      numbered in order ("1 …", "2 …", … "10 …"). The Studio levels every part to the same loudness, joins them and
      shortens every pause longer than 0.23 s to 0.19 s, with exactly 0.35 s between two parts. Then a **voice check** listens
      for problems (volume jumps, clicks, noise, hum, distortion, cut words); if it finds something it stops and tells you
-     the exact times to listen to (report: `input/vo-check.md`). The finished video is mastered to −14 LUFS / −1 dB true peak.
+     the exact times to listen to (report: `input/vo-check.md`). The finished video comes out as a YouTube-ready master (web-optimised, correct colours,
+     high quality, −14 LUFS / −1 dB true peak) — upload it as it is. Older videos: `node tools/youtube-export.mjs "D:my video.mp4"`.
    - the script as a `.txt` file — just as you wrote it, no need to transcribe anything. **The voiceover is the main
      engine:** the video follows what you actually SAID. The script only helps spell names and numbers correctly; if you
      changed, added or skipped lines while recording, the voiceover wins automatically.

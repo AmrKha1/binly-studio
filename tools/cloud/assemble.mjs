@@ -9,6 +9,7 @@ import path from 'node:path';
 const FF = process.env.FFMPEG ?? "ffmpeg";
 const FP = process.env.FFPROBE ?? "ffprobe";
 import {execFileSync, spawnSync} from 'node:child_process';
+import {ytAudioArgs, ytContainerArgs, ytVideoArgs} from './youtube.mjs';
 
 const [, , slug, fromS, toS] = process.argv;
 const run = (args) => execFileSync(FF, ['-hide_banner', '-loglevel', 'error', '-y', ...args], {stdio: 'inherit'});
@@ -41,9 +42,15 @@ const m1 = measure('final/mix.wav');
 run(['-i', 'final/mix.wav', '-af',
   `loudnorm=I=${I}:TP=${TP}:LRA=${LRA}:measured_I=${m1.input_i}:measured_TP=${m1.input_tp}:measured_LRA=${m1.input_lra}:measured_thresh=${m1.input_thresh}:offset=${m1.target_offset}:linear=true:print_format=summary,aresample=48000`,
   '-c:a', 'pcm_s24le', 'final/master.wav']);
-// 4) mux the mastered audio (AAC 320k)
+// 4) the YOUTUBE MASTER (tools/cloud/youtube.mjs): one final encode from the near-lossless chunks to YouTube's upload
+//    spec (H.264 High, BT.709 tagged, CFR 60, closed GOP 0.5 s, CRF 12 VBR + aq-mode 3, AAC-LC 384k 48 kHz, faststart).
+//    res: 1080 (default) or 1440 (upscale test). Previews (scale < 1) use a fast preset.
+const res = Number(process.argv[5] || process.env.YT_RES || 1080);
+const preview = Number(process.env.SCALE || 1) < 1;
 run(['-i', 'final/video-only.mp4', '-i', 'final/master.wav', '-map', '0:v', '-map', '1:a',
-  '-c:v', 'copy', '-c:a', 'aac', '-b:a', '320k', '-ar', '48000', '-shortest', '-movflags', '+faststart', 'final/video.mp4']);
+  ...ytVideoArgs({res: preview ? 1080 : res, fast: preview}), ...ytAudioArgs(), '-shortest', ...ytContainerArgs(),
+  '-metadata', `title=${slug}`, 'final/video.mp4']);
+fs.rmSync('final/video-only.mp4', {force: true});
 // 5) verify the delivered file
 const m2 = measure('final/video.mp4', ['-vn']);
 const loud = {target: {lufs: -14, true_peak_db: -1}, mix_before: {lufs: +m1.input_i, true_peak_db: +m1.input_tp}, final: {lufs: +m2.input_i, true_peak_db: +m2.input_tp, lra: +m2.input_lra}};

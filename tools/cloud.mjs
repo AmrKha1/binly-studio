@@ -1,7 +1,7 @@
 // Cloud jobs on GitHub Actions (free, parallel). Run long ones in the background.
 //   node tools/cloud.mjs push ["message"]                 commit + push the studio (code, plans, timing)
 //   node tools/cloud.mjs analyze <slug> [--model small.en] transcribe + align → videos/<slug>/timing/
-//   node tools/cloud.mjs render <slug> [--scale 0.5] [--from 120 --to 210]
+//   node tools/cloud.mjs render <slug> [--scale 0.5] [--from 120 --to 210] [--yt 1440]   (YouTube master 1080 default, or 1440 upscale)
 //        → videos/<slug>/output/<file>.mp4 + videos/<slug>/qa/<label>/ (qa_report.md, sheet-NN.png)
 //   node tools/cloud.mjs runs                             recent runs
 import fs from 'node:fs';
@@ -52,7 +52,7 @@ async function render() {
   const from = a.from !== undefined ? String(a.from) : '';
   const to = a.to !== undefined ? String(a.to) : '';
   push(`render: ${slug}${from || to ? ` ${from}-${to}` : ''} scale ${scale}`);
-  const id = await dispatch('render.yml', {slug, scale, from_s: from, to_s: to, chunk_s: a.chunk ?? '75'});
+  const id = await dispatch('render.yml', {slug, scale, from_s: from, to_s: to, chunk_s: a.chunk ?? '75', youtube: String(a.yt ?? '1080')});
   console.log(`render run ${id} started (https://github.com/${gh('repo', 'view', '--json', 'nameWithOwner', '-q', '.nameWithOwner')}/actions/runs/${id})`);
   await wait(id, 'render');
   const outDir = path.join(ROOT, 'videos', slug, 'output');

@@ -2,7 +2,8 @@ name: Render video
 run-name: render ${{ inputs.slug }} ${{ inputs.token }}
 
 # Parallel chunked render: the timeline is split into chunks rendered on separate free runners,
-# joined losslessly, then muxed with the ORIGINAL voiceover (untouched) + generated music + SFX.
+# rendered near-lossless (BT.709, JPEG 100, CRF 12), joined, mixed with the prepared voiceover + SFX, mastered to
+# -14 LUFS / -1 dBTP and encoded ONCE to YouTube's upload spec (tools/cloud/youtube.mjs).
 
 on:
   workflow_dispatch:
@@ -26,6 +27,10 @@ on:
         description: "Seconds of video per parallel runner"
         required: false
         default: "75"
+      youtube:
+        description: "YouTube master height: 1080 (default) or 1440 (upscale test)"
+        required: false
+        default: "1080"
       token:
         description: "Unique id so tools can find this run"
         required: false
@@ -134,7 +139,7 @@ jobs:
         run: |
           npx remotion render Main "out/chunk-${{ matrix.chunk.i }}.mp4" \
             --frames=${{ matrix.chunk.a }}-${{ matrix.chunk.b }} \
-            --muted --scale=${{ inputs.scale }} --concurrency=100% --log=error
+            --muted --scale=${{ inputs.scale }} --concurrency=100% --log=error             --color-space=bt709 --jpeg-quality=100 --crf=12
       - uses: actions/upload-artifact@v5
         with:
           name: chunk-${{ matrix.chunk.i }}
@@ -175,8 +180,10 @@ jobs:
         run: |
           mkdir -p in
           gh release download "vo-$SLUG" --dir in --pattern 'voiceover.*' --repo "$GITHUB_REPOSITORY"
-      - name: Join chunks + mix audio (voiceover untouched)
-        run: node tools/cloud/assemble.mjs "$SLUG" "${{ inputs.from_s }}" "${{ inputs.to_s }}"
+      - name: Join chunks + master audio (-14 LUFS) + YouTube master encode
+        env:
+          SCALE: ${{ inputs.scale }}
+        run: node tools/cloud/assemble.mjs "$SLUG" "${{ inputs.from_s }}" "${{ inputs.to_s }}" "${{ inputs.youtube }}"
       - name: QA measurements + contact sheets
         run: node tools/cloud/qa.mjs final/video.mp4 "$(ls in/voiceover.* | head -1)" final/qa "${{ inputs.from_s }}" "${{ inputs.to_s }}"
       - uses: actions/upload-artifact@v5
