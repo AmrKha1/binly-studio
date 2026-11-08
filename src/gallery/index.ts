@@ -31,6 +31,7 @@ import {EditFx} from './pages/editfx';
 import {NightPage, NightPage2, NightPage3} from './pages/night';
 import {NightPage4} from './pages/night4';
 import {NightPage5} from './pages/night5';
+import {NightPage6} from './pages/night6';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
@@ -39,6 +40,7 @@ export const GALLERY: Record<string, React.FC<{t: number}>> = {
   night3: NightPage3,
   night4: NightPage4,
   night5: NightPage5,
+  night6: NightPage6,
   glow: Glow,
   arabic: Arabic,
   motion: Motion,

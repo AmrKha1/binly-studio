@@ -3,6 +3,7 @@
 // Reference moments: rays 0:16.4 · count 2:00.4 · stamp 3:16–3:47 · bubble 0:45–0:46 · punch/whoosh 0:27.4–27.8 ·
 // stripe wipe 0:09.0 · neon sign-off 14:44.
 import React from 'react';
+import {Img, staticFile} from 'remotion';
 import {clamp01, countUp, ease, lerp, popIn, rand} from './anim';
 import {H, W} from './theme';
 import {uid} from './stage';
@@ -222,4 +223,54 @@ export const NeonSign: React.FC<{t: number; at: number; x: number; y: number; te
       {tube(w * 0.55, '#FFF3C4', 0.95)}
     </g>
   );
+};
+
+/**
+ * HeroObject — the glowing centrepiece of a shot (crown 2:28, money pile 3:33, capsule 10:18): a cut-out PNG (generated
+ * art, docs/ART-STYLE.md NIGHT blocks) with a soft glow in its own colour, a slow float, a light sweep (shine) across its
+ * surface every few seconds and twinkling sparkles. src = path inside public/ (e.g. `${slug}/el/royal-crown.png`),
+ * ar = width / height (printed by art.mjs). enter: pop | rise | drop | zoom. Silent (pair with RevealRing for the sparkle sound).
+ */
+export const HeroObject: React.FC<{t: number; at?: number; src: string; x: number; y: number; h: number; ar: number; glow?: string; enter?: 'pop' | 'rise' | 'drop' | 'zoom'; float?: boolean; shine?: boolean; sparkles?: number; id: string; out?: number}> = ({
+  t, at = 0, src, x, y, h, ar, glow = '#FFC928', enter = 'pop', float = true, shine = true, sparkles = 5, id, out,
+}) => {
+  if (t < at) return null;
+  const e = t - at;
+  const p = clamp01(e / 0.35);
+  const q = popIn(p, 0.45, enter === 'zoom' ? 0.05 : 0.3);
+  const dy = enter === 'rise' ? (1 - ease.out(p)) * 260 : enter === 'drop' ? -(1 - ease.out(p)) * 320 : 0;
+  const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
+  if (fade <= 0) return null;
+  const w = h * ar;
+  const fl = float ? Math.sin(t * 1.3 + x * 0.01) * 10 : 0;
+  const sweep = ((e * 0.45) % 1.6) - 0.3; // a light band passes every ~3.5 s
+  const file = staticFile(src);
+  return (
+    <g transform={`translate(${x} ${y + dy + fl}) scale(${q.sx} ${q.sy})`} opacity={q.o * fade}>
+      <foreignObject x={-w / 2 - 60} y={-h / 2 - 60} width={w + 120} height={h + 120}>
+        <div style={{position: 'relative', width: w + 120, height: h + 120}}>
+          <Img src={file} style={{position: 'absolute', left: 60, top: 60, width: w, height: h, filter: `drop-shadow(0 0 10px ${glow}) drop-shadow(0 0 34px ${glow}aa)`}} />
+          {shine && (
+            <div
+              style={{
+                position: 'absolute', left: 60, top: 60, width: w, height: h,
+                WebkitMaskImage: `url("${file}")`, WebkitMaskSize: '100% 100%', maskImage: `url("${file}")`, maskSize: '100% 100%',
+                background: `linear-gradient(115deg, transparent ${(sweep - 0.12) * 100}%, rgba(255,255,255,0.55) ${sweep * 100}%, transparent ${(sweep + 0.12) * 100}%)`,
+                mixBlendMode: 'screen',
+              }}
+            />
+          )}
+        </div>
+      </foreignObject>
+      {Array.from({length: sparkles}, (_, i) => {
+        const sx = (rand(i * 7 + id.length) - 0.5) * w * 0.9, sy = (rand(i * 13 + 3) - 0.5) * h * 0.9;
+        const tw = Math.max(0, Math.sin(t * (2 + rand(i) * 2) + i * 2.1));
+        return tw > 0.05 ? <Sparkle4 key={i} x={sx} y={sy} r={10 + 16 * tw} o={tw} /> : null;
+      })}
+    </g>
+  );
+};
+const Sparkle4: React.FC<{x: number; y: number; r: number; o: number}> = ({x, y, r, o}) => {
+  const k = r * 0.2;
+  return <path d={`M${x} ${y - r} Q${x + k} ${y - k} ${x + r} ${y} Q${x + k} ${y + k} ${x} ${y + r} Q${x - k} ${y + k} ${x - r} ${y} Q${x - k} ${y - k} ${x} ${y - r}Z`} fill="#FFFFFF" opacity={o} />;
 };

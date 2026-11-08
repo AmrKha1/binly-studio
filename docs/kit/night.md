@@ -99,6 +99,20 @@ Gallery `night5` (stills 1.6 sunset · 3.6 map · 5.6 science · 7.6 night city 
   hat, flat body, breathing. AZTIKA is the only character with a face. **MoneyBag** prop.
 Hero objects (diamond, palace, painting…) come from generated art (tools/art.mjs, ART-STYLE) placed on these worlds.
 
+## Hero objects — HeroObject (kit/night-fx) + generated art (docs/ART-STYLE.md "NIGHT LOOK")
+The glowing centrepiece of a shot, like the reference's crown / diamonds / money pile / capsule. Art: plan the objects in
+videos/<slug>/art/plan.json as 6-item sheets → `node tools/art.mjs prompts <slug>` (Arabic videos get the NIGHT blocks
+automatically: polished game-icon style, thick outline, white background, no painted glow) → generate in Flow (Nano Banana,
+free) → `node tools/art.mjs ingest <slug>` (cut-out + library, tagged "night"; `art.mjs find night` lists them).
+```tsx
+<RevealRing t={t} at={0.2} x={760} y={540} r={300} />
+<HeroObject t={t} at={0.15} src={`${slug}/el/royal-crown.png`} ar={1.07} x={760} y={560} h={480} glow="#FFC928" enter="rise" id="crown" />
+```
+- `{t, at, src, x, y, h, ar, glow, enter: pop|rise|drop|zoom, float=true, shine=true, sparkles=5, id, out?}` — soft glow in
+  its own colour (gold money/crowns · cyan science/diamonds · violet energy/mystery · green land/nature), slow float, a light
+  band sweeping across it every ~3.5 s, twinkling sparkles. 35–55 % of the frame height; one hero per shot. Silent —
+  RevealRing gives the soft sparkle sound. Gallery `night6`.
+
 ## Sound (built in)
 Restraint like the reference (STYLE-BIBLE §6): StripeWipe/WhooshOut whoosh · RevealRing soft sparkle · Stamp stamp ·
 Bubble/PriceTag soft pop · Flag soft swish · NeonSign neon hum · HostTrack moves very soft swish. Silent: WordPop, NPill,

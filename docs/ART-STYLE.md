@@ -43,3 +43,36 @@ image that would cost credits). Never use another model unless the owner says so
 - No text inside generated images (all words come from the kit). No nudity. Real people/events that the story presents
   as real → real archival images, not generated ones.
 - Review every plate on a contact sheet before use; regenerate (free) any that drift yellow, textured or busy.
+
+# NIGHT LOOK — AZTIKA (Arabic) hero objects (owner 2026-11-08: copy the model video, references/universe-claude)
+The blocks above are the ENGLISH white-mode look. Arabic videos (lang "ar", or plan.json "look":"night") use the blocks
+below instead — `tools/art.mjs prompts` switches automatically. Worlds (sky, map, city, room…) are built in code
+(kit/night-worlds); generated art is for the HERO OBJECTS the story is about (diamond, crown, palace, painting, capsule,
+money pile, land plot, car, ship…) — the glowing centrepiece of a shot. The glow, rays and sparkles are added in code
+(kit/night-fx HeroObject), never painted into the image. Measured references: crown + diamonds 2:28, money pile + land
+tile 3:33, palace 6:16, antimatter capsule 10:18.
+
+## NIGHT STYLE block
+> Polished, highly detailed cartoon illustration in the style of a premium mobile-game item icon or collectible sticker.
+> Bold clean dark outline around the whole object and its main parts, rich saturated jewel-like colours, smooth soft
+> shading with depth and volume, bright glossy specular highlights, sparkling gems and shiny metal where they belong,
+> crisp tiny details. Lit evenly from the front-top, no cast shadow. Clean, premium, eye-catching, readable on a phone.
+
+## NIGHT HERO SHEET block
+> An asset sheet of 6 separate hero objects arranged in 2 rows of 3, in this order (left to right, top row first): <LIST>.
+> Each object is shown whole, front-facing or as a three-quarter isometric view, centred in its cell, large, with
+> generous empty white space around it, no object touching or overlapping another, each enclosed by a thick closed dark
+> outline. Places and lands are shown as a small floating isometric diorama tile (a square of ground with its edge cut
+> like a cake slice). Background: plain pure flat white everywhere, no floor, no shadows, no glow, no light rays, no
+> sparkles in the background, no scenery, no text, no labels, no numbers, no logos, no watermark.
+
+## NIGHT BACKGROUND block (rare — the worlds are code-built)
+> Wide 16:9 view of <PLACE> at night or dusk in the same polished cartoon style, deep indigo-violet sky, calm composition,
+> a clear open area in the <centre/lower middle> where objects and the host will be placed later. EMPTY: no people, no
+> characters, no animals, no text, no letters, no signs, no logos, no watermark.
+
+## Night rules
+- One hero object per shot, big (35–55 % of the frame height), on a code-built world, with HeroObject glow in its own
+  colour (gold for money/crowns, cyan for science/diamonds, violet for energy/mystery, green for land/nature).
+- Real people/events presented as real → real archival images (kit/photo), framed like the reference (gold frame).
+- Review every sheet on a contact sheet; regenerate (free) anything flat, muddy, textured or with painted glow.

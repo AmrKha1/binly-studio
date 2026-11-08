@@ -52,8 +52,11 @@ const blocks = () => {
     for (const l of lines) { if (l.startsWith('> ')) out.push(l.slice(2)); else if (out.length) break; }
     return out.join(' ');
   };
-  return {style: grab('## STYLE block'), bg: grab('## BACKGROUND block'), sheet: grab('## ELEMENT SHEET block')};
+  return {style: grab('## STYLE block'), bg: grab('## BACKGROUND block'), sheet: grab('## ELEMENT SHEET block'),
+    nStyle: grab('## NIGHT STYLE block'), nSheet: grab('## NIGHT HERO SHEET block'), nBg: grab('## NIGHT BACKGROUND block')};
 };
+// night-look items are tagged "night" so `find night` lists the AZTIKA hero objects
+const isNightSlug = (slug) => { const f = path.join(ROOT, 'videos', slug, 'video.json'); return fs.existsSync(f) && JSON.parse(fs.readFileSync(f, 'utf8')).lang === 'ar'; };
 const vdir = (slug) => path.join(ROOT, 'videos', slug, 'art');
 const pubFor = (slug, kind) => path.join(ROOT, 'public', slug, kind === 'bg' ? 'bg' : 'el');
 const artJson = (slug) => path.join(ROOT, 'public', slug, 'art.json');
@@ -80,7 +83,12 @@ if (cmd === 'find') {
 } else if (cmd === 'prompts') {
   const slug = rest[0];
   const plan = JSON.parse(fs.readFileSync(path.join(vdir(slug), 'plan.json'), 'utf8'));
-  const B = blocks();
+  const B0 = blocks();
+  // Arabic (AZTIKA) videos use the NIGHT look blocks (owner 2026-11-08) — or force it with plan.json "look": "night"|"white"
+  const vj = path.join(ROOT, 'videos', slug, 'video.json');
+  const night = plan.look ? plan.look === 'night' : fs.existsSync(vj) && JSON.parse(fs.readFileSync(vj, 'utf8')).lang === 'ar';
+  const B = night ? {style: B0.nStyle, bg: B0.nBg, sheet: B0.nSheet} : B0;
+  console.log(`look: ${night ? 'NIGHT (AZTIKA hero objects)' : 'white mode'}`);
   if (plan.images.length > 12) console.log(`WARNING: ${plan.images.length} images — the budget is 12 per video (Flow flags heavy use). Reuse library items.`);
   const prompts = plan.images.map((im) => {
     if (im.kind === 'bg') return B.bg.replace('<PLACE>', im.place).replace('<centre/lower middle>', im.open ?? 'centre') + ' ' + B.style;
@@ -106,7 +114,7 @@ if (cmd === 'find') {
       const file = `bg/${im.name}.jpg`;
       fs.copyFileSync(src, path.join(LIB, file));
       const [w, h] = dims(path.join(LIB, file));
-      index[im.name] = {kind: 'bg', tags: im.tags ?? [], file, w, h, from: slug};
+      index[im.name] = {kind: 'bg', tags: [...(im.tags ?? []), ...(plan.look === 'night' || isNightSlug(slug) ? ['night'] : [])], file, w, h, from: slug};
       names.push(im.name);
     } else {
       const tmp = path.join(ROOT, '.cache', 'art-cut', `${slug}-${i + 1}`);
@@ -119,7 +127,7 @@ if (cmd === 'find') {
         const file = `el/${n}.png`;
         fs.copyFileSync(path.join(tmp, g), path.join(LIB, file));
         const [w, h] = dims(path.join(LIB, file));
-        index[n] = {kind: 'el', tags: im.tags ?? [], file, w, h, from: slug};
+        index[n] = {kind: 'el', tags: [...(im.tags ?? []), ...(plan.look === 'night' || isNightSlug(slug) ? ['night'] : [])], file, w, h, from: slug};
         names.push(n);
       });
       if (r.status !== 0) console.log(r.stdout + r.stderr);
