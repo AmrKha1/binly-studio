@@ -15,6 +15,10 @@ on:
         description: "Voiceover language (en | ar)"
         required: false
         default: "en"
+      sealed:
+        description: "1 = audio arrives encrypted and results leave encrypted (reference videos, REF_KEY secret)"
+        required: false
+        default: "0"
       token:
         description: "Unique id so tools can find this run"
         required: false
@@ -43,6 +47,14 @@ jobs:
           gh release download "vo-$SLUG" --dir in --pattern 'voiceover.*' --repo "$GITHUB_REPOSITORY"
           ls -la in
 
+      - name: Decrypt audio (sealed mode)
+        if: ${{ inputs.sealed == '1' }}
+        env:
+          REF_KEY: ${{ secrets.REF_KEY }}
+        run: |
+          node tools/cloud/crypt.mjs decrypt in/voiceover.enc in/voiceover.wav
+          rm in/voiceover.enc
+
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
@@ -65,7 +77,25 @@ jobs:
           [ -f "$SCRIPT" ] || SCRIPT=-
           python tools/cloud/transcribe.py "$VO" "$SCRIPT" out/timing "${{ inputs.model }}" "${{ inputs.lang }}"
 
+      - name: Encrypt results (sealed mode)
+        if: ${{ inputs.sealed == '1' }}
+        env:
+          REF_KEY: ${{ secrets.REF_KEY }}
+        run: |
+          tar -czf timing.tgz -C out timing
+          mkdir -p sealed
+          node tools/cloud/crypt.mjs encrypt timing.tgz sealed/timing.enc
+          rm -rf out/timing timing.tgz in
+
       - uses: actions/upload-artifact@v5
+        if: ${{ inputs.sealed == '1' }}
+        with:
+          name: ${{ inputs.slug }}-timing
+          path: sealed
+          retention-days: 3
+
+      - uses: actions/upload-artifact@v5
+        if: ${{ inputs.sealed != '1' }}
         with:
           name: ${{ inputs.slug }}-timing
           path: out/timing

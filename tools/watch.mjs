@@ -10,16 +10,18 @@
 //   node tools/watch.mjs strip <name> --at t [--span 2 --fps 8 --cols 8]   dense frames → see HOW something animates
 //   node tools/watch.mjs frames <name> --at t[,t2]              full-res 1920×1080 frames
 //   node tools/watch.mjs audio <name> --from a --to b [--step 0.25]   loudness bars + words (hear the mix/rhythm)
-//   node tools/watch.mjs transcribe <name> [--lang ar]          cloud whisper (large-v3) → references/<name>/timing/
+//   node tools/watch.mjs transcribe <name> [--lang ar]          cloud whisper (large-v3), ENCRYPTED both ways → references/<name>/timing/ (local only)
 //   node tools/watch.mjs transcript <name> [--from a --to b]    timed spoken lines
 // Outputs of sheet/strip/frames go to .cache/ref/<name>/ (look at them with Read).
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
+import crypto from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {ROOT, args, list} from './lib/render.mjs';
 import {FFMPEG, FFPROBE, gh, sh} from './lib/sys.mjs';
 import {dispatch, wait} from './lib/gha.mjs';
+import {encryptFile, decryptFile} from './cloud/crypt.mjs';
 
 const a = args();
 const [cmd, nameArg] = a._;
@@ -509,6 +511,19 @@ function cmdAudio() {
   }
 }
 
+/** The private key for sealed cloud jobs: .cache/ref/key.txt locally + repo secret REF_KEY (set once). */
+function refKey() {
+  const f = path.join(ROOT, '.cache', 'ref', 'key.txt');
+  if (fs.existsSync(f)) return fs.readFileSync(f, 'utf8').trim();
+  const key = crypto.randomBytes(32).toString('hex');
+  fs.mkdirSync(path.dirname(f), {recursive: true});
+  sh('gh', ['secret', 'set', 'REF_KEY', '--body', key]);
+  fs.writeFileSync(f, key);
+  return key;
+}
+
+// Reference videos are OTHER creators' work and the repo is public: the audio goes up ENCRYPTED, the transcript comes
+// back ENCRYPTED, and the upload is deleted afterwards. Nothing readable ever touches GitHub.
 async function cmdTranscribe() {
   const meta = loadRef(nameArg);
   const c = cacheDir(nameArg);
@@ -518,20 +533,33 @@ async function cmdTranscribe() {
     fs.mkdirSync(c, {recursive: true});
     ff(['-y', '-i', meta.video, '-vn', '-ac', '1', '-ar', '16000', '-c:a', 'pcm_s16le', wav]);
   }
+  const key = refKey();
   const slug = `ref-${nameArg}`, tag = `vo-${slug}`;
-  const up = path.join(c, 'voiceover.wav');
-  fs.copyFileSync(wav, up);
+  const up = path.join(c, 'voiceover.enc');
+  encryptFile(wav, up, key);
   if (sh('gh', ['release', 'view', tag], {allowFail: true}) !== null) gh('release', 'upload', tag, up, '--clobber');
-  else gh('release', 'create', tag, up, '--title', `Reference audio: ${nameArg}`, '--notes', 'Audio of a reference video (study only, never used in a render).');
+  else gh('release', 'create', tag, up, '--title', 'Sealed study audio', '--notes', 'Encrypted (AES-256-GCM). Temporary; deleted after transcription.');
+  fs.rmSync(up);
   const lang = a.lang ?? meta.lang ?? 'ar';
-  const id = await dispatch('analyze.yml', {slug, model: a.model ?? (lang === 'ar' ? 'large-v3' : 'small.en'), lang});
-  console.log(`transcribe run ${id} started`);
-  await wait(id, 'transcribe');
-  const dir = path.join(refDir(nameArg), 'timing');
-  fs.rmSync(dir, {recursive: true, force: true});
-  gh('run', 'download', String(id), '-n', `${slug}-timing`, '-D', dir);
+  try {
+    const id = await dispatch('analyze.yml', {slug, model: a.model ?? (lang === 'ar' ? 'large-v3' : 'small.en'), lang, sealed: '1'});
+    console.log(`transcribe run ${id} started (sealed)`);
+    await wait(id, 'transcribe');
+    const tmp = path.join(c, 'dl');
+    fs.rmSync(tmp, {recursive: true, force: true});
+    gh('run', 'download', String(id), '-n', `${slug}-timing`, '-D', tmp);
+    const tgz = path.join(c, 'timing.tgz');
+    decryptFile(path.join(tmp, 'timing.enc'), tgz, key);
+    const dir = path.join(refDir(nameArg), 'timing');
+    fs.rmSync(dir, {recursive: true, force: true});
+    sh('tar', ['-xzf', path.basename(tgz), '-C', path.relative(c, refDir(nameArg)).split(path.sep).join('/')], {cwd: c});
+    fs.rmSync(tmp, {recursive: true, force: true});
+    fs.rmSync(tgz);
+  } finally {
+    sh('gh', ['release', 'delete', tag, '--yes', '--cleanup-tag'], {allowFail: true});
+  }
   report(nameArg);
-  console.log(`→ references/${nameArg}/timing/ (transcript.md, words.json) · report.md updated`);
+  console.log(`→ references/${nameArg}/timing/ (local only) · report.md updated · cloud upload deleted`);
 }
 
 function cmdTranscript() {
