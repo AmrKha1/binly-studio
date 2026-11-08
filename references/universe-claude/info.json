@@ -1,0 +1,72 @@
+{
+  "name": "universe-claude",
+  "source_file": "وش أغلى شيء في الكون؟_1080p60.mp4",
+  "lang": "ar",
+  "duration": 887.4,
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "video_codec": "h264",
+  "audio": "aac 44100 Hz 2ch",
+  "size_mb": 269,
+  "ingested": "2026-11-07",
+  "palette": [
+    {
+      "hex": "#101010",
+      "share": 0.373
+    },
+    {
+      "hex": "#101030",
+      "share": 0.138
+    },
+    {
+      "hex": "#301010",
+      "share": 0.032
+    },
+    {
+      "hex": "#103030",
+      "share": 0.02
+    },
+    {
+      "hex": "#303010",
+      "share": 0.019
+    },
+    {
+      "hex": "#503010",
+      "share": 0.018
+    },
+    {
+      "hex": "#101050",
+      "share": 0.016
+    },
+    {
+      "hex": "#103050",
+      "share": 0.014
+    },
+    {
+      "hex": "#303030",
+      "share": 0.013
+    },
+    {
+      "hex": "#301030",
+      "share": 0.012
+    },
+    {
+      "hex": "#503030",
+      "share": 0.01
+    },
+    {
+      "hex": "#303050",
+      "share": 0.01
+    }
+  ],
+  "look": {
+    "lum": 48,
+    "sat": 0.68,
+    "white_share": 0.01,
+    "dark_share": 0.67
+  },
+  "shots": 176,
+  "avg_shot": 5.04,
+  "median_shot": 3.7
+}

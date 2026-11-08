@@ -26,7 +26,7 @@ It moves the inputs to `videos/<slug>/`, scaffolds `src/videos/<slug>/`, activat
 to GitHub (release `vo-<slug>`) and runs the cloud timing analysis (~5–10 min) → `videos/<slug>/timing/`.
 The VOICEOVER is the truth: transcript.md follows what was actually said (script only fixes spelling). If the output
 shows a WARNING (script differs a lot), tell the user in one line (maybe a wrong script file) and continue.
-While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `docs/KIT-INDEX.md`, `docs/LESSONS.md`, and `notes.md` if present (the user's special requests override defaults).
+While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `docs/KIT-INDEX.md`, `docs/LESSONS.md`, and `notes.md` if present (the user's special requests override defaults). Arabic video → also `references/README.md` + each `references/*/STUDY.md` (the owner's target videos; look closer with `tools/watch.mjs`).
 
 **1b · Art (start it EARLY — it runs in the background while you plan and build)** — CODE FIRST, FLOW AS A BONUS (owner
 2026-10-21): the plan must work completely WITHOUT Flow — every scene has a code-built version (kit places/objects,

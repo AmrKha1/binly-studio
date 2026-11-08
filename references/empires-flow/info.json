@@ -1,0 +1,72 @@
+{
+  "name": "empires-flow",
+  "source_file": "كيف سقطت أقوى 6 إمبراطوريات بالتاريخ؟ 👑_1080p.mp4",
+  "lang": "ar",
+  "duration": 934.91,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "video_codec": "h264",
+  "audio": "aac 44100 Hz 2ch",
+  "size_mb": 157,
+  "ingested": "2026-11-07",
+  "palette": [
+    {
+      "hex": "#f0f0f0",
+      "share": 0.304
+    },
+    {
+      "hex": "#707050",
+      "share": 0.034
+    },
+    {
+      "hex": "#909070",
+      "share": 0.026
+    },
+    {
+      "hex": "#b0b090",
+      "share": 0.025
+    },
+    {
+      "hex": "#505030",
+      "share": 0.024
+    },
+    {
+      "hex": "#907050",
+      "share": 0.024
+    },
+    {
+      "hex": "#d0d0d0",
+      "share": 0.021
+    },
+    {
+      "hex": "#909050",
+      "share": 0.021
+    },
+    {
+      "hex": "#d0b070",
+      "share": 0.021
+    },
+    {
+      "hex": "#b09070",
+      "share": 0.02
+    },
+    {
+      "hex": "#b09050",
+      "share": 0.02
+    },
+    {
+      "hex": "#b0b0b0",
+      "share": 0.018
+    }
+  ],
+  "look": {
+    "lum": 169,
+    "sat": 0.28,
+    "white_share": 0.35,
+    "dark_share": 0.04
+  },
+  "shots": 170,
+  "avg_shot": 5.5,
+  "median_shot": 5.3
+}

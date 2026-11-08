@@ -38,6 +38,13 @@ photo + archival image templates, 12+ shot templates, fx, music/SFX engine (code
 Images: `tools/photo.mjs` (Wikimedia Commons, free licences only, credits automatic).
 Silhouettes: `tools/silhouette.mjs` (PhyloPic organism shapes → shared library `src/assets/silhouettes`, recolourable via `Silhouette`).
 
+## Reference videos (the look we aim for) — `tools/watch.mjs`
+The owner's model videos live in `references/<name>/` (the .mp4 stays local/git-ignored; all learned material is committed).
+Read `references/<name>/STUDY.md` first (the director's analysis), then `report.md` (pace/colour/sound numbers),
+`overview/min-NN.jpg` (frame every 3 s) and `shots/shots-NN.jpg` (every shot). To look closer: `watch.mjs sheet <ref> --from a --to b`,
+`strip <ref> --at t` (dense frames = how a move animates), `frames <ref> --at t` (full res), `audio <ref> --from a --to b`
+(loudness + words = the sound rhythm), `transcript <ref>`. New reference: `watch.mjs ingest <file> --as <name>` then `transcribe <name>`.
+
 ## Optional, outside the Studio
 - **Google Flow** via the `flow` MCP server (spare Google account) — AI-generated images/clips. Off-style for the main video;
   possible use: thumbnails/background plates. Stills free, video clips cost credits — always ask the user before spending.
