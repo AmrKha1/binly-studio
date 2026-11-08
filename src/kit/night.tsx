@@ -60,12 +60,16 @@ export const textWidth = (text: string, size: number) => measureText({text, font
  * Screen coordinates for night scenes: children are NOT mirrored in Arabic (we copy the reference's layout exactly —
  * headlines top-right, host bottom-left). Use it as the first child of <Stage>.
  */
-export const NightScreen: React.FC<{children?: React.ReactNode}> = ({children}) => (
-  <g className="k-nomirror">
-    <rect x={0} y={0} width={W} height={H} fill="transparent" />
-    {children}
-  </g>
-);
+export const NightScreen: React.FC<{children?: React.ReactNode}> = ({children}) =>
+  isAr() ? (
+    // Undo the Stage's RTL mirror with an exact matrix (not the CSS fill-box flip, which shifts the scene whenever
+    // artwork reaches past the frame edges); k-nomirror keeps every text un-flipped inside.
+    <g className="k-nomirror" style={{scale: 'none', transformBox: 'view-box', transformOrigin: '0px 0px'}} transform={`matrix(-1 0 0 1 ${W} 0)`}>
+      {children}
+    </g>
+  ) : (
+    <g>{children}</g>
+  );
 
 /** Deep indigo space with twinkling stars and 4-point sparkles (0:26.2). horizonY = where the floor starts. */
 export const NightSky: React.FC<{t: number; id?: string; horizonY?: number; stars?: number}> = ({t, id = 'sky', horizonY = 836, stars = 70}) => {

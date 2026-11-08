@@ -29,12 +29,14 @@ import {DepthDemo} from './pages/depth2';
 import {Alive} from './pages/alive';
 import {EditFx} from './pages/editfx';
 import {NightPage, NightPage2, NightPage3} from './pages/night';
+import {NightPage4} from './pages/night4';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
   night: NightPage,
   night2: NightPage2,
   night3: NightPage3,
+  night4: NightPage4,
   glow: Glow,
   arabic: Arabic,
   motion: Motion,

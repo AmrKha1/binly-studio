@@ -31,7 +31,7 @@ const SECTIONS = [
   ['transport.md', ['transport'], 'Vehicles: ships (rowboat/sailing/steam), horse carts/wagons/carriages, trains (steam/modern), cars (vintage/modern) with motion'],
   ['geo.md', ['geo'], 'Flat maps (GeoMap), pins, routes, spread rings'],
   ['silhouette.md', ['silhouette'], 'Shared library of free organism silhouettes (animals, dinosaurs, microbes…) — recolourable, dashed = inferred'],
-  ['night.md', ['night'], 'AZTIKA look (Arabic channel, copied from references/universe-claude): NightSky, GridFloor, GlowText (4-layer bold glowing text), WordPop (word-by-word headline), NPill, Podium, RevealRing, YearBadge, HostGlow'],
+  ['night.md', ['night', 'night-fx'], 'AZTIKA look (Arabic channel, copied from references/universe-claude): NightSky, GridFloor, GlowText (4-layer bold glowing text), WordPop (word-by-word headline), NPill, Podium, RevealRing, YearBadge, HostGlow, HostTrack; night-fx: Rays, Bokeh, CountNumber, Stamp, Mark, Bubble, punchT, WhooshOut, StripeWipe, NeonSign'],
   ['depth.md', ['depth'], '"Looks 3D" drawn flat: Globe, isometric buildings/rooms/props, shaded spheres, DepthStack'],
 ];
 const exportsOf = (mod) => {

@@ -876,10 +876,24 @@ Gallery `night3` = demo (stills 0.8, 1.72, 2.8, 4.0, 4.6, 6.0).
 - **HostGlow** `{id, rim=4, glow=1, color}` — wrap the host (or any hero character) for the gold rim line + soft glow.
 - **Sparkle** `{x, y, r, o, color}` — 4-point star. **N** = the measured palette. **textWidth(text, size)** = exact width.
 
-## Still to build (next steps of the upgrade)
-Rays background (rotating wedges + vignette + bokeh), count-up hero number, stamps (slam + shake), speech bubbles with
-✔/✖, camera punch-in + whoosh/streak transition, gold stripe wipe, sunset + city silhouette scene, paper map scene,
-teal science scene, neon sign-off, SFX mapping.
+## Set 2 — kit/night-fx (import from '../../../kit/night-fx')
+Gallery `night4` runs them in order (stills 1.5, 3.6, 5.9, 7.95, 8.08, 8.48, 9.8).
+- **Rays** `{t, id, x?, y?, tone: gold|dark|cyan|violet, n?, spin?}` — slowly rotating sunburst + vignette. gold = the
+  "you!" hero moment (0:16.4), dark = the sign-off (14:44), cyan = science/body, violet = space. + **Bokeh** `{t, n?, color?, seed?}`.
+- **CountNumber** `{t, at, value, x, y, size=170, tone, id, dur=1.2, from=0.03}` — exact spoken value counting up with
+  an ease-out and a small punch when it lands (2:00.4).
+- **Stamp** `{t, at, text, x, y, size=110, rot=-8, color}` — red ink stamp slams in from 1.6× with a shake (3:16–3:47).
+- **Bubble** `{t, at, lines, x, y, tx, ty, size=64, mark?: check|cross, icon?, out?}` — speech bubble that grows out of
+  the speaker's mouth (tail tip tx,ty), thick outline, optional ✔/✖ badge or icon (0:45). **Mark** = the ✔/✖ badge alone.
+- **punchT(t, end, cx, cy, dur=0.35, amount=0.35)** — transform for the end-of-scene punch-in on the key line, then
+  **WhooshOut** `{t, at, dur=0.18}` — streaks across an empty sky between scenes (0:27.4–27.8).
+- **StripeWipe** `{t, at, dur=0.6}` — gold/orange diagonal stripes; fully covers the frame at at+dur/2 → cut there (0:09).
+- **NeonSign** `{t, at, x, y, text? | d?, size=220, color, id}` — gold neon tube that flickers on, then hums (sign-off).
+  Ending recipe: Rays dark + Bokeh + NeonSign «ازتيكا» + WordPop gold «في أمان الله» + AZTIKA thumbs-up/wink.
+
+## Still to build
+Story worlds (sunset + city silhouette, paper map with regions/flags/price tag, teal science grid + holo ring, night city,
+warm room with window light shaft), story people (faceless round heads + one hat, gold rim), SFX mapping + music mix.
 
 ---
 
