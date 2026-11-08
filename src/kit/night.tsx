@@ -4,7 +4,9 @@
 // text) · WordPop (word-by-word headline) · NPill (gold/white/grey/cyan) · Podium · RevealRing · Sparkle · YearBadge.
 import React from 'react';
 import {measureText} from '@remotion/layout-utils';
-import {clamp01, popIn, rand, spring} from './anim';
+import {clamp01, ease, lerp, popIn, rand, spring} from './anim';
+import {ImageHost} from './image-host';
+import type {HostMove} from './host';
 import {FONT_AR, isAr} from './lang';
 import {FONT_SERIF, H, W} from './theme';
 import {uid} from './stage';
@@ -329,4 +331,32 @@ export const HostGlow: React.FC<{id: string; rim?: number; glow?: number; color?
       <g filter={`url(#${f})`}>{children}</g>
     </g>
   );
+};
+
+export type HostSpot = {at: number; x: number; y: number; h?: number; flip?: boolean; move?: 'hop' | 'glide' | 'walk'; dur?: number};
+/**
+ * HostTrack — AZTIKA alive in the frame (owner 2026-11-08): he moves to wherever is best for the viewer — left, right,
+ * centre-front close to the camera (big), peeking up from the bottom, small up high — between beats.
+ * spots: where he stands from each time on (x = centre, y = feet, h = size as in ImageHost). Moves take `dur`
+ * (default 0.55 s): 'hop' (default: a springy arc jump with squash), 'glide' (smooth slide), 'walk' (stepping).
+ * He faces the centre automatically (flipped when he stands right of centre) unless the spot sets flip.
+ * enter/exit = ImageHost moves (pop, rise, drop, peek, slide…). Wrapped in HostGlow (gold rim).
+ */
+export const HostTrack: React.FC<{t: number; spots: HostSpot[]; poses: [number, string][]; id: string; enter?: HostMove; exit?: HostMove; glow?: boolean}> = ({
+  t, spots, poses, id, enter, exit, glow = true,
+}) => {
+  let i = 0;
+  for (let k = 0; k < spots.length; k++) if (t >= spots[k].at) i = k;
+  const cur = spots[i], prev = spots[Math.max(0, i - 1)];
+  const dur = cur.dur ?? (cur.move === 'walk' ? 1.1 : 0.55);
+  const u = i > 0 ? clamp01((t - cur.at) / dur) : 1;
+  const kind = cur.move ?? 'hop';
+  const e = kind === 'hop' ? spring(u, 0.25) : ease.inOut(u);
+  const x = lerp(prev.x, cur.x, e), y0 = lerp(prev.y, cur.y, e), h = lerp(prev.h ?? 340, cur.h ?? 340, e);
+  const moving = u > 0 && u < 1;
+  const lift = moving ? (kind === 'hop' ? Math.sin(Math.PI * Math.min(1, u * 1.15)) * 70 : kind === 'walk' ? Math.abs(Math.sin(u * Math.PI * 5)) * 14 : 0) : 0;
+  const faceOf = (s: HostSpot) => s.flip ?? s.x > W / 2;
+  const flip = moving && u < 0.5 ? faceOf(prev) : faceOf(cur);
+  const el = <ImageHost t={t} x={x} y={y0 - lift} h={h} poses={poses} flip={flip} shadow={false} enter={enter} exit={exit} id={id} />;
+  return glow ? <HostGlow id={id}>{el}</HostGlow> : el;
 };
