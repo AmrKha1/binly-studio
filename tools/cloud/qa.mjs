@@ -124,6 +124,13 @@ for (let k = 0; k < sheets; k++) {
   spawnSync(FF, ['-v', 'error', '-y', '-ss', String(k * 90), '-t', '90', '-i', video, '-vf', `select='not(mod(n\\,180))',scale=320:-1${label},tile=6x5:padding=4:color=gray`, '-fps_mode', 'vfr', '-frames:v', '1', path.join(qaDir, `sheet-${String(k + 1).padStart(2, '0')}.png`)]);
 }
 log(`- Contact sheets: ${sheets} (sheet-NN.png, one tile every 3 s${off ? `, times relative to ${off}s` : ''})`);
+// delivery loudness (owner 2026-11-08: −14 LUFS, −1 dBTP) — measured by assemble.mjs on the final file
+const loudFile = path.join(path.dirname(video), 'loudness.json');
+if (fs.existsSync(loudFile)) {
+  const L = JSON.parse(fs.readFileSync(loudFile, 'utf8'));
+  log(`- Loudness: ${L.final.lufs} LUFS integrated, true peak ${L.final.true_peak_db} dBTP (target −14 LUFS / −1 dBTP; mix was ${L.mix_before.lufs} LUFS)`);
+  if (!L.ok) warn.push(`loudness outside spec: ${L.final.lufs} LUFS / ${L.final.true_peak_db} dBTP (target −14 ±0.5 LUFS, ≤ −1 dBTP)`);
+}
 spawnSync(FF, ['-v', 'error', '-y', '-i', video, '-filter_complex', 'showwavespic=s=1920x260:split_channels=1:colors=0x2B2420|0x8B2E1F', '-frames:v', '1', path.join(qaDir, 'waveform.png')]);
 
 const report = [`# QA report — ${path.basename(video)}`, '', `**Result: ${warn.length ? `${warn.length} warning(s)` : 'all automated checks passed'}**`, '', ...warn.map((w) => `- ⚠ ${w}`), warn.length ? '' : '', '## Measurements', ...lines, ''].join('\n');

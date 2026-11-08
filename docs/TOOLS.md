@@ -45,6 +45,11 @@ Read `references/<name>/STUDY.md` first (the director's analysis), then `report.
 `strip <ref> --at t` (dense frames = how a move animates), `frames <ref> --at t` (full res), `audio <ref> --from a --to b`
 (loudness + words = the sound rhythm), `transcript <ref>`. New reference: `watch.mjs ingest <file> --as <name>` then `transcribe <name>`.
 
+## Voiceover prep + delivery loudness (owner 2026-11-08)
+`tools/vo-prep.mjs` (run by new-video): parts → equal loudness (ITU-R BS.1770 LUFS, one gain per part) → joined in number
+order → pauses > 0.25 s → 0.22 s → `videos/<slug>/voiceover.wav` (48 kHz 24-bit, −20 LUFS) + `.prep.json` report. The cloud
+render masters the final mix to −14 LUFS / −1 dBTP (two-pass loudnorm, linear) and checks the delivered file.
+
 ## Optional, outside the Studio
 - **Google Flow** via the `flow` MCP server (spare Google account) — AI-generated images/clips. Off-style for the main video;
   possible use: thumbnails/background plates. Stills free, video clips cost credits — always ask the user before spending.

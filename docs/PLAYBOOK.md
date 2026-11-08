@@ -15,8 +15,13 @@ Binly videos are gripping YouTube storytelling with a balanced-to-brisk rhythm �
 This overrides the "documentary" wording in `brand/` (music included: cinematic and atmospheric, but driving the story).
 
 ## 2. Source of truth (hard rules)
-- The supplied voiceover is the final narration and the master clock. Never rewrite, trim, stretch, denoise,
-  normalise, EQ, compress or reorder it. Music/SFX are separate layers; the voice stays loudest and clear.
+- The supplied voiceover is the final narration and the master clock. It is PREPARED ONCE at ingest (owner 2026-11-08,
+  tools/vo-prep.mjs): the recorded parts are levelled to the same loudness (one gain per part), joined in number order,
+  and every pause > 0.25 s is shortened to 0.22 s. After that it is never changed again: no rewriting, stretching,
+  denoising, EQ, compression or reordering; all timing follows the prepared voiceover. SFX are a separate layer; the voice
+  stays loudest and clear. NO MUSIC.
+- **Delivery loudness (owner 2026-11-08): the final video is mastered to −14 LUFS integrated, −1 dBTP true peak** (one
+  linear gain on the whole mix in the cloud render, verified on the final file — QA report "Loudness").
 - **Never invent facts, figures, quotes, studies or evidence.** Visual metaphor is allowed; label
   reconstructions as such. If a claim can't be shown confidently, use a neutral/conceptual visual.
 - **Numbers on screen = exactly what is spoken** (0.061 percent → "0.061%", never rounded or re-derived).

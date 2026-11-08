@@ -3,6 +3,9 @@
 //   (--lang is auto-detected: an Arabic script → "ar". Give Arabic videos an English --slug, e.g. --slug ar-diamonds.)
 // Does: creates videos/<slug>/ (moves the input files there), scaffolds src/videos/<slug>/, activates it,
 // uploads the voiceover to GitHub (release vo-<slug>), and runs the cloud timing analysis.
+// VOICEOVER IN PARTS (owner 2026-11-08): put all parts in input/ (loose files or one folder, numbered "1…", "2…" …).
+// tools/vo-prep.mjs levels every part to the same loudness, joins them in number order and trims every pause > 0.25 s
+// to 0.22 s → videos/<slug>/voiceover.wav = the master clock. (--raw keeps a single file exactly as recorded.)
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
@@ -22,7 +25,7 @@ const notesFile = texts.find((f) => /^(notes|brief|instructions)\b/i.test(f));
 const scriptFile = texts.find((f) => f !== notesFile);
 
 const kebab = (s) => s.toLowerCase().normalize('NFKD').replace(/[^\w\s-]/g, '').replace(/\b(final|vo|voiceover|export|master|v\d+)\b/g, '').trim().replace(/[\s_]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
-const slug = a.slug ?? (kebab(path.parse(audio[0]).name) || `video-${new Date().toISOString().slice(0, 10)}`);
+const slug = a.slug ?? (kebab(path.parse(audio.length === 1 ? audio[0] : dirs[0] ?? audio[0]).name) || `video-${new Date().toISOString().slice(0, 10)}`);
 const vdir = path.join(ROOT, 'videos', slug);
 const sdir = path.join(ROOT, 'src', 'videos', slug);
 if (fs.existsSync(vdir) && !a.force) {
@@ -32,9 +35,19 @@ if (fs.existsSync(vdir) && !a.force) {
 fs.mkdirSync(vdir, {recursive: true});
 
 // 1) move inputs
-const ext = path.extname(audio[0]).toLowerCase();
-const voDest = path.join(vdir, `voiceover${ext}`);
-fs.copyFileSync(path.join(IN, audio[0]), voDest);
+let ext = path.extname(audio[0]).toLowerCase();
+let voDest = path.join(vdir, `voiceover${ext}`);
+if (a.raw) fs.copyFileSync(path.join(IN, audio[0]), voDest);
+else {
+  // keep the original parts next to the video (git-ignored), then build the one clean voiceover
+  const partsDir = path.join(vdir, 'vo-parts');
+  fs.mkdirSync(partsDir, {recursive: true});
+  for (const f of audio) fs.copyFileSync(path.join(IN, f), path.join(partsDir, path.basename(f)));
+  ext = '.wav';
+  voDest = path.join(vdir, 'voiceover.wav');
+  const r = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'vo-prep.mjs'), partsDir, '--out', voDest], {stdio: 'inherit'});
+  if (r.status !== 0) process.exit(1);
+}
 const info = probeAudio(voDest);
 let scriptText = '';
 if (scriptFile) {
@@ -47,9 +60,10 @@ const title = a.title ?? firstLine.replace(/^#+\s*/, '').slice(0, 80);
 // language: Arabic if the script (or file name) is written in Arabic → Arabic fonts, RTL layout, Arabic speech model
 const lang = a.lang ?? (/[؀-ۿ]/.test(scriptText + audio[0]) ? 'ar' : 'en');
 if (lang === 'ar') console.log('Arabic video detected → lang "ar" (Arabic fonts, right-to-left layout, Arabic speech model)');
-const meta = {slug, title, lang, duration: Math.round(info.duration * 10000) / 10000, sampleRate: info.sampleRate, channels: info.channels, codec: info.codec, audio: `voiceover${ext}`, source: audio[0], created: new Date().toISOString()};
+const meta = {slug, title, lang, duration: Math.round(info.duration * 10000) / 10000, sampleRate: info.sampleRate, channels: info.channels, codec: info.codec, audio: `voiceover${ext}`, source: audio.length === 1 ? audio[0] : `${audio.length} parts`, voPrep: !a.raw, created: new Date().toISOString()};
 fs.writeFileSync(path.join(vdir, 'video.json'), JSON.stringify(meta, null, 1));
-for (const f of [audio[0], scriptFile, notesFile].filter(Boolean)) fs.rmSync(path.join(IN, f));
+for (const f of [...audio, scriptFile, notesFile].filter(Boolean)) fs.rmSync(path.join(IN, f));
+for (const d of dirs) if (!fs.readdirSync(path.join(IN, d)).length) fs.rmdirSync(path.join(IN, d));
 
 // 2) scaffold source
 fs.mkdirSync(path.join(sdir, 'chapters'), {recursive: true});
@@ -66,7 +80,7 @@ if (!a['no-analyze']) {
   const tag = `vo-${slug}`;
   const exists = sh('gh', ['release', 'view', tag], {allowFail: true}) !== null;
   if (exists) gh('release', 'upload', tag, voDest, '--clobber');
-  else gh('release', 'create', tag, voDest, '--title', `Voiceover: ${slug}`, '--notes', 'Original voiceover (unprocessed). Used by the cloud render.');
+  else gh('release', 'create', tag, voDest, '--title', `Voiceover: ${slug}`, '--notes', a.raw ? 'Original voiceover (unprocessed). Used by the cloud render.' : 'Voiceover made by tools/vo-prep.mjs (parts levelled to equal loudness, joined, pauses > 0.25 s trimmed). Used by the cloud render.');
   console.log(`voiceover uploaded (release ${tag})`);
   const r = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'cloud.mjs'), 'analyze', slug], {stdio: 'inherit'});
   if (r.status !== 0) process.exit(r.status ?? 1);

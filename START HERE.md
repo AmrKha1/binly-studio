@@ -1,8 +1,10 @@
 # Binly Studio — how to make a video
 
 ## Every video (3 steps)
-1. Put **two files** in the `input` folder:
-   - your voiceover (`.wav`, `.mp3`, `.m4a` or `.flac`)
+1. Put these in the `input` folder:
+   - your voiceover (`.wav`, `.mp3`, `.m4a` or `.flac`) — one file, OR all its recorded **parts** (loose or in one folder),
+     numbered in order ("1 …", "2 …", … "10 …"). The Studio levels every part to the same loudness, joins them and
+     shortens every pause longer than 0.25 s to about 0.22 s. The finished video is mastered to −14 LUFS / −1 dB true peak.
    - the script as a `.txt` file — just as you wrote it, no need to transcribe anything. **The voiceover is the main
      engine:** the video follows what you actually SAID. The script only helps spell names and numbers correctly; if you
      changed, added or skipped lines while recording, the voiceover wins automatically.
