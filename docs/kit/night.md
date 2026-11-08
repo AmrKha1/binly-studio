@@ -82,6 +82,22 @@ Gallery `night4` runs them in order (stills 1.5, 3.6, 5.9, 7.95, 8.08, 8.48, 9.8
 - **NeonSign** `{t, at, x, y, text? | d?, size=220, color, id}` — gold neon tube that flickers on, then hums (sign-off).
   Ending recipe: Rays dark + Bokeh + NeonSign «ازتيكا» + WordPop gold «في أمان الله» + AZTIKA thumbs-up/wink.
 
+## Set 3 — story worlds: kit/night-worlds (import from '../../../kit/night-worlds')
+Gallery `night5` (stills 1.6 sunset · 3.6 map · 5.6 science · 7.6 night city · 9.6 room). Pick the world by the story:
+- **SunsetWorld** `{t, id, skyline: town|city|pyramids|desert, sunX?, sunY?}` — time jumps, history, "back in year X"
+  (orange sky, big soft rays from a low sun, drifting clouds, two plum skyline layers). Pair with YearBadge.
+- **PaperMap** `{t, id}` + **MapShape** `{d, fill, dashed?, p?}` (chunky regions, thick outline; dashed white = moving
+  border) + **Flag** `{x, y, colors, horizontal?, t, at}` (rises on its pole, waves) + **PriceTag** `{text, x, y, color?, p}`
+  + **Route** `{d, p, id}` (dotted red path drawn on). Geography, deals, borders, journeys.
+- **ScienceWorld** `{t, id}` + **HoloRing** `{x, y, rx?, t}` — body/science/tech subjects (dark teal, square grid, cyan
+  bokeh, glowing platform under the object). Pair with NPill kind cyan + CountNumber white.
+- **NightCity** `{t, id, base?}` — money, cities, real estate (3 layers of buildings, warm windows that blink, outlined
+  front towers).
+- **RoomWorld** `{t, id, winX?, winY?}` — mini-stories indoors (warm wall, plank floor, sunset window + light shaft, dust).
+- **StoryPerson** `{x, y, s, body, hat: none|beret|top|helmet|bicorne|crown|turban|cap|feather, hatColor, pose:
+  idle|point|hold|up, flip, t, id}` — the mini-story actors: faceless dark round head with a GOLD RIM, ONE identifying
+  hat, flat body, breathing. AZTIKA is the only character with a face. **MoneyBag** prop.
+Hero objects (diamond, palace, painting…) come from generated art (tools/art.mjs, ART-STYLE) placed on these worlds.
+
 ## Still to build
-Story worlds (sunset + city silhouette, paper map with regions/flags/price tag, teal science grid + holo ring, night city,
-warm room with window light shaft), story people (faceless round heads + one hat, gold rim), SFX mapping + music mix.
+SFX mapping + music mix (owner to describe the reference sounds), the short pilot video.
