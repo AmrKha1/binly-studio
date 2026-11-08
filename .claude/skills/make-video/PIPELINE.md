@@ -141,6 +141,10 @@ Arabic (AZTIKA, night look): write his beats into each shot list as data — "ho
 "pose":"present","why":"shows the podium"}, {"at":…,"off":true}] — spots/reasons from kit/night (SPOTS, BEAT_POSE),
 built with HostTrack. Alive but calm: a reason for every move, moves ≥ 6 s apart, never frozen > 8 s, never over the
 key object/text (PLAYBOOK "AZTIKA ALIVE"); plan-check flags violations.
+Arabic ranking / "which is the most …?" stories: plan ONE game device that returns as the spine — kit/night-game
+PodiumGame (contenders + exact spoken labels + word times, mystery before each reveal, ×N on big jumps, recap at the
+end) — like the model video (references/universe-claude, STUDY.md). Other stories: pick the device that fits (map that
+fills, timeline, scale), same principle: one device, many returns.
 
 **Alive pass (in every brief):** for each shot list what changes every 2–4 s and WHERE supporting text appears (beside
 the object, above the speaker with SayPop, along an arrow, on the map, on the reveal), how objects and the host move,

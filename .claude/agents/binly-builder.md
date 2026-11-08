@@ -629,9 +629,9 @@ LonLat, BBox, ProjName, RegionName, Region, REGIONS, makeProjection, Proj, MapHi
 modules: kit/silhouette
 Silhouette, SILHOUETTE_NAMES
 
-## docs/kit/night.md — AZTIKA look (Arabic channel, copied from references/universe-claude): NightSky, GridFloor, GlowText (4-layer bold glowing text), WordPop (word-by-word headline), NPill, Podium, RevealRing, YearBadge, HostGlow, HostTrack; night-fx: Rays, Bokeh, CountNumber, Stamp, Mark, Bubble, punchT, WhooshOut, StripeWipe, NeonSign, HeroObject; night-worlds: SunsetWorld, PaperMap, MapShape, Flag, PriceTag, Route, ScienceWorld, HoloRing, NightCity, RoomWorld, StoryPerson, MoneyBag
-modules: kit/night, kit/night-fx, kit/night-worlds
-N, Tone, nightFont, textWidth, NightScreen, NightSky, Sparkle, GridFloor, GlowText, PopWord, WordPop, PillKind, NPill, Podium, RevealRing, YearBadge, HostGlow, SPOTS, SpotName, BEAT_POSE, BeatReason, HostSpot, HostTrack, Rays, Bokeh, CountNumber, Stamp, Mark, Bubble, punchT, WhooshOut, StripeWipe, NeonSign, HeroObject, Skyline, SunsetWorld, PaperMap, MapShape, Flag, PriceTag, Route, ScienceWorld, HoloRing, NightCity, RoomWorld, StoryHat, StoryPerson, MoneyBag, _N
+## docs/kit/night.md — AZTIKA look (Arabic channel, copied from references/universe-claude): NightSky, GridFloor, GlowText (4-layer bold glowing text), WordPop (word-by-word headline), NPill, Podium, RevealRing, YearBadge, HostGlow, HostTrack; night-fx: Rays, Bokeh, CountNumber, Stamp, Mark, Bubble, punchT, WhooshOut, StripeWipe, NeonSign, HeroObject; night-worlds: SunsetWorld, PaperMap, MapShape, Flag, PriceTag, Route, ScienceWorld, HoloRing, NightCity, RoomWorld, StoryPerson, MoneyBag; night-game: PodiumGame, Contender, DrawDiamond, DrawGoldBar, DrawCrown
+modules: kit/night, kit/night-fx, kit/night-worlds, kit/night-game
+N, Tone, nightFont, textWidth, NightScreen, NightSky, Sparkle, GridFloor, GlowText, PopWord, WordPop, PillKind, NPill, Podium, RevealRing, YearBadge, HostGlow, SPOTS, SpotName, BEAT_POSE, BeatReason, HostSpot, HostTrack, Rays, Bokeh, CountNumber, Stamp, Mark, Bubble, punchT, WhooshOut, StripeWipe, NeonSign, HeroObject, Skyline, SunsetWorld, PaperMap, MapShape, Flag, PriceTag, Route, ScienceWorld, HoloRing, NightCity, RoomWorld, StoryHat, StoryPerson, MoneyBag, _N, Contender, PodiumGame, DrawDiamond, DrawGoldBar, DrawCrown, _H
 
 ## docs/kit/depth.md — "Looks 3D" drawn flat: Globe, isometric buildings/rooms/props, shaded spheres, DepthStack
 modules: kit/depth

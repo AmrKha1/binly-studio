@@ -922,6 +922,52 @@ free) → `node tools/art.mjs ingest <slug>` (cut-out + library, tagged "night";
   band sweeping across it every ~3.5 s, twinkling sparkles. 35–55 % of the frame height; one hero per shot. Silent —
   RevealRing gives the soft sparkle sound. Gallery `night6`.
 
+## The podium game — PodiumGame (kit/night-game) — the spine of ranking videos
+"What is the most expensive / biggest / oldest / fastest …?" → one leaderboard that grows through the whole video and
+returns as the recap (reference 1:34 → 14:03). Give the data; the game does the layout and all the motion.
+```tsx
+const E: Contender[] = [
+  {id: 'body', value: 45e6, label: '45 مليون 
+Restraint like the reference (STYLE-BIBLE §6): StripeWipe/WhooshOut whoosh · RevealRing soft sparkle · Stamp stamp ·
+Bubble/PriceTag soft pop · Flag soft swish · NeonSign neon hum · HostTrack moves very soft swish. Silent: WordPop, NPill,
+CountNumber, YearBadge, host pose swaps. Add `{"kind":"boom"}` by hand in sfx/<chapter>.json for the 1–3 biggest reveals.
+No music.
+
+## Still to build
+The short pilot video (cloud render) to hear and judge everything together.
+, at: 22.7, src: `${slug}/el/human-body.png`, ar: 0.6},
+  {id: 'mona', value: 1e9, label: '1 مليار 
+Restraint like the reference (STYLE-BIBLE §6): StripeWipe/WhooshOut whoosh · RevealRing soft sparkle · Stamp stamp ·
+Bubble/PriceTag soft pop · Flag soft swish · NeonSign neon hum · HostTrack moves very soft swish. Silent: WordPop, NPill,
+CountNumber, YearBadge, host pose swaps. Add `{"kind":"boom"}` by hand in sfx/<chapter>.json for the 1–3 biggest reveals.
+No music.
+
+## Still to build
+The short pilot video (cloud render) to hear and judge everything together.
+, at: 94.4, mystery: 93.1, src: `${slug}/el/mona-lisa.png`, ar: 0.8},
+  {id: 'diamond', value: 2e9, label: '2 مليار 
+Restraint like the reference (STYLE-BIBLE §6): StripeWipe/WhooshOut whoosh · RevealRing soft sparkle · Stamp stamp ·
+Bubble/PriceTag soft pop · Flag soft swish · NeonSign neon hum · HostTrack moves very soft swish. Silent: WordPop, NPill,
+CountNumber, YearBadge, host pose swaps. Add `{"kind":"boom"}` by hand in sfx/<chapter>.json for the 1–3 biggest reveals.
+No music.
+
+## Still to build
+The short pilot video (cloud render) to hear and judge everything together.
+, at: 151, mystery: 149.5, src: …, times: '×2', timesAt: 160.5},
+];
+<NightSky …/><GridFloor …/>
+<PodiumGame t={t} id="game" entries={E} recapAt={843} />        {/* inside <NightScreen>; AZTIKA at sideLeft */}
+```
+- value = for the height only (same unit for all); label = exactly what is SAID. Heights ∝ value^0.35 (measured), so a
+  45 M body still shows next to billions; a giant newcomer shrinks the others.
+- Champion = tallest, stands next to AZTIKA (x0 ≈ 760); the rest step right, shrink, and slide out after maxVisible (5).
+  Pills: gold champion · white runners-up · grey tiny. color: green (default) · red (war, losses) · gold (the final winner).
+- mystery: black silhouette hovering over the empty spot (the row makes room first) → lands at `at` with the reveal ring.
+- times "×2" (timesAt): dashed bracket + big gold ×N vs the previous champion; leaves when the next contender comes.
+- recapAt: everybody in one row (put the question under it with WordPop, AZTIKA smallLeft thinking).
+- Between game beats the story leaves the stage (worlds, mini-stories) and comes back — every return = a new round.
+- AZTIKA's beats on each arrival: point at the newcomer · react to a giant jump · viewer on a joke. Gallery `night7`.
+
 ## Sound (built in)
 Restraint like the reference (STYLE-BIBLE §6): StripeWipe/WhooshOut whoosh · RevealRing soft sparkle · Stamp stamp ·
 Bubble/PriceTag soft pop · Flag soft swish · NeonSign neon hum · HostTrack moves very soft swish. Silent: WordPop, NPill,
