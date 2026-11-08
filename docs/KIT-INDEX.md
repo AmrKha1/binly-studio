@@ -64,7 +64,7 @@ Silhouette, SILHOUETTE_NAMES
 
 ## docs/kit/night.md — AZTIKA look (Arabic channel, copied from references/universe-claude): NightSky, GridFloor, GlowText (4-layer bold glowing text), WordPop (word-by-word headline), NPill, Podium, RevealRing, YearBadge, HostGlow
 modules: kit/night
-N, Tone, nightFont, textWidth, NightScreen, NightSky, Sparkle, GridFloor, GlowText, PopWord, WordPop, PillKind, NPill, Podium, RevealRing, YearBadge, HostGlow
+N, Tone, nightFont, textWidth, NightScreen, NightSky, Sparkle, GridFloor, GlowText, PopWord, WordPop, PillKind, NPill, Podium, RevealRing, YearBadge, HostGlow, SPOTS, SpotName, BEAT_POSE, BeatReason, HostSpot, HostTrack
 
 ## docs/kit/depth.md — "Looks 3D" drawn flat: Globe, isometric buildings/rooms/props, shaded spheres, DepthStack
 modules: kit/depth

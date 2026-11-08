@@ -333,7 +333,37 @@ export const HostGlow: React.FC<{id: string; rim?: number; glow?: number; color?
   );
 };
 
-export type HostSpot = {at: number; x: number; y: number; h?: number; flip?: boolean; move?: 'hop' | 'glide' | 'walk'; dur?: number};
+/**
+ * Named spots (safe, tested positions; screen coords, Arabic night scenes). Pick by INTENT, not coordinates.
+ * side*: presenter beside the action (default) · close*: big, near the camera, talking to the viewer · peek*: rises from
+ * the bottom edge (an aside, a thought) · small*: little in a lower corner while the scene is the star · off: not in frame.
+ */
+export const SPOTS = {
+  sideLeft: {x: 420, y: 1068, h: 340},
+  sideRight: {x: 1500, y: 1068, h: 340},
+  closeLeft: {x: 520, y: 1180, h: 470},
+  closeRight: {x: 1400, y: 1180, h: 470},
+  peekLeft: {x: 260, y: 1250, h: 360},
+  peekRight: {x: 1660, y: 1250, h: 360},
+  smallLeft: {x: 190, y: 1060, h: 220},
+  smallRight: {x: 1730, y: 1060, h: 220},
+} as const;
+export type SpotName = keyof typeof SPOTS;
+
+/**
+ * Reason recipes — every move/pose has a story reason (owner 2026-11-08: alive, but smooth and never too much).
+ * present: shows the stage/object · point: aims at the new thing · react: shock at a number/twist · viewer: talks to the
+ * viewer (wink/thumbs) · welcome: greets/opens · think: a question/doubt · room: steps aside so the subject can be big ·
+ * joy: a win · shrug: "who knows / that's it".
+ */
+export const BEAT_POSE = {
+  present: 'full-present', point: 'full-point-right', react: 'full-surprised', viewer: 'full-thumbsup-wink', welcome: 'full-welcome',
+  think: 'full-thinking', room: 'full-present', joy: 'full-jump-joy', shrug: 'full-shrug', doubt: 'full-skeptical', scared: 'full-scared',
+} as const;
+export type BeatReason = keyof typeof BEAT_POSE;
+
+export type HostSpot = {at: number; spot?: SpotName; x?: number; y?: number; h?: number; flip?: boolean; move?: 'hop' | 'glide' | 'walk'; dur?: number};
+const place = (s: HostSpot) => ({...(s.spot ? SPOTS[s.spot] : {x: W / 2, y: 1068, h: 340}), ...(s.x !== undefined ? {x: s.x} : {}), ...(s.y !== undefined ? {y: s.y} : {}), ...(s.h !== undefined ? {h: s.h} : {})});
 /**
  * HostTrack — AZTIKA alive in the frame (owner 2026-11-08): he moves to wherever is best for the viewer — left, right,
  * centre-front close to the camera (big), peeking up from the bottom, small up high — between beats.
@@ -342,21 +372,23 @@ export type HostSpot = {at: number; x: number; y: number; h?: number; flip?: boo
  * He faces the centre automatically (flipped when he stands right of centre) unless the spot sets flip.
  * enter/exit = ImageHost moves (pop, rise, drop, peek, slide…). Wrapped in HostGlow (gold rim).
  */
-export const HostTrack: React.FC<{t: number; spots: HostSpot[]; poses: [number, string][]; id: string; enter?: HostMove; exit?: HostMove; glow?: boolean}> = ({
+export const HostTrack: React.FC<{t: number; spots: HostSpot[]; poses: [number, BeatReason | string][]; id: string; enter?: HostMove; exit?: HostMove; glow?: boolean}> = ({
   t, spots, poses, id, enter, exit, glow = true,
 }) => {
   let i = 0;
   for (let k = 0; k < spots.length; k++) if (t >= spots[k].at) i = k;
   const cur = spots[i], prev = spots[Math.max(0, i - 1)];
+  const P = place(prev), Q = place(cur);
   const dur = cur.dur ?? (cur.move === 'walk' ? 1.1 : 0.55);
   const u = i > 0 ? clamp01((t - cur.at) / dur) : 1;
   const kind = cur.move ?? 'hop';
   const e = kind === 'hop' ? spring(u, 0.25) : ease.inOut(u);
-  const x = lerp(prev.x, cur.x, e), y0 = lerp(prev.y, cur.y, e), h = lerp(prev.h ?? 340, cur.h ?? 340, e);
+  const x = lerp(P.x, Q.x, e), y0 = lerp(P.y, Q.y, e), h = lerp(P.h, Q.h, e);
   const moving = u > 0 && u < 1;
   const lift = moving ? (kind === 'hop' ? Math.sin(Math.PI * Math.min(1, u * 1.15)) * 70 : kind === 'walk' ? Math.abs(Math.sin(u * Math.PI * 5)) * 14 : 0) : 0;
-  const faceOf = (s: HostSpot) => s.flip ?? s.x > W / 2;
+  const faceOf = (s: HostSpot) => s.flip ?? place(s).x > W / 2;
   const flip = moving && u < 0.5 ? faceOf(prev) : faceOf(cur);
-  const el = <ImageHost t={t} x={x} y={y0 - lift} h={h} poses={poses} flip={flip} shadow={false} enter={enter} exit={exit} id={id} />;
+  const ps = poses.map(([at, p]) => [at, (BEAT_POSE as Record<string, string>)[p] ?? p] as [number, string]);
+  const el = <ImageHost t={t} x={x} y={y0 - lift} h={h} poses={ps} flip={flip} shadow={false} enter={enter} exit={exit} id={id} />;
   return glow ? <HostGlow id={id}>{el}</HostGlow> : el;
 };

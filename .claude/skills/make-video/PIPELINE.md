@@ -137,6 +137,10 @@ face track per shot (point/present at the element being named, react on twists),
 meaningful — your call per shot) and his FRAMING + movement (full / waist-up / close-up / peek / tiny; walks, slides in,
 steps aside) — vary it like a real presenter — and how he ARRIVES and LEAVES (`enter`/`exit`; never just appears). Built-in
 vocabulary only; at most ~2–3 new poses per video, added to kit/host. Write it in each brief.
+Arabic (AZTIKA, night look): write his beats into each shot list as data — "host":[{"at":<word time>,"spot":"sideLeft",
+"pose":"present","why":"shows the podium"}, {"at":…,"off":true}] — spots/reasons from kit/night (SPOTS, BEAT_POSE),
+built with HostTrack. Alive but calm: a reason for every move, moves ≥ 6 s apart, never frozen > 8 s, never over the
+key object/text (PLAYBOOK "AZTIKA ALIVE"); plan-check flags violations.
 
 **Alive pass (in every brief):** for each shot list what changes every 2–4 s and WHERE supporting text appears (beside
 the object, above the speaker with SayPop, along an arrow, on the map, on the reveal), how objects and the host move,

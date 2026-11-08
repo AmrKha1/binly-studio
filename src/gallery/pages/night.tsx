@@ -46,12 +46,12 @@ export const NightPage3: React.FC<{t: number}> = ({t}) => (
       <WordPop t={t} id="n3w" y={200} size={140} right={1180} words={[{w: 'أنت', at: 2.2}, {w: 'غالي!', at: 2.45, tone: 'gold'}]} />
       <HostTrack t={t} id="n3h" enter={{kind: 'pop', at: 0}}
         spots={[
-          {at: 0, x: 420, y: 1068, h: 340},
-          {at: 1.5, x: 1400, y: 1180, h: 470},
-          {at: 3.6, x: 1560, y: 1068, h: 340, move: 'glide', dur: 0.8},
-          {at: 5.0, x: 260, y: 1250, h: 360, move: 'hop', dur: 0.7},
+          {at: 0, spot: 'sideLeft'},
+          {at: 1.5, spot: 'closeRight'},
+          {at: 3.6, spot: 'sideRight', move: 'glide', dur: 0.8},
+          {at: 5.0, spot: 'peekLeft', dur: 0.7},
         ]}
-        poses={[[0, 'full-present'], [1.5, 'full-thumbsup-wink'], [3.6, 'full-point-right'], [5.0, 'full-thinking']]} />
+        poses={[[0, 'present'], [1.5, 'viewer'], [3.6, 'point'], [5.0, 'think']]} />
     </NightScreen>
   </Stage>
 );

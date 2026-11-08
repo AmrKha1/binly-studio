@@ -39,7 +39,14 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
 ## 4. Look (VISUAL_STYLE + color_system)
 - **ARABIC (AZTIKA) = THE NIGHT LOOK (owner 2026-11-08, replaces white mode for Arabic):** copy the model video's style as
   it is — exact specs in references/universe-claude/STYLE-BIBLE.md, built in kit/night (NightSky, GridFloor, GlowText,
-  WordPop, NPill, Podium, RevealRing, YearBadge, HostGlow). AZTIKA is our fingerprint. The white-mode rules below = English.
+  WordPop, NPill, Podium, RevealRing, YearBadge, HostGlow, HostTrack). AZTIKA is our fingerprint. The white-mode rules below = English.
+- **AZTIKA ALIVE — smooth, motivated, never too much (owner 2026-11-08):** he moves around the frame with the story
+  (named SPOTS: sideLeft/Right · closeLeft/Right = big, talking to the viewer · peekLeft/Right = rising from the bottom
+  for an aside · smallLeft/Right · off) and changes pose on the beats (BEAT_POSE reasons: present · point · react ·
+  viewer · welcome · think · room · joy · shrug · doubt · scared). Rules: every MOVE has a story reason ("why") · moves
+  ≥ 6 s apart (≈ every 8–15 s), pose changes every ~3–6 s, never < 1.5 s apart · never frozen > 8 s while on screen ·
+  never covers the key object or text · off-screen in mini-story scenes so his return feels fresh · soft easing only,
+  no zig-zags or constant bouncing. plan-check enforces it from the shots' "host" lists.
 - **Palette = WHITE MODE, elegant glow** (English videos) (`src/kit/theme.ts`, owner 2026-10-20): CLEAN WHITE #FFFFFF background (never
   cream/off-white); dark scenes ONLY when the scene is naturally dark (night, a dark room, space). Ink #2B2420 for text;
   **gold #B07D0C = the key accent** (key word, big number) and it always glows softly (GLOW.gold); oxblood #8B2E1F =

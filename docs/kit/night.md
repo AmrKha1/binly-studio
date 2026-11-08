@@ -31,6 +31,24 @@ aims LEFT. Viewer poses: `full-thumbsup-wink`, `full-welcome`, `full-point-both-
 `full-scared`, `full-jump-joy`, `full-thinking`, `full-shrug`, `full-skeptical`, `full-sad`, `full-angry`. Each switch
 gets a soft pop (built into ImageHost). Gallery `night` 0–2 s shows a 4-beat example.
 
+## AZTIKA alive — HostTrack (owner 2026-11-08: moves with the story, smooth, never too much)
+```tsx
+<HostTrack t={t} id="h" enter={{kind: 'pop', at: 0}}
+  spots={[{at: 0, spot: 'sideLeft'}, {at: 1.5, spot: 'closeRight'}, {at: 3.6, spot: 'sideRight', move: 'glide', dur: 0.8},
+          {at: 5.0, spot: 'peekLeft', dur: 0.7}]}
+  poses={[[0, 'present'], [1.5, 'viewer'], [3.6, 'point'], [5.0, 'think']]} />
+```
+- **SPOTS** (pick by intent): sideLeft/sideRight (presenter beside the action) · closeLeft/closeRight (big, near the
+  camera, talking to the viewer) · peekLeft/peekRight (rises from the bottom: an aside, a thought) · smallLeft/smallRight
+  (little in a corner while the scene is the star). Override with x/y/h when a scene needs it.
+- **Moves:** hop (default, springy arc) · glide (smooth slide) · walk (steps); `dur` default 0.55 s. He faces the centre
+  automatically (flipped right of centre). Enter/exit with ImageHost moves (pop, rise, drop, peek, slide…).
+- **Reasons → poses (BEAT_POSE):** present · point · react · viewer · welcome · think · room · joy · shrug · doubt ·
+  scared (or any image pose name).
+- **Rules:** a story reason for every move · moves ≥ 6 s apart · pose every ~3–6 s (≥ 1.5 s apart) · never frozen > 8 s ·
+  never over the key object/text · off-screen during mini-stories. Shot lists carry `"host": [...]`; plan-check checks it.
+Gallery `night3` = demo (stills 0.8, 1.72, 2.8, 4.0, 4.6, 6.0).
+
 ## Pieces
 - **GlowText** `{text, x, y, size, tone: white|gold|grey|cyan, id, glow?, outline?, anchor?}` — the reference text recipe:
   soft colour glow → thick dark outline (also inside holes) → gradient fill (white fades to light grey; gold #FCC018).

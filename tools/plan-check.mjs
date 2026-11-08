@@ -6,6 +6,10 @@
 //   • SAME  — 3 shots in a row with the same template, or 3 text / diagram / image / data shots in a row
 //   • FLAT  — more than 60 s (story scenes: 120 s) without a switch of visual mode
 //   • SIZE  — a chapter without a close-up, or 3 wide shots in a row (mobile first: get close)
+//   • HOST  — the channel host, alive but calm (owner 2026-11-08): shots list his beats as
+//             "host":[{"at":102.4,"spot":"sideLeft","pose":"present","why":"shows the podium"},{"at":110,"off":true}]
+//             flags: a MOVE (spot change) without "why" · moves < 6 s apart (too busy) · on screen > 8 s with no pose or
+//             spot change (frozen) · pose changes < 1.5 s apart (jittery) · Arabic video with no host beats at all
 //   • TEXT  — show, do not tell: more than 1 text card per chapter, a text card without an "ok" reason, or > 8 % of shots (scene / character / diagram / map / image / text / data)
 // Custom shots declare their mode: "mode":"scene" (templates know theirs).
 // Custom shots list their visible changes as cue times: {"id":"S3","start":98.9,"custom":true,"note":"…","beats":[100.2,103.6]}
@@ -55,6 +59,7 @@ const TEMPLATE_MODE = {StatShot: 'data', QuoteShot: 'text', ClaimShot: 'text', Q
   KenBurnsShot: 'image', DetailHuntShot: 'image', MontageShot: 'image', CollageShot: 'image', CompareImagesShot: 'image',
   DocumentScanShot: 'image', AnnotatedImageShot: 'image', ImageInWorldShot: 'image', ParallaxCutoutShot: 'image'};
 const seq = []; // the whole video in order, for the retention-flow checks
+const hostBeats = []; // every host beat in the video, in order
 let flags = 0, shotsTotal = 0, longTotal = 0, stillTotal = 0, sameTotal = 0, flatTotal = 0, noMode = 0;
 for (const ch of chapters) {
   if (only && ch.id !== only) continue;
@@ -64,6 +69,7 @@ for (const ch of chapters) {
     continue;
   }
   const shots = JSON.parse(fs.readFileSync(f, 'utf8')).shots ?? [];
+  for (const s of shots) for (const b of s.host ?? []) hostBeats.push({...b, ch: ch.id, shot: s.id, ok: b.ok ?? s.ok});
   const lines = [];
   shots.forEach((s, i) => {
     shotsTotal++;
@@ -143,6 +149,33 @@ for (const [chId, list] of Object.entries(perCh)) {
 }
 for (const x of texts) if (!x.ok) { flags++; console.log(`  TEXT ${x.ch} ${x.id}: a text card needs "ok": "why this can't be shown" — or turn it into a scene`); }
 if (!only && seq.length && texts.length / seq.length > 0.08) { flags++; console.log(`  TEXT share ${((100 * texts.length) / seq.length).toFixed(0)}% of shots → keep text cards under ~8%`); }
+// the host: alive but calm — every move has a story reason, never busy, never frozen, never jittery
+{
+  const vj = path.join(vdir, 'video.json');
+  const isAr = fs.existsSync(vj) && JSON.parse(fs.readFileSync(vj, 'utf8')).lang === 'ar';
+  const hb = hostBeats.sort((x, y) => x.at - y.at);
+  const hl = [];
+  let lastSpot = null, lastMove = -1e9, lastPose = -1e9, on = false, lastChange = null;
+  const videoEnd = chapters[chapters.length - 1]?.end ?? 0;
+  for (const b of hb) {
+    if (on && lastChange !== null && b.at - lastChange > 8 && !b.ok) { flags++; hl.push(`  HOST frozen ${mmss(lastChange)}–${mmss(b.at)} (${(b.at - lastChange).toFixed(1)} s, no pose/spot change) → give him a reaction on a word`); }
+    if (b.off) { on = false; lastSpot = null; lastChange = null; continue; }
+    const moved = b.spot && lastSpot && b.spot !== lastSpot;
+    if (moved && !b.why && !b.ok) { flags++; hl.push(`  HOST ${b.ch} ${b.shot} ${mmss(b.at)}: moves to ${b.spot} with no "why" → every move needs a story reason`); }
+    if (moved && b.at - lastMove < 6 && !b.ok) { flags++; hl.push(`  HOST ${b.ch} ${b.shot} ${mmss(b.at)}: moves again after ${(b.at - lastMove).toFixed(1)} s → too busy (≥ 6 s between moves)`); }
+    if (b.pose && b.at - lastPose < 1.5 && !b.ok) { flags++; hl.push(`  HOST ${b.ch} ${b.shot} ${mmss(b.at)}: pose change ${(b.at - lastPose).toFixed(1)} s after the last → jittery (≥ 1.5 s)`); }
+    if (moved) lastMove = b.at;
+    if (b.pose) lastPose = b.at;
+    if (b.spot) lastSpot = b.spot;
+    on = true;
+    lastChange = b.at;
+  }
+  if (on && lastChange !== null && !only && videoEnd - lastChange > 8) { flags++; hl.push(`  HOST frozen ${mmss(lastChange)}–end → a last beat (sign-off wave)`); }
+  console.log(`
+Host beats: ${hb.length} (${hb.filter((b, i) => b.spot && i && hb[i - 1].spot && b.spot !== hb[i - 1].spot).length} moves)`);
+  if (isAr && !hb.length && seq.length) { flags++; hl.push(`  HOST no host beats planned → list AZTIKA's spot/pose/why per shot ("host": [...])`); }
+  hl.forEach((l) => console.log(l));
+}
 // pace: the owner's videos — 6.8 s per shot felt right, 8.2 s felt slow
 const avg = seq.length ? (seq[seq.length - 1].end - seq[0].start) / seq.length : 0;
 console.log(`\nPace: ${seq.length} shots, average ${avg.toFixed(1)} s per shot (aim ~6–7 s)`);
