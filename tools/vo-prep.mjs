@@ -2,11 +2,13 @@
 //   1) every part levelled to the SAME loudness (ITU-R BS.1770 integrated LUFS, gated — the LUFS meter standard), so the
 //      voice never jumps up/down between parts (a plain gain per part: no compression, no EQ — the voice keeps its life)
 //   2) parts joined in number order ("1 Arabic.wav", "2.wav" … "10.wav"), 5 ms fades at every join (no clicks)
-//   3) SILENCE TRIM: every pause longer than 0.25 s is shortened to 0.20 s (keeps its first and last 0.10 s of natural
-//      room tone, 10 ms crossfade) — breaths stay; the start keeps 0.10 s, the end 0.40 s
+//   3) SILENCE TRIM (owner 2026-11-08): inside each part every pause longer than 0.25 s → 0.19 s (keeps its first and last
+//      half of natural room tone, 10 ms crossfade; breaths stay); each part's silent head/tail is removed and the parts are
+//      joined with EXACTLY 0.35 s made of their own room tone (no digital silence). Start 0.10 s, end 0.40 s.
+//   The report (<out>.prep.json) lists every part, join and cut position → tools/vo-check.mjs verifies them.
 // The result is the master clock of the video (timing, captions, render). The final MIX is mastered separately in the
 // cloud render to −14 LUFS / −1 dBTP (tools/cloud/assemble.mjs).
-//   node tools/vo-prep.mjs <folder | files…> --out videos/<slug>/voiceover.wav [--target -20] [--max-pause 0.25 --keep 0.20]
+//   node tools/vo-prep.mjs <folder | files…> --out videos/<slug>/voiceover.wav [--target -20] [--max-pause 0.25 --keep 0.19 --gap 0.35]
 // Prints a report (per-part loudness + gain, pauses trimmed, seconds saved) and writes <out>.json next to the output.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -18,7 +20,8 @@ const a = args();
 const SR = 48000;
 const TARGET = Number(a.target ?? -20); // LUFS (mono measure) — headroom for the final −14 LUFS master
 const MAX_PAUSE = Number(a['max-pause'] ?? 0.25);
-const KEEP = Number(a.keep ?? 0.2); // owner 2026-11-08 (listened to 4 samples): pauses > 0.25 s → 0.20 s
+const KEEP = Number(a.keep ?? 0.19); // owner 2026-11-08 (listened to samples): pauses > 0.25 s → 0.19 s
+const JOIN_GAP = Number(a.gap ?? 0.35); // owner 2026-11-08: exactly this much (room tone) between two parts
 const AUDIO = /\.(wav|mp3|m4a|flac|aac|ogg|opus)$/i;
 
 // ---------------------------------------------------------------- inputs (numeric order by the leading number)
@@ -29,7 +32,7 @@ const num = (f) => {
 };
 inputs = inputs.filter((f) => AUDIO.test(f)).sort((x, y) => num(x) - num(y) || x.localeCompare(y));
 if (!inputs.length || !a.out) {
-  console.log('usage: node tools/vo-prep.mjs <folder | files…> --out <voiceover.wav> [--target -20] [--max-pause 0.25 --keep 0.20]');
+  console.log('usage: node tools/vo-prep.mjs <folder | files…> --out <voiceover.wav> [--target -20] [--max-pause 0.25 --keep 0.19 --gap 0.35]');
   process.exit(1);
 }
 
@@ -112,74 +115,122 @@ const parts = inputs.map((f, i) => {
   return s;
 });
 
-// ---------------------------------------------------------------- 2) join
-const total = parts.reduce((n, s) => n + s.length, 0);
-const joined = new Float32Array(total);
-let o = 0;
-for (const s of parts) joined.set(s, o), (o += s.length);
-
-// ---------------------------------------------------------------- 3) silence trim (10 ms frames, threshold relative to the speech level)
-const F = Math.round(0.01 * SR);
-const nf = Math.floor(joined.length / F);
-const db = new Float32Array(nf);
-for (let k = 0; k < nf; k++) {
-  let acc = 0;
-  for (let i = k * F; i < (k + 1) * F; i++) acc += joined[i] * joined[i];
-  db[k] = 10 * Math.log10(acc / F + 1e-12);
-}
-const sorted = Float32Array.from(db).sort();
-const speech = sorted[Math.floor(sorted.length * 0.7)];
+// ---------------------------------------------------------------- 2+3) per part: trim inner pauses, cut its silent head/tail
+// One silence threshold for the whole voiceover (relative to the speech level of all parts together).
+const F = Math.round(0.01 * SR); // 10 ms frames
+const xf = Math.round(0.01 * SR); // 10 ms crossfades
+const framesDb = (x) => {
+  const n = Math.floor(x.length / F), d = new Float32Array(n);
+  for (let k = 0; k < n; k++) {
+    let acc = 0;
+    for (let i = k * F; i < (k + 1) * F; i++) acc += x[i] * x[i];
+    d[k] = 10 * Math.log10(acc / F + 1e-12);
+  }
+  return d;
+};
+const allDb = Float32Array.from(parts.flatMap((p) => Array.from(framesDb(p)))).sort();
+const speech = allDb[Math.floor(allDb.length * 0.7)];
 const thr = Math.max(speech - 32, -60);
-const silent = (k) => db[k] < thr;
-// pauses as frame ranges
-const pauses = [];
-for (let k = 0; k < nf; ) {
-  if (silent(k)) {
-    let j = k;
-    while (j < nf && silent(j)) j++;
-    pauses.push([k, j]);
-    k = j;
-  } else k++;
-}
-const keepF = Math.round(KEEP * 100), maxF = Math.round(MAX_PAUSE * 100), xf = Math.round(0.01 * SR);
-const segs = []; // [startSample, endSample] to keep
-let cursor = 0, trimmed = 0, saved = 0;
-for (const [s, e] of pauses) {
-  const len = e - s;
-  const isStart = s === 0, isEnd = e >= nf;
-  const keep = isStart ? 10 : isEnd ? 40 : keepF;
-  if (len <= (isStart || isEnd ? keep : maxF)) continue;
-  const head = isStart ? 0 : Math.floor(keep / 2), tail = isStart ? keep : isEnd ? 0 : keep - Math.floor(keep / 2);
-  const cutA = (s + head) * F, cutB = (e - tail) * F;
-  if (isEnd) {
-    segs.push([cursor, (s + keep) * F]);
-    cursor = joined.length;
-  } else {
-    segs.push([cursor, cutA]);
-    cursor = cutB;
-  }
-  trimmed++;
-  saved += (cutB - cutA) / SR;
-}
-if (cursor < joined.length) segs.push([cursor, joined.length]);
-const outLen = segs.reduce((n, [x, y]) => n + Math.max(0, y - x), 0);
-const out = new Float32Array(outLen);
-o = 0;
-segs.forEach(([x, y], i) => {
-  const seg = joined.subarray(x, y);
-  out.set(seg, o);
-  if (i > 0) {
-    // crossfade the join with the end of the previous segment's original continuation (smooth room tone, no click)
-    const n = Math.min(xf, seg.length, o);
-    const prevTail = joined.subarray(segs[i - 1][1], segs[i - 1][1] + n);
-    for (let j = 0; j < n; j++) {
-      const w = j / n;
-      out[o + j] = seg[j] * w + (prevTail[j] ?? 0) * (1 - w);
+const keepF = Math.round(KEEP * 100), maxF = Math.round(MAX_PAUSE * 100);
+/** Join segments of x with 10 ms crossfades (each fade uses the original continuation — natural room tone, no click). */
+const stitch = (x, segs) => {
+  const len = segs.reduce((n, [p, q]) => n + (q - p), 0);
+  const y = new Float32Array(len), cuts = [];
+  let o = 0;
+  segs.forEach(([p, q], i) => {
+    y.set(x.subarray(p, q), o);
+    if (i > 0) {
+      cuts.push(o);
+      const n = Math.min(xf, q - p, o), prev = x.subarray(segs[i - 1][1], segs[i - 1][1] + n);
+      for (let j = 0; j < n; j++) y[o + j] = x[p + j] * (j / n) + (prev[j] ?? 0) * (1 - j / n);
     }
+    o += q - p;
+  });
+  return {y, cuts};
+};
+/** Room tone of the given length from a quiet region (looped with crossfades if it is short). */
+const tone = (src, want) => {
+  const y = new Float32Array(want);
+  if (!src.length) return y;
+  let o = 0;
+  while (o < want) {
+    const n = Math.min(src.length, want - o);
+    for (let j = 0; j < n; j++) {
+      const fadeIn = o > 0 && j < xf ? j / xf : 1;
+      y[o + j] = src[j] * fadeIn + (o > 0 && j < xf ? y[o + j] * (1 - fadeIn) : 0);
+    }
+    o += Math.max(1, n - (src.length > 2 * xf ? xf : 0));
   }
-  o += seg.length;
+  return y;
+};
+let trimmed = 0, saved = 0;
+const bodies = parts.map((x, pi) => {
+  const d = framesDb(x), nf = d.length;
+  let first = 0, last = nf - 1;
+  while (first < nf && d[first] < thr) first++;
+  while (last > first && d[last] < thr) last--;
+  const head = x.subarray(0, first * F), tail = x.subarray((last + 1) * F); // room tone sources
+  // inner pauses
+  const segs = [];
+  let cursor = first * F;
+  for (let k = first; k <= last; ) {
+    if (d[k] < thr) {
+      let j = k;
+      while (j <= last && d[j] < thr) j++;
+      const len = j - k;
+      if (len > maxF) {
+        const h = Math.floor(keepF / 2), t = keepF - h;
+        segs.push([cursor, (k + h) * F]);
+        cursor = (j - t) * F;
+        trimmed++;
+        saved += (len - keepF) / 100;
+      }
+      k = j;
+    } else k++;
+  }
+  segs.push([cursor, (last + 1) * F]);
+  const {y, cuts} = stitch(x, segs);
+  saved += (head.length + tail.length) / SR;
+  return {y, cuts, head, tail, file: report.parts[pi].file};
 });
 
+// ---------------------------------------------------------------- 4) assemble: start 0.10 s · part · GAP 0.35 s · part … · end 0.40 s
+const START = Math.round(0.1 * SR), GAP = Math.round(JOIN_GAP * SR), END = Math.round(0.4 * SR);
+const pieces = [], marks = {parts: [], joins: [], cuts: []};
+let o = 0;
+const push = (y) => (pieces.push(y), (o += y.length));
+push(tone(bodies[0].head.length ? bodies[0].head : bodies[0].tail, START));
+bodies.forEach((b, i) => {
+  if (i > 0) {
+    // the gap = the previous part's own tail room tone, then the next part's own head room tone (crossfaded halves)
+    const half = Math.floor(GAP / 2);
+    const g = new Float32Array(GAP);
+    const prv = tone(bodies[i - 1].tail.length ? bodies[i - 1].tail : bodies[i - 1].head, half + xf);
+    const nxt = tone(b.head.length ? b.head : b.tail, GAP - half);
+    g.set(prv.subarray(0, half), 0);
+    for (let j = 0; j < nxt.length; j++) {
+      const w = j < xf ? j / xf : 1; // 10 ms crossfade between the two room tones
+      g[half + j] = nxt[j] * w + (j < xf ? prv[half + j] * (1 - w) : 0);
+    }
+    marks.joins.push({after: bodies[i - 1].file, start: +(o / SR).toFixed(3), end: +((o + GAP) / SR).toFixed(3)});
+    push(g);
+  }
+  marks.parts.push({file: b.file, start: +(o / SR).toFixed(3), end: +((o + b.y.length) / SR).toFixed(3)});
+  for (const c of b.cuts) marks.cuts.push(+((o + c) / SR).toFixed(3));
+  push(b.y);
+});
+push(tone(bodies[bodies.length - 1].tail.length ? bodies[bodies.length - 1].tail : bodies[bodies.length - 1].head, END));
+const total = parts.reduce((n, x) => n + x.length, 0);
+const outLen = o;
+const out = new Float32Array(outLen);
+o = 0;
+for (const p of pieces) {
+  out.set(p, o);
+  // 5 ms fades at every piece boundary (no clicks between room tone and speech)
+  const n = Math.min(Math.round(0.005 * SR), p.length);
+  for (let j = 0; j < n; j++) out[o + j] *= j / n, (out[o + p.length - 1 - j] *= j / n);
+  o += p.length;
+}
 // ---------------------------------------------------------------- write 48 kHz mono 24-bit wav
 const writeWav = (file, x) => {
   const n = x.length, data = Buffer.alloc(n * 3);
@@ -204,9 +255,14 @@ Object.assign(report, {
   seconds_before: +(total / SR).toFixed(2),
   seconds_after: +(outLen / SR).toFixed(2),
   pauses_trimmed: trimmed,
-  seconds_saved: +saved.toFixed(2),
+  join_gap_s: JOIN_GAP,
+  keep_s: KEEP,
+  max_pause_s: MAX_PAUSE,
+  marks,
+  seconds_saved: +((total - outLen) / SR).toFixed(2),
   pause_rule: `> ${MAX_PAUSE} s → ${KEEP} s`,
   silence_threshold_db: +thr.toFixed(1),
+  sources: inputs.map((f) => path.resolve(f)),
   lufs_after: +lufs(out).toFixed(1),
   peak_after_db: +peakDb(out).toFixed(1),
   clipped_samples: clipped,
@@ -214,5 +270,5 @@ Object.assign(report, {
 fs.writeFileSync(a.out.replace(/\.wav$/i, '') + '.prep.json', JSON.stringify(report, null, 1));
 console.log('part                   len s   LUFS before   gain dB   peak after');
 for (const p of report.parts) console.log(`${p.file.padEnd(22)} ${String(p.seconds).padStart(6)}   ${String(p.lufs_before).padStart(8)}   ${String(p.gain_db).padStart(7)}   ${String(p.peak_after_db).padStart(7)} dB`);
-console.log(`\njoined ${parts.length} parts · ${report.seconds_before} s → ${report.seconds_after} s (${trimmed} pauses > ${MAX_PAUSE} s trimmed to ${KEEP} s, ${report.seconds_saved} s saved)`);
+console.log(`\njoined ${parts.length} parts · ${report.seconds_before} s → ${report.seconds_after} s (${trimmed} pauses > ${MAX_PAUSE} s → ${KEEP} s · parts joined with exactly ${JOIN_GAP} s · ${report.seconds_saved} s saved)`);
 console.log(`voiceover: ${report.lufs_after} LUFS, peak ${report.peak_after_db} dBFS${clipped ? `, WARNING ${clipped} clipped samples (lower --target)` : ''} → ${a.out}`);

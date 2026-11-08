@@ -1,11 +1,11 @@
 // Start a new video from the files in input/ (voiceover + script + optional notes).
-//   node tools/new-video.mjs [--slug medieval-baths] [--title "Why a Hot Bath Was Medicine"] [--lang ar] [--no-analyze]
+//   node tools/new-video.mjs [--slug medieval-baths] [--title "Why a Hot Bath Was Medicine"] [--lang ar] [--no-analyze] [--vo-ok]
 //   (--lang is auto-detected: an Arabic script → "ar". Give Arabic videos an English --slug, e.g. --slug ar-diamonds.)
 // Does: creates videos/<slug>/ (moves the input files there), scaffolds src/videos/<slug>/, activates it,
 // uploads the voiceover to GitHub (release vo-<slug>), and runs the cloud timing analysis.
 // VOICEOVER IN PARTS (owner 2026-11-08): put all parts in input/ (loose files or one folder, numbered "1…", "2…" …).
-// tools/vo-prep.mjs levels every part to the same loudness, joins them in number order and trims every pause > 0.25 s
-// to 0.20 s → videos/<slug>/voiceover.wav = the master clock. (--raw keeps a single file exactly as recorded.)
+// tools/vo-prep.mjs levels every part to the same loudness, joins them in number order with 0.35 s, trims every pause
+// > 0.25 s to 0.19 s → videos/<slug>/voiceover.wav = the master clock, verified by the voice gate (tools/vo-check.mjs). (--raw keeps a single file exactly as recorded.)
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
@@ -14,7 +14,7 @@ import {gh, probeAudio, sh} from './lib/sys.mjs';
 
 const a = args();
 const IN = path.join(ROOT, 'input');
-const files = fs.existsSync(IN) ? fs.readdirSync(IN).filter((f) => !f.startsWith('.') && f.toLowerCase() !== 'readme.md') : [];
+const files = fs.existsSync(IN) ? fs.readdirSync(IN).filter((f) => !f.startsWith('.') && !['readme.md', 'vo-check.md'].includes(f.toLowerCase())) : [];
 const audio = files.filter((f) => /\.(wav|mp3|m4a|flac|aac|ogg)$/i.test(f));
 const texts = files.filter((f) => /\.(txt|md)$/i.test(f));
 if (audio.length !== 1) {
@@ -48,6 +48,28 @@ else {
   const r = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'vo-prep.mjs'), partsDir, '--out', voDest], {stdio: 'inherit'});
   if (r.status !== 0) process.exit(1);
 }
+// STEP 1 GATE (owner 2026-11-08): nothing goes on until the voiceover is verified clean (tools/vo-check.mjs).
+// FAIL → stop. WARN → stop until a human listened to the listed times and said it is fine (--vo-ok).
+if (!a.raw) {
+  const c = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'vo-check.mjs'), voDest], {encoding: 'utf8'});
+  process.stdout.write(c.stdout ?? '');
+  const warn = /PASS with d+ warning/.test(c.stdout ?? '');
+  if (c.status !== 0) {
+    console.log(`
+VOICE GATE: FAIL — fix the voiceover first (report: input/vo-check.md). The input files were left in input/.`);
+    fs.copyFileSync(path.join(vdir, 'vo-check.md'), path.join(IN, 'vo-check.md'));
+    fs.rmSync(vdir, {recursive: true, force: true});
+    process.exit(1);
+  }
+  if (warn && !a['vo-ok']) {
+    console.log(`
+VOICE GATE: warnings — listen to the times listed (report: input/vo-check.md), then run again with --vo-ok if they are fine. The input files were left in input/.`);
+    fs.copyFileSync(path.join(vdir, 'vo-check.md'), path.join(IN, 'vo-check.md'));
+    fs.rmSync(vdir, {recursive: true, force: true});
+    process.exit(2);
+  }
+  console.log('VOICE GATE: passed ✓');
+}
 const info = probeAudio(voDest);
 let scriptText = '';
 if (scriptFile) {
@@ -80,7 +102,7 @@ if (!a['no-analyze']) {
   const tag = `vo-${slug}`;
   const exists = sh('gh', ['release', 'view', tag], {allowFail: true}) !== null;
   if (exists) gh('release', 'upload', tag, voDest, '--clobber');
-  else gh('release', 'create', tag, voDest, '--title', `Voiceover: ${slug}`, '--notes', a.raw ? 'Original voiceover (unprocessed). Used by the cloud render.' : 'Voiceover made by tools/vo-prep.mjs (parts levelled to equal loudness, joined, pauses > 0.25 s trimmed). Used by the cloud render.');
+  else gh('release', 'create', tag, voDest, '--title', `Voiceover: ${slug}`, '--notes', a.raw ? 'Original voiceover (unprocessed). Used by the cloud render.' : 'Voiceover made by tools/vo-prep.mjs (parts levelled to equal loudness, joined with 0.35 s, pauses > 0.25 s → 0.19 s) and passed tools/vo-check.mjs. Used by the cloud render.');
   console.log(`voiceover uploaded (release ${tag})`);
   const r = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'cloud.mjs'), 'analyze', slug], {stdio: 'inherit'});
   if (r.status !== 0) process.exit(r.status ?? 1);
