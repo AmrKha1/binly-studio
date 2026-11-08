@@ -8,24 +8,24 @@ Source: `كيف سقطت أقوى 6 إمبراطوريات بالتاريخ؟ �
 - first 60 s (the hook): 12 shots (avg 5.0s) vs whole video avg 5.5s
 - longest shots: #25 @2:03.8 15.7s · #35 @3:25.5 13.9s · #28 @2:34.6 13.2s · #71 @7:14.1 12.9s · #66 @6:41.5 12.4s · #113 @10:58.6 11.9s
 
-Cuts per minute · motion inside shots (0 = still, 5+ = lively) · brightness · loudness
+Cuts per minute · motion inside shots (0 = still, 5+ = lively) · brightness · loudness · words/min
 ```
- 0m  cuts  12 ██████                motion  1.0  lum 193  -27.2 dB
- 1m  cuts  12 ██████                motion  1.4  lum 210  -27.9 dB
- 2m  cuts   6 ███                   motion  0.7  lum 134  -27.5 dB
- 3m  cuts   8 ████                  motion  1.1  lum 198  -27.4 dB
- 4m  cuts   9 █████                 motion  0.8  lum 176  -27.9 dB
- 5m  cuts   9 █████                 motion  1.0  lum 147  -27.6 dB
- 6m  cuts  11 ██████                motion  1.2  lum 177  -27.7 dB
- 7m  cuts   9 █████                 motion  1.3  lum 175  -28.4 dB
- 8m  cuts  11 ██████                motion  1.1  lum 164  -28.8 dB
- 9m  cuts  13 ███████               motion  1.0  lum 190  -28.7 dB
-10m  cuts  13 ███████               motion  3.1  lum 172  -28.7 dB
-11m  cuts   8 ████                  motion  0.8  lum 185  -29.6 dB
-12m  cuts  11 ██████                motion  1.1  lum 178  -28.2 dB
-13m  cuts  16 ████████              motion  1.5  lum 174  -28.6 dB
-14m  cuts  14 ███████               motion  1.1  lum 169  -28.2 dB
-15m  cuts   8 ████                  motion  1.1  lum 190  -28.9 dB
+ 0m  cuts  12 ██████                motion  1.0  lum 193  -27.2 dB  129 w
+ 1m  cuts  12 ██████                motion  1.4  lum 210  -27.9 dB  124 w
+ 2m  cuts   6 ███                   motion  0.7  lum 134  -27.5 dB  117 w
+ 3m  cuts   8 ████                  motion  1.1  lum 198  -27.4 dB  119 w
+ 4m  cuts   9 █████                 motion  0.8  lum 176  -27.9 dB  126 w
+ 5m  cuts   9 █████                 motion  1.0  lum 147  -27.6 dB  117 w
+ 6m  cuts  11 ██████                motion  1.2  lum 177  -27.7 dB  122 w
+ 7m  cuts   9 █████                 motion  1.3  lum 175  -28.4 dB  117 w
+ 8m  cuts  11 ██████                motion  1.1  lum 164  -28.8 dB  111 w
+ 9m  cuts  13 ███████               motion  1.0  lum 190  -28.7 dB  119 w
+10m  cuts  13 ███████               motion  3.1  lum 172  -28.7 dB  110 w
+11m  cuts   8 ████                  motion  0.8  lum 185  -29.6 dB  114 w
+12m  cuts  11 ██████                motion  1.1  lum 178  -28.2 dB  117 w
+13m  cuts  16 ████████              motion  1.5  lum 174  -28.6 dB  119 w
+14m  cuts  14 ███████               motion  1.1  lum 169  -28.2 dB  123 w
+15m  cuts   8 ████                  motion  1.1  lum 190  -28.9 dB  74 w
 ```
 
 ## Look
@@ -35,7 +35,7 @@ Cuts per minute · motion inside shots (0 = still, 5+ = lively) · brightness ·
 ## Sound
 - median loudness -25.4 dB (RMS, 0.1 s windows); quiet = below -43.4 dB
 - 10 quiet gaps ≥ 0.4 s (beats / breaths / dramatic pauses): 2:03.0 (0.5s) · 2:34.1 (0.4s) · 3:04.0 (0.6s) · 3:47.0 (0.4s) · 6:29.9 (0.4s) · 7:28.7 (0.4s) · 9:09.8 (0.4s) · 10:16.3 (0.5s) · 12:22.2 (0.5s) · 14:38.1 (0.8s)
-- no transcript yet → node tools/watch.mjs transcribe empires-flow
+- speech: 1858 words → 119 words/min
 
 ## Files
 - `overview/min-NN.jpg` — a frame every 3 s, one sheet per minute

@@ -9,6 +9,9 @@
 //   node tools/watch.mjs sheet <name> --from a --to b [--n 20 --cols 5] | --times a,b,c   exact-time contact sheet
 //   node tools/watch.mjs strip <name> --at t [--span 2 --fps 8 --cols 8]   dense frames → see HOW something animates
 //   node tools/watch.mjs frames <name> --at t[,t2]              full-res 1920×1080 frames
+//   node tools/watch.mjs zoom <name> --at t[,t2] --box x,y,w,h [--fps 30 --span 1]   crop+enlarge (text/glow detail, pop-in frame by frame)
+//   node tools/watch.mjs color <name> --at t --pts "x,y;x,y" | --line x1,y1,x2,y2 [--n 12]   exact colour codes
+//   node tools/watch.mjs hits <name> [--from a --to b --db 9]   sound-effect hits + the words around them
 //   node tools/watch.mjs audio <name> --from a --to b [--step 0.25]   loudness bars + words (hear the mix/rhythm)
 //   node tools/watch.mjs transcribe <name> [--lang ar]          cloud whisper (large-v3), ENCRYPTED both ways → references/<name>/timing/ (local only)
 //   node tools/watch.mjs transcript <name> [--from a --to b]    timed spoken lines
@@ -582,6 +585,87 @@ function cmdTranscript() {
   flush();
 }
 
-const cmds = {ingest, list: cmdList, shots: cmdShots, sheet: cmdSheet, strip: cmdStrip, frames: cmdFrames, audio: cmdAudio, transcribe: cmdTranscribe, transcript: cmdTranscript, report: () => (report(nameArg), console.log(`references/${nameArg}/report.md`))};
+/** Crop a box of the 1920×1080 frame at one or many times, enlarged → see text outlines, glow, pop-in frame by frame. */
+function cmdZoom() {
+  const meta = loadRef(nameArg);
+  needVideo(meta);
+  const [x, y, w, h] = list(a.box).map(Number);
+  if (!(w > 0 && h > 0)) throw new Error('--box x,y,w,h (in 1920×1080 pixels)');
+  const k = +(a.scale ?? Math.min(4, Math.max(1, Math.floor(900 / w))));
+  let times = list(a.at).map(Number);
+  if (a.fps) {
+    const t0 = times[0], span = +(a.span ?? 1), fps = +a.fps;
+    times = Array.from({length: Math.round(span * fps)}, (_, i) => +(t0 + i / fps).toFixed(3));
+  }
+  const tiles = times.map((t) => {
+    const png = ff(['-ss', String(t), '-i', meta.video, '-frames:v', '1', '-vf', `crop=${w}:${h}:${x}:${y},scale=${w * k}:${h * k}:flags=neighbor`, '-c:v', 'png', '-f', 'image2pipe', '-'], {buffer: true});
+    return {img: decodePNG(png), text: fmt(t).replace(/(\.\d)$/, (m) => m) + (a.fps ? ` ${((t - times[0]) * 1000).toFixed(0)}ms` : '')};
+  });
+  const cols = +(a.cols ?? Math.max(1, Math.min(times.length, Math.floor(2400 / (w * k)))));
+  const f = writeSheet(tiles, cols, w * k, h * k, path.join(cacheDir(nameArg), 'zoom', `zoom-${times[0].toFixed(2)}-${x}-${y}.jpg`));
+  console.log(`${path.relative(ROOT, f)}  (${times.length} × ${w}×${h} @${k}x)`);
+}
+
+/** Exact colours: --pts "x,y;x,y" or --line x1,y1,x2,y2 [--n 12] (1920×1080 coords, 5×5 average). */
+function cmdColor() {
+  const meta = loadRef(nameArg);
+  needVideo(meta);
+  const img = decodePNG(ff(['-ss', String(+a.at), '-i', meta.video, '-frames:v', '1', '-c:v', 'png', '-f', 'image2pipe', '-'], {buffer: true}));
+  const at = (px, py) => {
+    let r = 0, g = 0, b = 0, n = 0;
+    for (let dy = -2; dy <= 2; dy++)
+      for (let dx = -2; dx <= 2; dx++) {
+        const X = Math.min(img.w - 1, Math.max(0, Math.round(px) + dx)), Y = Math.min(img.h - 1, Math.max(0, Math.round(py) + dy));
+        const i = (Y * img.w + X) * 3;
+        r += img.data[i], g += img.data[i + 1], b += img.data[i + 2], n++;
+      }
+    return hex(r / n, g / n, b / n);
+  };
+  let pts = String(a.pts ?? '').split(';').filter(Boolean).map((p) => p.split(',').map(Number));
+  if (a.line) {
+    const [x1, y1, x2, y2] = list(a.line).map(Number), n = +(a.n ?? 12);
+    pts = Array.from({length: n}, (_, i) => [x1 + ((x2 - x1) * i) / (n - 1), y1 + ((y2 - y1) * i) / (n - 1)]);
+  }
+  for (const [px, py] of pts) console.log(`${String(Math.round(px)).padStart(4)},${String(Math.round(py)).padEnd(4)} ${at(px, py)}`);
+}
+
+/** Sound-effect hits: sudden bright (high-frequency) energy jumps, with the words spoken at that moment. */
+function cmdHits() {
+  loadRef(nameArg);
+  const wav = path.join(cacheDir(nameArg), 'audio.wav');
+  if (!fs.existsSync(wav)) throw new Error('audio.wav missing in .cache — run ingest again');
+  const pcm = readWav(wav), sr = 16000, hop = 160; // 10 ms
+  const n = Math.floor(pcm.length / hop);
+  const full = new Float64Array(n), hf = new Float64Array(n);
+  for (let k = 0; k < n; k++) {
+    let s = 0, d = 0;
+    for (let i = k * hop; i < (k + 1) * hop; i++) {
+      const v = pcm[i] / 32768, dv = i ? v - pcm[i - 1] / 32768 : 0;
+      s += v * v;
+      d += dv * dv;
+    }
+    full[k] = 10 * Math.log10(s / hop + 1e-10);
+    hf[k] = 10 * Math.log10(d / hop + 1e-10);
+  }
+  const wf = path.join(refDir(nameArg), 'timing', 'words.json');
+  const words = fs.existsSync(wf) ? JSON.parse(fs.readFileSync(wf, 'utf8')) : [];
+  const from = +(a.from ?? 0), to = +(a.to ?? n / 100), thr = +(a.db ?? 18);
+  const cuts = JSON.parse(fs.readFileSync(path.join(refDir(nameArg), "shots.json"), "utf8")).map((x) => x.s);
+  const loudRef = median([...full].filter((x) => x > -60));
+  let last = -1;
+  for (let k = Math.round(from * 100) + 20; k < Math.min(n, to * 100); k++) {
+    const prev = median([...hf.slice(k - 20, k - 2)]);
+    const jump = hf[k] - prev;
+    if (jump > thr && full[k] > loudRef - 12 && k - last > 15) {
+      last = k;
+      const t = k / 100;
+      const w = words.filter((x) => x.s > t - 0.6 && x.s < t + 0.6).map((x) => (Math.abs(x.s - t) < 0.04 ? `[${x.w}]` : x.w)).join(' ');
+      const cut = cuts.find((c) => Math.abs(c - t) <= 0.25);
+      console.log(`${fmt(t)}  +${jump.toFixed(0).padStart(2)} dB  ${cut !== undefined ? `CUT ${fmt(cut)}` : "          "}  ${w}`);
+    }
+  }
+}
+
+const cmds = {zoom: cmdZoom, color: cmdColor, hits: cmdHits, ingest, list: cmdList, shots: cmdShots, sheet: cmdSheet, strip: cmdStrip, frames: cmdFrames, audio: cmdAudio, transcribe: cmdTranscribe, transcript: cmdTranscript, report: () => (report(nameArg), console.log(`references/${nameArg}/report.md`))};
 if (!cmds[cmd]) console.log(fs.readFileSync(new URL(import.meta.url), 'utf8').split('\n').filter((l) => l.startsWith('//')).map((l) => l.slice(3)).join('\n'));
 else await cmds[cmd]();

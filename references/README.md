@@ -5,7 +5,7 @@ These are real videos the owner picked as the target. Read the STUDY.md files be
 
 | ref | what it is | role |
 |---|---|---|
-| `universe-claude/` | «وش أغلى شيء في الكون؟» — made 100 % with Claude Code, 14:47 | **THE model to match** (look, devices, pace) |
+| `universe-claude/` | «وش أغلى شيء في الكون؟» — made 100 % with Claude Code, 14:47 | **THE model to match** — exact specs in `STYLE-BIBLE.md` |
 | `empires-flow/` | «كيف سقطت أقوى 6 إمبراطوريات بالتاريخ؟» — Google Flow images, 15:35 | ideas to borrow (painted worlds, maps, chapter header) |
 
 Each folder: `STUDY.md` (director's analysis) · `report.md` (pace/colour/sound numbers) · `overview/min-NN.jpg` (a frame
@@ -27,7 +27,6 @@ Add a new one: `node tools/watch.mjs ingest <file.mp4> --as <name>` → `transcr
 6. **AZTIKA as the host** in the hook, the device beats, reactions and the ending; never in every shot.
 7. **A real ending**: recap device → thesis line → a warm sign-off (e.g. «في أمان الله»).
 
-## Open decision for the owner
-- **Look:** the model video is a DARK neon stage; the Studio's channel look is WHITE MODE + glow. Options: switch AZTIKA
-  to the dark neon stage, keep white mode, or mix (dark home stage, bright story worlds). Record the answer in
-  docs/PLAYBOOK.md → "Channel owner's preferences".
+## Owner decision (2026-11-08)
+- **Safe mode: copy the reference style as it is** (colours, text, glow, motion, sound mix). AZTIKA is our fingerprint.
+  The measured specs: `universe-claude/STYLE-BIBLE.md`. English videos keep white mode.
