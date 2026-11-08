@@ -56,7 +56,7 @@ floor, mains hum, clipping in the original parts, even delivery) → vo-check.md
 ## Optional, outside the Studio
 - **Google Flow** via the `flow` MCP server (spare Google account) — AI-generated images/clips. Off-style for the main video;
   possible use: thumbnails/background plates. Stills free, video clips cost credits — always ask the user before spending.
-  Installed 2026-11-08 after a security review: **GTAI-1/flow-mcp** pinned at commit `1d17b7b` in `C:Usersamroulow-mcp`
+  Installed 2026-11-08 after a security review: **GTAI-1/flow-mcp** pinned at commit `1d17b7b` in `C:/Users/amrou/flow-mcp`
   (npm ci --ignore-scripts, all 193 deps from registry.npmjs.org, no install scripts; talks only to flow.google.com,
   huggingface.co, Google APIs; panel bound to 127.0.0.1). Registered user-scope in ~/.claude.json as `flow` (backup:
   ~/.claude.json.backup-before-flow-2026-11-08). Its Chrome uses its OWN profile (~/.flow-mcp/chrome-profile) — sign in
