@@ -23,6 +23,14 @@ place things exactly where the reference does — headline top-right, object cen
 </Stage>
 ```
 
+## AZTIKA reacts (owner 2026-11-08)
+He is never a statue: he changes pose on the beats to interact with the SCENE (points at / presents the object that
+appears, reacts to a number) and with the VIEWER (wink, thumbs-up, pointing at them on «أنت»). Directions (screen):
+`full-point-right` and `full-present` aim at screen RIGHT (toward the centre stage when he stands left); `full-point-both`
+aims LEFT. Viewer poses: `full-thumbsup-wink`, `full-welcome`, `full-point-both-smile`. Reactions: `full-surprised`,
+`full-scared`, `full-jump-joy`, `full-thinking`, `full-shrug`, `full-skeptical`, `full-sad`, `full-angry`. Each switch
+gets a soft pop (built into ImageHost). Gallery `night` 0–2 s shows a 4-beat example.
+
 ## Pieces
 - **GlowText** `{text, x, y, size, tone: white|gold|grey|cyan, id, glow?, outline?, anchor?}` — the reference text recipe:
   soft colour glow → thick dark outline (also inside holes) → gradient fill (white fades to light grey; gold #FCC018).
