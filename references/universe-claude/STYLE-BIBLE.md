@@ -70,15 +70,23 @@ Fully rounded capsule, height ≈ 1.6× text size, padding ≈ 0.8× text size l
 - **Stamps** («تم البيع», «مو الأغلى»): slam in from 1.5× scale with a small shake (3:16, 3:47).
 - **Characters** change pose on their line (arm out when they speak, 0:45.2) — pose swaps, not walking.
 
-## 6. Sound (measured — I can't hear the music, the owner can)
-- Voice is king: speech ≈ −32 dB RMS; music in pauses only reaches ≈ −53 dB → **music ~20 dB under the voice**, barely
-  audible, a bed.
-- **Sound effects** sit on visual events: biggest hits (+30…+46 dB jumps) at the speech-bubble pops (0:45.0, 0:46.8,
-  0:48.4), year badge (0:40.2), diamond reveal (1:50.8), big reveals at cuts. Pattern: every pop/slam/reveal = a SFX;
-  plain word pops = no SFX or a very soft one.
-- Silence after the last word («في أمان الله») — no outro music.
-- Pace of speech: ≈ 121 words/min, short pauses (99 pauses ≥ 0.3 s).
-- (Owner to describe: music style/mood, and which effects sound like what.)
+## 6. Sound — studied with spectrograms (tools/watch.mjs spectro), 2026-11-08
+Method: the sound drawn as a picture (frequency over time) under the frames of the same moment, at 12 key moments
+(0:09 stripe wipe · 0:14.5 cut into «أنت!» · 0:25 «أنت غالي!» · 0:40 year count · 0:45 bubble · 0:50 · 1:16 newspapers ·
+1:50 diamond · 2:00 count-up · 3:16 map + stamp · 6:53 · 14:42 ending) + loudness of every pause.
+- **NO MUSIC.** The real pauses sit at −55…−65 dB (voice ≈ −32 dB): nothing fills the silence. After «في أمان الله» = silence.
+- **Sound effects are RARE and only on big moments:**
+  - a smooth **whoosh** (wide noise band, no voice stripes) on scene transitions — the stripe wipe (0:08.6–9.3) and the
+    cut INTO a hero moment (rising into 0:14.7);
+  - a faint high **shimmer** on precious reveals (diamond 1:50.7, reveal ring);
+  - soft **pops / paper swishes** for bubbles and newspapers.
+- **Silent:** word-by-word text pops, pills/labels, count-ups, the year count-down, host pose changes. The voice carries them.
+- Effects sit well under the voice (never compete with words) and never fill a pause.
+- Voice ≈ 121 words/min, almost continuous.
+**Our version (built into kit/night*, 2026-11-08):** StripeWipe/WhooshOut → whoosh · RevealRing → sparkle (soft) · Stamp →
+stamp · Bubble/PriceTag → pop (soft) · Flag → swish (soft) · NeonSign → neon hum (Kenney Sci-Fi CC0) · big reveal may add
+`boom` (deep low hit, Kenney CC0) by hand · AZTIKA's moves → a very soft swish; his pose swaps, WordPop, NPill, CountNumber,
+YearBadge = silent. No music (PLAYBOOK).
 
 ## 7. Characters
 - Host (theirs; ours = AZTIKA): full body, bottom-left, ~45 % of frame height, thick dark outline + yellow rim light +

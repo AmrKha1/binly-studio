@@ -908,8 +908,14 @@ Gallery `night5` (stills 1.6 sunset · 3.6 map · 5.6 science · 7.6 night city 
   hat, flat body, breathing. AZTIKA is the only character with a face. **MoneyBag** prop.
 Hero objects (diamond, palace, painting…) come from generated art (tools/art.mjs, ART-STYLE) placed on these worlds.
 
+## Sound (built in)
+Restraint like the reference (STYLE-BIBLE §6): StripeWipe/WhooshOut whoosh · RevealRing soft sparkle · Stamp stamp ·
+Bubble/PriceTag soft pop · Flag soft swish · NeonSign neon hum · HostTrack moves very soft swish. Silent: WordPop, NPill,
+CountNumber, YearBadge, host pose swaps. Add `{"kind":"boom"}` by hand in sfx/<chapter>.json for the 1–3 biggest reveals.
+No music.
+
 ## Still to build
-SFX mapping + music mix (owner to describe the reference sounds), the short pilot video.
+The short pilot video (cloud render) to hear and judge everything together.
 
 ---
 

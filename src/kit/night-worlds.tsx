@@ -8,6 +8,7 @@ import {H, W} from './theme';
 import {uid} from './stage';
 import {N, nightFont, textWidth} from './night';
 import {isAr} from './lang';
+import {cueSfx} from './sfx';
 
 const WEIGHT = () => (isAr() ? 800 : 900);
 const OUT = '#14101C'; // the thick dark outline of the flat world objects
@@ -116,6 +117,7 @@ export const MapShape: React.FC<{d: string; fill: string; dashed?: boolean; p?: 
   );
 /** Flag on a pole planted at (x, y = pole foot): vertical stripes (France ['#2340A8','#FFFFFF','#D21034']) or horizontal. */
 export const Flag: React.FC<{x: number; y: number; colors: string[]; horizontal?: boolean; size?: number; t?: number; at?: number}> = ({x, y, colors, horizontal, size = 130, t = 1, at = 0}) => {
+  cueSfx('swish', `flag-${x}-${at}`, t >= at && t < at + 0.3, x, {gain: 0.45});
   const p = clamp01((t - at) / 0.3);
   if (p <= 0) return null;
   const pole = size * 2.1, fw = size, fh = size * 0.62, top = y - pole * p;
@@ -134,6 +136,7 @@ export const Flag: React.FC<{x: number; y: number; colors: string[]; horizontal?
 };
 /** Price tag (3:25 «15 مليون $»): green tag with a hole, thick outline, heavy dark text. x,y = centre. */
 export const PriceTag: React.FC<{text: string; x: number; y: number; size?: number; color?: string; p?: number}> = ({text, x, y, size = 64, color = '#2EE88B', p = 1}) => {
+  cueSfx('pop', `tag-${text}`, p > 0 && p < 1, x, {gain: 0.6});
   if (p <= 0) return null;
   const w = textWidth(text, size) + size * 1.9, h = size * 1.75;
   const s = 0.4 + 0.6 * clamp01(p) + Math.sin(clamp01(p) * Math.PI) * 0.12;

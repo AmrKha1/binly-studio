@@ -469,7 +469,7 @@ const KIND_DB = {stamp: 0, impact: 0, bell_toll: -1, thump: 0, heartbeat: -1, he
   rumble: -2, bell: -1, sweep_down: -1, splash: -1, door: -1, footsteps: -4, swish: -1, paper: -2, page: -2, shutter: -1, chime: -1, pop: 0,
   click: -1, clack: -1, ding: -1, glass: -1, bubble: -1, drip: -2, sparkle: -1, tick: -2, scribble: -4, typing: -3, breath: -4,
   low_drone: -6, wind: -9, fire: -9, crowd: -9, water: -9, coins: 0, popup: 0, popdown: -1, confirm: 0, error: 0,
-  toggle: -1, cash: 0, card: -1, slam: 0, count: -3, blip: 0, powerup: 0, rise: -1, fall: -1, win: 0};
+  toggle: -1, cash: 0, card: -1, neon: -7, boom: -2, slam: 0, count: -3, blip: 0, powerup: 0, rise: -1, fall: -1, win: 0};
 const SFX_OFFSET_DB = -5.9 + (score.sfxLevel ?? 0); // owner-tuned 2026-10-20: median sfx ≈ 11 dB under the voice // global trim (score.json "sfxLevel", dB) if a video wants it
 const VO_PEAK_LIN = (() => { let m = 0; for (let i = 0; i < vo.length; i++) m = Math.max(m, Math.abs(vo[i])); return m || 1; })();
 const voSpeechLvl = (() => { let q = 0, c = 0; for (let i = 0; i < N; i += 4) if (env[i] > 0.5) { q += vo[i] * vo[i]; c++; } return Math.sqrt(q / Math.max(1, c)); })();
@@ -514,6 +514,9 @@ const KENNEY = {
   rise: ['digital-audio/phaserUp', 'digital-audio/highUp'],
   fall: ['digital-audio/phaserDown', 'digital-audio/lowDown'],
   win: ['digital-audio/threeTone', 'digital-audio/twoTone'],
+  // Kenney Sci-Fi Sounds (CC0, 2026-11-08): the neon sign-off hum + a deep boom for the biggest reveals
+  neon: ['sci-fi-sounds/forceField_'],
+  boom: ['sci-fi-sounds/lowFrequency_explosion'],
 };
 const KDIR = path.join(LIB, 'kenney');
 const kCache = new Map();

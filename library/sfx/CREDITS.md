@@ -7,4 +7,5 @@ Files named `<kind>.ogg` or `<kind>-N.ogg` automatically REPLACE the code-made s
 - water.ogg — "water-trickle" by fractalstudios — CC0 — https://commons.wikimedia.org/wiki/File:363120_fractalstudios_water-trickle.wav
 - bell_toll.ogg — "Church bells - Leverkusen, 2007" — public domain — https://commons.wikimedia.org/wiki/File:Church_bells_-_Leverkusen,_2007.oga
 - page-1..3.ogg, door-1..2.ogg, coins-1..2.ogg, footsteps.ogg (10 steps joined) — "RPG Audio" by Kenney — CC0 — https://kenney.nl/assets/rpg-audio
+- kenney/sci-fi-sounds/forceField_*.ogg (kind `neon`), lowFrequency_explosion*.ogg (kind `boom`) — "Sci-Fi Sounds" by Kenney — CC0 — https://kenney.nl/assets/sci-fi-sounds (downloaded 2026-11-08)
 Clips were trimmed to their steadiest section, faded and encoded to Opus 96 kb/s.

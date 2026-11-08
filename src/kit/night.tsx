@@ -10,6 +10,7 @@ import type {HostMove} from './host';
 import {FONT_AR, isAr} from './lang';
 import {FONT_SERIF, H, W} from './theme';
 import {uid} from './stage';
+import {cueSfx} from './sfx';
 
 /** Measured palette (STYLE-BIBLE §3). */
 export const N = {
@@ -273,6 +274,7 @@ export const Podium: React.FC<{x: number; base: number; w: number; h: number; id
 
 /** Reveal burst when something appears (0:25.2): thin gold ring expands + fades, sparkles spray out. */
 export const RevealRing: React.FC<{t: number; at: number; x: number; y: number; r?: number; color?: string}> = ({t, at, x, y, r = 230, color = '#F5D27A'}) => {
+  cueSfx('sparkle', `ring-${x}-${y}-${at}`, t >= at && t < at + 0.7, x, {gain: 0.6});
   const p = (t - at) / 0.7;
   if (p < 0 || p > 1) return null;
   const e = 1 - Math.pow(1 - p, 3);
@@ -389,10 +391,11 @@ export const HostTrack: React.FC<{t: number; spots: HostSpot[]; poses: [number, 
   const e = kind === 'hop' ? spring(u, 0.25) : ease.inOut(u);
   const x = lerp(P.x, Q.x, e), y0 = lerp(P.y, Q.y, e), h = lerp(P.h, Q.h, e);
   const moving = u > 0 && u < 1;
+  if (i > 0) cueSfx('swish', `${id}-move@${cur.at}`, moving, x, {gain: 0.35});
   const lift = moving ? (kind === 'hop' ? Math.sin(Math.PI * Math.min(1, u * 1.15)) * 70 : kind === 'walk' ? Math.abs(Math.sin(u * Math.PI * 5)) * 14 : 0) : 0;
   const faceOf = (s: HostSpot) => s.flip ?? place(s).x > W / 2;
   const flip = moving && u < 0.5 ? faceOf(prev) : faceOf(cur);
   const ps = poses.map(([at, p]) => [at, (BEAT_POSE as Record<string, string>)[p] ?? p] as [number, string]);
-  const el = <ImageHost t={t} x={x} y={y0 - lift} h={h} poses={ps} flip={flip} shadow={false} enter={enter} exit={exit} id={id} />;
+  const el = <ImageHost t={t} x={x} y={y0 - lift} h={h} poses={ps} flip={flip} shadow={false} swapSfx={false} enter={enter} exit={exit} id={id} />;
   return glow ? <HostGlow id={id}>{el}</HostGlow> : el;
 };

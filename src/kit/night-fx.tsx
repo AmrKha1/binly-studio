@@ -8,6 +8,9 @@ import {H, W} from './theme';
 import {uid} from './stage';
 import {GlowText, N, nightFont, textWidth, Tone} from './night';
 import {isAr} from './lang';
+import {cueSfx} from './sfx';
+// SOUND (measured from the reference, 2026-11-08): sound marks only the big moments — transitions whoosh, stamps hit,
+// bubbles/tags pop, the neon hums. Word pops, pills, count-ups and the year count stay SILENT (the voice carries them).
 
 const WEIGHT = () => (isAr() ? 800 : 900);
 
@@ -77,6 +80,7 @@ export const CountNumber: React.FC<{t: number; at: number; value: string; x: num
 export const Stamp: React.FC<{t: number; at: number; text: string; x: number; y: number; size?: number; rot?: number; color?: string}> = ({
   t, at, text, x, y, size = 110, rot = -8, color = '#E23A4E',
 }) => {
+  cueSfx('stamp', `stamp-${text}-${at}`, t >= at && t < at + 0.3, x);
   if (t < at) return null;
   const u = (t - at) / 0.16;
   const s = u < 1 ? lerp(1.6, 1, u * u) : 1;
@@ -111,6 +115,7 @@ export const Mark: React.FC<{kind: 'check' | 'cross'; x: number; y: number; r?: 
 export const Bubble: React.FC<{t: number; at: number; lines: string[]; x: number; y: number; tx: number; ty: number; size?: number; mark?: 'check' | 'cross'; icon?: React.ReactNode; out?: number}> = ({
   t, at, lines, x, y, tx, ty, size = 64, mark, icon, out,
 }) => {
+  cueSfx('pop', `bubble-${lines.join('')}-${at}`, t >= at && t < at + 0.3, tx, {gain: 0.7});
   const p = clamp01((t - at) / 0.22);
   if (p <= 0) return null;
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.15) : 1;
@@ -150,6 +155,7 @@ export const punchT = (t: number, end: number, cx: number, cy: number, dur = 0.3
 
 /** WhooshOut — speed streaks across an empty sky for a few frames between scenes (0:27.8). Draw on top. */
 export const WhooshOut: React.FC<{t: number; at: number; dur?: number; color?: string; bg?: string}> = ({t, at, dur = 0.18, color = '#B98BFF', bg = N.skyMid}) => {
+  cueSfx('whoosh', `whooshout-${at}`, t >= at - 0.25 && t < at + dur, 960, {gain: 0.9});
   const u = (t - at) / dur;
   if (u < 0 || u > 1) return null;
   return (
@@ -166,6 +172,7 @@ export const WhooshOut: React.FC<{t: number; at: number; dur?: number; color?: s
 
 /** StripeWipe — diagonal gold/orange stripes sweep across and cover the cut (0:09.0, ~0.6 s). Draw on top. */
 export const StripeWipe: React.FC<{t: number; at: number; dur?: number}> = ({t, at, dur = 0.6}) => {
+  cueSfx('whoosh', `stripes-${at}`, t >= at && t < at + dur, 960);
   const u = (t - at) / dur;
   if (u < 0 || u > 1) return null;
   const cols = ['#FFC928', '#F59E0B', '#FFD45A', '#F2B010'];
@@ -189,6 +196,7 @@ export const StripeWipe: React.FC<{t: number; at: number; dur?: number}> = ({t, 
 export const NeonSign: React.FC<{t: number; at: number; x: number; y: number; text?: string; d?: string; size?: number; color?: string; id: string}> = ({
   t, at, x, y, text, d, size = 220, color = '#FFC928', id,
 }) => {
+  cueSfx('neon', `neon-${id}-${at}`, t >= at && t < at + 0.5, x, {gain: 0.6});
   if (t < at) return null;
   const e = t - at;
   const flick = e < 0.5 ? (Math.sin(e * 90) > 0.2 ? 1 : 0.25) : 0.92 + 0.08 * Math.sin(t * 7);
