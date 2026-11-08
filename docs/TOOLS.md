@@ -47,7 +47,7 @@ Read `references/<name>/STUDY.md` first (the director's analysis), then `report.
 
 ## Voiceover prep + delivery loudness (owner 2026-11-08)
 `tools/vo-prep.mjs` (run by new-video): parts → equal loudness (ITU-R BS.1770 LUFS, one gain per part) → joined in number
-order → pauses > 0.25 s → 0.22 s → `videos/<slug>/voiceover.wav` (48 kHz 24-bit, −20 LUFS) + `.prep.json` report. The cloud
+order → pauses > 0.25 s → 0.20 s → `videos/<slug>/voiceover.wav` (48 kHz 24-bit, −20 LUFS) + `.prep.json` report. The cloud
 render masters the final mix to −14 LUFS / −1 dBTP (two-pass loudnorm, linear) and checks the delivered file.
 
 ## Optional, outside the Studio

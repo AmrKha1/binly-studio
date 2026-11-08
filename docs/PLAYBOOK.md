@@ -17,7 +17,7 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
 ## 2. Source of truth (hard rules)
 - The supplied voiceover is the final narration and the master clock. It is PREPARED ONCE at ingest (owner 2026-11-08,
   tools/vo-prep.mjs): the recorded parts are levelled to the same loudness (one gain per part), joined in number order,
-  and every pause > 0.25 s is shortened to 0.22 s. After that it is never changed again: no rewriting, stretching,
+  and every pause > 0.25 s is shortened to 0.20 s. After that it is never changed again: no rewriting, stretching,
   denoising, EQ, compression or reordering; all timing follows the prepared voiceover. SFX are a separate layer; the voice
   stays loudest and clear. NO MUSIC.
 - **Delivery loudness (owner 2026-11-08): the final video is mastered to −14 LUFS integrated, −1 dBTP true peak** (one

@@ -2,11 +2,11 @@
 //   1) every part levelled to the SAME loudness (ITU-R BS.1770 integrated LUFS, gated — the LUFS meter standard), so the
 //      voice never jumps up/down between parts (a plain gain per part: no compression, no EQ — the voice keeps its life)
 //   2) parts joined in number order ("1 Arabic.wav", "2.wav" … "10.wav"), 5 ms fades at every join (no clicks)
-//   3) SILENCE TRIM: every pause longer than 0.25 s is shortened to 0.22 s (keeps its first and last 0.11 s of natural
+//   3) SILENCE TRIM: every pause longer than 0.25 s is shortened to 0.20 s (keeps its first and last 0.10 s of natural
 //      room tone, 10 ms crossfade) — breaths stay; the start keeps 0.10 s, the end 0.40 s
 // The result is the master clock of the video (timing, captions, render). The final MIX is mastered separately in the
 // cloud render to −14 LUFS / −1 dBTP (tools/cloud/assemble.mjs).
-//   node tools/vo-prep.mjs <folder | files…> --out videos/<slug>/voiceover.wav [--target -20] [--max-pause 0.25 --keep 0.22]
+//   node tools/vo-prep.mjs <folder | files…> --out videos/<slug>/voiceover.wav [--target -20] [--max-pause 0.25 --keep 0.20]
 // Prints a report (per-part loudness + gain, pauses trimmed, seconds saved) and writes <out>.json next to the output.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -18,7 +18,7 @@ const a = args();
 const SR = 48000;
 const TARGET = Number(a.target ?? -20); // LUFS (mono measure) — headroom for the final −14 LUFS master
 const MAX_PAUSE = Number(a['max-pause'] ?? 0.25);
-const KEEP = Number(a.keep ?? 0.22);
+const KEEP = Number(a.keep ?? 0.2); // owner 2026-11-08 (listened to 4 samples): pauses > 0.25 s → 0.20 s
 const AUDIO = /\.(wav|mp3|m4a|flac|aac|ogg|opus)$/i;
 
 // ---------------------------------------------------------------- inputs (numeric order by the leading number)
@@ -29,7 +29,7 @@ const num = (f) => {
 };
 inputs = inputs.filter((f) => AUDIO.test(f)).sort((x, y) => num(x) - num(y) || x.localeCompare(y));
 if (!inputs.length || !a.out) {
-  console.log('usage: node tools/vo-prep.mjs <folder | files…> --out <voiceover.wav> [--target -20] [--max-pause 0.25 --keep 0.22]');
+  console.log('usage: node tools/vo-prep.mjs <folder | files…> --out <voiceover.wav> [--target -20] [--max-pause 0.25 --keep 0.20]');
   process.exit(1);
 }
 

@@ -5,7 +5,7 @@
 // uploads the voiceover to GitHub (release vo-<slug>), and runs the cloud timing analysis.
 // VOICEOVER IN PARTS (owner 2026-11-08): put all parts in input/ (loose files or one folder, numbered "1…", "2…" …).
 // tools/vo-prep.mjs levels every part to the same loudness, joins them in number order and trims every pause > 0.25 s
-// to 0.22 s → videos/<slug>/voiceover.wav = the master clock. (--raw keeps a single file exactly as recorded.)
+// to 0.20 s → videos/<slug>/voiceover.wav = the master clock. (--raw keeps a single file exactly as recorded.)
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
