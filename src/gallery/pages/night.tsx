@@ -1,6 +1,6 @@
 import React from 'react';
 import {Stage} from '../../kit/stage';
-import {Host} from '../../kit/host';
+import {ImageHost} from '../../kit/image-host';
 import {GridFloor, HostGlow, NightScreen, NightSky, NPill, Podium, RevealRing, WordPop, YearBadge} from '../../kit/night';
 
 // page "night": copy test of the model video's 0:26.2 frame («أنت غالي!» + gold pill + green podium + host bottom-left).
@@ -15,7 +15,7 @@ export const NightPage: React.FC<{t: number}> = ({t}) => (
       <NPill text="45 مليون $" x={868} y={266} size={60} kind="gold" id="np2" p={(t - 0.6) / 0.25} />
       <WordPop t={t} id="np3" y={318} size={150} right={1650} words={[{w: 'أنت', at: 0.9}, {w: 'غالي!', at: 1.2, tone: 'gold'}]} />
       <HostGlow id="nph">
-        <Host t={t} x={250} y={1045} s={0.68} id="nph" poses={[[0, 'thumbsUp']]} faces={[[0, 'happy']]} />
+        <ImageHost t={t} x={480} y={1068} h={340} poses={[[0, 'full-thumbsup-wink']]} shadow={false} id="nph" />
       </HostGlow>
     </NightScreen>
   </Stage>

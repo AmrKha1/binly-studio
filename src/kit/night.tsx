@@ -231,7 +231,7 @@ export const NPill: React.FC<{text: string; x: number; y: number; size?: number;
       </defs>
       <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={h / 2} fill={k.glow} opacity={0.55} filter={`url(#${g}b)`} />
       <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={h / 2} fill={`url(#${g})`} />
-      <text x={0} y={size * 0.04} fontSize={size} fontFamily={nightFont()} fontWeight={WEIGHT()} textAnchor="middle" dominantBaseline="central" fill={k.ink} stroke="none">
+      <text x={0} y={size * 0.04} fontSize={size} fontFamily={nightFont()} fontWeight={WEIGHT()} textAnchor="middle" dominantBaseline="central" fill={k.ink} stroke={k.ink} strokeWidth={size * 0.07} strokeLinejoin="round" paintOrder="stroke">
         {text}
       </text>
     </g>

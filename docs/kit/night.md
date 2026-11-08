@@ -5,7 +5,8 @@ STYLE-BIBLE.md). This module is that look. Gallery: `night` (copy test of the 0:
 `node tools/still.mjs --comp Gallery --props '{"page":"night","lang":"ar"}' --at 2`
 
 **Screen coordinates:** put night scenes inside `<NightScreen>` (first child of `<Stage>`): nothing is mirrored, so you
-place things exactly where the reference does — headline top-right, object centre, host bottom-left (x≈250, feet 1045).
+place things exactly where the reference does — headline top-right, object centre, AZTIKA = the illustrated image poses (kit/image-host, public/_hosts/aztika), full body, toward the middle and big
+(owner 2026-11-08: x≈480, feet 1068, h≈340 → ~650 px tall — closer to the viewer than the reference host), gold rim (HostGlow).
 
 ```tsx
 <Stage bg="#0F062B">
@@ -17,7 +18,7 @@ place things exactly where the reference does — headline top-right, object cen
     <NPill text="45 مليون $" x={868} y={266} size={60} kind="gold" id="q" p={(t - 0.6) / 0.25} />
     <WordPop t={t} id="h" y={318} size={150} right={1650}
       words={[{w: 'أنت', at: 0.9}, {w: 'غالي!', at: 1.2, tone: 'gold'}]} />   {/* each word pops on its spoken time */}
-    <HostGlow id="host"><Host t={t} x={250} y={1045} s={0.68} id="hh" poses={[[0, 'thumbsUp']]} /></HostGlow>
+    <HostGlow id="host"><ImageHost t={t} x={480} y={1068} h={340} poses={[[0, 'full-thumbsup-wink']]} shadow={false} /></HostGlow>
   </NightScreen>
 </Stage>
 ```
@@ -43,4 +44,4 @@ place things exactly where the reference does — headline top-right, object cen
 ## Still to build (next steps of the upgrade)
 Rays background (rotating wedges + vignette + bokeh), count-up hero number, stamps (slam + shake), speech bubbles with
 ✔/✖, camera punch-in + whoosh/streak transition, gold stripe wipe, sunset + city silhouette scene, paper map scene,
-teal science scene, neon sign-off, AZTIKA image pose sheet, SFX mapping.
+teal science scene, neon sign-off, SFX mapping.
