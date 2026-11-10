@@ -40,14 +40,15 @@ export const ImageHost: React.FC<{
   life?: number; // 0 still · 1 natural (default) · 2 lively
   flip?: boolean;
   swapSfx?: boolean; // a soft pop on each pose switch (default on — the director may turn it off)
+  swap?: 'pop' | 'cut'; // pose switch style: pop = squash-and-stretch spring (English) · cut = instant, like the reference's AZTIKA (MOTION.md §9)
   shadow?: boolean; // soft ground shadow under full-body poses (default on)
   id?: string;
-}> = ({t, who: who0, x, y, h = 720, poses, talk = 0, enter, exit, life = 1, flip = false, swapSfx = true, shadow = true, id = 'ihost'}) => {
+}> = ({t, who: who0, x, y, h = 720, poses, talk = 0, enter, exit, life = 1, flip = false, swapSfx = true, swap = 'pop', shadow = true, id = 'ihost'}) => {
   const who = who0 ?? channelHost();
   const mv = hostMove(t, enter, exit);
   if (!mv.visible) return null;
   for (const [m, tag] of [[enter, 'in'], [exit, 'out']] as [HostMove | undefined, string][]) {
-    if (!m) continue;
+    if (!m || !MOVE_SFX[m.kind]) continue; // silent moves (fade / riseSoft / fadeOut)
     const isWalk = m.kind.startsWith('walk');
     const d = m.dur ?? (isWalk ? 1.4 : 0.6);
     cueSfx(MOVE_SFX[m.kind], `${id}-${tag}@${m.at}`, t >= m.at && (!isWalk || t < m.at + d), x, {sustain: isWalk});
@@ -65,7 +66,7 @@ export const ImageHost: React.FC<{
   // pose switch: a quick squash-and-stretch pop (spring), anchored at the bottom
   const u = i > 0 ? clamp01((t - at) / 0.42) : 1;
   const k = spring(u, 0.5);
-  const pop = i > 0 ? lerp(0.9, 1, k) : 1;
+  const pop = i > 0 && swap === 'pop' ? lerp(0.9, 1, k) : 1;
   const over = pop - 1;
   const sx = pop * (1 - over * 0.6);
   const sy = pop * (1 + over * 0.6);

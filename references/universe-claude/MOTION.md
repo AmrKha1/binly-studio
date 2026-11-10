@@ -61,6 +61,35 @@ still after. Then the story continues at once (the bought region spreads over th
 - Life in held shots = slowly rotating rays, twinkling sparkles, the slow camera push. A held diamond's brightness
   stays within ±0.6 % — **no pulsing glow** (the STYLE-BIBLE "glow breathes ±15 %" is not supported).
 
+## 8. Growth, labels, scene changes (measured 2026-11-11)
+- **Podium / bars rise** (0:24.3): height 87 → 121 → 147 → 161 → 173 → 175 px over ≈ 0.3 s — a plain ease-out over
+  0.5 s (fits ±0.02), NO overshoot. Ours was spring(…, 0.3): 1.18 then 0.97 (jelly). → Podium, PodiumGame, MysteryPillar,
+  NBars now `ease.out`.
+- **Callouts** (0:20): the leader line draws out in ≈ 0.1 s, the label pops AT ONCE at its end, the gold tag ≈ 0.15 s
+  later (line → label → tag). Ours: line 0.3 s, label after 0.25 s → now 0.12 s / 0.1 s.
+- **Count-up with its spoken form** (0:20.6–23.0): the big number counts, decelerates into «45,000,000 $», turns gold,
+  then the SPOKEN words «45 مليون دولار» appear under it in white (builder: a WordPop/NPill under the CountNumber).
+- **Scene change = match-move dissolve** (0:24.1–24.3): the old scene dissolves (≈ 0.2 s) while its hero object FLIES to
+  its place in the next scene (the body → onto its podium); the new scene enters zoomed in and SETTLES (1.53 → 1.00,
+  `settleT`); the host rises in from the bottom-left.
+- **Road-map path** (0:09.8–13.2): in Arabic it draws from RIGHT to LEFT (the mystery waits at the left end), ≈ 3.4 s,
+  each station's object pops as the head arrives. Ours ran left → right → JourneyPath now defaults to RTL in Arabic.
+- **Headline words:** the KEY word pops (the swell); supporting words fade in softly (≈ 0.1 s) (0:12.9, 1:34.6).
+- **"Time passing":** the year badge counts UP faster and faster (1704 → 1705 → 1707 → 1711 → 1718 → 1730, 1:07.2–07.7)
+  while the room slides away.
+
+## 9. The host and the bubbles
+- AZTIKA **enters by fading in** (≈ 0.2 s, 0:30.3) or **rising in from the bottom-left during a dissolve** (0:24.2) —
+  silently. Characters **swap poses instantly** (0:45.07) — no squash, no bounce. Ours: a 10 % squash-and-stretch spring
+  on every pose switch → AZTIKA now swaps instantly (`swap="cut"`), new host moves `fade` · `riseSoft` · `fadeOut`.
+- **Bubbles exit by shrinking back into the speaker's mouth** (≈ 0.15 s, 0:50.5), the ✔ with them — ours faded → fixed.
+  A bubble swells a little slower than a word (peak at 165 ms) → its pop now runs over 0.33 s.
+
+## 10. Automatic check: no frozen frames
+Inside the reference's shots the picture never changes by less than 0.36 % in 1.35 s (95 % of the time > 2.4 %;
+268 samples). `node tools/sync-check.mjs` now flags **FROZEN** (Arabic videos) when a sentence's picture changes < 1 %
+(raw, camera drift counted) — add `pushT` / a camera move / something alive.
+
 ## 7. THE GAPS — all FIXED 2026-11-11 (kit/anim.ts popRef · pressIn · countCurve · flyOut · pushT; night-fx Flash,
 StripeWipe, CountNumber, Stamp; night-game boardCamT + the mystery reveal), each checked on rendered frames with the same
 pixel measure: pill pop peaks 1.16 like the reference (one frame earlier), stamp matches frame for frame (1.43 · 1.28 ·

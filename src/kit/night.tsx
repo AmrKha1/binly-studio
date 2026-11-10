@@ -266,7 +266,7 @@ export const NPill: React.FC<{text: string; x: number; y: number; size?: number;
 
 /** Glowing 3D green podium (0:26.2): front + light left facet + dark right side + lighter top. x = centre, base = floor y. */
 export const Podium: React.FC<{x: number; base: number; w: number; h: number; id: string; grow?: number; color?: 'green' | 'gold' | 'red'}> = ({x, base, w, h, id, grow = 1, color = 'green'}) => {
-  const hh = h * spring(clamp01(grow), 0.3);
+  const hh = h * ease.out(clamp01(grow)); // the reference podium RISES and decelerates into place, no bounce (MOTION.md §8)
   if (hh <= 1) return null;
   const pal = color === 'green' ? ['#1BC077', '#3FD58F', '#0B895B', '#5BE3A0', N.greenGlow] : color === 'gold' ? ['#F2B010', '#FFD45A', '#C98F0A', '#FFE08A', '#FFC928'] : color === 'red' ? ['#D2363A', '#E86367', '#A8262A', '#F08A8D', '#FF5A60'] : [N.green, N.greenLight, N.greenDark, N.greenTop, N.greenGlow];
   const g = uid('npd', id);
@@ -424,6 +424,6 @@ export const HostTrack: React.FC<{t: number; spots: HostSpot[]; poses: [number, 
   const faceOf = (s: HostSpot) => s.flip ?? place(s).x > W / 2;
   const flip = moving && u < 0.5 ? faceOf(prev) : faceOf(cur);
   const ps = poses.map(([at, p]) => [at, (BEAT_POSE as Record<string, string>)[p] ?? p] as [number, string]);
-  const el = <ImageHost t={t} x={x} y={y0 - lift} h={h} poses={ps} flip={flip} shadow={false} swapSfx={false} enter={enter} exit={exit} id={id} />;
+  const el = <ImageHost t={t} x={x} y={y0 - lift} h={h} poses={ps} flip={flip} shadow={false} swapSfx={false} swap="cut" enter={enter} exit={exit} id={id} />;
   return glow ? <HostGlow id={id}>{el}</HostGlow> : el;
 };

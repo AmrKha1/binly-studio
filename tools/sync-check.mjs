@@ -89,6 +89,18 @@ const changed = (A, B) => {
   return best;
 };
 
+// FROZEN (Arabic = the reference's camera is never still, MOTION.md §3): the RAW change (no drift alignment) between the
+// two frames 1.35 s apart. Measured on the reference: inside its shots it never drops below 0.36 %, 95 % of the time it
+// is above 2.4 % — under 1 % = a dead frame the reference never shows (add pushT / a camera move / something alive).
+const FROZEN = 1.0;
+const isArVideo = (() => { try { return JSON.parse(fs.readFileSync(path.join(vdir, 'video.json'), 'utf8')).lang === 'ar'; } catch { return false; } })();
+const rawChanged = (A, B) => {
+  const H = A.length / W;
+  let n = 0, tot = 0;
+  for (let y = 4; y < H - 4; y += 2) for (let x = 4; x < W - 4; x += 2) { tot++; if (Math.abs(A[y * W + x] - B[y * W + x]) > 18) n++; }
+  return (100 * n) / tot;
+};
+
 const dir = path.join(ROOT, '.cache', 'sync-check');
 fs.rmSync(dir, {recursive: true, force: true});
 fs.mkdirSync(dir, {recursive: true});
@@ -103,7 +115,12 @@ await stills({id: 'Main', frames, outFiles: files, scale: 0.25, quiet: true});
 await done();
 const flags = [];
 sents.forEach((x, i) => {
-  const pct = changed(lumaOf(files[2 * i]), lumaOf(files[2 * i + 1]));
+  const A = lumaOf(files[2 * i]), B = lumaOf(files[2 * i + 1]);
+  const pct = changed(A, B);
+  if (isArVideo) {
+    const raw = rawChanged(A, B);
+    if (raw < FROZEN) flags.push(`  FROZEN ${chOf(x.s)} ${Math.floor(x.s / 60)}:${(x.s % 60).toFixed(1).padStart(4, '0')}  ${raw.toFixed(2)}% raw change — the picture is dead still (reference never < 0.36 %): add pushT / a camera move  "${x.text.slice(0, 50)}"`);
+  }
   if (pct < MIN) flags.push(`  WEAK ${chOf(x.s)} ${Math.floor(x.s / 60)}:${(x.s % 60).toFixed(1).padStart(4, '0')}  ${pct.toFixed(2)}% changed  "${x.text.slice(0, 70)}${x.text.length > 70 ? '…' : ''}"`);
 });
 fs.rmSync(dir, {recursive: true, force: true});

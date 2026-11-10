@@ -119,11 +119,13 @@ export const Mark: React.FC<{kind: 'check' | 'cross'; x: number; y: number; r?: 
 export const Bubble: React.FC<{t: number; at: number; lines: string[]; x: number; y: number; tx: number; ty: number; size?: number; mark?: 'check' | 'cross'; icon?: React.ReactNode; out?: number}> = ({
   t, at, lines, x, y, tx, ty, size = 64, mark, icon, out,
 }) => {
-  cueSfx('pop', `bubble-${lines.join('')}-${at}`, t >= at && t < at + 0.3, tx, {at, hit: 0.125}); // SOUND MAP: bubbles pop
-  const p = clamp01((t - at) / 0.22);
+  cueSfx('pop', `bubble-${lines.join('')}-${at}`, t >= at && t < at + 0.3, tx, {at, hit: 0.14}); // SOUND MAP: bubbles pop
+  // reference (MOTION.md §1, 0:45.0): a bubble swells a little slower than a word — peak 1.15 at ≈ 165 ms
+  const p = clamp01((t - at) / 0.33);
   if (p <= 0) return null;
-  const fade = out !== undefined ? 1 - clamp01((t - out) / 0.15) : 1;
-  if (fade <= 0) return null;
+  // exit like the reference (0:50.5): it SHRINKS BACK into the speaker's mouth in 0.15 s, accelerating — not a fade
+  const back = out !== undefined ? 1 - ease.in(clamp01((t - out) / 0.15)) : 1;
+  if (back <= 0.01) return null;
   const iconW = icon ? size * 2.4 : 0;
   const tw = Math.max(...lines.map((l) => textWidth(l, size)));
   const w = tw + iconW + size * 1.2, h = lines.length * size * 1.25 + size * 0.9;
@@ -132,7 +134,7 @@ export const Bubble: React.FC<{t: number; at: number; lines: string[]; x: number
   const tb = Math.max(-w / 2 + size, Math.min(w / 2 - size, ox * 0.35));
   const sw = size * 0.11;
   return (
-    <g transform={`translate(${tx} ${ty}) scale(${q.sx} ${q.sy}) translate(${-ox} ${-oy})`} opacity={q.o * fade}>
+    <g transform={`translate(${tx} ${ty}) scale(${q.sx * back} ${q.sy * back}) translate(${-ox} ${-oy})`} opacity={q.o}>
       <path d={`M${tb - size * 0.45} ${h / 2 - sw} L${ox} ${oy} L${tb + size * 0.45} ${h / 2 - sw} Z`} fill="#FFFFFF" stroke={N.outline} strokeWidth={sw} strokeLinejoin="round" />
       <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={size * 0.6} fill="#FFFFFF" stroke={N.outline} strokeWidth={sw} />
       <rect x={tb - size * 0.38} y={h / 2 - sw * 1.6} width={size * 0.76} height={sw * 2.2} fill="#FFFFFF" />

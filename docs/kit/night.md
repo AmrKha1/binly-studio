@@ -34,6 +34,12 @@ Every night piece already moves like the reference — keep it that way in custo
   accelerating) — not a fade. **Flash** on the biggest slam/reveal. **StripeWipe** for chapter-level cuts.
 - **Count-up** = CountNumber (late S-curve 1.64 s, white → gold on the final value). **Stamp** = a clean press, no shake.
 - Life in held shots = rotating rays, twinkling sparkles, the slow push — not pulsing glows.
+- **Growth** (podium, bars, pillars) = `ease.out` over 0.5 s, no bounce. **Callout** = line 0.12 s → label at once → tag later.
+- **Scene change** = a short dissolve while the hero object flies to its place in the next scene + `settleT(t, start)` on the
+  new world (zooms in 1.53× → settles) + the host `riseSoft`/`fade` in. **Road map** (JourneyPath) runs RIGHT → LEFT.
+- **Host:** AZTIKA swaps poses instantly (HostTrack does it); enter with `{kind: 'fade'}` or `'riseSoft'`, leave `'fadeOut'`.
+  **Bubbles** shrink back into the speaker when they leave (`out`). Key words pop; supporting words can fade.
+- `node tools/sync-check.mjs` flags FROZEN pictures (< 1 % change in 1.35 s — the reference never goes below 0.36 %).
 
 ## AZTIKA reacts (owner 2026-11-08)
 He is never a statue: he changes pose on the beats to interact with the SCENE (points at / presents the object that

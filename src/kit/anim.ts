@@ -190,5 +190,13 @@ export const pushT = (t: number, start: number, cx = 960, cy = 540, rate = 0.003
   return `translate(${cx} ${cy}) scale(${z}) translate(${-cx} ${-cy})`;
 };
 
+/** settleT — the reference's SCENE ENTRANCE (MOTION.md §8, 0:24.2): a new scene starts zoomed in (1.53×) and settles to
+ * 1.00 — z = 1 + 0.53·e^(−t/0.135) (fitted, max error 0.007): most of it in 0.3 s. Use on the new scene's world during a
+ * dissolve; combine with pushT afterwards. Hosts stay outside. */
+export const settleT = (t: number, start: number, cx = 960, cy = 540) => {
+  const z = 1 + 0.53 * Math.exp(-Math.max(0, t - start) / 0.135);
+  return `translate(${cx} ${cy}) scale(${z}) translate(${-cx} ${-cy})`;
+};
+
 /** bob — gentle idle float for held hero objects/pills (keeps the frame alive). px amplitude, deterministic. */
 export const bob = (t: number, amp = 6, period = 3.2, phase = 0) => Math.sin((t / period) * Math.PI * 2 + phase) * amp;

@@ -5,7 +5,7 @@
 // 5:03) · FlyingBills (a reward bursting out, 2:24) · CoinRain (6:56). Screen coordinates — use inside <NightScreen>.
 // Sound: the flip of a choice card = soft swish; everything else silent (the voice carries it).
 import React from 'react';
-import {clamp01, lerp, popRef, rand, spring} from './anim';
+import {clamp01, ease, lerp, popRef, rand, spring} from './anim';
 import {H, W} from './theme';
 import {uid} from './stage';
 import {nightFont, Sparkle} from './night';
@@ -83,7 +83,7 @@ export const MysteryPillar: React.FC<{t: number; at?: number; x: number; base?: 
   const u = at >= 0 ? clamp01((t - at) / 0.5) : 1;
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
-  const hh = h * spring(u, 0.3);
+  const hh = h * ease.out(u); // grows like the reference podium (no bounce)
   const w = size * 0.72;
   const g = uid('nmpil', id);
   return (

@@ -169,9 +169,10 @@ const ArmView: React.FC<{sx: number; sy: number; up: number; fore: number; hand:
 };
 
 // ─── entrances / exits (director's choice; small, tested vocabulary) ───
-export type HostMoveKind = 'pop' | 'slideLeft' | 'slideRight' | 'rise' | 'drop' | 'peek' | 'walkInLeft' | 'walkInRight' | 'sink' | 'fly' | 'popOut' | 'slideOutLeft' | 'slideOutRight' | 'walkOutLeft' | 'walkOutRight';
+export type HostMoveKind = 'fade' | 'riseSoft' | 'fadeOut' | 'pop' | 'slideLeft' | 'slideRight' | 'rise' | 'drop' | 'peek' | 'walkInLeft' | 'walkInRight' | 'sink' | 'fly' | 'popOut' | 'slideOutLeft' | 'slideOutRight' | 'walkOutLeft' | 'walkOutRight';
 export type HostMove = {kind: HostMoveKind; at: number; dur?: number};
 export const MOVE_SFX: Record<HostMoveKind, string> = {
+  fade: '', riseSoft: '', fadeOut: '', // AZTIKA (reference): he fades / rises in silently
   pop: 'popup', slideLeft: 'swoosh', slideRight: 'swoosh', rise: 'rise', drop: 'thump', peek: 'swish', walkInLeft: 'footsteps', walkInRight: 'footsteps',
   sink: 'fall', fly: 'whoosh', popOut: 'popdown', slideOutLeft: 'swoosh', slideOutRight: 'swoosh', walkOutLeft: 'footsteps', walkOutRight: 'footsteps',
 };
@@ -179,13 +180,16 @@ export const MOVE_SFX: Record<HostMoveKind, string> = {
 export const hostMove = (t: number, enter?: HostMove, exit?: HostMove) => {
   let dx = 0, dy = 0, sc = 1, o = 1, walking = false;
   if (enter) {
-    const d = enter.dur ?? (enter.kind.startsWith('walk') ? 1.4 : 0.7);
+    const d = enter.dur ?? (enter.kind.startsWith('walk') ? 1.4 : enter.kind === 'fade' ? 0.2 : enter.kind === 'riseSoft' ? 0.3 : 0.7);
     const u = (t - enter.at) / d;
     if (u < 0) return {visible: false, dx, dy, s: sc, o, walking};
     if (u < 1) {
       const k = spring(u, enter.kind === 'drop' ? 0.6 : 0.35);
       const lin = ease.inOut(u);
       switch (enter.kind) {
+        // the reference's AZTIKA (MOTION.md §9): fades in (0:30.3) or rises in, decelerating, during a dissolve (0:24.2)
+        case 'fade': o = ease.out(u); dy = (1 - ease.out(u)) * 20; break;
+        case 'riseSoft': dy = (1 - ease.out(u)) * 500; o = clamp01(u * 3); break;
         case 'pop': sc = lerp(0.2, 1, k); o = clamp01(u * 4); break;
         case 'slideLeft': dx = -(1 - k) * 1100; break;
         case 'slideRight': dx = (1 - k) * 1100; break;
@@ -205,6 +209,7 @@ export const hostMove = (t: number, enter?: HostMove, exit?: HostMove) => {
     if (u > 0) {
       const k = ease.in(u);
       switch (exit.kind) {
+        case 'fadeOut': o *= 1 - ease.out(u); break;
         case 'popOut': sc *= u < 0.3 ? lerp(1, 1.1, u / 0.3) : lerp(1.1, 0, (u - 0.3) / 0.7); break;
         case 'sink': dy += k * 900; break;
         case 'fly': dy -= k * 1200; break;

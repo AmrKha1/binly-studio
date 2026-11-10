@@ -158,14 +158,15 @@ export const Callout: React.FC<{t: number; at: number; x: number; y: number; lx:
   cueSfx('whoosh', `callout-${id}-${at}`, t >= at && t < at + 0.3, lx, {gain: 0.6, at, hit: 0.03}); // SOUND MAP: labels slide in
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
-  const u = ease.out(clamp01((t - at) / 0.3));
+  // reference (0:20, MOTION.md §8): the leader line draws out in ≈ 0.12 s, the label pops at its end at once
+  const u = ease.out(clamp01((t - at) / 0.12));
   const pw = textWidth(text, size) + size * 1.5;
   const ex = lx + (lx > x ? -pw / 2 : pw / 2); // the line ends at the pill's near edge
   return (
     <g opacity={fade}>
       <line x1={x} y1={y} x2={lerp(x, ex, u)} y2={lerp(y, ly, u)} stroke="#FFFFFF" strokeWidth={4} strokeLinecap="round" />
       <circle cx={x} cy={y} r={9} fill="#FFFFFF" stroke={OUT} strokeWidth={3} />
-      <NPill text={text} x={lx} y={ly} size={size} kind={kind} id={id} p={(t - at - 0.25) / 0.25} />
+      <NPill text={text} x={lx} y={ly} size={size} kind={kind} id={id} p={(t - at - 0.1) / 0.3} />
     </g>
   );
 };

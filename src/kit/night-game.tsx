@@ -140,7 +140,7 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
       const ms = slotOf(c.id);
       const mx = ms ? ms.x : x0;
       // hovering before the reveal; once its podium grows (t ≥ at) it rides on the podium's top, where the object will pop
-      const ph0 = t >= c.at && ms ? ms.h * spring(clamp01((t - c.at) / 0.6), 0.3) : 0;
+      const ph0 = t >= c.at && ms ? ms.h * ease.out(clamp01((t - c.at) / 0.5)) : 0;
       const hover = base - (ms ? ms.h : maxH) * 0.55 - oh / 2 + Math.sin(t * 2) * 8;
       const y = t >= c.at && ms ? Math.min(hover, base - ph0 - oh / 2 - 12) : hover; // keeps hovering until the rising podium reaches it
       (t >= c.at ? over : nodes).push(
@@ -155,7 +155,7 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
     cueSfx('boom', `${id}-in-${c.id}`, t >= c.at && t < c.at + 0.3, s?.x ?? 960, {at: c.at, hit: 0.13}); // SOUND MAP: the board jumps when a newcomer arrives
     if (!s || s.o <= 0.01) continue;
     const e = t - c.at;
-    const grow = spring(clamp01(e / 0.6), 0.3);
+    const grow = ease.out(clamp01(e / 0.5)); // reference (MOTION.md §8): rises over 0.5 s, decelerating, no overshoot
     const ph = s.h * grow;
     const rel = c.value / vmax;
     const oh = Math.max(40, Math.min(230, 38 + 0.62 * s.h));

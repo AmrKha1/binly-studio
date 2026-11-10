@@ -251,7 +251,7 @@ export const NBarChart: React.FC<{t: number; bars: NBar[]; x: number; base: numb
       {bars.map((b, i) => {
         const p = clamp01((t - b.at) / 0.7);
         if (p <= 0) return null;
-        const hh = maxH * (b.value / mx) * spring(p, 0.2);
+        const hh = maxH * (b.value / mx) * ease.out(p); // bars rise like the reference podium (no bounce)
         const cx = x + i * (colW + gap); // charts read left → right even in Arabic (12:46: the hero bar is the left one)
         const [c0, c1, glow] = BARC[b.color ?? cols[i % cols.length]];
         const gid = `${g}-${i}`;
@@ -377,9 +377,12 @@ export type Station = {u: number; node?: React.ReactNode; dx?: number; dy?: numb
  * a MysteryBox…) pops above its dot when the head reaches it. u = 0..1 along the path; dx/dy offset the node.
  */
 export const JourneyPath: React.FC<{t: number; at: number; dur?: number; x0?: number; y0?: number; x1?: number; y1?: number; amp?: number; waves?: number; stations?: Station[]; id: string; out?: number}> = ({
-  t, at, dur = 3, x0 = 260, y0 = 735, x1 = 1910, y1 = 540, amp = 240, waves = 1.25, stations = [], id, out,
+  t, at, dur = 3, x0: x0in, y0 = 735, x1: x1in, y1 = 540, amp = 240, waves = 1.25, stations = [], id, out,
 }) => {
   if (t < at) return null;
+  // reading direction (reference 0:09.8–13.2): in Arabic the road starts on the RIGHT and ends on the LEFT (the mystery
+  // waits at the left end); English runs left → right. Explicit x0/x1 always win.
+  const x0 = x0in ?? (isAr() ? 1660 : 260), x1 = x1in ?? (isAr() ? 10 : 1910);
   // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): the road-map path ticks as each station is reached
   stations.forEach((st, i) => cueSfx('tick', `jp-${id}-${i}`, t >= at + st.u * dur && t < at + st.u * dur + 0.2, x0 + (x1 - x0) * st.u, {at: at + st.u * dur}));
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;

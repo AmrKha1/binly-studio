@@ -252,7 +252,8 @@ which edits just those shots' exports in the chapters' `.custom.tsx` files — o
 
 **5c · Sync check (once, before the final render)** — `node tools/sync-check.mjs` (background, ~1 min per chapter, no
 tokens: it compares pixels itself) lists sentences whose picture barely changes. Fix the real ones in one round (send the
-list to the chapter's builder); an intentional payoff hold is fine — leave it.
+list to the chapter's builder); an intentional payoff hold is fine — leave it. Arabic: it also flags FROZEN pictures
+(< 1 % change in 1.35 s; the reference never goes below 0.36 %) — fix with pushT / a camera move (references/universe-claude/MOTION.md).
 **Arabic: sound density** in the same round — `node tools/sfx-scan.mjs` (local, fast, no render) prints SOUND DENSITY
 (owner's pick B, references/universe-claude/SOUND.md §3): fix each QUIET (> 3.6 s of speech with no sound) and LOW minute
 with a visual beat that cues its own sound (pill, label, count, path dot) — never a sound with nothing on screen. The
