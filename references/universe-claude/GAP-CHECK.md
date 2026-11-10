@@ -31,6 +31,10 @@ Each family checked against the kit (docs/KIT-INDEX.md, kit/night*). ✅ ready �
 **After P1 (same day): ~65 % ready, ~25 % partly, ~10 % missing** — space, charts, timeline/war, mystery set, receipt,
 journey path, calendar card, money in motion and red/green text are built (kit/night-space, night-props, night-data;
 gallery night8–10; docs/kit/night.md sets 4–6). Left: P2 story tools and P3 art.
+**After P2 (2026-11-10): ~90 % of the screen time can be made in code** — story tools, mine/village/day/lab/factory
+worlds, science extras, real-country maps (spread + neon), newspapers, quote card, chapter title and painted plates are
+built (kit/night-story, night-places, night-sci, night-maps; gallery night11–13). Sizes calibrated for phones. Left: P3 —
+the reference's rich illustrated hero art (generated with Flow) and the extra AZTIKA poses.
 
 ## Small things across many shots
 - **Red/pink text tone** (GlowText has white/gold/grey/cyan only): «انسرقت!» #30, «عشان شقة؟!» #80, «وتدمير» #131.
@@ -53,7 +57,7 @@ gallery night8–10; docs/kit/night.md sets 4–6). Left: P2 story tools and P3 
 5. **Text red tone** + **money in motion** (pile, flying bills, coin rain) + **CalendarCard** (counting/flip).
 6. **Receipt** (the ending invoice) + **JourneyPath** (the hook road-map).
 
-**P2 — story tools**
+**P2 — story tools** (✅ built 2026-11-10)
 7. **IconList** rows, **StrikeSwap**, crossed-icon row, **PortraitLineup** with ✖.
 8. **Callout** (leader line + pill), **SizeBracket**, **MeasureLine** «170 كم», plan-vs-built dashed frames.
 9. Story props: ProgressBar 89 %, crowd of StoryPeople, negotiation table, mine tunnel, teepee village, day scene
@@ -62,7 +66,7 @@ gallery night8–10; docs/kit/night.md sets 4–6). Left: P2 story tools and P3 
 11. **LightLab** world (bright beige), stars rating.
 12. **Newspapers** slap-in, neon map mode, real country outlines in PaperMap style (Rays green tone ✅ done in P1).
 
-**P2+ — borrowed from the second reference (references/empires-flow, owner asked 2026-11-10)** — things the model video
+**P2+ (✅ built 2026-11-10) — borrowed from the second reference (references/empires-flow, owner asked 2026-11-10)** — things the model video
 never needs but our Arabic topics will:
 13. **Framed quote card** — cream card, gold border, for Quran verses / hadith / historical quotes (respectful: no
     flashy effects on sacred text).

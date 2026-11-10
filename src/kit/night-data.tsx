@@ -57,7 +57,7 @@ export type TimelineEvent = {year?: string; label?: string; sub?: string; at: nu
  * events without x are spread evenly. y = the line.
  */
 export const NTimeline: React.FC<{t: number; events: TimelineEvent[]; y?: number; from?: number; to?: number; id: string; size?: number; out?: number}> = ({
-  t, events, y = 560, from, to, id, size = 34, out,
+  t, events, y = 560, from, to, id, size = 44, out,
 }) => {
   const rtl = isAr();
   const a = from ?? (rtl ? 1760 : 160), b = to ?? (rtl ? 160 : 1760);
@@ -116,7 +116,7 @@ export type GaugeTick = {at: number; level: number; label: string; kind?: PillKi
  * side. A red ↑ arrow bobs beside the tube while it climbs. title = pill above the tube.
  */
 export const NGauge: React.FC<{t: number; x: number; y: number; w?: number; h?: number; ticks: GaugeTick[]; title?: string; id: string; side?: 'right' | 'left'; out?: number}> = ({
-  t, x, y, w = 92, h = 420, ticks, title, id, side = 'right', out,
+  t, x, y, w = 104, h = 480, ticks, title, id, side = 'right', out,
 }) => {
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
@@ -159,15 +159,15 @@ export const NGauge: React.FC<{t: number; x: number; y: number; w?: number; h?: 
       {ticks.map((k, i) => {
         if (t < k.at) return null;
         const ty = bot - pad - (h - pad * 2) * k.level;
-        const lx = x + sx * (w / 2 + 18), px = x + sx * (w / 2 + 40 + textWidth(k.label, 30) / 2 + 30);
+        const lx = x + sx * (w / 2 + 18), px = x + sx * (w / 2 + 40 + textWidth(k.label, 38) / 2 + 40);
         return (
           <g key={i}>
             <line x1={lx} y1={ty} x2={lx + sx * 24} y2={ty} stroke="#FFFFFF" strokeWidth={4} strokeLinecap="round" opacity={clamp01((t - k.at) / 0.2)} />
-            <NPill text={k.label} x={px} y={ty} size={30} kind={k.kind ?? (i === ticks.length - 1 && k.level > 0.7 ? 'red' : 'white')} id={`${id}-t${i}`} p={(t - k.at - 0.1) / 0.25} />
+            <NPill text={k.label} x={px} y={ty} size={38} kind={k.kind ?? (i === ticks.length - 1 && k.level > 0.7 ? 'red' : 'white')} id={`${id}-t${i}`} p={(t - k.at - 0.1) / 0.25} />
           </g>
         );
       })}
-      {title && <NPill text={title} x={x + sx * 40} y={top - 60} size={38} kind="white" id={id + '__ttl'} />}
+      {title && <NPill text={title} x={x + sx * 40} y={top - 60} size={42} kind="white" id={id + '__ttl'} />}
     </g>
   );
 };
@@ -186,7 +186,7 @@ const BARC: Record<string, [string, string, string]> = {
  * the right edge) to value/max of `len`, its label pill sitting above its far end. Rows go down from y by `gap`.
  */
 export const NBars: React.FC<{t: number; bars: NBar[]; x: number; y: number; len?: number; max?: number; thick?: number; gap?: number; id: string; out?: number}> = ({
-  t, bars, x, y, len = 1100, max, thick = 26, gap = 130, id, out,
+  t, bars, x, y, len = 1100, max, thick = 30, gap = 150, id, out,
 }) => {
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
@@ -220,7 +220,7 @@ export const NBars: React.FC<{t: number; bars: NBar[]; x: number; y: number; len
             <rect x={x0} y={by - thick / 2} width={L} height={thick} rx={thick / 2} fill={glow} opacity={0.6} filter={`url(#${g})`} />
             <rect x={x0} y={by - thick / 2} width={L} height={thick} rx={thick / 2} fill={`url(#${gid})`} />
             <rect x={x0 + thick / 2} y={by - thick / 2 + 4} width={Math.max(0, L - thick)} height={5} rx={2.5} fill="#FFFFFF" opacity={0.4} />
-            <NPill text={b.label} x={end + (rtl ? 1 : -1) * (textWidth(b.label, 30) / 2 + 30)} y={by - thick / 2 - 34} size={30} kind={b.kind ?? 'white'} id={`${id}-${i}`} p={(t - b.at - 0.3) / 0.25} />
+            <NPill text={b.label} x={end + (rtl ? 1 : -1) * (textWidth(b.label, 38) / 2 + 40)} y={by - thick / 2 - 44} size={38} kind={b.kind ?? 'white'} id={`${id}-${i}`} p={(t - b.at - 0.3) / 0.25} />
           </g>
         );
       })}
@@ -233,7 +233,7 @@ export const NBars: React.FC<{t: number; bars: NBar[]; x: number; y: number; len
  * the others plain; tiny white label pills under each. x = centre of the LEFT column. Columns rise one after another from each `at`.
  */
 export const NBarChart: React.FC<{t: number; bars: NBar[]; x: number; base: number; colW?: number; gap?: number; maxH?: number; max?: number; id: string; out?: number}> = ({
-  t, bars, x, base, colW = 70, gap = 40, maxH = 420, max, id, out,
+  t, bars, x, base, colW = 120, gap = 110, maxH = 480, max, id, out,
 }) => {
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
@@ -265,7 +265,7 @@ export const NBarChart: React.FC<{t: number; bars: NBar[]; x: number; base: numb
             <rect x={cx - colW / 2} y={base - hh} width={colW} height={hh} rx={8} fill={glow} opacity={0.45} filter={`url(#${g})`} />
             <rect x={cx - colW / 2} y={base - hh} width={colW} height={hh} rx={8} fill={`url(#${gid})`} />
             <rect x={cx - colW / 2 + 8} y={base - hh + 8} width={8} height={Math.max(0, hh - 16)} rx={4} fill="#FFFFFF" opacity={0.35} />
-            <NPill text={b.label} x={cx} y={base + 30} size={20} kind={b.kind ?? 'white'} id={`${id}-${i}`} p={(t - b.at - 0.2) / 0.25} />
+            <NPill text={b.label} x={cx} y={base + 40} size={34} kind={b.kind ?? 'white'} id={`${id}-${i}`} p={(t - b.at - 0.2) / 0.25} />
           </g>
         );
       })}
@@ -278,13 +278,13 @@ export const NBarChart: React.FC<{t: number; bars: NBar[]; x: number; base: numb
  * a dashed rule and the TOTAL in big green; zigzag torn bottom. Rows print one by one from `at` (every `step` s).
  */
 export const Receipt: React.FC<{t: number; at: number; x: number; y: number; title: string; rows: {label: string; value: string}[]; total: {label: string; value: string}; w?: number; rot?: number; step?: number; id: string; out?: number}> = ({
-  t, at, x, y, title, rows, total, w = 440, rot = -2, step = 0.35, id, out,
+  t, at, x, y, title, rows, total, w = 600, rot = -2, step = 0.35, id, out,
 }) => {
   if (t < at) return null;
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
   const rtl = isAr();
-  const rowH = 62, head = 90, h = head + rows.length * rowH + 150;
+  const rowH = 70, head = 100, h = head + rows.length * rowH + 160;
   const slide = ease.out(clamp01((t - at) / 0.45));
   const g = uid('nrcpt', id);
   const m = Math.ceil(w / 24);
@@ -306,7 +306,7 @@ export const Receipt: React.FC<{t: number; at: number; x: number; y: number; tit
       </defs>
       <rect x={-w / 2 + 16} y={-h / 2 + 20} width={w} height={h} fill="#000000" opacity={0.45} filter={`url(#${g})`} />
       <path d={`M${-w / 2} ${-h / 2} H${w / 2} ${zig} Z`} fill="#F6F3EC" />
-      {txt(title, 0, -h / 2 + 50, 40, '#1A1A2E', 'middle')}
+      {txt(title, 0, -h / 2 + 58, 56, '#1A1A2E', 'middle')}
       <line x1={-w / 2 + 28} x2={w / 2 - 28} y1={-h / 2 + head} y2={-h / 2 + head} stroke="#1A1A2E" strokeWidth={3} opacity={0.6} />
       {rows.map((r, i) => {
         const p = clamp01((t - at - 0.45 - i * step) / 0.2);
@@ -314,16 +314,16 @@ export const Receipt: React.FC<{t: number; at: number; x: number; y: number; tit
         const ry = -h / 2 + head + rowH * (i + 0.6);
         return (
           <g key={i} opacity={p}>
-            {txt(r.label, lx, ry, 30, '#2A2A3E', la)}
-            {txt(r.value, vx, ry, 30, '#16A34A', va)}
+            {txt(r.label, lx, ry, 38, '#2A2A3E', la)}
+            {txt(r.value, vx, ry, 38, '#16A34A', va)}
           </g>
         );
       })}
-      <line x1={-w / 2 + 28} x2={w / 2 - 28} y1={h / 2 - 105} y2={h / 2 - 105} stroke="#1A1A2E" strokeWidth={3} strokeDasharray="10 8" opacity={0.6} />
+      <line x1={-w / 2 + 28} x2={w / 2 - 28} y1={h / 2 - 120} y2={h / 2 - 120} stroke="#1A1A2E" strokeWidth={3} strokeDasharray="10 8" opacity={0.6} />
       {totalP > 0 && (
-        <g opacity={totalP} transform={`translate(0 ${h / 2 - 55}) scale(${popIn(totalP, 0.45, 0.6).sx})`}>
-          {txt(total.label, lx, 0, 36, '#1A1A2E', la)}
-          {txt(total.value, vx, 0, 50, '#16A34A', va)}
+        <g opacity={totalP} transform={`translate(0 ${h / 2 - 62}) scale(${popIn(totalP, 0.45, 0.6).sx})`}>
+          {txt(total.label, lx, 0, 50, '#1A1A2E', la)}
+          {txt(total.value, vx, 0, 66, '#16A34A', va)}
         </g>
       )}
     </g>
@@ -344,9 +344,9 @@ export const CalendarCard: React.FC<{t: number; at: number; x: number; y: number
   const q = popIn(clamp01((t - at) / 0.3), 0.45, 0.4);
   const k = from === undefined ? 1 : clamp01((t - at) / dur);
   const v = from === undefined ? to : lerp(from, to, k);
-  const w = 230, h = 220, hh = 62;
+  const w = 300, h = 280, hh = 78;
   const num = fmt(v, decimals);
-  const ns = Math.min(78, (w - 30) / Math.max(1, textWidth(num, 78) / 78));
+  const ns = Math.min(104, (w - 30) / Math.max(1, textWidth(num, 104) / 104));
   return (
     <g transform={`translate(${x} ${y}) scale(${q.sx * size} ${q.sy * size})`} opacity={q.o * fade}>
       <rect x={-w / 2 + 6} y={-h / 2 + 10} width={w} height={h} rx={26} fill="#000000" opacity={0.35} />
@@ -356,14 +356,14 @@ export const CalendarCard: React.FC<{t: number; at: number; x: number; y: number
         <rect key={rx} x={rx - 8} y={-h / 2 - 20} width={16} height={38} rx={8} fill="#2A2A3E" stroke={N.outline} strokeWidth={3} />
       ))}
       {label && (
-        <text x={0} y={-h / 2 + hh / 2 + 4} fontSize={32} fontFamily={nightFont()} fontWeight={WEIGHT()} textAnchor="middle" dominantBaseline="central" fill="#FFFFFF">
+        <text x={0} y={-h / 2 + hh / 2 + 4} fontSize={42} fontFamily={nightFont()} fontWeight={WEIGHT()} textAnchor="middle" dominantBaseline="central" fill="#FFFFFF">
           {label}
         </text>
       )}
       <text x={0} y={hh / 2 + 4} fontSize={ns} fontFamily={nightFont()} fontWeight={WEIGHT()} textAnchor="middle" dominantBaseline="central" fill="#14141F">
         {num}
       </text>
-      {pill && <NPill text={pill} x={0} y={h / 2 + 18} size={30} kind="green" id={id + '__p'} p={(t - at - 0.4) / 0.25} />}
+      {pill && <NPill text={pill} x={0} y={h / 2 + 24} size={40} kind="green" id={id + '__p'} p={(t - at - 0.4) / 0.25} />}
     </g>
   );
 };
@@ -425,7 +425,7 @@ export const JourneyPath: React.FC<{t: number; at: number; dur?: number; x0?: nu
 };
 
 /** ✔/✖ row next to a pill — for the receipt's «ما اشتريناها ✖» lines and quick verdict lists (14:28). */
-export const MarkPill: React.FC<{t: number; at: number; text: string; x: number; y: number; mark?: 'check' | 'cross'; size?: number; id: string}> = ({t, at, text, x, y, mark = 'cross', size = 40, id}) => {
+export const MarkPill: React.FC<{t: number; at: number; text: string; x: number; y: number; mark?: 'check' | 'cross'; size?: number; id: string}> = ({t, at, text, x, y, mark = 'cross', size = 48, id}) => {
   const p = clamp01((t - at) / 0.25);
   if (p <= 0) return null;
   const rtl = isAr();

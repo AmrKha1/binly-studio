@@ -66,7 +66,13 @@ tile 3:33, palace 6:16, antimatter capsule 10:18.
 > like a cake slice). Background: plain pure flat white everywhere, no floor, no shadows, no glow, no light rays, no
 > sparkles in the background, no scenery, no text, no labels, no numbers, no logos, no watermark.
 
-## NIGHT BACKGROUND block (rare — the worlds are code-built)
+## NIGHT BACKGROUND block — "painted history plates" (worlds are code-built; plates are for REAL PLACES)
+Use a plate when the story stands in a real, recognisable place the code worlds can't show (the Roman Forum, Abbasid
+Baghdad, Tenochtitlan on its lake, the Great Wall, Constantinople's walls). Idea from the second reference
+(references/empires-flow): ONE plate per place, reused 3–6 times with different elements on top. Plan it as
+`{"kind":"bg","name":"rome-forum","place":"the Roman Forum with the Colosseum behind it","open":"lower middle"}`, show it with
+`<PlateWorld src={`${slug}/bg/rome-forum.jpg`} …/>` (kit/night-places: slow camera move + night grade + vignette),
+then StoryPeople / pills / HeroObjects on top.
 > Wide 16:9 view of <PLACE> at night or dusk in the same polished cartoon style, deep indigo-violet sky, calm composition,
 > a clear open area in the <centre/lower middle> where objects and the host will be placed later. EMPTY: no people, no
 > characters, no animals, no text, no letters, no signs, no logos, no watermark.

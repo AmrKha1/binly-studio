@@ -996,6 +996,56 @@ Gallery `night10` (stills 2.2 war timeline · 4.7 gauge · 7.2 bars · 9.7 bar c
   MysteryBox at the destination and small HeroObjects (or space pieces) for what's coming.
 - **formatNum(n, decimals)** — "12,345.6" for numbers you compute yourself.
 
+## Set 7 — story tools: kit/night-story
+Gallery `night11` (stills 2.2 newspapers · 4.7 lineup · 7.2 icon list + strike swap · 9.7 callouts + size · 12.2 measure +
+plan frame · 14.7 spotlight + progress + crowd).
+- **IconList** `{t, rows:[{text, at, icon?, color?}], x, y, w=700, size=44, gap=100, id}` — white rows with an icon disc (5:26).
+- **StrikeSwap** `{t, at, strikeAt, swapAt, from, to, x, y, size=60, id}` — «بيت» struck out ✖ → «شركة» ✔ (5:36).
+- **Lineup** `{t, items:[{label, at, node?, mark?, markAt?, kind?}], x, y, r=140, gap, id}` — round frames with a figure/icon,
+  label under, ✖/✔ slams on (2:12 «مو عالم · مو مستكشف · مو بطل», 12:39 «مو كيلو · مو صندوق · مو شاحنة»).
+- **Callout** `{t, at, x, y, lx, ly, text, kind, size=40, id}` — dot → line → pill (1:30).
+- **Measure** `{t, at, x1, y1, x2, y2, label, kind=gold, size=50, off, id}` — dimension line with end ticks («170 كم», «76 سم»).
+- **DashedFrame** `{t, at, x, y, w, h, label?, kind=cyan, color, id}` — "the plan" outline (7:43 «المخطط»).
+- **ProgressBar** `{t, at, x, y, w, from, to, dur, label?, id}` — striped green bar + big % («نسبة الإنجاز 89 %»).
+- **Spotlight** `{x, y, top, w, color, id}` · **StoryCrowd** `{t, x0, x1, y, n, rows, s, cheer?, id}` (1:19) ·
+  **StoryTable** `{x, y, w, children}` (3:05 deals).
+- **Newspapers** `{t, papers:[{headline, sub?, masthead?, node?, at}], x, y, dx?, w=460, id}` + **PaperStorm** `{t, n}` —
+  front pages slap in one by one (soft swish), grey sheets tumbling behind (1:16).
+- **QuoteCard** `{t, at, x, y, lines, source?, w=1300, size=70, id}` — Quran / hadith / historical quote: cream card, double
+  gold frame, gentle fade-rise (never popped, no glow pulse). Words EXACTLY as said; source pill under it.
+- **ChapterTitle** `{t, chapters:[{at, text, n?}], x, y=70, size=40, hide?}` — quiet running chapter pill for list videos.
+
+## Set 8 — more places: kit/night-places
+Gallery `night12` (2.2 mine · 4.7 village · 7.2 day · 9.7 factory · 12.2 scale + particles · 14.7 lab · 17.2 ring · 19.7 grid + magnifier).
+- **MineWorld** `{t, id}` (1:43) · **VillageWorld** `{t, id, kind: teepee|tent|hut, ground}` (3:44) · **DayWorld** `{t, id,
+  sunX, sunY, ground}` (4:32 bright "normal life") · **LabWorld** `{t, id, counter}` (10:37 beige light lab) +
+  **StarsRating** `{t, at, x, y, value, n=5, size}`.
+- **FactoryLine** `{t, x, y, items: (tank|ship|plane|shell|fuel|box)[], speed, s=1.3, id}` — cargo rides into the factory,
+  coins ride out, chimneys smoke (9:11). Put it on WarWorld; label pills under the belt.
+- **PlateWorld** `{t, src, id, at, dur, from:{x,y,s}, to:{x,y,s}, grade=0.5, tint}` — a painted Flow backdrop of a REAL
+  place with a slow camera move + night grade (see ART-STYLE "painted history plates"). Reuse one plate for several shots.
+
+## Set 9 — science extras: kit/night-sci
+- **Particle** `{t, at?, x, y, r=46, color, symbol?, label?, id}` · **ParticleSwarm** `{t, x, y, r, n, color, seed, at?}` (10:01–10:08).
+- **WeighScale** `{t, at?, x, y, w=640, value, count, children}` — digital scale «1.000 g»; children sit on the plate.
+- **Magnifier** `{t, at?, x, y, r, angle, zoom?, zoomTone, id, children}` — lens with a zoomed world inside, «×1,000,000».
+- **RingGauge** `{t, at?, x, y, r=320, value, from, label?, sub?, id}` — accelerator ring with a counting % (11:39).
+- **MassGrid** `{t, at, x, y, w, h, cols, rows, dur, node(i)}` + **BananaGlyph** — one thing ×hundreds (11:12).
+
+## Set 10 — real maps: kit/night-maps
+Gallery `night13` (2.6 Louisiana spreading · 5.6 neon map + routes · 8.6 Rome spreading · 11.6 quote card · 14.6 plate + chapter title).
+- **NightMap** `{t, region, areas:[{countries, fill, at?, spread?:[lon,lat], dur?, dashed?, outline?}], x, y, w, h, mode:
+  paper|neon, neon, min=4, id}` — real country shapes (kit/geo data) drawn chunky: thick outline + soft shadow on
+  PaperMap, or glowing outline on a dark sky. `spread` = colour spreads from that point (empires, a deal doubling a
+  country). region = a kit/geo preset or a bbox `[[W,S],[E,N]]`.
+- **nightProj(region, w, h, x, y)** → (lon, lat) ⇒ [x, y] for flags, pins, pills. **NeonLines** `{t, at, lines, color, dur, id}`.
+
+## Phone sizes (owner 2026-11-10)
+Follow the reference's sizes (hero 150–180 · headline 120–140 · hero pill 40–48 · secondary pill 28–32); our one edit:
+nothing under **34 px** for labels (NPill enforces it) or **56 px** for free text (GlowText enforces it) — the reference's
+tiny 18–22 px chart tags strain on phones. Hero objects ≥ 40 % of the frame height. Not oversized either: the frame
+must still breathe. Check with `node tools/sheet.mjs … --phone`. Constants: `PHONE` in kit/night.
+
 ## Text tones (all sets)
 GlowText / WordPop tone: white · gold · grey · cyan · **red** (bad news, twists, war — «انسرقت!» measured #FD4B5B) ·
 **green** (money won, good news). NPill kind: gold · white · grey · cyan · **red** · **green** · **dark**. Rays tone: gold ·
@@ -1008,7 +1058,7 @@ swish. Silent: WordPop, NPill, CountNumber, YearBadge, host pose swaps, space, c
 Add `{"kind":"boom"}` by hand in sfx/<chapter>.json for the 1–3 biggest reveals. No music.
 
 ## Still to build
-See references/universe-claude/GAP-CHECK.md (P2 story tools, P3 art/poses). The pilot video stays the owner's call.
+See references/universe-claude/GAP-CHECK.md (P3 art/poses). The pilot video stays the owner's call.
 
 ---
 

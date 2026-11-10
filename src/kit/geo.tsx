@@ -606,3 +606,29 @@ export const SpreadRings: React.FC<{t: number; x: number; y: number; r?: number;
     </g>
   );
 };
+
+/**
+ * Raw SVG path of one or more countries (name or ISO numeric) in a w×h box fitted to `region` — for maps drawn in
+ * another style (kit/night-maps). `min` = drop vertices closer than this (bigger = chunkier, like a game map).
+ * Memoised per region/size/detail/min, so held frames are cheap.
+ */
+const rawCache = new Map<string, string>();
+export const countryD = (region: Region, w: number, h: number, countries: (string | number)[], opts: {detail?: '50m' | '110m'; projection?: ProjName; min?: number} = {}) => {
+  const detail = opts.detail ?? '110m';
+  const min = opts.min ?? 2.5;
+  const key = [keyOf(region, w, h, opts.projection), detail, min, countries.join(',')].join('|');
+  let d = rawCache.get(key);
+  if (d === undefined) {
+    const p = buildProjection(region, w, h, opts.projection);
+    const qs = countries.map((c) => String(c).toLowerCase());
+    d = qs
+      .map((q) => {
+        const qn = /^\d+$/.test(q) ? q.padStart(3, '0') : '';
+        const f = features(detail).find((x) => x.name === q || (qn && x.id === qn));
+        return f ? lean(p, f.f, min, min * 4) : '';
+      })
+      .join('');
+    rawCache.set(key, d);
+  }
+  return d;
+};

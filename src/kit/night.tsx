@@ -54,6 +54,16 @@ const TONE: Record<Tone, {top: string; low: string; glow: string}> = {
   green: {top: '#7BF0A8', low: '#2EE88B', glow: '#22C55E'}, // money won, «مكافأة» — good news
 };
 
+/**
+ * PHONE RULE (owner 2026-11-10: "easy to see on mobile — not too big, not too small, the best size; the reference is a
+ * good guide"). Sizes follow the reference's hierarchy (measured on the 1920×1080 frame): hero word/number 150–180 ·
+ * headline 120–140 · secondary line 100–130 · hero pill 40–48 · secondary pill 28–32. Our one edit: the reference's
+ * smallest labels (18–22 px chart/timeline tags) strain on a phone, so no label goes under 34 px (NPill enforces it) and
+ * no free text under 56 px (GlowText enforces it). Hero object ≥ 40 % of the frame height. Check shots with
+ * `node tools/sheet.mjs … --phone` (upright-phone tiles): readable without squinting, never crowding the frame.
+ */
+export const PHONE = {pill: 34, text: 56, headline: 120, hero: 160, objectH: 0.4} as const;
+
 /** The display face: heavy rounded Arabic (Baloo Bhaijaan 2 800); English → Poppins 900. */
 export const nightFont = () => (isAr() ? FONT_AR : FONT_SERIF);
 const WEIGHT = () => (isAr() ? 800 : 900);
@@ -157,8 +167,9 @@ export const GridFloor: React.FC<{y?: number; id?: string; t?: number}> = ({y = 
  * gradient fill (white fades to light grey; gold #FCC018). x/y = centre of the text. pulse = 0..1 glow breathing.
  */
 export const GlowText: React.FC<{text: string; x: number; y: number; size: number; tone?: Tone; id: string; glow?: number; outline?: number; anchor?: 'middle' | 'start' | 'end'}> = ({
-  text, x, y, size, tone = 'white', id, glow = 1, outline = 1, anchor = 'middle',
+  text, x, y, size: size0, tone = 'white', id, glow = 1, outline = 1, anchor = 'middle',
 }) => {
+  const size = Math.max(size0, PHONE.text); // phone rule
   const c = TONE[tone];
   const g = uid('ngt', id);
   const common = {x, y, fontSize: size, fontFamily: nightFont(), fontWeight: WEIGHT(), textAnchor: anchor, dominantBaseline: 'central' as const};
@@ -224,8 +235,9 @@ const PILL: Record<PillKind, {top: string; low: string; ink: string; glow: strin
   dark: {top: '#2A2440', low: '#1A1530', ink: '#FFFFFF', glow: '#000000'}, // quiet tag on bright scenes
 };
 /** NPill — rounded capsule label with soft glow (gold = now/hero, white = before, grey = small/old, cyan = topic). x,y = centre. */
-export const NPill: React.FC<{text: string; x: number; y: number; size?: number; kind?: PillKind; id: string; p?: number}> = ({text, x, y, size = 44, kind = 'gold', id, p = 1}) => {
+export const NPill: React.FC<{text: string; x: number; y: number; size?: number; kind?: PillKind; id: string; p?: number}> = ({text, x, y, size: size0 = 44, kind = 'gold', id, p = 1}) => {
   if (p <= 0) return null;
+  const size = Math.max(size0, PHONE.pill); // phone rule
   const k = PILL[kind];
   const g = uid('npl', id);
   const h = size * 1.65, w = textWidth(text, size) + size * 1.5;
