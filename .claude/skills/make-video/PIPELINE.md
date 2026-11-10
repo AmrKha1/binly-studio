@@ -23,11 +23,11 @@ Use `binly-scout` (Haiku, cheap) for mechanical chores: image research, timing l
   Arabic voiceover/script → give an English `--slug` (e.g. `ar-diamonds`); lang "ar" is detected automatically and the
   timing uses the Arabic model (takes longer — plan meanwhile from the script). All on-screen text then in Arabic.
 **Voice gate first:** new-video prepares the voiceover (parts → equal loudness, joined with 0.35 s, pauses > 0.23 s →
-0.20 s) and runs tools/vo-check.mjs. FAIL (exit 1) → stop the whole pipeline, show the owner the failed rows of
+0.19 s) and runs tools/vo-check.mjs. FAIL (exit 1) → stop the whole pipeline, show the owner the failed rows of
 input/vo-check.md in plain words and wait. WARN (exit 2) → show the owner the times to listen to and wait; only when
 the owner says it is fine, run new-video again with `--vo-ok`. Never plan or build before the gate passes.
 The gate checks (owner 2026-11-10): every part at the same loudness (spread ≤ 1 LU) · the trim rule is exactly > 0.23 s →
-0.20 s · NO pause left over 0.23 s · every trimmed pause 0.20–0.23 s · pauses ≤ 0.23 s untouched · cuts only in silence ·
+0.19 s · NO pause left over 0.23 s · every trimmed pause 0.19–0.23 s · pauses ≤ 0.23 s untouched · cuts only in silence ·
 no clicks, noise, hum or distortion. On a pass, new-video LOCKS the voiceover (videos/<slug>/vo-gate.json = its
 fingerprint + who approved it); plan-check, compile-shots and cloud analyze/render refuse to run (exit 3) if the lock is
 missing or the voiceover changed after it was checked.

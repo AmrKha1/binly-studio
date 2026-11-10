@@ -72,8 +72,8 @@ for (let k = 0; k < db.length; ) {
 const inner = pauses.filter((p) => p.s > 0.05 && p.e < db.length / 100 - 0.05 && !inJoin((p.s + p.e) / 2));
 const tooLong = inner.filter((p) => p.len > maxPause);
 const hist = (lo, hi) => inner.filter((p) => p.len >= lo && p.len < hi).length;
-// the Studio's rule (owner 2026-11-10, chosen by ear): every pause longer than 0.23 s becomes exactly 0.20 s
-const RULE = {max: 0.23, keep: 0.2};
+// the Studio's rule (owner 2026-11-10, chosen by ear): every pause longer than 0.23 s becomes exactly 0.19 s
+const RULE = {max: 0.23, keep: 0.19};
 if (prep) {
   const ok = Math.abs(prep.max_pause_s - RULE.max) < 1e-6 && Math.abs(prep.keep_s - RULE.keep) < 1e-6;
   add(ok ? 'PASS' : 'FAIL', 'Trim rule', `prepared with pauses > ${prep.max_pause_s} s → ${prep.keep_s} s` + (ok ? ' = the Studio rule' : ` — the Studio rule is > ${RULE.max} s → ${RULE.keep} s: prepare again with the defaults`));
@@ -91,13 +91,13 @@ add(tooLong.length ? 'FAIL' : 'PASS', 'No long pause left',
     while (k1 < db.length - 1 && quiet(k1 + 1)) k1++;
     return {c, len: (k1 - k0 + 1) / 100};
   });
-  const hiR = prep?.max_pause_s ?? RULE.max, lo = keep - 0.01; // owner 2026-11-10: every trimmed pause lands in 0.20–0.23 s (−0.01 = one 10 ms frame)
+  const hiR = prep?.max_pause_s ?? RULE.max, lo = keep - 0.01; // owner 2026-11-10: every trimmed pause lands in 0.19–0.23 s (−0.01 = one 10 ms frame)
   const off = runs.filter((r) => r.len < lo - 0.001 || r.len > hiR + 0.005);
   const lens = runs.map((r) => r.len).sort((p, q) => p - q), med = lens[Math.floor(lens.length / 2)] ?? 0;
   if (runs.length) add(off.length ? 'FAIL' : 'PASS', `Trimmed pauses in ${keep.toFixed(2)}–${hiR.toFixed(2)} s`,
     `${runs.length} trimmed pauses · median ${med.toFixed(2)} s · ${runs.length - off.length}/${runs.length} inside the range · shortest ${lens[0]?.toFixed(2)} s · longest ${lens[lens.length - 1]?.toFixed(2)} s` + (off.length ? ` → listen: ${off.slice(0, 6).map((r) => `${mm(r.c)} (${r.len.toFixed(2)} s)`).join(', ')}` : ''));
 }
-add('PASS', 'Pause spread', `0.08–0.15 s: ${hist(0.08, 0.15)} · 0.15–0.20 s: ${hist(0.15, 0.195)} · 0.20–0.23 s: ${hist(0.195, 0.235)} · over 0.23 s: ${hist(0.235, 99)} (pauses ≤ 0.23 s are left exactly as spoken)`);
+add('PASS', 'Pause spread', `0.08–0.15 s: ${hist(0.08, 0.15)} · 0.15–0.19 s: ${hist(0.15, 0.185)} · 0.19–0.23 s: ${hist(0.185, 0.235)} · over 0.23 s: ${hist(0.235, 99)} (pauses ≤ 0.23 s are left exactly as spoken)`);
 const gap = prep?.join_gap_s ?? 0.35;
 if (joins.length) {
   const bad = joins.filter((j) => Math.abs(j.end - j.start - gap) > 0.012);

@@ -47,11 +47,11 @@ Read `references/<name>/STUDY.md` first (the director's analysis), then `report.
 
 ## Voiceover prep + delivery loudness (owner 2026-11-08)
 `tools/vo-prep.mjs` (run by new-video): parts → equal loudness (ITU-R BS.1770 LUFS, one gain per part) → joined in number
-order with exactly 0.35 s room tone between parts → pauses > 0.23 s inside parts → 0.20 s → `videos/<slug>/voiceover.wav` (48 kHz 24-bit, −20 LUFS) + `.prep.json` report. The cloud
+order with exactly 0.35 s room tone between parts → pauses > 0.23 s inside parts → 0.19 s → `videos/<slug>/voiceover.wav` (48 kHz 24-bit, −20 LUFS) + `.prep.json` report. The cloud
 render masters the final mix to −14 LUFS / −1 dBTP (two-pass loudnorm, linear) and checks the delivered file.
 `tools/vo-check.mjs` (run by new-video right after vo-prep) = the voice gate: 16 independent checks (loudness whole +
 per part, peaks/clipping, DC, pauses, joins, cuts in silence, clicks at edits + anywhere, start/end, over-trim, noise
-floor, mains hum, clipping in the original parts, even delivery) → vo-check.md; FAIL stops, WARN needs `--vo-ok`. Strict trim (2026-11-10): no pause over 0.23 s, trimmed pauses 0.20–0.23 s (vo-prep re-measures its own result on the gate's 10 ms grid and re-trims). A pass writes the lock `videos/<slug>/vo-gate.json` (tools/lib/vo-gate.mjs); plan-check, compile-shots and cloud analyze/render stop (exit 3) without it or if the voiceover changed.
+floor, mains hum, clipping in the original parts, even delivery) → vo-check.md; FAIL stops, WARN needs `--vo-ok`. Strict trim (2026-11-10): no pause over 0.23 s, trimmed pauses 0.19–0.23 s (vo-prep re-measures its own result on the gate's 10 ms grid and re-trims). A pass writes the lock `videos/<slug>/vo-gate.json` (tools/lib/vo-gate.mjs); plan-check, compile-shots and cloud analyze/render stop (exit 3) without it or if the voiceover changed.
 
 ## YouTube master (owner 2026-11-08)
 Chunks render near-lossless (`--color-space=bt709 --jpeg-quality=100 --crf=12`), then assemble encodes ONCE to YouTube's

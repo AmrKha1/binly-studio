@@ -2,13 +2,13 @@
 //   1) every part levelled to the SAME loudness (ITU-R BS.1770 integrated LUFS, gated — the LUFS meter standard), so the
 //      voice never jumps up/down between parts (a plain gain per part: no compression, no EQ — the voice keeps its life)
 //   2) parts joined in number order ("1 Arabic.wav", "2.wav" … "10.wav"), 5 ms fades at every join (no clicks)
-//   3) SILENCE TRIM (owner 2026-11-08): inside each part every pause longer than 0.23 s → 0.20 s (keeps its first and last
+//   3) SILENCE TRIM (owner 2026-11-08): inside each part every pause longer than 0.23 s → 0.19 s (keeps its first and last
 //      half of natural room tone, 10 ms crossfade; breaths stay); each part's silent head/tail is removed and the parts are
 //      joined with EXACTLY 0.35 s made of their own room tone (no digital silence). Start 0.10 s, end 0.40 s.
 //   The report (<out>.prep.json) lists every part, join and cut position → tools/vo-check.mjs verifies them.
 // The result is the master clock of the video (timing, captions, render). The final MIX is mastered separately in the
 // cloud render to −14 LUFS / −1 dBTP (tools/cloud/assemble.mjs).
-//   node tools/vo-prep.mjs <folder | files…> --out videos/<slug>/voiceover.wav [--target -20] [--max-pause 0.23 --keep 0.20 --gap 0.35]
+//   node tools/vo-prep.mjs <folder | files…> --out videos/<slug>/voiceover.wav [--target -20] [--max-pause 0.23 --keep 0.19 --gap 0.35]
 // Prints a report (per-part loudness + gain, pauses trimmed, seconds saved) and writes <out>.json next to the output.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -20,7 +20,7 @@ const a = args();
 const SR = 48000;
 const TARGET = Number(a.target ?? -20); // LUFS (mono measure) — headroom for the final −14 LUFS master
 const MAX_PAUSE = Number(a['max-pause'] ?? 0.23); // owner 2026-11-08: pauses longer than 0.23 s are trimmed …
-const KEEP = Number(a.keep ?? 0.20); // … to 0.20 s (owner 2026-11-10, chosen by ear from A/B samples; was 0.19)
+const KEEP = Number(a.keep ?? 0.19); // … to 0.19 s (owner 2026-11-10, chosen by ear from A/B samples: B, 0.19–0.23)
 const JOIN_GAP = Number(a.gap ?? 0.35); // owner 2026-11-08: exactly this much (room tone) between two parts
 const AUDIO = /\.(wav|mp3|m4a|flac|aac|ogg|opus)$/i;
 
@@ -32,7 +32,7 @@ const num = (f) => {
 };
 inputs = inputs.filter((f) => AUDIO.test(f)).sort((x, y) => num(x) - num(y) || x.localeCompare(y));
 if (!inputs.length || !a.out) {
-  console.log('usage: node tools/vo-prep.mjs <folder | files…> --out <voiceover.wav> [--target -20] [--max-pause 0.23 --keep 0.20 --gap 0.35]');
+  console.log('usage: node tools/vo-prep.mjs <folder | files…> --out <voiceover.wav> [--target -20] [--max-pause 0.23 --keep 0.19 --gap 0.35]');
   process.exit(1);
 }
 
@@ -190,7 +190,7 @@ const bodies = parts.map((x, pi) => {
   }
   segs.push([cursor, (last + 1) * F]);
   let {y, cuts} = stitch(x, segs);
-  // VERIFY PASS (owner 2026-11-10: "really 0.20–0.23, without any error"): the crossfades can turn a faint breath tail
+  // VERIFY PASS (owner 2026-11-10: "really 0.19–0.23, without any error"): the crossfades can turn a faint breath tail
   // that sat right at the threshold into silence, so a trimmed pause may re-measure longer than the rule. Measure the
   // finished part again on the SAME 10 ms grid the voice gate uses (every piece is a whole number of frames) and trim
   // whatever is still > MAX_PAUSE to exactly KEEP. Repeat until nothing is left.
