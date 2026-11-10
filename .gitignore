@@ -26,3 +26,6 @@ public/_active/
 references/*/overview/
 references/*/shots/
 references/*/timing/
+
+# local A/B samples for the owner (never published)
+samples/
