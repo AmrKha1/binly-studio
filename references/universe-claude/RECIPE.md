@@ -73,7 +73,12 @@ row → "the universe gave us everything for free" → «في أمان الله�
 2. **The twist** that changes the question (the reference: the price concept collapses in space → the universe's
    invoice: Receipt «0 $» + MarkPill «ما اشتريناها ✖…»).
 3. **The thesis line** over the biggest image (galaxy), word by word.
-4. **Sign-off**: AZTIKA from behind looking up (`awe`), then NeonSign «في أمان الله». Silence after it. No "subscribe" card.
+4. **Sign-off**: AZTIKA from behind looking up (`awe`), then NeonSign with the owner's OWN closing words (the reference:
+   «في أمان الله»; if he says «سلام» or asks for a like/subscribe, the sign and AZTIKA's beat follow what is said — the
+   voiceover is the truth). Silence after it. No added "subscribe" card or button graphics.
+- **When the ranking isn't by the number** (the winner is the smallest price, or the category changes: money → people
+  → time), the board must SHOW the new rule — that turn is the video's signature moment, built new (PodiumGame value =
+  the real rank, label = the spoken number).
 
 ## 7. Rhythm (measured, per part of the video)
 | part | reference avg / median per shot | ours |
