@@ -64,11 +64,13 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
   ≥ 6 s apart (≈ every 8–15 s), pose changes every ~3–6 s, never < 1.5 s apart · never frozen > 8 s while on screen ·
   never covers the key object or text · off-screen in mini-story scenes so his return feels fresh · soft easing only,
   no zig-zags or constant bouncing. plan-check enforces it from the shots' "host" lists.
-- **ARABIC SOUND = the reference's restraint (owner 2026-11-08: no music, only SFX — studied with spectrograms, STYLE-BIBLE §6):**
-  sound marks the BIG moments only — whoosh on transitions into big moments, soft shimmer on precious reveals, stamp hits,
-  soft pops for bubbles/tags, the neon hum at the sign-off, a deep `boom` (by hand) for the 1–3 biggest reveals. Word pops,
-  pills, count-ups and host pose swaps stay silent; nothing fills the pauses; silence after the last word. kit/night* pieces
-  cue their own sounds; story sounds (cash, door, crowd) by hand as before, sparingly.
+- **ARABIC SOUND = the reference, MEASURED (owner 2026-11-10: "like the reference, not from our brain"; no music):**
+  references/universe-claude/SOUND.md — every effect of the model video found from its separated audio: ≈ 23 effects per
+  minute (32/min in the hook), median 21 dB under the voice (booms 18, risers/whooshes 19, shimmer 21, thumps 25, pops/
+  ticks 28; the biggest reveals 6–12), not ducked but kept out of the voice's mid band, mono, a small signature set reused,
+  silence after the sign-off. Sounds follow THINGS (appear · land · glow · grow), only 17 % sit on cuts. The night kit cues
+  the map by itself (docs/kit/night.md "Sound"); Arabic renders use the "reference" level model (tools/audio/make-audio.mjs
+  SFX_MODEL, calibrated so tools/ref-sfx.mjs reads our mix like the reference ±0.3 dB). Host pose swaps stay silent.
 - **Palette = WHITE MODE, elegant glow** (English videos) (`src/kit/theme.ts`, owner 2026-10-20): CLEAN WHITE #FFFFFF background (never
   cream/off-white); dark scenes ONLY when the scene is naturally dark (night, a dark room, space). Ink #2B2420 for text;
   **gold #B07D0C = the key accent** (key word, big number) and it always glows softly (GLOW.gold); oxblood #8B2E1F =

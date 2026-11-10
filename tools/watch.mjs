@@ -725,11 +725,16 @@ function cmdSpectro() {
     lbl = path.basename(String(a.file));
   } else {
     const meta = loadRef(nameArg);
-    pcm = readWav(path.join(cacheDir(nameArg), 'audio.wav'));
+    let src = path.join(cacheDir(nameArg), 'audio.wav');
+    if (a.stem) { // --stem fx | voice : the separated layer (tools/watch.mjs separate), same frames + words
+      src = path.join(cacheDir(nameArg), 'stems', `${a.stem}-16k.wav`);
+      if (!fs.existsSync(src)) spawnSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-i', path.join(cacheDir(nameArg), 'stems', `${a.stem}.flac`), '-ac', '1', '-ar', String(SR), '-c:a', 'pcm_s16le', src]);
+    }
+    pcm = readWav(src);
     video = fs.existsSync(meta.video) ? meta.video : null;
     const wf = path.join(refDir(nameArg), 'timing', 'words.json');
     if (fs.existsSync(wf)) words = JSON.parse(fs.readFileSync(wf, 'utf8'));
-    lbl = nameArg;
+    lbl = nameArg + (a.stem ? ` [${a.stem} only]` : '');
   }
   const to = +(a.to ?? Math.min(pcm.length / SR, from + 4));
   const n0 = Math.floor(from * SR), n1 = Math.min(pcm.length, Math.floor(to * SR));

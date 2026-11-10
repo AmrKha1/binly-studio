@@ -78,3 +78,13 @@ model are removed, enclosed white gaps like trophy handles opened; characters ne
 face), then checked: HOLE · FRINGE · SPECKS · CUT · SMALL. `art.mjs ingest` runs it and writes videos/<slug>/art/review.jpg
 (night sky + magenta). Flagged items are refused by `art.mjs use` until regenerated or `art.mjs approve <name>` after looking.
 Standalone: `node tools/art-check.mjs <folder|png…> [--sheet out.jpg]` (exit 2 when anything is flagged).
+
+## Sound effects measured like the reference (2026-11-10)
+`node tools/watch.mjs separate <ref>` splits a reference's audio in the cloud (Demucs 4.1.0 htdemucs_ft, pinned; sealed:
+encrypted both ways, upload deleted) → `.cache/ref/<ref>/stems/voice.flac + fx.flac` (local only). `node tools/ref-sfx.mjs
+<ref> [--list --from a --to b]` lists every audible effect (leak of the voice removed per band; typed from its sound;
+level = ear-weighted loudest 10 ms vs the narrator's speech level) → references/universe-claude/SOUND.md is the result.
+ONE ruler: `tools/lib/ear-level.mjs` (24 kHz, exact 10 ms frames) — ref-sfx measures with it and `tools/audio/make-audio.mjs`
+sets our cues with it (`SFX_MODEL=reference`, automatic for Arabic renders via render.yml; per-type targets REF_TARGET +
+calibration REF_FIX). Check a mix: `ref-sfx <ref> --voice v.wav --fx stems/sfx.wav --out <dir> --cues sfx.json` → per
+kind median dB under the voice (calibrated 2026-11-10: every kind within ±0.3 dB of the reference).

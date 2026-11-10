@@ -237,6 +237,8 @@ const PILL: Record<PillKind, {top: string; low: string; ink: string; glow: strin
 /** NPill — rounded capsule label with soft glow (gold = now/hero, white = before, grey = small/old, cyan = topic). x,y = centre. */
 export const NPill: React.FC<{text: string; x: number; y: number; size?: number; kind?: PillKind; id: string; p?: number}> = ({text, x, y, size: size0 = 44, kind = 'gold', id, p = 1}) => {
   if (p <= 0) return null;
+  // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): pills/tags pop in (≈ 28 dB under the voice)
+  cueSfx('pop', `npill-${id}-${text}`, p > 0 && p < 1, x);
   const size = Math.max(size0, PHONE.pill); // phone rule
   const k = PILL[kind];
   const g = uid('npl', id);
@@ -290,8 +292,10 @@ export const Podium: React.FC<{x: number; base: number; w: number; h: number; id
 };
 
 /** Reveal burst when something appears (0:25.2): thin gold ring expands + fades, sparkles spray out. */
-export const RevealRing: React.FC<{t: number; at: number; x: number; y: number; r?: number; color?: string}> = ({t, at, x, y, r = 230, color = '#F5D27A'}) => {
-  cueSfx('sparkle', `ring-${x}-${y}-${at}`, t >= at && t < at + 0.7, x, {gain: 0.6});
+export const RevealRing: React.FC<{t: number; at: number; x: number; y: number; r?: number; color?: string; boom?: boolean}> = ({t, at, x, y, r = 230, color = '#F5D27A', boom = true}) => {
+  // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): a reveal = shimmer + a deep boom (boom=false when the caller already booms)
+  cueSfx('sparkle', `ring-${x}-${y}-${at}`, t >= at && t < at + 0.7, x);
+  if (boom) cueSfx('boom', `ringboom-${x}-${y}-${at}`, t >= at && t < at + 0.3, x);
   const p = (t - at) / 0.7;
   if (p < 0 || p > 1) return null;
   const e = 1 - Math.pow(1 - p, 3);
@@ -311,6 +315,9 @@ export const YearBadge: React.FC<{t: number; at: number; year: number; from?: nu
   t, at, year, from, x, y, label, place, id, size = 120,
 }) => {
   const p = clamp01((t - at) / 0.25);
+  // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): a riser builds INTO the year badge, then it pops
+  cueSfx('riser', `year-${id}-${at}`, t >= at && t < at + 0.3, x);
+  cueSfx('pop', `yearpop-${id}-${at}`, t >= at && t < at + 0.3, x);
   if (p <= 0) return null;
   const steps = from !== undefined ? Math.abs(year - from) : 0;
   const k = steps ? Math.min(steps, Math.floor((t - at) / 0.1)) : 0;

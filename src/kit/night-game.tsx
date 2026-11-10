@@ -107,10 +107,11 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
           <ObjectArt c={c} h={oh} silhouette />
         </g>
       );
-      cueSfx('swish', `${id}-mystery-${c.id}`, t >= c.mystery && t < c.mystery + 0.3, x0, {gain: 0.4});
+      cueSfx('riser', `${id}-mystery-${c.id}`, t >= c.mystery && t < c.mystery + 0.3, x0); // SOUND MAP: the run-up into the mystery
     }
     if (t < c.at) continue;
     const s = slotOf(c.id);
+    cueSfx('boom', `${id}-in-${c.id}`, t >= c.at && t < c.at + 0.3, s?.x ?? 960); // SOUND MAP: the board jumps when a newcomer arrives
     if (!s || s.o <= 0.01) continue;
     const e = t - c.at;
     const grow = spring(clamp01(e / 0.6), 0.3);
@@ -134,7 +135,7 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
         <NPill text={c.label} x={s.x} y={top - oh - 52 + bob} size={champ ? 46 : rel < 0.06 ? 28 : 36} kind={pillKind(s.rank, rel)} id={`${id}-${c.id}-p`} p={pillP} />
       </g>
     );
-    over.push(<RevealRing key={c.id + '__r'} t={t} at={c.at + 0.2} x={s.x} y={top - oh / 2} r={Math.max(180, oh * 1.3)} />);
+    over.push(<RevealRing key={c.id + '__r'} boom={false} t={t} at={c.at + 0.2} x={s.x} y={top - oh / 2} r={Math.max(180, oh * 1.3)} />);
     if (champ && t - c.at > 0.6) {
       // the champion breathes a little light
       const k = 0.5 + 0.5 * Math.sin(t * 2.2);
@@ -159,7 +160,7 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
             </g>
           </g>
         );
-        cueSfx('pop', `${id}-times-${c.id}`, t >= ta && t < ta + 0.3, xm);
+        cueSfx('boom', `${id}-times-${c.id}`, t >= ta && t < ta + 0.3, xm, {gain: 1.4}); // SOUND MAP: ×N = a bigger boom
       }
     }
   }

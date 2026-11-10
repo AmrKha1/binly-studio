@@ -82,6 +82,7 @@ final render only in the cloud (this PC is too slow; local = stills/sheets only)
 | `node tools/plan-check.mjs [Cxx]` | BEFORE building: flags long shots that go still, sentences with no visible change, monotony |
 | `node tools/sync-check.mjs [--chapter Cxx]` | AFTER building, before the final render: sentences whose picture barely changes |
 | `node tools/watch.mjs list` · `sheet` / `strip` / `frames` / `shots` / `audio` / `transcript <ref> …` | study the owner's reference videos (references/<ref>/: STUDY.md first) |
+| `node tools/watch.mjs separate <ref>` · `node tools/ref-sfx.mjs <ref> [--list --from a --to b]` | the reference's SOUND: sealed cloud split (voice / effects) → every effect with type, level under the voice, words (references/universe-claude/SOUND.md) · `--voice v.wav --fx sfx.wav --cues sfx.json` = measure OUR mix with the same ruler (calibration / QA) |
 | `node tools/kit-test.mjs` | render-test the whole kit + refresh docs/catalog/*.png |
 
 # Compact instructions

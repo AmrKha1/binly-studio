@@ -175,7 +175,9 @@ are always on; then look in three layers, cheapest first — never re-watch the 
 2. **Overview:** open that chapter's contact sheet (`references/universe-claude/shots/shots-NN.jpg`) — every shot of it.
 3. **Close look, only the matched range:** `node tools/watch.mjs strip universe-claude --at <t> --span 4` at its key
    moments (how things move), `node tools/watch.mjs hits universe-claude --from a --to b` (where each sound effect lands
-   and on which words), and `audio --from a --to b` when the rhythm matters.
+   and on which words), `node tools/ref-sfx.mjs universe-claude --list --from a --to b` (every sound effect of that chapter:
+   type, level under the voice, words, on a cut or not — references/universe-claude/SOUND.md is the map), and `audio
+   --from a --to b` when the rhythm matters.
 Then plan the new chapter the way the matched one was built (same order of beats, devices, pace, sound hits) with this
 story's own content and art. These frames, sheets and sounds stay local (git-ignored) — never copied into a video.
 

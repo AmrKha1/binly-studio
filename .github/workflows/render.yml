@@ -95,6 +95,9 @@ jobs:
           node tools/cloud/merge-sfx.mjs "$SLUG" > sfx.json
           SCORE=videos/$SLUG/score.json
           if [ ! -f "$SCORE" ]; then echo '{"sections":[{"t":0,"mood":"curious"}]}' > /tmp/score.json; SCORE=/tmp/score.json; fi
+          # Arabic (AZTIKA) = the REFERENCE sound model: levels per type measured from the model video (references/universe-claude/SOUND.md)
+          export SFX_MODEL=$(node -e "const m=require('./videos/'+process.argv[1]+'/video.json');console.log(m.lang==='ar'?'reference':'classic')" "$SLUG")
+          echo "sound model: $SFX_MODEL"
           node --max-old-space-size=8192 tools/audio/make-audio.mjs "$VO" "$SCORE" sfx.json stems
       - uses: actions/upload-artifact@v5
         with:

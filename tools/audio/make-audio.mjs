@@ -19,6 +19,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import os from 'node:os';
+import {earBands, earPower, toEarRate, voiceLevel, peakLevel} from '../lib/ear-level.mjs';
 
 const [, , voPath, scorePath, sfxPath, outDir] = process.argv;
 if (!voPath || !scorePath || !outDir) {
@@ -470,6 +471,28 @@ const KIND_DB = {stamp: 0, impact: 0, bell_toll: -1, thump: 0, heartbeat: -1, he
   click: -1, clack: -1, ding: -1, glass: -1, bubble: -1, drip: -2, sparkle: -1, tick: -2, scribble: -4, typing: -3, breath: -4,
   low_drone: -6, wind: -9, fire: -9, crowd: -9, water: -9, coins: 0, popup: 0, popdown: -1, confirm: 0, error: 0,
   toggle: -1, cash: 0, card: -1, neon: -7, boom: -2, slam: 0, count: -3, blip: 0, powerup: 0, rise: -1, fall: -1, win: 0};
+// REFERENCE MODEL (Arabic / AZTIKA, owner 2026-11-10: "like the reference"): every cue lands at the level the model
+// video uses for that type — measured in references/universe-claude/SOUND.md as "dB under the voice" = the cue's
+// ear-weighted (K-weighted, BS.1770) loudest 10 ms vs the narrator's speech level (power mean of his loudest 60 % of
+// 10 ms frames). No ducking (the reference doesn't duck); the voice-band dip below still keeps words clear.
+// cue gain > 1 = a bigger moment: +20·log10(gain) dB (e.g. gain 2 → 6 dB louder), never above REF_MAX dB under.
+const MODEL = score.sfxModel ?? process.env.SFX_MODEL ?? 'classic';
+const REF_TARGET = {boom: 18, slam: 15, stamp: 18, impact: 22, thump: 25, sparkle: 21, shimmer: 21, pop: 28, popup: 28, popdown: 29,
+  riser: 19, rise: 19, whoosh: 19, swoosh: 19, sweep_down: 20, swish: 28, paper: 28, page: 28, tick: 28, click: 28, clack: 28,
+  ding: 25, chime: 25, bell: 25, confirm: 25, neon: 26, count: 30, coins: 24, cash: 24, card: 28, blip: 28, bubble: 28,
+  low_drone: 20, crowd: 24, wind: 26, fire: 26, water: 26, door: 24, footsteps: 28, glass: 25, splash: 24, rumble: 20};
+// measured correction per kind (calibration 2026-11-10: our mix read back with tools/ref-sfx.mjs --cues; the voice-band
+// dip below takes 2–3 dB off mid/bright kinds while the voice speaks, so they are set that much higher)
+const REF_FIX = {riser: 2.3, rise: 2.3, sparkle: 2.7, shimmer: 2.7, ding: 2.5, chime: 2.5, bell: 2.5, confirm: 2.5, pop: 0.7, popup: 0.7};
+const REF_DEFAULT = 24, REF_MAX = 6;
+const REF_CAL = +(score.sfxCal ?? process.env.SFX_CAL ?? 0); // calibration (dB) so tools/ref-sfx.mjs reads our mix like the reference
+// the ONE ruler (tools/lib/ear-level.mjs) — the same one tools/ref-sfx.mjs measured the reference with
+const VOICE_EAR_DB = MODEL !== 'reference' ? 0 : voiceLevel(earPower(earBands(toEarRate(vo, SR))));
+const earPeakDb = (a, b) => {
+  const m2 = new Float32Array(a.length);
+  for (let i = 0; i < a.length; i++) m2[i] = (a[i] + b[i]) / 2;
+  return peakLevel(earPower(earBands(toEarRate(m2, SR))));
+};
 const SFX_OFFSET_DB = -5.9 + (score.sfxLevel ?? 0); // owner-tuned 2026-10-20: median sfx ≈ 11 dB under the voice // global trim (score.json "sfxLevel", dB) if a video wants it
 const VO_PEAK_LIN = (() => { let m = 0; for (let i = 0; i < vo.length; i++) m = Math.max(m, Math.abs(vo[i])); return m || 1; })();
 const voSpeechLvl = (() => { let q = 0, c = 0; for (let i = 0; i < N; i += 4) if (env[i] > 0.5) { q += vo[i] * vo[i]; c++; } return Math.sqrt(q / Math.max(1, c)); })();
@@ -572,6 +595,7 @@ const placeFile = (file, t, kind, pan, dur) => {
     tgtR[i0 + k] += st[j * 2 + 1] * env2 * (1 + pan * 0.6);
   }
 };
+const capped = {};
 for (const s of sfxList) {
   const p = s.pan ?? 0;
   const d = s.dur ?? 0;
@@ -591,17 +615,24 @@ for (const s of sfxList) {
   const l = loudOf(tgtL, tgtR);
   if (l < 1e-7) continue;
   let g = (REF / l) * Math.pow(10, (KIND_DB[s.kind] ?? -2) / 20) * (s.gain ?? 1);
+  if (MODEL === 'reference') {
+    const under = Math.max(REF_MAX, (REF_TARGET[s.kind] ?? REF_DEFAULT) - 20 * Math.log10(s.gain ?? 1) - REF_CAL - (REF_FIX[s.kind] ?? 0));
+    const pe = earPeakDb(tgtL, tgtR);
+    if (pe < -130) continue;
+    g = Math.pow(10, (VOICE_EAR_DB - under - pe) / 20);
+  }
   let pk = 0;
   for (let k = 0; k < tgtL.length; k++) pk = Math.max(pk, Math.abs(tgtL[k]), Math.abs(tgtR[k]));
-  if (pk * g > VO_PEAK_LIN * 0.89) g = (VO_PEAK_LIN * 0.89) / pk; // this cue's peak stays ≥ 1 dB under the voice's peak
+  if (pk * g > VO_PEAK_LIN * 0.89) { capped[s.kind] = (capped[s.kind] ?? 0) + 1; g = (VO_PEAK_LIN * 0.89) / pk; } // this cue's peak stays ≥ 1 dB under the voice's peak
   for (let k = 0; k < tgtL.length; k++) {
     const i = tgtOff + k;
     if (i >= N) break;
-    const duck = 1 - 0.15 * env[i]; // ~ -1.4 dB while the narrator speaks (the voice-band dip below keeps words clear)
+    const duck = MODEL === 'reference' ? 1 : 1 - 0.15 * env[i]; // classic: ~ -1.4 dB while the narrator speaks · reference: no duck (measured)
     sL[i] += tgtL[k] * g * duck;
     sR[i] += tgtR[k] * g * duck;
   }
 }
+if (Object.keys(capped).length) console.log('peak cap held back: ' + Object.entries(capped).map(([k, n]) => k + ' ' + n).join(' · '));
 tgtL = sL; tgtR = sR; tgtOff = 0;
 // voice-band dip: while the narrator speaks, carve ~6 dB out of the SFX around 1–4 kHz (where words live) so sounds are
 // heard and felt without masking a single syllable; in pauses the SFX play full-band.

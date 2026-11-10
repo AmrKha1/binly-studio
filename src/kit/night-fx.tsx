@@ -67,6 +67,8 @@ export const CountNumber: React.FC<{t: number; at: number; value: string; x: num
   t, at, value, x, y, size = 170, tone = 'gold', id, dur = 1.2, from = 0.03,
 }) => {
   if (t < at) return null;
+  // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): a counted value lands with a shimmer
+  cueSfx('sparkle', `count-${id}-${at}`, t >= at + dur && t < at + dur + 0.25, x);
   const p = clamp01((t - at) / dur);
   const k = from + (1 - from) * (1 - Math.pow(1 - p, 3));
   const q = popIn(clamp01((t - at) / 0.2), 0.45, 0.5);
@@ -82,7 +84,7 @@ export const CountNumber: React.FC<{t: number; at: number; value: string; x: num
 export const Stamp: React.FC<{t: number; at: number; text: string; x: number; y: number; size?: number; rot?: number; color?: string}> = ({
   t, at, text, x, y, size = 110, rot = -8, color = '#E23A4E',
 }) => {
-  cueSfx('stamp', `stamp-${text}-${at}`, t >= at && t < at + 0.3, x);
+  cueSfx('boom', `stamp-${text}-${at}`, t >= at && t < at + 0.3, x); // SOUND MAP: stamps hit as a deep boom («تم البيع», «انسرقت!»)
   if (t < at) return null;
   const u = (t - at) / 0.16;
   const s = u < 1 ? lerp(1.6, 1, u * u) : 1;
@@ -117,7 +119,7 @@ export const Mark: React.FC<{kind: 'check' | 'cross'; x: number; y: number; r?: 
 export const Bubble: React.FC<{t: number; at: number; lines: string[]; x: number; y: number; tx: number; ty: number; size?: number; mark?: 'check' | 'cross'; icon?: React.ReactNode; out?: number}> = ({
   t, at, lines, x, y, tx, ty, size = 64, mark, icon, out,
 }) => {
-  cueSfx('pop', `bubble-${lines.join('')}-${at}`, t >= at && t < at + 0.3, tx, {gain: 0.7});
+  cueSfx('pop', `bubble-${lines.join('')}-${at}`, t >= at && t < at + 0.3, tx, ); // SOUND MAP: bubbles pop
   const p = clamp01((t - at) / 0.22);
   if (p <= 0) return null;
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.15) : 1;
@@ -157,7 +159,7 @@ export const punchT = (t: number, end: number, cx: number, cy: number, dur = 0.3
 
 /** WhooshOut — speed streaks across an empty sky for a few frames between scenes (0:27.8). Draw on top. */
 export const WhooshOut: React.FC<{t: number; at: number; dur?: number; color?: string; bg?: string}> = ({t, at, dur = 0.18, color = '#B98BFF', bg = N.skyMid}) => {
-  cueSfx('whoosh', `whooshout-${at}`, t >= at - 0.25 && t < at + dur, 960, {gain: 0.9});
+  cueSfx('whoosh', `whooshout-${at}`, t >= at - 0.25 && t < at + dur, 960);
   const u = (t - at) / dur;
   if (u < 0 || u > 1) return null;
   return (
@@ -236,6 +238,8 @@ export const HeroObject: React.FC<{t: number; at?: number; src: string; x: numbe
   t, at = 0, src, x, y, h, ar, glow = '#FFC928', enter = 'pop', float = true, shine = true, sparkles = 5, id, out,
 }) => {
   if (t < at) return null;
+  // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): precious / hero objects shimmer as they appear
+  cueSfx('sparkle', `hero-${id}-${at}`, t >= at && t < at + 0.3, x);
   const e = t - at;
   const p = clamp01(e / 0.35);
   const q = popIn(p, 0.45, enter === 'zoom' ? 0.05 : 0.3);

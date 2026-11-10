@@ -7,6 +7,7 @@ import React from 'react';
 import {clamp01, ease, lerp, popIn, rand} from './anim';
 import {uid} from './stage';
 import {GlowText, NPill, Tone} from './night';
+import {cueSfx} from './sfx';
 
 const OUT = '#14101C';
 
@@ -181,6 +182,7 @@ export const MassGrid: React.FC<{t: number; at: number; x: number; y: number; w:
   t, at, x, y, w, h, cols = 26, rows = 14, dur = 1.6, node,
 }) => {
   if (t < at) return null;
+  cueSfx('boom', `mass-${x}-${y}-${at}`, t >= at && t < at + 0.3, x + w / 2); // SOUND MAP: «70 مليون إنسان» = boom
   const sweep = clamp01((t - at) / dur);
   const cw = w / cols, ch = h / rows;
   const out: React.ReactNode[] = [];

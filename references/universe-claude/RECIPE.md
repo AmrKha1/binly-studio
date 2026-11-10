@@ -93,7 +93,8 @@ row → "the universe gave us everything for free" → «في أمان الله�
 
 ## 8. Words, sound, host — fixed (see STYLE-BIBLE / PLAYBOOK)
 Text: one headline per shot, ≤ 5 words, ONE gold key word; numbers exactly as spoken; sizes per the PHONE rule.
-Sound: no music; SFX only on transitions and big reveals; pops, pills and counts are silent.
+Sound: no music; the MEASURED map in SOUND.md (≈ 23 effects/min, median 21 dB under the voice; boom / shimmer / pop / thump /
+riser / whoosh / tick per what is on screen) — the night kit cues it by itself.
 Host: AZTIKA alive but calm (moves ≥ 6 s apart with a reason, never frozen > 8 s), off-screen in mini-stories.
 
 ## 9. How the plan declares it (plan-check reads these)

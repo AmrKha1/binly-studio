@@ -71,6 +71,8 @@ Fully rounded capsule, height ≈ 1.6× text size, padding ≈ 0.8× text size l
 - **Characters** change pose on their line (arm out when they speak, 0:45.2) — pose swaps, not walking.
 
 ## 6. Sound — studied with spectrograms (tools/watch.mjs spectro), 2026-11-08
+**SUPERSEDED 2026-11-10 by SOUND.md** (every effect measured from the separated audio): the reference has ≈ 23 effects per
+minute — not "rare"; the 12 moments below were a sample. Keep this section only for the moment-by-moment notes.
 Method: the sound drawn as a picture (frequency over time) under the frames of the same moment, at 12 key moments
 (0:09 stripe wipe · 0:14.5 cut into «أنت!» · 0:25 «أنت غالي!» · 0:40 year count · 0:45 bubble · 0:50 · 1:16 newspapers ·
 1:50 diamond · 2:00 count-up · 3:16 map + stamp · 6:53 · 14:42 ending) + loudness of every pause.

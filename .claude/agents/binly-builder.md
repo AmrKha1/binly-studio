@@ -378,6 +378,10 @@ A great video in one session beats a perfect plan.
 - **ARABIC (AZTIKA) = THE NIGHT LOOK (owner 2026-11-08, replaces white mode for Arabic):** copy the model video's style as
   it is — exact specs in references/universe-claude/STYLE-BIBLE.md, built in kit/night (NightSky, GridFloor, GlowText,
   WordPop, NPill, Podium, RevealRing, YearBadge, HostGlow, HostTrack). AZTIKA is our fingerprint. The white-mode rules below = English.
+- **AZTIKA RECIPE (owner 2026-11-10):** every Arabic video is STRUCTURED like the model video —
+  references/universe-claude/RECIPE.md (one question → a game board that keeps returning every ≤ 150 s → chapters that
+  each end in a bigger answer → recap → twist → warm sign-off). Hook ≤ 3 s per shot, then ≤ 5.5 s (we hold the pace where
+  the reference sags). plan-check enforces it.
 - **PHONE SIZES = the reference's sizes, never under the phone floor (owner 2026-11-10: "not too big, not too small —
   the best size"):** hero word/number 150–180 px, headline 120–140, hero pill 40–48, secondary pill 28–32; no label under
   34 px, no free text under 56 px (the kit enforces both), hero object ≥ 40 % of the frame height, the frame still breathes.
@@ -389,11 +393,13 @@ A great video in one session beats a perfect plan.
   ≥ 6 s apart (≈ every 8–15 s), pose changes every ~3–6 s, never < 1.5 s apart · never frozen > 8 s while on screen ·
   never covers the key object or text · off-screen in mini-story scenes so his return feels fresh · soft easing only,
   no zig-zags or constant bouncing. plan-check enforces it from the shots' "host" lists.
-- **ARABIC SOUND = the reference's restraint (owner 2026-11-08: no music, only SFX — studied with spectrograms, STYLE-BIBLE §6):**
-  sound marks the BIG moments only — whoosh on transitions into big moments, soft shimmer on precious reveals, stamp hits,
-  soft pops for bubbles/tags, the neon hum at the sign-off, a deep `boom` (by hand) for the 1–3 biggest reveals. Word pops,
-  pills, count-ups and host pose swaps stay silent; nothing fills the pauses; silence after the last word. kit/night* pieces
-  cue their own sounds; story sounds (cash, door, crowd) by hand as before, sparingly.
+- **ARABIC SOUND = the reference, MEASURED (owner 2026-11-10: "like the reference, not from our brain"; no music):**
+  references/universe-claude/SOUND.md — every effect of the model video found from its separated audio: ≈ 23 effects per
+  minute (32/min in the hook), median 21 dB under the voice (booms 18, risers/whooshes 19, shimmer 21, thumps 25, pops/
+  ticks 28; the biggest reveals 6–12), not ducked but kept out of the voice's mid band, mono, a small signature set reused,
+  silence after the sign-off. Sounds follow THINGS (appear · land · glow · grow), only 17 % sit on cuts. The night kit cues
+  the map by itself (docs/kit/night.md "Sound"); Arabic renders use the "reference" level model (tools/audio/make-audio.mjs
+  SFX_MODEL, calibrated so tools/ref-sfx.mjs reads our mix like the reference ±0.3 dB). Host pose swaps stay silent.
 - **Palette = WHITE MODE, elegant glow** (English videos) (`src/kit/theme.ts`, owner 2026-10-20): CLEAN WHITE #FFFFFF background (never
   cream/off-white); dark scenes ONLY when the scene is naturally dark (night, a dark room, space). Ink #2B2420 for text;
   **gold #B07D0C = the key accent** (key word, big number) and it always glows softly (GLOW.gold); oxblood #8B2E1F =
@@ -569,7 +575,7 @@ order with exactly 0.35 s room tone between parts → pauses > 0.23 s inside par
 render masters the final mix to −14 LUFS / −1 dBTP (two-pass loudnorm, linear) and checks the delivered file.
 `tools/vo-check.mjs` (run by new-video right after vo-prep) = the voice gate: 16 independent checks (loudness whole +
 per part, peaks/clipping, DC, pauses, joins, cuts in silence, clicks at edits + anywhere, start/end, over-trim, noise
-floor, mains hum, clipping in the original parts, even delivery) → vo-check.md; FAIL stops, WARN needs `--vo-ok`.
+floor, mains hum, clipping in the original parts, even delivery) → vo-check.md; FAIL stops, WARN needs `--vo-ok`. Strict trim (2026-11-10): no pause over 0.23 s, trimmed pauses 0.19–0.23 s (vo-prep re-measures its own result on the gate's 10 ms grid and re-trims). A pass writes the lock `videos/<slug>/vo-gate.json` (tools/lib/vo-gate.mjs); plan-check, compile-shots and cloud analyze/render stop (exit 3) without it or if the voiceover changed.
 
 ## YouTube master (owner 2026-11-08)
 Chunks render near-lossless (`--color-space=bt709 --jpeg-quality=100 --crf=12`), then assemble encodes ONCE to YouTube's
@@ -596,6 +602,16 @@ model are removed, enclosed white gaps like trophy handles opened; characters ne
 face), then checked: HOLE · FRINGE · SPECKS · CUT · SMALL. `art.mjs ingest` runs it and writes videos/<slug>/art/review.jpg
 (night sky + magenta). Flagged items are refused by `art.mjs use` until regenerated or `art.mjs approve <name>` after looking.
 Standalone: `node tools/art-check.mjs <folder|png…> [--sheet out.jpg]` (exit 2 when anything is flagged).
+
+## Sound effects measured like the reference (2026-11-10)
+`node tools/watch.mjs separate <ref>` splits a reference's audio in the cloud (Demucs 4.1.0 htdemucs_ft, pinned; sealed:
+encrypted both ways, upload deleted) → `.cache/ref/<ref>/stems/voice.flac + fx.flac` (local only). `node tools/ref-sfx.mjs
+<ref> [--list --from a --to b]` lists every audible effect (leak of the voice removed per band; typed from its sound;
+level = ear-weighted loudest 10 ms vs the narrator's speech level) → references/universe-claude/SOUND.md is the result.
+ONE ruler: `tools/lib/ear-level.mjs` (24 kHz, exact 10 ms frames) — ref-sfx measures with it and `tools/audio/make-audio.mjs`
+sets our cues with it (`SFX_MODEL=reference`, automatic for Arabic renders via render.yml; per-type targets REF_TARGET +
+calibration REF_FIX). Check a mix: `ref-sfx <ref> --voice v.wav --fx stems/sfx.wav --out <dir> --cues sfx.json` → per
+kind median dB under the voice (calibrated 2026-11-10: every kind within ±0.3 dB of the reference).
 
 === EMBEDDED: docs/KIT-INDEX.md — kit index (open only the sections you need) ===
 

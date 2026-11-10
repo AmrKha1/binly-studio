@@ -1066,10 +1066,15 @@ GlowText / WordPop tone: white · gold · grey · cyan · **red** (bad news, twi
 dark · cyan · violet · **orange** (sun) · **green** (land/nature) · **red** (war).
 
 ## Sound (built in)
-Restraint like the reference (STYLE-BIBLE §6): StripeWipe/WhooshOut whoosh · RevealRing soft sparkle · Stamp stamp ·
-Bubble/PriceTag soft pop · Flag soft swish · NeonSign neon hum · HostTrack moves very soft swish · ChoiceCards flip soft
-swish. Silent: WordPop, NPill, CountNumber, YearBadge, host pose swaps, space, charts, timeline, receipt, calendar, money.
-Add `{"kind":"boom"}` by hand in sfx/<chapter>.json for the 1–3 biggest reveals. No music.
+The reference's MEASURED sound map (references/universe-claude/SOUND.md, 2026-11-10 — ≈ 23 effects/min, median 21 dB
+under the voice; Arabic renders use the "reference" level model automatically):
+boom → PodiumGame newcomer (×N = bigger boom) · Stamp · MysteryBox/MysteryPillar · MassGrid · RevealRing (boom=false
+when the caller booms) · shimmer (sparkle) → RevealRing · HeroObject appearing · CountNumber landing · riser → YearBadge
+· PodiumGame mystery · pop → NPill/PriceTag/Bubble · YearBadge · thump → MysteryTile · CalendarCard · MarkPill ✖ · ding →
+MarkPill ✔ · ProgressBar 100 % · tick → JourneyPath stations · ProgressBar start · whoosh → StripeWipe/WhooshOut ·
+Callout · swish → Flag · ChoiceCards · Newspapers · neon → NeonSign. Silent: WordPop words, host pose swaps (as the
+reference). Custom pieces: `cueSfx(kind, key, active, x, {gain})` — gain 1 = the reference's typical level for that
+kind, 2 = 6 dB louder (a bigger moment). Story sounds by hand in sfx/<chapter>.json. No music; silence after the sign-off.
 
 ## Still to build
 See references/universe-claude/GAP-CHECK.md (P3 art/poses). The pilot video stays the owner's call.

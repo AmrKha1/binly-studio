@@ -10,6 +10,7 @@ import {H, W} from './theme';
 import {uid} from './stage';
 import {N, nightFont, NPill, PillKind, textWidth} from './night';
 import {isAr} from './lang';
+import {cueSfx} from './sfx';
 import {Mark} from './night-fx';
 
 const WEIGHT = () => (isAr() ? 800 : 900);
@@ -339,6 +340,7 @@ export const CalendarCard: React.FC<{t: number; at: number; x: number; y: number
   t, at, x, y, to, from, dur = 2, label, pill, size = 1, id, out, decimals = 0,
 }) => {
   if (t < at) return null;
+  cueSfx('thump', `cal-${id}-${at}`, t >= at && t < at + 0.3, x); // SOUND MAP: a card lands
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
   const q = popIn(clamp01((t - at) / 0.3), 0.45, 0.4);
@@ -378,6 +380,8 @@ export const JourneyPath: React.FC<{t: number; at: number; dur?: number; x0?: nu
   t, at, dur = 3, x0 = 260, y0 = 735, x1 = 1910, y1 = 540, amp = 240, waves = 1.25, stations = [], id, out,
 }) => {
   if (t < at) return null;
+  // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): the road-map path ticks as each station is reached
+  stations.forEach((st, i) => cueSfx('tick', `jp-${id}-${i}`, t >= at + st.u * dur && t < at + st.u * dur + 0.2, x0 + (x1 - x0) * st.u));
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
   const P = (u: number) => [lerp(x0, x1, u), lerp(y0, y1, u) - amp * Math.sin(u * Math.PI * 2 * waves)] as const;
@@ -428,6 +432,7 @@ export const JourneyPath: React.FC<{t: number; at: number; dur?: number; x0?: nu
 export const MarkPill: React.FC<{t: number; at: number; text: string; x: number; y: number; mark?: 'check' | 'cross'; size?: number; id: string}> = ({t, at, text, x, y, mark = 'cross', size = 48, id}) => {
   const p = clamp01((t - at) / 0.25);
   if (p <= 0) return null;
+  cueSfx(mark === 'cross' ? 'thump' : 'ding', `mark-${id}-${at}`, t >= at && t < at + 0.3, x); // SOUND MAP: ✖ knocks, ✔ dings
   const rtl = isAr();
   const w = textWidth(text, size) + size * 1.5;
   const mx = x + (rtl ? 1 : -1) * (w / 2 + size * 0.9);
