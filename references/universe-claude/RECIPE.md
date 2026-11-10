@@ -62,6 +62,8 @@ row → "the universe gave us everything for free" → «في أمان الله�
 | "nobody knows / unclear" | CloudWorld + BlueprintCard «؟» |
 | a choice / "rarity or prestige?" | ChoiceCards that flip |
 | a person's words | Bubble (✔/✖ on the answer) |
+| a real person | story character with ONE identifying detail + name pill (Napoleon = bicorne) · a real face that truly matters → NightPortrait (free-licence photo) |
+| a real object / artwork / place | illustrated hero art (HeroObject), never a photo — even the Mona Lisa |
 | the news / fame | Newspapers + PaperStorm |
 | a quote / Quran / hadith | QuoteCard (never popped) |
 | tiny / invisible | Magnifier «×1,000,000» · WeighScale «1.000 g» |
@@ -107,4 +109,9 @@ chapters.json (`{"recipe": {"device": "podium", "question": "…"}}`). plan-chec
 - **PACE** any 3-minute window averaging > 5.5 s per shot (after the hook)
 - **ENDING** no `recap` and no `signoff` in the last 120 s
 - **CHAPTER** a `reveal` not followed by a `stage` visit within 60 s (the newcomer never joins the board)
+- **SCENE** a chapter's first shot without `"in"` (match · dissolve · wipe · flash · whoosh) · its last shot without
+  `"out"` (fly · wipe · whoosh) · a `stage` shot right after a `reveal` that is not `"in": "match"` (the hero object
+  flies onto its podium — reference 0:24.2) — MOTION.md §4, §8
+- **NUMBER** a `count` shot whose narration says مليون / مليار / ألف without `"spoken"` (the number in words under it,
+  exactly as said — reference 0:23 «45 مليون دولار»)
 Accept a flag on purpose with `"ok": "why"` like every other plan-check flag.

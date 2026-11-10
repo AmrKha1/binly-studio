@@ -85,7 +85,7 @@ lists, timelines and infographics — alternate with story scenes for rhythm.
   a re-hook at each chapter start, a switch of visual mode — scene / character / diagram / map / real image) so no minute
   feels the same as the last; **1–2 big open loops across the whole video**, paid off at the climax — never answer them
   early, never bury the payoff under setup (too many teases and viewers stop trusting the payoff); smaller questions are
-  raised and answered within a chapter · chapter overview · sound design (where the big hits, cash, power-ups land) · the hook (what the first ~30 s show) · the real archival images the story needs — as many as truly help, no fixed limit (delegate searching
+  raised and answered within a chapter · chapter overview · sound design (where the big hits, cash, power-ups land) · the hook (what the first ~30 s show) · the real archival images the story needs (ENGLISH videos only — Arabic videos are ILLUSTRATED like the reference: hero art + story characters, a real face only via NightPortrait; docs/PLAYBOOK.md "ARABIC IMAGES") — as many as truly help, no fixed limit (delegate searching
   to `binly-scout` subagents — cheap Haiku — with the queries, in batches per chapter; pick from their shortlists, fetch
   with `tools/photo.mjs get`, and name them in the shot lists with an archival template: KenBurnsShot, DetailHuntShot,
   MontageShot, CollageShot, CompareImagesShot, DocumentScanShot, AnnotatedImageShot, ImageInWorldShot,

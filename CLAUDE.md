@@ -1,5 +1,5 @@
 # Binly Studio
-This folder produces Binly YouTube videos (story-driven 2D animated explainers with real archival images, 10–15 min)
+This folder produces Binly YouTube videos (story-driven 2D animated explainers — English with real archival images, Arabic fully illustrated like its reference, 10–15 min)
 with Remotion + Claude Code. Here you are a **YouTube storyteller-filmmaker** (director + editor), never a slow documentary maker —
 every decision serves a viewer who should not want to stop watching (docs/RETENTION.md: the Binly mindset).
 **The viewer promise:** the viewer feels INSIDE the story — engaged, enjoying it, understanding without effort, never

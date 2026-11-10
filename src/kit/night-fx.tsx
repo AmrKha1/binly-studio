@@ -7,7 +7,7 @@ import {Img, staticFile} from 'remotion';
 import {clamp01, countCurve, countUp, ease, lerp, popRef, pressIn, rand} from './anim';
 import {H, W} from './theme';
 import {uid} from './stage';
-import {GlowText, N, nightFont, textWidth, Tone} from './night';
+import {GlowText, N, NPill, nightFont, textWidth, Tone} from './night';
 import {isAr} from './lang';
 import {cueSfx} from './sfx';
 // SOUND (measured from the reference, 2026-11-08): sound marks only the big moments — transitions whoosh, stamps hit,
@@ -194,6 +194,48 @@ export const StripeWipe: React.FC<{t: number; at: number; dur?: number}> = ({t, 
         const x = x0 + i * sw + Math.sin(u * Math.PI) * (i - 1.5) * 30; // a little spread so the stripes feel alive
         return <path key={i} d={`M${x} ${H} L${x + lean} 0 L${x + lean + sw + 70} 0 L${x + sw + 70} ${H} Z`} fill={c} />;
       })}
+    </g>
+  );
+};
+
+/**
+ * NightPortrait — the ONE place a real photo may appear in an Arabic video (owner 2026-11-11): a real face that truly
+ * matters to the story (a modern famous person), from a FREE-licence Wikimedia photo (`node tools/photo.mjs` → public/<slug>/img,
+ * credited in CREDITS.md). Everything else is illustrated (HeroObject art; people = story characters), like the reference.
+ * The photo is framed like the reference's Mona Lisa: thick glowing gold frame, graded into the night palette (a touch warmer,
+ * darker edges), a light sweep, the reference pop, a slow float and a name pill. photo = path inside public/ (…/img/…).
+ */
+export const NightPortrait: React.FC<{t: number; at?: number; photo: string; x: number; y: number; h: number; ar?: number; name?: string; shape?: 'frame' | 'oval'; id: string; out?: number}> = ({
+  t, at = 0, photo, x, y, h, ar = 0.8, name, shape = 'frame', id, out,
+}) => {
+  if (t < at) return null;
+  cueSfx('sparkle', `portrait-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125}); // SOUND MAP: a hero appears with a shimmer
+  const e = t - at;
+  const q = popRef(clamp01(e / 0.3));
+  const back = out !== undefined ? 1 - ease.in(clamp01((t - out) / 0.18)) : 1;
+  if (back <= 0.01) return null;
+  const w = h * ar, b = Math.max(14, h * 0.055); // frame thickness
+  const fl = Math.sin(t * 1.2 + x * 0.01) * 8;
+  const sweep = ((e * 0.4) % 1.8) - 0.4;
+  const oval = shape === 'oval';
+  const rad = oval ? '50%' : `${b * 0.6}px`;
+  return (
+    <g transform={`translate(${x} ${y + fl}) scale(${q.sx * back} ${q.sy * back})`} opacity={q.o}>
+      <foreignObject x={-w / 2 - b - 70} y={-h / 2 - b - 70} width={w + 2 * b + 140} height={h + 2 * b + 140}>
+        <div style={{position: 'relative', width: w + 2 * b + 140, height: h + 2 * b + 140}}>
+          {/* gold frame with its glow */}
+          <div style={{position: 'absolute', left: 70, top: 70, width: w + 2 * b, height: h + 2 * b, borderRadius: oval ? '50%' : b,
+            background: 'linear-gradient(145deg, #FFE08A 0%, #F2B010 28%, #C98F0A 52%, #FFD45A 74%, #B07A08 100%)',
+            boxShadow: '0 0 18px rgba(255,201,40,0.75), 0 0 60px rgba(255,201,40,0.45), inset 0 0 0 3px rgba(90,50,0,0.55)'}} />
+          {/* the photo, graded into the night look */}
+          <div style={{position: 'absolute', left: 70 + b, top: 70 + b, width: w, height: h, borderRadius: rad, overflow: 'hidden', boxShadow: 'inset 0 0 0 3px rgba(60,30,0,0.6)'}}>
+            <Img src={staticFile(photo)} style={{width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.9) contrast(1.06) brightness(0.96) sepia(0.12)'}} />
+            <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 42%, transparent 55%, rgba(15,6,43,0.55) 100%)'}} />
+            <div style={{position: 'absolute', inset: 0, mixBlendMode: 'screen', background: `linear-gradient(115deg, transparent ${(sweep - 0.1) * 100}%, rgba(255,255,255,0.35) ${sweep * 100}%, transparent ${(sweep + 0.1) * 100}%)`}} />
+          </div>
+        </div>
+      </foreignObject>
+      {name && <NPill text={name} x={0} y={h / 2 + b + 34} size={46} kind="white" id={`${id}-name`} p={(e - 0.15) / 0.3} />}
     </g>
   );
 };

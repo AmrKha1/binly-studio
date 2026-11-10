@@ -81,10 +81,11 @@ for (const ch of chapters) {
     const end = i + 1 < shots.length ? shots[i + 1].start : ch.end;
     const mode = s.mode ?? (s.custom ? null : TEMPLATE_MODE[s.template] ?? null);
     if (s.custom && !s.mode) noMode++;
-    seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok, sig: !!s.signature, size: s.size ?? null, device: s.device ?? null});
     const dur = end - s.start;
     const changes = [s.start, ...(s.beats ?? []), ...(s.custom ? [] : templateBeats(s.props))];
     const said = sentences.filter((x) => x.s >= s.start - 0.3 && x.s < end - 0.3);
+    seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok, sig: !!s.signature, size: s.size ?? null, device: s.device ?? null,
+      inT: s.in ?? null, outT: s.out ?? null, spoken: s.spoken ?? null, said: said.map((x) => x.text).join(' ')});
     const still = said.filter((x) => !changes.some((c) => Math.abs(c - x.s) <= NEAR || (c > x.s && c < x.s + NEAR)));
     const isLong = dur > TOO_LONG || (dur > LONG && still.length > 0);
     const longAlive = dur > LONG && !isLong;
@@ -215,6 +216,20 @@ Host beats: ${hb.length} (${hb.filter((b, i) => b.spot && i && hb[i - 1].spot &&
     if (!last.some((x) => x.device === 'signoff')) rl.push('  ENDING no "signoff" → AZTIKA (awe) + NeonSign «في أمان الله»');
     // CHAPTER: every reveal joins the board
     for (const r of dev('reveal')) if (!r.ok && !st.some((x) => x.start >= r.start && x.start <= r.end + 60)) rl.push(`  CHAPTER ${r.ch} ${r.id} ${mmss(r.start)}: reveal never joins the board within 60 s → add the "stage" round (newcomer + host reaction)`);
+    // SCENE CHANGES (references/universe-claude/MOTION.md §4, §8): how each scene enters and leaves is part of the plan
+    const chs = [...new Set(seq.map((x) => x.ch))];
+    chs.forEach((c, ci) => {
+      const cs = seq.filter((x) => x.ch === c);
+      const first = cs[0], lastS = cs[cs.length - 1];
+      if (ci > 0 && !first.inT && !first.ok) rl.push(`  SCENE ${c} ${first.id} ${mmss(first.start)}: declare how the scene ENTERS — "in": "match" (the hero flies to its place in the new scene) | "dissolve" | "wipe" | "flash" | "whoosh"`);
+      if (ci < chs.length - 1 && !lastS.outT && !lastS.ok) rl.push(`  SCENE ${c} ${lastS.id} ${mmss(lastS.start)}: declare how the scene LEAVES — "out": "fly" (punch-in on the key line, the rest flies out) | "wipe" | "whoosh"`);
+    });
+    seq.forEach((x, i) => {
+      const prev = seq[i - 1];
+      if (prev && x.device === 'stage' && prev.device === 'reveal' && x.inT !== 'match' && !x.ok) rl.push(`  SCENE ${x.ch} ${x.id} ${mmss(x.start)}: after the reveal, the hero object should FLY onto its podium — "in": "match" (reference 0:24.2)`);
+      // BIG NUMBERS: the count is followed by the number as SPOKEN, in words (reference 0:23 «45 مليون دولار»)
+      if (x.device === 'count' && !x.spoken && !x.ok && /مليون|ملايين|مليار|مليارات|تريليون|ترليون|ألف|آلاف/.test(x.said)) rl.push(`  NUMBER ${x.ch} ${x.id} ${mmss(x.start)}: add the spoken form under the counted number — "spoken": "45 مليون دولار" (exactly as said)`);
+    });
     flags += rl.length;
     console.log(`
 Recipe (references/universe-claude/RECIPE.md): ${seq.length - undeclared}/${seq.length} shots declare a "device"${rl.length ? '' : ' — follows the recipe'}`);

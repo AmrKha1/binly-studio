@@ -42,6 +42,8 @@ Every night piece already moves like the reference — keep it that way in custo
 - **WordPop:** gold/colour KEY words pop (the swell), WHITE supporting words fade in with a slight grow (override per word
   with `enter: 'pop'|'fade'`); the glow is steady (the reference never pulses text). **YearBadge:** a few years back
   tick one per 0.1 s; time passing (forward, or > 8 years) ACCELERATES like 1:07 (1704 → 1705 → 1707 → 1711 → 1718 → 1730).
+- Plan fields (plan-check SCENE/NUMBER): each chapter's first shot `"in"` (match · dissolve · wipe · flash · whoosh), last
+  shot `"out"` (fly · wipe · whoosh), big counted numbers `"spoken"` (the words under the number).
 - `node tools/sync-check.mjs` flags FROZEN pictures (< 1 % change in 1.35 s — the reference never goes below 0.36 %).
 
 ## AZTIKA reacts (owner 2026-11-08)
@@ -100,6 +102,9 @@ Gallery `night4` runs them in order (stills 1.5, 3.6, 5.9, 7.95, 8.08, 8.48, 9.8
   reference (2:00.4): a late S-curve (slow start = suspense), WHITE while counting, turns `tone` (gold) on the final value.
 - **Stamp** `{t, at, text, x, y, size=110, rot=-8, color}` — red ink stamp PRESSES in: 1.64× → 1.00 decelerating in 0.165 s
   while fading in, then rock still (3:18, measured frame by frame).
+- **NightPortrait** `{t, at, photo, x, y, h, ar=0.8, name?, shape: frame|oval, id, out?}` — the ONLY way a real photo
+  appears in an Arabic video: a real face that truly matters (free-licence Wikimedia via tools/photo.mjs), framed like the
+  reference's Mona Lisa — glowing gold frame, night grade, light sweep, reference pop, name pill. Everything else illustrated.
 - **Flash** `{t, at, strength=0.5, color}` — the reference's flash on a big slam/reveal (0:15.6): instant ≈ 50 % white,
   exponential fade (gone by ≈ 0.4 s). On the slam's frame, on top.
 - **Bubble** `{t, at, lines, x, y, tx, ty, size=64, mark?: check|cross, icon?, out?}` — speech bubble that grows out of

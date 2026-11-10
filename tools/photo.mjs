@@ -119,6 +119,8 @@ async function get() {
   const md = ['# Image credits (paste into the YouTube description)', '', ...creds.map((x) => `- ${x.title} — ${x.author} — ${x.licence}${/public domain|pd|cc0/i.test(x.licence) ? '' : ''} — via Wikimedia Commons: ${x.source}`), ''];
   fs.writeFileSync(path.join(ROOT, 'videos', slug, 'CREDITS.md'), md.join('\n'));
   const short = /public domain|cc0|^pd/i.test(c.licence) ? `${c.author} · Public domain` : `${c.author} · ${c.licence}`;
+  const isArV = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'videos', slug, 'video.json'), 'utf8')).lang === 'ar'; } catch { return false; } })();
+  if (isArV) console.log(`ARABIC video (docs/PLAYBOOK.md "ARABIC IMAGES"): a real face only → <NightPortrait photo="${slug}/img/${name}.${ext}" name="…" …/>; objects/places/art = illustrated hero art; people in stories = story characters.`);
   console.log(`saved public/${slug}/img/${name}.${ext} (${c.w}×${c.h} source, ${c.licence})\nuse: <Photo slug="${slug}" src="img/${name}.${ext}" credit=${JSON.stringify(short.slice(0, 80))} … />   (credit recorded in videos/${slug}/CREDITS.md)`);
 }
 

@@ -85,6 +85,12 @@ const langWarn = [];
         const strs = [...code.matchAll(/(?:text|title|kicker|label|sub|caption|name|note)\s*[=:]\s*["'`]([^"'`]*)["'`]|>\s*([^<>{}]*[A-Za-z][^<>{}]*)\s*</g)].map((m) => m[1] ?? m[2] ?? '');
         for (const s of strs) if (/[A-Za-z]{2,}\s+[A-Za-z]{2,}/.test(s) && !AR.test(s)) langErr.push(`${at}  English on-screen text in an ARABIC video: "${s.trim().slice(0, 40)}"`);
         // (no soft warnings: code props like kind="caution" are not on-screen text)
+        // AZTIKA LOOK GUARD (owner 2026-11-11): an Arabic video uses ONLY the night kit (+ look-neutral helpers) — the old
+        // white-look pieces would clash — and real photos (public/<slug>/img, tools/photo.mjs) ONLY inside <NightPortrait
+        // photo=…> (a real face that truly matters). Everything else is illustrated, like the reference (MOTION/RECIPE).
+        const white = code.match(/from\s+['"](?:\.\.\/)+kit\/(archival|asset|cards|data|diagrams|editfx|env|fx|icons|motion|people|photo|science|shots|silhouette|templates|text|transport)['"]/);
+        if (white) langErr.push(`${at}  white-look kit piece "kit/${white[1]}" in an ARABIC video — use the night kit (docs/kit/night.md)`);
+        if (/\/img\//.test(code) && !/\bphoto\s*[=:]/.test(code)) langErr.push(`${at}  a raw photo (…/img/…) in an ARABIC video — real photos only as <NightPortrait photo="…"> (a real face); everything else is illustrated art`);
       }
     });
   }

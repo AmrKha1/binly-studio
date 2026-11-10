@@ -125,6 +125,15 @@ old art (medieval bath scenes often have them): pick another image, or crop/pan/
 parts show at every moment of the move. Nothing sexual or suggestive, no graphic gore or close-up wounds/corpses. The
 thumbnail and title stay fully clean. When unsure about an image, don't use it — there is always another.
 
+**ARABIC IMAGES = the reference's way (owner 2026-11-11): ILLUSTRATED, not photos.** Objects, artworks, buildings,
+places → generated hero art (HeroObject; Flow, docs/ART-STYLE.md "NIGHT LOOK") — even a famous painting is drawn in the
+illustrated style, like the reference's Mona Lisa in a gold frame. People in a story → flat faceless story characters
+with ONE identifying detail + a name pill (the reference's Napoleon = the bicorne hat). The ONLY real photo: a real face
+that truly matters (a modern famous person) — a FREE-licence Wikimedia photo (`tools/photo.mjs`, credited) shown ONLY in
+`<NightPortrait photo=…>` (gold frame, night grade, name pill). No archival-image templates, no white-look pieces:
+`node tools/check.mjs` FAILS an Arabic video that imports one or shows a photo outside NightPortrait. (English videos keep
+the archival rules above.)
+
 ### Arabic videos (one Studio, two channels — owner, 2026-10-20)
 - A video is Arabic when its `video.json` has `"lang": "ar"` (auto-detected from an Arabic script by new-video.mjs).
   Same Binly look (white mode, gold glow, pills); the kit switches automatically: every font → **Baloo Bhaijaan 2 heavy**
