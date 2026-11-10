@@ -69,6 +69,10 @@ The owner heard the first real CC0 recordings as "harsh for the ears". Measured 
 Two exceptions found by typing the result with `ref-sfx` (it must read as the reference's type): the **shimmer stays
 airy** (air share ≈ 0.6, so no dark top — only the low knock is removed), and the **riser stops dry** into the hit (a room
 tail turns it into a falling whoosh). `node tools/audio/sfx-finish.mjs <in> <out> --type shimmer|ding|riser|hit` applies
-this; installed: library/sfx/sparkle · riser · ding (.flac, CREDITS.md), levels re-calibrated to the reference ±0.1 dB.
+this.
+**OWNER PICK (2026-11-10, by ear, A/B on his voice): the CODE-MADE shimmer (sparkle), riser and ding stay** — he chose
+them over the best finished CC0 recordings (Freesound 703288 / 828163 / 627794, kept local only). Measured, the code-made
+shimmer and ding already have the reference's bloom and ~1 s ring (attack 160 ms / tail 820 ms; ding tail 1015 ms).
+The real recordings for boom, thump, pop, tick, whoosh and swish (Kenney, qubodup) stay as they are.
 **Any new real sound:** finish it, type it (ref-sfx on the file alone), calibrate (make-audio + `ref-sfx --cues`), then
 listen next to the old one before it replaces anything.
