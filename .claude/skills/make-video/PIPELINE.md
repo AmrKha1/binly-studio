@@ -162,6 +162,17 @@ time → mini-story → reveal → back to the board → turn) → recap → twi
 `"device"` (stage · mystery · roadmap · story · reveal · rays · count · map · timeline · chart · gauge · list · lineup ·
 measure · compare · quote · news · choice · space · recap · twist · thesis · signoff). plan-check's RECIPE flags (HOOK,
 SPINE, PACE, ENDING, CHAPTER) must be fixed or justified ("ok") before building.
+**Arabic = match each chapter to the model video (before writing any shot list):** the rules (RECIPE + STYLE-BIBLE)
+are always on; then look in three layers, cheapest first — never re-watch the whole video:
+1. **Match:** read `references/universe-claude/CHAPTERS.md` and give each chapter of the new script the reference
+   chapter of the same KIND (a person's story, found by chance, a deal on a map, an estimate that keeps rising, a
+   science explainer, a scale ladder…) — write it in chapters.json as `"ref": "<#>"` (or `"none"`).
+2. **Overview:** open that chapter's contact sheet (`references/universe-claude/shots/shots-NN.jpg`) — every shot of it.
+3. **Close look, only the matched range:** `node tools/watch.mjs strip universe-claude --at <t> --span 4` at its key
+   moments (how things move), `node tools/watch.mjs hits universe-claude --from a --to b` (where each sound effect lands
+   and on which words), and `audio --from a --to b` when the rhythm matters.
+Then plan the new chapter the way the matched one was built (same order of beats, devices, pace, sound hits) with this
+story's own content and art. These frames, sheets and sounds stay local (git-ignored) — never copied into a video.
 
 **Alive pass (in every brief):** for each shot list what changes every 2–4 s and WHERE supporting text appears (beside
 the object, above the speaker with SayPop, along an arrow, on the map, on the reveal), how objects and the host move,
