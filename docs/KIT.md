@@ -847,7 +847,10 @@ Every night piece already moves like the reference — keep it that way in custo
 - **Scene change** = a short dissolve while the hero object flies to its place in the next scene + `settleT(t, start)` on the
   new world (zooms in 1.53× → settles) + the host `riseSoft`/`fade` in. **Road map** (JourneyPath) runs RIGHT → LEFT.
 - **Host:** AZTIKA swaps poses instantly (HostTrack does it); enter with `{kind: 'fade'}` or `'riseSoft'`, leave `'fadeOut'`.
-  **Bubbles** shrink back into the speaker when they leave (`out`). Key words pop; supporting words can fade.
+  **Bubbles** shrink back into the speaker when they leave (`out`).
+- **WordPop:** gold/colour KEY words pop (the swell), WHITE supporting words fade in with a slight grow (override per word
+  with `enter: 'pop'|'fade'`); the glow is steady (the reference never pulses text). **YearBadge:** a few years back
+  tick one per 0.1 s; time passing (forward, or > 8 years) ACCELERATES like 1:07 (1704 → 1705 → 1707 → 1711 → 1718 → 1730).
 - `node tools/sync-check.mjs` flags FROZEN pictures (< 1 % change in 1.35 s — the reference never goes below 0.36 %).
 
 ## AZTIKA reacts (owner 2026-11-08)

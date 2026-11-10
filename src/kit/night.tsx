@@ -191,7 +191,7 @@ export const GlowText: React.FC<{text: string; x: number; y: number; size: numbe
   );
 };
 
-export type PopWord = {w: string; at: number; tone?: Tone};
+export type PopWord = {w: string; at: number; tone?: Tone; enter?: 'pop' | 'fade'};
 /**
  * WordPop — headline built word by word on the spoken words (0:25.5): each word scales 0.3 → ~1.08 → 1 in ~0.15 s.
  * Right-to-left in Arabic: `right` = right edge of the line (screen coords). English: `left` = left edge.
@@ -204,19 +204,23 @@ export const WordPop: React.FC<{t: number; words: PopWord[]; y: number; size: nu
   const ws = words.map((w) => textWidth(w.w, size));
   const rtl = isAr();
   let cursor = rtl ? (right ?? W - 120) : (left ?? 120);
-  const pulse = 0.85 + 0.15 * Math.sin(t * 2.4);
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.15) : 1;
   return (
     <g opacity={fade}>
       {words.map((w, i) => {
         const cx = rtl ? cursor - ws[i] / 2 : cursor + ws[i] / 2;
         cursor = rtl ? cursor - ws[i] - sp : cursor + ws[i] + sp;
-        const p = clamp01((t - w.at) / 0.22);
+        // reference (MOTION.md §1, §8): the KEY word (gold/colour) POPS with the swell (popRef over 0.3 s, measured on
+        // «غالي!»); supporting WHITE words FADE in with a slight grow (0.15 s, «في العالم» 0:12.9, «أعظم» 1:34.6). The glow
+        // is steady — a held headline's brightness does not change (measured ±0.0 %).
+        const tone = w.tone ?? 'white';
+        const kind = w.enter ?? (tone === 'white' ? 'fade' : 'pop');
+        const p = clamp01((t - w.at) / (kind === 'pop' ? 0.3 : 0.15));
         if (p <= 0) return null;
-        const q = popRef(p, 0.45, 0.3);
+        const q = kind === 'pop' ? popRef(p) : {sx: 0.88 + 0.12 * ease.out(p), sy: 0.88 + 0.12 * ease.out(p), o: ease.out(p)};
         return (
           <g key={i} transform={`translate(${cx} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
-            <GlowText text={w.w} x={0} y={0} size={size} tone={w.tone ?? 'white'} id={`${id}-${i}`} glow={pulse} />
+            <GlowText text={w.w} x={0} y={0} size={size} tone={tone} id={`${id}-${i}`} />
           </g>
         );
       })}
@@ -320,7 +324,11 @@ export const YearBadge: React.FC<{t: number; at: number; year: number; from?: nu
   cueSfx('pop', `yearpop-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125});
   if (p <= 0) return null;
   const steps = from !== undefined ? Math.abs(year - from) : 0;
-  const k = steps ? Math.min(steps, Math.floor((t - at) / 0.1)) : 0;
+  // reference: going BACK a few years ticks one year per 0.1 s (0:40, 1506 → 1503); TIME PASSING (forward, or any jump
+  // over 8 years) ACCELERATES — 1704 → 1705 → 1707 → 1711 → 1718 → 1730 at 0.1 s steps (1:07.2) = 1.12·(e^(t/0.157) − 1)
+  const e = Math.max(0, t - at);
+  const fast = from !== undefined && (year > from || steps > 8);
+  const k = !steps ? 0 : fast ? Math.min(steps, Math.floor(1.12 * (Math.exp(e / 0.157) - 1) + 0.6)) : Math.min(steps, Math.floor(e / 0.1));
   const shown = from !== undefined ? from + Math.sign(year - from) * k : year;
   const w = textWidth(String(year), size) + size * 0.8, h = size * 1.4; // measured 0:40.6: box ≈ 1.4× the digit size
   const q = popRef(p, 0.45, 0.4);

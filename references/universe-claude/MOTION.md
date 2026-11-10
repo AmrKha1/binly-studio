@@ -74,9 +74,12 @@ still after. Then the story continues at once (the bought region spreads over th
   `settleT`); the host rises in from the bottom-left.
 - **Road-map path** (0:09.8–13.2): in Arabic it draws from RIGHT to LEFT (the mystery waits at the left end), ≈ 3.4 s,
   each station's object pops as the head arrives. Ours ran left → right → JourneyPath now defaults to RTL in Arabic.
-- **Headline words:** the KEY word pops (the swell); supporting words fade in softly (≈ 0.1 s) (0:12.9, 1:34.6).
+- **Headline words:** the KEY word pops (the swell); supporting words fade in softly (≈ 0.1 s) (0:12.9, 1:34.6). A held
+  headline's brightness is perfectly steady (±0.0 %) — no glow pulse. → WordPop: gold pops, white fades, steady glow.
 - **"Time passing":** the year badge counts UP faster and faster (1704 → 1705 → 1707 → 1711 → 1718 → 1730, 1:07.2–07.7)
-  while the room slides away.
+  while the room slides away = 1.12·(e^(t/0.157) − 1) years. → YearBadge accelerates forward (and for jumps > 8 years).
+- **Coverage (2026-11-11):** every scene family of GAP-CHECK has its night-kit pieces (size bracket = Measure, plan
+  outline = DashedFrame, neon map = NightMap neon); "an object hopping through rooms" is composed by the builder.
 
 ## 9. The host and the bubbles
 - AZTIKA **enters by fading in** (≈ 0.2 s, 0:30.3) or **rising in from the bottom-left during a dissolve** (0:24.2) —
