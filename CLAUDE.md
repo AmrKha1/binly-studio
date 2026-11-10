@@ -51,7 +51,7 @@ Delegate heavy work to subagents; read docs, not source (kit: docs/KIT-INDEX.md,
 `tools/cue.mjs`, `tools/transcript.mjs`); review with contact sheets; run cloud jobs in the background; keep messages short.
 
 ## Rules that never bend
-Voiceover prepared once at ingest (parts levelled + joined with 0.35 s, pauses > 0.23 s → 0.19 s) and VERIFIED by the voice gate (vo-check), then untouched and the master clock · no invented facts/numbers/quotes · numbers exactly as spoken ·
+Voiceover prepared once at ingest (parts levelled + joined with 0.35 s, pauses > 0.23 s → 0.19 s; tone kept exactly as recorded — owner A/B 2026-11-10: a warmer polish sounded muffled, the original is better) and VERIFIED by the voice gate (vo-check), then LOCKED as the master clock · no invented facts/numbers/quotes · numbers exactly as spoken ·
 Binly palette only · no logo/HUD/subtitles · the ONLY recurring characters are the channel hosts — ODDESTORY (English) and AZTIKA (Arabic), kit/image-host · deterministic code (`node tools/check.mjs`) ·
 final render only in the cloud (this PC is too slow; local = stills/sheets only) · 1920×1080 60 fps, delivered as a YOUTUBE MASTER (H.264 High, BT.709 tagged, CFR, closed GOP, CRF 12 + aq-mode 3, AAC-LC 384k 48 kHz, faststart), −14 LUFS / −1 dBTP — checked in the QA report.
 
