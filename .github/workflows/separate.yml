@@ -1,0 +1,95 @@
+name: Separate reference audio
+run-name: separate ${{ inputs.slug }} ${{ inputs.token }}
+# Splits a REFERENCE video's audio into voice + everything else (the sound effects) so the Studio can measure every
+# effect: time, type, level under the voice. Sealed only: the audio arrives encrypted (release vo-<slug>, deleted by
+# the tool afterwards) and the two stems leave encrypted (REF_KEY). Nothing readable is stored on GitHub.
+# Tool: Demucs 4.1.0 (MIT, github.com/adefossez/demucs), model htdemucs_ft, pinned; CPU torch pinned.
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "ref-<name>"
+        required: true
+      model:
+        description: "Demucs model"
+        required: false
+        default: "htdemucs_ft"
+      token:
+        description: "Unique id so tools can find this run"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  separate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env:
+      SLUG: ${{ inputs.slug }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            tools/cloud
+
+      - name: Download sealed audio
+        run: |
+          mkdir -p in
+          gh release download "vo-$SLUG" --dir in --pattern 'voiceover.enc' --repo "$GITHUB_REPOSITORY"
+
+      - name: Decrypt
+        env:
+          REF_KEY: ${{ secrets.REF_KEY }}
+        run: |
+          node tools/cloud/crypt.mjs decrypt in/voiceover.enc in/mix.flac
+          rm in/voiceover.enc
+
+      - name: ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Cache model weights
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/torch
+            ~/.cache/huggingface
+          key: demucs-4.1.0-${{ inputs.model }}-v1
+
+      - name: Install Demucs (pinned)
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu torch==2.7.1
+          pip install demucs==4.1.0
+
+      - name: Separate (voice / everything else)
+        run: |
+          ffmpeg -hide_banner -loglevel error -i in/mix.flac -ar 44100 -ac 2 in/mix.wav
+          python -m demucs --two-stems vocals -n "${{ inputs.model }}" -j 4 -o out in/mix.wav
+          ls -R out
+          mkdir -p stems
+          V=$(find out -name 'vocals.*' | head -1); N=$(find out -name 'no_vocals.*' | head -1)
+          ffmpeg -hide_banner -loglevel error -i "$V" -c:a flac stems/voice.flac
+          ffmpeg -hide_banner -loglevel error -i "$N" -c:a flac stems/fx.flac
+          ls -la stems
+
+      - name: Encrypt results
+        env:
+          REF_KEY: ${{ secrets.REF_KEY }}
+        run: |
+          tar -cf stems.tar stems
+          mkdir -p sealed
+          node tools/cloud/crypt.mjs encrypt stems.tar sealed/stems.enc
+          rm -rf stems stems.tar out in
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: ${{ inputs.slug }}-stems
+          path: sealed
+          retention-days: 1

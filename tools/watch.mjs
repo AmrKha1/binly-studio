@@ -16,6 +16,8 @@
 //   node tools/watch.mjs audio <name> --from a --to b [--step 0.25]   loudness bars + words (hear the mix/rhythm)
 //   node tools/watch.mjs transcribe <name> [--lang ar]          cloud whisper (large-v3), ENCRYPTED both ways → references/<name>/timing/ (local only)
 //   node tools/watch.mjs transcript <name> [--from a --to b]    timed spoken lines
+//   node tools/watch.mjs separate <name>                        cloud Demucs: voice / sound-effects stems, ENCRYPTED both ways → .cache/ref/<name>/stems (local only)
+//   node tools/watch.mjs sfx <name>                             every sound effect of the reference: time, type, level under the voice, what is on screen
 // Outputs of sheet/strip/frames go to .cache/ref/<name>/ (look at them with Read).
 import fs from 'node:fs';
 import path from 'node:path';
@@ -566,6 +568,42 @@ async function cmdTranscribe() {
   console.log(`→ references/${nameArg}/timing/ (local only) · report.md updated · cloud upload deleted`);
 }
 
+// SEPARATE (owner 2026-11-10: "like the reference, not from our brain"): split the reference audio into VOICE and
+// EVERYTHING ELSE (its sound effects) in the cloud — sealed both ways like transcribe — so `sfx` can list every effect.
+// → .cache/ref/<name>/stems/voice.flac + fx.flac (local only, never committed)
+async function cmdSeparate() {
+  const meta = loadRef(nameArg);
+  const c = cacheDir(nameArg);
+  needVideo(meta);
+  fs.mkdirSync(c, {recursive: true});
+  const src = path.join(c, 'mix.flac');
+  if (!fs.existsSync(src)) ff(['-y', '-i', meta.video, '-vn', '-c:a', 'flac', src]); // original 44.1 kHz stereo, lossless
+  const key = refKey();
+  const slug = `ref-${nameArg}`, tag = `vo-${slug}`;
+  const up = path.join(c, 'voiceover.enc');
+  encryptFile(src, up, key);
+  if (sh('gh', ['release', 'view', tag], {allowFail: true}) !== null) gh('release', 'upload', tag, up, '--clobber');
+  else gh('release', 'create', tag, up, '--title', 'Sealed study audio', '--notes', 'Encrypted (AES-256-GCM). Temporary; deleted after separation.');
+  fs.rmSync(up);
+  try {
+    const id = await dispatch('separate.yml', {slug, model: a.model ?? 'htdemucs_ft'});
+    console.log(`separate run ${id} started (sealed)`);
+    await wait(id, 'separate');
+    const tmp = path.join(c, 'dl');
+    fs.rmSync(tmp, {recursive: true, force: true});
+    gh('run', 'download', String(id), '-n', `${slug}-stems`, '-D', tmp);
+    const tar = path.join(c, 'stems.tar');
+    decryptFile(path.join(tmp, 'stems.enc'), tar, key);
+    fs.rmSync(path.join(c, 'stems'), {recursive: true, force: true});
+    sh('tar', ['-xf', 'stems.tar'], {cwd: c});
+    fs.rmSync(tmp, {recursive: true, force: true});
+    fs.rmSync(tar);
+  } finally {
+    sh('gh', ['release', 'delete', tag, '--yes', '--cleanup-tag'], {allowFail: true});
+  }
+  console.log(`→ ${path.relative(ROOT, path.join(c, 'stems'))}/voice.flac + fx.flac (local only) · cloud upload deleted · next: node tools/watch.mjs sfx ${nameArg}`);
+}
+
 function cmdTranscript() {
   loadRef(nameArg);
   const wf = path.join(refDir(nameArg), 'timing', 'words.json');
@@ -791,6 +829,6 @@ function cmdSpectro() {
 }
 const clamp01v = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
 
-const cmds = {spectro: cmdSpectro, zoom: cmdZoom, color: cmdColor, hits: cmdHits, ingest, list: cmdList, shots: cmdShots, sheet: cmdSheet, strip: cmdStrip, frames: cmdFrames, audio: cmdAudio, transcribe: cmdTranscribe, transcript: cmdTranscript, report: () => (report(nameArg), console.log(`references/${nameArg}/report.md`))};
+const cmds = {spectro: cmdSpectro, zoom: cmdZoom, color: cmdColor, hits: cmdHits, ingest, list: cmdList, shots: cmdShots, sheet: cmdSheet, strip: cmdStrip, frames: cmdFrames, audio: cmdAudio, transcribe: cmdTranscribe, separate: cmdSeparate, transcript: cmdTranscript, report: () => (report(nameArg), console.log(`references/${nameArg}/report.md`))};
 if (!cmds[cmd]) console.log(fs.readFileSync(new URL(import.meta.url), 'utf8').split('\n').filter((l) => l.startsWith('//')).map((l) => l.slice(3)).join('\n'));
 else await cmds[cmd]();
