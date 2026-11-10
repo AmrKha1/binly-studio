@@ -1,6 +1,6 @@
 // Cut characters out of a white-background picture → one transparent PNG per figure.
 //   node tools/cutout.mjs <image.png|jpg|webp> --out library/hosts/oddestory [--names shocked,confused,laugh,angry,wink]
-//        [--white 232]
+//        [--white 232] [--holes (objects) | --char (characters)]
 // How: everything near-white that is CONNECTED TO THE IMAGE BORDER is background (the character's white face, shirt and
 // hands stay, because the black outline encloses them). Edge pixels get soft alpha (anti-aliasing kept, no white fringe).
 // Then each separate figure (connected region) is cropped and saved, ordered row by row, left to right.
@@ -103,7 +103,19 @@ while (stack.length) {
 // showing through a gap (trophy handles, rings, a donut) → transparent too. Safe-guards so real white parts stay: it must
 // be pure flat white (not a tinted highlight), big enough (≥ 0.025 % of the image — pearls and sparkles are smaller) and walled mostly by dark outline
 // (a white highlight on a suit is bordered by light shading, not outline). Characters (white faces) never use this.
-if (a.holes) {
+// --char (characters, e.g. AZTIKA pose sheets): the same gap-opening, but ONLY in the body zone — the white face/head
+// (top 36 % of the figures' height) and the white of the feet (bottom 9 %) stay. Gaps between an arm and the body would
+// otherwise show as white patches on the night sky (owner 2026-11-10 review).
+// Zones are measured PER FIGURE: the top/bottom of the foreground in the columns around the region (a sitting figure is
+// shorter than the standing ones beside it).
+const colTop = new Int32Array(W).fill(H), colBot = new Int32Array(W).fill(-1);
+if (a.char) for (let i = 0; i < N; i++) if (!bg[i]) { const x = i % W, y = (i / W) | 0; if (y < colTop[x]) colTop[x] = y; if (y > colBot[x]) colBot[x] = y; }
+const zoneOf = (cx) => {
+  let top = H, bot = -1;
+  for (let x = Math.max(0, cx - 160); x < Math.min(W, cx + 160); x++) { if (colTop[x] < top) top = colTop[x]; if (colBot[x] > bot) bot = colBot[x]; }
+  return [top + (bot - top) * 0.36, bot - (bot - top) * 0.09];
+};
+if (a.holes || a.char) {
   const seen = new Uint8Array(N);
   const pure = (i) => minC(i) >= 244 && maxC(i) - minC(i) < 10;
   let holes = 0;
@@ -130,7 +142,12 @@ if (a.holes) {
         if (kind === 1) dark++;
       }
     }
-    if (reg.length >= N * 0.00025 && edge && dark / edge >= 0.55) {
+    let cy = 0, cx = 0;
+    for (const i of reg) { cy += (i / W) | 0; cx += i % W; }
+    cy /= reg.length;
+    cx /= reg.length;
+    if (a.char) { const [z0, z1] = zoneOf(Math.round(cx)); if (cy < z0 || cy > z1) continue; } // face / feet stay white
+    if (reg.length >= N * (a.char ? 0.00008 : 0.00025) && edge && dark / edge >= 0.55) {
       for (const i of reg) bg[i] = 1;
       holes++;
     }

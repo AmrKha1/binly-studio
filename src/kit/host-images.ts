@@ -22,6 +22,18 @@ export const HOST_IMAGES = {
    771,
    1474
   ],
+  "full-arms-crossed": [
+   625,
+   1511
+  ],
+  "full-back": [
+   636,
+   1464
+  ],
+  "full-count": [
+   678,
+   1478
+  ],
   "full-jump-joy": [
    719,
    1320
@@ -34,6 +46,14 @@ export const HOST_IMAGES = {
    803,
    1491
   ],
+  "full-point-down": [
+   638,
+   1512
+  ],
+  "full-point-grin": [
+   831,
+   1510
+  ],
   "full-point-left": [
    920,
    1491
@@ -41,6 +61,10 @@ export const HOST_IMAGES = {
   "full-point-right": [
    928,
    1489
+  ],
+  "full-point-up": [
+   1128,
+   2376
   ],
   "full-present": [
    671,
@@ -57,6 +81,10 @@ export const HOST_IMAGES = {
   "full-shrug": [
    747,
    1395
+  ],
+  "full-sit": [
+   676,
+   1397
   ],
   "full-skeptical": [
    633,
@@ -85,6 +113,10 @@ export const HOST_IMAGES = {
   "full-welcome": [
    774,
    1380
+  ],
+  "full-wow": [
+   621,
+   1512
   ],
   "idea": [
    679,

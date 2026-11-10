@@ -377,11 +377,15 @@ export type SpotName = keyof typeof SPOTS;
  * Reason recipes — every move/pose has a story reason (owner 2026-11-08: alive, but smooth and never too much).
  * present: shows the stage/object · point: aims at the new thing · react: shock at a number/twist · viewer: talks to the
  * viewer (wink/thumbs) · welcome: greets/opens · think: a question/doubt · room: steps aside so the subject can be big ·
- * joy: a win · shrug: "who knows / that's it".
+ * joy: a win · shrug: "who knows / that's it" · awe · higher · lower · list · sure · wow · rest · you (see BEAT_POSE).
  */
 export const BEAT_POSE = {
   present: 'full-present', point: 'full-point-right', react: 'full-surprised', viewer: 'full-thumbsup-wink', welcome: 'full-welcome',
   think: 'full-thinking', room: 'full-present', joy: 'full-jump-joy', shrug: 'full-shrug', doubt: 'full-skeptical', scared: 'full-scared',
+  // P3 poses (2026-11-10, 4-per-sheet from Flow, art-checked): awe = back to us, looking up at the sky/galaxy (ending) ·
+  // higher = points UP at a taller podium / the next level · lower = points DOWN at something small · list = counts on
+  // fingers · sure = arms crossed, knowing · wow = hands on cheeks · rest = sits (on a podium edge) · you = grins + points
+  awe: 'full-back', higher: 'full-point-up', lower: 'full-point-down', list: 'full-count', sure: 'full-arms-crossed', wow: 'full-wow', rest: 'full-sit', you: 'full-point-grin',
 } as const;
 export type BeatReason = keyof typeof BEAT_POSE;
 

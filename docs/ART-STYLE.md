@@ -77,6 +77,15 @@ then StoryPeople / pills / HeroObjects on top.
 > a clear open area in the <centre/lower middle> where objects and the host will be placed later. EMPTY: no people, no
 > characters, no animals, no text, no letters, no signs, no logos, no watermark.
 
+## AZTIKA POSE SHEET (new host poses — owner 2026-11-10: "4 poses in the same sheet")
+New AZTIKA poses are made 4 per sheet (16:9, Nano Banana Pro, 0 credits) with reference_images = 2 existing poses
+(public/_hosts/aztika/full-present.png + full-thinking.png), so every pose stays on-model and the sheet is consistent.
+Prompt: "A character pose sheet: FOUR separate full-body drawings of the exact same cartoon character from the reference
+images, in one row, evenly spaced with wide white space, not touching, same size, whole from headdress to sandals" + the
+full AZTIKA description + the 4 poses + "plain pure flat white background, no floor, no shadow, no frames, no text".
+Cut out WITHOUT --holes (his face is white): `node tools/cutout.mjs sheet.jpeg --out <dir> --names full-a,full-b,…`, check
+with art-check, copy into public/_hosts/aztika/, then `node tools/host-manifest.mjs`. Name full-body poses full-*.
+
 ## Night rules
 - Background removal + ART CHECK gate (tools/art-check.mjs, run by `art.mjs ingest`): look at review.jpg every time;
   flagged items never go into a video until regenerated or approved by eye. Avoid what white-background removal can't

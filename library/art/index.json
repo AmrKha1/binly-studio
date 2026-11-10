@@ -297,18 +297,15 @@
  "small-house": {
   "kind": "el",
   "tags": [
+   "history",
    "places",
-   "land",
-   "city",
+   "arabic",
    "night"
   ],
   "file": "el/small-house.png",
-  "w": 628,
-  "h": 682,
-  "from": "_night-lib",
-  "check": [
-   "SPECKS (9 loose bits)"
-  ]
+  "w": 748,
+  "h": 711,
+  "from": "_night-lib"
  },
  "battle-tank": {
   "kind": "el",
@@ -428,6 +425,71 @@
   "file": "el/old-book.png",
   "w": 731,
   "h": 646,
+  "from": "_night-lib"
+ },
+ "egypt-pyramids": {
+  "kind": "el",
+  "tags": [
+   "history",
+   "places",
+   "arabic",
+   "night"
+  ],
+  "file": "el/egypt-pyramids.png",
+  "w": 796,
+  "h": 605,
+  "from": "_night-lib"
+ },
+ "mosque": {
+  "kind": "el",
+  "tags": [
+   "history",
+   "places",
+   "arabic",
+   "night"
+  ],
+  "file": "el/mosque.png",
+  "w": 634,
+  "h": 739,
+  "from": "_night-lib"
+ },
+ "medieval-castle": {
+  "kind": "el",
+  "tags": [
+   "history",
+   "places",
+   "arabic",
+   "night"
+  ],
+  "file": "el/medieval-castle.png",
+  "w": 757,
+  "h": 701,
+  "from": "_night-lib"
+ },
+ "greek-temple": {
+  "kind": "el",
+  "tags": [
+   "history",
+   "places",
+   "arabic",
+   "night"
+  ],
+  "file": "el/greek-temple.png",
+  "w": 733,
+  "h": 710,
+  "from": "_night-lib"
+ },
+ "camel": {
+  "kind": "el",
+  "tags": [
+   "history",
+   "places",
+   "arabic",
+   "night"
+  ],
+  "file": "el/camel.png",
+  "w": 664,
+  "h": 664,
   "from": "_night-lib"
  }
 }

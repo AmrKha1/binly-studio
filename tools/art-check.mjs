@@ -4,15 +4,18 @@
 //   FRINGE  a light/white halo along the edge (shows as a white rim on the night sky)
 //   SPECKS  loose little bits floating around the object
 //   CUT     the object touches the image border (part of it may be cut off)
+//   FACE    (--char) the white face is gone (the remover ate it)
 //   SMALL   too few pixels to stay sharp at hero size (< 360 px on its long side)
 // and draws a review sheet: every item on the NIGHT background and on bright MAGENTA (magenta exposes any leftover white),
 // labelled PASS / the flags. Nothing flagged should go into a video until fixed (regenerate — images are free) or
 // approved by eye (`node tools/art.mjs approve <name>`).
-//   node tools/art-check.mjs <folder | a.png b.png …> [--sheet out.jpg] [--json]
+//   node tools/art-check.mjs <folder | a.png b.png …> [--sheet out.jpg] [--json] [--char (host poses: white face/feet allowed)]
+//        [--fix  → opens the HOLE gaps in place (transparent) — look at the sheet first; originals are in git]
 import fs from 'node:fs';
 import path from 'node:path';
 import {execFileSync, spawnSync} from 'node:child_process';
 import {pathToFileURL} from 'node:url';
+import zlib from 'node:zlib';
 import {ROOT, args} from './lib/render.mjs';
 
 const BFF = path.join(ROOT, 'node_modules', '@remotion', 'compositor-win32-x64-msvc', 'ffmpeg.exe');
@@ -21,7 +24,18 @@ const has = (c) => spawnSync(c, ['-version'], {encoding: 'utf8'}).status === 0;
 const FULL = has('ffmpeg'); // the full build (drawtext) draws the labels; the bundled one still checks
 const FF = FULL ? 'ffmpeg' : BFF, FP = has('ffprobe') ? 'ffprobe' : BFP;
 
-export const checkPng = (file) => {
+// minimal PNG writer (RGBA 8-bit) for --fix
+const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+const crc32 = (b) => { let c = 0xffffffff; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; };
+const chunk = (type, data) => { const l = Buffer.alloc(4); l.writeUInt32BE(data.length); const td = Buffer.concat([Buffer.from(type, 'ascii'), data]); const c = Buffer.alloc(4); c.writeUInt32BE(crc32(td)); return Buffer.concat([l, td, c]); };
+const pngRGBA = (rgba, w, h) => {
+  const rows = Buffer.alloc((w * 4 + 1) * h);
+  for (let y = 0; y < h; y++) { rows[y * (w * 4 + 1)] = 0; rgba.copy(rows, y * (w * 4 + 1) + 1, y * w * 4, (y + 1) * w * 4); }
+  const ihdr = Buffer.alloc(13); ihdr.writeUInt32BE(w, 0); ihdr.writeUInt32BE(h, 4); ihdr[8] = 8; ihdr[9] = 6;
+  return Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk('IHDR', ihdr), chunk('IDAT', zlib.deflateSync(rows, {level: 9})), chunk('IEND', Buffer.alloc(0))]);
+};
+
+export const checkPng = (file, {char = false, fix = false} = {}) => {
   const [W, H] = execFileSync(FP, ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of', 'csv=p=0', file], {encoding: 'utf8'}).trim().split(',').map(Number);
   const raw = execFileSync(FF, ['-v', 'error', '-i', file, '-frames:v', '1', '-f', 'image2pipe', '-c:v', 'rawvideo', '-pix_fmt', 'rgba', '-'], {maxBuffer: 1 << 30});
   const p = new Uint8Array(raw.buffer, raw.byteOffset, W * H * 4);
@@ -48,7 +62,13 @@ export const checkPng = (file) => {
     if (mn(i) > 225) light++;
   }
   if (edge && light / edge > 0.12) flags.push(`FRINGE (${Math.round((100 * light) / edge)} % of the edge is white)`);
-  // HOLE: pure-white opaque regions walled by dark outline
+  // HOLE: pure-white opaque regions walled by dark outline (char: the head zone — top 36 % — and the feet — bottom 9 % —
+  // are allowed to be white: AZTIKA's face and feet)
+  let top = H, bot = 0;
+  for (let i = 0; i < N; i++) if (A(i) > 128) { const y = (i / W) | 0; if (y < top) top = y; if (y > bot) bot = y; }
+  const headZone = /(^|[\/])full-[^\/]*$/.test(file) ? 0.36 : 0.62; // waist-up poses: the face is most of the picture
+  const z0 = char ? top + (bot - top) * headZone : -1, z1 = char ? bot - (bot - top) * 0.09 : H + 1;
+  const holeRegs = [];
   const seen = new Uint8Array(N);
   const pure = (i) => A(i) > 200 && mn(i) >= 244 && mx(i) - mn(i) < 10;
   let holes = 0, holePx = 0;
@@ -73,10 +93,37 @@ export const checkPng = (file) => {
         if (kind === 1) dark++;
       }
     }
-    if (reg.length >= Math.max(400, opaque * 0.004) && wall && dark / wall >= 0.55) {
+    let cy = 0;
+    for (const i of reg) cy += (i / W) | 0;
+    cy /= reg.length;
+    if (cy < z0 || cy > z1) continue;
+    if (reg.length >= Math.max(char ? 150 : 400, opaque * (char ? 0.001 : 0.004)) && wall && dark / wall >= 0.55) {
       holes++;
       holePx += reg.length;
+      holeRegs.push(reg);
     }
+  }
+  // FACE (char): AZTIKA's head is white — if the head zone has almost no white left, the remover ate the face
+  if (char && !/back/.test(path.basename(file))) { // a back view has no face
+    let headOp = 0, headWhite = 0;
+    for (let i = 0; i < N; i++) {
+      const y = (i / W) | 0;
+      if (y < top || y > z0 || A(i) < 128) continue;
+      headOp++;
+      if (mn(i) >= 235) headWhite++;
+    }
+    if (headOp && headWhite / headOp < 0.06) flags.push(`FACE (only ${Math.round((100 * headWhite) / headOp)} % white in the head — face missing?)`);
+  }
+  if (holes && fix) {
+    // open the gaps: transparent, with the anti-aliased rim around them softened
+    const out = Buffer.from(p);
+    for (const reg of holeRegs) for (const i of reg) {
+      out[i * 4 + 3] = 0;
+      const x = i % W;
+      for (const j of [x > 0 ? i - 1 : -1, x < W - 1 ? i + 1 : -1, i >= W ? i - W : -1, i < N - W ? i + W : -1]) if (j >= 0 && mn(j) > 200 && out[j * 4 + 3] > 0) out[j * 4 + 3] = Math.min(out[j * 4 + 3], 255 - mn(j));
+    }
+    fs.writeFileSync(file, pngRGBA(out, W, H));
+    return {file, w: W, h: H, flags: [`FIXED ${holes} gap${holes > 1 ? 's' : ''}`], ok: true};
   }
   if (holes) flags.push(`HOLE (${holes} white gap${holes > 1 ? 's' : ''}, ${((100 * holePx) / opaque).toFixed(1)} % of the object)`);
   // SPECKS: separate opaque islands much smaller than the object
@@ -135,7 +182,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
     console.log('usage: node tools/art-check.mjs <folder | a.png …> [--sheet out.jpg] [--json]');
     process.exit(1);
   }
-  const res = files.map(checkPng);
+  const res = files.map((f) => checkPng(f, {char: !!a.char, fix: !!a.fix}));
   if (a.json) console.log(JSON.stringify(res, null, 1));
   else for (const r of res) console.log(`${r.ok ? '✓' : '✗'} ${path.basename(r.file)}${r.ok ? '' : '  ' + r.flags.join(' · ')}`);
   const sheet = path.resolve(ROOT, a.sheet ?? '.cache/art-check/review.jpg');

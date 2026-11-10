@@ -43,6 +43,10 @@ gets a soft pop (built into ImageHost). Gallery `night` 0–2 s shows a 4-beat e
   (little in a corner while the scene is the star). Override with x/y/h when a scene needs it.
 - **Moves:** hop (default, springy arc) · glide (smooth slide) · walk (steps); `dur` default 0.55 s. He faces the centre
   automatically (flipped right of centre). Enter/exit with ImageHost moves (pop, rise, drop, peek, slide…).
+- **New poses (P3, 2026-11-10):** awe (back view, looking up — the ending) · higher (points up) · lower (points down) ·
+  list (counts on fingers) · sure (arms crossed) · wow (hands on cheeks) · rest (sits — on a podium edge: x/y so his seat
+  is the podium top) · you (grins, points). 42 of 43 AZTIKA images pass the art check (--char); `sad` lost its face in
+  an old cut-out — being redrawn (until then do not use sad).
 - **Reasons → poses (BEAT_POSE):** present · point · react · viewer · welcome · think · room · joy · shrug · doubt ·
   scared (or any image pose name).
 - **Rules:** a story reason for every move · moves ≥ 6 s apart · pose every ~3–6 s (≥ 1.5 s apart) · never frozen > 8 s ·
@@ -112,6 +116,16 @@ free) → `node tools/art.mjs ingest <slug>` (cut-out + library, tagged "night";
   its own colour (gold money/crowns · cyan science/diamonds · violet energy/mystery · green land/nature), slow float, a light
   band sweeping across it every ~3.5 s, twinkling sparkles. 35–55 % of the frame height; one hero per shot. Silent —
   RevealRing gives the soft sparkle sound. Gallery `night6`.
+
+### Starter hero library (P3, 2026-11-10) — `node tools/art.mjs find night` · `art.mjs use <slug> <names>`
+36 checked night-style objects in library/art/el (Nano Banana Pro, 0 credits, all passed the ART CHECK):
+wealth money-pile · gold-bars · giant-diamond · royal-crown · gold-trophy · vault-door · golden-hourglass ·
+space space-station · astronaut · planet-earth · antimatter-capsule · rocket · gold-asteroid ·
+places land-tile · parking-tile · highway-tile · skyscraper · royal-palace · small-house ·
+history egypt-pyramids · mosque · medieval-castle · greek-temple · camel ·
+war/history battle-tank · warship · fighter-plane · factory · oil-barrel · ancient-scroll · sword-shield · old-book.
+Use them with HeroObject (glow in the object's colour) — gallery `night14` shows them in place. The code-drawn space pieces
+(Earth, ISS…) stay for scenes that need motion (spinning Earth, orbits); the art is for hero moments.
 
 ## The podium game — PodiumGame (kit/night-game) — the spine of ranking videos
 "What is the most expensive / biggest / oldest / fastest …?" → one leaderboard that grows through the whole video and

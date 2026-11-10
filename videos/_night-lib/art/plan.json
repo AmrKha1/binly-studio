@@ -120,6 +120,30 @@
     "a red metal oil barrel",
     "a thick old leather book with gold corners, closed"
    ]
+  },
+  {
+   "kind": "sheet",
+   "tags": [
+    "history",
+    "places",
+    "arabic"
+   ],
+   "items": [
+    "small-house",
+    "egypt-pyramids",
+    "mosque",
+    "medieval-castle",
+    "greek-temple",
+    "camel"
+   ],
+   "what": [
+    "a small simple family house with a red roof and a little garden, no smoke from the chimney",
+    "the three pyramids of Giza on a small floating isometric sand tile",
+    "a beautiful mosque with a golden dome and two tall minarets",
+    "a stone medieval castle with towers and flags",
+    "an ancient Greek temple with white marble columns",
+    "a standing camel with a colourful saddle blanket, side view"
+   ]
   }
  ]
 }

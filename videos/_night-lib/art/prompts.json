@@ -1,7 +1,7 @@
 [
  {
   "type": "image",
-  "model": "Nano Banana 2 Lite",
+  "model": "Nano Banana Pro",
   "max_credits": 0,
   "aspect_ratio": "16:9",
   "download_quality": "upscaled",
@@ -9,7 +9,7 @@
  },
  {
   "type": "image",
-  "model": "Nano Banana 2 Lite",
+  "model": "Nano Banana Pro",
   "max_credits": 0,
   "aspect_ratio": "16:9",
   "download_quality": "upscaled",
@@ -17,7 +17,7 @@
  },
  {
   "type": "image",
-  "model": "Nano Banana 2 Lite",
+  "model": "Nano Banana Pro",
   "max_credits": 0,
   "aspect_ratio": "16:9",
   "download_quality": "upscaled",
@@ -25,7 +25,7 @@
  },
  {
   "type": "image",
-  "model": "Nano Banana 2 Lite",
+  "model": "Nano Banana Pro",
   "max_credits": 0,
   "aspect_ratio": "16:9",
   "download_quality": "upscaled",
@@ -33,10 +33,18 @@
  },
  {
   "type": "image",
-  "model": "Nano Banana 2 Lite",
+  "model": "Nano Banana Pro",
   "max_credits": 0,
   "aspect_ratio": "16:9",
   "download_quality": "upscaled",
   "prompt": "An asset sheet of 6 separate hero objects arranged in 2 rows of 3, in this order (left to right, top row first): 1) a huge brilliant-cut clear diamond with icy blue facets and white glints drawn inside its facets, 2) planet Earth as a round globe floating in empty space with blue oceans, green-brown continents and swirls of white cloud, 3) a floating grey space rock cracked open showing shining gold crystals inside, 4) a golden hourglass with blue sand running, 5) a red metal oil barrel, 6) a thick old leather book with gold corners, closed. Each object is shown whole, front-facing or as a three-quarter isometric view, centred in its cell, large, with generous empty white space around it, no object touching or overlapping another, each enclosed by a thick closed dark outline. No frames, boxes, cards, borders or grid lines around or between the objects; sparkles stay inside the object. Only items described as a \"tile\" are shown as a small floating isometric diorama tile (a square of ground with its edge cut like a cake slice); planets, rocks and every other object float free with no base or ground. Background: plain pure flat white everywhere, no floor, no shadows, no glow, no light rays, no sparkles in the background, no scenery, no text, no labels, no numbers, no logos, no watermark. Polished, highly detailed cartoon illustration in the style of a premium mobile-game item icon or collectible sticker. Bold clean dark outline around the whole object and its main parts, rich saturated jewel-like colours, smooth soft shading with depth and volume, bright glossy specular highlights, sparkling gems and shiny metal where they belong, crisp tiny details. Lit evenly from the front-top, no cast shadow. Clean, premium, eye-catching, readable on a phone."
+ },
+ {
+  "type": "image",
+  "model": "Nano Banana Pro",
+  "max_credits": 0,
+  "aspect_ratio": "16:9",
+  "download_quality": "upscaled",
+  "prompt": "An asset sheet of 6 separate hero objects arranged in 2 rows of 3, in this order (left to right, top row first): 1) a small simple family house with a red roof and a little garden, no smoke from the chimney, 2) the three pyramids of Giza on a small floating isometric sand tile, 3) a beautiful mosque with a golden dome and two tall minarets, 4) a stone medieval castle with towers and flags, 5) an ancient Greek temple with white marble columns, 6) a standing camel with a colourful saddle blanket, side view. Each object is shown whole, front-facing or as a three-quarter isometric view, centred in its cell, large, with generous empty white space around it, no object touching or overlapping another, each enclosed by a thick closed dark outline. No frames, boxes, cards, borders or grid lines around or between the objects; sparkles stay inside the object. Only items described as a \"tile\" are shown as a small floating isometric diorama tile (a square of ground with its edge cut like a cake slice); planets, rocks and every other object float free with no base or ground. Background: plain pure flat white everywhere, no floor, no shadows, no glow, no light rays, no sparkles in the background, no scenery, no text, no labels, no numbers, no logos, no watermark. Polished, highly detailed cartoon illustration in the style of a premium mobile-game item icon or collectible sticker. Bold clean dark outline around the whole object and its main parts, rich saturated jewel-like colours, smooth soft shading with depth and volume, bright glossy specular highlights, sparkling gems and shiny metal where they belong, crisp tiny details. Lit evenly from the front-top, no cast shadow. Clean, premium, eye-catching, readable on a phone."
  }
 ]
