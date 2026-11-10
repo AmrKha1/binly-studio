@@ -559,9 +559,32 @@ Read `references/<name>/STUDY.md` first (the director's analysis), then `report.
 `strip <ref> --at t` (dense frames = how a move animates), `frames <ref> --at t` (full res), `audio <ref> --from a --to b`
 (loudness + words = the sound rhythm), `transcript <ref>`. New reference: `watch.mjs ingest <file> --as <name>` then `transcribe <name>`.
 
+## Voiceover prep + delivery loudness (owner 2026-11-08)
+`tools/vo-prep.mjs` (run by new-video): parts → equal loudness (ITU-R BS.1770 LUFS, one gain per part) → joined in number
+order with exactly 0.35 s room tone between parts → pauses > 0.23 s inside parts → 0.19 s → `videos/<slug>/voiceover.wav` (48 kHz 24-bit, −20 LUFS) + `.prep.json` report. The cloud
+render masters the final mix to −14 LUFS / −1 dBTP (two-pass loudnorm, linear) and checks the delivered file.
+`tools/vo-check.mjs` (run by new-video right after vo-prep) = the voice gate: 16 independent checks (loudness whole +
+per part, peaks/clipping, DC, pauses, joins, cuts in silence, clicks at edits + anywhere, start/end, over-trim, noise
+floor, mains hum, clipping in the original parts, even delivery) → vo-check.md; FAIL stops, WARN needs `--vo-ok`.
+
+## YouTube master (owner 2026-11-08)
+Chunks render near-lossless (`--color-space=bt709 --jpeg-quality=100 --crf=12`), then assemble encodes ONCE to YouTube's
+upload spec (tools/cloud/youtube.mjs, support.google.com/youtube/answer/1722171): MP4, H.264 High, yuv420p, BT.709
+tagged, CFR 60, closed GOP 0.5 s, 2 B-frames, CRF 12 VBR + aq-mode 3 (no banding in dark gradients), AAC-LC 384k 48 kHz
+stereo, faststart, audio −14 LUFS / −1 dBTP. The QA report lists every spec check. `cloud.mjs render <slug> --yt 1440` =
+optional 2560×1440 upscale (YouTube gives 1440p+ its better codecs; A/B test it once). `tools/youtube-export.mjs` does
+the same for any existing file. This PC also has a FULL ffmpeg on PATH (winget Gyan.FFmpeg 9.0.2) — the export tool uses it.
+
 ## Optional, outside the Studio
 - **Google Flow** via the `flow` MCP server (spare Google account) — AI-generated images/clips. Off-style for the main video;
   possible use: thumbnails/background plates. Stills free, video clips cost credits — always ask the user before spending.
+  Installed 2026-11-08 after a security review: **GTAI-1/flow-mcp** pinned at commit `1d17b7b` in `C:/Users/amrou/flow-mcp`
+  (npm ci --ignore-scripts, all 193 deps from registry.npmjs.org, no install scripts; talks only to flow.google.com,
+  huggingface.co, Google APIs; panel bound to 127.0.0.1). Registered user-scope in ~/.claude.json as `flow` (backup:
+  ~/.claude.json.backup-before-flow-2026-11-08). Its Chrome uses its OWN profile (~/.flow-mcp/chrome-profile) — sign in
+  there by hand with the SPARE Google account (`node dist/login.js` in that folder); while that Chrome is open its
+  debugging port 9333 is reachable by programs on this PC only. Update = review the new commits first, then git pull,
+  npm ci --ignore-scripts, npm run build. Tools: flow_status, flow_generate, flow_wait, flow_download, flow_agent_images …
 
 === EMBEDDED: docs/KIT-INDEX.md — kit index (open only the sections you need) ===
 
@@ -629,9 +652,9 @@ LonLat, BBox, ProjName, RegionName, Region, REGIONS, makeProjection, Proj, MapHi
 modules: kit/silhouette
 Silhouette, SILHOUETTE_NAMES
 
-## docs/kit/night.md — AZTIKA look (Arabic channel, copied from references/universe-claude): NightSky, GridFloor, GlowText (4-layer bold glowing text), WordPop (word-by-word headline), NPill, Podium, RevealRing, YearBadge, HostGlow, HostTrack; night-fx: Rays, Bokeh, CountNumber, Stamp, Mark, Bubble, punchT, WhooshOut, StripeWipe, NeonSign, HeroObject; night-worlds: SunsetWorld, PaperMap, MapShape, Flag, PriceTag, Route, ScienceWorld, HoloRing, NightCity, RoomWorld, StoryPerson, MoneyBag; night-game: PodiumGame, Contender, DrawDiamond, DrawGoldBar, DrawCrown
-modules: kit/night, kit/night-fx, kit/night-worlds, kit/night-game
-N, Tone, nightFont, textWidth, NightScreen, NightSky, Sparkle, GridFloor, GlowText, PopWord, WordPop, PillKind, NPill, Podium, RevealRing, YearBadge, HostGlow, SPOTS, SpotName, BEAT_POSE, BeatReason, HostSpot, HostTrack, Rays, Bokeh, CountNumber, Stamp, Mark, Bubble, punchT, WhooshOut, StripeWipe, NeonSign, HeroObject, Skyline, SunsetWorld, PaperMap, MapShape, Flag, PriceTag, Route, ScienceWorld, HoloRing, NightCity, RoomWorld, StoryHat, StoryPerson, MoneyBag, _N, Contender, PodiumGame, DrawDiamond, DrawGoldBar, DrawCrown, _H
+## docs/kit/night.md — AZTIKA look (Arabic channel, copied from references/universe-claude): NightSky, GridFloor, GlowText (4-layer bold glowing text), WordPop (word-by-word headline), NPill, Podium, RevealRing, YearBadge, HostGlow, HostTrack; night-fx: Rays, Bokeh, CountNumber, Stamp, Mark, Bubble, punchT, WhooshOut, StripeWipe, NeonSign, HeroObject; night-worlds: SunsetWorld, PaperMap, MapShape, Flag, PriceTag, Route, ScienceWorld, HoloRing, NightCity, RoomWorld, StoryPerson, MoneyBag; night-game: PodiumGame, Contender, DrawDiamond, DrawGoldBar, DrawCrown; night-space: SpaceWorld, Earth, Sun, Galaxy, Asteroid, AsteroidField, Planet, ISS, Astronaut, Orbiters; night-props: MysteryBox, MysteryPillar, MysteryTile, ChoiceCards, BlueprintCard, CloudWorld, MoneyPile, FlyingBills, CoinRain, Bill, Coin; night-data: WarWorld, NTimeline, NGauge, NBars, NBarChart, Receipt, MarkPill, CalendarCard, JourneyPath; text tones red/green
+modules: kit/night, kit/night-fx, kit/night-worlds, kit/night-game, kit/night-space, kit/night-props, kit/night-data
+N, Tone, nightFont, textWidth, NightScreen, NightSky, Sparkle, GridFloor, GlowText, PopWord, WordPop, PillKind, NPill, Podium, RevealRing, YearBadge, HostGlow, SPOTS, SpotName, BEAT_POSE, BeatReason, HostSpot, HostTrack, Rays, Bokeh, CountNumber, Stamp, Mark, Bubble, punchT, WhooshOut, StripeWipe, NeonSign, HeroObject, Skyline, SunsetWorld, PaperMap, MapShape, Flag, PriceTag, Route, ScienceWorld, HoloRing, NightCity, RoomWorld, StoryHat, StoryPerson, MoneyBag, _N, Contender, PodiumGame, DrawDiamond, DrawGoldBar, DrawCrown, _H, SpaceWorld, Earth, Sun, Galaxy, Asteroid, AsteroidField, Planet, ISS, Astronaut, Orbiters, MysteryBox, MysteryPillar, MysteryTile, Choice, ChoiceCards, BlueprintCard, CloudWorld, Bill, Coin, MoneyPile, FlyingBills, CoinRain, WarWorld, TimelineEvent, NTimeline, GaugeTick, NGauge, NBar, NBars, NBarChart, Receipt, CalendarCard, Station, JourneyPath, MarkPill, formatNum
 
 ## docs/kit/depth.md — "Looks 3D" drawn flat: Globe, isometric buildings/rooms/props, shaded spheres, DepthStack
 modules: kit/depth

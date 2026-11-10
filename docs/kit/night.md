@@ -118,33 +118,9 @@ free) → `node tools/art.mjs ingest <slug>` (cut-out + library, tagged "night";
 returns as the recap (reference 1:34 → 14:03). Give the data; the game does the layout and all the motion.
 ```tsx
 const E: Contender[] = [
-  {id: 'body', value: 45e6, label: '45 مليون 
-Restraint like the reference (STYLE-BIBLE §6): StripeWipe/WhooshOut whoosh · RevealRing soft sparkle · Stamp stamp ·
-Bubble/PriceTag soft pop · Flag soft swish · NeonSign neon hum · HostTrack moves very soft swish. Silent: WordPop, NPill,
-CountNumber, YearBadge, host pose swaps. Add `{"kind":"boom"}` by hand in sfx/<chapter>.json for the 1–3 biggest reveals.
-No music.
-
-## Still to build
-The short pilot video (cloud render) to hear and judge everything together.
-, at: 22.7, src: `${slug}/el/human-body.png`, ar: 0.6},
-  {id: 'mona', value: 1e9, label: '1 مليار 
-Restraint like the reference (STYLE-BIBLE §6): StripeWipe/WhooshOut whoosh · RevealRing soft sparkle · Stamp stamp ·
-Bubble/PriceTag soft pop · Flag soft swish · NeonSign neon hum · HostTrack moves very soft swish. Silent: WordPop, NPill,
-CountNumber, YearBadge, host pose swaps. Add `{"kind":"boom"}` by hand in sfx/<chapter>.json for the 1–3 biggest reveals.
-No music.
-
-## Still to build
-The short pilot video (cloud render) to hear and judge everything together.
-, at: 94.4, mystery: 93.1, src: `${slug}/el/mona-lisa.png`, ar: 0.8},
-  {id: 'diamond', value: 2e9, label: '2 مليار 
-Restraint like the reference (STYLE-BIBLE §6): StripeWipe/WhooshOut whoosh · RevealRing soft sparkle · Stamp stamp ·
-Bubble/PriceTag soft pop · Flag soft swish · NeonSign neon hum · HostTrack moves very soft swish. Silent: WordPop, NPill,
-CountNumber, YearBadge, host pose swaps. Add `{"kind":"boom"}` by hand in sfx/<chapter>.json for the 1–3 biggest reveals.
-No music.
-
-## Still to build
-The short pilot video (cloud render) to hear and judge everything together.
-, at: 151, mystery: 149.5, src: …, times: '×2', timesAt: 160.5},
+  {id: 'body', value: 45e6, label: '45 مليون $', at: 22.7, src: `${slug}/el/human-body.png`, ar: 0.6},
+  {id: 'mona', value: 1e9, label: '1 مليار $', at: 94.4, mystery: 93.1, src: `${slug}/el/mona-lisa.png`, ar: 0.8},
+  {id: 'diamond', value: 2e9, label: '2 مليار $', at: 151, mystery: 149.5, src: …, times: '×2', timesAt: 160.5},
 ];
 <NightSky …/><GridFloor …/>
 <PodiumGame t={t} id="game" entries={E} recapAt={843} />        {/* inside <NightScreen>; AZTIKA at sideLeft */}
@@ -159,11 +135,68 @@ The short pilot video (cloud render) to hear and judge everything together.
 - Between game beats the story leaves the stage (worlds, mini-stories) and comes back — every return = a new round.
 - AZTIKA's beats on each arrival: point at the newcomer · react to a giant jump · viewer on a joke. Gallery `night7`.
 
+
+## Set 4 — space: kit/night-space (13 % of the reference; 7:51–8:44, 12:59–14:31)
+Gallery `night8` (stills 1.5 ISS over Earth · 3.5 astronaut · 5.5 orbiters · 7.5 asteroid cut-away · 9.5 sun · 11.5 galaxy).
+- **SpaceWorld** `{t, id, stars=140, drift=4, nebula=true}` — near-black navy (measured #01010A → #03071E), faint blue
+  nebula, tiny twinkling stars drifting (parallax). The space chapter's home.
+- **Earth** `{t, x, y, r, id, at?, spin=4°/s, lon, lat, glow, night}` — real continents, deep blue sea, drifting clouds,
+  blue atmosphere + glow, dark night side. "Earth from orbit": `y=1480 r=620` (only the top arc shows, 7:51).
+- **Sun** `{t, x, y, r, id, at?}` — boiling orange surface + corona; big on `<Rays tone="orange">` (13:35), small as a far star.
+- **Galaxy** `{t, x, y, r, id, at?, tilt=0.42, rot=-22, n=520, color}` — tilted two-arm spiral of star dust, bright core.
+- **Asteroid** `{x, y, r, seed, rot, cut 0..1, core, id}` — flat grey rock; `cut` opens a wedge to a glowing core
+  («مليانة معادن» 13:20). **AsteroidField** `{t, n, seed, size, avoid:{x,y,r}, id}` — drifting, tumbling rocks.
+- **Planet** `{x, y, r, color, band, ring?, id, t}` · **ISS** `{x, y, s, t, rot}` (s 1 ≈ 520 px wide) · **Astronaut**
+  `{x, y, s, t, rot, tx?, ty?, accent}` (tether to tx,ty, 8:30) · **Orbiters** `{t, x, y, rx, ry?, n, speed, s, at?}` —
+  little astronauts circling the Earth («لما العالم يتعاون» 8:40; draw after Earth with the same x, y).
+- For a realistic ISS / astronaut / Earth close-up, generated art (HeroObject) can replace the drawn ones (GAP-CHECK P3).
+
+## Set 5 — mystery + money: kit/night-props
+Gallery `night9` (stills 2 money pile + calendar · 4.5 journey path · 7 mystery pillar + red text · 9.5 choice cards ·
+12 blueprint in clouds · 14.5 dark tile + coin rain + bills).
+- **MysteryBox** `{t, at?, x, y, size=240, id, float, out?}` — glossy gold block, dark "؟" (0:09, 13:30): what's next / the
+  unknown winner. **MysteryPillar** `{t, at?, x, base=836, h=300, size, id, out?}` — the box on a glowing gold column
+  rising from the floor (the hook's question, 0:09 / 12:16). **MysteryTile** `{t, at?, x, y, w, h, id}` — dark tile with a
+  gold "؟" (5:45: a smaller unknown, "another house…").
+- **ChoiceCards** `{t, at, cards:[{x, y, w?, h?, color: gold|cyan|violet|red, reveal?, content?}], id, out?}` — two "؟"
+  cards; each flips at `reveal` to its content (2:45 «الندرة» or «الهيبة»?). Soft swish on the flip.
+- **BlueprintCard** `{t, at?, x, y, w, h, rot, id}` + **CloudWorld** `{t, id}` — "the plan itself is unclear" (7:08);
+  CloudWorld alone = nobody knows / fog of history (4:07).
+- **MoneyPile** `{t, x, y, s, grow 0..1, id, flutter}` (0:00, 5:03) · **FlyingBills** `{t, at, x, y, n, spread, dur, w}` (a
+  reward bursting out, 2:24) · **CoinRain** `{t, at, n, x0, x1, r, dur, speed}` (6:56) · **Bill** · **Coin** (spin).
+
+## Set 6 — numbers, time, lists: kit/night-data
+Gallery `night10` (stills 2.2 war timeline · 4.7 gauge · 7.2 bars · 9.7 bar chart · 12.4 receipt).
+- **WarWorld** `{t, id, embers}` — blood-red dark backdrop (measured 8:50), drifting smoke, rising embers. War, disaster.
+- **NTimeline** `{t, events:[{year?, label?, sub?, subKind?, at, x?, mystery?}], y=560, from?, to?, id, size=34}` — glowing
+  cream line drawn on (Arabic: right → left), gold year pill above each pin, white label below, small red sub pill;
+  `mystery` = red "؟" pin «شي أكبر...». History in steps, "and then something bigger".
+- **NGauge** `{t, x, y, w, h, ticks:[{at, level 0..1, label, kind?}], title?, id, side}` — a tube filling green → yellow →
+  red as an estimate climbs (7:27 «مئات المليارات → 8.8 تريليون»); red ↑ bobs while it climbs.
+- **NBars** `{t, bars:[{label, value, at, color: cyan|hot|gold|green|pink|violet, kind?}], x, y, len, max?, thick, gap, id}`
+  — glowing horizontal bars growing from x (Arabic: x = right edge), label pill above the far end (11:07).
+- **NBarChart** `{t, bars, x (left column centre), base, colW, gap, maxH, max?, id}` — glowing columns, tiny label pills
+  under them; reads left → right like the reference (12:46). The hero bar first.
+- **Receipt** `{t, at, x, y, title, rows:[{label, value}], total, w, rot, step, id}` — paper invoice, rows print one by
+  one, torn bottom (14:22 «فاتورة الكون … 0 $»). **MarkPill** `{t, at, text, x, y, mark: cross|check, size, id}` — ✖/✔ +
+  white pill rows beside it («ما اشتريناها ✖»).
+- **CalendarCard** `{t, at, x, y, to, from?, dur, label?, pill?, size, id, decimals}` — tear-off card counting days/years
+  (0:00 «اليوم 11,378 → 28,391», 10:37 «75»); green pill under it.
+- **JourneyPath** `{t, at, dur, x0, y0, x1, y1, amp, waves, stations:[{u, node, dx?, dy?}], id}` — the hook's road map
+  (0:09–0:14): dotted gold wave drawn on, glowing head, each station's object pops as the head passes. Put the
+  MysteryBox at the destination and small HeroObjects (or space pieces) for what's coming.
+- **formatNum(n, decimals)** — "12,345.6" for numbers you compute yourself.
+
+## Text tones (all sets)
+GlowText / WordPop tone: white · gold · grey · cyan · **red** (bad news, twists, war — «انسرقت!» measured #FD4B5B) ·
+**green** (money won, good news). NPill kind: gold · white · grey · cyan · **red** · **green** · **dark**. Rays tone: gold ·
+dark · cyan · violet · **orange** (sun) · **green** (land/nature) · **red** (war).
+
 ## Sound (built in)
 Restraint like the reference (STYLE-BIBLE §6): StripeWipe/WhooshOut whoosh · RevealRing soft sparkle · Stamp stamp ·
-Bubble/PriceTag soft pop · Flag soft swish · NeonSign neon hum · HostTrack moves very soft swish. Silent: WordPop, NPill,
-CountNumber, YearBadge, host pose swaps. Add `{"kind":"boom"}` by hand in sfx/<chapter>.json for the 1–3 biggest reveals.
-No music.
+Bubble/PriceTag soft pop · Flag soft swish · NeonSign neon hum · HostTrack moves very soft swish · ChoiceCards flip soft
+swish. Silent: WordPop, NPill, CountNumber, YearBadge, host pose swaps, space, charts, timeline, receipt, calendar, money.
+Add `{"kind":"boom"}` by hand in sfx/<chapter>.json for the 1–3 biggest reveals. No music.
 
 ## Still to build
-The short pilot video (cloud render) to hear and judge everything together.
+See references/universe-claude/GAP-CHECK.md (P2 story tools, P3 art/poses). The pilot video stays the owner's call.

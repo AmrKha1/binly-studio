@@ -44,12 +44,14 @@ export const N = {
   badge: '#141414',
 } as const;
 
-export type Tone = 'white' | 'gold' | 'grey' | 'cyan';
+export type Tone = 'white' | 'gold' | 'grey' | 'cyan' | 'red' | 'green';
 const TONE: Record<Tone, {top: string; low: string; glow: string}> = {
   white: {top: N.white, low: N.whiteLow, glow: '#E6F2FF'},
   gold: {top: '#FFCB2A', low: '#FFB914', glow: N.gold},
   grey: {top: '#DADBE0', low: N.grey, glow: '#C9CBD6'},
   cyan: {top: '#7FE6FF', low: N.cyanLow, glow: N.cyan},
+  red: {top: '#FF6B78', low: '#FD4B5B', glow: '#FF2E4D'}, // «انسرقت!» 1:14.3 (measured #FD4B5B) — bad news, twists, war
+  green: {top: '#7BF0A8', low: '#2EE88B', glow: '#22C55E'}, // money won, «مكافأة» — good news
 };
 
 /** The display face: heavy rounded Arabic (Baloo Bhaijaan 2 800); English → Poppins 900. */
@@ -84,20 +86,20 @@ export const NightSky: React.FC<{t: number; id?: string; horizonY?: number; star
           <stop offset="0.88" stopColor="#311463" />
           <stop offset="1" stopColor={N.haze} />
         </linearGradient>
-        <radialGradient id={g + 'v'} cx="0.5" cy="0.45" r="0.75">
+        <radialGradient id={g + '__v'} cx="0.5" cy="0.45" r="0.75">
           <stop offset="0.55" stopColor="#000" stopOpacity="0" />
           <stop offset="1" stopColor="#05010F" stopOpacity="0.55" />
         </radialGradient>
       </defs>
       <rect x={0} y={0} width={W} height={horizonY} fill={`url(#${g})`} />
       <defs>
-        <radialGradient id={g + "r"} cx="0.75" cy="0.3" r="0.6">
+        <radialGradient id={g + "__r"} cx="0.75" cy="0.3" r="0.6">
           <stop offset="0" stopColor="#3A1590" stopOpacity="0.55" />
           <stop offset="1" stopColor="#3A1590" stopOpacity="0" />
         </radialGradient>
       </defs>
-      <rect x={0} y={0} width={W} height={horizonY} fill={`url(#${g}r)`} />
-      <rect x={0} y={0} width={W} height={H} fill={`url(#${g}v)`} />
+      <rect x={0} y={0} width={W} height={horizonY} fill={`url(#${g}__r)`} />
+      <rect x={0} y={0} width={W} height={H} fill={`url(#${g}__v)`} />
       {Array.from({length: stars}, (_, i) => {
         const x = rand(i * 7 + 1) * W, y = rand(i * 13 + 5) * (horizonY - 60);
         const tw = 0.55 + 0.45 * Math.sin(t * (1.2 + rand(i) * 2) + i);
@@ -127,24 +129,24 @@ export const GridFloor: React.FC<{y?: number; id?: string; t?: number}> = ({y = 
           <stop offset="0.35" stopColor={N.floor} />
           <stop offset="1" stopColor={N.floorDeep} />
         </linearGradient>
-        <linearGradient id={g + 'f'} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={g + '__f'} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor={N.grid} stopOpacity="0.55" />
           <stop offset="1" stopColor={N.grid} stopOpacity="0.12" />
         </linearGradient>
-        <filter id={g + 'b'} x="-10%" y="-400%" width="120%" height="900%">
+        <filter id={g + '__b'} x="-10%" y="-400%" width="120%" height="900%">
           <feGaussianBlur stdDeviation="9" />
         </filter>
       </defs>
       <rect x={0} y={y} width={W} height={H - y} fill={`url(#${g})`} />
-      <g stroke={`url(#${g}f)`} strokeWidth={1.6}>
+      <g stroke={`url(#${g}__f)`} strokeWidth={1.6}>
         {verticals.map((bx, i) => {
           const k = (y - vy) / (H + 40 - vy);
           return <line key={i} x1={vx + (bx + W / 2 - vx) * k} y1={y} x2={bx + W / 2} y2={H + 40} />;
         })}
         {rows.map((ry, i) => <line key={'r' + i} x1={0} y1={ry} x2={W} y2={ry} opacity={0.3 + 0.7 * ((ry - y) / (H - y))} />)}
       </g>
-      <rect x={0} y={y - 70} width={W} height={90} fill={N.horizon} opacity={0.28} filter={`url(#${g}b)`} />
-      <rect x={0} y={y - 22} width={W} height={44} fill="#A06BFF" opacity={0.45} filter={`url(#${g}b)`} />
+      <rect x={0} y={y - 70} width={W} height={90} fill={N.horizon} opacity={0.28} filter={`url(#${g}__b)`} />
+      <rect x={0} y={y - 22} width={W} height={44} fill="#A06BFF" opacity={0.45} filter={`url(#${g}__b)`} />
       <rect x={0} y={y - 2} width={W} height={4} fill="#B98BFF" />
     </g>
   );
@@ -167,11 +169,11 @@ export const GlowText: React.FC<{text: string; x: number; y: number; size: numbe
           <stop offset="0.15" stopColor={c.top} />
           <stop offset="1" stopColor={c.low} />
         </linearGradient>
-        <filter id={g + 'b'} x="-30%" y="-60%" width="160%" height="220%">
+        <filter id={g + '__b'} x="-30%" y="-60%" width="160%" height="220%">
           <feGaussianBlur stdDeviation={size * 0.11} />
         </filter>
       </defs>
-      {glow > 0 && <text {...common} fill={c.glow} stroke={c.glow} strokeWidth={size * 0.16} strokeLinejoin="round" opacity={0.55 * glow} filter={`url(#${g}b)`}>{text}</text>}
+      {glow > 0 && <text {...common} fill={c.glow} stroke={c.glow} strokeWidth={size * 0.16} strokeLinejoin="round" opacity={0.55 * glow} filter={`url(#${g}__b)`}>{text}</text>}
       {outline > 0 && <text {...common} fill={N.outline} stroke={N.outline} strokeWidth={size * 0.14 * outline} strokeLinejoin="round" opacity={0.72}>{text}</text>}
       <text {...common} fill={`url(#${g})`} stroke="none">{text}</text>
     </g>
@@ -211,12 +213,15 @@ export const WordPop: React.FC<{t: number; words: PopWord[]; y: number; size: nu
   );
 };
 
-export type PillKind = 'gold' | 'white' | 'grey' | 'cyan';
+export type PillKind = 'gold' | 'white' | 'grey' | 'cyan' | 'red' | 'green' | 'dark';
 const PILL: Record<PillKind, {top: string; low: string; ink: string; glow: string}> = {
   gold: {top: N.goldPillTop, low: N.goldPill, ink: N.goldInk, glow: N.gold},
   white: {top: '#FFFFFF', low: '#ECECF2', ink: '#1A1A2E', glow: '#FFFFFF'},
   grey: {top: '#E4E4EC', low: N.greyPill, ink: N.greyInk, glow: '#B8B8C8'},
   cyan: {top: '#7FE6FF', low: N.cyanLow, ink: N.cyanInk, glow: N.cyan},
+  red: {top: '#FF6B78', low: '#E83A4E', ink: '#FFFFFF', glow: '#FF2E4D'}, // «شي أكبر...» 9:02 · «أقل من إنك تقدر تشوفها» 12:16
+  green: {top: '#4BEA92', low: '#22C55E', ink: '#04210F', glow: '#22C55E'}, // «لما العالم يتعاون» 8:40 · ✔ answers
+  dark: {top: '#2A2440', low: '#1A1530', ink: '#FFFFFF', glow: '#000000'}, // quiet tag on bright scenes
 };
 /** NPill — rounded capsule label with soft glow (gold = now/hero, white = before, grey = small/old, cyan = topic). x,y = centre. */
 export const NPill: React.FC<{text: string; x: number; y: number; size?: number; kind?: PillKind; id: string; p?: number}> = ({text, x, y, size = 44, kind = 'gold', id, p = 1}) => {
@@ -232,11 +237,11 @@ export const NPill: React.FC<{text: string; x: number; y: number; size?: number;
           <stop offset="0" stopColor={k.top} />
           <stop offset="1" stopColor={k.low} />
         </linearGradient>
-        <filter id={g + 'b'} x="-30%" y="-80%" width="160%" height="260%">
+        <filter id={g + '__b'} x="-30%" y="-80%" width="160%" height="260%">
           <feGaussianBlur stdDeviation={size * 0.32} />
         </filter>
       </defs>
-      <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={h / 2} fill={k.glow} opacity={0.55} filter={`url(#${g}b)`} />
+      <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={h / 2} fill={k.glow} opacity={0.55} filter={`url(#${g}__b)`} />
       <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={h / 2} fill={`url(#${g})`} />
       <text x={0} y={size * 0.04} fontSize={size} fontFamily={nightFont()} fontWeight={WEIGHT()} textAnchor="middle" dominantBaseline="central" fill={k.ink} stroke={k.ink} strokeWidth={size * 0.035} strokeLinejoin="round" paintOrder="stroke">
         {text}
@@ -260,11 +265,11 @@ export const Podium: React.FC<{x: number; base: number; w: number; h: number; id
           <stop offset="0.1" stopColor={pal[0]} />
           <stop offset="1" stopColor={pal[2]} />
         </linearGradient>
-        <filter id={g + 'b'} x="-40%" y="-40%" width="180%" height="180%">
+        <filter id={g + '__b'} x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation={22} />
         </filter>
       </defs>
-      <rect x={x - w / 2 - 6} y={base - hh - 6} width={w + 12} height={hh + 6} rx={r} fill={pal[4]} opacity={0.35} filter={`url(#${g}b)`} />
+      <rect x={x - w / 2 - 6} y={base - hh - 6} width={w + 12} height={hh + 6} rx={r} fill={pal[4]} opacity={0.35} filter={`url(#${g}__b)`} />
       <path d={`M${x - w / 2} ${base} V${base - hh + r} Q${x - w / 2} ${base - hh} ${x - w / 2 + r} ${base - hh} H${x + w / 2 - r} Q${x + w / 2} ${base - hh} ${x + w / 2} ${base - hh + r} V${base} Z`} fill={`url(#${g})`} />
       <rect x={x - w / 2} y={base - hh + r} width={w * 0.2} height={hh - r} fill={pal[1]} opacity={0.75} />
       <rect x={x + w / 2 - w * 0.2} y={base - hh + r} width={w * 0.2} height={hh - r} fill={pal[2]} opacity={0.85} />
@@ -303,9 +308,9 @@ export const YearBadge: React.FC<{t: number; at: number; year: number; from?: nu
   return (
     <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
       <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={size * 0.22} fill={N.badge} stroke={N.gold} strokeWidth={size * 0.045} />
-      <GlowText text={String(shown)} x={0} y={size * 0.04} size={size} tone="gold" id={id + 'n'} outline={0.5} />
-      {label && <NPill text={label} x={0} y={-h / 2} size={size * 0.3} kind="gold" id={id + 'l'} />}
-      {place && <NPill text={place} x={0} y={h / 2} size={size * 0.3} kind="white" id={id + 'p'} />}
+      <GlowText text={String(shown)} x={0} y={size * 0.04} size={size} tone="gold" id={id + '__n'} outline={0.5} />
+      {label && <NPill text={label} x={0} y={-h / 2} size={size * 0.3} kind="gold" id={id + '__l'} />}
+      {place && <NPill text={place} x={0} y={h / 2} size={size * 0.3} kind="white" id={id + '__p'} />}
     </g>
   );
 };

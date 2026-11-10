@@ -103,7 +103,7 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
       const mx = ms ? ms.x : x0;
       const y = base - (ms ? ms.h : maxH) * 0.55 - oh / 2 + Math.sin(t * 2) * 8;
       nodes.push(
-        <g key={c.id + 'm'} transform={`translate(${mx} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
+        <g key={c.id + '__m'} transform={`translate(${mx} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
           <ObjectArt c={c} h={oh} silhouette />
         </g>
       );
@@ -134,11 +134,11 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
         <NPill text={c.label} x={s.x} y={top - oh - 52 + bob} size={champ ? 46 : rel < 0.06 ? 28 : 36} kind={pillKind(s.rank, rel)} id={`${id}-${c.id}-p`} p={pillP} />
       </g>
     );
-    over.push(<RevealRing key={c.id + 'r'} t={t} at={c.at + 0.2} x={s.x} y={top - oh / 2} r={Math.max(180, oh * 1.3)} />);
+    over.push(<RevealRing key={c.id + '__r'} t={t} at={c.at + 0.2} x={s.x} y={top - oh / 2} r={Math.max(180, oh * 1.3)} />);
     if (champ && t - c.at > 0.6) {
       // the champion breathes a little light
       const k = 0.5 + 0.5 * Math.sin(t * 2.2);
-      over.push(<Sparkle key={c.id + 's'} x={s.x + s.w * 0.42} y={top - oh * 0.85} r={8 + 8 * k} o={0.4 + 0.5 * k} />);
+      over.push(<Sparkle key={c.id + '__s'} x={s.x + s.w * 0.42} y={top - oh * 0.85} r={8 + 8 * k} o={0.4 + 0.5 * k} />);
     }
     // ×N bracket between this contender and the one it beat
     if (c.times) {
@@ -152,7 +152,7 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
         const xa = s.x + s.w / 2 + 6, xb = ps.x - ps.w / 2 - 6, xm = (xa + xb) / 2;
         const q = popIn(pp, 0.5, 0.3);
         over.push(
-          <g key={c.id + 'x'} opacity={pp}>
+          <g key={c.id + '__x'} opacity={pp}>
             <path d={`M${xa} ${y1} H${xm} V${y2} H${xb}`} fill="none" stroke="#FFFFFF" strokeWidth={5} strokeDasharray="12 9" />
             <g transform={`translate(${xm + 40} ${(y1 + y2) / 2 + 30}) scale(${q.s})`}>
               <GlowText text={c.times} x={0} y={0} size={120} tone="gold" id={`${id}-${c.id}-x`} />

@@ -16,10 +16,11 @@ import {cueSfx} from './sfx';
 const WEIGHT = () => (isAr() ? 800 : 900);
 
 /** Rays — slowly rotating sunburst wedges + dark vignette. tone gold («أنت!» 0:16.4) | dark (ending 14:44) | cyan | violet. */
-export const Rays: React.FC<{t: number; id: string; x?: number; y?: number; tone?: 'gold' | 'dark' | 'cyan' | 'violet'; n?: number; spin?: number}> = ({
+export const Rays: React.FC<{t: number; id: string; x?: number; y?: number; tone?: 'gold' | 'dark' | 'cyan' | 'violet' | 'orange' | 'green' | 'red'; n?: number; spin?: number}> = ({
   t, id, x = W / 2, y = H / 2, tone = 'gold', n = 22, spin = 4,
 }) => {
-  const P = {gold: ['#9A6306', '#5E3A04', '#2B1A01'], dark: ['#3A2E0A', '#161104', '#050402'], cyan: ['#0E4C66', '#082E40', '#02131F'], violet: ['#3A1590', '#22105A', '#0F062B']}[tone];
+  // orange = behind the sun (13:40) · green = land/nature (2:49) · red = war/danger
+  const P = {gold: ['#9A6306', '#5E3A04', '#2B1A01'], dark: ['#3A2E0A', '#161104', '#050402'], cyan: ['#0E4C66', '#082E40', '#02131F'], violet: ['#3A1590', '#22105A', '#0F062B'], orange: ['#C2560E', '#7A3006', '#2A0F02'], green: ['#1F6B3A', '#0F3D22', '#04140B'], red: ['#7A1418', '#45090C', '#160304']}[tone];
   const g = uid('nray', id);
   const R = 2600, a0 = (t * spin * Math.PI) / 180;
   return (
@@ -30,7 +31,7 @@ export const Rays: React.FC<{t: number; id: string; x?: number; y?: number; tone
           <stop offset="0.55" stopColor={P[1]} />
           <stop offset="1" stopColor={P[2]} />
         </radialGradient>
-        <radialGradient id={g + 'v'} cx={x / W} cy={y / H} r="0.8">
+        <radialGradient id={g + '__v'} cx={x / W} cy={y / H} r="0.8">
           <stop offset="0.35" stopColor="#000" stopOpacity="0" />
           <stop offset="1" stopColor="#000" stopOpacity="0.7" />
         </radialGradient>
@@ -40,7 +41,7 @@ export const Rays: React.FC<{t: number; id: string; x?: number; y?: number; tone
         const a = a0 + (i * 2 * Math.PI) / n, b = a + Math.PI / n;
         return <path key={i} d={`M${x} ${y} L${x + Math.cos(a) * R} ${y + Math.sin(a) * R} L${x + Math.cos(b) * R} ${y + Math.sin(b) * R}Z`} fill="#000" opacity={0.3} />;
       })}
-      <rect x={0} y={0} width={W} height={H} fill={`url(#${g}v)`} />
+      <rect x={0} y={0} width={W} height={H} fill={`url(#${g}__v)`} />
     </g>
   );
 };

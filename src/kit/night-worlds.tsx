@@ -53,15 +53,15 @@ export const SunsetWorld: React.FC<{t: number; id: string; skyline?: Skyline; su
           <stop offset="0.75" stopColor="#D97A45" />
           <stop offset="1" stopColor="#B9643F" />
         </radialGradient>
-        <radialGradient id={g + 'v'} cx="0.55" cy="0.55" r="0.8">
+        <radialGradient id={g + '__v'} cx="0.55" cy="0.55" r="0.8">
           <stop offset="0.5" stopColor="#3A1E10" stopOpacity="0" />
           <stop offset="1" stopColor="#3A1E10" stopOpacity="0.55" />
         </radialGradient>
-        <linearGradient id={g + 'f'} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={g + '__f'} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#56263F" />
           <stop offset="1" stopColor="#310D21" />
         </linearGradient>
-        <filter id={g + 'b'} x="-50%" y="-50%" width="200%" height="200%">
+        <filter id={g + '__b'} x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation={34} />
         </filter>
       </defs>
@@ -70,7 +70,7 @@ export const SunsetWorld: React.FC<{t: number; id: string; skyline?: Skyline; su
         const a = a0 + (i * Math.PI) / 9, b = a + Math.PI / 20, R = 2600;
         return <path key={i} d={`M${sunX} ${sunY} L${sunX + Math.cos(a) * R} ${sunY + Math.sin(a) * R} L${sunX + Math.cos(b) * R} ${sunY + Math.sin(b) * R}Z`} fill="#FFF0B8" opacity={0.32} />;
       })}
-      <circle cx={sunX} cy={sunY} r={170} fill="#FFF3C0" opacity={0.55} filter={`url(#${g}b)`} />
+      <circle cx={sunX} cy={sunY} r={170} fill="#FFF3C0" opacity={0.55} filter={`url(#${g}__b)`} />
       <circle cx={sunX} cy={sunY} r={90} fill="#FFF5CC" />
       {[[700, 95, 1], [1330, 105, 0.85], [1050, 225, 0.95], [40, 45, 0.6]].map(([cx, cy, sc], i) => {
         const x = ((cx + t * 10 * (1 + i * 0.3)) % (W + 400)) - 200;
@@ -80,10 +80,10 @@ export const SunsetWorld: React.FC<{t: number; id: string; skyline?: Skyline; su
           </g>
         );
       })}
-      <rect x={0} y={0} width={W} height={H} fill={`url(#${g}v)`} />
+      <rect x={0} y={0} width={W} height={H} fill={`url(#${g}__v)`} />
       <path d={skylinePath(skyline, 715, 11, 125)} fill="#A85A63" opacity={0.6} />
       <path d={skylinePath(skyline, 778, 29, 95)} fill="#56263F" />
-      <rect x={0} y={776} width={W} height={H - 776} fill={`url(#${g}f)`} />
+      <rect x={0} y={776} width={W} height={H - 776} fill={`url(#${g}__f)`} />
     </g>
   );
 };
@@ -264,11 +264,11 @@ export const RoomWorld: React.FC<{t: number; id: string; winX?: number; winY?: n
           <stop offset="0.6" stopColor="#66381F" />
           <stop offset="1" stopColor="#3E2411" />
         </radialGradient>
-        <linearGradient id={g + 's'} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={g + '__s'} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#FFC37A" />
           <stop offset="1" stopColor="#E07A4A" />
         </linearGradient>
-        <clipPath id={g + 'c'}>
+        <clipPath id={g + '__c'}>
           <rect x={winX} y={winY} width={ww} height={wh} rx={22} />
         </clipPath>
       </defs>
@@ -277,8 +277,8 @@ export const RoomWorld: React.FC<{t: number; id: string; winX?: number; winY?: n
       {Array.from({length: 9}, (_, i) => <line key={i} x1={i * 240 + 60} y1={870} x2={i * 240 - 40} y2={H} stroke="#3E2411" strokeWidth={3} opacity={0.5} />)}
       <line x1={0} y1={870} x2={W} y2={870} stroke="#3E2411" strokeWidth={6} />
       <path d={`M${winX} ${winY + 20} L${winX + ww - 10} ${winY + wh} L${winX + 30} 900 L${winX - 650} 900 Z`} fill="#FFD9A0" opacity={0.12} />
-      <g clipPath={`url(#${g}c)`}>
-        <rect x={winX} y={winY} width={ww} height={wh} fill={`url(#${g}s)`} />
+      <g clipPath={`url(#${g}__c)`}>
+        <rect x={winX} y={winY} width={ww} height={wh} fill={`url(#${g}__s)`} />
         <circle cx={winX + ww * 0.62} cy={winY + wh * 0.55} r={60} fill="#FFF0C8" opacity={0.8} />
         <path d={`M${winX} ${winY + wh} V${winY + wh * 0.78} h70 v-40 h60 v50 h50 v-160 l22 -40 l22 40 v150 h60 v-60 h60 v70 h80 V${winY + wh} Z`} fill="#7A3048" />
       </g>
