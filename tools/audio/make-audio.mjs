@@ -20,6 +20,7 @@ import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import os from 'node:os';
 import {earBands, earPower, toEarRate, voiceLevel, peakLevel} from '../lib/ear-level.mjs';
+import {REF_TARGET, PHONE_CHANGE} from '../lib/sound-ref.mjs';
 
 const [, , voPath, scorePath, sfxPath, outDir] = process.argv;
 if (!voPath || !scorePath || !outDir) {
@@ -395,7 +396,7 @@ const tone = (f0, f1, decay, gain, sweep = 18) => {
     return Math.sin(2 * Math.PI * ph) * Math.min(1, tt / 0.003) * Math.exp(-tt * decay) * gain;
   };
 };
-const band = (dur, from, to, gain, q = 0.8) => {
+const band = (dur, from, to, gain, q = 0.8, peakAt = 0.5) => {
   let f = biquad('bp', from, q), last = from;
   return (tt) => {
     const k = Math.min(1, tt / dur);
@@ -404,7 +405,9 @@ const band = (dur, from, to, gain, q = 0.8) => {
       f = biquad('bp', hz, q);
       last = hz;
     }
-    return f(srnd() * 2 - 1) * Math.sin(Math.PI * k) ** 2 * gain;
+    // loudness shape: a symmetric swell (peakAt 0.5), or a BUILD that peaks late (the reference's risers peak at ≈ 0.73)
+    const env = peakAt === 0.5 ? Math.sin(Math.PI * k) ** 2 : k < peakAt ? Math.sin((Math.PI / 2) * (k / peakAt)) ** 2 : Math.cos((Math.PI / 2) * ((k - peakAt) / (1 - peakAt))) ** 2;
+    return f(srnd() * 2 - 1) * env * gain;
   };
 };
 const bell = (f, decay, gain) => (tt) => (Math.sin(2 * Math.PI * f * tt) + 0.5 * Math.sin(2 * Math.PI * f * 2.76 * tt) * Math.exp(-tt * 3) + 0.25 * Math.sin(2 * Math.PI * f * 5.4 * tt) * Math.exp(-tt * 6)) * Math.exp(-tt * decay) * Math.min(1, tt / 0.002) * gain;
@@ -429,7 +432,8 @@ const SFX = {
   ding: (t, p) => add(t, 1.6, bell(1760, 3.2, 0.05), p),
   bell: (t, p) => add(t, 3.5, bell(660, 1.4, 0.06), p),
   bell_toll: (t, p) => { add(t, 6, bell(220, 0.7, 0.1), p); add(t, 6, bell(330, 0.9, 0.03), p); },
-  riser: (t, p) => add(t - 1.6, 1.7, band(1.6, 300, 2600, 0.05, 1.2), p),
+  // reference model: the riser BUILDS into the reveal (peak at 75 %, then aligned onto the cue) — classic: the old swell
+  riser: (t, p) => (MODEL === 'reference' ? add(t - 1.2, 1.7, band(1.6, 300, 2600, 0.05, 1.2, 0.75), p) : add(t - 1.6, 1.7, band(1.6, 300, 2600, 0.05, 1.2), p)),
   clack: (t, p) => { add(t, 0.12, tone(950, 700, 50, 0.06), p); add(t + 0.02, 0.06, noise(4000, ex(90), 0.05), p); },
   scribble: (t, p, d = 1.2) => add(t, d, noise(5200, (x) => (0.5 + 0.5 * Math.sin(x * 38)) * Math.sin(Math.PI * Math.min(1, x / d)), 0.035, 1800), p),
   typing: (t, p, d = 1.5) => { for (let k = 0; k * 0.09 < d; k++) add(t + k * 0.09 + srnd() * 0.03, 0.04, noise(4500, ex(150), 0.07, 1200), p); },
@@ -477,13 +481,9 @@ const KIND_DB = {stamp: 0, impact: 0, bell_toll: -1, thump: 0, heartbeat: -1, he
 // 10 ms frames). No ducking (the reference doesn't duck); the voice-band dip below still keeps words clear.
 // cue gain > 1 = a bigger moment: +20·log10(gain) dB (e.g. gain 2 → 6 dB louder), never above REF_MAX dB under.
 const MODEL = score.sfxModel ?? process.env.SFX_MODEL ?? 'classic';
-const REF_TARGET = {boom: 18, slam: 15, stamp: 18, impact: 22, thump: 25, sparkle: 21, shimmer: 21, pop: 28, popup: 28, popdown: 29,
-  riser: 19, rise: 19, whoosh: 19, swoosh: 19, sweep_down: 20, swish: 28, paper: 28, page: 28, tick: 28, click: 28, clack: 28,
-  ding: 25, chime: 25, bell: 25, confirm: 25, neon: 26, count: 30, coins: 24, cash: 24, card: 28, blip: 28, bubble: 28,
-  low_drone: 20, crowd: 24, wind: 26, fire: 26, water: 26, door: 24, footsteps: 28, glass: 25, splash: 24, rumble: 20};
 // measured correction per kind (calibration 2026-11-10: our mix read back with tools/ref-sfx.mjs --cues; the voice-band
 // dip below takes 2–3 dB off mid/bright kinds while the voice speaks, so they are set that much higher)
-const REF_FIX = {riser: 2.3, rise: 2.3, sparkle: 2.7, shimmer: 2.7, ding: 2.5, chime: 2.5, bell: 2.5, confirm: 2.5, pop: 0.7, popup: 0.7};
+const REF_FIX = {riser: 2.3, rise: 2.3, sparkle: 2.7, shimmer: 2.7, ding: 2.5, chime: 2.5, bell: 2.5, confirm: 2.5, pop: 2.2, popup: 2.2, tick: 1.4, click: 1.4}; // pop/tick re-calibrated in isolation 2026-11-10 (dense mixes flattered them)
 const REF_DEFAULT = 24, REF_MAX = 6;
 const REF_CAL = +(score.sfxCal ?? process.env.SFX_CAL ?? 0); // calibration (dB) so tools/ref-sfx.mjs reads our mix like the reference
 // the ONE ruler (tools/lib/ear-level.mjs) — the same one tools/ref-sfx.mjs measured the reference with
@@ -492,6 +492,57 @@ const earPeakDb = (a, b) => {
   const m2 = new Float32Array(a.length);
   for (let i = 0; i < a.length; i++) m2[i] = (a[i] + b[i]) / 2;
   return peakLevel(earPower(earBands(toEarRate(m2, SR))));
+};
+// PHONE TRANSLATION (reference model; SOUND.md §6, measured 2026-11-10): most viewers hear the video on a phone speaker,
+// which plays almost nothing under ~350 Hz. The reference's booms keep a mid "body" (on a phone they lose only ≈ 4 dB vs
+// the voice); ours were pure sub and vanished (−23 dB). Per kind, the reference's measured change on a phone (dB vs the
+// voice, + = quieter); when a cue loses more than that (+1 dB), a harmonic layer — its deep part soft-saturated and
+// band-limited to 400 Hz–4 kHz, the "phone bass" trick — is added until it translates like the reference. Thumps are
+// left alone: the reference's thumps are felt, not heard, on phones too.
+// the phone speaker model (same as the QA measurement): 4th-order high-pass 350 Hz, +3 dB presence at 2.5 kHz, low-pass 12 kHz
+const peakEq = (f0, gainDb, q) => {
+  const A = Math.pow(10, gainDb / 40), w = (2 * Math.PI * f0) / SR, al = Math.sin(w) / (2 * q), cw = Math.cos(w);
+  const b0 = 1 + al * A, b1 = -2 * cw, b2 = 1 - al * A, a0 = 1 + al / A, a1 = -2 * cw, a2 = 1 - al / A;
+  let x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+  return (x) => { const y = (b0 * x + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2) / a0; x2 = x1; x1 = x; y2 = y1; y1 = y; return y; };
+};
+const phoneOf = (x) => {
+  const h1 = biquad('hp', 350, 0.707), h2 = biquad('hp', 350, 0.707), pe = peakEq(2500, 3, 1), l1 = biquad('lp', 12000, 0.707), y = new Float32Array(x.length);
+  for (let i = 0; i < x.length; i++) y[i] = l1(pe(h2(h1(x[i]))));
+  return y;
+};
+const NOISY = new Set(['whoosh', 'swoosh', 'swish']); // air sounds: their own upper body (presence), not saturated lows
+const earDbMono = (m) => peakLevel(earPower(earBands(toEarRate(m, SR))));
+const VOICE_PHONE_DROP = MODEL !== 'reference' ? 0 : VOICE_EAR_DB - voiceLevel(earPower(earBands(toEarRate(phoneOf(vo), SR))));
+const phoneLayered = {};
+const phoneFix = (kind) => {
+  const target = PHONE_CHANGE[kind];
+  if (MODEL !== 'reference' || target === undefined) return;
+  const n = tgtL.length, mono = new Float32Array(n);
+  for (let i = 0; i < n; i++) mono[i] = (tgtL[i] + tgtR[i]) / 2;
+  // analyse only ±0.7 s around the sound's loudest moment (the buffer is ~9.5 s, mostly silence) — fast enough for the cloud
+  let pi = 0, pv = 0;
+  for (let i = 0; i < n; i += 16) if (Math.abs(mono[i]) > pv) (pv = Math.abs(mono[i])), (pi = i);
+  const w0 = Math.max(0, pi - Math.round(0.7 * SR)), w1 = Math.min(n, pi + Math.round(0.7 * SR));
+  const change = (m) => { const sl = m.subarray(w0, w1); return earDbMono(sl) - earDbMono(phoneOf(sl)) - VOICE_PHONE_DROP; };
+  if (change(mono) <= target + 1) return;
+  const a1 = biquad('lp', 300, 0.707), a2 = biquad('lp', 300, 0.707), low = new Float32Array(n);
+  let lp = 0, pk = 0;
+  for (let i = 0; i < n; i++) (low[i] = a2(a1(mono[i]))), (lp = Math.max(lp, Math.abs(low[i]))), (pk = Math.max(pk, Math.abs(mono[i])));
+  if (lp < 1e-6) return;
+  const b1 = biquad('hp', NOISY.has(kind) ? 600 : 400, 0.707), b2 = biquad('hp', NOISY.has(kind) ? 600 : 400, 0.707), b3 = biquad('lp', NOISY.has(kind) ? 6000 : 4000, 0.707), layer = new Float32Array(n);
+  let hp = 0;
+  for (let i = 0; i < n; i++) (layer[i] = b3(b2(b1(NOISY.has(kind) ? mono[i] : Math.tanh((3 * low[i]) / lp))))), (hp = Math.max(hp, Math.abs(layer[i])));
+  if (hp < 1e-6) return;
+  const k = pk / hp, test = new Float32Array(n);
+  let amt = 0;
+  for (const a of [0.08, 0.15, 0.25, 0.4, 0.6, 0.85, 1.2, 1.7]) {
+    for (let i = 0; i < n; i++) test[i] = mono[i] + a * k * layer[i];
+    amt = a;
+    if (change(test) <= target + 1) break;
+  }
+  for (let i = 0; i < n; i++) (tgtL[i] += amt * k * layer[i]), (tgtR[i] += amt * k * layer[i]);
+  (phoneLayered[kind] ??= []).push(amt);
 };
 const SFX_OFFSET_DB = -5.9 + (score.sfxLevel ?? 0); // owner-tuned 2026-10-20: median sfx ≈ 11 dB under the voice // global trim (score.json "sfxLevel", dB) if a video wants it
 const VO_PEAK_LIN = (() => { let m = 0; for (let i = 0; i < vo.length; i++) m = Math.max(m, Math.abs(vo[i])); return m || 1; })();
@@ -596,6 +647,7 @@ const placeFile = (file, t, kind, pan, dur) => {
   }
 };
 const capped = {};
+const ALIGN_SKIP = new Set(['rise', 'powerup', 'sweep_down', 'swell', 'count', ...AMBIENT]);
 for (const s of sfxList) {
   const p = s.pan ?? 0;
   const d = s.dur ?? 0;
@@ -612,6 +664,19 @@ for (const s of sfxList) {
     if (!fn) { unknown++; console.log(`WARNING: unknown sfx kind "${s.kind}" at ${s.t}s`); continue; }
     fn(s.t, p, s.dur);
   }
+  // SYNC (reference model, SOUND.md §5): the sound's PEAK lands on the cue (= the frame the thing lands), not its start.
+  // Risers keep "end on the cue"; sustained runs and beds are not moved.
+  if (MODEL === 'reference' && !d && !ALIGN_SKIP.has(s.kind)) {
+    const w10 = SR / 100;
+    let best = -1, kp = 0;
+    for (let k = 0; k + w10 <= tgtL.length; k += w10 / 2) {
+      let e = 0;
+      for (let j = k; j < k + w10; j++) e += tgtL[j] * tgtL[j] + tgtR[j] * tgtR[j];
+      if (e > best) (best = e), (kp = k + w10 / 2);
+    }
+    if (best > 0) tgtOff = Math.round(s.t * SR) - kp;
+  }
+  phoneFix(s.kind);
   const l = loudOf(tgtL, tgtR);
   if (l < 1e-7) continue;
   let g = (REF / l) * Math.pow(10, (KIND_DB[s.kind] ?? -2) / 20) * (s.gain ?? 1);
@@ -626,12 +691,14 @@ for (const s of sfxList) {
   if (pk * g > VO_PEAK_LIN * 0.89) { capped[s.kind] = (capped[s.kind] ?? 0) + 1; g = (VO_PEAK_LIN * 0.89) / pk; } // this cue's peak stays ≥ 1 dB under the voice's peak
   for (let k = 0; k < tgtL.length; k++) {
     const i = tgtOff + k;
+    if (i < 0) continue;
     if (i >= N) break;
     const duck = MODEL === 'reference' ? 1 : 1 - 0.15 * env[i]; // classic: ~ -1.4 dB while the narrator speaks · reference: no duck (measured)
     sL[i] += tgtL[k] * g * duck;
     sR[i] += tgtR[k] * g * duck;
   }
 }
+if (Object.keys(phoneLayered).length) console.log('phone layer (harmonics so phones hear it like the reference): ' + Object.entries(phoneLayered).map(([k, v]) => `${k} ${v.length}× (amount ≈ ${v.sort((a, b) => a - b)[Math.floor(v.length / 2)]})`).join(' · '));
 if (Object.keys(capped).length) console.log('peak cap held back: ' + Object.entries(capped).map(([k, n]) => k + ' ' + n).join(' · '));
 tgtL = sL; tgtR = sR; tgtOff = 0;
 // voice-band dip: while the narrator speaks, carve ~6 dB out of the SFX around 1–4 kHz (where words live) so sounds are

@@ -76,3 +76,30 @@ shimmer and ding already have the reference's bloom and ~1 s ring (attack 160 ms
 The real recordings for boom, thump, pop, tick, whoosh and swish (Kenney, qubodup) stay as they are.
 **Any new real sound:** finish it, type it (ref-sfx on the file alone), calibrate (make-audio + `ref-sfx --cues`), then
 listen next to the old one before it replaces anything.
+
+## 5. SYNC — the sound's PEAK on the frame where the thing LANDS (measured 2026-11-10)
+Each of the reference's effects was matched to the motion around it (frame differences at 60 fps, clean isolated
+movements only): whooshes peak ON the fastest moment of the motion (0 ms) · risers END on the reveal (+17 ms) · booms
+peak ≈ 130 ms and shimmers ≈ 150 ms after the movement starts = the frame a pop-in reaches full size (the podium's
+spring lands at exactly +0.13 s). Before this, our sounds were placed by their START at the element's first frame:
+booms peaked 280 ms late, sparkles 165 ms late, whooshes 120 ms early, the riser faded out before its reveal.
+**Now:** every night-kit cue passes `{at, hit}` (exact start + its own landing delay, from its entrance curve: popIn over
+d s lands at ≈ 0.19·d, the 0.16 s stamp slam at 0.16, a card flip edge-on at its middle, a wipe at its fastest middle);
+the scanner uses the exact time (not the 30 fps frame); the Arabic mixer puts each sound's PEAK on that time (risers
+build to their peak at 75 % and peak on the reveal). Custom pieces: pass `at` + `hit` the same way (docs/kit/night.md).
+Also fixed: the scanner could not measure text in plain Node, so every frame with a Stamp/pill/label lost ALL its sounds
+(tools/sfx/layout-stub.ts).
+
+## 6. PHONES + the sound check (measured 2026-11-10)
+Most viewers hear the video on a phone speaker (almost nothing under ~350 Hz). Through a phone model, the reference
+keeps 276 of its 333 effects audible: bright/mid sounds get ≈ 4–5 dB LOUDER vs the voice, booms lose only ≈ 4 dB (they
+have a mid body), thumps vanish (felt, not heard). Ours: booms −23 dB, impacts −22 dB = gone on phones. The Arabic mixer
+now adds a phone layer per cue until it translates like the reference (deep hits: their low part soft-saturated into
+400 Hz–4 kHz harmonics; air sounds: their own presence 600 Hz–6 kHz) — full-range levels unchanged. Result on a phone
+vs the reference: boom +5.7 (+4.3) · impact +3.9 (+2.7) · whoosh −1.6 (−4.3) · swish −1.2 (−5.9) dB — all audible.
+Calibration is done with each kind ALONE (12× each, 6 s apart): a dense mix flatters quiet kinds (pop/tick read 1.5 dB
+too loud there) — all kinds now within 0.3 dB of the reference in isolation.
+**Every Arabic render checks itself:** `tools/audio/sound-qa.mjs` (render stems job) measures our SFX stem against the
+voice with the reference's ruler, full range AND phone, plus density B → a "Sound effects vs the reference" table and
+warnings in the QA report (a kind > 2 dB off, lost on a phone, a phone drop > 3 dB worse than the reference, > 5 quiet
+stretches, sound after the last word). Targets live in ONE place: tools/lib/sound-ref.mjs.

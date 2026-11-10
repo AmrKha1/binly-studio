@@ -82,6 +82,8 @@ Standalone: `node tools/art-check.mjs <folder|png…> [--sheet out.jpg]` (exit 2
 ## Sound effects measured like the reference (2026-11-10)
 `node tools/audio/sfx-finish.mjs <in> <out.flac> --type shimmer|ding|riser|hit` gives a new real sound the reference's finish
 (soft bloom, rounded top, room tail; riser dry, shimmer airy) — SOUND.md §4 (owner kept the code-made shimmer/riser/ding: test any new sound against them by ear first).
+`node tools/audio/sound-qa.mjs <vo> <sfx.wav> <cues.json> <outDir> [--words w.json]` = the render's sound check (levels per kind vs the
+reference, full range + phone speaker, density) — runs by itself in Arabic renders → QA report. Targets: tools/lib/sound-ref.mjs.
 Density B (owner pick, Arabic): `node tools/sfx-scan.mjs` prints SOUND DENSITY (QUIET > 3.6 s with no sound · LOW < 24/min ·
 hook < 30/min); the render (merge-sfx) caps at 34 per 60 s and drops sounds after the last word — tools/lib/sfx-density.mjs.
 `node tools/watch.mjs separate <ref>` splits a reference's audio in the cloud (Demucs 4.1.0 htdemucs_ft, pinned; sealed:

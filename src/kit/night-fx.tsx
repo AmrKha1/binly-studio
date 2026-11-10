@@ -68,7 +68,7 @@ export const CountNumber: React.FC<{t: number; at: number; value: string; x: num
 }) => {
   if (t < at) return null;
   // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): a counted value lands with a shimmer
-  cueSfx('sparkle', `count-${id}-${at}`, t >= at + dur && t < at + dur + 0.25, x);
+  cueSfx('sparkle', `count-${id}-${at}`, t >= at + dur && t < at + dur + 0.25, x, {at: at + dur});
   const p = clamp01((t - at) / dur);
   const k = from + (1 - from) * (1 - Math.pow(1 - p, 3));
   const q = popIn(clamp01((t - at) / 0.2), 0.45, 0.5);
@@ -84,7 +84,7 @@ export const CountNumber: React.FC<{t: number; at: number; value: string; x: num
 export const Stamp: React.FC<{t: number; at: number; text: string; x: number; y: number; size?: number; rot?: number; color?: string}> = ({
   t, at, text, x, y, size = 110, rot = -8, color = '#E23A4E',
 }) => {
-  cueSfx('boom', `stamp-${text}-${at}`, t >= at && t < at + 0.3, x); // SOUND MAP: stamps hit as a deep boom («تم البيع», «انسرقت!»)
+  cueSfx('boom', `stamp-${text}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.16}); // SOUND MAP: stamps hit as a deep boom («تم البيع», «انسرقت!»)
   if (t < at) return null;
   const u = (t - at) / 0.16;
   const s = u < 1 ? lerp(1.6, 1, u * u) : 1;
@@ -119,7 +119,7 @@ export const Mark: React.FC<{kind: 'check' | 'cross'; x: number; y: number; r?: 
 export const Bubble: React.FC<{t: number; at: number; lines: string[]; x: number; y: number; tx: number; ty: number; size?: number; mark?: 'check' | 'cross'; icon?: React.ReactNode; out?: number}> = ({
   t, at, lines, x, y, tx, ty, size = 64, mark, icon, out,
 }) => {
-  cueSfx('pop', `bubble-${lines.join('')}-${at}`, t >= at && t < at + 0.3, tx, ); // SOUND MAP: bubbles pop
+  cueSfx('pop', `bubble-${lines.join('')}-${at}`, t >= at && t < at + 0.3, tx, {at, hit: 0.04}); // SOUND MAP: bubbles pop
   const p = clamp01((t - at) / 0.22);
   if (p <= 0) return null;
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.15) : 1;
@@ -159,7 +159,7 @@ export const punchT = (t: number, end: number, cx: number, cy: number, dur = 0.3
 
 /** WhooshOut — speed streaks across an empty sky for a few frames between scenes (0:27.8). Draw on top. */
 export const WhooshOut: React.FC<{t: number; at: number; dur?: number; color?: string; bg?: string}> = ({t, at, dur = 0.18, color = '#B98BFF', bg = N.skyMid}) => {
-  cueSfx('whoosh', `whooshout-${at}`, t >= at - 0.25 && t < at + dur, 960);
+  cueSfx('whoosh', `whooshout-${at}`, t >= at - 0.25 && t < at + dur, 960, {at, hit: dur / 2});
   const u = (t - at) / dur;
   if (u < 0 || u > 1) return null;
   return (
@@ -176,7 +176,7 @@ export const WhooshOut: React.FC<{t: number; at: number; dur?: number; color?: s
 
 /** StripeWipe — diagonal gold/orange stripes sweep across and cover the cut (0:09.0, ~0.6 s). Draw on top. */
 export const StripeWipe: React.FC<{t: number; at: number; dur?: number}> = ({t, at, dur = 0.6}) => {
-  cueSfx('whoosh', `stripes-${at}`, t >= at && t < at + dur, 960);
+  cueSfx('whoosh', `stripes-${at}`, t >= at && t < at + dur, 960, {at, hit: dur / 2});
   const u = (t - at) / dur;
   if (u < 0 || u > 1) return null;
   const cols = ['#FFC928', '#F59E0B', '#FFD45A', '#F2B010'];
@@ -200,7 +200,7 @@ export const StripeWipe: React.FC<{t: number; at: number; dur?: number}> = ({t, 
 export const NeonSign: React.FC<{t: number; at: number; x: number; y: number; text?: string; d?: string; size?: number; color?: string; id: string}> = ({
   t, at, x, y, text, d, size = 220, color = '#FFC928', id,
 }) => {
-  cueSfx('neon', `neon-${id}-${at}`, t >= at && t < at + 0.5, x, {gain: 0.6});
+  cueSfx('neon', `neon-${id}-${at}`, t >= at && t < at + 0.5, x, {gain: 0.6, at});
   if (t < at) return null;
   const e = t - at;
   const flick = e < 0.5 ? (Math.sin(e * 90) > 0.2 ? 1 : 0.25) : 0.92 + 0.08 * Math.sin(t * 7);
@@ -239,7 +239,7 @@ export const HeroObject: React.FC<{t: number; at?: number; src: string; x: numbe
 }) => {
   if (t < at) return null;
   // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): precious / hero objects shimmer as they appear
-  cueSfx('sparkle', `hero-${id}-${at}`, t >= at && t < at + 0.3, x);
+  cueSfx('sparkle', `hero-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.065});
   const e = t - at;
   const p = clamp01(e / 0.35);
   const q = popIn(p, 0.45, enter === 'zoom' ? 0.05 : 0.3);

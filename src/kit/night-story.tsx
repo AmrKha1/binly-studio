@@ -155,7 +155,7 @@ export const Callout: React.FC<{t: number; at: number; x: number; y: number; lx:
   t, at, x, y, lx, ly, text, kind = 'white', size = 40, id, out,
 }) => {
   if (t < at) return null;
-  cueSfx('whoosh', `callout-${id}-${at}`, t >= at && t < at + 0.3, lx, {gain: 0.6}); // SOUND MAP: labels slide in
+  cueSfx('whoosh', `callout-${id}-${at}`, t >= at && t < at + 0.3, lx, {gain: 0.6, at, hit: 0.03}); // SOUND MAP: labels slide in
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
   const u = ease.out(clamp01((t - at) / 0.3));
@@ -222,8 +222,8 @@ export const ProgressBar: React.FC<{t: number; at: number; x: number; y: number;
   t, at, x, y, w = 480, from = 0, to, dur = 1.5, label, id, out,
 }) => {
   if (t < at) return null;
-  cueSfx('tick', `pb-${id}-${at}`, t >= at && t < at + 0.2, x); // SOUND MAP: the % starts ticking
-  cueSfx('ding', `pbend-${id}-${at}`, t >= at + dur && t < at + dur + 0.2, x);
+  cueSfx('tick', `pb-${id}-${at}`, t >= at && t < at + 0.2, x, {at}); // SOUND MAP: the % starts ticking
+  cueSfx('ding', `pbend-${id}-${at}`, t >= at + dur && t < at + dur + 0.2, x, {at: at + dur});
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
   const v = lerp(from, to, ease.out(clamp01((t - at) / dur)));
@@ -311,7 +311,7 @@ export const Newspapers: React.FC<{t: number; papers: Paper[]; x: number; y: num
   return (
     <g opacity={fade}>
       {papers.map((pp, i) => {
-        cueSfx('swish', `${id}-paper-${i}`, t >= pp.at && t < pp.at + 0.25, x + i * step, );
+        cueSfx('swish', `${id}-paper-${i}`, t >= pp.at && t < pp.at + 0.25, x + i * step, {at: pp.at, hit: 0.05});
         const u = clamp01((t - pp.at) / 0.22);
         if (u <= 0) return null;
         const sc = lerp(1.8, 1, ease.out(u));

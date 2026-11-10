@@ -99,6 +99,8 @@ jobs:
           export SFX_MODEL=$(node -e "const m=require('./videos/'+process.argv[1]+'/video.json');console.log(m.lang==='ar'?'reference':'classic')" "$SLUG")
           echo "sound model: $SFX_MODEL"
           node --max-old-space-size=8192 tools/audio/make-audio.mjs "$VO" "$SCORE" sfx.json stems
+          # Arabic: the sound check — our mix measured like the reference (full range + phone speaker + density) → QA report
+          if [ "$SFX_MODEL" = "reference" ]; then node tools/audio/sound-qa.mjs "$VO" stems/sfx.wav sfx.json stems/sound-qa --words "videos/$SLUG/timing/words.json" || echo "sound check failed to run (render continues)"; fi
       - uses: actions/upload-artifact@v5
         with:
           name: stems

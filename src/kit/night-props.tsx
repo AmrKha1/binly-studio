@@ -47,7 +47,7 @@ const QMark: React.FC<{size: number; color: string; y?: number; glow?: string; i
 export const MysteryBox: React.FC<{t: number; at?: number; x: number; y: number; size?: number; id: string; float?: boolean; out?: number}> = ({t, at = -1, x, y, size = 240, id, float = true, out}) => {
   if (t < at) return null;
   // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): the mystery box lands with a boom
-  if (at >= 0) cueSfx('boom', `mbox-${id}-${at}`, t >= at && t < at + 0.3, x);
+  if (at >= 0) cueSfx('boom', `mbox-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.056});
   const q = at >= 0 ? popIn(clamp01((t - at) / 0.3), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
@@ -79,7 +79,7 @@ export const MysteryBox: React.FC<{t: number; at?: number; x: number; y: number;
 /** MysteryPillar — the MysteryBox standing on a tall glowing gold column that rises from the floor (0:09, 12:16). base = floor y. */
 export const MysteryPillar: React.FC<{t: number; at?: number; x: number; base?: number; h?: number; size?: number; id: string; out?: number}> = ({t, at = -1, x, base = 836, h = 300, size = 220, id, out}) => {
   if (t < at) return null;
-  if (at >= 0) cueSfx('boom', `mpillar-${id}-${at}`, t >= at && t < at + 0.3, x); // SOUND MAP
+  if (at >= 0) cueSfx('boom', `mpillar-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.056}); // SOUND MAP
   const u = at >= 0 ? clamp01((t - at) / 0.5) : 1;
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
@@ -115,7 +115,7 @@ export const MysteryPillar: React.FC<{t: number; at?: number; x: number; base?: 
 /** MysteryTile — a dark box with a glowing gold "?" (5:45 «في بيت ثاني...»): the unknown that is not the main mystery. */
 export const MysteryTile: React.FC<{t: number; at?: number; x: number; y: number; w?: number; h?: number; id: string; out?: number}> = ({t, at = -1, x, y, w = 260, h = 170, id, out}) => {
   if (t < at) return null;
-  if (at >= 0) cueSfx('thump', `mtile-${id}-${at}`, t >= at && t < at + 0.3, x); // SOUND MAP: a tile lands
+  if (at >= 0) cueSfx('thump', `mtile-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.056}); // SOUND MAP: a tile lands
   const q = at >= 0 ? popIn(clamp01((t - at) / 0.3), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
@@ -146,7 +146,7 @@ export const ChoiceCards: React.FC<{t: number; at: number; cards: Choice[]; id: 
         if (p <= 0) return null;
         const q = popIn(p, 0.45, 0.3);
         const rv = c.reveal !== undefined ? clamp01((t - c.reveal) / 0.35) : 0;
-        if (c.reveal !== undefined) cueSfx('swish', `${id}-flip-${i}`, t >= c.reveal && t < c.reveal + 0.35, c.x, );
+        if (c.reveal !== undefined) cueSfx('swish', `${id}-flip-${i}`, t >= c.reveal && t < c.reveal + 0.35, c.x, {at: c.reveal, hit: 0.175}); // the card is edge-on at the middle of its flip
         const flipX = rv > 0 && rv < 1 ? Math.abs(Math.cos(rv * Math.PI)) : 1;
         const showBack = rv >= 0.5;
         const g = uid('nchoice', id, i);

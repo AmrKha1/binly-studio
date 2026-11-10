@@ -394,7 +394,8 @@ A great video in one session beats a perfect plan.
   never covers the key object or text · off-screen in mini-story scenes so his return feels fresh · soft easing only,
   no zig-zags or constant bouncing. plan-check enforces it from the shots' "host" lists.
 - **ARABIC SOUND = the reference, MEASURED, kept ALIVE (owner 2026-11-10: "like the reference, not from our brain"; picked
-  density B by ear: ≈ 26–28/min all through, cap 34/min, no sound > 3.6 s apart while he speaks — SOUND.md §3; no music):**
+  density B by ear: ≈ 26–28/min all through, cap 34/min, no sound > 3.6 s apart while he speaks — SOUND.md §3; no music;
+  each sound's PEAK on the frame the thing lands (§5); translated for phone speakers and checked in every QA report (§6)):**
   references/universe-claude/SOUND.md — every effect of the model video found from its separated audio: ≈ 23 effects per
   minute (32/min in the hook), median 21 dB under the voice (booms 18, risers/whooshes 19, shimmer 21, thumps 25, pops/
   ticks 28; the biggest reveals 6–12), not ducked but kept out of the voice's mid band, mono, a small signature set reused,
@@ -607,6 +608,8 @@ Standalone: `node tools/art-check.mjs <folder|png…> [--sheet out.jpg]` (exit 2
 ## Sound effects measured like the reference (2026-11-10)
 `node tools/audio/sfx-finish.mjs <in> <out.flac> --type shimmer|ding|riser|hit` gives a new real sound the reference's finish
 (soft bloom, rounded top, room tail; riser dry, shimmer airy) — SOUND.md §4 (owner kept the code-made shimmer/riser/ding: test any new sound against them by ear first).
+`node tools/audio/sound-qa.mjs <vo> <sfx.wav> <cues.json> <outDir> [--words w.json]` = the render's sound check (levels per kind vs the
+reference, full range + phone speaker, density) — runs by itself in Arabic renders → QA report. Targets: tools/lib/sound-ref.mjs.
 Density B (owner pick, Arabic): `node tools/sfx-scan.mjs` prints SOUND DENSITY (QUIET > 3.6 s with no sound · LOW < 24/min ·
 hook < 30/min); the render (merge-sfx) caps at 34 per 60 s and drops sounds after the last word — tools/lib/sfx-density.mjs.
 `node tools/watch.mjs separate <ref>` splits a reference's audio in the cloud (Demucs 4.1.0 htdemucs_ft, pinned; sealed:

@@ -107,11 +107,11 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
           <ObjectArt c={c} h={oh} silhouette />
         </g>
       );
-      cueSfx('riser', `${id}-mystery-${c.id}`, t >= c.mystery && t < c.mystery + 0.3, x0); // SOUND MAP: the run-up into the mystery
+      cueSfx('riser', `${id}-mystery-${c.id}`, t >= c.mystery && t < c.mystery + 0.3, x0, {at: c.mystery}); // SOUND MAP: the run-up into the mystery
     }
     if (t < c.at) continue;
     const s = slotOf(c.id);
-    cueSfx('boom', `${id}-in-${c.id}`, t >= c.at && t < c.at + 0.3, s?.x ?? 960); // SOUND MAP: the board jumps when a newcomer arrives
+    cueSfx('boom', `${id}-in-${c.id}`, t >= c.at && t < c.at + 0.3, s?.x ?? 960, {at: c.at, hit: 0.13}); // SOUND MAP: the board jumps when a newcomer arrives
     if (!s || s.o <= 0.01) continue;
     const e = t - c.at;
     const grow = spring(clamp01(e / 0.6), 0.3);
@@ -160,7 +160,7 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
             </g>
           </g>
         );
-        cueSfx('boom', `${id}-times-${c.id}`, t >= ta && t < ta + 0.3, xm, {gain: 1.4}); // SOUND MAP: ×N = a bigger boom
+        cueSfx('boom', `${id}-times-${c.id}`, t >= ta && t < ta + 0.3, xm, {gain: 1.4, at: ta, hit: 0.054}); // SOUND MAP: ×N = a bigger boom
       }
     }
   }

@@ -65,7 +65,8 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
   never covers the key object or text · off-screen in mini-story scenes so his return feels fresh · soft easing only,
   no zig-zags or constant bouncing. plan-check enforces it from the shots' "host" lists.
 - **ARABIC SOUND = the reference, MEASURED, kept ALIVE (owner 2026-11-10: "like the reference, not from our brain"; picked
-  density B by ear: ≈ 26–28/min all through, cap 34/min, no sound > 3.6 s apart while he speaks — SOUND.md §3; no music):**
+  density B by ear: ≈ 26–28/min all through, cap 34/min, no sound > 3.6 s apart while he speaks — SOUND.md §3; no music;
+  each sound's PEAK on the frame the thing lands (§5); translated for phone speakers and checked in every QA report (§6)):**
   references/universe-claude/SOUND.md — every effect of the model video found from its separated audio: ≈ 23 effects per
   minute (32/min in the hook), median 21 dB under the voice (booms 18, risers/whooshes 19, shimmer 21, thumps 25, pops/
   ticks 28; the biggest reveals 6–12), not ducked but kept out of the voice's mid band, mono, a small signature set reused,

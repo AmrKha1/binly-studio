@@ -43,7 +43,11 @@ await build({
   jsx: 'automatic',
   loader: {'.css': 'empty', '.png': 'empty', '.jpg': 'empty', '.svg': 'empty', '.woff2': 'empty', '.woff': 'empty'},
   // only the bare 'remotion' import is stubbed ('remotion/no-react' used by @remotion/paths stays real)
-  plugins: [{name: 'remotion-stub', setup: (b) => b.onResolve({filter: /^remotion$/}, () => ({path: path.join(ROOT, 'tools', 'sfx', 'remotion-stub.tsx')}))}],
+  plugins: [{name: 'remotion-stub', setup: (b) => {
+    b.onResolve({filter: /^remotion$/}, () => ({path: path.join(ROOT, 'tools', 'sfx', 'remotion-stub.tsx')}));
+    // measureText needs a browser canvas — without this stub every frame with text failed and lost its sounds
+    b.onResolve({filter: /^@remotion\/layout-utils$/}, () => ({path: path.join(ROOT, 'tools', 'sfx', 'layout-stub.ts')}));
+  }}],
   logLevel: 'error',
   define: {'process.env.NODE_ENV': '"production"'},
   banner: {js: "import {createRequire} from 'module'; const require = createRequire(import.meta.url);"},
@@ -71,7 +75,8 @@ for (let f = 0; f <= nFrames; f++) {
   }
   for (const [key, c] of seen) {
     if (prev.get(key) !== f - 1) {
-      const cue = {t: Math.round(t * 1000) / 1000, kind: c.kind, pan: Math.round(c.pan * 100) / 100, ...(c.gain ? {gain: c.gain} : {}), auto: true};
+      const tt = (typeof c.at === 'number' ? c.at : t) + (c.hit ?? 0); // SYNC: the exact landing moment, not the frame
+      const cue = {t: Math.round(tt * 1000) / 1000, kind: c.kind, pan: Math.round(c.pan * 100) / 100, ...(c.gain ? {gain: c.gain} : {}), auto: true};
       cues.push(cue);
       if (c.sustain) open.set(key, cue);
     }

@@ -340,7 +340,7 @@ export const CalendarCard: React.FC<{t: number; at: number; x: number; y: number
   t, at, x, y, to, from, dur = 2, label, pill, size = 1, id, out, decimals = 0,
 }) => {
   if (t < at) return null;
-  cueSfx('thump', `cal-${id}-${at}`, t >= at && t < at + 0.3, x); // SOUND MAP: a card lands
+  cueSfx('thump', `cal-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.056}); // SOUND MAP: a card lands
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
   const q = popIn(clamp01((t - at) / 0.3), 0.45, 0.4);
@@ -381,7 +381,7 @@ export const JourneyPath: React.FC<{t: number; at: number; dur?: number; x0?: nu
 }) => {
   if (t < at) return null;
   // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): the road-map path ticks as each station is reached
-  stations.forEach((st, i) => cueSfx('tick', `jp-${id}-${i}`, t >= at + st.u * dur && t < at + st.u * dur + 0.2, x0 + (x1 - x0) * st.u));
+  stations.forEach((st, i) => cueSfx('tick', `jp-${id}-${i}`, t >= at + st.u * dur && t < at + st.u * dur + 0.2, x0 + (x1 - x0) * st.u, {at: at + st.u * dur}));
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
   const P = (u: number) => [lerp(x0, x1, u), lerp(y0, y1, u) - amp * Math.sin(u * Math.PI * 2 * waves)] as const;
@@ -432,7 +432,7 @@ export const JourneyPath: React.FC<{t: number; at: number; dur?: number; x0?: nu
 export const MarkPill: React.FC<{t: number; at: number; text: string; x: number; y: number; mark?: 'check' | 'cross'; size?: number; id: string}> = ({t, at, text, x, y, mark = 'cross', size = 48, id}) => {
   const p = clamp01((t - at) / 0.25);
   if (p <= 0) return null;
-  cueSfx(mark === 'cross' ? 'thump' : 'ding', `mark-${id}-${at}`, t >= at && t < at + 0.3, x); // SOUND MAP: ✖ knocks, ✔ dings
+  cueSfx(mark === 'cross' ? 'thump' : 'ding', `mark-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.047}); // SOUND MAP: ✖ knocks, ✔ dings
   const rtl = isAr();
   const w = textWidth(text, size) + size * 1.5;
   const mx = x + (rtl ? 1 : -1) * (w / 2 + size * 0.9);

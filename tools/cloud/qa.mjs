@@ -145,6 +145,13 @@ if (fs.existsSync(loudFile)) {
   log(`- Loudness: ${L.final.lufs} LUFS integrated, true peak ${L.final.true_peak_db} dBTP (target −14 LUFS / −1 dBTP; mix was ${L.mix_before.lufs} LUFS)`);
   if (!L.ok) warn.push(`loudness outside spec: ${L.final.lufs} LUFS / ${L.final.true_peak_db} dBTP (target −14 ±0.5 LUFS, ≤ −1 dBTP)`);
 }
+// sound effects vs the reference (Arabic renders: tools/audio/sound-qa.mjs ran in the stems job)
+const sq = path.join('stems', 'sound-qa', 'sound-qa.json');
+if (fs.existsSync(sq)) {
+  const Q = JSON.parse(fs.readFileSync(sq, 'utf8'));
+  for (const l of ['', '### Sound effects vs the reference (full range + phone speaker)', ...Q.lines]) log(l);
+  warn.push(...Q.warnings);
+}
 spawnSync(FF, ['-v', 'error', '-y', '-i', video, '-filter_complex', 'showwavespic=s=1920x260:split_channels=1:colors=0x2B2420|0x8B2E1F', '-frames:v', '1', path.join(qaDir, 'waveform.png')]);
 
 const report = [`# QA report — ${path.basename(video)}`, '', `**Result: ${warn.length ? `${warn.length} warning(s)` : 'all automated checks passed'}**`, '', ...warn.map((w) => `- ⚠ ${w}`), warn.length ? '' : '', '## Measurements', ...lines, ''].join('\n');

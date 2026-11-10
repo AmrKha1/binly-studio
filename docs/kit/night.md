@@ -266,6 +266,9 @@ MarkPill ✔ · ProgressBar 100 % · tick → JourneyPath stations · ProgressBa
 Callout · swish → Flag · ChoiceCards · Newspapers · neon → NeonSign. Silent: WordPop words, host pose swaps (as the
 reference). Custom pieces: `cueSfx(kind, key, active, x, {gain})` — gain 1 = the reference's typical level for that
 kind, 2 = 6 dB louder (a bigger moment). Story sounds by hand in sfx/<chapter>.json. No music; silence after the sign-off.
+SYNC (SOUND.md §5): a sound's PEAK lands on the frame the thing LANDS — custom pieces call `cueSfx(kind, key, active, x,
+{at, hit})` with at = the exact start time and hit = seconds until it visibly lands (popIn over d s → ≈ 0.19·d; a slam →
+its slam time; a whoosh → its fastest moment). Without them the sound is placed at the first frame (early).
 Density B (owner pick): ≈ 26–28/min all through, cap 34/min — `node tools/sfx-scan.mjs` flags QUIET (> 3.6 s of speech
 with no sound) → add a visual beat that cues its sound (NPill, Callout, CountNumber, JourneyPath dot), never a bare filler.
 
