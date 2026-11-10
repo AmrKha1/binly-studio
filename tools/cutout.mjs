@@ -113,7 +113,7 @@ if (a.char) for (let i = 0; i < N; i++) if (!bg[i]) { const x = i % W, y = (i / 
 const zoneOf = (cx) => {
   let top = H, bot = -1;
   for (let x = Math.max(0, cx - 160); x < Math.min(W, cx + 160); x++) { if (colTop[x] < top) top = colTop[x]; if (colBot[x] > bot) bot = colBot[x]; }
-  return [top + (bot - top) * 0.36, bot - (bot - top) * 0.09];
+  return [top + (bot - top) * Number(a.head ?? 0.36), bot - (bot - top) * 0.09]; // --head 0.62 for waist-up poses
 };
 if (a.holes || a.char) {
   const seen = new Uint8Array(N);

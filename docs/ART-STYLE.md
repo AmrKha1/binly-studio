@@ -85,6 +85,8 @@ images, in one row, evenly spaced with wide white space, not touching, same size
 full AZTIKA description + the 4 poses + "plain pure flat white background, no floor, no shadow, no frames, no text".
 Cut out WITHOUT --holes (his face is white): `node tools/cutout.mjs sheet.jpeg --out <dir> --names full-a,full-b,…`, check
 with art-check, copy into public/_hosts/aztika/, then `node tools/host-manifest.mjs`. Name full-body poses full-*.
+Waist-up poses: add `--head 0.62` (the face fills more of the figure). If two figures touch (feathers) the cut-out finds 3
+instead of 4: crop the sheet into 4 strips at the emptiest columns and cut each strip (2026-11-10).
 
 ## Night rules
 - Background removal + ART CHECK gate (tools/art-check.mjs, run by `art.mjs ingest`): look at review.jpg every time;

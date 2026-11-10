@@ -854,8 +854,8 @@ gets a soft pop (built into ImageHost). Gallery `night` 0–2 s shows a 4-beat e
   automatically (flipped right of centre). Enter/exit with ImageHost moves (pop, rise, drop, peek, slide…).
 - **New poses (P3, 2026-11-10):** awe (back view, looking up — the ending) · higher (points up) · lower (points down) ·
   list (counts on fingers) · sure (arms crossed) · wow (hands on cheeks) · rest (sits — on a podium edge: x/y so his seat
-  is the podium top) · you (grins, points). 42 of 43 AZTIKA images pass the art check (--char); `sad` lost its face in
-  an old cut-out — being redrawn (until then do not use sad).
+  is the podium top) · you (grins, points). All 46 AZTIKA images pass the art check (--char); `sad` was
+  redrawn (its old cut-out had lost the face). New waist-up: thinking (hand on chin), proud (hands on hips), whisper.
 - **Reasons → poses (BEAT_POSE):** present · point · react · viewer · welcome · think · room · joy · shrug · doubt ·
   scared (or any image pose name).
 - **Rules:** a story reason for every move · moves ≥ 6 s apart · pose every ~3–6 s (≥ 1.5 s apart) · never frozen > 8 s ·

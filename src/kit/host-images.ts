@@ -146,9 +146,13 @@ export const HOST_IMAGES = {
    761,
    1170
   ],
+  "proud": [
+   692,
+   1174
+  ],
   "sad": [
-   648,
-   1168
+   697,
+   1162
   ],
   "shocked-2": [
    648,
@@ -162,9 +166,17 @@ export const HOST_IMAGES = {
    646,
    1051
   ],
+  "thinking": [
+   676,
+   1125
+  ],
   "wave": [
    732,
    1225
+  ],
+  "whisper": [
+   700,
+   1165
   ],
   "wink-point": [
    766,
