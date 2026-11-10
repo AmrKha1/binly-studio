@@ -8,6 +8,7 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {build} from 'esbuild';
 import {ROOT, args} from './lib/render.mjs';
+import {applyDensity, densityReport, DENSITY} from './lib/sfx-density.mjs';
 
 const a = args();
 const activeSlug = fs.readFileSync(path.join(ROOT, 'src', 'active.ts'), 'utf8').match(/videos\/([^']+)'/)?.[1];
@@ -108,3 +109,24 @@ fs.writeFileSync(file, JSON.stringify(cues, null, 0).replace(/\},\{/g, '},\n{'))
 const byKind = {};
 for (const c of cues) byKind[c.kind] = (byKind[c.kind] ?? 0) + 1;
 console.log(`sfx scan ${slug}: ${cues.length} auto cues in ${(to - from).toFixed(0)} s (${(cues.length / Math.max(1, to - from) * 60).toFixed(0)}/min) · ${Object.entries(byKind).map(([k, n]) => `${k} ${n}`).join(' · ')} · ${((Date.now() - t0) / 1000).toFixed(0)} s → ${path.relative(ROOT, file)}${errors ? ` · ${errors} frames failed` : ''}${dropped ? ` · ${dropped} merged in bursts` : ''}`);
+// SOUND DENSITY report (Arabic = the owner's pick B, tools/lib/sfx-density.mjs): auto + story cues together, as the render
+// will play them. QUIET / LOW = add a visual beat that carries its sound (pill, label, count, path dot) — never a filler.
+// Accept one on purpose (a held, silent moment) by noting it in the chapter's owner notes.
+if ((mod.meta.lang ?? 'en') === 'ar' && !a.from && !a.to) {
+  const vdir = path.join(ROOT, 'videos', slug);
+  let words = [];
+  try { words = JSON.parse(fs.readFileSync(path.join(vdir, 'timing', 'words.json'), 'utf8')); } catch {}
+  const hand = [];
+  for (const f of fs.existsSync(path.join(vdir, 'sfx')) ? fs.readdirSync(path.join(vdir, 'sfx')) : [])
+    if (f.endsWith('.json') && f !== '_auto.json') try { hand.push(...JSON.parse(fs.readFileSync(path.join(vdir, 'sfx', f), 'utf8')).filter((c) => typeof c.t === 'number')); } catch {}
+  const near = (t) => hand.some((h) => Math.abs(h.t - t) < 0.15);
+  const merged = hand.concat(cues.filter((c) => !near(c.t))).sort((x, y) => x.t - y.t);
+  const last = words.length ? words[words.length - 1].e ?? words[words.length - 1].s : null;
+  const d = applyDensity(merged, last);
+  const r = densityReport(d.cues, words);
+  const mm = (t) => `${Math.floor(t / 60)}:${(t % 60).toFixed(1).padStart(4, '0')}`;
+  console.log(`SOUND DENSITY (B): ${r.perMin?.toFixed(0) ?? '?'}/min overall · hook ${r.hookRate?.toFixed(0) ?? '?'}/min · cap ${DENSITY.cap}/min dropped ${d.capped} · after sign-off removed ${d.afterSignoff}`);
+  for (const f of r.flags.slice(0, 40)) console.log(`  ${f.type.padEnd(5)} ${mm(f.from)}–${mm(f.to)}  ${f.msg}`);
+  if (r.flags.length > 40) console.log(`  … ${r.flags.length - 40} more`);
+  if (!r.flags.length) console.log('  no quiet stretches — alive like the reference');
+}

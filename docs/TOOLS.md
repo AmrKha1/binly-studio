@@ -80,6 +80,8 @@ face), then checked: HOLE · FRINGE · SPECKS · CUT · SMALL. `art.mjs ingest` 
 Standalone: `node tools/art-check.mjs <folder|png…> [--sheet out.jpg]` (exit 2 when anything is flagged).
 
 ## Sound effects measured like the reference (2026-11-10)
+Density B (owner pick, Arabic): `node tools/sfx-scan.mjs` prints SOUND DENSITY (QUIET > 3.6 s with no sound · LOW < 24/min ·
+hook < 30/min); the render (merge-sfx) caps at 34 per 60 s and drops sounds after the last word — tools/lib/sfx-density.mjs.
 `node tools/watch.mjs separate <ref>` splits a reference's audio in the cloud (Demucs 4.1.0 htdemucs_ft, pinned; sealed:
 encrypted both ways, upload deleted) → `.cache/ref/<ref>/stems/voice.flac + fx.flac` (local only). `node tools/ref-sfx.mjs
 <ref> [--list --from a --to b]` lists every audible effect (leak of the voice removed per band; typed from its sound;

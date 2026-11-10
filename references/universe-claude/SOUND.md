@@ -45,7 +45,15 @@ Timing (only the effects near a cut): risers and shimmers START 130–170 ms BEF
 - **Copy:** the map above (which thing → which sound), the density (≈ 32/min hook, ≈ 20–24/min after), the levels per
   type, deep+bright not mid while the voice speaks, mono, a small reused signature set, silence after the sign-off,
   host pose swaps silent.
-- **Our edit (owner 2026-11-10: "alive"; A/B by ear before it is default):** keep the density at ≥ 24/min through
-  the whole video (the reference dips to 19/min in 3–7 min); every board change and every newcomer gets its boom; a
-  soft tick rhythm for counting numbers. Never louder than the reference's loudest 10 % (12 dB under), never in the
-  pauses after a punchline, never after the sign-off.
+- **Our edit = the DEFAULT (owner picked B by ear, 2026-11-10, samples/sfx-ab):** the reference's map and levels, kept
+  alive through the whole video — ≈ 26–28/min instead of dipping to 19/min in 3–7 min (the reference's pattern on our VO
+  left 66 stretches of > 3.6 s with no sound; B left 7). Every board change and every newcomer gets its boom; a soft tick
+  rhythm for counting numbers. The extra sounds come from VISUAL beats (a pill, label, count, path dot appearing) — never
+  a filler with nothing on screen. Never louder than the reference's loudest 10 % (12 dB under).
+- **How it is enforced** (tools/lib/sfx-density.mjs, Arabic only):
+  - render (tools/cloud/merge-sfx.mjs): **cap 34 per any 60 s** (the reference's hook rate; the smallest auto sounds —
+    ticks, pops, swishes — give way first, the most crowded first, so it thins evenly; booms, stamps, risers and story
+    sounds never drop) · **silence after the last word** (+0.4 s).
+  - before the render: `node tools/sfx-scan.mjs` prints SOUND DENSITY — **QUIET** (> 3.6 s of speech with no sound) and
+    **LOW** (a minute under 24/min, the hook under 30/min). Fix with a visual beat that carries its sound; a held, silent
+    moment on purpose is fine (note it).

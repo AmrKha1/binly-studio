@@ -253,6 +253,10 @@ which edits just those shots' exports in the chapters' `.custom.tsx` files — o
 **5c · Sync check (once, before the final render)** — `node tools/sync-check.mjs` (background, ~1 min per chapter, no
 tokens: it compares pixels itself) lists sentences whose picture barely changes. Fix the real ones in one round (send the
 list to the chapter's builder); an intentional payoff hold is fine — leave it.
+**Arabic: sound density** in the same round — `node tools/sfx-scan.mjs` (local, fast, no render) prints SOUND DENSITY
+(owner's pick B, references/universe-claude/SOUND.md §3): fix each QUIET (> 3.6 s of speech with no sound) and LOW minute
+with a visual beat that cues its own sound (pill, label, count, path dot) — never a sound with nothing on screen. The
+render applies the 34/min cap and the silence after the sign-off by itself.
 
 **5d · High-end editor pass (once, before the final render)** — check THE LOOK (PLAYBOOK: clean bright polished, no
 yellow/dark/murky/cheap frames) and watch the whole video as contact sheets at 2 s spacing

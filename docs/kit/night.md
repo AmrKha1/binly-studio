@@ -266,6 +266,8 @@ MarkPill ✔ · ProgressBar 100 % · tick → JourneyPath stations · ProgressBa
 Callout · swish → Flag · ChoiceCards · Newspapers · neon → NeonSign. Silent: WordPop words, host pose swaps (as the
 reference). Custom pieces: `cueSfx(kind, key, active, x, {gain})` — gain 1 = the reference's typical level for that
 kind, 2 = 6 dB louder (a bigger moment). Story sounds by hand in sfx/<chapter>.json. No music; silence after the sign-off.
+Density B (owner pick): ≈ 26–28/min all through, cap 34/min — `node tools/sfx-scan.mjs` flags QUIET (> 3.6 s of speech
+with no sound) → add a visual beat that cues its sound (NPill, Callout, CountNumber, JourneyPath dot), never a bare filler.
 
 ## Still to build
 See references/universe-claude/GAP-CHECK.md (P3 art/poses). The pilot video stays the owner's call.

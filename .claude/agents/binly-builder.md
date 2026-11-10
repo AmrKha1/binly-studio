@@ -393,7 +393,8 @@ A great video in one session beats a perfect plan.
   ≥ 6 s apart (≈ every 8–15 s), pose changes every ~3–6 s, never < 1.5 s apart · never frozen > 8 s while on screen ·
   never covers the key object or text · off-screen in mini-story scenes so his return feels fresh · soft easing only,
   no zig-zags or constant bouncing. plan-check enforces it from the shots' "host" lists.
-- **ARABIC SOUND = the reference, MEASURED (owner 2026-11-10: "like the reference, not from our brain"; no music):**
+- **ARABIC SOUND = the reference, MEASURED, kept ALIVE (owner 2026-11-10: "like the reference, not from our brain"; picked
+  density B by ear: ≈ 26–28/min all through, cap 34/min, no sound > 3.6 s apart while he speaks — SOUND.md §3; no music):**
   references/universe-claude/SOUND.md — every effect of the model video found from its separated audio: ≈ 23 effects per
   minute (32/min in the hook), median 21 dB under the voice (booms 18, risers/whooshes 19, shimmer 21, thumps 25, pops/
   ticks 28; the biggest reveals 6–12), not ducked but kept out of the voice's mid band, mono, a small signature set reused,
@@ -604,6 +605,8 @@ face), then checked: HOLE · FRINGE · SPECKS · CUT · SMALL. `art.mjs ingest` 
 Standalone: `node tools/art-check.mjs <folder|png…> [--sheet out.jpg]` (exit 2 when anything is flagged).
 
 ## Sound effects measured like the reference (2026-11-10)
+Density B (owner pick, Arabic): `node tools/sfx-scan.mjs` prints SOUND DENSITY (QUIET > 3.6 s with no sound · LOW < 24/min ·
+hook < 30/min); the render (merge-sfx) caps at 34 per 60 s and drops sounds after the last word — tools/lib/sfx-density.mjs.
 `node tools/watch.mjs separate <ref>` splits a reference's audio in the cloud (Demucs 4.1.0 htdemucs_ft, pinned; sealed:
 encrypted both ways, upload deleted) → `.cache/ref/<ref>/stems/voice.flac + fx.flac` (local only). `node tools/ref-sfx.mjs
 <ref> [--list --from a --to b]` lists every audible effect (leak of the voice removed per band; typed from its sound;
