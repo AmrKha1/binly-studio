@@ -5,7 +5,7 @@ These are real videos the owner picked as the target. Read the STUDY.md files be
 
 | ref | what it is | role |
 |---|---|---|
-| `universe-claude/` | «وش أغلى شيء في الكون؟» — made 100 % with Claude Code, 14:47 | **THE model to match** — exact specs in `STYLE-BIBLE.md` |
+| `universe-claude/` | «وش أغلى شيء في الكون؟» — made 100 % with Claude Code, 14:47 | **THE model to match** — exact specs in `STYLE-BIBLE.md` · what the kit can/can't make yet: `GAP-CHECK.md` |
 | `empires-flow/` | «كيف سقطت أقوى 6 إمبراطوريات بالتاريخ؟» — Google Flow images, 15:35 | ideas to borrow (painted worlds, maps, chapter header) |
 
 Each folder: `STUDY.md` (director's analysis) · `report.md` (pace/colour/sound numbers) · `overview/min-NN.jpg` (a frame
