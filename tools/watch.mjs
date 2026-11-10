@@ -576,8 +576,8 @@ async function cmdSeparate() {
   const c = cacheDir(nameArg);
   needVideo(meta);
   fs.mkdirSync(c, {recursive: true});
-  const src = path.join(c, 'mix.flac');
-  if (!fs.existsSync(src)) ff(['-y', '-i', meta.video, '-vn', '-c:a', 'flac', src]); // original 44.1 kHz stereo, lossless
+  const src = path.join(c, 'mix.wav');
+  if (!fs.existsSync(src)) ff(['-y', '-i', meta.video, '-vn', '-c:a', 'pcm_s16le', src]); // original 44.1 kHz stereo, lossless
   const key = refKey();
   const slug = `ref-${nameArg}`, tag = `vo-${slug}`;
   const up = path.join(c, 'voiceover.enc');

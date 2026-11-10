@@ -45,7 +45,7 @@ jobs:
         env:
           REF_KEY: ${{ secrets.REF_KEY }}
         run: |
-          node tools/cloud/crypt.mjs decrypt in/voiceover.enc in/mix.flac
+          node tools/cloud/crypt.mjs decrypt in/voiceover.enc in/mix.src
           rm in/voiceover.enc
 
       - name: ffmpeg
@@ -70,7 +70,7 @@ jobs:
 
       - name: Separate (voice / everything else)
         run: |
-          ffmpeg -hide_banner -loglevel error -i in/mix.flac -ar 44100 -ac 2 in/mix.wav
+          ffmpeg -hide_banner -loglevel error -i in/mix.src -ar 44100 -ac 2 in/mix.wav
           python -m demucs --two-stems vocals -n "${{ inputs.model }}" -j 4 -o out in/mix.wav
           ls -R out
           mkdir -p stems
