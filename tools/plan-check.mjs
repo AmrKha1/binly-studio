@@ -22,11 +22,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {ROOT, args} from './lib/render.mjs';
+import {requireVoice} from './lib/vo-gate.mjs';
 
 const a = args();
 const active = fs.readFileSync(path.join(ROOT, 'src', 'active.ts'), 'utf8').match(/videos\/([^']+)'/)?.[1];
 const slug = a.slug ?? active;
 const vdir = path.join(ROOT, 'videos', slug);
+requireVoice(slug, 'planning (plan-check)');
 const LONG = 10; // s — a long shot passes if every sentence in it has its own beat (alive); flagged if not
 const TOO_LONG = 15; // s — always flagged (split it, or justify a real camera journey with "ok")
 const NEAR = 1.2; // s — a change this close to a sentence start counts as its visual

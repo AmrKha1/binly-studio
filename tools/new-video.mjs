@@ -5,12 +5,13 @@
 // uploads the voiceover to GitHub (release vo-<slug>), and runs the cloud timing analysis.
 // VOICEOVER IN PARTS (owner 2026-11-08): put all parts in input/ (loose files or one folder, numbered "1…", "2…" …).
 // tools/vo-prep.mjs levels every part to the same loudness, joins them in number order with 0.35 s, trims every pause
-// > 0.23 s to 0.19 s → videos/<slug>/voiceover.wav = the master clock, verified by the voice gate (tools/vo-check.mjs). (--raw keeps a single file exactly as recorded.)
+// > 0.23 s to 0.20 s → videos/<slug>/voiceover.wav = the master clock, verified by the voice gate (tools/vo-check.mjs). (--raw keeps a single file exactly as recorded.)
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {ROOT, args} from './lib/render.mjs';
 import {gh, probeAudio, sh} from './lib/sys.mjs';
+import {approveVoice} from './lib/vo-gate.mjs';
 
 const a = args();
 const IN = path.join(ROOT, 'input');
@@ -53,8 +54,8 @@ else {
 if (!a.raw) {
   const c = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'vo-check.mjs'), voDest], {encoding: 'utf8'});
   process.stdout.write(c.stdout ?? '');
-  const warn = /PASS with d+ warning/.test(c.stdout ?? '');
-  if (c.status !== 0) {
+  const warn = c.status === 2; // vo-check: 0 = clean PASS · 2 = PASS with warnings · 1 = FAIL
+  if (c.status === 1 || c.status === null) {
     console.log(`
 VOICE GATE: FAIL — fix the voiceover first (report: input/vo-check.md). The input files were left in input/.`);
     fs.copyFileSync(path.join(vdir, 'vo-check.md'), path.join(IN, 'vo-check.md'));
@@ -68,7 +69,9 @@ VOICE GATE: warnings — listen to the times listed (report: input/vo-check.md),
     fs.rmSync(vdir, {recursive: true, force: true});
     process.exit(2);
   }
-  console.log('VOICE GATE: passed ✓');
+  // the stamp every later step checks (tools/lib/vo-gate.mjs): who let this exact voiceover through
+  approveVoice(voDest, warn ? 'owner (--vo-ok after listening to the warnings)' : 'voice gate (clean PASS)');
+  console.log('VOICE GATE: passed ✓ — the voiceover is locked; every later step checks it is still this exact file');
 }
 const info = probeAudio(voDest);
 let scriptText = '';
@@ -102,7 +105,7 @@ if (!a['no-analyze']) {
   const tag = `vo-${slug}`;
   const exists = sh('gh', ['release', 'view', tag], {allowFail: true}) !== null;
   if (exists) gh('release', 'upload', tag, voDest, '--clobber');
-  else gh('release', 'create', tag, voDest, '--title', `Voiceover: ${slug}`, '--notes', a.raw ? 'Original voiceover (unprocessed). Used by the cloud render.' : 'Voiceover made by tools/vo-prep.mjs (parts levelled to equal loudness, joined with 0.35 s, pauses > 0.23 s → 0.19 s) and passed tools/vo-check.mjs. Used by the cloud render.');
+  else gh('release', 'create', tag, voDest, '--title', `Voiceover: ${slug}`, '--notes', a.raw ? 'Original voiceover (unprocessed). Used by the cloud render.' : 'Voiceover made by tools/vo-prep.mjs (parts levelled to equal loudness, joined with 0.35 s, pauses > 0.23 s → 0.20 s) and passed tools/vo-check.mjs. Used by the cloud render.');
   console.log(`voiceover uploaded (release ${tag})`);
   const r = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'cloud.mjs'), 'analyze', slug], {stdio: 'inherit'});
   if (r.status !== 0) process.exit(r.status ?? 1);

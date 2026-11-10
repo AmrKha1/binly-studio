@@ -59,7 +59,7 @@ const thr = prep?.silence_threshold_db ?? -50;
 const quiet = (k) => db[k] < thr;
 const joins = prep?.marks?.joins ?? [];
 const inJoin = (t) => joins.some((j) => t >= j.start - 0.03 && t <= j.end + 0.03);
-const maxPause = (prep?.max_pause_s ?? 0.25) + 0.03; // 30 ms tolerance (10 ms frames + crossfades)
+const maxPause = (prep?.max_pause_s ?? 0.23) + 0.005; // owner 2026-11-10: strict — nothing longer than the rule (0.005 = float rounding of 10 ms frames)
 const pauses = [];
 for (let k = 0; k < db.length; ) {
   if (quiet(k)) {
@@ -72,8 +72,32 @@ for (let k = 0; k < db.length; ) {
 const inner = pauses.filter((p) => p.s > 0.05 && p.e < db.length / 100 - 0.05 && !inJoin((p.s + p.e) / 2));
 const tooLong = inner.filter((p) => p.len > maxPause);
 const hist = (lo, hi) => inner.filter((p) => p.len >= lo && p.len < hi).length;
-add(tooLong.length ? (tooLong.some((p) => p.len > 0.4) ? 'FAIL' : 'WARN') : 'PASS', 'Silence trim (pauses)',
-  `${inner.length} pauses · longest ${Math.max(0, ...inner.map((p) => p.len)).toFixed(2)} s · 0.08–0.15 s: ${hist(0.08, 0.15)} · 0.15–0.25 s: ${hist(0.15, 0.25)} · over ${maxPause.toFixed(2)} s: ${tooLong.length}` + (tooLong.length ? ` → listen: ${tooLong.slice(0, 6).map((p) => `${mm(p.s)} (${p.len.toFixed(2)} s)`).join(', ')}` : ''));
+// the Studio's rule (owner 2026-11-10, chosen by ear): every pause longer than 0.23 s becomes exactly 0.20 s
+const RULE = {max: 0.23, keep: 0.2};
+if (prep) {
+  const ok = Math.abs(prep.max_pause_s - RULE.max) < 1e-6 && Math.abs(prep.keep_s - RULE.keep) < 1e-6;
+  add(ok ? 'PASS' : 'FAIL', 'Trim rule', `prepared with pauses > ${prep.max_pause_s} s → ${prep.keep_s} s` + (ok ? ' = the Studio rule' : ` — the Studio rule is > ${RULE.max} s → ${RULE.keep} s: prepare again with the defaults`));
+}
+// no pause left longer than the rule (30 ms tolerance = 10 ms frames + crossfades) — a single one is a FAIL
+add(tooLong.length ? 'FAIL' : 'PASS', 'No long pause left',
+  `${inner.length} pauses · longest ${Math.max(0, ...inner.map((p) => p.len)).toFixed(2)} s · over ${(maxPause - 0.005).toFixed(2)} s: ${tooLong.length}` + (tooLong.length ? ` → listen: ${tooLong.slice(0, 6).map((p) => `${mm(p.s)} (${p.len.toFixed(2)} s)`).join(', ')}` : ''));
+// every trimmed pause really is the kept length (re-measured around each cut)
+{
+  const cutsAll = prep?.marks?.cuts ?? [], keep = prep?.keep_s ?? RULE.keep;
+  const runs = cutsAll.map((c) => {
+    let k0 = Math.round(c * 100), k1 = k0;
+    if (!quiet(k0)) return {c, len: 0};
+    while (k0 > 0 && quiet(k0 - 1)) k0--;
+    while (k1 < db.length - 1 && quiet(k1 + 1)) k1++;
+    return {c, len: (k1 - k0 + 1) / 100};
+  });
+  const hiR = prep?.max_pause_s ?? RULE.max, lo = keep - 0.01; // owner 2026-11-10: every trimmed pause lands in 0.20–0.23 s (−0.01 = one 10 ms frame)
+  const off = runs.filter((r) => r.len < lo - 0.001 || r.len > hiR + 0.005);
+  const lens = runs.map((r) => r.len).sort((p, q) => p - q), med = lens[Math.floor(lens.length / 2)] ?? 0;
+  if (runs.length) add(off.length ? 'FAIL' : 'PASS', `Trimmed pauses in ${keep.toFixed(2)}–${hiR.toFixed(2)} s`,
+    `${runs.length} trimmed pauses · median ${med.toFixed(2)} s · ${runs.length - off.length}/${runs.length} inside the range · shortest ${lens[0]?.toFixed(2)} s · longest ${lens[lens.length - 1]?.toFixed(2)} s` + (off.length ? ` → listen: ${off.slice(0, 6).map((r) => `${mm(r.c)} (${r.len.toFixed(2)} s)`).join(', ')}` : ''));
+}
+add('PASS', 'Pause spread', `0.08–0.15 s: ${hist(0.08, 0.15)} · 0.15–0.20 s: ${hist(0.15, 0.195)} · 0.20–0.23 s: ${hist(0.195, 0.235)} · over 0.23 s: ${hist(0.235, 99)} (pauses ≤ 0.23 s are left exactly as spoken)`);
 const gap = prep?.join_gap_s ?? 0.35;
 if (joins.length) {
   const bad = joins.filter((j) => Math.abs(j.end - j.start - gap) > 0.012);
@@ -201,6 +225,7 @@ const fails = rows.filter((r) => r[0] === 'FAIL').length, warns = rows.filter((r
 const verdict = fails ? `FAIL — ${fails} problem(s) must be fixed before the video goes on` : warns ? `PASS with ${warns} warning(s) — listen to the times listed, then the owner decides` : 'PASS — the voiceover is clean; the video can go on';
 const md = [`# Voice check — ${path.basename(file)}`, '', `**${verdict}**`, '', '| | check | result |', '|---|---|---|', ...rows.map(([s, c, d]) => `| ${s === 'PASS' ? '✅' : s === 'WARN' ? '⚠️' : '❌'} ${s} | ${c} | ${d} |`), ''].join('\n');
 fs.writeFileSync(path.join(path.dirname(file), 'vo-check.md'), md);
+fs.writeFileSync(path.join(path.dirname(file), 'vo-check.json'), JSON.stringify({file: path.basename(file), verdict: fails ? 'FAIL' : warns ? 'WARN' : 'PASS', fails: rows.filter((r) => r[0] === 'FAIL').map((r) => r[1]), warnings: rows.filter((r) => r[0] === 'WARN').map((r) => r[1]), rule: prep ? `> ${prep.max_pause_s} s → ${prep.keep_s} s` : null, checked: new Date().toISOString()}, null, 1));
 for (const [s, c, d] of rows) console.log(`${s.padEnd(4)}  ${c.padEnd(24)} ${d}`);
 console.log(`\n${verdict}\n→ ${path.join(path.dirname(file), 'vo-check.md')}`);
-process.exit(fails ? 1 : 0);
+process.exit(fails ? 1 : warns ? 2 : 0); // 0 = clean PASS · 2 = PASS with warnings (owner listens) · 1 = FAIL

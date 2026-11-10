@@ -16,11 +16,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {ROOT, args} from './lib/render.mjs';
+import {requireVoice} from './lib/vo-gate.mjs';
 
 const a = args();
 const active = fs.readFileSync(path.join(ROOT, 'src', 'active.ts'), 'utf8').match(/videos\/([^']+)'/)?.[1];
 const slug = a.slug ?? active;
 const vdir = path.join(ROOT, 'videos', slug);
+requireVoice(slug, 'building (compile-shots)');
 const cdir = path.join(ROOT, 'src', 'videos', slug, 'chapters');
 const chapters = JSON.parse(fs.readFileSync(path.join(vdir, 'chapters.json'), 'utf8'));
 const shotNames = (f) => [...fs.readFileSync(path.join(ROOT, 'src', 'kit', f), 'utf8').matchAll(/^export const (\w+Shot)\b/gm)].map((m) => m[1]);

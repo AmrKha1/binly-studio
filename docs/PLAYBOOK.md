@@ -17,7 +17,7 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
 ## 2. Source of truth (hard rules)
 - The supplied voiceover is the final narration and the master clock. It is PREPARED ONCE at ingest (owner 2026-11-08,
   tools/vo-prep.mjs): the recorded parts are levelled to the same loudness (one gain per part), joined in number order
-  with exactly 0.35 s of their own room tone between parts, and every pause > 0.23 s inside a part is shortened to 0.19 s.
+  with exactly 0.35 s of their own room tone between parts, and every pause > 0.23 s inside a part is shortened to 0.20 s.
   Then the VOICE GATE (tools/vo-check.mjs, step 1 of every video) verifies it: loudness on target and equal across parts,
   no pause left over the rule, joins exact, every cut inside silence, no clicks/pops, clean noise floor, no hum, no
   clipping in the recordings, no sentence far quieter/louder. FAIL → stop and tell the owner; WARN → the owner listens

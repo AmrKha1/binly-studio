@@ -7,11 +7,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {ROOT, args} from './lib/render.mjs';
+import {requireVoice} from './lib/vo-gate.mjs';
 import {gh, git, sh} from './lib/sys.mjs';
 import {dispatch, wait} from './lib/gha.mjs';
 
 const a = args();
 const [cmd, slug] = a._;
+if ((cmd === 'analyze' || cmd === 'render') && slug) requireVoice(slug, 'cloud ' + cmd);
 
 export function push(message = 'studio update') {
   git('add', '-A');

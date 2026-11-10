@@ -51,7 +51,7 @@ Delegate heavy work to subagents; read docs, not source (kit: docs/KIT-INDEX.md,
 `tools/cue.mjs`, `tools/transcript.mjs`); review with contact sheets; run cloud jobs in the background; keep messages short.
 
 ## Rules that never bend
-Voiceover prepared once at ingest (parts levelled + joined with 0.35 s, pauses > 0.23 s → 0.19 s) and VERIFIED by the voice gate (vo-check), then untouched and the master clock · no invented facts/numbers/quotes · numbers exactly as spoken ·
+Voiceover prepared once at ingest (parts levelled + joined with 0.35 s, pauses > 0.23 s → 0.20 s) and VERIFIED by the voice gate (vo-check), then untouched and the master clock · no invented facts/numbers/quotes · numbers exactly as spoken ·
 Binly palette only · no logo/HUD/subtitles · the ONLY recurring characters are the channel hosts — ODDESTORY (English) and AZTIKA (Arabic), kit/image-host · deterministic code (`node tools/check.mjs`) ·
 final render only in the cloud (this PC is too slow; local = stills/sheets only) · 1920×1080 60 fps, delivered as a YOUTUBE MASTER (H.264 High, BT.709 tagged, CFR, closed GOP, CRF 12 + aq-mode 3, AAC-LC 384k 48 kHz, faststart), −14 LUFS / −1 dBTP — checked in the QA report.
 
@@ -60,8 +60,8 @@ final render only in the cloud (this PC is too slow; local = stills/sheets only)
 |---|---|
 | `node tools/doctor.mjs` | preflight checks |
 | `node tools/new-video.mjs [--slug s --title t]` | ingest input/ (voiceover parts → vo-prep) + cloud timing |
-| `node tools/vo-prep.mjs <folder> --out v.wav` | voiceover parts → one voiceover: equal loudness, joined with 0.35 s, pauses > 0.23 s → 0.19 s |
-| `node tools/vo-check.mjs <voiceover.wav>` | STEP 1 voice gate: loudness, trim, joins, cuts, clicks, noise, hum, clipping, delivery → PASS/WARN/FAIL |
+| `node tools/vo-prep.mjs <folder> --out v.wav` | voiceover parts → one voiceover: equal loudness, joined with 0.35 s, pauses > 0.23 s → 0.20 s |
+| `node tools/vo-check.mjs <voiceover.wav>` | STEP 1 voice gate: parts equal loudness, trim exactly > 0.23 s → 0.20 s (nothing left over 0.23 s), joins, cuts, clicks, noise, hum, clipping, delivery → PASS/WARN/FAIL; on a pass the voiceover is LOCKED (vo-gate.json) and later steps refuse to run without it |
 | `node tools/cue.mjs "phrase" ["phrase2"]` · `--range 120 185` | exact word times |
 | `node tools/transcript.mjs --from 120 --to 210` | transcript lines in a time window |
 | `node tools/scaffold.mjs <slug>` | regenerate index.tsx + placeholders from chapters.json |
