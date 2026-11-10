@@ -78,5 +78,356 @@
   "w": 734,
   "h": 577,
   "from": "manual"
+ },
+ "money-pile": {
+  "kind": "el",
+  "tags": [
+   "wealth",
+   "money",
+   "night"
+  ],
+  "file": "el/money-pile.png",
+  "w": 859,
+  "h": 661,
+  "from": "_night-lib"
+ },
+ "gold-bars": {
+  "kind": "el",
+  "tags": [
+   "wealth",
+   "money",
+   "night"
+  ],
+  "file": "el/gold-bars.png",
+  "w": 808,
+  "h": 559,
+  "from": "_night-lib"
+ },
+ "giant-diamond": {
+  "kind": "el",
+  "tags": [
+   "fix",
+   "space",
+   "wealth",
+   "history",
+   "night"
+  ],
+  "file": "el/giant-diamond.png",
+  "w": 770,
+  "h": 655,
+  "from": "_night-lib"
+ },
+ "royal-crown": {
+  "kind": "el",
+  "tags": [
+   "wealth",
+   "money",
+   "night"
+  ],
+  "file": "el/royal-crown.png",
+  "w": 732,
+  "h": 638,
+  "from": "_night-lib"
+ },
+ "gold-trophy": {
+  "kind": "el",
+  "tags": [
+   "wealth",
+   "money",
+   "night"
+  ],
+  "file": "el/gold-trophy.png",
+  "w": 550,
+  "h": 653,
+  "from": "_night-lib"
+ },
+ "vault-door": {
+  "kind": "el",
+  "tags": [
+   "wealth",
+   "money",
+   "night"
+  ],
+  "file": "el/vault-door.png",
+  "w": 756,
+  "h": 693,
+  "from": "_night-lib"
+ },
+ "space-station": {
+  "kind": "el",
+  "tags": [
+   "space",
+   "science",
+   "night"
+  ],
+  "file": "el/space-station.png",
+  "w": 848,
+  "h": 540,
+  "from": "_night-lib"
+ },
+ "astronaut": {
+  "kind": "el",
+  "tags": [
+   "space",
+   "science",
+   "night"
+  ],
+  "file": "el/astronaut.png",
+  "w": 507,
+  "h": 679,
+  "from": "_night-lib"
+ },
+ "planet-earth": {
+  "kind": "el",
+  "tags": [
+   "fix",
+   "space",
+   "wealth",
+   "history",
+   "night"
+  ],
+  "file": "el/planet-earth.png",
+  "w": 663,
+  "h": 663,
+  "from": "_night-lib"
+ },
+ "antimatter-capsule": {
+  "kind": "el",
+  "tags": [
+   "space",
+   "science",
+   "night"
+  ],
+  "file": "el/antimatter-capsule.png",
+  "w": 571,
+  "h": 647,
+  "from": "_night-lib"
+ },
+ "rocket": {
+  "kind": "el",
+  "tags": [
+   "space",
+   "science",
+   "night"
+  ],
+  "file": "el/rocket.png",
+  "w": 488,
+  "h": 681,
+  "from": "_night-lib"
+ },
+ "gold-asteroid": {
+  "kind": "el",
+  "tags": [
+   "fix",
+   "space",
+   "wealth",
+   "history",
+   "night"
+  ],
+  "file": "el/gold-asteroid.png",
+  "w": 673,
+  "h": 645,
+  "from": "_night-lib"
+ },
+ "land-tile": {
+  "kind": "el",
+  "tags": [
+   "places",
+   "land",
+   "city",
+   "night"
+  ],
+  "file": "el/land-tile.png",
+  "w": 805,
+  "h": 668,
+  "from": "_night-lib"
+ },
+ "parking-tile": {
+  "kind": "el",
+  "tags": [
+   "places",
+   "land",
+   "city",
+   "night"
+  ],
+  "file": "el/parking-tile.png",
+  "w": 834,
+  "h": 655,
+  "from": "_night-lib"
+ },
+ "highway-tile": {
+  "kind": "el",
+  "tags": [
+   "places",
+   "land",
+   "city",
+   "night"
+  ],
+  "file": "el/highway-tile.png",
+  "w": 836,
+  "h": 597,
+  "from": "_night-lib"
+ },
+ "skyscraper": {
+  "kind": "el",
+  "tags": [
+   "places",
+   "land",
+   "city",
+   "night"
+  ],
+  "file": "el/skyscraper.png",
+  "w": 458,
+  "h": 724,
+  "from": "_night-lib"
+ },
+ "royal-palace": {
+  "kind": "el",
+  "tags": [
+   "places",
+   "land",
+   "city",
+   "night"
+  ],
+  "file": "el/royal-palace.png",
+  "w": 760,
+  "h": 729,
+  "from": "_night-lib"
+ },
+ "small-house": {
+  "kind": "el",
+  "tags": [
+   "places",
+   "land",
+   "city",
+   "night"
+  ],
+  "file": "el/small-house.png",
+  "w": 628,
+  "h": 682,
+  "from": "_night-lib",
+  "check": [
+   "SPECKS (9 loose bits)"
+  ]
+ },
+ "battle-tank": {
+  "kind": "el",
+  "tags": [
+   "war",
+   "industry",
+   "history",
+   "night"
+  ],
+  "file": "el/battle-tank.png",
+  "w": 808,
+  "h": 633,
+  "from": "_night-lib"
+ },
+ "warship": {
+  "kind": "el",
+  "tags": [
+   "war",
+   "industry",
+   "history",
+   "night"
+  ],
+  "file": "el/warship.png",
+  "w": 827,
+  "h": 648,
+  "from": "_night-lib"
+ },
+ "fighter-plane": {
+  "kind": "el",
+  "tags": [
+   "war",
+   "industry",
+   "history",
+   "night"
+  ],
+  "file": "el/fighter-plane.png",
+  "w": 845,
+  "h": 509,
+  "from": "_night-lib"
+ },
+ "factory": {
+  "kind": "el",
+  "tags": [
+   "war",
+   "industry",
+   "history",
+   "night"
+  ],
+  "file": "el/factory.png",
+  "w": 764,
+  "h": 788,
+  "from": "_night-lib"
+ },
+ "ancient-scroll": {
+  "kind": "el",
+  "tags": [
+   "war",
+   "industry",
+   "history",
+   "night"
+  ],
+  "file": "el/ancient-scroll.png",
+  "w": 860,
+  "h": 631,
+  "from": "_night-lib"
+ },
+ "sword-shield": {
+  "kind": "el",
+  "tags": [
+   "war",
+   "industry",
+   "history",
+   "night"
+  ],
+  "file": "el/sword-shield.png",
+  "w": 664,
+  "h": 678,
+  "from": "_night-lib"
+ },
+ "golden-hourglass": {
+  "kind": "el",
+  "tags": [
+   "fix",
+   "space",
+   "wealth",
+   "history",
+   "night"
+  ],
+  "file": "el/golden-hourglass.png",
+  "w": 386,
+  "h": 668,
+  "from": "_night-lib"
+ },
+ "oil-barrel": {
+  "kind": "el",
+  "tags": [
+   "fix",
+   "space",
+   "wealth",
+   "history",
+   "night"
+  ],
+  "file": "el/oil-barrel.png",
+  "w": 408,
+  "h": 664,
+  "from": "_night-lib"
+ },
+ "old-book": {
+  "kind": "el",
+  "tags": [
+   "fix",
+   "space",
+   "wealth",
+   "history",
+   "night"
+  ],
+  "file": "el/old-book.png",
+  "w": 731,
+  "h": 646,
+  "from": "_night-lib"
  }
 }

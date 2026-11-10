@@ -62,8 +62,8 @@ tile 3:33, palace 6:16, antimatter capsule 10:18.
 > An asset sheet of 6 separate hero objects arranged in 2 rows of 3, in this order (left to right, top row first): <LIST>.
 > Each object is shown whole, front-facing or as a three-quarter isometric view, centred in its cell, large, with
 > generous empty white space around it, no object touching or overlapping another, each enclosed by a thick closed dark
-> outline. Places and lands are shown as a small floating isometric diorama tile (a square of ground with its edge cut
-> like a cake slice). Background: plain pure flat white everywhere, no floor, no shadows, no glow, no light rays, no
+> outline. No frames, boxes, cards, borders or grid lines around or between the objects; sparkles stay inside the object. Only items described as a "tile" are shown as a small floating isometric diorama tile (a square of
+> ground with its edge cut like a cake slice); planets, rocks and every other object float free with no base or ground. Background: plain pure flat white everywhere, no floor, no shadows, no glow, no light rays, no
 > sparkles in the background, no scenery, no text, no labels, no numbers, no logos, no watermark.
 
 ## NIGHT BACKGROUND block — "painted history plates" (worlds are code-built; plates are for REAL PLACES)
@@ -78,6 +78,10 @@ then StoryPeople / pills / HeroObjects on top.
 > characters, no animals, no text, no letters, no signs, no logos, no watermark.
 
 ## Night rules
+- Background removal + ART CHECK gate (tools/art-check.mjs, run by `art.mjs ingest`): look at review.jpg every time;
+  flagged items never go into a video until regenerated or approved by eye. Avoid what white-background removal can't
+  separate: white smoke, steam, clouds or sparkles touching the object (they get eaten) — ask for them inside the object
+  or not at all.
 - One hero object per shot, big (35–55 % of the frame height), on a code-built world, with HeroObject glow in its own
   colour (gold for money/crowns, cyan for science/diamonds, violet for energy/mystery, green for land/nature).
 - Real people/events presented as real → real archival images (kit/photo), framed like the reference (gold frame).

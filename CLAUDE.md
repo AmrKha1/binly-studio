@@ -75,6 +75,7 @@ final render only in the cloud (this PC is too slow; local = stills/sheets only)
 | `node tools/preview.mjs` | live preview (Remotion Studio, http://localhost:3000) |
 | `node tools/photo.mjs search "q"` · `get <#> --as name` | free archival images (Wikimedia) |
 | `node tools/art.mjs find <words>` · `prompts <slug>` · `ingest <slug>` · `use <slug> <names>` | generated art: library search → Flow prompts → cut-out + register |
+| `node tools/art-check.mjs <folder|png…>` · `art.mjs check` · `art.mjs approve <name>` | ART CHECK GATE: every cut-out checked (holes, white fringe, specks, cut-off) + review sheet on night sky & magenta before any video uses it |
 | `node tools/silhouette.mjs list` · `search "name"` · `get <#> --as n` | shared animal/organism silhouettes (PhyloPic) |
 | `node tools/upload-pack.mjs` | YouTube description + captions.srt |
 | `node tools/compile-shots.mjs [Cxx]` | shot lists (videos/<slug>/shots/*.json) → chapter code |

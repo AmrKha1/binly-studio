@@ -29,3 +29,5 @@ references/*/timing/
 
 # local A/B samples for the owner (never published)
 samples/
+# library-only art batch copied for local tests (the library itself is in library/art)
+public/_night-lib/

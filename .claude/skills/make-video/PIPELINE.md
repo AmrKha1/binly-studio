@@ -42,10 +42,16 @@ the script/transcript, decide the generated art (rules + exact prompt blocks: do
    empty, an open area for host/objects) + 4–6 OBJECT SHEETS (6 objects each, in reading order). No text, no real
    people/events presented as real (those stay archival), clean flat style only.
 3. `node tools/art.mjs prompts <slug>` → art/prompts.json + art/prompts.md (owner fallback).
-4. ONE `flow_generate` call: project `art-<slug>`, scenes = art/prompts.json (model Nano Banana 2 Lite, max_credits 0).
+4. ONE `flow_generate` call: project `art-<slug>`, scenes = art/prompts.json (model Nano Banana Pro, max_credits 0 — free).
    Then keep working; check back with `flow_wait` only when you need the art (never poll in a loop).
-5. When done: `node tools/art.mjs ingest <slug>` → objects cut out, named, added to the library, copied into
-   public/<slug>/ (sizes in public/<slug>/art.json). Look at ONE contact sheet of everything; regenerate bad ones (free).
+5. When done: `node tools/art.mjs ingest <slug>` → objects cut out (frames removed, enclosed gaps opened), named, added
+   to the library, copied into public/<slug>/ (sizes in public/<slug>/art.json).
+6. **ART CHECK GATE (owner 2026-11-10 — never skip):** ingest checks every cut-out (HOLE white gap · FRINGE white rim ·
+   SPECKS loose bits / eaten parts · CUT touches the edge · SMALL low-res) and writes `videos/<slug>/art/review.jpg`
+   (each object on the night sky AND on magenta, which exposes any leftover white). LOOK at that sheet every time.
+   Flagged items are refused by `use` and must not appear in the video: regenerate them (free; fix the prompt — e.g. no
+   white smoke/steam/clouds touching the object), or, only if your own eyes see the flag is a false alarm,
+   `node tools/art.mjs approve <name>`. Library re-check: `node tools/art.mjs check`.
 **If Flow refuses ("unusual activity") or fails:** stop generating (never retry in a burst), tell the owner in one line
 that art/prompts.md is ready to paste into Flow by hand, and continue — chapters without art use the white-mode kit
 scenes (GlowBackdrop/GlowFloor, templates); swap art in later with `node tools/art.mjs ingest <slug> --dir input`.

@@ -1,0 +1,125 @@
+{
+ "look": "night",
+ "note": "AZTIKA starter library (GAP-CHECK P3): the reference's recurring hero objects, generated once, reused by every Arabic video (art.mjs find night).",
+ "images": [
+  {
+   "kind": "sheet",
+   "tags": [
+    "wealth",
+    "money"
+   ],
+   "items": [
+    "money-pile",
+    "gold-bars",
+    "giant-diamond",
+    "royal-crown",
+    "gold-trophy",
+    "vault-door"
+   ],
+   "what": [
+    "a big mound of green banknote bundles with a few gold coins",
+    "a neat pyramid stack of shiny gold bars",
+    "a huge brilliant-cut clear diamond with icy blue facets",
+    "a royal crown of gold with red velvet, pearls and big jewels",
+    "a shiny gold trophy cup on a dark base",
+    "a round steel bank vault door with a big handle wheel, closed"
+   ]
+  },
+  {
+   "kind": "sheet",
+   "tags": [
+    "space",
+    "science"
+   ],
+   "items": [
+    "space-station",
+    "astronaut",
+    "planet-earth",
+    "antimatter-capsule",
+    "rocket",
+    "gold-asteroid"
+   ],
+   "what": [
+    "a space station with long blue solar panel wings and white modules",
+    "a floating astronaut in a white spacesuit with a dark reflective visor, waving",
+    "planet Earth seen from space with blue oceans, green-brown continents and white clouds",
+    "a glowing glass containment capsule with metal caps holding a swirling pink-violet energy atom",
+    "a white and red space rocket with fins, upright",
+    "a grey space rock cracked open showing veins of shining gold inside"
+   ]
+  },
+  {
+   "kind": "sheet",
+   "tags": [
+    "places",
+    "land",
+    "city"
+   ],
+   "items": [
+    "land-tile",
+    "parking-tile",
+    "highway-tile",
+    "skyscraper",
+    "royal-palace",
+    "small-house"
+   ],
+   "what": [
+    "a floating isometric tile of green grassland with a few trees",
+    "a floating isometric tile of a city parking lot full of small cars",
+    "a floating isometric tile of a big highway interchange with looping roads",
+    "a tall modern glass skyscraper with lit windows",
+    "a grand classical royal palace with columns, a gold gate and a flag",
+    "a small simple family house with a red roof"
+   ]
+  },
+  {
+   "kind": "sheet",
+   "tags": [
+    "war",
+    "industry",
+    "history"
+   ],
+   "items": [
+    "battle-tank",
+    "warship",
+    "fighter-plane",
+    "factory",
+    "ancient-scroll",
+    "sword-shield"
+   ],
+   "what": [
+    "a green military battle tank, side three-quarter view",
+    "a grey navy warship with guns, side view",
+    "a grey fighter jet plane, side three-quarter view",
+    "a brick factory with three tall smoking chimneys and glowing orange windows",
+    "an old rolled parchment scroll, half open, blank",
+    "a crossed steel sword and a round bronze shield"
+   ]
+  },
+  {
+   "kind": "sheet",
+   "tags": [
+    "fix",
+    "space",
+    "wealth",
+    "history"
+   ],
+   "items": [
+    "giant-diamond",
+    "planet-earth",
+    "gold-asteroid",
+    "golden-hourglass",
+    "oil-barrel",
+    "old-book"
+   ],
+   "what": [
+    "a huge brilliant-cut clear diamond with icy blue facets and white glints drawn inside its facets",
+    "planet Earth as a round globe floating in empty space with blue oceans, green-brown continents and swirls of white cloud",
+    "a floating grey space rock cracked open showing shining gold crystals inside",
+    "a golden hourglass with blue sand running",
+    "a red metal oil barrel",
+    "a thick old leather book with gold corners, closed"
+   ]
+  }
+ ]
+}

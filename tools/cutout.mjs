@@ -36,6 +36,49 @@ const minC = (i) => Math.min(px[i * 4], px[i * 4 + 1], px[i * 4 + 2]);
 const maxC = (i) => Math.max(px[i * 4], px[i * 4 + 1], px[i * 4 + 2]);
 const isWhite = (i) => minC(i) >= WHITE && maxC(i) - minC(i) < 18;
 
+// ── remove card frames / grid lines the image model sometimes draws around each object (2026-11-10, Nano Banana Pro):
+// any straight dark run longer than 22 % of the image (rows) / 30 % (columns) with white on both sides is a frame,
+// not an object outline → paint it white. --keep-frames turns this off.
+if (!a['keep-frames']) {
+  const dark = (i) => maxC(i) < 110;
+  // wipe the run + its anti-aliased grey fringe (7 px either side, across the line)
+  const wipe = (idx, step) => {
+    for (const i of idx) {
+      px[i * 4] = px[i * 4 + 1] = px[i * 4 + 2] = 255;
+      for (const dir of [1, -1]) for (let d = 1; d <= 7; d++) {
+        const j = i + dir * d * step; // frames sit in empty space, so a 7 px band either side is safe to clear
+        if (j < 0 || j >= N) break;
+        px[j * 4] = px[j * 4 + 1] = px[j * 4 + 2] = 255;
+      }
+    }
+  };
+  let wiped = 0;
+  // a frame is a thin line standing in EMPTY space: white on both sides along most of its length. An object's straight
+  // edge (a barrel's side, a tower's wall) has colour on one side → never wiped (2026-11-10: the barrel lost its sides).
+  const freeStanding = (run, step) => {
+    let ok = 0;
+    for (const i of run) {
+      const a1 = i + 12 * step, b1 = i - 12 * step;
+      if (a1 >= 0 && a1 < N && b1 >= 0 && b1 < N && minC(a1) >= WHITE - 10 && minC(b1) >= WHITE - 10) ok++;
+    }
+    return ok / run.length >= 0.8;
+  };
+  const scan = (len, lines, at, minRun, step) => {
+    for (let l = 0; l < lines; l++) {
+      let run = [];
+      for (let k = 0; k <= len; k++) {
+        const i = k < len ? at(l, k) : -1;
+        if (i >= 0 && dark(i)) run.push(i);
+        else { if (run.length > minRun && freeStanding(run, step)) { wipe(run, step); wiped++; } run = []; }
+      }
+    }
+  };
+  scan(W, H, (y, x) => y * W + x, W * 0.22, W);
+  scan(H, W, (x, y) => y * W + x, H * 0.3, 1);
+  // the rounded corner arcs left behind are tiny components and are dropped by the size filter below.
+  if (wiped) console.log(`(removed ${wiped} straight frame line runs)`);
+}
+
 // ── background = near-white connected to the border (4-connected flood fill)
 const bg = new Uint8Array(N);
 const stack = [];
@@ -54,6 +97,45 @@ while (stack.length) {
   if (x < W - 1) push(i + 1);
   if (i >= W) push(i - W);
   if (i < N - W) push(i + W);
+}
+
+// ── --holes (objects, not characters): a big PURE-white area fully enclosed by the object's dark outline is background
+// showing through a gap (trophy handles, rings, a donut) → transparent too. Safe-guards so real white parts stay: it must
+// be pure flat white (not a tinted highlight), big enough (≥ 0.025 % of the image — pearls and sparkles are smaller) and walled mostly by dark outline
+// (a white highlight on a suit is bordered by light shading, not outline). Characters (white faces) never use this.
+if (a.holes) {
+  const seen = new Uint8Array(N);
+  const pure = (i) => minC(i) >= 244 && maxC(i) - minC(i) < 10;
+  let holes = 0;
+  for (let s0 = 0; s0 < N; s0++) {
+    if (bg[s0] || seen[s0] || !pure(s0)) continue;
+    const reg = [s0];
+    seen[s0] = 1;
+    let dark = 0, edge = 0;
+    for (let k = 0; k < reg.length; k++) {
+      const i = reg[k], x = i % W;
+      for (const j of [x > 0 ? i - 1 : -1, x < W - 1 ? i + 1 : -1, i >= W ? i - W : -1, i < N - W ? i + W : -1]) {
+        if (j < 0) continue;
+        if (pure(j)) { if (!seen[j] && !bg[j]) { seen[j] = 1; reg.push(j); } continue; }
+        // walk out through the anti-aliased rim (≤ 6 px) to see what walls the region in
+        const dx = j - i;
+        let w = j, kind = 0;
+        for (let d = 0; d < 6; d++) {
+          if (w < 0 || w >= N) break;
+          if (maxC(w) < 120) { kind = 1; break; }
+          if (minC(w) < 200 && maxC(w) - minC(w) > 25) { kind = 2; break; } // coloured shading → part of the object
+          w += dx;
+        }
+        edge++;
+        if (kind === 1) dark++;
+      }
+    }
+    if (reg.length >= N * 0.00025 && edge && dark / edge >= 0.55) {
+      for (const i of reg) bg[i] = 1;
+      holes++;
+    }
+  }
+  if (holes) console.log(`(opened ${holes} enclosed background hole${holes > 1 ? 's' : ''})`);
 }
 
 // ── alpha: background 0; foreground pixels next to the background get soft alpha from how dark they are

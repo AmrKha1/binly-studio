@@ -71,3 +71,10 @@ the same for any existing file. This PC also has a FULL ffmpeg on PATH (winget G
   there by hand with the SPARE Google account (`node dist/login.js` in that folder); while that Chrome is open its
   debugging port 9333 is reachable by programs on this PC only. Update = review the new commits first, then git pull,
   npm ci --ignore-scripts, npm run build. Tools: flow_status, flow_generate, flow_wait, flow_download, flow_agent_images …
+
+## Art check gate — tools/art-check.mjs (2026-11-10)
+Every generated object is cut out of its white sheet by tools/cutout.mjs (`--holes` for objects: card frames drawn by the
+model are removed, enclosed white gaps like trophy handles opened; characters never use --holes because of AZTIKA's white
+face), then checked: HOLE · FRINGE · SPECKS · CUT · SMALL. `art.mjs ingest` runs it and writes videos/<slug>/art/review.jpg
+(night sky + magenta). Flagged items are refused by `art.mjs use` until regenerated or `art.mjs approve <name>` after looking.
+Standalone: `node tools/art-check.mjs <folder|png…> [--sheet out.jpg]` (exit 2 when anything is flagged).
