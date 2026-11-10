@@ -6,7 +6,7 @@
 // historical quote — from the second reference) · ChapterTitle (running chapter pill — from the second reference).
 // Screen coordinates — use inside <NightScreen>. Sound: Newspapers slap = soft swish; the rest silent.
 import React from 'react';
-import {clamp01, ease, lerp, popIn, rand} from './anim';
+import {clamp01, ease, lerp, popRef, rand} from './anim';
 import {H, W} from './theme';
 import {uid} from './stage';
 import {GlowText, nightFont, NPill, PillKind, textWidth} from './night';
@@ -72,10 +72,10 @@ export const StrikeSwap: React.FC<{t: number; at: number; strikeAt: number; swap
   const rtl = isAr();
   const w1 = textWidth(from, size) + size * 3, h1 = size * 1.6;
   const w2 = textWidth(to, size * 1.25) + size * 3.4, h2 = size * 2;
-  const q1 = popIn(clamp01((t - at) / 0.25), 0.45, 0.3);
+  const q1 = popRef(clamp01((t - at) / 0.25), 0.45, 0.3);
   const s = ease.out(clamp01((t - strikeAt) / 0.3));
   const p2 = clamp01((t - swapAt) / 0.3);
-  const q2 = popIn(p2, 0.45, 0.3);
+  const q2 = popRef(p2, 0.45, 0.3);
   const mside = rtl ? -1 : 1; // the mark sits at the start of reading on the far side
   return (
     <g opacity={fade}>
@@ -126,9 +126,9 @@ export const Lineup: React.FC<{t: number; items: LineupItem[]; x: number; y: num
       {items.map((it, i) => {
         const p = clamp01((t - it.at) / 0.3);
         if (p <= 0) return null;
-        const q = popIn(p, 0.45, 0.3);
+        const q = popRef(p, 0.45, 0.3);
         const cx = x + (rtl ? total / 2 - i * step : -total / 2 + i * step);
-        const mk = it.mark && t >= (it.markAt ?? it.at + 0.5) ? popIn(clamp01((t - (it.markAt ?? it.at + 0.5)) / 0.2), 0.5, 0.6) : null;
+        const mk = it.mark && t >= (it.markAt ?? it.at + 0.5) ? popRef(clamp01((t - (it.markAt ?? it.at + 0.5)) / 0.2), 0.5, 0.6) : null;
         const crossed = it.mark === 'cross' && mk;
         return (
           <g key={i}>

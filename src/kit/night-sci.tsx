@@ -4,7 +4,7 @@
 // «×1,000,000» 12:16) · RingGauge (accelerator ring with a % in the middle, 11:39 «99.99% من سرعة الضوء») · MassGrid (one
 // small thing repeated hundreds of times = "one for every person who ever lived", 11:12). Use inside <NightScreen>.
 import React from 'react';
-import {clamp01, ease, lerp, popIn, rand} from './anim';
+import {clamp01, ease, lerp, popRef, rand} from './anim';
 import {uid} from './stage';
 import {GlowText, NPill, Tone} from './night';
 import {cueSfx} from './sfx';
@@ -14,7 +14,7 @@ const OUT = '#14101C';
 /** Particle — glowing ball with a symbol in it and an optional label pill under it (10:08). */
 export const Particle: React.FC<{t: number; at?: number; x: number; y: number; r?: number; color?: string; symbol?: string; label?: string; id: string}> = ({t, at = -1, x, y, r = 46, color = '#3B82F6', symbol, label, id}) => {
   if (t < at) return null;
-  const q = at >= 0 ? popIn(clamp01((t - at) / 0.25), 0.45, 0.4) : {sx: 1, sy: 1, o: 1};
+  const q = at >= 0 ? popRef(clamp01((t - at) / 0.25), 0.45, 0.4) : {sx: 1, sy: 1, o: 1};
   const g = uid('npart', id);
   const jx = Math.sin(t * 3.1 + x) * 3, jy = Math.cos(t * 2.7 + y) * 3;
   return (
@@ -71,7 +71,7 @@ export const ParticleSwarm: React.FC<{t: number; x: number; y: number; r?: numbe
  */
 export const WeighScale: React.FC<{t: number; at?: number; x: number; y: number; w?: number; value: string; count?: boolean; children?: React.ReactNode}> = ({t, at = -1, x, y, w = 640, value, count = true, children}) => {
   if (t < at) return null;
-  const q = at >= 0 ? popIn(clamp01((t - at) / 0.3), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
+  const q = at >= 0 ? popRef(clamp01((t - at) / 0.3), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
   const k = count && at >= 0 ? clamp01((t - at - 0.3) / 0.6) : 1;
   const num = value.replace(/[\d.]+/, (m) => (parseFloat(m) * k).toFixed((m.split('.')[1] ?? '').length));
   const h = w * 0.36;
@@ -96,7 +96,7 @@ export const Magnifier: React.FC<{t: number; at?: number; x: number; y: number; 
   t, at = -1, x, y, r = 210, angle = 45, zoom, zoomTone = 'cyan', id, children,
 }) => {
   if (t < at) return null;
-  const q = at >= 0 ? popIn(clamp01((t - at) / 0.3), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
+  const q = at >= 0 ? popRef(clamp01((t - at) / 0.3), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
   const g = uid('nmag', id);
   const a = (angle * Math.PI) / 180;
   const hx = Math.cos(a) * r, hy = Math.sin(a) * r;
@@ -140,7 +140,7 @@ export const RingGauge: React.FC<{t: number; at?: number; x: number; y: number; 
   t, at = -1, x, y, r = 320, value, from = 0, label, sub, id,
 }) => {
   if (t < at) return null;
-  const q = at >= 0 ? popIn(clamp01((t - at) / 0.35), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
+  const q = at >= 0 ? popRef(clamp01((t - at) / 0.35), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
   const k = at >= 0 ? ease.out(clamp01((t - at - 0.2) / 1.2)) : 1;
   const m = value.match(/[\d.]+/);
   const dec = m ? (m[0].split('.')[1] ?? '').length : 0;

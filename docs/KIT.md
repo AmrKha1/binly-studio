@@ -824,13 +824,25 @@ place things exactly where the reference does — headline top-right, object cen
     <GridFloor id="a" t={t} />                       {/* glowing purple horizon + perspective grid (slowly scrolling) */}
     <Podium x={870} base={836} w={250} h={216} id="p" grow={(t - 0.2) / 0.5} color="green" />  {/* green|gold|red */}
     <RevealRing t={t} at={0.35} x={870} y={470} />   {/* gold ring + sparkle burst when an object appears */}
-    <NPill text="45 مليون $" x={868} y={266} size={60} kind="gold" id="q" p={(t - 0.6) / 0.25} />
+    <NPill text="45 مليون $" x={868} y={266} size={60} kind="gold" id="q" p={(t - 0.6) / 0.3} />   {/* p over 0.3 s = the reference pop */}
     <WordPop t={t} id="h" y={318} size={150} right={1650}
       words={[{w: 'أنت', at: 0.9}, {w: 'غالي!', at: 1.2, tone: 'gold'}]} />   {/* each word pops on its spoken time */}
     <HostGlow id="host"><ImageHost t={t} x={480} y={1068} h={340} poses={[[0, 'full-thumbsup-wink']]} shadow={false} /></HostGlow>
   </NightScreen>
 </Stage>
 ```
+
+## MOTION = the reference, measured frame by frame (references/universe-claude/MOTION.md, 2026-11-11)
+Every night piece already moves like the reference — keep it that way in custom pieces:
+- **Pop-in** = `popRef(p)` (p over 0.3 s): ONE smooth swell 0.46 → 1.16 at 125 ms → 1.00 at 295 ms; no wobble, no
+  squash/stretch (the old `popIn` jelly is for the English channel only). Its sound peaks on the swell (`hit: 0.125`).
+- **Camera never still:** wrap every held shot's WORLD in `pushT(t, shotStart, cx, cy)` (≈ 0.35 %/s push-in, around
+  the focus); hosts stay outside (pinned to the screen). Big moves: `camAt` keyframes with `ease.inOut`.
+- **Board camera:** `<g transform={boardCamT(t, {entries, …})}><GridFloor/><PodiumGame/></g>` — travels to each newcomer.
+- **Exits:** at a scene end, punchT on the key line + the other pieces FLY OUT with `flyOut(t, out, dirX, dirY)` (≈ 0.2 s,
+  accelerating) — not a fade. **Flash** on the biggest slam/reveal. **StripeWipe** for chapter-level cuts.
+- **Count-up** = CountNumber (late S-curve 1.64 s, white → gold on the final value). **Stamp** = a clean press, no shake.
+- Life in held shots = rotating rays, twinkling sparkles, the slow push — not pulsing glows.
 
 ## AZTIKA reacts (owner 2026-11-08)
 He is never a statue: he changes pose on the beats to interact with the SCENE (points at / presents the object that
@@ -884,14 +896,18 @@ Gallery `night3` = demo (stills 0.8, 1.72, 2.8, 4.0, 4.6, 6.0).
 Gallery `night4` runs them in order (stills 1.5, 3.6, 5.9, 7.95, 8.08, 8.48, 9.8).
 - **Rays** `{t, id, x?, y?, tone: gold|dark|cyan|violet, n?, spin?}` — slowly rotating sunburst + vignette. gold = the
   "you!" hero moment (0:16.4), dark = the sign-off (14:44), cyan = science/body, violet = space. + **Bokeh** `{t, n?, color?, seed?}`.
-- **CountNumber** `{t, at, value, x, y, size=170, tone, id, dur=1.2, from=0.03}` — exact spoken value counting up with
-  an ease-out and a small punch when it lands (2:00.4).
-- **Stamp** `{t, at, text, x, y, size=110, rot=-8, color}` — red ink stamp slams in from 1.6× with a shake (3:16–3:47).
+- **CountNumber** `{t, at, value, x, y, size=170, tone, id, dur=1.64, from=0.03}` — exact spoken value counting up like the
+  reference (2:00.4): a late S-curve (slow start = suspense), WHITE while counting, turns `tone` (gold) on the final value.
+- **Stamp** `{t, at, text, x, y, size=110, rot=-8, color}` — red ink stamp PRESSES in: 1.64× → 1.00 decelerating in 0.165 s
+  while fading in, then rock still (3:18, measured frame by frame).
+- **Flash** `{t, at, strength=0.5, color}` — the reference's flash on a big slam/reveal (0:15.6): instant ≈ 50 % white,
+  exponential fade (gone by ≈ 0.4 s). On the slam's frame, on top.
 - **Bubble** `{t, at, lines, x, y, tx, ty, size=64, mark?: check|cross, icon?, out?}` — speech bubble that grows out of
   the speaker's mouth (tail tip tx,ty), thick outline, optional ✔/✖ badge or icon (0:45). **Mark** = the ✔/✖ badge alone.
 - **punchT(t, end, cx, cy, dur=0.35, amount=0.35)** — transform for the end-of-scene punch-in on the key line, then
   **WhooshOut** `{t, at, dur=0.18}` — streaks across an empty sky between scenes (0:27.4–27.8).
-- **StripeWipe** `{t, at, dur=0.6}` — gold/orange diagonal stripes; fully covers the frame at at+dur/2 → cut there (0:09).
+- **StripeWipe** `{t, at, dur=0.47}` — gold/orange diagonal stripes: cover in 0.17 s, HOLD 0.1 s, clear in 0.2 s; cut at
+  at+dur/2 (inside the hold) (0:08.85).
 - **NeonSign** `{t, at, x, y, text? | d?, size=220, color, id}` — gold neon tube that flickers on, then hums (sign-off).
   Ending recipe: Rays dark + Bokeh + NeonSign «ازتيكا» + WordPop gold «في أمان الله» + AZTIKA thumbs-up/wink.
 
@@ -952,7 +968,10 @@ const E: Contender[] = [
   45 M body still shows next to billions; a giant newcomer shrinks the others.
 - Champion = tallest, stands next to AZTIKA (x0 ≈ 760); the rest step right, shrink, and slide out after maxVisible (5).
   Pills: gold champion · white runners-up · grey tiny. color: green (default) · red (war, losses) · gold (the final winner).
-- mystery: black silhouette hovering over the empty spot (the row makes room first) → lands at `at` with the reveal ring.
+- mystery: the old champion steps aside (0.55 s), THEN the black silhouette pops into the empty spot (0.35 s later) and
+  hovers; at `at` its podium rises to it, lifts it, and the real object pops over it in place (no gap) with the reveal ring.
+- **Camera:** wrap GridFloor + PodiumGame in `boardCamT(t, {entries, …same props})` — the board travels to each newcomer
+  (pan + push 1.07, 0.5 s) and keeps pushing slowly; the recap pulls back. AZTIKA stays outside the transform.
 - times "×2" (timesAt): dashed bracket + big gold ×N vs the previous champion; leaves when the next contender comes.
 - recapAt: everybody in one row (put the question under it with WordPop, AZTIKA smallLeft thinking).
 - Between game beats the story leaves the stage (worlds, mini-stories) and comes back — every return = a new round.

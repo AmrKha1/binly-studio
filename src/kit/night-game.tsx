@@ -9,7 +9,7 @@
 //   • recap: every contender in one row (14:03)
 import React from 'react';
 import {Img, staticFile} from 'remotion';
-import {clamp01, ease, lerp, popIn, spring} from './anim';
+import {clamp01, ease, lerp, popRef, spring} from './anim';
 import {H, W} from './theme';
 import {GlowText, N, NPill, Podium, RevealRing, Sparkle} from './night';
 import {cueSfx} from './sfx';
@@ -62,24 +62,58 @@ const layout = (list: Contender[], x0: number, maxH: number, maxVisible: number,
   return m;
 };
 
+/** the board's states: one after each arrival (a mystery silhouette counts as its arrival) + the recap row */
+const boardStates = (entries: Contender[], x0: number, maxH: number, maxVisible: number, right: number, recapAt?: number) => {
+  const order = [...entries].sort((a, b) => a.at - b.at);
+  const order2 = [...order].sort((a, b) => (a.mystery ?? a.at) - (b.mystery ?? b.at));
+  const states = order2.map((c, k) => ({at: c.mystery ?? c.at, newId: c.id as string | null, slots: layout(order2.slice(0, k + 1), x0, maxH, maxVisible, right)}));
+  if (recapAt !== undefined) states.push({at: recapAt, newId: null, slots: layout(order, Math.max(x0 - 120, 520), maxH * 0.95, order.length, right)});
+  return {order, states};
+};
+
+/**
+ * boardCamT — the reference's BOARD CAMERA (MOTION.md §3, 1:34): on every arrival the camera travels toward the newcomer
+ * (pan + a push to 1.07, 0.5 s ease-in-out), then keeps pushing slowly (0.35 %/s) — never still; the recap pulls back to
+ * the whole row. Wrap the WORLD (GridFloor + PodiumGame) — NOT the host (he stays pinned to the screen, as in the
+ * reference):  <g transform={boardCamT(t, {entries, …same props as PodiumGame})}><GridFloor …/><PodiumGame …/></g>
+ */
+export const boardCamT = (t: number, o: {entries: Contender[]; x0?: number; base?: number; maxH?: number; maxVisible?: number; right?: number; recapAt?: number}) => {
+  const {x0 = 760, base = 836, maxH = 290, maxVisible = 5, right = W - 60, recapAt} = o;
+  const {states} = boardStates(o.entries, x0, maxH, maxVisible, right, recapAt);
+  if (!states.length) return '';
+  const focus = (k: number) => {
+    const st = states[k];
+    const xs = [...st.slots.values()].filter((q) => q.o > 0).map((q) => q.x);
+    const mid = xs.length ? (Math.min(...xs) + Math.max(...xs)) / 2 : 960;
+    const nx = st.newId ? st.slots.get(st.newId)?.x ?? mid : mid;
+    const cx = st.newId === null ? mid : k === 0 ? nx : lerp(mid, nx, 0.5);
+    return {cx: lerp(960, cx, 0.6), z: st.newId === null || k === 0 ? 1 : 1.07};
+  };
+  let k = -1;
+  for (let i = 0; i < states.length; i++) if (t >= states[i].at) k = i;
+  const a = focus(Math.max(0, k - 1)), b = focus(Math.max(0, k));
+  const u = k <= 0 ? 1 : ease.inOut(clamp01((t - states[k].at) / 0.5));
+  const since = Math.max(0, t - (k >= 0 ? states[k].at : 0));
+  const cx = lerp(a.cx, b.cx, u), z = lerp(a.z, b.z, u) * (1 + 0.0035 * since);
+  return `translate(960 ${base}) scale(${z}) translate(${-cx} ${-base})`;
+};
+
 const pillKind = (rank: number, rel: number) => (rank === 0 ? 'gold' : rel < 0.06 ? 'grey' : 'white') as 'gold' | 'white' | 'grey';
 
 /**
  * PodiumGame — the whole leaderboard from data. x0 = centre of the champion's podium (next to AZTIKA at sideLeft),
  * base = floor y (GridFloor 836), maxH = the champion's height, right = right edge of the usable row.
  * recapAt: from this time every contender is shown in one row (the ending). Draw inside <NightScreen> on the night stage.
+ * CAMERA (the reference's board travels to each newcomer): wrap GridFloor + PodiumGame in boardCamT(t, same props).
  */
 export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; x0?: number; base?: number; maxH?: number; maxVisible?: number; right?: number; recapAt?: number}> = ({
   t, id, entries, x0 = 760, base = 836, maxH = 290, maxVisible = 5, right = W - 60, recapAt,
 }) => {
-  const order = [...entries].sort((a, b) => a.at - b.at);
-  // states: after each arrival (+ the recap)
-  const order2 = [...order].sort((a, b) => (a.mystery ?? a.at) - (b.mystery ?? b.at));
-  const states = order2.map((_, k) => ({at: order2[k].mystery ?? order2[k].at, slots: layout(order2.slice(0, k + 1), x0, maxH, maxVisible, right)}));
-  if (recapAt !== undefined) states.push({at: recapAt, slots: layout(order, Math.max(x0 - 120, 520), maxH * 0.95, order.length, right)});
+  // states: after each arrival (+ the recap) — shared with boardCamT so the camera follows exactly this board
+  const {order, states} = boardStates(entries, x0, maxH, maxVisible, right, recapAt);
   let si = -1;
   for (let k = 0; k < states.length; k++) if (t >= states[k].at) si = k;
-  const TW = 0.7; // re-arrange time
+  const TW = 0.55; // re-arrange time (the old champion steps aside before the newcomer appears — MOTION.md §3)
   const cur = si >= 0 ? states[si] : null;
   const prev = si > 0 ? states[si - 1] : null;
   const u = cur ? ease.inOut(clamp01((t - cur.at) / TW)) : 0;
@@ -95,19 +129,26 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
   const over: React.ReactNode[] = [];
   for (const c of order) {
     // mystery silhouette before it lands: hovering where the champion will stand
-    if (c.mystery !== undefined && t >= c.mystery && t < c.at) {
-      const p = clamp01((t - c.mystery) / 0.4);
-      const q = popIn(p, 0.4, 0.4);
+    // (MOTION.md §3, 1:34: the old champion slides aside FIRST, the silhouette pops into the empty space, and it is replaced
+    // IN PLACE by the real object — it waits 0.35 s, and stays until the object has popped over it)
+    const MW = 0.35, gone = c.at + 0.2 + 0.3;
+    if (c.mystery !== undefined && t >= c.mystery + MW && t < gone) {
+      const p = clamp01((t - c.mystery - MW) / 0.3);
+      const q = popRef(p);
+      const fadeOut = 1 - clamp01((t - c.at - 0.3) / 0.2);
       const oh = Math.min(230, 0.62 * maxH + 40);
       const ms = slotOf(c.id);
       const mx = ms ? ms.x : x0;
-      const y = base - (ms ? ms.h : maxH) * 0.55 - oh / 2 + Math.sin(t * 2) * 8;
-      nodes.push(
-        <g key={c.id + '__m'} transform={`translate(${mx} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
+      // hovering before the reveal; once its podium grows (t ≥ at) it rides on the podium's top, where the object will pop
+      const ph0 = t >= c.at && ms ? ms.h * spring(clamp01((t - c.at) / 0.6), 0.3) : 0;
+      const hover = base - (ms ? ms.h : maxH) * 0.55 - oh / 2 + Math.sin(t * 2) * 8;
+      const y = t >= c.at && ms ? Math.min(hover, base - ph0 - oh / 2 - 12) : hover; // keeps hovering until the rising podium reaches it
+      (t >= c.at ? over : nodes).push(
+        <g key={c.id + '__m'} transform={`translate(${mx} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o * fadeOut}>
           <ObjectArt c={c} h={oh} silhouette />
         </g>
       );
-      cueSfx('riser', `${id}-mystery-${c.id}`, t >= c.mystery && t < c.mystery + 0.3, x0, {at: c.mystery}); // SOUND MAP: the run-up into the mystery
+      cueSfx('riser', `${id}-mystery-${c.id}`, t >= c.mystery + MW && t < c.mystery + MW + 0.3, x0, {at: c.mystery + MW + 0.125}); // SOUND MAP: the run-up lands on the silhouette's pop
     }
     if (t < c.at) continue;
     const s = slotOf(c.id);
@@ -120,7 +161,7 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
     const oh = Math.max(40, Math.min(230, 38 + 0.62 * s.h));
     const top = base - ph;
     const objP = clamp01((e - 0.2) / 0.35);
-    const oq = popIn(objP, 0.45, 0.4);
+    const oq = popRef(objP, 0.45, 0.4);
     const bob = Math.sin(t * 1.4 + s.x * 0.01) * 5;
     const pillP = clamp01((e - 0.35) / 0.25);
     const champ = s.rank === 0;
@@ -151,7 +192,7 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
         const pp = clamp01((t - ta) / 0.3) * (1 - clamp01((t - (nextAt - 0.25)) / 0.25));
         const y1 = top + 26, y2 = base - ps.h + 26;
         const xa = s.x + s.w / 2 + 6, xb = ps.x - ps.w / 2 - 6, xm = (xa + xb) / 2;
-        const q = popIn(pp, 0.5, 0.3);
+        const q = popRef(pp, 0.5, 0.3);
         over.push(
           <g key={c.id + '__x'} opacity={pp}>
             <path d={`M${xa} ${y1} H${xm} V${y2} H${xb}`} fill="none" stroke="#FFFFFF" strokeWidth={5} strokeDasharray="12 9" />
@@ -160,7 +201,7 @@ export const PodiumGame: React.FC<{t: number; id: string; entries: Contender[]; 
             </g>
           </g>
         );
-        cueSfx('boom', `${id}-times-${c.id}`, t >= ta && t < ta + 0.3, xm, {gain: 1.4, at: ta, hit: 0.054}); // SOUND MAP: ×N = a bigger boom
+        cueSfx('boom', `${id}-times-${c.id}`, t >= ta && t < ta + 0.3, xm, {gain: 1.4, at: ta, hit: 0.125}); // SOUND MAP: ×N = a bigger boom
       }
     }
   }

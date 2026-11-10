@@ -152,5 +152,43 @@ export const popIn = (p: number, bounce = 0.35, from = 0.3) => {
   return {s, sx: s * (1 - over * 0.35), sy: s * (1 + over * 0.35), o: clamp01(p * 4)};
 };
 
+/**
+ * popRef — the REFERENCE's pop-in (references/universe-claude/MOTION.md §1, measured frame by frame 2026-11-11): ONE smooth
+ * swell, no wobble, no squash — from 0.46, quadratic ease-out to 1.16 at 125 ms, then a sine glide back to 1.00 by 295 ms
+ * (fitted to the measured frames: max error 0.018). Same {s, sx, sy, o} shape as popIn, so night pieces swap it in place.
+ * p = (t - at) / 0.3 (a 0.25–0.3 s entrance). The extra args are ignored (kept so popIn calls convert 1:1).
+ */
+export const popRef = (p: number, _bounce?: number, _from?: number) => {
+  const x = clamp01(p);
+  const t = x * 0.3; // seconds into a 0.3 s entrance
+  const s = t < 0.125 ? 0.46 + 0.7 * (1 - Math.pow(1 - t / 0.125, 2)) : 1.16 - 0.16 * ease.inOutSine(clamp01((t - 0.125) / 0.17));
+  return {s, sx: s, sy: s, o: clamp01(x * 8)};
+};
+/** pressIn — the reference's STAMP (MOTION.md §2): from 1.64× decelerating to 1.00 in 165 ms (1.64·1.43·1.27·1.17·1.10·
+ * 1.05·1.02·1.00 per 1/60 s — fitted, max error 0.008), fading in while it shrinks, then rock still. u = (t - at) / 0.165. */
+export const pressIn = (u: number) => {
+  const x = clamp01(u);
+  return {s: 1 + 0.64 * Math.pow(1 - x, 3.7), o: clamp01(0.6 + x * 1.6)}; // clearly visible from its first (biggest) frame, as in the reference
+};
+/** countCurve — the reference's COUNT-UP (MOTION.md §5, 100 → 3,106 in 1.64 s): slow start that builds suspense, fast
+ * middle, eases into the number (fitted: max error 1.7 % of the range). p = (t - at) / 1.64. */
+export const countCurve = (p: number) => {
+  const x = Math.pow(clamp01(p), 1.6), c = 2.25;
+  return x < 0.5 ? Math.pow(2, c - 1) * Math.pow(x, c) : 1 - Math.pow(-2 * x + 2, c) / 2;
+};
+/** flyOut — the reference's EXIT (MOTION.md §4, 0:27.4): pieces fly away accelerating in ≈ 0.2 s instead of fading.
+ * Returns {dx, dy, o} for a piece leaving at `out` toward (dirX, dirY) (screen fractions, e.g. (0, 1) = drops down). */
+export const flyOut = (t: number, out: number | undefined, dirX = 0, dirY = 1, dur = 0.22) => {
+  if (out === undefined || t < out) return {dx: 0, dy: 0, o: 1};
+  const u = clamp01((t - out) / dur), k = u * u * u; // ease-in: leaves slowly then fast
+  return {dx: dirX * 1100 * k, dy: dirY * 900 * k, o: 1 - clamp01((u - 0.7) / 0.3)};
+};
+/** pushT — the reference's camera is NEVER still (MOTION.md §3): a slow push-in ≈ 0.35 % per second from the shot's
+ * start, around a focus point. <g transform={pushT(t, shotStart, cx, cy)}>…the shot's world…</g> (hosts stay outside). */
+export const pushT = (t: number, start: number, cx = 960, cy = 540, rate = 0.0035) => {
+  const z = 1 + rate * Math.max(0, t - start);
+  return `translate(${cx} ${cy}) scale(${z}) translate(${-cx} ${-cy})`;
+};
+
 /** bob — gentle idle float for held hero objects/pills (keeps the frame alive). px amplitude, deterministic. */
 export const bob = (t: number, amp = 6, period = 3.2, phase = 0) => Math.sin((t / period) * Math.PI * 2 + phase) * amp;

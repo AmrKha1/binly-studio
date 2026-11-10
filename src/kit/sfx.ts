@@ -17,8 +17,8 @@ export const setSfxCollector = (fn: ((c: SfxCue) => void) | null) => {
  * scribble). key must be stable for this element across frames (kind + position + text is enough).
  * SYNC (measured on the reference, SOUND.md §5): a sound's PEAK sits on the frame where the thing LANDS (pop-in reaches full
  * size, a stamp touches, a podium block settles) or, for whooshes, on its fastest moment. Pass at = the exact start time
- * (not the frame) and hit = seconds from at to that landing — e.g. popIn over d s with bounce 0.45 lands at ≈ 0.19·d,
- * spring(e/0.6, 0.3) at 0.13 s, a 0.16 s slam at 0.16 s. The Arabic mixer puts the sound's peak exactly there.
+ * (not the frame) and hit = seconds from at to that landing — popRef (the reference pop) swells to its peak at 0.125 s,
+ * spring(e/0.6, 0.3) at 0.13 s, the stamp's press at 0.16 s. The Arabic mixer puts the sound's peak exactly there.
  */
 export const cueSfx = (kind: string, key: string, active: boolean, x = 960, opts: {sustain?: boolean; gain?: number; at?: number; hit?: number} = {}) => {
   if (!COLLECT || !active) return;

@@ -5,7 +5,7 @@
 // 5:03) · FlyingBills (a reward bursting out, 2:24) · CoinRain (6:56). Screen coordinates — use inside <NightScreen>.
 // Sound: the flip of a choice card = soft swish; everything else silent (the voice carries it).
 import React from 'react';
-import {clamp01, lerp, popIn, rand, spring} from './anim';
+import {clamp01, lerp, popRef, rand, spring} from './anim';
 import {H, W} from './theme';
 import {uid} from './stage';
 import {nightFont, Sparkle} from './night';
@@ -47,8 +47,8 @@ const QMark: React.FC<{size: number; color: string; y?: number; glow?: string; i
 export const MysteryBox: React.FC<{t: number; at?: number; x: number; y: number; size?: number; id: string; float?: boolean; out?: number}> = ({t, at = -1, x, y, size = 240, id, float = true, out}) => {
   if (t < at) return null;
   // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): the mystery box lands with a boom
-  if (at >= 0) cueSfx('boom', `mbox-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.056});
-  const q = at >= 0 ? popIn(clamp01((t - at) / 0.3), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
+  if (at >= 0) cueSfx('boom', `mbox-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125});
+  const q = at >= 0 ? popRef(clamp01((t - at) / 0.3), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
   const g = uid('nmbox', id);
@@ -79,7 +79,7 @@ export const MysteryBox: React.FC<{t: number; at?: number; x: number; y: number;
 /** MysteryPillar — the MysteryBox standing on a tall glowing gold column that rises from the floor (0:09, 12:16). base = floor y. */
 export const MysteryPillar: React.FC<{t: number; at?: number; x: number; base?: number; h?: number; size?: number; id: string; out?: number}> = ({t, at = -1, x, base = 836, h = 300, size = 220, id, out}) => {
   if (t < at) return null;
-  if (at >= 0) cueSfx('boom', `mpillar-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.056}); // SOUND MAP
+  if (at >= 0) cueSfx('boom', `mpillar-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125}); // SOUND MAP
   const u = at >= 0 ? clamp01((t - at) / 0.5) : 1;
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
@@ -115,8 +115,8 @@ export const MysteryPillar: React.FC<{t: number; at?: number; x: number; base?: 
 /** MysteryTile — a dark box with a glowing gold "?" (5:45 «في بيت ثاني...»): the unknown that is not the main mystery. */
 export const MysteryTile: React.FC<{t: number; at?: number; x: number; y: number; w?: number; h?: number; id: string; out?: number}> = ({t, at = -1, x, y, w = 260, h = 170, id, out}) => {
   if (t < at) return null;
-  if (at >= 0) cueSfx('thump', `mtile-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.056}); // SOUND MAP: a tile lands
-  const q = at >= 0 ? popIn(clamp01((t - at) / 0.3), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
+  if (at >= 0) cueSfx('thump', `mtile-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125}); // SOUND MAP: a tile lands
+  const q = at >= 0 ? popRef(clamp01((t - at) / 0.3), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
   return (
@@ -144,7 +144,7 @@ export const ChoiceCards: React.FC<{t: number; at: number; cards: Choice[]; id: 
         const [col, deep] = CARD[c.color ?? (i % 2 ? 'cyan' : 'gold')];
         const p = clamp01((t - at - i * 0.15) / 0.3);
         if (p <= 0) return null;
-        const q = popIn(p, 0.45, 0.3);
+        const q = popRef(p, 0.45, 0.3);
         const rv = c.reveal !== undefined ? clamp01((t - c.reveal) / 0.35) : 0;
         if (c.reveal !== undefined) cueSfx('swish', `${id}-flip-${i}`, t >= c.reveal && t < c.reveal + 0.35, c.x, {at: c.reveal, hit: 0.175}); // the card is edge-on at the middle of its flip
         const flipX = rv > 0 && rv < 1 ? Math.abs(Math.cos(rv * Math.PI)) : 1;
@@ -175,7 +175,7 @@ export const ChoiceCards: React.FC<{t: number; at: number; cards: Choice[]; id: 
 /** BlueprintCard — a tilted blue plan sheet with a grid and a big glowing white "?" (7:08 «المشروع نفسه مو واضح»). */
 export const BlueprintCard: React.FC<{t: number; at?: number; x: number; y: number; w?: number; h?: number; rot?: number; id: string}> = ({t, at = -1, x, y, w = 560, h = 380, rot = -6, id}) => {
   if (t < at) return null;
-  const q = at >= 0 ? popIn(clamp01((t - at) / 0.35), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
+  const q = at >= 0 ? popRef(clamp01((t - at) / 0.35), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
   const g = uid('nblue', id);
   return (
     <g transform={`translate(${x} ${y + Math.sin(t * 1.1) * 6}) rotate(${rot}) skewX(-4) scale(${q.sx} ${q.sy})`} opacity={q.o}>

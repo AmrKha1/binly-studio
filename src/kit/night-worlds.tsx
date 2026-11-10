@@ -136,7 +136,7 @@ export const Flag: React.FC<{x: number; y: number; colors: string[]; horizontal?
 };
 /** Price tag (3:25 «15 مليون $»): green tag with a hole, thick outline, heavy dark text. x,y = centre. */
 export const PriceTag: React.FC<{text: string; x: number; y: number; size?: number; color?: string; p?: number}> = ({text, x, y, size = 64, color = '#2EE88B', p = 1}) => {
-  cueSfx('pop', `tag-${text}`, p > 0 && p < 1, x, {gain: 0.6, hit: 0.05});
+  cueSfx('pop', `tag-${text}`, p > 0 && p < 1, x, {gain: 0.6, hit: 0.125});
   if (p <= 0) return null;
   const w = textWidth(text, size) + size * 1.9, h = size * 1.75;
   const s = 0.4 + 0.6 * clamp01(p) + Math.sin(clamp01(p) * Math.PI) * 0.12;

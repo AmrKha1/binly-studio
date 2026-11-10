@@ -4,7 +4,7 @@
 // text) · WordPop (word-by-word headline) · NPill (gold/white/grey/cyan) · Podium · RevealRing · Sparkle · YearBadge.
 import React from 'react';
 import {measureText} from '@remotion/layout-utils';
-import {clamp01, ease, lerp, popIn, rand, spring} from './anim';
+import {clamp01, ease, lerp, popRef, rand, spring} from './anim';
 import {ImageHost} from './image-host';
 import type {HostMove} from './host';
 import {FONT_AR, isAr} from './lang';
@@ -213,7 +213,7 @@ export const WordPop: React.FC<{t: number; words: PopWord[]; y: number; size: nu
         cursor = rtl ? cursor - ws[i] - sp : cursor + ws[i] + sp;
         const p = clamp01((t - w.at) / 0.22);
         if (p <= 0) return null;
-        const q = popIn(p, 0.45, 0.3);
+        const q = popRef(p, 0.45, 0.3);
         return (
           <g key={i} transform={`translate(${cx} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
             <GlowText text={w.w} x={0} y={0} size={size} tone={w.tone ?? 'white'} id={`${id}-${i}`} glow={pulse} />
@@ -238,12 +238,12 @@ const PILL: Record<PillKind, {top: string; low: string; ink: string; glow: strin
 export const NPill: React.FC<{text: string; x: number; y: number; size?: number; kind?: PillKind; id: string; p?: number}> = ({text, x, y, size: size0 = 44, kind = 'gold', id, p = 1}) => {
   if (p <= 0) return null;
   // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): pills/tags pop in (≈ 28 dB under the voice)
-  cueSfx('pop', `npill-${id}-${text}`, p > 0 && p < 1, x, {hit: 0.05}); // popIn lands at ≈ 0.19 of its entrance
+  cueSfx('pop', `npill-${id}-${text}`, p > 0 && p < 1, x, {hit: 0.125}); // popRef swells to its peak at 125 ms — the reference's sound peaks there (MOTION.md §1)
   const size = Math.max(size0, PHONE.pill); // phone rule
   const k = PILL[kind];
   const g = uid('npl', id);
   const h = size * 1.65, w = textWidth(text, size) + size * 1.5;
-  const q = popIn(p, 0.45, 0.2);
+  const q = popRef(p, 0.45, 0.2);
   return (
     <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
       <defs>
@@ -317,13 +317,13 @@ export const YearBadge: React.FC<{t: number; at: number; year: number; from?: nu
   const p = clamp01((t - at) / 0.25);
   // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): a riser builds INTO the year badge, then it pops
   cueSfx('riser', `year-${id}-${at}`, t >= at && t < at + 0.3, x, {at});
-  cueSfx('pop', `yearpop-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.047});
+  cueSfx('pop', `yearpop-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125});
   if (p <= 0) return null;
   const steps = from !== undefined ? Math.abs(year - from) : 0;
   const k = steps ? Math.min(steps, Math.floor((t - at) / 0.1)) : 0;
   const shown = from !== undefined ? from + Math.sign(year - from) * k : year;
   const w = textWidth(String(year), size) + size * 0.8, h = size * 1.4; // measured 0:40.6: box ≈ 1.4× the digit size
-  const q = popIn(p, 0.45, 0.4);
+  const q = popRef(p, 0.45, 0.4);
   return (
     <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
       <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={size * 0.22} fill={N.badge} stroke={N.gold} strokeWidth={size * 0.045} />

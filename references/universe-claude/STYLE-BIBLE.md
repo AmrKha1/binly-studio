@@ -57,6 +57,7 @@ Fully rounded capsule, height ≈ 1.6× text size, padding ≈ 0.8× text size l
 - Stars in the space sky: small white dots + a few 4-point sparkles, some twinkle.
 
 ## 5. Motion (measured frame by frame)
+**SUPERSEDED 2026-11-11 by MOTION.md** (pixel-measured curves; the pop overshoot is ≈ 1.16, not 1.08; no glow pulse).
 - **Word-by-word headlines:** each word pops in on its spoken word: scale 0.3 → 1.08 → 1.0 in ~150 ms (spring with a
   small overshoot) (0:25.5–25.6). Never typewriter.
 - **Pills / bubbles:** pop from the speaker/object: scale 0 → 1.1 → 1.0 in ~150 ms (bubble 0:45.1–45.2).

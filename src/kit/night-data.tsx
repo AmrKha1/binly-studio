@@ -5,7 +5,7 @@
 // day/date card — 0:00, 0:56, 10:37) · JourneyPath (the hook's road map: dotted wave through what's coming — 0:09).
 // Screen coordinates — use inside <NightScreen>. Silent: the voice carries counts, bars and lists.
 import React from 'react';
-import {clamp01, ease, lerp, popIn, rand, spring} from './anim';
+import {clamp01, ease, lerp, popRef, rand, spring} from './anim';
 import {H, W} from './theme';
 import {uid} from './stage';
 import {N, nightFont, NPill, PillKind, textWidth} from './night';
@@ -80,7 +80,7 @@ export const NTimeline: React.FC<{t: number; events: TimelineEvent[]; y?: number
       {events.map((e, i) => {
         const p = clamp01((t - e.at) / 0.25);
         if (p <= 0) return null;
-        const q = popIn(p, 0.45, 0.3);
+        const q = popRef(p, 0.45, 0.3);
         const x = xs[i];
         return (
           <g key={i}>
@@ -322,7 +322,7 @@ export const Receipt: React.FC<{t: number; at: number; x: number; y: number; tit
       })}
       <line x1={-w / 2 + 28} x2={w / 2 - 28} y1={h / 2 - 120} y2={h / 2 - 120} stroke="#1A1A2E" strokeWidth={3} strokeDasharray="10 8" opacity={0.6} />
       {totalP > 0 && (
-        <g opacity={totalP} transform={`translate(0 ${h / 2 - 62}) scale(${popIn(totalP, 0.45, 0.6).sx})`}>
+        <g opacity={totalP} transform={`translate(0 ${h / 2 - 62}) scale(${popRef(totalP, 0.45, 0.6).sx})`}>
           {txt(total.label, lx, 0, 50, '#1A1A2E', la)}
           {txt(total.value, vx, 0, 66, '#16A34A', va)}
         </g>
@@ -340,10 +340,10 @@ export const CalendarCard: React.FC<{t: number; at: number; x: number; y: number
   t, at, x, y, to, from, dur = 2, label, pill, size = 1, id, out, decimals = 0,
 }) => {
   if (t < at) return null;
-  cueSfx('thump', `cal-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.056}); // SOUND MAP: a card lands
+  cueSfx('thump', `cal-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125}); // SOUND MAP: a card lands
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
-  const q = popIn(clamp01((t - at) / 0.3), 0.45, 0.4);
+  const q = popRef(clamp01((t - at) / 0.3), 0.45, 0.4);
   const k = from === undefined ? 1 : clamp01((t - at) / dur);
   const v = from === undefined ? to : lerp(from, to, k);
   const w = 300, h = 280, hh = 78;
@@ -406,7 +406,7 @@ export const JourneyPath: React.FC<{t: number; at: number; dur?: number; x0?: nu
         if (s.u > prog) return null;
         const [px, py] = P(s.u);
         const lp = clamp01((prog - s.u) * dur / 0.3);
-        const q = popIn(lp, 0.45, 0.3);
+        const q = popRef(lp, 0.45, 0.3);
         return (
           <g key={i}>
             <circle cx={px} cy={py} r={15} fill="#FFD23A" stroke={N.outline} strokeWidth={4} />
@@ -432,11 +432,11 @@ export const JourneyPath: React.FC<{t: number; at: number; dur?: number; x0?: nu
 export const MarkPill: React.FC<{t: number; at: number; text: string; x: number; y: number; mark?: 'check' | 'cross'; size?: number; id: string}> = ({t, at, text, x, y, mark = 'cross', size = 48, id}) => {
   const p = clamp01((t - at) / 0.25);
   if (p <= 0) return null;
-  cueSfx(mark === 'cross' ? 'thump' : 'ding', `mark-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.047}); // SOUND MAP: ✖ knocks, ✔ dings
+  cueSfx(mark === 'cross' ? 'thump' : 'ding', `mark-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125}); // SOUND MAP: ✖ knocks, ✔ dings
   const rtl = isAr();
   const w = textWidth(text, size) + size * 1.5;
   const mx = x + (rtl ? 1 : -1) * (w / 2 + size * 0.9);
-  const q = popIn(p, 0.45, 0.3);
+  const q = popRef(p, 0.45, 0.3);
   return (
     <g>
       <g transform={`translate(${mx} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>

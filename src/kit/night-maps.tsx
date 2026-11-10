@@ -6,7 +6,7 @@
 // areas: each a group of countries with its own fill; `at` pops it in; `spread` = [lon, lat] makes the colour SPREAD
 // out from that point over `dur` (empires, conquests, a deal doubling a country). Place pins/labels with nightProj().
 import React from 'react';
-import {clamp01, ease, popIn} from './anim';
+import {clamp01, ease, popRef} from './anim';
 import {uid} from './stage';
 import {countryD, makeProjection, ProjName, Region} from './geo';
 import {W, H} from './theme';
@@ -42,7 +42,7 @@ export const NightMap: React.FC<{t: number; region: Region; areas: MapArea[]; x?
         if (!d) return null;
         const at = a.at ?? -1;
         if (t < at) return null;
-        const pop = at >= 0 && !a.spread ? popIn(clamp01((t - at) / 0.3), 0.4, 0.15) : {sx: 1, sy: 1, o: 1};
+        const pop = at >= 0 && !a.spread ? popRef(clamp01((t - at) / 0.3), 0.4, 0.15) : {sx: 1, sy: 1, o: 1};
         const sp = a.spread ? ease.inOut(clamp01((t - Math.max(0, at)) / (a.dur ?? 1.2))) : 1;
         const [sx, sy] = a.spread ? proj(a.spread[0], a.spread[1]) : [0, 0];
         const cid = `${g}-c${i}`;

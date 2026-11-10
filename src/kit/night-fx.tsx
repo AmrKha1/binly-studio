@@ -4,7 +4,7 @@
 // stripe wipe 0:09.0 · neon sign-off 14:44.
 import React from 'react';
 import {Img, staticFile} from 'remotion';
-import {clamp01, countUp, ease, lerp, popIn, rand} from './anim';
+import {clamp01, countCurve, countUp, ease, lerp, popRef, pressIn, rand} from './anim';
 import {H, W} from './theme';
 import {uid} from './stage';
 import {GlowText, N, nightFont, textWidth, Tone} from './night';
@@ -64,34 +64,34 @@ export const Bokeh: React.FC<{t: number; n?: number; color?: string; seed?: numb
  * small punch when it lands. value = the EXACT spoken string ("3,106", "25,800,000 $"); from = start fraction.
  */
 export const CountNumber: React.FC<{t: number; at: number; value: string; x: number; y: number; size?: number; tone?: Tone; id: string; dur?: number; from?: number}> = ({
-  t, at, value, x, y, size = 170, tone = 'gold', id, dur = 1.2, from = 0.03,
+  t, at, value, x, y, size = 170, tone = 'gold', id, dur = 1.64, from = 0.03,
 }) => {
   if (t < at) return null;
   // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): a counted value lands with a shimmer
   cueSfx('sparkle', `count-${id}-${at}`, t >= at + dur && t < at + dur + 0.25, x, {at: at + dur});
+  // the reference's count (MOTION.md §5): a late S-curve over 1.64 s (slow start = suspense), WHITE while counting,
+  // turning to its tone (gold) on the final value — the payoff
   const p = clamp01((t - at) / dur);
-  const k = from + (1 - from) * (1 - Math.pow(1 - p, 3));
-  const q = popIn(clamp01((t - at) / 0.2), 0.45, 0.5);
-  const land = p >= 1 ? 1 + 0.06 * Math.max(0, 1 - (t - at - dur) / 0.25) : 1;
+  const k = from + (1 - from) * countCurve(p);
+  const q = popRef(clamp01((t - at) / 0.3));
   return (
-    <g transform={`translate(${x} ${y}) scale(${q.sx * land} ${q.sy * land})`} opacity={q.o}>
-      <GlowText text={countUp(value, k)} x={0} y={0} size={size} tone={tone} id={id} />
+    <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
+      <GlowText text={countUp(value, k)} x={0} y={0} size={size} tone={p >= 1 ? tone : 'white'} id={id} />
     </g>
   );
 };
 
-/** Stamp — «تم البيع» / «مو الأغلى»: red ink box + text, slams in from 1.6× with a short shake, tilted (3:16–3:47). */
+/** Stamp — «تم البيع» / «مو الأغلى»: red ink box + text, PRESSES in like the reference (MOTION.md §2): from 1.64×
+ * decelerating to 1.00 in 0.165 s while fading in, then rock still (no shake), tilted (3:16–3:47). */
 export const Stamp: React.FC<{t: number; at: number; text: string; x: number; y: number; size?: number; rot?: number; color?: string}> = ({
   t, at, text, x, y, size = 110, rot = -8, color = '#E23A4E',
 }) => {
   cueSfx('boom', `stamp-${text}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.16}); // SOUND MAP: stamps hit as a deep boom («تم البيع», «انسرقت!»)
   if (t < at) return null;
-  const u = (t - at) / 0.16;
-  const s = u < 1 ? lerp(1.6, 1, u * u) : 1;
-  const sh = u >= 1 ? Math.exp(-(t - at - 0.16) * 14) * 7 * Math.sin((t - at) * 70) : 0;
+  const pr = pressIn((t - at) / 0.165);
   const w = textWidth(text, size) + size * 0.9, h = size * 1.45;
   return (
-    <g transform={`translate(${x + sh} ${y}) rotate(${rot}) scale(${s})`} opacity={clamp01(u * 2) * 0.92}>
+    <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${pr.s})`} opacity={pr.o * 0.92}>
       <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={size * 0.2} fill={color} fillOpacity={0.1} stroke={color} strokeWidth={size * 0.09} />
       <text x={0} y={size * 0.05} fontSize={size} fontFamily={nightFont()} fontWeight={WEIGHT()} textAnchor="middle" dominantBaseline="central" fill={color} stroke="none">
         {text}
@@ -119,7 +119,7 @@ export const Mark: React.FC<{kind: 'check' | 'cross'; x: number; y: number; r?: 
 export const Bubble: React.FC<{t: number; at: number; lines: string[]; x: number; y: number; tx: number; ty: number; size?: number; mark?: 'check' | 'cross'; icon?: React.ReactNode; out?: number}> = ({
   t, at, lines, x, y, tx, ty, size = 64, mark, icon, out,
 }) => {
-  cueSfx('pop', `bubble-${lines.join('')}-${at}`, t >= at && t < at + 0.3, tx, {at, hit: 0.04}); // SOUND MAP: bubbles pop
+  cueSfx('pop', `bubble-${lines.join('')}-${at}`, t >= at && t < at + 0.3, tx, {at, hit: 0.125}); // SOUND MAP: bubbles pop
   const p = clamp01((t - at) / 0.22);
   if (p <= 0) return null;
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.15) : 1;
@@ -127,7 +127,7 @@ export const Bubble: React.FC<{t: number; at: number; lines: string[]; x: number
   const iconW = icon ? size * 2.4 : 0;
   const tw = Math.max(...lines.map((l) => textWidth(l, size)));
   const w = tw + iconW + size * 1.2, h = lines.length * size * 1.25 + size * 0.9;
-  const q = popIn(p, 0.5, 0.15);
+  const q = popRef(p, 0.5, 0.15);
   const ox = tx - x, oy = ty - y; // tail tip relative to the bubble centre — the bubble grows from it
   const tb = Math.max(-w / 2 + size, Math.min(w / 2 - size, ox * 0.35));
   const sw = size * 0.11;
@@ -174,15 +174,18 @@ export const WhooshOut: React.FC<{t: number; at: number; dur?: number; color?: s
   );
 };
 
-/** StripeWipe — diagonal gold/orange stripes sweep across and cover the cut (0:09.0, ~0.6 s). Draw on top. */
-export const StripeWipe: React.FC<{t: number; at: number; dur?: number}> = ({t, at, dur = 0.6}) => {
-  cueSfx('whoosh', `stripes-${at}`, t >= at && t < at + dur, 960, {at, hit: dur / 2});
+/** StripeWipe — diagonal gold/orange stripes cover the cut like the reference (0:08.85, MOTION.md §4): they sweep in and
+ * COVER the frame in 36 % of dur (0.17 s), HOLD the cover 22 % (0.10 s — the cut hides here: cut at at + dur/2), then clear
+ * in 42 % (0.20 s). Draw on top. */
+export const StripeWipe: React.FC<{t: number; at: number; dur?: number}> = ({t, at, dur = 0.47}) => {
+  cueSfx('whoosh', `stripes-${at}`, t >= at && t < at + dur, 960, {at, hit: dur * 0.1}); // the sweep is fastest as it enters
   const u = (t - at) / dur;
   if (u < 0 || u > 1) return null;
   const cols = ['#FFC928', '#F59E0B', '#FFD45A', '#F2B010'];
   const lean = H * 0.6, sw = (W + lean) / cols.length + 20; // the band of stripes is wide enough to cover the frame
   const band = sw * cols.length;
-  const x0 = lerp(-(band + lean), W, ease.inOut(u)); // fully off left → covers the frame at the middle → off right
+  const k = u < 0.36 ? 0.5 * ease.out(u / 0.36) : u < 0.58 ? 0.5 + 0.02 * ((u - 0.36) / 0.22) : 0.52 + 0.48 * ease.in((u - 0.58) / 0.42);
+  const x0 = lerp(-(band + lean), W, k); // off left → covers the frame (held) → off right
   return (
     <g>
       {cols.map((c, i) => {
@@ -191,6 +194,14 @@ export const StripeWipe: React.FC<{t: number; at: number; dur?: number}> = ({t, 
       })}
     </g>
   );
+};
+
+/** Flash — the reference's white flash on a big slam / reveal («أنت!» 0:15.6, MOTION.md §4): the frame jumps INSTANTLY to
+ * ≈ 50 % white, then fades exponentially (half gone in 100 ms, gone by ≈ 0.4 s). Draw on top, on the slam's frame. */
+export const Flash: React.FC<{t: number; at: number; strength?: number; color?: string}> = ({t, at, strength = 0.5, color = '#FFFFFF'}) => {
+  if (t < at) return null;
+  const o = strength * Math.exp(-(t - at) / 0.144);
+  return o < 0.01 ? null : <rect x={-20} y={-20} width={W + 40} height={H + 40} fill={color} opacity={o} />;
 };
 
 /**
@@ -239,10 +250,10 @@ export const HeroObject: React.FC<{t: number; at?: number; src: string; x: numbe
 }) => {
   if (t < at) return null;
   // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): precious / hero objects shimmer as they appear
-  cueSfx('sparkle', `hero-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.065});
+  cueSfx('sparkle', `hero-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125});
   const e = t - at;
   const p = clamp01(e / 0.35);
-  const q = popIn(p, 0.45, enter === 'zoom' ? 0.05 : 0.3);
+  const q = popRef(p, 0.45, enter === 'zoom' ? 0.05 : 0.3);
   const dy = enter === 'rise' ? (1 - ease.out(p)) * 260 : enter === 'drop' ? -(1 - ease.out(p)) * 320 : 0;
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;

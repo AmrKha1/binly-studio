@@ -5,7 +5,7 @@
 // ISS · Astronaut (with tether) · Orbiters (people circling the Earth, «لما العالم يتعاون» 8:40).
 // All in screen coordinates — use inside <NightScreen>. All silent (pair a reveal with RevealRing for the shimmer).
 import React from 'react';
-import {clamp01, ease, lerp, popIn, rand} from './anim';
+import {clamp01, ease, lerp, popRef, rand} from './anim';
 import {H, W} from './theme';
 import {uid} from './stage';
 import {Globe} from './depth';
@@ -53,7 +53,7 @@ export const Earth: React.FC<{t: number; x: number; y: number; r: number; id: st
   t, x, y, r, id, at = -1, spin = 4, lon = -60, lat = 12, glow = 1, night = 0.55,
 }) => {
   if (t < at) return null;
-  const q = at >= 0 ? popIn(clamp01((t - at) / 0.35), 0.4, 0.4) : {sx: 1, sy: 1, o: 1};
+  const q = at >= 0 ? popRef(clamp01((t - at) / 0.35), 0.4, 0.4) : {sx: 1, sy: 1, o: 1};
   const g = uid('nearth', id);
   const rot = lon + t * spin;
   return (
@@ -112,7 +112,7 @@ export const Earth: React.FC<{t: number; x: number; y: number; r: number; id: st
 /** Sun — boiling orange surface (animated noise), white-yellow centre, wide corona glow (13:35). Pair with <Rays tone="orange">. */
 export const Sun: React.FC<{t: number; x: number; y: number; r: number; id: string; at?: number}> = ({t, x, y, r, id, at = -1}) => {
   if (t < at) return null;
-  const q = at >= 0 ? popIn(clamp01((t - at) / 0.35), 0.4, 0.4) : {sx: 1, sy: 1, o: 1};
+  const q = at >= 0 ? popRef(clamp01((t - at) / 0.35), 0.4, 0.4) : {sx: 1, sy: 1, o: 1};
   const g = uid('nsun', id);
   return (
     <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
