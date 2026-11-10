@@ -483,7 +483,7 @@ const REF_TARGET = {boom: 18, slam: 15, stamp: 18, impact: 22, thump: 25, sparkl
   low_drone: 20, crowd: 24, wind: 26, fire: 26, water: 26, door: 24, footsteps: 28, glass: 25, splash: 24, rumble: 20};
 // measured correction per kind (calibration 2026-11-10: our mix read back with tools/ref-sfx.mjs --cues; the voice-band
 // dip below takes 2–3 dB off mid/bright kinds while the voice speaks, so they are set that much higher)
-const REF_FIX = {riser: 2.3, rise: 2.3, sparkle: 2.7, shimmer: 2.7, ding: 2.5, chime: 2.5, bell: 2.5, confirm: 2.5, pop: 0.7, popup: 0.7};
+const REF_FIX = {riser: 0.5 /* real CC0 riser, reference finish (2026-11-10); synth was 2.3 */, rise: 2.3, sparkle: -0.8 /* real CC0 shimmer, reference finish; synth 2.7 */, shimmer: 2.7, ding: 2.3 /* real CC0 ding; synth 2.5 */, chime: 2.5, bell: 2.5, confirm: 2.5, pop: 0.7, popup: 0.7};
 const REF_DEFAULT = 24, REF_MAX = 6;
 const REF_CAL = +(score.sfxCal ?? process.env.SFX_CAL ?? 0); // calibration (dB) so tools/ref-sfx.mjs reads our mix like the reference
 // the ONE ruler (tools/lib/ear-level.mjs) — the same one tools/ref-sfx.mjs measured the reference with

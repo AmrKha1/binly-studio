@@ -57,3 +57,18 @@ Timing (only the effects near a cut): risers and shimmers START 130–170 ms BEF
   - before the render: `node tools/sfx-scan.mjs` prints SOUND DENSITY — **QUIET** (> 3.6 s of speech with no sound) and
     **LOW** (a minute under 24/min, the hook under 30/min). Fix with a visual beat that carries its sound; a held, silent
     moment on purpose is fine (note it).
+
+## 4. The reference's TONE — why raw library sounds feel harsh, and the finish we give ours (2026-11-10)
+The owner heard the first real CC0 recordings as "harsh for the ears". Measured against the reference's own effects
+(1/3-octave spectrum, start, tail), the reference's sounds differ from raw library files in three ways:
+| | reference | raw library files |
+|---|---|---|
+| start | blooms in, 75–600 ms (never a click) | instant, 0–10 ms |
+| top | rounded: ding/riser 20–40 dB down above 10 kHz, nothing sharp at 3–4 kHz | piled at 12–16 kHz and 3–4 kHz |
+| tail | rings in a room, 0.6–1 s (shimmer, ding) | dry, 0.1–0.4 s |
+Two exceptions found by typing the result with `ref-sfx` (it must read as the reference's type): the **shimmer stays
+airy** (air share ≈ 0.6, so no dark top — only the low knock is removed), and the **riser stops dry** into the hit (a room
+tail turns it into a falling whoosh). `node tools/audio/sfx-finish.mjs <in> <out> --type shimmer|ding|riser|hit` applies
+this; installed: library/sfx/sparkle · riser · ding (.flac, CREDITS.md), levels re-calibrated to the reference ±0.1 dB.
+**Any new real sound:** finish it, type it (ref-sfx on the file alone), calibrate (make-audio + `ref-sfx --cues`), then
+listen next to the old one before it replaces anything.
