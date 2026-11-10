@@ -10,6 +10,9 @@
 //             "host":[{"at":102.4,"spot":"sideLeft","pose":"present","why":"shows the podium"},{"at":110,"off":true}]
 //             flags: a MOVE (spot change) without "why" · moves < 6 s apart (too busy) · on screen > 8 s with no pose or
 //             spot change (frozen) · pose changes < 1.5 s apart (jittery) · Arabic video with no host beats at all
+//   • RECIPE (Arabic) — the model video's structure (references/universe-claude/RECIPE.md): HOOK pace + mystery/roadmap,
+//             SPINE ("device":"stage" every ≤ 150 s), PACE (≤ 5.5 s/shot per 3 min), ENDING (recap + signoff), CHAPTER
+//             (every "reveal" joins the board within 60 s). Shots declare "device": stage|mystery|roadmap|story|reveal|…
 //   • TEXT  — show, do not tell: more than 1 text card per chapter, a text card without an "ok" reason, or > 8 % of shots (scene / character / diagram / map / image / text / data)
 // Custom shots declare their mode: "mode":"scene" (templates know theirs).
 // Custom shots list their visible changes as cue times: {"id":"S3","start":98.9,"custom":true,"note":"…","beats":[100.2,103.6]}
@@ -76,7 +79,7 @@ for (const ch of chapters) {
     const end = i + 1 < shots.length ? shots[i + 1].start : ch.end;
     const mode = s.mode ?? (s.custom ? null : TEMPLATE_MODE[s.template] ?? null);
     if (s.custom && !s.mode) noMode++;
-    seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok, sig: !!s.signature, size: s.size ?? null});
+    seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok, sig: !!s.signature, size: s.size ?? null, device: s.device ?? null});
     const dur = end - s.start;
     const changes = [s.start, ...(s.beats ?? []), ...(s.custom ? [] : templateBeats(s.props))];
     const said = sentences.filter((x) => x.s >= s.start - 0.3 && x.s < end - 0.3);
@@ -176,9 +179,51 @@ Host beats: ${hb.length} (${hb.filter((b, i) => b.spot && i && hb[i - 1].spot &&
   if (isAr && !hb.length && seq.length) { flags++; hl.push(`  HOST no host beats planned → list AZTIKA's spot/pose/why per shot ("host": [...])`); }
   hl.forEach((l) => console.log(l));
 }
+// RECIPE (Arabic / AZTIKA videos, owner 2026-11-10): the structure of the model video — references/universe-claude/RECIPE.md
+{
+  const vj = path.join(vdir, 'video.json');
+  const isAr = fs.existsSync(vj) && JSON.parse(fs.readFileSync(vj, 'utf8')).lang === 'ar';
+  if (isAr && !only && seq.length) {
+    const rl = [];
+    const t0 = seq[0].start, tEnd = seq[seq.length - 1].end;
+    const dev = (d) => seq.filter((x) => x.device === d);
+    const undeclared = seq.filter((x) => !x.device).length;
+    // HOOK: fast and with a promise of the answer
+    const hook = seq.filter((x) => x.start < t0 + 60);
+    const hookAvg = hook.length ? Math.min(60, tEnd - t0) / hook.length : 0;
+    if (hookAvg > 3 && !hook.some((x) => x.ok)) rl.push(`  HOOK first minute averages ${hookAvg.toFixed(1)} s per shot → ≤ 3 s (reference 2.7 s): more beats, shorter shots`);
+    if (!seq.some((x) => x.start < t0 + 45 && (x.device === 'mystery' || x.device === 'roadmap'))) rl.push('  HOOK no "mystery"/"roadmap" in the first 45 s → show the road map / the mystery box the viewer waits for');
+    // SPINE: the game board keeps coming back
+    const st = dev('stage');
+    if (!st.length) rl.push('  SPINE no "stage" shot → the video needs its home stage / game device (PodiumGame, growing timeline, map…)');
+    else {
+      const visits = [];
+      for (const x of st) { const v = visits[visits.length - 1]; if (v && x.start - v.e <= 20) v.e = x.end; else visits.push({s: x.start, e: x.end}); }
+      for (let i = 1; i < visits.length; i++) if (visits[i].s - visits[i - 1].e > 150) rl.push(`  SPINE ${mmss(visits[i - 1].e)}–${mmss(visits[i].s)}: ${(visits[i].s - visits[i - 1].e).toFixed(0)} s away from the board → return every ≤ 150 s (reference ~50 s)`);
+      if (tEnd - visits[visits.length - 1].e > 200) rl.push(`  SPINE the board is last seen at ${mmss(visits[visits.length - 1].e)} → bring it back for the recap`);
+    }
+    // PACE: hold the pace where the reference slows down
+    for (let w = t0 + 60; w + 180 <= tEnd; w += 30) {
+      const n = seq.filter((x) => x.start >= w && x.start < w + 180).length;
+      if (n && 180 / n > 5.5) { rl.push(`  PACE ${mmss(w)}–${mmss(w + 180)} averages ${(180 / n).toFixed(1)} s per shot → ≤ 5.5 s (our edit: the reference sags to 7.6 s here)`); w += 150; }
+    }
+    // ENDING: recap + sign-off
+    const last = seq.filter((x) => x.end > tEnd - 120);
+    if (!last.some((x) => x.device === 'recap')) rl.push('  ENDING no "recap" in the last 120 s → everything back on the board + the question');
+    if (!last.some((x) => x.device === 'signoff')) rl.push('  ENDING no "signoff" → AZTIKA (awe) + NeonSign «في أمان الله»');
+    // CHAPTER: every reveal joins the board
+    for (const r of dev('reveal')) if (!r.ok && !st.some((x) => x.start >= r.start && x.start <= r.end + 60)) rl.push(`  CHAPTER ${r.ch} ${r.id} ${mmss(r.start)}: reveal never joins the board within 60 s → add the "stage" round (newcomer + host reaction)`);
+    flags += rl.length;
+    console.log(`
+Recipe (references/universe-claude/RECIPE.md): ${seq.length - undeclared}/${seq.length} shots declare a "device"${rl.length ? '' : ' — follows the recipe'}`);
+    if (undeclared > seq.length * 0.2) console.log(`  note: ${undeclared} shots have no "device" — declare them so the recipe can be checked`);
+    rl.forEach((l) => console.log(l));
+  }
+}
 // pace: the owner's videos — 6.8 s per shot felt right, 8.2 s felt slow
 const avg = seq.length ? (seq[seq.length - 1].end - seq[0].start) / seq.length : 0;
-console.log(`\nPace: ${seq.length} shots, average ${avg.toFixed(1)} s per shot (aim ~6–7 s)`);
+const arVid = (() => { const vj = path.join(vdir, 'video.json'); return fs.existsSync(vj) && JSON.parse(fs.readFileSync(vj, 'utf8')).lang === 'ar'; })();
+console.log(`\nPace: ${seq.length} shots, average ${avg.toFixed(1)} s per shot (${arVid ? 'AZTIKA recipe: hook ≤ 3 s, then ≤ 5.5 s' : 'aim ~6–7 s'})`);
 if (!only && avg > 8) {
   flags++;
   console.log('  PACE average over 8 s → too slow for brisk storytelling: split the longest shots');

@@ -30,7 +30,9 @@ It moves the inputs to `videos/<slug>/`, scaffolds `src/videos/<slug>/`, activat
 to GitHub (release `vo-<slug>`) and runs the cloud timing analysis (~5–10 min) → `videos/<slug>/timing/`.
 The VOICEOVER is the truth: transcript.md follows what was actually said (script only fixes spelling). If the output
 shows a WARNING (script differs a lot), tell the user in one line (maybe a wrong script file) and continue.
-While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `docs/KIT-INDEX.md`, `docs/LESSONS.md`, and `notes.md` if present (the user's special requests override defaults). Arabic video → also `references/README.md` + each `references/*/STUDY.md` (the owner's target videos; look closer with `tools/watch.mjs`).
+While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `docs/KIT-INDEX.md`, `docs/LESSONS.md`, and `notes.md` if present (the user's special requests override defaults). Arabic video → also `references/README.md` + each `references/*/STUDY.md` (the owner's target videos; look closer with `tools/watch.mjs`)
+and ALWAYS **`references/universe-claude/RECIPE.md`** — the structure every AZTIKA video follows (hook · spine · chapter
+grammar · sentence→device map · ending · rhythm).
 
 **1b · Art (start it EARLY — it runs in the background while you plan and build)** — CODE FIRST, FLOW AS A BONUS (owner
 2026-10-21): the plan must work completely WITHOUT Flow — every scene has a code-built version (kit places/objects,
@@ -155,6 +157,11 @@ Arabic ranking / "which is the most …?" stories: plan ONE game device that ret
 PodiumGame (contenders + exact spoken labels + word times, mystery before each reveal, ×N on big jumps, recap at the
 end) — like the model video (references/universe-claude, STUDY.md). Other stories: pick the device that fits (map that
 fills, timeline, scale), same principle: one device, many returns.
+**Arabic = the RECIPE (references/universe-claude/RECIPE.md):** plan the video as hook → chapters (bridge+tease → place &
+time → mini-story → reveal → back to the board → turn) → recap → twist → thesis → sign-off, and give EVERY shot a
+`"device"` (stage · mystery · roadmap · story · reveal · rays · count · map · timeline · chart · gauge · list · lineup ·
+measure · compare · quote · news · choice · space · recap · twist · thesis · signoff). plan-check's RECIPE flags (HOOK,
+SPINE, PACE, ENDING, CHAPTER) must be fixed or justified ("ok") before building.
 
 **Alive pass (in every brief):** for each shot list what changes every 2–4 s and WHERE supporting text appears (beside
 the object, above the speaker with SayPop, along an arrow, on the map, on the reveal), how objects and the host move,

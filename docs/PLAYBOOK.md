@@ -49,6 +49,10 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
 - **ARABIC (AZTIKA) = THE NIGHT LOOK (owner 2026-11-08, replaces white mode for Arabic):** copy the model video's style as
   it is — exact specs in references/universe-claude/STYLE-BIBLE.md, built in kit/night (NightSky, GridFloor, GlowText,
   WordPop, NPill, Podium, RevealRing, YearBadge, HostGlow, HostTrack). AZTIKA is our fingerprint. The white-mode rules below = English.
+- **AZTIKA RECIPE (owner 2026-11-10):** every Arabic video is STRUCTURED like the model video —
+  references/universe-claude/RECIPE.md (one question → a game board that keeps returning every ≤ 150 s → chapters that
+  each end in a bigger answer → recap → twist → warm sign-off). Hook ≤ 3 s per shot, then ≤ 5.5 s (we hold the pace where
+  the reference sags). plan-check enforces it.
 - **PHONE SIZES = the reference's sizes, never under the phone floor (owner 2026-11-10: "not too big, not too small —
   the best size"):** hero word/number 150–180 px, headline 120–140, hero pill 40–48, secondary pill 28–32; no label under
   34 px, no free text under 56 px (the kit enforces both), hero object ≥ 40 % of the frame height, the frame still breathes.
