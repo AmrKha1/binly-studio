@@ -51,9 +51,11 @@ Timing (only the effects near a cut): risers and shimmers START 130–170 ms BEF
   rhythm for counting numbers. The extra sounds come from VISUAL beats (a pill, label, count, path dot appearing) — never
   a filler with nothing on screen. Never louder than the reference's loudest 10 % (12 dB under).
 - **Our edit — LEVEL (owner by ear, 2026-11-11):** at the reference's exact levels the effects felt too far under the
-  voice on his PC (effects vs voice −21.7 dB). He picked −15.3 dB. All kinds are lifted TOGETHER (the reference's balance
-  between kinds is kept): `OWNER_LIFT` in tools/lib/sound-ref.mjs (8.3 dB; the per-cue "never above the voice" cap eats
-  ≈ 2 dB of it → measured −15.6 dB on the ar-reel). The render's sound check compares against the lifted target.
+  voice (effects vs voice −21.7 dB). Chosen: **−19.2 dB** (`OWNER_LIFT` 4 in tools/lib/sound-ref.mjs, all kinds lifted
+  TOGETHER, the reference's balance between kinds kept) = the LOUDEST level that keeps the PHONE RULE: on a phone speaker
+  every effect stays ≥ 10 dB under the voice (ar-reel: riser 10.2, sparkle 11.5). −18 breaks it; a −15 mix put pops/dings
+  2–3 dB under the voice on phones (too hot). The render's sound check compares against the lifted target AND warns on
+  any kind that breaks the phone rule.
 - **Every night-kit piece that appears plays its sound** (owner 2026-11-11: «الخزنة فاضية» popped in silent) —
   headline words = a smooth popup. `node tools/check.mjs` fails a timed piece with no cue (or one not marked SILENT:).
 - **Samples for the owner must come from the SAME path as the render** (`SFX_MODEL=reference` for Arabic). A sample made

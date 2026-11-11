@@ -6,12 +6,15 @@ export const REF_TARGET = {boom: 18, slam: 15, stamp: 18, impact: 22, thump: 25,
   riser: 19, rise: 19, whoosh: 19, swoosh: 19, sweep_down: 20, swish: 28, paper: 28, page: 28, tick: 28, click: 28, clack: 28,
   ding: 25, chime: 25, bell: 25, confirm: 25, neon: 26, count: 30, coins: 24, cash: 24, card: 28, blip: 28, bubble: 28,
   low_drone: 20, crowd: 24, wind: 26, fire: 26, water: 26, door: 24, footsteps: 28, glass: 25, splash: 24, rumble: 20};
-// OWNER LIFT (owner by ear, 2026-11-11): the reference's levels felt "too far under the voice" on his PC; he picked a
-// mix where the effects sit ≈ 6.4 dB higher (effects vs voice −15.3 dB instead of −21.7 dB, measured on the ar-reel A/B);
-// the lift is 8.3 because the per-cue peak cap (a cue never peaks above the voice) holds the biggest hits back ≈ 2 dB.
+// OWNER LIFT (owner, 2026-11-11): the reference's exact levels felt too far under the voice (effects vs voice −21.7 dB).
+// Chosen level: −19.2 dB = lift 4 — the LOUDEST level where every effect still sits ≥ PHONE_HEADROOM dB under the voice
+// on a phone speaker (measured on ar-reel: riser 10.2, sparkle 11.5). Lift 5+ (−18) puts risers/sparkles inside 10 dB on
+// phones (words start to compete); the louder −15 mix put pops/dings 2–3 dB under the voice on phones (too hot).
 // Every kind keeps the reference's BALANCE between kinds, all lifted together. The mixer aims for, and the sound
 // check compares against, REF_TARGET − OWNER_LIFT. Don't change it without a new owner A/B.
-export const OWNER_LIFT = 8.3;
+export const OWNER_LIFT = 4;
+// the phone rule: on a phone speaker every effect kind stays at least this far under the voice (words always win)
+export const PHONE_HEADROOM = 10;
 export const targetUnder = (kind, fallback = 24) => (REF_TARGET[kind] ?? fallback) - OWNER_LIFT;
 // PHONE: how much each kind changes on a phone speaker relative to the voice in the reference (dB, + = quieter).
 // Kinds not listed translate on their own (bright/mid sounds get ≈ 4–5 dB LOUDER vs the voice on a phone); thumps are
