@@ -15,18 +15,30 @@ import {approveVoice} from './lib/vo-gate.mjs';
 
 const a = args();
 const IN = path.join(ROOT, 'input');
-const files = fs.existsSync(IN) ? fs.readdirSync(IN).filter((f) => !f.startsWith('.') && !['readme.md', 'vo-check.md'].includes(f.toLowerCase())) : [];
+// input/ = the voiceover PARTS (loose files, or inside ONE folder such as "1- الصوت") + the script (.txt, next to them or
+// inside that folder) + optional notes.txt. Paths below are relative to input/ ("folder/3.wav" for a part in a folder).
+const skip = (f) => f.startsWith('.') || ['readme.md', 'vo-check.md'].includes(f.toLowerCase());
+const top = fs.existsSync(IN) ? fs.readdirSync(IN, {withFileTypes: true}).filter((e) => !skip(e.name)) : [];
+const dirs = top.filter((e) => e.isDirectory()).map((e) => e.name);
+const files = [...top.filter((e) => e.isFile()).map((e) => e.name), ...dirs.flatMap((d) => fs.readdirSync(path.join(IN, d)).filter((f) => !skip(f)).map((f) => `${d}/${f}`))];
 const audio = files.filter((f) => /\.(wav|mp3|m4a|flac|aac|ogg)$/i.test(f));
 const texts = files.filter((f) => /\.(txt|md)$/i.test(f));
-if (audio.length !== 1) {
-  console.log(`input/ must contain exactly ONE voiceover audio file (found ${audio.length}: ${audio.join(', ') || 'none'}).`);
+if (!audio.length || (a.raw && audio.length !== 1)) {
+  console.log(a.raw ? `--raw needs exactly ONE voiceover file in input/ (found ${audio.length}).` : 'input/ has no voiceover audio — put the parts in input/ (loose or in one folder) with the script .txt.');
+  process.exit(1);
+}
+if (dirs.length > 1) {
+  console.log(`input/ has ${dirs.length} folders (${dirs.join(', ')}) — keep ONE video's parts in input/ at a time.`);
   process.exit(1);
 }
 const notesFile = texts.find((f) => /^(notes|brief|instructions)\b/i.test(f));
 const scriptFile = texts.find((f) => f !== notesFile);
 
 const kebab = (s) => s.toLowerCase().normalize('NFKD').replace(/[^\w\s-]/g, '').replace(/\b(final|vo|voiceover|export|master|v\d+)\b/g, '').trim().replace(/[\s_]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
-const slug = a.slug ?? (kebab(path.parse(audio.length === 1 ? audio[0] : dirs[0] ?? audio[0]).name) || `video-${new Date().toISOString().slice(0, 10)}`);
+// the short name: --slug, else the file/folder name if it gives a real English name, else video-<date> (an Arabic folder
+// name like «1- الصوت» has no Latin letters to use)
+const autoSlug = kebab(path.parse(audio.length === 1 ? path.basename(audio[0]) : dirs[0] ?? audio[0]).name);
+const slug = a.slug ?? (/[a-z]{3}/.test(autoSlug) ? autoSlug : `video-${new Date().toISOString().slice(0, 10)}`);
 const vdir = path.join(ROOT, 'videos', slug);
 const sdir = path.join(ROOT, 'src', 'videos', slug);
 if (fs.existsSync(vdir) && !a.force) {
