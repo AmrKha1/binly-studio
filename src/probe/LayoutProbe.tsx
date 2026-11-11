@@ -16,13 +16,13 @@ export const LayoutProbe: React.FC = () => {
   useLayoutEffect(() => {
     const root = ref.current;
     if (!root) return;
-    const out: [string, number, number, number, number, number][] = [];
+    const out: [string, number, number, number, number, number, string][] = [];
     root.querySelectorAll('[data-lb]').forEach((el) => {
       const r = el.getBoundingClientRect();
       if (r.width < 2 || r.height < 2) return;
       let o = 1;
       for (let n: Element | null = el; n && n !== root; n = n.parentElement) o *= +(getComputedStyle(n).opacity || 1);
-      out.push([el.getAttribute('data-lb') ?? '?', Math.round(r.x), Math.round(r.y), Math.round(r.width), Math.round(r.height), +o.toFixed(2)]);
+      out.push([el.getAttribute('data-lb') ?? '?', Math.round(r.x), Math.round(r.y), Math.round(r.width), Math.round(r.height), +o.toFixed(2), el.getAttribute('data-lbt') ?? '']);
     });
     const join = root.querySelector('[data-lb-join]') ? 1 : 0;
     console.log(`LB|${frame}|${join}|${JSON.stringify(out)}`);

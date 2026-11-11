@@ -17,6 +17,7 @@ import {AlertBanner, TransferScreen} from '../../kit/night-ui';
 import {MoneyBag, RoomWorld, StoryPerson, SunsetWorld} from '../../kit/night-worlds';
 import {PlateFx} from '../../kit/night-places';
 import {move, NightShots} from '../../kit/night-scenes';
+import {cueSfx} from '../../kit/sfx';
 
 const STAIRS: StairEntry[] = [
   {id: 'a', label: '150 مليون $', at: 0.7, draw: documentArt(), ar: 0.78},
@@ -44,17 +45,22 @@ const Screen: React.FC<{t: number}> = ({t}) => (
   </>
 );
 
-const Deal: React.FC<{t: number}> = ({t}) => (
+// the deal is ACTED: the buyers push the money over to the seller (owner review: no 4-second quiet stretch)
+const Deal: React.FC<{t: number}> = ({t}) => {
+  const [bx] = move(t, 16.0, [1150, 905], [800, 905]);
+  cueSfx('swish', 'deal-bag', t >= 16.0 && t < 16.3, 960, {at: 16.0, hit: 0.3});
+  return (
   <>
     <RoomWorld t={t} id="room" />
     <StoryPerson x={560} y={900} s={1.05} role="businessman" pose={t > 15.2 ? 'hold' : 'talk'} prop="document" t={t} id="seller" />
-    <StoryPerson x={1300} y={900} s={1.0} role="banker" rim="#7FD8FF" pose="idle" t={t} id="buyer1" flip />
+    <StoryPerson x={1300} y={900} s={1.0} role="banker" rim="#7FD8FF" pose={t > 15.9 && t < 17.2 ? 'point' : 'idle'} t={t} id="buyer1" flip />
     <StoryPerson x={1520} y={900} s={0.95} role="man" outfit="hoodie" hat="hood" rim="#7FD8FF" pose={t > 18.2 ? 'shock' : 'idle'} t={t} id="buyer2" flip />
-    <MoneyBag x={960} y={905} s={1.1} />
+    <MoneyBag x={bx} y={905} s={1.1} />
     <Bubble t={t} at={14.8} lines={['15 مليون', 'وخذوا الكل!']} x={760} y={330} tx={600} ty={560} />
     <Stamp t={t} at={18.0} text="تم البيع" x={950} y={640} size={118} color="#FF5A6A" />
   </>
-);
+  );
+};
 
 const History: React.FC<{t: number}> = ({t}) => {
   const [kx] = move(t, 22.5, [1560, 1000], [1260, 1000], 3); // eased in and out (starts and stops like a person)
@@ -67,7 +73,6 @@ const History: React.FC<{t: number}> = ({t}) => {
       <StoryPerson x={kx} y={1000} s={0.95} role="man" hat="tarboush" outfit="uniform" medals pose={t > 22.5 && t < 25.4 ? 'walk' : 'think'} t={t} id="khedive" />
       <WordPop t={t} id="hw" y={930} size={112} right={820} words={[{w: 'الخزنة', at: 24.2}, {w: 'فاضية', at: 24.6, tone: 'gold'}]} />
       <NPill text="الخديوي" x={kx} y={545} size={48} kind="white" id="kname" p={(t - 23.0) / 0.3} />
-      <MarkPill t={t} at={26.2} text="فاضية" x={1560} y={330} mark="cross" id="empty" />
     </>
   );
 };
@@ -94,7 +99,7 @@ const Video: React.FC<{t: number}> = ({t}) => (
     <NightScreen>
       <NightShots t={t} shots={[
         {start: 0, render: (t) => <Stairs t={t} />, drift: false}, // the stairs have their own camera
-        {start: 7.53, render: (t) => <><Screen t={t} /><Flash t={t} at={9.15} /></>, drift: {cy: 560}},
+        {start: 7.53, render: (t) => <><Screen t={t} /><Flash t={t} at={9.15} /></>, drift: {cy: 560}, settle: 0.08}, // the screen pops in by itself
         {start: 14.1, render: (t) => <Deal t={t} />, drift: {cy: 600}},
         {start: 21.0, render: (t) => <History t={t} />, in: {kind: 'wipe'}}, // a jump back in time = a chapter change
         {start: 28.0, render: (t) => <Hero t={t} />, drift: {cy: 470}},

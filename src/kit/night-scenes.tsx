@@ -27,6 +27,10 @@ export type NightShot = {
   in?: {kind: NightJoin; dur?: number};
   /** the slow push-in focus (default: frame centre) · false = the scene has its own camera */
   drift?: false | {cx?: number; cy?: number; rate?: number};
+  /** how strongly the new scene SETTLES in (zoom at its start): default 0.53 = the reference (1.53× → 1.00, for a scene
+   *  whose content is already there). Use ≈ 0.08 (or 0) when the shot's main piece makes its OWN entrance at the start
+   *  (a screen, a panel, a hero popping in) — two entrances at once read as a punch (owner review 2026-11-11, reel 7.6 s). */
+  settle?: number;
   /** an object that FLIES from the old scene into its place in this one during the join (the reference's match-move) */
   carry?: {from: {x: number; y: number; s?: number}; to: {x: number; y: number; s?: number}; render: (x: number, y: number, s: number) => React.ReactNode; dur?: number};
 };
@@ -40,7 +44,11 @@ const world = (s: NightShot, t: number) => {
   return <g transform={pushT(t, s.start, d.cx ?? 960, d.cy ?? 540, d.rate ?? 0.0035)}>{node}</g>;
 };
 // the new scene's entrance: the reference's measured settle (settleT: 1.53× → 1.00, most of it in 0.3 s, MOTION.md §8)
-const settle = (t: number, start: number) => settleT(t, start);
+const settle = (t: number, start: number, amount = 0.53) => {
+  if (amount === 0.53) return settleT(t, start);
+  const z = 1 + amount * Math.exp(-Math.max(0, t - start) / 0.135);
+  return `translate(960 540) scale(${z}) translate(-960 -540)`;
+};
 // the old scene's exit: it drifts forward a little as it fades — never a dead stop
 const leave = (u: number) => {
   const z = 1 + 0.05 * ease.in(u);
@@ -63,11 +71,11 @@ export const NightShots: React.FC<{t: number; shots: NightShot[]; hud?: (t: numb
     body = (
       <>
         <g opacity={1 - a} transform={kind === 'match' ? leave(u) : undefined}>{world(prev, t)}</g>
-        <g opacity={a} transform={kind === 'match' ? settle(t, cur.start) : undefined}>{world(cur, t)}</g>
+        <g opacity={a} transform={kind === 'match' ? settle(t, cur.start, cur.settle) : undefined}>{world(cur, t)}</g>
       </>
     );
   } else {
-    body = kind === 'match' && prev ? <g transform={settle(t, cur.start)}>{world(cur, t)}</g> : world(cur, t);
+    body = kind === 'match' && prev ? <g transform={settle(t, cur.start, cur.settle)}>{world(cur, t)}</g> : world(cur, t);
   }
   const c = cur.carry;
   let carried: React.ReactNode = null;

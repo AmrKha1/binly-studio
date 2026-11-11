@@ -226,10 +226,13 @@ export const WordPop: React.FC<{t: number; words: PopWord[]; y: number; size: nu
     cueSfx('popup', `wordpop-${id}-${i}-${w.at}`, t >= w.at && t < w.at + 0.3, rtl ? (right ?? W - 120) : (left ?? 120), {at: w.at, hit: key ? 0.125 : 0.08});
   });
   return (
-    <g opacity={fade} {...lb('text', id)}>
+    <g opacity={fade} {...lb('text', id, words.filter((w) => t >= w.at).map((w) => w.w).join(' '))}>
       {words.map((w, i) => {
         const cx = rtl ? cursor - ws[i] / 2 : cursor + ws[i] / 2;
-        cursor = rtl ? cursor - ws[i] - sp : cursor + ws[i] + sp;
+        // the gap leaves room for the pop: a word swells to 1.16× (≈ 8 % of its width on each side) — a fixed gap let long
+        // words touch mid-pop («الخزنةفاضية», owner review 2026-11-11)
+        const gapNext = Math.max(sp, 0.085 * (ws[i] + (ws[i + 1] ?? 0)));
+        cursor = rtl ? cursor - ws[i] - gapNext : cursor + ws[i] + gapNext;
         // reference (MOTION.md §1, §8): the KEY word (gold/colour) POPS with the swell (popRef over 0.3 s, measured on
         // «غالي!»); supporting WHITE words FADE in with a slight grow (0.15 s, «في العالم» 0:12.9, «أعظم» 1:34.6). The glow
         // is steady — a held headline's brightness does not change (measured ±0.0 %).
@@ -269,7 +272,7 @@ export const NPill: React.FC<{text: string; x: number; y: number; size?: number;
   const h = size * 1.65, w = textWidth(text, size) + size * 1.5;
   const q = popRef(p, 0.45, 0.2);
   return (
-    <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o} {...lb('text', id)}>
+    <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o} {...lb('text', id, text)}>
       <defs>
         <linearGradient id={g} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor={k.top} />

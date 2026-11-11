@@ -74,7 +74,7 @@ if (!a['skip-layout']) {
   if (act !== slug) add('layout', `the layout scan measures the ACTIVE video — run node tools/activate.mjs ${slug} first`);
   else {
     const r = run('layout-scan.mjs');
-    (r.stdout + r.stderr).split(/\r?\n/).filter((l) => /^\s+[\d.]+–[\d.]+ s\s+(TEXT ON TEXT|OVER A FACE|OVER THE HERO|OFF THE EDGE|TOO CROWDED)/.test(l)).forEach((l) => add('layout', l));
+    (r.stdout + r.stderr).split(/\r?\n/).filter((l) => /^\s+[\d.]+–[\d.]+ s\s+(TEXT ON TEXT|OVER A FACE|OVER THE HERO|OFF THE EDGE|TOO CROWDED|SAME WORDS TWICE)/.test(l)).forEach((l) => add('layout', l));
     if (r.status !== 0 && !/LAYOUT SCAN/.test(r.stdout)) add('layout', 'the layout scan did not finish — run node tools/layout-scan.mjs to see why');
   }
 }

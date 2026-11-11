@@ -56,6 +56,14 @@ export const frameProblems = (boxes) => {
     if (inside < 0.75 * area(o) && inside > 0.05 * area(o)) out.push({key: `edge|${o.id}`, text: `OFF THE EDGE: hero ${o.id} is ${Math.round(100 - (100 * inside) / area(o))} % off-frame`});
   }
   if (texts.length > 8) out.push({key: 'crowd', text: `TOO CROWDED: ${texts.length} texts on screen at once`});
+  // SAME WORDS TWICE (owner review 2026-11-11: «الخزنة فاضية» + a pill «فاضية»): a pill whose WHOLE text is already shown
+  // in another text on screen repeats instead of adding (price pills like «150 مليون $» / «600 مليون $» are not repeats)
+  const norm = (s) => s.replace(/[\u064B-\u0652\u0640]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/[!؟?.,،:«»"]/g, '').trim();
+  for (const p of texts) for (const q of texts) {
+    if (p === q || p.id === q.id || !p.words || !q.words) continue;
+    const pw = norm(p.words), qw = norm(q.words);
+    if (pw.length >= 3 && pw !== qw && ` ${qw} `.includes(` ${pw} `)) out.push({key: `twice|${p.id}|${q.id}`, text: `SAME WORDS TWICE: «${p.words}» (${p.id}) is already in «${q.words}» (${q.id}) — the second text should ADD something`});
+  }
   return out;
 };
 
@@ -72,7 +80,7 @@ const run = async () => {
     onBrowserLog: (log) => {
       if (!log.text.startsWith('LB|')) return;
       const [, fr, join, json] = log.text.split('|');
-      frames.set(+fr, {join: join === '1', boxes: JSON.parse(json).map(([tag, x, y, w, h, o]) => ({role: tag.split(':')[0], id: tag.split(':').slice(1).join(':'), x, y, w, h, o}))});
+      frames.set(+fr, {join: join === '1', boxes: JSON.parse(json).map(([tag, x, y, w, h, o, words]) => ({role: tag.split(':')[0], id: tag.split(':').slice(1).join(':'), x, y, w, h, o, words: words ?? ''}))});
     },
   });
   await browser.close({silent: true});

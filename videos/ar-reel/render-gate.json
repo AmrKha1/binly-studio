@@ -1,9 +1,9 @@
 {
  "go": true,
  "slug": "ar-reel",
- "at": "2026-11-11T21:30:11.069Z",
- "fingerprint": "12ee3fdd9839f5769cabb8d7d523c689cad0d403",
- "reviewed": "layout scan added; reel unchanged since GO",
+ "at": "2026-11-11T22:04:00.914Z",
+ "fingerprint": "10266136f81b68b0920c0a7c59617dacdaadfadf",
+ "reviewed": "owner review fixes: gentle settle on the screen shot (7.5), deal acted (bag slides 16.0), word gaps fit the pop swell (24.6), duplicate pill removed; checked on stills 7.56–26.5",
  "accepted": [
   {
    "match": "SIGNATURE",
@@ -38,6 +38,10 @@
   },
   {
    "at": "2026-11-11T21:30:11.070Z",
+   "issues": 0
+  },
+  {
+   "at": "2026-11-11T22:04:00.915Z",
    "issues": 0
   }
  ]

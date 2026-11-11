@@ -169,5 +169,5 @@ export const At: React.FC<{x?: number; y?: number; s?: number; sx?: number; sy?:
 /** Unique-ish id helper for clipPaths/masks inside one frame. Always pass a stable string. */
 /** LAYOUT TAG (owner 2026-11-11: no overlapping things): marks what a piece IS so tools/layout-scan.mjs can measure its real
  *  on-screen box in the render browser — text · object · head · host · bubble. Invisible, no effect on the picture. */
-export const lb = (role: 'text' | 'object' | 'head' | 'host' | 'bubble', id: string) => ({'data-lb': `${role}:${id}`});
+export const lb = (role: 'text' | 'object' | 'head' | 'host' | 'bubble', id: string, words?: string) => ({'data-lb': `${role}:${id}`, ...(words ? {'data-lbt': words} : {})});
 export const uid = (...parts: (string | number)[]) => 'k' + parts.join('-').replace(/[^a-zA-Z0-9-]/g, '_');

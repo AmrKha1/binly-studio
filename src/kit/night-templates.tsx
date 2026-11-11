@@ -31,7 +31,12 @@ const artOf = (o: Art): {src?: string; draw?: (h: number) => React.ReactNode; ar
   return {draw: coinArt(arg ?? '$'), ar: 1, glow: o.glow};
 };
 /** the right edge that CENTRES a WordPop line on x (Arabic lines run right → left) */
-const centred = (words: PopWord[], size: number, x = 960) => x + (words.reduce((s, w) => s + textWidth(w.w, size), 0) + size * 0.2 * (words.length - 1)) / 2;
+const centred = (words: PopWord[], size: number, x = 960) => {
+  const ws = words.map((w) => textWidth(w.w, size));
+  // the same gaps WordPop uses (room for the pop swell between long words)
+  const gaps = ws.slice(0, -1).reduce((s, w, i) => s + Math.max(size * 0.2, 0.085 * (w + ws[i + 1])), 0);
+  return x + (ws.reduce((s, w) => s + w, 0) + gaps) / 2;
+};
 const Headline: React.FC<{t: number; id: string; words?: PopWord[]; y: number; size: number}> = ({t, id, words, y, size}) =>
   words?.length ? <WordPop t={t} id={id} y={y} size={size} right={centred(words, size)} words={words} /> : null;
 
