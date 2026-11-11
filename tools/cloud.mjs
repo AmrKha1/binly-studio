@@ -51,7 +51,8 @@ async function analyze() {
   const key = process.env.REF_KEY ?? fs.readFileSync(path.join(ROOT, '.cache', 'ref', 'key.txt'), 'utf8').trim();
   const {decryptFile} = await import('./cloud/crypt.mjs');
   decryptFile(path.join(tmp, 'timing.enc'), path.join(tmp, 'timing.tgz'), key);
-  sh('tar', ['-xzf', path.join(tmp, 'timing.tgz'), '-C', path.join(ROOT, 'videos', slug)]);
+  // relative paths: Git's tar reads "D:" as a network host
+  sh('tar', ['-xzf', path.relative(ROOT, path.join(tmp, 'timing.tgz')).split(path.sep).join('/'), '-C', path.relative(ROOT, path.join(ROOT, 'videos', slug)).split(path.sep).join('/')], {cwd: ROOT});
   fs.rmSync(tmp, {recursive: true, force: true});
   const {writeWordTimes} = await import('./lib/word-times.mjs');
   writeWordTimes(path.join(ROOT, 'videos', slug));
