@@ -145,6 +145,15 @@ Gallery `night5` (stills 1.6 sunset · 3.6 map · 5.6 science · 7.6 night city 
   - **pose**: idle point hold up talk shock think cheer walk (walk = a stride cycle from t).
   - extras: `glasses` · `hair` short|long|bun|bald + `hairColor` · `beard` (a colour) · `flip`.
   Gallery `night15` (1.5 headwear · 4.5 outfits · 7.5 props · 10.5 poses · 13.5 a deal scene · 16.5/19.5/22.5 the roster).
+  - **NEW CHARACTERS ARE WELCOME (owner 2026-11-11)** — the roster above is a starting set, NOT a limit. When a story
+    needs a type that is missing (a Viking, a monk, a firefighter, a Bedouin, a 1920s flapper, a samurai, a specific
+    historical uniform…), CREATE it: first combine existing role/hat/outfit/prop/hair/beard; if a piece is still missing,
+    draw the new hat / outfit / prop / pose (same drawing language: thick dark outline, flat fills + one highlight stripe,
+    coloured rim, glow) — the director adds it straight to StoryPerson in `src/kit/night-worlds.tsx` + a role in
+    `STORY_ROLES`; a chapter builder (who never edits the kit) draws it in `src/videos/<slug>/shared/` as a wrapper around
+    StoryPerson and reports it, and the director promotes it into the kit after the video so every future video reuses it. Always faceless (dark round head + rim, ONE identifying detail); never a real face (real
+    faces only in NightPortrait); never a second recurring character (AZTIKA stays the only face). Check the new type
+    on a still beside 2–3 existing roles (gallery `night15`) so it matches the set, then list it here and in docs/ASSETS.md.
   **MoneyBag** prop.
 Hero objects (diamond, palace, painting…) come from generated art (tools/art.mjs, ART-STYLE) placed on these worlds.
 

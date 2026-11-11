@@ -35,7 +35,7 @@ When `videos/<slug>/video.json` has `"lang": "ar"`, there is ONE target: the mod
 - **MOTION** — MOTION.md (measured frame by frame): the night kit already moves like the reference; custom pieces use
   the same curves (`popRef`, `pressIn`, `countCurve`, `pushT`, `settleT`, `flyOut`, `boardCamT`). Never a frozen frame.
 - **SOUND** — SOUND.md: the night kit plays the reference's sound map by itself; no music.
-- **IMAGES** — illustrated like the reference: hero art (HeroObject) + story characters; a real face only in NightPortrait.
+- **IMAGES** — illustrated like the reference: hero art (HeroObject) + faceless story characters (StoryPerson — create ANY new type the story needs, docs/kit/night.md "NEW CHARACTERS"); a real face only in NightPortrait.
 - **WHEN UNSURE, LOOK AT THE REFERENCE** — the contact sheet of the matching chapter (CHAPTERS.md → `references/
   universe-claude/shots/shots-NN.jpg`), a strip of the moment (`node tools/watch.mjs strip universe-claude --at <s>`), its sound
   (`node tools/ref-sfx.mjs universe-claude --list --from a --to b`). Do what it does. Our own edit only where RECIPE /
