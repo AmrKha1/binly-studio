@@ -14,6 +14,12 @@ docs/art/rejected-yellow.jpg (warm, yellow, light beams, painterly) — never th
 Always generate with **model: "Nano Banana 2 Lite"** and **max_credits: 0** (images must stay free; Flow skips any
 image that would cost credits). Never use another model unless the owner says so.
 
+## Image model ORDER (owner 2026-11-11 — every Flow image, objects and backgrounds; all are 0 credits)
+1. **Nano Banana Pro** — always first (`"model": "Nano Banana Pro"`).
+2. If Flow says the Nano Banana Pro DAILY LIMIT is reached → **Nano Banana 2.1** (the newest; omit `model`).
+3. When speed matters more (a big batch, a quick redo) → **Nano Banana 2 Lite** (very fast, still high quality).
+Never a video model for plates/objects; keep `max_credits: 0`.
+
 ## STYLE block (append to every prompt)
 > Clean flat 2D cartoon illustration in the style of a modern animated explainer video. Crisp uniform black outlines on
 > everything, flat colour fills with only very light simple cel shading, no texture, no grain, no painterly brushwork.
