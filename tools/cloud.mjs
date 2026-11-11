@@ -63,12 +63,16 @@ async function analyze() {
   push(`timing ready: ${slug}`);
 }
 
+// the YouTube upload size: Arabic (AZTIKA) = 1440p by default (owner 2026-11-11: YouTube gives 1440p uploads its better
+// codec + bitrate, so the deep gradients and glows stay clean even for 1080p viewers; we still RENDER at 1080p — only the
+// final encode scales up). English stays 1080p. Override with --yt 1080|1440.
+const ytDefault = () => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'videos', slug, 'video.json'), 'utf8')).lang === 'ar' ? '1440' : '1080'; } catch { return '1080'; } };
 async function render() {
   const scale = a.scale ?? '1';
   const from = a.from !== undefined ? String(a.from) : '';
   const to = a.to !== undefined ? String(a.to) : '';
   push(`render: ${slug}${from || to ? ` ${from}-${to}` : ''} scale ${scale}`);
-  const id = await dispatch('render.yml', {slug, scale, from_s: from, to_s: to, chunk_s: a.chunk ?? '75', youtube: String(a.yt ?? '1080')});
+  const id = await dispatch('render.yml', {slug, scale, from_s: from, to_s: to, chunk_s: a.chunk ?? '75', youtube: String(a.yt ?? ytDefault())});
   console.log(`render run ${id} started (https://github.com/${gh('repo', 'view', '--json', 'nameWithOwner', '-q', '.nameWithOwner')}/actions/runs/${id})`);
   await wait(id, 'render');
   const outDir = path.join(ROOT, 'videos', slug, 'output');

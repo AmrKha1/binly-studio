@@ -20,7 +20,7 @@ import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import os from 'node:os';
 import {earBands, earPower, toEarRate, voiceLevel, peakLevel} from '../lib/ear-level.mjs';
-import {PHONE_CHANGE, targetUnder} from '../lib/sound-ref.mjs';
+import {PHONE_CHANGE, REF_FIX, targetUnder} from '../lib/sound-ref.mjs';
 
 const [, , voPath, scorePath, sfxPath, outDir] = process.argv;
 if (!voPath || !scorePath || !outDir) {
@@ -483,7 +483,7 @@ const KIND_DB = {stamp: 0, impact: 0, bell_toll: -1, thump: 0, heartbeat: -1, he
 const MODEL = score.sfxModel ?? process.env.SFX_MODEL ?? 'classic';
 // measured correction per kind (calibration 2026-11-10: our mix read back with tools/ref-sfx.mjs --cues; the voice-band
 // dip below takes 2–3 dB off mid/bright kinds while the voice speaks, so they are set that much higher)
-const REF_FIX = {riser: 2.3, rise: 2.3, sparkle: 2.7, shimmer: 2.7, ding: 2.5, chime: 2.5, bell: 2.5, confirm: 2.5, pop: 2.2, popup: 2.2, tick: 1.4, click: 1.4}; // pop/tick re-calibrated in isolation 2026-11-10 (dense mixes flattered them)
+// REF_FIX lives in tools/lib/sound-ref.mjs (shared with the sound check, so it checks what the mixer AIMS for)
 const REF_DEFAULT = 24, REF_MAX = 6;
 const REF_CAL = +(score.sfxCal ?? process.env.SFX_CAL ?? 0); // calibration (dB) so tools/ref-sfx.mjs reads our mix like the reference
 // the ONE ruler (tools/lib/ear-level.mjs) — the same one tools/ref-sfx.mjs measured the reference with
