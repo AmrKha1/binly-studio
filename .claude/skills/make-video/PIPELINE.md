@@ -331,7 +331,8 @@ reference video?", YouTube-safe). NOT READY → fix the REAL issues (THE ROAD) �
 `render-gate.json`; any later change voids it, and `cloud.mjs render` refuses without a valid GO (previews too).
 
 **6 · Render** — only after GO. First the **chapter-1 preview** `node tools/cloud.mjs render <slug> --from <C01 start>
---to <C01 end> --scale 0.5` → ⏸ **STOP 2**: the owner watches the FEEL at full speed; feel fixes go into every chapter
+--to <C01 end> --scale 0.5` → read its QA report's **Motion vs the reference** section first (cuts, full-frame sweeps,
+stillness, sudden starts — fix anything outside the reference's range before showing it) → ⏸ **STOP 2**: the owner watches the FEEL at full speed; feel fixes go into every chapter
 (then the gate again). Then the full render `node tools/cloud.mjs render <slug>` in the background (~10–20 min).
 
 **7 · QA** → ⏸ **STOP 3** (the owner watches the final) — read `videos/<slug>/qa/<name>/qa_report.md` (Arabic: its "Sound effects vs the

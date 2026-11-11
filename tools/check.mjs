@@ -36,6 +36,21 @@ for (const dir of ['src/kit', `src/videos/${activeSlug}`]) {
   }
 }
 
+// 1-move) SMOOTH SPEED (owner 2026-11-11: "fast is okay, harsh is not — always ease in and out"): in the active video's
+//     code, a POSITION (x=, y=, translate) driven by a raw linear time ramp starts and stops dead. Use move()/moveTo()
+//     from kit/night-scenes (eased in and out, never faster than the eye can follow) or wrap the ramp in an ease.
+{
+  const vd = path.join(ROOT, 'src', 'videos', activeSlug);
+  const RAW = /(Math\.min\(\s*1\s*,\s*Math\.max\(\s*0\s*,\s*\(\s*t\s*-|clamp01\(\s*\(\s*t\s*-)/;
+  if (fs.existsSync(vd)) for (const f of walk(vd)) fs.readFileSync(f, 'utf8').split(/\r?\n/).forEach((ln, i) => {
+    if (/^\s*(\/\/|\*)/.test(ln)) return;
+    for (const m of ln.matchAll(/\b(?:x|y|cx|cy)=\{([^}]*)\}|translate\(([^)]*\))/g)) {
+      const expr = m[1] ?? m[2] ?? '';
+      if (RAW.test(expr) && !/\b(ease|move|moveTo|ramp|popRef|settleT|smooth)\b/.test(expr)) problems.push(`${path.relative(ROOT, f)}:${i + 1}  a position moves on a straight-line time ramp (starts/stops dead) — use move()/moveTo() from kit/night-scenes or an ease`);
+    }
+  });
+}
+
 // 1a) NO SILENT ENTRANCES in the night kit (owner 2026-11-11: «الخزنة فاضية» popped in with no sound). Every exported
 //     night piece that animates IN on a time (`at` prop, or items with `.at`) must cue a sound — itself or through a kit
 //     piece it renders. Intentionally silent pieces say so in their doc comment with the word "SILENT:" + the reason.

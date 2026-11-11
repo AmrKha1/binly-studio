@@ -80,6 +80,7 @@ face), then checked: HOLE · FRINGE · SPECKS · CUT · SMALL. `art.mjs ingest` 
 Standalone: `node tools/art-check.mjs <folder|png…> [--sheet out.jpg]` (exit 2 when anything is flagged).
 
 ## Sound effects measured like the reference (2026-11-10)
+**MOTION CHECK** (owner 2026-11-11: "no harsh animation"): `node tools/motion-check.mjs <video.mp4> [--from s --to s]` measures a rendered video like the reference (hard cuts, full-frame sweeps, stillness, sudden starts) against the reference's own full range; it runs in every Arabic cloud render's QA report.
 **SOUND LAB** (owner 2026-11-11): `node tools/audio/sfx-lab.mjs` designs 4 code-made versions per sound type → `samples/sfx-lab/` · `--page --vo <voiceover> --at 2` builds `samples/sfx-lab/index.html` (each version alone, level-matched, and under 5 s of voice at the −19 standard; "now" = today's sound if captured as `<type>/now.wav`) · `--install pop:2,boom:1+4` copies the owner's picks into `library/sfx/<kind>-N.wav` (the mixer then uses them, rotating between picks).
 `node tools/audio/sfx-finish.mjs <in> <out.flac> --type shimmer|ding|riser|hit` gives a new real sound the reference's finish
 (soft bloom, rounded top, room tail; riser dry, shimmer airy) — SOUND.md §4 (owner kept the code-made shimmer/riser/ding: test any new sound against them by ear first).

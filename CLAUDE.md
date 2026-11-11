@@ -34,6 +34,9 @@ When `videos/<slug>/video.json` has `"lang": "ar"`, there is ONE target: the mod
   sign-off. Each chapter is matched to the reference chapter of the same KIND (CHAPTERS.md).
 - **MOTION** — MOTION.md (measured frame by frame): the night kit already moves like the reference; custom pieces use
   the same curves (`popRef`, `pressIn`, `countCurve`, `pushT`, `settleT`, `flyOut`, `boardCamT`). Never a frozen frame.
+  **Smooth, never harsh (owner 2026-11-11):** join scenes with `NightShots` (kit/night-scenes: `match` dissolves by
+  default, the stripe `wipe` once per chapter, every shot drifts, the host pinned in `hud`) and move things with
+  `move()`/`moveTo()` (eased in and out, never too fast) — check.mjs fails a straight-line move (docs/kit/night.md MOTION).
 - **SOUND** — SOUND.md: the night kit plays the reference's sound map by itself; no music.
 - **IMAGES** — illustrated like the reference: hero art (HeroObject) + faceless story characters (StoryPerson — create ANY new type the story needs, docs/kit/night.md "NEW CHARACTERS"); a real face only in NightPortrait.
 - **WHEN UNSURE, LOOK AT THE REFERENCE** — the contact sheet of the matching chapter (CHAPTERS.md → `references/

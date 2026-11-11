@@ -152,6 +152,18 @@ if (fs.existsSync(sq)) {
   for (const l of ['', '### Sound effects vs the reference (full range + phone speaker)', ...Q.lines]) log(l);
   warn.push(...Q.warnings);
 }
+// motion vs the reference (Arabic renders, owner 2026-11-11: "no harsh animation"): cuts, full-frame sweeps, stillness,
+// sudden starts — the same ruler as the reference (tools/motion-check.mjs)
+let vLang = '';
+try { vLang = JSON.parse(fs.readFileSync(path.join('videos', process.env.SLUG ?? '', 'video.json'), 'utf8')).lang ?? ''; } catch {}
+if (vLang === 'ar') {
+  try {
+    const {motionProfile, motionVerdict, motionLines} = await import('../motion-check.mjs');
+    const m = await motionProfile(video);
+    for (const l of ['', '### Motion vs the reference (how it feels: cuts, sweeps, stillness, sudden starts)', ...motionLines(m)]) log(l);
+    warn.push(...motionVerdict(m));
+  } catch (e) { log(`- motion check failed to run: ${e.message}`); }
+}
 spawnSync(FF, ['-v', 'error', '-y', '-i', video, '-filter_complex', 'showwavespic=s=1920x260:split_channels=1:colors=0x2B2420|0x8B2E1F', '-frames:v', '1', path.join(qaDir, 'waveform.png')]);
 
 const report = [`# QA report — ${path.basename(video)}`, '', `**Result: ${warn.length ? `${warn.length} warning(s)` : 'all automated checks passed'}**`, '', ...warn.map((w) => `- ⚠ ${w}`), warn.length ? '' : '', '## Measurements', ...lines, ''].join('\n');

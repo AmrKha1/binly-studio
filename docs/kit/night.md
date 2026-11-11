@@ -24,6 +24,21 @@ place things exactly where the reference does — headline top-right, object cen
 ```
 
 ## MOTION = the reference, measured frame by frame (references/universe-claude/MOTION.md, 2026-11-11)
+**SMOOTH, NEVER HARSH (owner 2026-11-11):** fast is fine, harsh is not — every move eases in AND out, and scenes FLOW
+into each other. The reference cuts only 1–3.5×/min; our first reel cut 7×/min and flashed a full-frame wipe at every
+section — that was the harsh part.
+- **Join scenes with `NightShots` (kit/night-scenes)** — `<NightShots t={t} shots={[{start, render, in?, drift?, carry?}]}
+  hud={(t) => <HostTrack…/>}/>`. Default join `match`: the old scene drifts forward and fades while the new one dissolves
+  in and SETTLES (settleT) + a soft whoosh. Other joins: `dissolve` (softer) · `wipe` (StripeWipe — once per CHAPTER, a
+  time jump) · `flash` (a cut under the white flash — a slam/reveal) · `cut` (a punchline only). `carry` flies a hero
+  object from the old scene into its place in the new one (the reference's match-move). Every shot DRIFTS by itself
+  (pushT) — `drift: false` only for scenes with their own camera (boards, stairs). `hud` = pinned to the screen (the
+  host): it never zooms with a scene; the host leaves with `exit: {kind: 'fadeOut'}`, returns with `riseSoft`.
+- **Move things with `move(t, at, from, to)` / `moveTo(…)`** (kit/night-scenes): eased in and out, and never faster than
+  0.2 s + distance/2000 px (a 400 px hop ≥ 0.4 s, across the frame ≥ 0.75 s) however short you ask. `node tools/check.mjs`
+  FAILS a position driven by a raw straight-line time ramp.
+- **After a render:** the QA report's "Motion vs the reference" section (`node tools/motion-check.mjs <video>`) must be
+  inside the reference's range — cuts, full-frame sweeps, stillness, sudden starts.
 Every night piece already moves like the reference — keep it that way in custom pieces:
 - **Pop-in** = `popRef(p)` (p over 0.3 s): ONE smooth swell 0.46 → 1.16 at 125 ms → 1.00 at 295 ms; no wobble, no
   squash/stretch (the old `popIn` jelly is for the English channel only). Its sound peaks on the swell (`hit: 0.125`).
