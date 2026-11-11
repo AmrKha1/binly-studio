@@ -79,7 +79,8 @@ for (const f of walk(sdir).filter((x) => /\.(tsx|ts)$/.test(x) && !/speech\.ts$/
     const at = `${path.relative(ROOT, f)}:${i + 1}`;
     for (const m of ln.matchAll(/\b(text|label|value|title|w|name|times|spoken|kicker|caption|place|lines)\s*[=:]\s*\{?\s*(["'`])((?:(?!\2).)*)\2/g)) screen.push({at, s: m[3]});
     for (const m of ln.matchAll(/\b(year)\s*=\s*\{\s*(\d{3,4})\s*\}/g)) screen.push({at, s: m[2]});
-    for (const m of ln.matchAll(/>\s*([^<>{}]*[\p{L}\d][^<>{}]*)\s*</gu)) screen.push({at, s: m[1]});
+    // JSX text = text right before a CLOSING tag ("…</") — code like `t >= 14.1 && t < 21.0` never ends in "</"
+    for (const m of ln.matchAll(/>\s*([^<>{}=&|]*[\p{L}\d][^<>{}=&|]*?)\s*<\//gu)) screen.push({at, s: m[1]});
   });
 }
 const transcript = (() => { try { return fs.readFileSync(path.join(vdir, 'timing', 'transcript.md'), 'utf8'); } catch { return ''; } })();

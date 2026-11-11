@@ -295,15 +295,18 @@ const stairLayout = (o: StairProps) => {
 };
 export const stairCamT = (t: number, o: StairProps) => {
   const {plain, twist, steps, base} = stairLayout(o);
-  const focusOf = (i: number) => ({cx: steps[i].x, cy: base - steps[i].h - 120, z: 1.05});
+  // the host keeps his own space beside the board (reference): the stairs are framed in the screen area right of him —
+  // sx = where the focus lands on screen (a step: a little right of centre · the whole staircase: the centre of 600–1880)
+  const focusOf = (i: number) => ({cx: steps[i].x, cy: base - steps[i].h - 120, z: 1.05, sx: 1040});
   const all = (() => {
     const xs = steps.map((s) => s.x), w = Math.max(...xs) - Math.min(...xs) + 500;
-    return {cx: (Math.max(...xs) + Math.min(...xs)) / 2, cy: base - steps[steps.length - 1].h / 2 - 60, z: Math.min(1, 1760 / w)};
+    return {cx: (Math.max(...xs) + Math.min(...xs)) / 2, cy: base - steps[steps.length - 1].h / 2 - 60, z: Math.min(1, 1280 / w), sx: 1240};
   })();
-  const keys: {at: number; f: {cx: number; cy: number; z: number}}[] = [];
+  const keys: {at: number; f: {cx: number; cy: number; z: number; sx: number}}[] = [];
   plain.forEach((e, i) => keys.push({at: e.at, f: focusOf(i)}));
   if (o.summitAt !== undefined) keys.push({at: o.summitAt, f: all});
-  if (twist) keys.push({at: twist.at, f: focusOf(steps.length - 1)});
+  // the twist is about the summit beating the WHOLE staircase → show the whole staircase as it lands (no edge crop)
+  if (twist) keys.push({at: twist.at, f: all});
   if (o.recapAt !== undefined) keys.push({at: o.recapAt, f: all});
   keys.sort((a, b) => a.at - b.at);
   if (!keys.length) return '';
@@ -313,8 +316,8 @@ export const stairCamT = (t: number, o: StairProps) => {
   const u = k <= 0 ? 1 : ease.inOut(clamp01((t - keys[k].at) / 0.7));
   const z = lerp(a.z, b.z, u) * (1 + 0.0035 * Math.max(0, t - (k >= 0 ? keys[k].at : 0))); // never still (MOTION.md §3)
   // the horizon never moves (like the reference board camera): pan + zoom ALONG the floor line — the sky stays seamless
-  const cx = lerp(a.cx, b.cx, u);
-  return `translate(960 ${base}) scale(${z}) translate(${-cx} ${-base})`;
+  const cx = lerp(a.cx, b.cx, u), sx = lerp(a.sx, b.sx, u);
+  return `translate(${sx} ${base}) scale(${z}) translate(${-cx} ${-base})`;
 };
 export const StairGame: React.FC<{t: number; id: string} & StairProps> = (p) => {
   const {t, id, topLabel} = p;

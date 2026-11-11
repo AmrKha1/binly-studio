@@ -1,0 +1,32 @@
+{
+ "go": true,
+ "slug": "ar-reel",
+ "at": "2026-11-11T01:57:50.236Z",
+ "fingerprint": "98de8e2b61b29852259828811f6dc005d370a931",
+ "reviewed": "reel re-checked after fixes: stills 26.7 (name pill above head, headline clear), 36.0 (whole staircase at the twist, host clear), 39.6 (recap clear)",
+ "accepted": [
+  {
+   "match": "SIGNATURE",
+   "why": "motion reel, not a video: no signature shots"
+  },
+  {
+   "match": "never said like that",
+   "why": "motion reel: demo numbers over an unrelated narration clip (a kit test, not this story)"
+  }
+ ],
+ "rounds": 1,
+ "history": [
+  {
+   "at": "2026-11-11T01:52:30.162Z",
+   "issues": 17
+  },
+  {
+   "at": "2026-11-11T01:54:09.914Z",
+   "issues": 0
+  },
+  {
+   "at": "2026-11-11T01:57:50.237Z",
+   "issues": 0
+  }
+ ]
+}
