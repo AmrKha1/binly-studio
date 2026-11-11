@@ -5,7 +5,7 @@
 export const REF_TARGET = {boom: 18, slam: 15, stamp: 18, impact: 22, thump: 25, sparkle: 21, shimmer: 21, pop: 28, popup: 28, popdown: 29,
   riser: 19, rise: 19, whoosh: 19, swoosh: 19, sweep_down: 20, swish: 28, paper: 28, page: 28, tick: 28, click: 28, clack: 28,
   ding: 25, chime: 25, bell: 25, confirm: 25, neon: 26, count: 30, coins: 24, cash: 24, card: 28, blip: 28, bubble: 28,
-  low_drone: 20, crowd: 24, wind: 26, fire: 26, water: 26, door: 24, footsteps: 28, glass: 25, splash: 24, rumble: 20};
+  low_drone: 20, tail: 14, crowd: 24, wind: 26, fire: 26, water: 26, door: 24, footsteps: 28, glass: 25, splash: 24, rumble: 20};
 // OWNER LIFT (owner, 2026-11-11): the reference's exact levels felt too far under the voice (effects vs voice −21.7 dB).
 // Chosen level: −19.2 dB = lift 4 — the LOUDEST level where every effect still sits ≥ PHONE_HEADROOM dB under the voice
 // on a phone speaker (measured on ar-reel: riser 10.2, sparkle 11.5). Lift 5+ (−18) puts risers/sparkles inside 10 dB on

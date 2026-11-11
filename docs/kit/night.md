@@ -87,7 +87,7 @@ Gallery `night3` = demo (stills 0.8, 1.72, 2.8, 4.0, 4.6, 6.0).
   value, white = previous, grey = small/old, cyan = topic on science scenes. `p` 0→1 = pop-in progress.
 - **Podium** `{x, base, w, h, id, grow, color}` — glowing 3D block (light left facet, dark right side, bright top).
   `grow` 0→1 rises with a spring. The leaderboard = several podiums whose heights compare values.
-- **RevealRing** `{t, at, x, y, r?, color?}` — expanding gold ring + sparkles (0.7 s) when a new object appears.
+- **RevealRing** `{t, at, x, y, r?, color?, boom?, tail?}` — expanding gold ring + sparkles (0.7 s) when a new object appears (+ boom). `tail` = the long deep reveal tail: ONLY for the video's 2–4 biggest reveals (the hook's answer, the twist, the champion), like the reference.
 - **YearBadge** `{t, at, year, from?, x, y, label?, place?, id, size=120}` — black tile, gold border, glowing gold digits;
   `from` makes it count year by year (0.1 s per step: «1506 → 1503» = going back in time); label pill on top (سنة),
   place pill below.

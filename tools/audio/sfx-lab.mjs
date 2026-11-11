@@ -136,6 +136,7 @@ const finish = (x, {top = 13000, bite = -3, wet = 0, size = 0.78, tail = 0.8, fa
 // ------------------------------------------------------------------ the designs (4 per type)
 // each: {name, about, make: () => [L, R]}. Group 1 = the reference's own types (references/universe-claude/SOUND.md §2).
 const D = {};
+const BODY = +(opt.body ?? 0.55); // boom v4: weight of the mid body layers (phone presence)
 D.pop = [
   {name: 'bubble', about: 'round bubble pop, warm', make: () => finish(mix([osc(0.12, glide(1150, 420, 38), att(0.001, 34)), 1], [filt(noise(0.02, exp(260), 3), 'lp', 3000), 0.25]), {wet: 0.25, tail: 0.25})},
   {name: 'pluck', about: 'soft wooden pluck, toy-like', make: () => finish(mix([osc(0.16, glide(760, 560, 30), att(0.001, 26)), 1], [osc(0.16, glide(1520, 1120, 30), att(0.001, 40)), 0.35], [osc(0.08, glide(180, 120, 40), att(0.001, 45)), 0.5]), {wet: 0.2, tail: 0.25})},
@@ -152,7 +153,7 @@ D.boom = [
   {name: 'deep-round', about: 'deep round boom, long smooth tail', make: () => finish(mix([osc(1.6, glide(78, 38, 3), att(0.004, 2.2)), 1], [filt(noise(0.25, exp(18), 21), 'lp', 600), 0.5]), {wet: 0.5, size: 0.86, tail: 1.6, top: 9000})},
   {name: 'cinema', about: 'cinematic hit: sub + low drum body, big tail', make: () => finish(sat(mix([osc(2.2, glide(60, 34, 1.6), att(0.003, 1.6)), 1], [osc(0.5, glide(140, 62, 14), att(0.002, 9)), 0.8], [filt(noise(0.4, exp(10), 23), 'lp', 900), 0.6]), 1.6), {wet: 0.55, size: 0.88, tail: 2, top: 8000})},
   {name: 'trailer-metal', about: 'trailer boom with a metallic ring on top', make: () => finish(mix([osc(1.8, glide(70, 36, 2.4), att(0.004, 2)), 1], [bellP(1.5, 182, 1.6, [[1, 1, 1], [2.27, 0.6, 1.4], [3.8, 0.35, 2.2]]), 0.35], [filt(noise(0.3, exp(14), 25), 'lp', 1400), 0.35]), {wet: 0.55, size: 0.88, tail: 2, top: 10000})},
-  {name: 'phone-body', about: 'boom with a mid "body" so it is heard on phones', make: () => finish(mix([osc(1.4, glide(82, 40, 3), att(0.004, 2.6)), 1], [osc(0.5, glide(260, 160, 10), att(0.003, 7)), 0.45], [osc(0.5, glide(520, 320, 10), att(0.003, 11)), 0.15], [filt(noise(0.25, exp(20), 27), 'lp', 1200), 0.4]), {wet: 0.45, size: 0.85, tail: 1.4, top: 9000})},
+  {name: 'phone-body', about: 'boom with a mid "body" so it is heard on phones', make: () => finish(mix([osc(1.4, glide(82, 40, 3), att(0.004, 2.6)), 1], [osc(0.6, glide(260, 170, 9), att(0.003, 6)), 0.5], [osc(0.6, glide(440, 300, 9), att(0.003, 6.5)), BODY], [osc(0.6, glide(880, 600, 9), att(0.003, 9)), BODY * 0.35], [filt(noise(0.25, exp(20), 27), 'lp', 1800), 0.45]), {wet: 0.45, size: 0.85, tail: 1.4, top: 9000})}, // owner 2026-11-11: body strengthened so the boom is heard on phones (the reference's booms lose only ≈ 4 dB there)
 ];
 D.thump = [
   {name: 'soft-kick', about: 'soft kick, something lands', make: () => finish(mix([osc(0.22, glide(130, 58, 26), att(0.002, 16)), 1], [filt(noise(0.015, exp(300), 31), 'lp', 2000), 0.25]), {wet: 0.15, tail: 0.2, top: 7000})},
@@ -262,7 +263,7 @@ const page = async () => {
       mp3(path.join(OUT, type, `context-${it.v}.mp3`), cL, cR);
       const label = it.v === 'now' ? 'NOW' : it.v;
       rows += `<div class="v${it.v === 'now' ? ' now' : ''}"><div class="n">${label}</div><div class="m"><b>${it.name}</b><span>${it.about}</span></div>
-<button onclick="play('${type}/alone-${it.v}.mp3',this)">▶ alone</button><button onclick="play('${type}/context-${it.v}.mp3',this)">▶ with voice</button></div>`;
+<button onclick="play('${type}/alone-${it.v}',this)">▶ alone</button><button onclick="play('${type}/context-${it.v}',this)">▶ with voice</button></div>`;
     }
     html += `<section><h2>${type}<small>${WHEN[type] ?? ''}</small></h2>${rows}</section>`;
     console.log(`page: ${type} (${vers.length} versions)`);
@@ -275,7 +276,9 @@ h2{margin:0 0 10px;font-size:20px;text-transform:uppercase;letter-spacing:.04em;
 button{background:#2E2470;color:var(--ink);border:0;border-radius:8px;padding:8px 10px;cursor:pointer;font:inherit;white-space:nowrap}button.on{background:var(--gold);color:#1A1238}
 @media(max-width:560px){.v{flex-wrap:wrap}.m{flex-basis:calc(100% - 54px)}}</style></head><body><main>
 <h1>Sound lab · group 1</h1><p class="lead">The 12 sound types of the reference. <b>alone</b> = the sound by itself (all at the same loudness) · <b>with voice</b> = 5 s of the voiceover with the sound at the Studio's standard level (−19). Tell Claude your pick per type, e.g. "pop 2, boom 1+4" (two picks = the mixer alternates them).</p>
-${html}</main><audio id="a"></audio><script>const a=document.getElementById('a');let cur=null;function play(s,b){if(cur)cur.classList.remove('on');a.src=s;a.play();cur=b;b.classList.add('on');a.onended=()=>b.classList.remove('on')}</script></body></html>`);
+${html}</main><div id="err" style="position:fixed;left:16px;right:16px;bottom:16px;background:#E23A4E;color:#fff;padding:10px;border-radius:8px;display:none"></div><audio id="a"></audio><script>const CLIPS=${JSON.stringify(Object.fromEntries(Object.keys(index).flatMap((type)=>fs.readdirSync(path.join(OUT,type)).filter((f)=>f.endsWith('.mp3')).map((f)=>[type+'/'+f.replace(/.mp3$/,''),'data:audio/mpeg;base64,'+fs.readFileSync(path.join(OUT,type,f)).toString('base64')]))))};
+const a=document.getElementById('a'),er=document.getElementById('err');let cur=null;
+function play(k,b){if(cur)cur.classList.remove('on');a.pause();a.src=CLIPS[k];cur=b;b.classList.add('on');a.onended=()=>b.classList.remove('on');a.play().then(()=>er.style.display='none').catch(e=>{er.textContent='Could not play: '+e.message+' — check the volume / the tab is not muted.';er.style.display='block';b.classList.remove('on')})}</script></body></html>`);
   console.log('page: samples/sfx-lab/index.html');
 };
 
@@ -292,7 +295,8 @@ else if (opt.install) {
   }
 } else {
   const types = opt.only ? String(opt.only).split(',') : GROUP1;
-  const index = {};
+  const indexFile = path.join(OUT, 'index.json');
+  const index = fs.existsSync(indexFile) ? JSON.parse(fs.readFileSync(indexFile, 'utf8')) : {}; // merge: --only must not drop the other types
   for (const type of types) {
     index[type] = [];
     D[type].forEach((d, i) => {

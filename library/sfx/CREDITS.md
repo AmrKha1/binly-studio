@@ -10,3 +10,14 @@ Files named `<kind>.ogg` or `<kind>-N.ogg` automatically REPLACE the code-made s
 - kenney/sci-fi-sounds/forceField_*.ogg (kind `neon`), lowFrequency_explosion*.ogg (kind `boom`) — "Sci-Fi Sounds" by Kenney — CC0 — https://kenney.nl/assets/sci-fi-sounds (downloaded 2026-11-08)
 Clips were trimmed to their steadiest section, faded and encoded to Opus 96 kb/s.
 
+
+- pop-*.wav — code-made (tools/audio/sfx-lab.mjs, "pop" v4), owner's pick 2026-11-11. No third-party audio.
+- popup-*.wav — code-made (tools/audio/sfx-lab.mjs, "popup" v1), owner's pick 2026-11-11. No third-party audio.
+- boom-*.wav — code-made (tools/audio/sfx-lab.mjs, "boom" v4), owner's pick 2026-11-11. No third-party audio.
+- thump-*.wav — code-made (tools/audio/sfx-lab.mjs, "thump" v1), owner's pick 2026-11-11. No third-party audio.
+- whoosh-*.wav — code-made (tools/audio/sfx-lab.mjs, "whoosh" v1), owner's pick 2026-11-11. No third-party audio.
+- swish-*.wav — code-made (tools/audio/sfx-lab.mjs, "swish" v4), owner's pick 2026-11-11. No third-party audio.
+- tick-*.wav — code-made (tools/audio/sfx-lab.mjs, "tick" v1), owner's pick 2026-11-11. No third-party audio.
+- ding-*.wav — code-made (tools/audio/sfx-lab.mjs, "ding" v1), owner's pick 2026-11-11. No third-party audio.
+- impact-*.wav — code-made (tools/audio/sfx-lab.mjs, "impact" v1), owner's pick 2026-11-11. No third-party audio.
+- tail-*.wav — code-made (tools/audio/sfx-lab.mjs, "tail" v2), owner's pick 2026-11-11. No third-party audio.

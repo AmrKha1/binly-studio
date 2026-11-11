@@ -316,10 +316,13 @@ export const Podium: React.FC<{x: number; base: number; w: number; h: number; id
 };
 
 /** Reveal burst when something appears (0:25.2): thin gold ring expands + fades, sparkles spray out. */
-export const RevealRing: React.FC<{t: number; at: number; x: number; y: number; r?: number; color?: string; boom?: boolean}> = ({t, at, x, y, r = 230, color = '#F5D27A', boom = true}) => {
+export const RevealRing: React.FC<{t: number; at: number; x: number; y: number; r?: number; color?: string; boom?: boolean; tail?: boolean}> = ({t, at, x, y, r = 230, color = '#F5D27A', boom = true, tail = false}) => {
   // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): a reveal = shimmer + a deep boom (boom=false when the caller already booms)
   cueSfx('sparkle', `ring-${x}-${y}-${at}`, t >= at && t < at + 0.7, x, {at, hit: 0.12});
   if (boom) cueSfx('boom', `ringboom-${x}-${y}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.12});
+  // `tail`: the long deep tail under the video's BIGGEST reveals only (the hook's answer, the twist, the champion) —
+  // the reference uses it for ≈ 3 % of its effects (SOUND.md §2 "bed / tail"); never on ordinary reveals
+  if (tail) cueSfx('tail', `ringtail-${x}-${y}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.12});
   const p = (t - at) / 0.7;
   if (p < 0 || p > 1) return null;
   const e = 1 - Math.pow(1 - p, 3);
