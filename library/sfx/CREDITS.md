@@ -38,4 +38,5 @@ Clips were trimmed to their steadiest section, faded and encoded to Opus 96 kb/s
 - levelup-*.wav — code-made (tools/audio/sfx-lab.mjs, "levelup" v4), owner's pick 2026-11-11. No third-party audio.
 - gasp-1.wav — code-made (tools/audio/sfx-lab.mjs, group 3 "crowd" v1 gasp), owner's pick 2026-11-11. No third-party audio.
 - applause-1.wav — code-made (tools/audio/sfx-lab.mjs, group 3 "crowd" v4 applause), owner's pick 2026-11-11. No third-party audio.
-- powerup-1.wav — same as levelup-1.wav (the older "powerup" kind now plays the owner's level-up pick).
+- Old names play the owner's picks (tools/audio/make-audio.mjs ALIAS): error → wrong, confirm/win → correct, rise → riser, powerup → levelup.
+- 2026-11-11: the Kenney pack files that no sound type used any more were removed (licences kept).

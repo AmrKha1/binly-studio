@@ -605,7 +605,10 @@ const kFiles = (prefixes) => {
   return kCache.get(key);
 };
 const pick = (arr, t) => arr[Math.floor((Math.abs(Math.sin(t * 12.9898) * 43758.5453) % 1) * arr.length)];
-const libFor = (kind, t) => {
+// OLD NAMES → the owner's picks (sound library, 2026-11-11): one sound per meaning, whatever name a chapter uses
+const ALIAS = {error: 'wrong', confirm: 'correct', win: 'correct', rise: 'riser', powerup: 'levelup'};
+const libFor = (kind0, t) => {
+  const kind = ALIAS[kind0] ?? kind0;
   const c = libFiles.filter((x) => x.replace(/\.[^.]+$/, '').replace(/-\d+$/, '') === kind).sort();
   if (c.length) return path.join(LIB, pick(c, t));
   const k = KENNEY[kind] ? kFiles(KENNEY[kind]) : [];
