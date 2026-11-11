@@ -1,5 +1,6 @@
 // THE MOTION REEL (owner 2026-11-11): ~40 s of the new AZTIKA toolkit at full speed with sound — to judge the FEEL
-// before the first real video. Not a video for YouTube. Sections: stairs · screen · deal · painted plate · hero · twist.
+// before the first real video. Not a video for YouTube. Sections: stairs · screen · deal · history world (the Claude-made
+// path when no Flow plate exists) · hero · twist.
 import React from 'react';
 import type {VideoModule} from '../../kit/video';
 import {Stage} from '../../kit/stage';
@@ -10,8 +11,8 @@ import {Bubble, CountNumber, Flash, HeroObject, Rays, Stamp, StripeWipe, WhooshO
 import {StairGame, stairCamT, type StairEntry} from '../../kit/night-game';
 import {coinArt, documentArt, driveArt} from '../../kit/night-objects';
 import {AlertBanner, TransferScreen} from '../../kit/night-ui';
-import {MoneyBag, RoomWorld, StoryPerson} from '../../kit/night-worlds';
-import {PlateFx, PlateWorld} from '../../kit/night-places';
+import {MoneyBag, RoomWorld, StoryPerson, SunsetWorld} from '../../kit/night-worlds';
+import {PlateFx} from '../../kit/night-places';
 import {pushT, settleT} from '../../kit/anim';
 
 const STAIRS: StairEntry[] = [
@@ -65,13 +66,13 @@ const Video: React.FC<{t: number}> = ({t}) => (
       {/* 4 · a painted plate with life on top (21.0–28.0) */}
       {t >= 21.0 && t < 28.0 && (
         <>
-          <PlateWorld t={t} id="pl" src="ar-reel/bg/treasury-room.jpg" look="natural" at={21.0} dur={7} from={{x: 0.5, y: 0.55, s: 1.04}} to={{x: 0.55, y: 0.5, s: 1.16}} />
+          <g transform={pushT(t, 21.0)}><SunsetWorld t={t} id="sun" /></g>
           <PlateFx t={t} kind="dust" density={1.3} />
           <PlateFx t={t} kind="rays" />
           <YearBadge t={t} at={21.5} year={1875} from={1869} x={960} y={170} id="yb" />
-          <StoryPerson x={1500 - Math.min(1, Math.max(0, (t - 22.5) / 3)) * 420} y={1000} s={0.95} role="man" hat="tarboush" outfit="uniform" medals pose={t > 22.5 && t < 25.5 ? 'walk' : 'think'} t={t} id="khedive" />
-          <WordPop t={t} id="hw" y={930} size={112} right={880} words={[{w: 'الخزنة', at: 24.2}, {w: 'فاضية', at: 24.6, tone: 'gold'}]} />
-          <NPill text="الخديوي" x={1500 - Math.min(1, Math.max(0, (t - 22.5) / 3)) * 420} y={545} size={48} kind="white" id="kname" p={(t - 23.0) / 0.3} />
+          <StoryPerson x={1560 - Math.min(1, Math.max(0, (t - 22.5) / 3)) * 300} y={1000} s={0.95} role="man" hat="tarboush" outfit="uniform" medals pose={t > 22.5 && t < 25.5 ? 'walk' : 'think'} t={t} id="khedive" />
+          <WordPop t={t} id="hw" y={930} size={112} right={820} words={[{w: 'الخزنة', at: 24.2}, {w: 'فاضية', at: 24.6, tone: 'gold'}]} />
+          <NPill text="الخديوي" x={1560 - Math.min(1, Math.max(0, (t - 22.5) / 3)) * 300} y={545} size={48} kind="white" id="kname" p={(t - 23.0) / 0.3} />
           <MarkPill t={t} at={26.2} text="فاضية" x={1560} y={330} mark="cross" id="empty" />
         </>
       )}

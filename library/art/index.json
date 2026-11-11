@@ -1,18 +1,4 @@
 {
- "treasury-room": {
-  "kind": "bg",
-  "tags": [
-   "treasury",
-   "bazaar",
-   "market",
-   "money",
-   "storeroom"
-  ],
-  "file": "bg/treasury-room.jpg",
-  "w": 2752,
-  "h": 1536,
-  "from": "manual"
- },
  "gold-coin": {
   "kind": "el",
   "tags": [

@@ -1,11 +1,11 @@
 import React from 'react';
+import {SunsetWorld} from '../../kit/night-worlds';
 import {Stage} from '../../kit/stage';
 import {NightScreen, NightSky, NPill} from '../../kit/night';
 import {Flag, PaperMap} from '../../kit/night-worlds';
 import {Stamp} from '../../kit/night-fx';
 import {NeonLines, NightMap, nightProj} from '../../kit/night-maps';
 import {ChapterTitle, QuoteCard} from '../../kit/night-story';
-import {PlateWorld} from '../../kit/night-places';
 import {StoryPerson} from '../../kit/night-worlds';
 
 // page "night13": maps + quote + chapter title + painted plate (render with {"lang":"ar"}), 3 s each.
@@ -69,7 +69,7 @@ export const NightPage13: React.FC<{t: number}> = ({t}) => {
   } else {
     s = (
       <>
-        <PlateWorld t={t} src="_night-test/bg/treasury-room.jpg" id="pl" at={12} dur={3} />
+        <SunsetWorld t={t} id="pl" />
         <StoryPerson x={760} y={1040} s={0.8} body="#7A3FC8" hat="crown" hatColor="#FFC928" id="king" t={t} />
         <ChapterTitle t={t} id="ct" chapters={[{at: 12.1, text: 'روما في عزّها', n: 1}]} />
       </>
