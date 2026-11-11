@@ -31,3 +31,9 @@ references/*/timing/
 samples/
 # library-only art batch copied for local tests (the library itself is in library/art)
 public/_night-lib/
+
+# the owner's UNRELEASED script and its word timing stay on this PC (owner 2026-11-11); the cloud gets them sealed.
+# Only the word TIMES (numbers, no words) are committed — the render needs when words are spoken, not what.
+videos/*/script.txt
+videos/*/timing/*
+!videos/*/timing/times.json

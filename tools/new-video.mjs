@@ -102,11 +102,27 @@ console.log(`video: ${slug} · "${title}" · ${info.duration.toFixed(2)} s · ${
 // 3) upload voiceover (release asset — keeps big audio out of git) + timing analysis
 if (!a['no-analyze']) {
   spawnSync(process.execPath, [path.join(ROOT, 'tools', 'cloud.mjs'), 'push', `new video: ${slug}`], {stdio: 'inherit'});
+  // SEALED (owner 2026-11-11): the repo is PUBLIC and the voice + script are unreleased — they go to the cloud ENCRYPTED
+  // (AES-256-GCM, key = repo secret REF_KEY / local .cache/ref/key.txt) and are decrypted only inside the jobs. Never plain.
   const tag = `vo-${slug}`;
+  const keyFile = path.join(ROOT, '.cache', 'ref', 'key.txt');
+  const key = process.env.REF_KEY ?? (fs.existsSync(keyFile) ? fs.readFileSync(keyFile, 'utf8').trim() : '');
+  if (!/^[0-9a-f]{64}$/i.test(key)) { console.log('STOP: no sealing key (.cache/ref/key.txt / REF_KEY) — the voice is NOT uploaded plain. Restore the key, then re-run.'); process.exit(1); }
+  const {encryptFile} = await import('./cloud/crypt.mjs');
+  const sealDir = path.join(ROOT, '.cache', `seal-${slug}`);
+  fs.mkdirSync(sealDir, {recursive: true});
+  const assets = [path.join(sealDir, 'voiceover.enc')];
+  encryptFile(voDest, assets[0], key);
+  const scriptLocal = path.join(vdir, 'script.txt');
+  if (fs.existsSync(scriptLocal)) { assets.push(path.join(sealDir, 'script.enc')); encryptFile(scriptLocal, assets[1], key); }
   const exists = sh('gh', ['release', 'view', tag], {allowFail: true}) !== null;
-  if (exists) gh('release', 'upload', tag, voDest, '--clobber');
-  else gh('release', 'create', tag, voDest, '--title', `Voiceover: ${slug}`, '--notes', a.raw ? 'Original voiceover (unprocessed). Used by the cloud render.' : 'Voiceover made by tools/vo-prep.mjs (parts levelled to equal loudness, joined with 0.35 s, pauses > 0.23 s → 0.19 s) and passed tools/vo-check.mjs. Used by the cloud render.');
-  console.log(`voiceover uploaded (release ${tag})`);
+  if (exists) {
+    // remove any plain copy left by an older ingest
+    for (const n of ['voiceover.wav', 'voiceover.mp3', 'voiceover.m4a', 'script.txt']) sh('gh', ['release', 'delete-asset', tag, n, '--yes'], {allowFail: true});
+    gh('release', 'upload', tag, ...assets, '--clobber');
+  } else gh('release', 'create', tag, ...assets, '--title', `Voiceover: ${slug} (sealed)`, '--notes', 'Sealed (AES-256-GCM): decrypted only inside the cloud jobs. Delete this release after the final render.');
+  fs.rmSync(sealDir, {recursive: true, force: true});
+  console.log(`voiceover${assets.length > 1 ? ' + script' : ''} uploaded SEALED (release ${tag})`);
   const r = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'cloud.mjs'), 'analyze', slug], {stdio: 'inherit'});
   if (r.status !== 0) process.exit(r.status ?? 1);
   spawnSync(process.execPath, [path.join(ROOT, 'tools', 'speech-map.mjs'), '--slug', slug], {stdio: 'inherit'}); // host lip movement

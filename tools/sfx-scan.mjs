@@ -9,6 +9,7 @@ import {pathToFileURL} from 'node:url';
 import {build} from 'esbuild';
 import {ROOT, args} from './lib/render.mjs';
 import {applyDensity, densityReport, DENSITY} from './lib/sfx-density.mjs';
+import {readWordTimes} from './lib/word-times.mjs';
 
 const a = args();
 const activeSlug = fs.readFileSync(path.join(ROOT, 'src', 'active.ts'), 'utf8').match(/videos\/([^']+)'/)?.[1];
@@ -120,7 +121,7 @@ console.log(`sfx scan ${slug}: ${cues.length} auto cues in ${(to - from).toFixed
 if ((mod.meta.lang ?? 'en') === 'ar' && !a.from && !a.to) {
   const vdir = path.join(ROOT, 'videos', slug);
   let words = [];
-  try { words = JSON.parse(fs.readFileSync(path.join(vdir, 'timing', 'words.json'), 'utf8')); } catch {}
+  words = readWordTimes(vdir); // words.json locally, times.json (numbers only) in the cloud
   const hand = [];
   for (const f of fs.existsSync(path.join(vdir, 'sfx')) ? fs.readdirSync(path.join(vdir, 'sfx')) : [])
     if (f.endsWith('.json') && f !== '_auto.json') try { hand.push(...JSON.parse(fs.readFileSync(path.join(vdir, 'sfx', f), 'utf8')).filter((c) => typeof c.t === 'number')); } catch {}

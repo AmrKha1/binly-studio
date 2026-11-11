@@ -54,6 +54,8 @@ jobs:
         run: |
           node tools/cloud/crypt.mjs decrypt in/voiceover.enc in/voiceover.wav
           rm in/voiceover.enc
+          # the owner's unreleased script (sealed too) — never in the repo
+          if gh release download "vo-$SLUG" --dir in --pattern 'script.enc' --repo "$GITHUB_REPOSITORY"; then mkdir -p "videos/$SLUG" && node tools/cloud/crypt.mjs decrypt in/script.enc "videos/$SLUG/script.txt" && rm in/script.enc; fi
 
       - uses: actions/setup-python@v6
         with:

@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {applyDensity} from '../lib/sfx-density.mjs';
+import {readWordTimes} from '../lib/word-times.mjs';
 
 const slug = process.argv[2];
 const dir = path.join('videos', slug);
@@ -32,7 +33,7 @@ console.error(`sfx cues: ${all.length} (${hand.length} story + ${autoKept.length
 const vj = (() => { try { return JSON.parse(fs.readFileSync(path.join(dir, 'video.json'), 'utf8')); } catch { return {}; } })();
 if (vj.lang === 'ar') {
   let last = null;
-  try { const w = JSON.parse(fs.readFileSync(path.join(dir, 'timing', 'words.json'), 'utf8')); last = w.length ? w[w.length - 1].e ?? w[w.length - 1].s : null; } catch {}
+  const w = readWordTimes(dir); last = w.length ? w[w.length - 1].e ?? w[w.length - 1].s : null; // times only (no words in the repo)
   const d = applyDensity(all, last);
   all = d.cues;
   console.error(`sound density (B): ${all.length} cues · ${d.capped} small auto sounds dropped by the 34/min cap · ${d.afterSignoff} after the sign-off removed`);

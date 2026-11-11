@@ -38,12 +38,23 @@ async function analyze() {
   // Arabic: the multilingual large-v3 model (most accurate Arabic; slower on the cloud CPU, ~1-2x audio length)
   const model = a.model ?? (lang === 'ar' ? 'large-v3' : 'small.en');
   push(`timing: ${slug}`);
-  const id = await dispatch('analyze.yml', {slug, model, lang});
+  // SEALED (owner 2026-11-11): the voice + script arrive encrypted, the timing leaves encrypted — nothing readable in
+  // the public repo's runs; only the word TIMES (numbers) are committed (timing/times.json)
+  const id = await dispatch('analyze.yml', {slug, model, lang, sealed: '1'});
   console.log(`analyze run ${id} started`);
   await wait(id, 'analyze');
   const dir = path.join(ROOT, 'videos', slug, 'timing');
   fs.rmSync(dir, {recursive: true, force: true});
-  gh('run', 'download', String(id), '-n', `${slug}-timing`, '-D', dir);
+  const tmp = path.join(ROOT, '.cache', `sealed-${slug}`);
+  fs.rmSync(tmp, {recursive: true, force: true});
+  gh('run', 'download', String(id), '-n', `${slug}-timing`, '-D', tmp);
+  const key = process.env.REF_KEY ?? fs.readFileSync(path.join(ROOT, '.cache', 'ref', 'key.txt'), 'utf8').trim();
+  const {decryptFile} = await import('./cloud/crypt.mjs');
+  decryptFile(path.join(tmp, 'timing.enc'), path.join(tmp, 'timing.tgz'), key);
+  sh('tar', ['-xzf', path.join(tmp, 'timing.tgz'), '-C', path.join(ROOT, 'videos', slug)]);
+  fs.rmSync(tmp, {recursive: true, force: true});
+  const {writeWordTimes} = await import('./lib/word-times.mjs');
+  writeWordTimes(path.join(ROOT, 'videos', slug));
   const info = JSON.parse(fs.readFileSync(path.join(dir, 'info.json'), 'utf8'));
   console.log(`timing ready: ${info.words} words, ${info.paragraphs} paragraphs, script match ${(info.script_match_ratio * 100).toFixed(1)}%, duration ${info.duration}s`);
   if (info.spoken_not_in_script || info.script_words_not_spoken) console.log(`voiceover vs script: ${info.spoken_not_in_script ?? 0} spoken words not in the script (kept), ${info.script_words_not_spoken ?? 0} script words not spoken (dropped) — the transcript follows the VOICEOVER`);
