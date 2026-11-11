@@ -215,6 +215,16 @@ export const WordPop: React.FC<{t: number; words: PopWord[]; y: number; size: nu
   const rtl = isAr();
   let cursor = rtl ? (right ?? W - 120) : (left ?? 120);
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.15) : 1;
+  // SOUND MAP (SOUND.md §2 "headline words popping"): a smooth rising POPUP when the line starts and on each KEY (pop)
+  // word; words closer than 0.25 s to the last sounded one share it (never a stutter). Owner 2026-11-11: «الخزنة فاضية»
+  // appeared with no sound.
+  let lastAt = -9;
+  words.forEach((w, i) => {
+    const key = (w.enter ?? ((w.tone ?? 'white') === 'white' ? 'fade' : 'pop')) === 'pop';
+    if (i > 0 && !(key && w.at - lastAt >= 0.25)) return;
+    lastAt = w.at;
+    cueSfx('popup', `wordpop-${id}-${i}-${w.at}`, t >= w.at && t < w.at + 0.3, rtl ? (right ?? W - 120) : (left ?? 120), {at: w.at, hit: key ? 0.125 : 0.08});
+  });
   return (
     <g opacity={fade}>
       {words.map((w, i) => {

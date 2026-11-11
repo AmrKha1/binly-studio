@@ -7,6 +7,7 @@
 // out from that point over `dur` (empires, conquests, a deal doubling a country). Place pins/labels with nightProj().
 import React from 'react';
 import {clamp01, ease, popRef} from './anim';
+import {cueSfx} from './sfx';
 import {uid} from './stage';
 import {countryD, makeProjection, ProjName, Region} from './geo';
 import {W, H} from './theme';
@@ -42,6 +43,8 @@ export const NightMap: React.FC<{t: number; region: Region; areas: MapArea[]; x?
         if (!d) return null;
         const at = a.at ?? -1;
         if (t < at) return null;
+        // SOUND MAP: a map region FILLS → thump as it lands; a spreading region → whoosh as it sweeps
+        if (at >= 0) cueSfx(a.spread ? 'whoosh' : 'thump', `nmap-${id}-${i}-${at}`, t < at + 0.3, x + w / 2, {at, hit: a.spread ? 0.25 : 0.125});
         const pop = at >= 0 && !a.spread ? popRef(clamp01((t - at) / 0.3), 0.4, 0.15) : {sx: 1, sy: 1, o: 1};
         const sp = a.spread ? ease.inOut(clamp01((t - Math.max(0, at)) / (a.dur ?? 1.2))) : 1;
         const [sx, sy] = a.spread ? proj(a.spread[0], a.spread[1]) : [0, 0];
@@ -87,6 +90,7 @@ export const NightMap: React.FC<{t: number; region: Region; areas: MapArea[]; x?
 /** NeonLines — glowing route lines drawn on over a neon map (6:40 the highway network). points in screen px. */
 export const NeonLines: React.FC<{t: number; at: number; lines: [number, number][][]; color?: string; dur?: number; id: string}> = ({t, at, lines, color = '#FFC928', dur = 1.5, id}) => {
   if (t < at) return null;
+  cueSfx('whoosh', `nneonl-${id}-${at}`, t < at + 0.3, 960, {at, hit: 0.25}); // SOUND MAP: lines drawn on → whoosh
   const g = uid('nneonl', id);
   const k = ease.inOut(clamp01((t - at) / dur));
   return (

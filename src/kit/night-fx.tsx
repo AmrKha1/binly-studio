@@ -4,7 +4,7 @@
 // stripe wipe 0:09.0 · neon sign-off 14:44.
 import React from 'react';
 import {Img, staticFile} from 'remotion';
-import {clamp01, countCurve, countUp, ease, lerp, popRef, pressIn, rand} from './anim';
+import {clamp01, countCurve, countUp, ease, lerp, phaseOf, popRef, pressIn, rand} from './anim';
 import {H, W} from './theme';
 import {uid} from './stage';
 import {GlowText, N, NPill, nightFont, textWidth, Tone} from './night';
@@ -215,7 +215,7 @@ export const NightPortrait: React.FC<{t: number; at?: number; photo: string; x: 
   const back = out !== undefined ? 1 - ease.in(clamp01((t - out) / 0.18)) : 1;
   if (back <= 0.01) return null;
   const w = h * ar, b = Math.max(14, h * 0.055); // frame thickness
-  const fl = Math.sin(t * 1.2 + x * 0.01) * 8;
+  const fl = Math.sin(t * 1.2 + phaseOf(id)) * 8;
   const sweep = ((e * 0.4) % 1.8) - 0.4;
   const oval = shape === 'oval';
   const rad = oval ? '50%' : `${b * 0.6}px`;
@@ -241,7 +241,8 @@ export const NightPortrait: React.FC<{t: number; at?: number; photo: string; x: 
 };
 
 /** Flash — the reference's white flash on a big slam / reveal («أنت!» 0:15.6, MOTION.md §4): the frame jumps INSTANTLY to
- * ≈ 50 % white, then fades exponentially (half gone in 100 ms, gone by ≈ 0.4 s). Draw on top, on the slam's frame. */
+ * ≈ 50 % white, then fades exponentially (half gone in 100 ms, gone by ≈ 0.4 s). Draw on top, on the slam's frame.
+ * SILENT: it only lights the frame of a slam/reveal whose own piece already plays the boom (no double hit). */
 export const Flash: React.FC<{t: number; at: number; strength?: number; color?: string}> = ({t, at, strength = 0.5, color = '#FFFFFF'}) => {
   if (t < at) return null;
   const o = strength * Math.exp(-(t - at) / 0.144);
@@ -302,7 +303,7 @@ export const HeroObject: React.FC<{t: number; at?: number; src?: string; draw?: 
   const fade = out !== undefined ? 1 - clamp01((t - out) / 0.2) : 1;
   if (fade <= 0) return null;
   const w = h * ar;
-  const fl = float ? Math.sin(t * 1.3 + x * 0.01) * 10 : 0;
+  const fl = float ? Math.sin(t * 1.3 + phaseOf(id)) * 10 : 0;
   const sweep = ((e * 0.45) % 1.6) - 0.3; // a light band passes every ~3.5 s
   const twinkles = Array.from({length: sparkles}, (_, i) => {
     const sx = (rand(i * 7 + id.length) - 0.5) * w * 0.9, sy = (rand(i * 13 + 3) - 0.5) * h * 0.9;

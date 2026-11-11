@@ -56,6 +56,14 @@ export const rand = (seed: number) => {
   const x = Math.sin(seed * 127.1 + 311.7) * 43758.5453123;
   return x - Math.floor(x);
 };
+/** A fixed phase offset in [0, 2π) from an element's id — for idle breathing/float/flicker waves.
+ *  NEVER put a position (x, y) inside a time wave like Math.sin(t * 2 + x): when the element MOVES, x changes every
+ *  frame and the slow wave becomes a fast shake (the walking Khedive vibrated, owner 2026-11-11). check.mjs fails it. */
+export const phaseOf = (id: string) => {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) % 100003;
+  return rand(h) * Math.PI * 2;
+};
 /** Deterministic value in [lo, hi). */
 export const randRange = (seed: number, lo: number, hi: number) => lo + rand(seed) * (hi - lo);
 

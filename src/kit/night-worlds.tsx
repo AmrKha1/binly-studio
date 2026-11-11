@@ -3,7 +3,7 @@
 // HoloRing (body/science, 0:21.8) · NightCity (money/cities, 4:18) · RoomWorld (mini-stories, 0:46) · StoryPerson
 // (faceless round head + ONE hat + gold rim, 0:46). All in screen coordinates — use inside <NightScreen>.
 import React from 'react';
-import {clamp01, mixHex, rand} from './anim';
+import {clamp01, mixHex, phaseOf, rand} from './anim';
 import {H, W} from './theme';
 import {uid} from './stage';
 import {N, nightFont, textWidth} from './night';
@@ -646,11 +646,14 @@ export const StoryPerson: React.FC<{
   const medals = props.medals ?? R.medals ?? false;
   const f = uid('nsp', id);
 
-  // walk: a deterministic stride from t (legs swing at the hips, arms swing opposite, a small bob)
-  const ph = t * 6.4 + x * 0.013;
+  // walk: a calm deterministic stride from t (legs swing at the hips, arms swing opposite, a soft bob). The phase comes
+  // from the id, NEVER from x (x moves while walking → the wave would turn into a shake). The bob is a smooth wave
+  // (two lifts per stride, no sharp |cos| landing).
+  const seed = phaseOf(id);
+  const ph = t * 5.2 + seed;
   const sw = pose === 'walk' ? Math.sin(ph) : 0;
-  const bob = pose === 'walk' ? -Math.abs(Math.cos(ph)) * 7 : 0;
-  const b = Math.sin(t * 2 + x) * 3 + bob;
+  const bob = pose === 'walk' ? -(1 - Math.cos(2 * ph)) * 2.5 : 0;
+  const b = Math.sin(t * 2 + seed) * 3 + bob;
   const head = -330 + b, r = 78;
   const long = LONG.includes(outfit);
   const rf = hat === 'hijab' || hat === 'hood' ? r * 0.86 : r; // face disc (smaller inside a hijab / hood)

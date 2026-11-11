@@ -4,7 +4,7 @@
 // «×1,000,000» 12:16) · RingGauge (accelerator ring with a % in the middle, 11:39 «99.99% من سرعة الضوء») · MassGrid (one
 // small thing repeated hundreds of times = "one for every person who ever lived", 11:12). Use inside <NightScreen>.
 import React from 'react';
-import {clamp01, ease, lerp, popRef, rand} from './anim';
+import {clamp01, ease, lerp, phaseOf, popRef, rand} from './anim';
 import {uid} from './stage';
 import {GlowText, NPill, Tone} from './night';
 import {cueSfx} from './sfx';
@@ -16,7 +16,7 @@ export const Particle: React.FC<{t: number; at?: number; x: number; y: number; r
   if (t < at) return null;
   const q = at >= 0 ? popRef(clamp01((t - at) / 0.25), 0.45, 0.4) : {sx: 1, sy: 1, o: 1};
   const g = uid('npart', id);
-  const jx = Math.sin(t * 3.1 + x) * 3, jy = Math.cos(t * 2.7 + y) * 3;
+  const jx = Math.sin(t * 3.1 + phaseOf(id)) * 3, jy = Math.cos(t * 2.7 + phaseOf(id) * 1.7) * 3;
   return (
     <g>
       <g transform={`translate(${x + jx} ${y + jy}) scale(${q.sx} ${q.sy})`} opacity={q.o}>

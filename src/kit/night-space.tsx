@@ -6,6 +6,7 @@
 // All in screen coordinates — use inside <NightScreen>. All silent (pair a reveal with RevealRing for the shimmer).
 import React from 'react';
 import {clamp01, ease, lerp, popRef, rand} from './anim';
+import {cueSfx} from './sfx';
 import {H, W} from './theme';
 import {uid} from './stage';
 import {Globe} from './depth';
@@ -54,6 +55,7 @@ export const Earth: React.FC<{t: number; x: number; y: number; r: number; id: st
 }) => {
   if (t < at) return null;
   const q = at >= 0 ? popRef(clamp01((t - at) / 0.35), 0.4, 0.4) : {sx: 1, sy: 1, o: 1};
+  if (at >= 0) cueSfx('sparkle', `nearth-${id}-${at}`, t < at + 0.3, x, {at, hit: 0.125}); // SOUND MAP: Earth appears → shimmer
   const g = uid('nearth', id);
   const rot = lon + t * spin;
   return (
@@ -113,6 +115,7 @@ export const Earth: React.FC<{t: number; x: number; y: number; r: number; id: st
 export const Sun: React.FC<{t: number; x: number; y: number; r: number; id: string; at?: number}> = ({t, x, y, r, id, at = -1}) => {
   if (t < at) return null;
   const q = at >= 0 ? popRef(clamp01((t - at) / 0.35), 0.4, 0.4) : {sx: 1, sy: 1, o: 1};
+  if (at >= 0) cueSfx('sparkle', `nsun-${id}-${at}`, t < at + 0.3, x, {at, hit: 0.125}); // SOUND MAP: a glowing body appears → shimmer
   const g = uid('nsun', id);
   return (
     <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
@@ -158,6 +161,7 @@ export const Galaxy: React.FC<{t: number; x: number; y: number; r: number; id: s
 }) => {
   if (t < at) return null;
   const p = at >= 0 ? clamp01((t - at) / 0.6) : 1;
+  if (at >= 0) cueSfx('sparkle', `ngal-${id}-${at}`, t < at + 0.3, x, {at, hit: 0.2}); // SOUND MAP: glowing star dust → shimmer
   const g = uid('ngal', id);
   const spin = t * 0.04;
   return (
@@ -340,6 +344,7 @@ export const Orbiters: React.FC<{t: number; x: number; y: number; rx: number; ry
 }) => {
   if (t < at) return null;
   const p = at >= 0 ? clamp01((t - at) / 0.5) : 1;
+  if (at >= 0) cueSfx('whoosh', `norbit-${at}-${x}`, t < at + 0.3, x, {at, hit: 0.25}); // SOUND MAP: people circling → whoosh
   const ryy = ry ?? rx * 0.9;
   const cols = ['#E23A4E', '#3B82F6', '#22C55E', '#F59E0B', '#A855F7', '#14B8A6'];
   return (

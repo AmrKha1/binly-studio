@@ -17,6 +17,9 @@ const banned = [
   [/\buseCurrentFrame\s*\(/, 'useCurrentFrame() inside a scene — take `t` as a prop instead (contact sheets render scenes at arbitrary t)'],
   [/requestAnimationFrame/, 'requestAnimationFrame — not seek-safe'],
   [/https?:\/\/(?!www\.w3\.org)/, 'network URL — all assets must be local'],
+  // a POSITION inside a time wave: when the element moves, x changes every frame and a slow breathing/float wave turns
+  // into a fast shake (the walking Khedive vibrated, owner 2026-11-11). Use phaseOf(id) from kit/anim for the offset.
+  [/Math\.(sin|cos)\([^()]*\bt\b[^()]*[+-]\s*(x|y|cx|cy|px|py|props\.x|props\.y)\b(?!\s*[-+]\s*\w)/, 'position (x/y) inside a time wave — a moving element SHAKES; use phaseOf(id) from kit/anim'],
 ];
 const walk = (d) => fs.readdirSync(d, {withFileTypes: true}).flatMap((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : /\.(tsx?|jsx?)$/.test(e.name) ? [path.join(d, e.name)] : []));
 // scope: the kit + the ACTIVE video only (old videos don't need re-checking; keeps checks fast as the channel grows)
@@ -30,6 +33,34 @@ for (const dir of ['src/kit', `src/videos/${activeSlug}`]) {
       if (/^\s*(\/\/|\*)/.test(ln)) return;
       for (const [re, why] of banned) if (re.test(ln)) problems.push(`${path.relative(ROOT, f)}:${i + 1}  ${why}`);
     });
+  }
+}
+
+// 1a) NO SILENT ENTRANCES in the night kit (owner 2026-11-11: «الخزنة فاضية» popped in with no sound). Every exported
+//     night piece that animates IN on a time (`at` prop, or items with `.at`) must cue a sound — itself or through a kit
+//     piece it renders. Intentionally silent pieces say so in their doc comment with the word "SILENT:" + the reason.
+{
+  const kdir = path.join(ROOT, 'src', 'kit');
+  const comps = {};
+  for (const f of fs.readdirSync(kdir).filter((n) => /^night.*\.tsx$/.test(n))) {
+    const s = fs.readFileSync(path.join(kdir, f), 'utf8');
+    const idx = [...s.matchAll(/export const ([A-Z]\w*)\s*:\s*React\.FC<([^]*?)>\s*=\s*\(/g)].map((m) => ({n: m[1], props: m[2], i: m.index}));
+    idx.forEach((c, k) => {
+      const body = s.slice(c.i, k + 1 < idx.length ? idx[k + 1].i : s.length);
+      const doc = s.slice(Math.max(0, c.i - 700), c.i).split(/\n\s*\n/).pop();
+      comps[c.n] = {f, body, props: c.props, silent: /SILENT:/.test(doc)};
+    });
+  }
+  const sounds = (n, seen = new Set()) => {
+    if (seen.has(n)) return false;
+    seen.add(n);
+    const c = comps[n];
+    if (/cueSfx\s*\(/.test(c.body)) return true;
+    return Object.keys(comps).some((o) => o !== n && new RegExp(`<${o}\\b`).test(c.body) && sounds(o, seen));
+  };
+  for (const [n, c] of Object.entries(comps)) {
+    const timed = /\bat\??\s*:/.test(c.props) || /\.at\b/.test(c.body);
+    if (timed && !c.silent && !sounds(n)) problems.push(`src/kit/${c.f}  ${n} animates in on a time but plays NO sound — add cueSfx (sound map: references/universe-claude/SOUND.md §2) or mark it "SILENT: <why>" in its doc comment`);
   }
 }
 
