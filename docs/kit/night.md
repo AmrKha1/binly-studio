@@ -39,6 +39,24 @@ section — that was the harsh part.
   FAILS a position driven by a raw straight-line time ramp.
 - **After a render:** the QA report's "Motion vs the reference" section (`node tools/motion-check.mjs <video>`) must be
   inside the reference's range — cuts, full-frame sweeps, stillness, sudden starts.
+- **NIGHT SHOT TEMPLATES (kit/night-templates, 2026-11-11)** — the reference's repeating moments as one-line shots, so an
+  Arabic chapter is mostly DATA: `videos/<slug>/shots/Cxx.json` → `node tools/compile-shots.mjs` (Arabic videos compile to
+  night templates joined with NightShots; builders hand-build only the special moments). Every prop is plain JSON; art =
+  `"src": "<slug>/el/x.png", "ar": 0.8` or code-drawn `"art": "coin:₿" | "document" | "drive"`.
+  · **BoardShot** `{game: podium|stairs, entries: "@board" (= videos/<slug>/board.json — ONE board for the whole video),
+    recapAt?, summitAt?, topLabel?, words?}` — its own camera (no drift) · **MysteryShot** `{at, kind: pillar|box, words?}`
+  · **HeroShot** `{at, src|art, value?, countAt?, spoken?: words, label?: {text, at}}` — reveal + S-curve count + the
+    spoken words · **HeadlineShot** `{words, y?, size?, pill?: {text, at}}` · **StoryShot** `{world: room|sunset|city|village|
+    day|lab|mine|plate, plate?, people?: [{role, x, pose?, poses?: [[t, pose]], walk?: {at, to}, name?: {text, at}, flip?, rim?,
+    prop?, hat?, outfit?}], bubble?, stamp?, pills?, marks?, year?, words?}` (walks use move()) · **TwistShot** `{at, words,
+    mark?, rays?}` (a slam under the flash).
+  · words = `[{"w": "الأغلى", "at": 12.4, "tone": "gold"}]` (centred automatically). A shot's `"in"`: match (default) ·
+    dissolve · wipe · flash · cut; `"drift": false` for a shot with its own camera. AZTIKA = the shots' `"host"` beats
+    (`[{"at", "spot", "pose", "why"}, {"at", "off": true}]`) → the compiler pins him in the hud: rises in, moves on his
+    beats, fades out on "off", may return.
+  · **Custom shots** (Cxx.custom.tsx) return the shot's WORLD (SVG — no <Stage>/<NightScreen>; the chapter provides them).
+  · Chapters join the same way (kit/video `Chapters` → night joins for Arabic: `"in"` in chapters.json, match by default,
+    `wipe` for a real chapter turn); new chapters start as NIGHT placeholders (scaffold).
 Every night piece already moves like the reference — keep it that way in custom pieces:
 - **Pop-in** = `popRef(p)` (p over 0.3 s): ONE smooth swell 0.46 → 1.16 at 125 ms → 1.00 at 295 ms; no wobble, no
   squash/stretch (the old `popIn` jelly is for the English channel only). Its sound peaks on the swell (`hit: 0.125`).

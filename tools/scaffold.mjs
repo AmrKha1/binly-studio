@@ -10,6 +10,8 @@ const slug = process.argv[2];
 const vdir = path.join(ROOT, 'videos', slug);
 const sdir = path.join(ROOT, 'src', 'videos', slug);
 const chapters = JSON.parse(fs.readFileSync(path.join(vdir, 'chapters.json'), 'utf8'));
+const META = JSON.parse(fs.readFileSync(path.join(vdir, 'video.json'), 'utf8'));
+const AR = META.lang === 'ar'; // AZTIKA: night placeholders (the white paper look is forbidden in Arabic videos)
 fs.mkdirSync(path.join(sdir, 'chapters'), {recursive: true});
 fs.mkdirSync(path.join(sdir, 'shared'), {recursive: true});
 
@@ -19,7 +21,21 @@ for (const c of chapters) {
   if (fs.existsSync(f)) continue;
   fs.writeFileSync(
     f,
-    `import React from 'react';
+    AR ? `import React from 'react';
+import {Stage} from '../../../kit/stage';
+import {GlowText, NightScreen, NightSky} from '../../../kit/night';
+
+// ${c.id} · ${c.start.toFixed(2)}–${c.end.toFixed(2)} s · "${c.title ?? ''}" — PLACEHOLDER (not built yet)
+export const ${c.id}: React.FC<{t: number}> = ({t}) => (
+  <Stage bg="#0F062B">
+    <NightScreen>
+      <NightSky t={t} id="ph-${c.id}" />
+      <GlowText text={${JSON.stringify(c.title ?? c.id)}} x={960} y={500} size={84} tone="gold" id="ph-t-${c.id}" />
+      <GlowText text={\`${c.id} · \${t.toFixed(1)}\`} x={960} y={640} size={48} id="ph-s-${c.id}" />
+    </NightScreen>
+  </Stage>
+);
+` : `import React from 'react';
 import {Stage} from '../../../kit/stage';
 import {TitleCard} from '../../../kit/text';
 import {C} from '../../../kit/theme';

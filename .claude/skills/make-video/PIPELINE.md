@@ -208,6 +208,8 @@ face track per shot (point/present at the element being named, react on twists),
 meaningful — your call per shot) and his FRAMING + movement (full / waist-up / close-up / peek / tiny; walks, slides in,
 steps aside) — vary it like a real presenter — and how he ARRIVES and LEAVES (`enter`/`exit`; never just appears). Built-in
 vocabulary only; at most ~2–3 new poses per video, added to kit/host. Write it in each brief.
+Arabic shot lists use the NIGHT TEMPLATES (docs/kit/night.md: BoardShot · MysteryShot · HeroShot · HeadlineShot · StoryShot ·
+TwistShot; the whole-video board in videos/<slug>/board.json, "entries": "@board") — custom only for the special moments.
 Arabic (AZTIKA, night look): write his beats into each shot list as data — "host":[{"at":<word time>,"spot":"sideLeft",
 "pose":"present","why":"shows the podium"}, {"at":…,"off":true}] — spots/reasons from kit/night (SPOTS, BEAT_POSE),
 built with HostTrack. Alive but calm: a reason for every move, moves ≥ 6 s apart, never frozen > 8 s, never over the

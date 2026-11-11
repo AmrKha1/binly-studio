@@ -3,7 +3,8 @@
 ## The contract
 - **Compiled chapters (the normal case):** the director writes `videos/<slug>/shots/Cxx.json` and `tools/compile-shots.mjs`
   generates `Cxx.tsx` (never edit it). You build only the custom shots in `Cxx.custom.tsx`: one export per shot id,
-  `export const S4: React.FC<{t: number}>` returning a full `<Stage>`, valid for the shot's time range (from the JSON;
+  `export const S4: React.FC<{t: number}>` returning a full `<Stage>` (ARABIC: the shot's WORLD only — SVG, no <Stage>/
+  <NightScreen>; the compiled chapter provides them, NightShots joins/drifts it and pins AZTIKA), valid for the shot's time range (from the JSON;
   the shot ends where the next one starts). Replace each `PLACEHOLDER (custom shot…)` stub. If a template shot needs a
   change, edit its props in the JSON and re-run `node tools/compile-shots.mjs Cxx` (you may do that).
 - **Hand-written chapters (no shots JSON):** the rules below apply to the whole chapter file.
