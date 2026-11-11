@@ -269,7 +269,10 @@ bubble drip splash heartbeat breath rumble low_drone door footsteps crowd water 
 **THE SOUND LIBRARY (owner's picks 2026-11-11, library/sfx — every kind below plays the chosen sound):** `pop` `popup` `boom`
 `thump` `whoosh` `swish` `tick` `ding` `impact` `stamp` `cash` (2 versions, alternating) `coins` · NEW story kinds: `tease` (a
 question / «ليش؟» / a mystery), `suspense` (heartbeat — tension before a twist), `wrong` (a mistake, a wrong answer),
-`correct` (✔, the right answer), `ping` (a message, a notification, "done"), `explosion` (a blast) · `tail` (only via
+`correct` (✔, the right answer), `ping` (a message, a notification, "done"), `explosion` (a blast) · group 3:
+`typing` (soft taps, loops for `dur`), `shutter` (a photo), `clock` (one tick-tock: time passing / a deadline), `glitch`
+(a digital error, hacking), `scratch` ("wait, what?!" — a comic stop), `gasp` (shock), `applause` (a win), `fall` (cartoon
+whistle: something drops / a price falls), `levelup` (= `powerup`: climbing a step) · `tail` (only via
 `<RevealRing tail>`, the 2–4 biggest reveals). Use the story kinds where the STORY says so — they are the meaning layer.
 **Sound map:** money/price/value → `cash` (coins → `coins`) · reveal/achievement → `powerup` or `win` · wrong/myth →
 `wrong` · correct/fact → `correct` · a question/mystery → `tease` · suspense → `suspense` · rising tension → `rise`/`riser` · falling/decline → `fall` · big hit → `impact` ·

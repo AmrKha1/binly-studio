@@ -293,7 +293,7 @@ D.shutter = [
 ];
 const tk = (f, d = 150) => mix([osc(0.05, f, att(0.0004, d)), 1], [osc(0.05, f * 1.7, att(0.0004, d * 1.4)), 0.4], [filt(noise(0.01, exp(500), Math.round(f)), 'bp', f * 1.2, 3), 0.5]);
 D.clock = [
-  {name: 'tick-tock', about: 'steady clock tick-tock (time passing)', make: () => finish(mix(...Array.from({length: 4}, (_, i) => [tk(i % 2 ? 1900 : 2500), 0.8, i * 0.5])), {wet: 0.25, tail: 0.3})},
+  {name: 'tick-tock', about: 'one clock tick-tock (time passing)', make: () => finish(mix(...Array.from({length: 2}, (_, i) => [tk(i % 2 ? 1900 : 2500), 0.8, i * 0.42])), {wet: 0.25, tail: 0.3})}, // owner 2026-11-11: one tick-tock (4 was too long for an effect)
   {name: 'grandfather', about: 'big old clock: deep tock in a room', make: () => finish(mix(...Array.from({length: 3}, (_, i) => [mix([tk(i % 2 ? 900 : 1200, 70), 1], [osc(0.2, glide(220, 180, 20), att(0.001, 14)), 0.5]), 0.8, i * 0.75])), {wet: 0.5, size: 0.85, tail: 0.8})},
   {name: 'stopwatch', about: 'fast stopwatch ticks (a race against time)', make: () => finish(mix(...Array.from({length: 8}, (_, i) => [tk(3200, 220), 0.7, i * 0.125])), {wet: 0.15, tail: 0.2})},
   {name: 'times-up', about: 'tick-tock, then a bell: time is up', make: () => finish(mix(...Array.from({length: 3}, (_, i) => [tk(i % 2 ? 1900 : 2500), 0.8, i * 0.45]), [bellP(1.2, 1568, 3.5), 0.7, 1.35]), {wet: 0.3, tail: 0.6})},

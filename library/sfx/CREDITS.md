@@ -29,3 +29,13 @@ Clips were trimmed to their steadiest section, faded and encoded to Opus 96 kb/s
 - stamp-*.wav — code-made (tools/audio/sfx-lab.mjs, "stamp" v1), owner's pick 2026-11-11. No third-party audio.
 - ping-*.wav — code-made (tools/audio/sfx-lab.mjs, "ping" v3), owner's pick 2026-11-11. No third-party audio.
 - explosion-*.wav — code-made (tools/audio/sfx-lab.mjs, "explosion" v1), owner's pick 2026-11-11. No third-party audio.
+- typing-*.wav — code-made (tools/audio/sfx-lab.mjs, "typing" v4), owner's pick 2026-11-11. No third-party audio.
+- shutter-*.wav — code-made (tools/audio/sfx-lab.mjs, "shutter" v2), owner's pick 2026-11-11. No third-party audio.
+- clock-*.wav — code-made (tools/audio/sfx-lab.mjs, "clock" v1), owner's pick 2026-11-11. No third-party audio.
+- glitch-*.wav — code-made (tools/audio/sfx-lab.mjs, "glitch" v1), owner's pick 2026-11-11. No third-party audio.
+- scratch-*.wav — code-made (tools/audio/sfx-lab.mjs, "scratch" v1), owner's pick 2026-11-11. No third-party audio.
+- fall-*.wav — code-made (tools/audio/sfx-lab.mjs, "fall" v1), owner's pick 2026-11-11. No third-party audio.
+- levelup-*.wav — code-made (tools/audio/sfx-lab.mjs, "levelup" v4), owner's pick 2026-11-11. No third-party audio.
+- gasp-1.wav — code-made (tools/audio/sfx-lab.mjs, group 3 "crowd" v1 gasp), owner's pick 2026-11-11. No third-party audio.
+- applause-1.wav — code-made (tools/audio/sfx-lab.mjs, group 3 "crowd" v4 applause), owner's pick 2026-11-11. No third-party audio.
+- powerup-1.wav — same as levelup-1.wav (the older "powerup" kind now plays the owner's level-up pick).
