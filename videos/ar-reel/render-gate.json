@@ -1,9 +1,9 @@
 {
  "go": true,
  "slug": "ar-reel",
- "at": "2026-11-11T02:02:42.560Z",
- "fingerprint": "6ca41fb980baaaf3392e2f16af4ddb5a4dc2feab",
- "reviewed": "reel after removing the storeroom plate: history section = Claude-made SunsetWorld + dust, headline clear of the character",
+ "at": "2026-11-11T20:54:21.990Z",
+ "fingerprint": "12ee3fdd9839f5769cabb8d7d523c689cad0d403",
+ "reviewed": "reel v2: scenes joined with NightShots (match dissolves, one chapter wipe), host pinned + fades, Khedive walk eased with move(); joins checked on stills 7.45–7.85, 14.05–14.6, 33.98–34.5; new sound library",
  "accepted": [
   {
    "match": "SIGNATURE",
@@ -30,6 +30,10 @@
   },
   {
    "at": "2026-11-11T02:02:42.562Z",
+   "issues": 0
+  },
+  {
+   "at": "2026-11-11T20:54:21.991Z",
    "issues": 0
   }
  ]
