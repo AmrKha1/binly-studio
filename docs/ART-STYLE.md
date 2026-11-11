@@ -90,6 +90,8 @@ PlateFx particles, YearBadge, WordPop headline, StoryPeople, pills, objects). Pl
 `"flow": "plate"` + `"fallback"` (the night-kit world used when Flow is missing); ≤ 25 % of the video. Shown with
 `<PlateWorld look="natural" …/>` + `<PlateFx kind=…/>` (kit/night-places). One plate per place, reused with different
 elements on top. Name: `{"kind":"bg","name":"vienna-1909","place":"…","era":"…","open":"lower middle"}`.
+**Made for THIS video (owner 2026-11-11):** every plate is written from this video's plan — its exact place, era, moment,
+time of day and mood, and the open area its animation needs. No generic pre-made background sets.
 > Wide 16:9 illustrated scene of <PLACE, ERA, MOMENT>, warm cinematic lighting, soft volumetric light and glow, rich
 > detail, vibrant but harmonious colours, polished flat-shaded cartoon illustration with clean outlines and gentle
 > gradients, period-accurate clothes, vehicles and architecture, depth with a soft-focus background, a calm clear area in the

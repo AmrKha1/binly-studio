@@ -92,9 +92,13 @@ grammar · sentence→device map · ending · rhythm).
 white mode, glow backdrops, templates, editfx) that you design in full. Flow only UPGRADES a few chosen scenes (richer
 backgrounds/objects) when it works; if Flow is slow, refuses or is down, nothing changes in the plan. As soon as the story is clear from
 the script/transcript, decide the generated art (rules + exact prompt blocks: docs/ART-STYLE.md):
-1. `node tools/art.mjs find <words>` — reuse library backgrounds/objects first (the library grows with every video).
+1. **BACKGROUNDS ARE MADE FOR THIS VIDEO (owner 2026-11-11):** each background is written from THIS video's plan — the
+   exact place, era, time of day, mood and what the scene's animation needs (where the host, characters, objects and
+   text will sit). No generic pre-made background sets. `node tools/art.mjs find <words>` only for OBJECTS, or for a
+   library background that fits this exact scene just as well (rare).
 2. Write `videos/<slug>/art/plan.json`: **≤ 12 images** — 4–6 key BACKGROUNDS (hook, the story's main places, climax;
-   empty, an open area for host/objects) + 4–6 OBJECT SHEETS (6 objects each, in reading order). No text, no real
+   each named after its scene/time in the plan, empty, an open area for host/objects) + 4–6 OBJECT SHEETS (6 objects
+   each, in reading order). No text, no real
    people/events presented as real (those stay archival), clean flat style only.
 3. `node tools/art.mjs prompts <slug>` → art/prompts.json + art/prompts.md (owner fallback).
 4. ONE `flow_generate` call: project `art-<slug>`, scenes = art/prompts.json (model Nano Banana 2.1 = DEFAULT, omit `model`;
