@@ -1,0 +1,39 @@
+{
+ "target_lufs": -20,
+ "parts": [
+  {
+   "file": "1.wav",
+   "seconds": 40,
+   "lufs_before": -20.4,
+   "gain_db": 0.4,
+   "peak_after_db": -2.3
+  }
+ ],
+ "parts_joined": 1,
+ "seconds_before": 40,
+ "seconds_after": 40.48,
+ "pauses_trimmed": 0,
+ "join_gap_s": 0.35,
+ "keep_s": 0.19,
+ "max_pause_s": 0.23,
+ "marks": {
+  "parts": [
+   {
+    "file": "1.wav",
+    "start": 0.1,
+    "end": 40.08
+   }
+  ],
+  "joins": [],
+  "cuts": []
+ },
+ "seconds_saved": -0.48,
+ "pause_rule": "> 0.23 s → 0.19 s",
+ "silence_threshold_db": -50.7,
+ "sources": [
+  "C:\\Users\\amrou\\AppData\\Local\\Temp\\claude\\90fe3f31f9c5ba31\\c6563f24-fc16-400d-93e1-122315f34ce3\\scratchpad\\reelparts\\1.wav"
+ ],
+ "lufs_after": -20,
+ "peak_after_db": -2.3,
+ "clipped_samples": 0
+}

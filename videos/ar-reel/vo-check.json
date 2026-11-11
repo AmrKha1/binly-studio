@@ -1,0 +1,8 @@
+{
+ "file": "voiceover.wav",
+ "verdict": "PASS",
+ "fails": [],
+ "warnings": [],
+ "rule": "> 0.23 s → 0.19 s",
+ "checked": "2026-11-11T01:45:34.748Z"
+}

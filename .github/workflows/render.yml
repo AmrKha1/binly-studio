@@ -83,9 +83,13 @@ jobs:
       - name: ffmpeg
         run: command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
       - name: Download voiceover
+        env:
+          REF_KEY: ${{ secrets.REF_KEY }}
         run: |
           mkdir -p in
           gh release download "vo-$SLUG" --dir in --pattern 'voiceover.*' --repo "$GITHUB_REPOSITORY"
+          # sealed voice (public repo, unreleased audio): the release holds only voiceover.enc — decrypt it here
+          if [ -f in/voiceover.enc ]; then node tools/cloud/crypt.mjs decrypt in/voiceover.enc in/voiceover.wav && rm in/voiceover.enc; fi
       - run: npm ci --no-audit --no-fund
       - name: Auto sound effects from the kit (every animation → a cue)
         run: node tools/sfx-scan.mjs --slug "$SLUG"
@@ -182,9 +186,13 @@ jobs:
           name: stems
           path: stems
       - name: Download voiceover
+        env:
+          REF_KEY: ${{ secrets.REF_KEY }}
         run: |
           mkdir -p in
           gh release download "vo-$SLUG" --dir in --pattern 'voiceover.*' --repo "$GITHUB_REPOSITORY"
+          # sealed voice (public repo, unreleased audio): the release holds only voiceover.enc — decrypt it here
+          if [ -f in/voiceover.enc ]; then node tools/cloud/crypt.mjs decrypt in/voiceover.enc in/voiceover.wav && rm in/voiceover.enc; fi
       - name: Join chunks + master audio (-14 LUFS) + YouTube master encode
         env:
           SCALE: ${{ inputs.scale }}
