@@ -1,9 +1,9 @@
 {
  "go": true,
  "slug": "ar-reel",
- "at": "2026-11-11T01:57:50.236Z",
- "fingerprint": "98de8e2b61b29852259828811f6dc005d370a931",
- "reviewed": "reel re-checked after fixes: stills 26.7 (name pill above head, headline clear), 36.0 (whole staircase at the twist, host clear), 39.6 (recap clear)",
+ "at": "2026-11-11T02:02:42.560Z",
+ "fingerprint": "6ca41fb980baaaf3392e2f16af4ddb5a4dc2feab",
+ "reviewed": "reel after removing the storeroom plate: history section = Claude-made SunsetWorld + dust, headline clear of the character",
  "accepted": [
   {
    "match": "SIGNATURE",
@@ -26,6 +26,10 @@
   },
   {
    "at": "2026-11-11T01:57:50.237Z",
+   "issues": 0
+  },
+  {
+   "at": "2026-11-11T02:02:42.562Z",
    "issues": 0
   }
  ]
