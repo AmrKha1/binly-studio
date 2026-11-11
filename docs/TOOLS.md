@@ -94,3 +94,10 @@ ONE ruler: `tools/lib/ear-level.mjs` (24 kHz, exact 10 ms frames) — ref-sfx me
 sets our cues with it (`SFX_MODEL=reference`, automatic for Arabic renders via render.yml; per-type targets REF_TARGET +
 calibration REF_FIX). Check a mix: `ref-sfx <ref> --voice v.wav --fx stems/sfx.wav --out <dir> --cues sfx.json` → per
 kind median dB under the voice (calibrated 2026-11-10: every kind within ±0.3 dB of the reference).
+
+## Render gate (2026-11-11)
+`node tools/render-gate.mjs --reviewed "what you looked at"` — the last step before ANY render: voice lock · check.mjs ·
+phone text · plan-check · sync-check (WEAK / FROZEN / BLANK) · sound density · every on-screen number was spoken · words one
+letter off a spoken word (misspelled names) · every file the code uses exists. Accept a deliberate flag in
+videos/<slug>/gate-ok.json. GO → videos/<slug>/render-gate.json (fingerprint of the video); `cloud.mjs render` refuses
+without it (tools/lib/render-gate-lock.mjs).

@@ -8,12 +8,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {ROOT, args} from './lib/render.mjs';
 import {requireVoice} from './lib/vo-gate.mjs';
+import {requireRenderGate} from './lib/render-gate-lock.mjs';
 import {gh, git, sh} from './lib/sys.mjs';
 import {dispatch, wait} from './lib/gha.mjs';
 
 const a = args();
 const [cmd, slug] = a._;
 if ((cmd === 'analyze' || cmd === 'render') && slug) requireVoice(slug, 'cloud ' + cmd);
+// RENDER GATE (owner 2026-11-11): no render — not even a preview — before tools/render-gate.mjs says GO for this exact video
+if (cmd === 'render' && slug) requireRenderGate(ROOT, slug, 'cloud render');
 
 export function push(message = 'studio update') {
   git('add', '-A');

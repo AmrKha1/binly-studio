@@ -99,6 +99,7 @@ final render only in the cloud (this PC is too slow; local = stills/sheets only)
 | `node tools/upload-pack.mjs` | YouTube description + captions.srt |
 | `node tools/compile-shots.mjs [Cxx]` | shot lists (videos/<slug>/shots/*.json) → chapter code |
 | `node tools/plan-check.mjs [Cxx]` | BEFORE building: flags long shots that go still, sentences with no visible change, monotony |
+| `node tools/render-gate.mjs --reviewed "…"` | RENDER GATE: every check of what the viewer will see/hear (voice lock, project check, plan, sync WEAK/FROZEN/BLANK, sound density, numbers as spoken, names as in the script, missing files) + your review → GO stamp; `cloud.mjs render` refuses without a valid GO (previews too) |
 | `node tools/sync-check.mjs [--chapter Cxx]` | AFTER building, before the final render: sentences whose picture barely changes |
 | `node tools/watch.mjs list` · `sheet` / `strip` / `frames` / `shots` / `audio` / `transcript <ref> …` | study the owner's reference videos (references/<ref>/: STUDY.md first) |
 | `node tools/sfx-scan.mjs` | the kit's sound cues → sfx/_auto.json; Arabic: SOUND DENSITY report (owner pick B: QUIET > 3.6 s / LOW < 24/min → add a visual beat with its sound) |

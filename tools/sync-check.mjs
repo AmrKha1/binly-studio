@@ -116,6 +116,13 @@ await done();
 const flags = [];
 sents.forEach((x, i) => {
   const A = lumaOf(files[2 * i]), B = lumaOf(files[2 * i + 1]);
+  // BLANK (render gate): a frame that is one flat colour — black, white or empty (a broken image, a missing scene, a gap)
+  for (const [F, when] of [[A, x.s - BEFORE], [B, x.s + AFTER]]) {
+    let s = 0, s2 = 0;
+    for (let k = 0; k < F.length; k += 3) { s += F[k]; s2 += F[k] * F[k]; }
+    const n = Math.ceil(F.length / 3), mean = s / n, sd = Math.sqrt(Math.max(0, s2 / n - mean * mean));
+    if (sd < 4) flags.push(`  BLANK ${chOf(when)} ${Math.floor(when / 60)}:${(when % 60).toFixed(1).padStart(4, '0')}  the frame is one flat colour (brightness ${mean.toFixed(0)}) — a broken image, a missing scene or a gap`);
+  }
   const pct = changed(A, B);
   if (isArVideo) {
     const raw = rawChanged(A, B);

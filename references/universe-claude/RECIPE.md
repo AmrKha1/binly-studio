@@ -112,6 +112,8 @@ chapters.json (`{"recipe": {"device": "podium", "question": "…"}}`). plan-chec
 - **SCENE** a chapter's first shot without `"in"` (match · dissolve · wipe · flash · whoosh) · its last shot without
   `"out"` (fly · wipe · whoosh) · a `stage` shot right after a `reveal` that is not `"in": "match"` (the hero object
   flies onto its podium — reference 0:24.2) — MOTION.md §4, §8
+- **FLOW** a shot using Flow art declares `"flow": "plate"|"object"` + `"fallback"` (the Claude-made version); painted
+  backgrounds ≤ 25 % of the video and never alone — Claude animation on top (`"beats"`)
 - **NUMBER** a `count` shot whose narration says مليون / مليار / ألف without `"spoken"` (the number in words under it,
   exactly as said — reference 0:23 «45 مليون دولار»)
 Accept a flag on purpose with `"ok": "why"` like every other plan-check flag.

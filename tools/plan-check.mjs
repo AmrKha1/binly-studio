@@ -85,7 +85,8 @@ for (const ch of chapters) {
     const changes = [s.start, ...(s.beats ?? []), ...(s.custom ? [] : templateBeats(s.props))];
     const said = sentences.filter((x) => x.s >= s.start - 0.3 && x.s < end - 0.3);
     seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok, sig: !!s.signature, size: s.size ?? null, device: s.device ?? null,
-      inT: s.in ?? null, outT: s.out ?? null, spoken: s.spoken ?? null, said: said.map((x) => x.text).join(' ')});
+      inT: s.in ?? null, outT: s.out ?? null, spoken: s.spoken ?? null, said: said.map((x) => x.text).join(' '),
+      flow: s.flow ?? null, fallback: s.fallback ?? null, beatsN: (s.beats ?? []).length});
     const still = said.filter((x) => !changes.some((c) => Math.abs(c - x.s) <= NEAR || (c > x.s && c < x.s + NEAR)));
     const isLong = dur > TOO_LONG || (dur > LONG && still.length > 0);
     const longAlive = dur > LONG && !isLong;
@@ -182,6 +183,27 @@ Host beats: ${hb.length} (${hb.filter((b, i) => b.spot && i && hb[i - 1].spot &&
   if (isAr && !hb.length && seq.length) { flags++; hl.push(`  HOST no host beats planned → list AZTIKA's spot/pose/why per shot ("host": [...])`); }
   hl.forEach((l) => console.log(l));
 }
+// FLOW = A HELPER, CLAUDE = THE STANDARD (owner 2026-11-11): a shot that uses Flow art declares "flow": "plate" (a painted
+// background) or "object", and "fallback": the Claude-made version used when Flow is missing or fails. Painted backgrounds
+// stay a minority (≤ 25 % of the video) and are never a shot on their own — Claude's animation runs on top (beats).
+if (!only && seq.length) {
+  const fl = [];
+  const total = seq[seq.length - 1].end - seq[0].start;
+  const plates = seq.filter((x) => x.flow === 'plate');
+  const plateT = plates.reduce((q, x) => q + (x.end - x.start), 0);
+  if (total > 0 && plateT / total > 0.25) fl.push(`  FLOW painted backgrounds fill ${((100 * plateT) / total).toFixed(0)} % of the video → ≤ 25 %: Claude's animation (board, reveals, counts, maps, screens, characters) carries the video`);
+  for (const x of seq.filter((y) => y.flow)) {
+    if (!x.fallback && !x.ok) fl.push(`  FLOW ${x.ch} ${x.id} ${mmss(x.start)}: no "fallback" — name the Claude-made version used if Flow is missing or fails`);
+    if (x.flow === 'plate' && x.beatsN < 1 && !x.ok) fl.push(`  FLOW ${x.ch} ${x.id} ${mmss(x.start)}: a painted background alone is never a shot → Claude animation on top ("beats": camera push, characters, objects, text, counts, particles)`);
+  }
+  if (fl.length) {
+    flags += fl.length;
+    console.log(`
+Flow balance (${seq.filter((y) => y.flow).length} shot(s) use Flow art):`);
+    fl.forEach((l) => console.log(l));
+  }
+}
+
 // RECIPE (Arabic / AZTIKA videos, owner 2026-11-10): the structure of the model video — references/universe-claude/RECIPE.md
 {
   const vj = path.join(vdir, 'video.json');

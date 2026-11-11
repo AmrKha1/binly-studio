@@ -23,6 +23,36 @@ You are the **director/producer**. You deliver a finished, high-quality 10–15 
 Work autonomously; ask the user only where this pipeline says so or if something truly blocks you.
 Use `binly-scout` (Haiku, cheap) for mechanical chores: image research, timing lookups, status/package runs.
 
+## THE ROAD — every video, A to Z (owner 2026-11-11: "the best order, the fewest errors")
+Fix things where they are cheapest (the plan, not the render) · one truth per thing (the VOICE is the clock, the
+REFERENCE is the standard) · automatic gates, not memory · only THREE stops for the owner · Flow never blocks.
+| step | who | ends with (gate) |
+|---|---|---|
+| 0 owner puts VO parts + script in input/, says "make the video" | owner | — |
+| 1 voice: prep → timing → **voice gate** → LOCKED | auto | vo-check PASS |
+| 2 understand the story: question · game device · chapters by KIND · twist · numbers as spoken · people · tone | Claude | — |
+| 3 study the reference per chapter (rules → its sheet → strips + sound list) | Claude | — |
+| 4 plan: shot lists (every sentence → a device) · assets in 3 lists: kit / NEW Claude-made / Flow wish-list (each with a fallback) | Claude | **plan-check PASS** |
+| ⏸ **STOP 1** — one-page plan summary + the Flow list → owner: OK + "connect Flow / skip" | owner | OK |
+| 5a new Claude-made pieces (characters, objects with the hero finish, screens) | Claude/builder | side-by-side with the reference + kit-test |
+| 5b Flow (only if connected, parallel): free images → art check → swap in; any failure → keep the fallback, never stop | Claude | art check |
+| 6 build: one builder per chapter (≤ 3 at once), each opens the reference sheet of its chapter first | builders | check.mjs |
+| 7 review (one fix round): sheets vs the reference · sound density · sync | Claude | — |
+| 8 **RENDER GATE** — `node tools/render-gate.mjs --reviewed "…"`: check → fix REAL issues → check … until GO | Claude | **GO RENDER** |
+| 9 chapter-1 preview (cloud, half size, with sound) → ⏸ **STOP 2**: the owner watches the FEEL | owner | OK |
+| 10 final render → QA report (loudness, sound vs the reference, sheets, YouTube master) → ⏸ **STOP 3**: the owner watches | owner | OK |
+| 11 deliver (upload pack) · after a week /learn-from-youtube · every 3–5 videos /improve-studio | Claude | — |
+**Claude is the standard, Flow is a helper (owner 2026-11-11):** the plan is complete WITHOUT Flow; Claude's own
+animation carries the video like in the reference; Flow only adds some objects and painted backgrounds (≤ 25 % of the
+screen time, never a shot on its own — Claude animation on top; plan-check FLOW). If Flow is not connected, refuses,
+times out or delivers only part of the list: keep the Claude version, do NOT stop or ask again, and report in one line
+at the end which items used the fallback. Every object — Claude-drawn or Flow — gets the hero finish (glow, light,
+rays, sparkles, the reference pop): it must look as rich as the reference's diamond and crown.
+**Real issues vs preferences (the render gate's rule):** fix what the VIEWER will see or feel — a wrong number or name,
+unreadable text, a frozen or empty moment, picture and words out of sync, something cut off or overlapping, a broken
+image, a glitch, a missing or wrong sound, a frame that clearly does not fit the reference look. "This colour could be
+nicer" is not an issue — note it, never churn on it. Max 3 failing gate rounds → stop and tell the owner what remains.
+
 ## Context discipline (this is what makes a 15-minute video fit in one session)
 - **Delegate building.** Every chapter is built by a `binly-builder` subagent in its own context. You plan,
   brief, review, fix-by-message, and ship. Never write chapter code yourself (tiny one-line fixes excepted).
@@ -57,7 +87,7 @@ While it runs: read `docs/PLAYBOOK.md`, `docs/RETENTION.md`, `docs/CRAFT.md`, `d
 and ALWAYS **`references/universe-claude/RECIPE.md`** — the structure every AZTIKA video follows (hook · spine · chapter
 grammar · sentence→device map · ending · rhythm).
 
-**1b · Art (start it EARLY — it runs in the background while you plan and build)** — CODE FIRST, FLOW AS A BONUS (owner
+**1b · Art (decided in the PLAN, generated after STOP 1 — see THE ROAD)** — CLAUDE FIRST, FLOW AS A HELPER (owner
 2026-10-21): the plan must work completely WITHOUT Flow — every scene has a code-built version (kit places/objects,
 white mode, glow backdrops, templates, editfx) that you design in full. Flow only UPGRADES a few chosen scenes (richer
 backgrounds/objects) when it works; if Flow is slow, refuses or is down, nothing changes in the plan. As soon as the story is clear from
@@ -77,9 +107,10 @@ the script/transcript, decide the generated art (rules + exact prompt blocks: do
    Flagged items are refused by `use` and must not appear in the video: regenerate them (free; fix the prompt — e.g. no
    white smoke/steam/clouds touching the object), or, only if your own eyes see the flag is a false alarm,
    `node tools/art.mjs approve <name>`. Library re-check: `node tools/art.mjs check`.
-**If Flow refuses ("unusual activity") or fails:** stop generating (never retry in a burst), tell the owner in one line
-that art/prompts.md is ready to paste into Flow by hand, and continue — chapters without art use the white-mode kit
-scenes (GlowBackdrop/GlowFloor, templates); swap art in later with `node tools/art.mjs ingest <slug> --dir input`.
+**If Flow is not connected, refuses ("unusual activity") or fails:** stop generating (never retry in a burst), keep every
+item's Claude-made fallback and CONTINUE — never wait. Report in one line at the end which items used the fallback (and
+that art/prompts.md can be pasted into Flow by hand later: `node tools/art.mjs ingest <slug> --dir input`). Fallbacks:
+Arabic = night-kit worlds / code-drawn objects with the hero finish; English = white-mode kit scenes.
 Where art goes: the planner writes, per scene, its CODE version (always) + optional FLOW upgrade (≤ 12 images per video,
 only where it clearly adds value: the hook, the main places, the climax). Build every chapter with the code version first
 so the video is complete; when Flow art arrives, swap it into the marked scenes. (English) WHITE MODE for explanations, numbers,
@@ -225,9 +256,11 @@ its own)? **Mute test:** read each chapter's shots without the narration — wou
 follow the story? Every place where only the words carry it gets a visual. Upgrade them in the briefs and shots JSON,
 then run `node tools/plan-check.mjs` again.
 
-**2d · Ready gate** — production starts only when: plan-check PASSES (or every flag has an "ok" reason) · the editor
-round is done · the no-guess test holds for every brief. Write one line in STATUS.md: "Plan ready — <n> shots, <m> new
-pieces". No builder starts before this line.
+**2d · Ready gate + STOP 1** — production starts only when: plan-check PASSES (or every flag has an "ok" reason) · the
+editor round is done · the no-guess test holds for every brief. Then STOP ONCE for the owner (the only stop before the
+preview): a one-page summary — the game device, each chapter in one line (what it shows), the signature moments, the NEW
+Claude-made pieces, and the Flow wish-list (each with its fallback) — and ask: "OK? Connect Flow now, or skip?". Wait for
+the answer. Write one line in STATUS.md: "Plan ready — <n> shots, <m> new pieces, Flow: on/off". No builder starts before it.
 Run `node tools/compile-shots.mjs` → chapter code is generated; builders then build ONLY the custom shots in
 `Cxx.custom.tsx`. A chapter with no custom shots needs no builder at all. Fixes to template shots = edit the JSON and
 re-run the compiler (no builder). Look at `docs/catalog/templates.png` once (one image) to choose templates visually.
@@ -284,11 +317,20 @@ yellow/dark/murky/cheap frames) and watch the whole video as contact sheets at 2
 a slow entrance/fade, a long transition, a sag in the middle without a re-hook, a hook that doesn't deliver the
 promise in 5 s, an outro that drags → fix it (one builder round per chapter at most), then render.
 
-**6 · Render** — `node tools/check.mjs` must pass. Then `node tools/cloud.mjs render <slug>` in the background
-(parallel cloud render, ~10–20 min for 15 min of video). Optional earlier: a partial preview of a chapter
-`node tools/cloud.mjs render <slug> --from 120 --to 210 --scale 0.5`.
+**5e · RENDER GATE (owner 2026-11-11 — never skip)** — after 5–5d: `node tools/render-gate.mjs --reviewed "<what you
+looked at>"`. It runs every automatic check (voice lock · check.mjs · phone text · plan-check · sync WEAK/FROZEN/BLANK ·
+sound density · numbers exactly as spoken · names spelled as in the script · every file exists) and needs your own review
+confirmed (sheets side by side with the reference: cut-off, overlap, contrast, "would this frame fit inside the
+reference video?", YouTube-safe). NOT READY → fix the REAL issues (THE ROAD) → run it again. A deliberate choice →
+`videos/<slug>/gate-ok.json` {"items":[{"match","why"}]}. Max 3 failing rounds → stop and tell the owner. GO writes
+`render-gate.json`; any later change voids it, and `cloud.mjs render` refuses without a valid GO (previews too).
 
-**7 · QA** — read `videos/<slug>/qa/<name>/qa_report.md` and look at every `sheet-NN.png` (one tile per 3 s).
+**6 · Render** — only after GO. First the **chapter-1 preview** `node tools/cloud.mjs render <slug> --from <C01 start>
+--to <C01 end> --scale 0.5` → ⏸ **STOP 2**: the owner watches the FEEL at full speed; feel fixes go into every chapter
+(then the gate again). Then the full render `node tools/cloud.mjs render <slug>` in the background (~10–20 min).
+
+**7 · QA** → ⏸ **STOP 3** (the owner watches the final) — read `videos/<slug>/qa/<name>/qa_report.md` (Arabic: its "Sound effects vs the
+reference" table too) and look at every `sheet-NN.png` (one tile per 3 s).
 Warnings (static holds, near-empty frames) mean "go look": check those times with `tools/sheet.mjs --times …` and fix only real defects (via builders), then re-render. **At most 2 full render rounds per
 video** (first render + one fix round) unless something is clearly broken — collect every fix before re-rendering;
 use a partial render (`--from/--to`, `--scale 0.5`) to verify a single fix. Do not claim a check you did not do.
