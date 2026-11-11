@@ -45,6 +45,7 @@ import {NightPage16} from './pages/night16';
 import {NightPage17} from './pages/night17';
 import {NightPage18} from './pages/night18';
 import {NightPage19} from './pages/night19';
+import {NightPage21, NightPage22, NightPage23, NightPage24} from './pages/night21';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
@@ -67,6 +68,10 @@ export const GALLERY: Record<string, React.FC<{t: number}>> = {
   night17: NightPage17, // code-drawn hero objects with the hero finish
   night18: NightPage18, // the stair game (second game device)
   night19: NightPage19, // a painted plate with Claude's life on top
+  night21: NightPage21, // CTA A · AZTIKA presses like + subscribe
+  night22: NightPage22, // CTA B · the phone that teaches where to tap
+  night23: NightPage23, // CTA C · like + subscribe climb the board
+  night24: NightPage24, // CTA D · the end screen (room for YouTube's real buttons)
   glow: Glow,
   arabic: Arabic,
   motion: Motion,
