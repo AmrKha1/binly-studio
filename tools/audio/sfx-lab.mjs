@@ -276,6 +276,63 @@ D.explosion = [
   {name: 'rocket-blast', about: 'a roar that swells, then the blast (rocket)', make: () => finish(mix([filt(noise(1, swell(1, 0.9), 151), 'lp', line(400, 2500, 1)), 0.7], [osc(1.6, glide(85, 36, 2.6), att(0.003, 2.2)), 1, 0.95], [filt(noise(0.7, exp(6), 153), 'lp', 2000), 0.8, 0.95]), {wet: 0.4, tail: 1.2, top: 9000})},
 ];
 export const GROUP2 = ['cash', 'coins', 'tease', 'suspense', 'wrong', 'correct', 'stamp', 'alert', 'ping', 'explosion'];
+// ---- GROUP 3: nice-to-have story sounds (owner 2026-11-11)
+const key = (seed, f = 2600, q = 2, g = 1) => mix([filt(noise(0.03, exp(220), seed), 'bp', f, q), g], [osc(0.03, 520, att(0.0005, 200)), 0.07 * g]); // a light thock above the phone cutoff (a 300 Hz one made typing vanish on phones)
+const burst = (n, seed, every, make) => { const r = rng(seed); const parts = []; let t = 0; for (let i = 0; i < n; i++) { parts.push([make(i, r), 0.7 + 0.3 * r(), t]); t += every * (0.6 + 0.8 * r()); } return mix(...parts); };
+D.typing = [
+  {name: 'laptop', about: 'soft laptop keys, a short burst', make: () => finish(burst(12, 171, 0.085, (i, r) => key(200 + i, 2200 + r() * 1400, 2.5)), {wet: 0.15, tail: 0.2})},
+  {name: 'mechanical', about: 'clicky mechanical keyboard', make: () => finish(burst(11, 173, 0.095, (i, r) => mix([key(300 + i, 1500 + r() * 400, 3, 1.2), 1], [filt(noise(0.012, exp(500), 400 + i), 'bp', 4200, 3), 0.6])), {wet: 0.15, tail: 0.2})},
+  {name: 'type-enter', about: 'fast typing, then a big ENTER', make: () => finish(mix([burst(9, 175, 0.07, (i, r) => key(500 + i, 2400 + r() * 1200, 2.5)), 1], [mix([key(600, 1300, 2, 1.8), 1], [osc(0.08, glide(520, 420, 30), att(0.001, 30)), 0.15]), 1, 0.75]), {wet: 0.2, tail: 0.25})},
+  {name: 'phone-taps', about: 'soft phone-screen taps', make: () => finish(burst(8, 177, 0.11, (i, r) => osc(0.04, 1200 + r() * 500, att(0.001, 90))), {wet: 0.15, tail: 0.2})},
+];
+D.shutter = [
+  {name: 'dslr', about: 'camera: two quick mechanical clicks', make: () => finish(mix([filt(noise(0.03, exp(160), 181), 'bp', 2600, 1.5), 1], [osc(0.05, glide(300, 180, 40), att(0.001, 60)), 0.5], [filt(noise(0.04, exp(120), 183), 'bp', 1900, 1.5), 0.8, 0.07]), {wet: 0.2, tail: 0.25})},
+  {name: 'phone-cam', about: 'phone camera click, crisp', make: () => finish(mix([filt(noise(0.02, exp(250), 185), 'bp', 3000, 2), 1], [osc(0.03, 1800, att(0.0005, 140)), 0.4], [filt(noise(0.015, exp(300), 187), 'bp', 2600, 2), 0.7, 0.05]), {wet: 0.2, tail: 0.2})},
+  {name: 'film-wind', about: 'old film camera: click + film winding', make: () => finish(mix([filt(noise(0.03, exp(160), 189), 'bp', 2400, 1.5), 1], ...Array.from({length: 7}, (_, i) => [filt(noise(0.015, exp(300), 191 + i), 'bp', 1600, 3), 0.45, 0.15 + i * 0.045])), {wet: 0.2, tail: 0.25})},
+  {name: 'flash', about: 'click + old flash charging whine', make: () => finish(mix([filt(noise(0.03, exp(160), 199), 'bp', 2600, 1.5), 1], [osc(0.7, line(900, 3200, 0.7), (t) => 0.25 * Math.min(1, t / 0.05) * Math.min(1, (0.7 - t) / 0.1)), 0.5, 0.06]), {wet: 0.2, tail: 0.3})},
+];
+const tk = (f, d = 150) => mix([osc(0.05, f, att(0.0004, d)), 1], [osc(0.05, f * 1.7, att(0.0004, d * 1.4)), 0.4], [filt(noise(0.01, exp(500), Math.round(f)), 'bp', f * 1.2, 3), 0.5]);
+D.clock = [
+  {name: 'tick-tock', about: 'steady clock tick-tock (time passing)', make: () => finish(mix(...Array.from({length: 4}, (_, i) => [tk(i % 2 ? 1900 : 2500), 0.8, i * 0.5])), {wet: 0.25, tail: 0.3})},
+  {name: 'grandfather', about: 'big old clock: deep tock in a room', make: () => finish(mix(...Array.from({length: 3}, (_, i) => [mix([tk(i % 2 ? 900 : 1200, 70), 1], [osc(0.2, glide(220, 180, 20), att(0.001, 14)), 0.5]), 0.8, i * 0.75])), {wet: 0.5, size: 0.85, tail: 0.8})},
+  {name: 'stopwatch', about: 'fast stopwatch ticks (a race against time)', make: () => finish(mix(...Array.from({length: 8}, (_, i) => [tk(3200, 220), 0.7, i * 0.125])), {wet: 0.15, tail: 0.2})},
+  {name: 'times-up', about: 'tick-tock, then a bell: time is up', make: () => finish(mix(...Array.from({length: 3}, (_, i) => [tk(i % 2 ? 1900 : 2500), 0.8, i * 0.45]), [bellP(1.2, 1568, 3.5), 0.7, 1.35]), {wet: 0.3, tail: 0.6})},
+];
+const crush = (x, steps = 10, hold = 6) => { const o = new Float32Array(x.length); let v = 0; for (let i = 0; i < x.length; i++) { if (i % hold === 0) v = Math.round(x[i] * steps) / steps; o[i] = v; } return o; };
+D.glitch = [
+  {name: 'stutter', about: 'digital stutter (something breaks)', make: () => { const r = rng(211); const g = osc(0.07, 600, (t) => 1, 'sq', 7); return finish(filt(mix(...Array.from({length: 7}, (_, i) => [crush(g, 6, 4 + i), 0.6, i * 0.075 + r() * 0.02])), 'lp', 5000), {wet: 0.1, tail: 0.15}); }},
+  {name: 'static', about: 'short static burst with jumps', make: () => { const r = rng(213); return finish(mix(...Array.from({length: 6}, (_, i) => [filt(noise(0.05 + r() * 0.05, (t) => 1, 215 + i), 'bp', 800 + r() * 3000, 1.5), 0.7, i * 0.06])), {wet: 0.1, tail: 0.15}); }},
+  {name: 'data-blips', about: 'random data blips (sci-fi computer error)', make: () => { const r = rng(217); return finish(mix(...Array.from({length: 10}, (_, i) => [osc(0.04, 400 + r() * 2400, att(0.001, 60), 'sq', 5), 0.4, i * 0.045])), {wet: 0.15, tail: 0.2}); }},
+  {name: 'power-down', about: 'power-down glitch: tone falls and stutters', make: () => finish(crush(osc(0.7, line(900, 120, 0.7), (t) => (Math.sin(TAU * 18 * t) > -0.3 ? 1 : 0.2) * Math.min(1, (0.7 - t) / 0.1), 'sq', 7), 8, 5), {wet: 0.15, tail: 0.25, top: 6000})},
+];
+const scratchAt = (seed, dur, from, to) => filt(noise(dur, (t) => Math.sin(Math.PI * Math.min(1, t / dur)) ** 0.7, seed), 'bp', line(from, to, dur), 3);
+D.scratch = [
+  {name: 'record', about: 'classic record scratch (wait, what?!)', make: () => finish(mix([scratchAt(221, 0.12, 600, 2400), 1], [scratchAt(223, 0.14, 2200, 500), 1, 0.12]), {wet: 0.1, tail: 0.15})},
+  {name: 'tape-stop', about: 'tape stop: a tone slows down to nothing', make: () => finish(osc(0.8, (t) => 520 * Math.max(0.05, 1 - (t / 0.8) ** 1.5), (t) => Math.min(1, (0.8 - t) / 0.15), 'saw', 8), {wet: 0.1, tail: 0.15, top: 6000})},
+  {name: 'quick', about: 'one quick scratch', make: () => finish(scratchAt(225, 0.16, 500, 2600), {wet: 0.1, tail: 0.15})},
+  {name: 'needle-stop', about: 'needle dragged across, then silence', make: () => finish(mix([filt(noise(0.35, (t) => 1 - t / 0.35, 227), 'bp', line(3000, 600, 0.35), 1.2), 1], ...Array.from({length: 5}, (_, i) => [filt(noise(0.01, exp(400), 229 + i), 'bp', 2000, 2), 0.6, i * 0.07])), {wet: 0.1, tail: 0.2})},
+];
+// a crowd voice: a saw through two vowel formants ("oo" ≈ 300/870 Hz, "ah" ≈ 730/1090 Hz)
+const voiceV = (len, f0, vowel, env, seed) => { const [f1, f2] = vowel === 'oo' ? [300, 870] : vowel === 'ah' ? [730, 1090] : [530, 1840]; const s = osc(len, (t) => f0 * (1 + 0.03 * Math.sin(TAU * (4 + seed % 3) * t)), env, 'saw', 20); return mix([filt(s, 'bp', f1, 4), 1], [filt(s, 'bp', f2, 5), 0.6]); };
+D.crowd = [
+  {name: 'gasp', about: 'a crowd gasps (shock)', make: () => { const r = rng(231); return finish(mix(...Array.from({length: 10}, (_, i) => [filt(noise(0.5, (t) => Math.min(1, t / 0.08) * Math.exp(-t * 5), 233 + i), 'bp', 900 + r() * 900, 2), 0.4, r() * 0.06])), {wet: 0.4, tail: 0.5}); }},
+  {name: 'ooh', about: 'an amazed "ooooh" from a crowd', make: () => { const r = rng(235); return finish(mix(...Array.from({length: 8}, (_, i) => [voiceV(1.4, 140 + r() * 160, 'oo', swell(1.4, 0.35), i), 0.4, r() * 0.08])), {wet: 0.5, tail: 0.6}); }},
+  {name: 'cheer', about: 'a cheering crowd ("yeah!")', make: () => { const r = rng(237); return finish(mix(...Array.from({length: 10}, (_, i) => [voiceV(1.1, 180 + r() * 220, 'ah', swell(1.1, 0.3), i), 0.35, r() * 0.15]), [filt(noise(1.2, swell(1.2, 0.3), 239), 'bp', 1500, 0.8), 0.4]), {wet: 0.5, tail: 0.6}); }},
+  {name: 'applause', about: 'applause (a win, a great idea)', make: () => { const r = rng(241); return finish(mix(...Array.from({length: 70}, (_, i) => [filt(noise(0.02, exp(250), 243 + i), 'bp', 1000 + r() * 1800, 1.5), 0.3 * Math.sin(Math.PI * Math.min(1, (i / 70) * 1.2)), r() * 1.4])), {wet: 0.35, tail: 0.5}); }},
+];
+D.fall = [
+  {name: 'whistle', about: 'cartoon falling whistle + soft landing', make: () => finish(mix([osc(1, line(1800, 350, 1), (t) => Math.min(1, t / 0.05) * Math.min(1, (1 - t) / 0.05)), 0.6], [osc(0.3, glide(120, 60, 16), att(0.002, 12)), 1, 1]), {wet: 0.2, tail: 0.3})},
+  {name: 'price-drop', about: 'three falling notes + a low thud (value falls)', make: () => finish(mix(...[[784, 0], [587, 0.15], [440, 0.3]].map(([f, d]) => [osc(0.25, f, att(0.002, 10), 'tri'), 0.7, d]), [osc(0.4, glide(100, 50, 12), att(0.002, 8)), 0.9, 0.48]), {wet: 0.25, tail: 0.4})},
+  {name: 'swoop-down', about: 'air swooping down', make: () => finish(filt(noise(0.7, swell(0.7, 0.4), 251), 'bp', line(3000, 300, 0.7), 1.3), {wet: 0.15, tail: 0.25})},
+  {name: 'crash', about: 'falls, then crashes (debris)', make: () => { const r = rng(253); return finish(mix([osc(0.7, line(1500, 400, 0.7), (t) => Math.min(1, t / 0.05) * Math.min(1, (0.7 - t) / 0.03)), 0.4], [osc(0.5, glide(110, 50, 10), att(0.002, 7)), 1, 0.7], [filt(noise(0.5, exp(8), 255), 'lp', 3000), 0.6, 0.7], ...Array.from({length: 8}, () => [coinHit(1200 + r() * 2000, 30), 0.15, 0.72 + r() * 0.4])), {wet: 0.3, tail: 0.5}); }},
+];
+D.levelup = [
+  {name: 'arp-up', about: 'four quick notes up (game level-up)', make: () => finish(mix(...[784, 988, 1175, 1568].map((f, i) => [osc(0.35, f, att(0.002, 9), 'tri'), 0.6, i * 0.07])), {wet: 0.3, tail: 0.4})},
+  {name: 'rise-ding', about: 'short rise, then a ding at the top', make: () => finish(mix([filt(noise(0.5, swell(0.5, 0.95), 261), 'bp', line(500, 3500, 0.5), 1.3), 0.8], [bellP(1, 2093, 4), 0.7, 0.48]), {wet: 0.3, tail: 0.6})},
+  {name: 'power-up', about: 'retro power-up sweep, softened', make: () => finish(filt(osc(0.6, (t) => line(300, 1200, 0.6)(t) * (1 + 0.04 * Math.sin(TAU * 14 * t)), (t) => Math.min(1, t / 0.02) * Math.min(1, (0.6 - t) / 0.08), 'sq', 7), 'lp', 4000), {wet: 0.25, tail: 0.3})},
+  {name: 'step-up', about: 'two notes up with a whoosh (climbing a step)', make: () => finish(mix([filt(noise(0.35, swell(0.35, 0.6), 263), 'bp', line(600, 2000, 0.35), 1.2), 0.7], [bellP(0.6, 1319, 6), 0.6, 0.2], [bellP(0.8, 1760, 4), 0.6, 0.32]), {wet: 0.3, tail: 0.5})},
+];
+export const GROUP3 = ['typing', 'shutter', 'clock', 'glitch', 'scratch', 'crowd', 'fall', 'levelup'];
 export const GROUP1 = ['pop', 'popup', 'boom', 'thump', 'shimmer', 'riser', 'whoosh', 'swish', 'tick', 'ding', 'impact', 'tail'];
 // the mixer's kind for each lab type (where the pick is installed)
 export const KIND = {shimmer: 'sparkle'};
@@ -312,7 +369,7 @@ const page = async () => {
   const seg = [vL.subarray(Math.round(at * SR), Math.round((at + 5) * SR)), vR.subarray(Math.round(at * SR), Math.round((at + 5) * SR))];
   const vEar = voiceLevel(earPower(earBands(toEarRate(seg[0].map((v, i) => (v + seg[1][i]) / 2), SR))));
   const HIT = 2.0; // the sound lands 2 s into the 5 s clip
-  const WHEN = {pop: 'pills, tags, small labels', popup: 'headline words (like «الخزنة فاضية»)', boom: 'big reveals, the board jumping, ✖ marks', thump: 'something lands (a podium block, a card set down)', shimmer: 'precious things (diamond, gold, money)', riser: 'the build-up just before a reveal', whoosh: 'transitions, things sliding or flying in', swish: 'a paper or card flick', tick: 'small mechanics (path dots, counting, rows)', ding: 'a value confirmed («غالي!»)', impact: 'a hard accent inside a story', tail: 'the long deep tail under the biggest reveals (new)', cash: 'money earned, paid or sold', coins: 'coins dropping, a pile growing', tease: '«ليش؟», a mystery, "wait…"', suspense: 'tension before a twist', wrong: 'a mistake («غلطة»), a wrong answer', correct: '✔, a win, the right answer', stamp: '«تم البيع», «انسرقت!»', alert: 'a red warning («تحويل بالغلط!»)', ping: 'phone, message, transfer done', explosion: 'a blast (the rocket blowing up)'};
+  const WHEN = {pop: 'pills, tags, small labels', popup: 'headline words (like «الخزنة فاضية»)', boom: 'big reveals, the board jumping, ✖ marks', thump: 'something lands (a podium block, a card set down)', shimmer: 'precious things (diamond, gold, money)', riser: 'the build-up just before a reveal', whoosh: 'transitions, things sliding or flying in', swish: 'a paper or card flick', tick: 'small mechanics (path dots, counting, rows)', ding: 'a value confirmed («غالي!»)', impact: 'a hard accent inside a story', tail: 'the long deep tail under the biggest reveals (new)', cash: 'money earned, paid or sold', coins: 'coins dropping, a pile growing', tease: '«ليش؟», a mystery, "wait…"', suspense: 'tension before a twist', wrong: 'a mistake («غلطة»), a wrong answer', correct: '✔, a win, the right answer', stamp: '«تم البيع», «انسرقت!»', alert: 'a red warning («تحويل بالغلط!»)', ping: 'phone, message, transfer done', explosion: 'a blast (the rocket blowing up)', typing: 'laptops and screens', shutter: 'photos, newspapers', clock: 'a deadline, time running out', glitch: 'a digital error, hacking', scratch: '"stop, wait…", a comic twist', crowd: 'reactions (gasp, ooh, cheer, applause)', fall: 'a price falling, something crashing', levelup: 'climbing the board / stairs'};
   let html = '';
   for (const [type, list] of Object.entries(index)) {
     const kind = KIND[type] ?? type, under = type === 'tail' ? 14 : targetUnder(kind);
@@ -342,11 +399,11 @@ h2{margin:0 0 10px;font-size:20px;text-transform:uppercase;letter-spacing:.04em;
 .v{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid #2C2360}.v.now{opacity:.75}.n{width:44px;font-weight:800;font-size:18px;text-align:center}.m{flex:1;min-width:0}.m b{display:block}.m span{color:var(--dim);font-size:13px}
 button{background:#2E2470;color:var(--ink);border:0;border-radius:8px;padding:8px 10px;cursor:pointer;font:inherit;white-space:nowrap}button.on{background:var(--gold);color:#1A1238}
 @media(max-width:560px){.v{flex-wrap:wrap}.m{flex-basis:calc(100% - 54px)}}</style></head><body><main>
-<h1>Sound lab · group ${GROUP}</h1><p class="lead">${GROUP === 1 ? 'The 12 sound types of the reference.' : 'Story sounds the reference rarely or never used.'} <b>alone</b> = the sound by itself (all at the same loudness) · <b>with voice</b> = 5 s of the voiceover with the sound at the Studio's standard level (−19). Tell Claude your pick per type, e.g. "pop 2, boom 1+4" (two picks = the mixer alternates them).</p>
+<h1>Sound lab · group ${GROUP}</h1><p class="lead">${GROUP === 1 ? 'The 12 sound types of the reference.' : GROUP === 2 ? 'Story sounds the reference rarely or never used.' : 'Nice-to-have story sounds.'} <b>alone</b> = the sound by itself (all at the same loudness) · <b>with voice</b> = 5 s of the voiceover with the sound at the Studio's standard level (−19). Tell Claude your pick per type, e.g. "pop 2, boom 1+4" (two picks = the mixer alternates them).</p>
 ${html}</main><div id="err" style="position:fixed;left:16px;right:16px;bottom:16px;background:#E23A4E;color:#fff;padding:10px;border-radius:8px;display:none"></div><audio id="a"></audio><script>const CLIPS=${JSON.stringify(Object.fromEntries(Object.keys(index).flatMap((type)=>fs.readdirSync(path.join(OUT,type)).filter((f)=>f.endsWith('.mp3')).map((f)=>[type+'/'+f.replace(/.mp3$/,''),'data:audio/mpeg;base64,'+fs.readFileSync(path.join(OUT,type,f)).toString('base64')]))))};
 const a=document.getElementById('a'),er=document.getElementById('err');let cur=null;
 function play(k,b){if(cur)cur.classList.remove('on');a.pause();a.src=CLIPS[k];cur=b;b.classList.add('on');a.onended=()=>b.classList.remove('on');a.play().then(()=>er.style.display='none').catch(e=>{er.textContent='Could not play: '+e.message+' — check the volume / the tab is not muted.';er.style.display='block';b.classList.remove('on')})}</script></body></html>`);
-  console.log('page: samples/sfx-lab/index.html');
+  console.log(`page: ${path.relative(process.cwd(), path.join(OUT, 'index.html'))}`);
 };
 
 if (opt.page) await page();
@@ -361,7 +418,7 @@ else if (opt.install) {
     console.log(`installed ${type} v${vs} → library/sfx/${kind}-*.wav`);
   }
 } else {
-  const types = opt.only ? String(opt.only).split(',') : GROUP === 2 ? GROUP2 : GROUP1;
+  const types = opt.only ? String(opt.only).split(',') : GROUP === 2 ? GROUP2 : GROUP === 3 ? GROUP3 : GROUP1;
   const indexFile = path.join(OUT, 'index.json');
   const index = fs.existsSync(indexFile) ? JSON.parse(fs.readFileSync(indexFile, 'utf8')) : {}; // merge: --only must not drop the other types
   for (const type of types) {
