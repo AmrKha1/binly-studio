@@ -364,7 +364,7 @@ export const MessageCard: React.FC<{t: number; at: number; x: number; y: number;
 }) => {
   const lf = life(t, at, out);
   if (!lf) return null;
-  cueSfx('pop', `msg-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125});
+  cueSfx('ping', `msg-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125}); // a message arrives → ping
   const accent = kind === 'job' ? CYAN : kind === 'alert' ? RED : GOLD;
   const pad = 40, ar = 60, ts = 44, lh = 60;
   const lines = wrap(text, ts, w - pad * 2);
@@ -520,7 +520,7 @@ export const DownloadBar: React.FC<{t: number; at: number; x: number; y: number;
   const s0 = at + 0.3, done = s0 + dur;
   cueSfx('pop', `dl-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125});
   cueSfx('tick', `dlgo-${id}-${at}`, t >= s0 && t < s0 + 0.2, x, {at: s0});
-  cueSfx(danger ? 'boom' : 'ding', `dlend-${id}-${at}`, t >= done && t < done + 0.3, x, {at: done, hit: danger ? 0.125 : 0});
+  cueSfx(danger ? 'boom' : 'ping', `dlend-${id}-${at}`, t >= done && t < done + 0.3, x, {at: done, hit: danger ? 0.125 : 0});
   const pr = clamp01((t - s0) / dur);
   const v = ease.inOutSine(pr) * 0.85 + pr * 0.15;
   const fin = t >= done;
@@ -732,7 +732,7 @@ export const WalletBalance: React.FC<{t: number; at: number; x: number; y: numbe
   const down = to < from;
   cueSfx('pop', `wal-${id}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.125});
   cueSfx('tick', `walgo-${id}-${at}`, t >= c0 && t < c0 + 0.2, x, {at: c0});
-  cueSfx(down ? 'boom' : 'sparkle', `walend-${id}-${at}`, t >= c1 && t < c1 + 0.3, x, {at: c1});
+  cueSfx(down ? 'boom' : 'cash', `walend-${id}-${at}`, t >= c1 && t < c1 + 0.3, x, {at: c1});
   const p = countCurve((t - c0) / dur);
   const v = lerp(from, to, p);
   const dec = Math.max(decOf(from), decOf(to));

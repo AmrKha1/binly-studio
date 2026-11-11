@@ -86,7 +86,7 @@ export const CountNumber: React.FC<{t: number; at: number; value: string; x: num
 export const Stamp: React.FC<{t: number; at: number; text: string; x: number; y: number; size?: number; rot?: number; color?: string}> = ({
   t, at, text, x, y, size = 110, rot = -8, color = '#E23A4E',
 }) => {
-  cueSfx('boom', `stamp-${text}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.16}); // SOUND MAP: stamps hit as a deep boom («تم البيع», «انسرقت!»)
+  cueSfx('stamp', `stamp-${text}-${at}`, t >= at && t < at + 0.3, x, {at, hit: 0.16}); // SOUND MAP: «تم البيع», «انسرقت!» — the owner's stamp (sound library, 2026-11-11; the reference used a boom)
   if (t < at) return null;
   const pr = pressIn((t - at) / 0.165);
   const w = textWidth(text, size) + size * 0.9, h = size * 1.45;

@@ -21,3 +21,11 @@ Clips were trimmed to their steadiest section, faded and encoded to Opus 96 kb/s
 - ding-*.wav — code-made (tools/audio/sfx-lab.mjs, "ding" v1), owner's pick 2026-11-11. No third-party audio.
 - impact-*.wav — code-made (tools/audio/sfx-lab.mjs, "impact" v1), owner's pick 2026-11-11. No third-party audio.
 - tail-*.wav — code-made (tools/audio/sfx-lab.mjs, "tail" v2), owner's pick 2026-11-11. No third-party audio.
+- cash-*.wav — code-made (tools/audio/sfx-lab.mjs, "cash" v3+4), owner's pick 2026-11-11. No third-party audio.
+- tease-*.wav — code-made (tools/audio/sfx-lab.mjs, "tease" v2), owner's pick 2026-11-11. No third-party audio.
+- suspense-*.wav — code-made (tools/audio/sfx-lab.mjs, "suspense" v1), owner's pick 2026-11-11. No third-party audio.
+- wrong-*.wav — code-made (tools/audio/sfx-lab.mjs, "wrong" v4), owner's pick 2026-11-11. No third-party audio.
+- correct-*.wav — code-made (tools/audio/sfx-lab.mjs, "correct" v1), owner's pick 2026-11-11. No third-party audio.
+- stamp-*.wav — code-made (tools/audio/sfx-lab.mjs, "stamp" v1), owner's pick 2026-11-11. No third-party audio.
+- ping-*.wav — code-made (tools/audio/sfx-lab.mjs, "ping" v3), owner's pick 2026-11-11. No third-party audio.
+- explosion-*.wav — code-made (tools/audio/sfx-lab.mjs, "explosion" v1), owner's pick 2026-11-11. No third-party audio.

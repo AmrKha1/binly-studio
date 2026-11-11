@@ -266,8 +266,13 @@ stable id like `'coin-3'`; x = its centre for stereo). Pure no-op at render time
 Kinds: popup popdown pop blip tick click toggle swish swoosh whoosh sweep_down riser rise fall slam impact thump stamp
 confirm win error powerup cash coins card ding chime glass sparkle bell bell_toll page paper shutter scribble typing
 bubble drip splash heartbeat breath rumble low_drone door footsteps crowd water wind fire (`dur` for long ones).
+**THE SOUND LIBRARY (owner's picks 2026-11-11, library/sfx — every kind below plays the chosen sound):** `pop` `popup` `boom`
+`thump` `whoosh` `swish` `tick` `ding` `impact` `stamp` `cash` (2 versions, alternating) `coins` · NEW story kinds: `tease` (a
+question / «ليش؟» / a mystery), `suspense` (heartbeat — tension before a twist), `wrong` (a mistake, a wrong answer),
+`correct` (✔, the right answer), `ping` (a message, a notification, "done"), `explosion` (a blast) · `tail` (only via
+`<RevealRing tail>`, the 2–4 biggest reveals). Use the story kinds where the STORY says so — they are the meaning layer.
 **Sound map:** money/price/value → `cash` (coins → `coins`) · reveal/achievement → `powerup` or `win` · wrong/myth →
-`error` · correct/fact → `confirm` · rising tension → `rise`/`riser` · falling/decline → `fall` · big hit → `impact` ·
+`wrong` · correct/fact → `correct` · a question/mystery → `tease` · suspense → `suspense` · rising tension → `rise`/`riser` · falling/decline → `fall` · big hit → `impact` ·
 card/document dealt → `card` · switch/state change → `toggle` · place ambience → `crowd`/`water`/`wind`/`fire`.
 Levels are automatic; `gain` 0.4–0.8 only to soften. Don't stack two sounds within 0.1 s by hand (the scan thins bursts).
 
@@ -639,6 +644,7 @@ face), then checked: HOLE · FRINGE · SPECKS · CUT · SMALL. `art.mjs ingest` 
 Standalone: `node tools/art-check.mjs <folder|png…> [--sheet out.jpg]` (exit 2 when anything is flagged).
 
 ## Sound effects measured like the reference (2026-11-10)
+**SOUND LAB** (owner 2026-11-11): `node tools/audio/sfx-lab.mjs` designs 4 code-made versions per sound type → `samples/sfx-lab/` · `--page --vo <voiceover> --at 2` builds `samples/sfx-lab/index.html` (each version alone, level-matched, and under 5 s of voice at the −19 standard; "now" = today's sound if captured as `<type>/now.wav`) · `--install pop:2,boom:1+4` copies the owner's picks into `library/sfx/<kind>-N.wav` (the mixer then uses them, rotating between picks).
 `node tools/audio/sfx-finish.mjs <in> <out.flac> --type shimmer|ding|riser|hit` gives a new real sound the reference's finish
 (soft bloom, rounded top, room tail; riser dry, shimmer airy) — SOUND.md §4 (owner kept the code-made shimmer/riser/ding: test any new sound against them by ear first).
 `node tools/audio/sound-qa.mjs <vo> <sfx.wav> <cues.json> <outDir> [--words w.json]` = the render's sound check (levels per kind vs the

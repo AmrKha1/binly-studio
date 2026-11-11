@@ -188,8 +188,13 @@ stable id like `'coin-3'`; x = its centre for stereo). Pure no-op at render time
 Kinds: popup popdown pop blip tick click toggle swish swoosh whoosh sweep_down riser rise fall slam impact thump stamp
 confirm win error powerup cash coins card ding chime glass sparkle bell bell_toll page paper shutter scribble typing
 bubble drip splash heartbeat breath rumble low_drone door footsteps crowd water wind fire (`dur` for long ones).
+**THE SOUND LIBRARY (owner's picks 2026-11-11, library/sfx — every kind below plays the chosen sound):** `pop` `popup` `boom`
+`thump` `whoosh` `swish` `tick` `ding` `impact` `stamp` `cash` (2 versions, alternating) `coins` · NEW story kinds: `tease` (a
+question / «ليش؟» / a mystery), `suspense` (heartbeat — tension before a twist), `wrong` (a mistake, a wrong answer),
+`correct` (✔, the right answer), `ping` (a message, a notification, "done"), `explosion` (a blast) · `tail` (only via
+`<RevealRing tail>`, the 2–4 biggest reveals). Use the story kinds where the STORY says so — they are the meaning layer.
 **Sound map:** money/price/value → `cash` (coins → `coins`) · reveal/achievement → `powerup` or `win` · wrong/myth →
-`error` · correct/fact → `confirm` · rising tension → `rise`/`riser` · falling/decline → `fall` · big hit → `impact` ·
+`wrong` · correct/fact → `correct` · a question/mystery → `tease` · suspense → `suspense` · rising tension → `rise`/`riser` · falling/decline → `fall` · big hit → `impact` ·
 card/document dealt → `card` · switch/state change → `toggle` · place ambience → `crowd`/`water`/`wind`/`fire`.
 Levels are automatic; `gain` 0.4–0.8 only to soften. Don't stack two sounds within 0.1 s by hand (the scan thins bursts).
 
