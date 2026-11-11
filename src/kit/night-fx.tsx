@@ -289,8 +289,8 @@ export const NeonSign: React.FC<{t: number; at: number; x: number; y: number; te
  * surface every few seconds and twinkling sparkles. src = path inside public/ (e.g. `${slug}/el/royal-crown.png`),
  * ar = width / height (printed by art.mjs). enter: pop | rise | drop | zoom. Silent (pair with RevealRing for the sparkle sound).
  */
-export const HeroObject: React.FC<{t: number; at?: number; src: string; x: number; y: number; h: number; ar: number; glow?: string; enter?: 'pop' | 'rise' | 'drop' | 'zoom'; float?: boolean; shine?: boolean; sparkles?: number; id: string; out?: number}> = ({
-  t, at = 0, src, x, y, h, ar, glow = '#FFC928', enter = 'pop', float = true, shine = true, sparkles = 5, id, out,
+export const HeroObject: React.FC<{t: number; at?: number; src?: string; draw?: (h: number) => React.ReactNode; x: number; y: number; h: number; ar: number; glow?: string; enter?: 'pop' | 'rise' | 'drop' | 'zoom'; float?: boolean; shine?: boolean; sparkles?: number; id: string; out?: number}> = ({
+  t, at = 0, src, draw, x, y, h, ar, glow = '#FFC928', enter = 'pop', float = true, shine = true, sparkles = 5, id, out,
 }) => {
   if (t < at) return null;
   // SOUND MAP (references/universe-claude/SOUND.md, measured 2026-11-10): precious / hero objects shimmer as they appear
@@ -304,6 +304,44 @@ export const HeroObject: React.FC<{t: number; at?: number; src: string; x: numbe
   const w = h * ar;
   const fl = float ? Math.sin(t * 1.3 + x * 0.01) * 10 : 0;
   const sweep = ((e * 0.45) % 1.6) - 0.3; // a light band passes every ~3.5 s
+  const twinkles = Array.from({length: sparkles}, (_, i) => {
+    const sx = (rand(i * 7 + id.length) - 0.5) * w * 0.9, sy = (rand(i * 13 + 3) - 0.5) * h * 0.9;
+    const tw = Math.max(0, Math.sin(t * (2 + rand(i) * 2) + i * 2.1));
+    return tw > 0.05 ? <Sparkle4 key={i} x={sx} y={sy} r={10 + 16 * tw} o={tw} /> : null;
+  });
+  // HERO FINISH for a CLAUDE-DRAWN object (owner 2026-11-11: "the objects should glow and be fantastic and modern like the
+  // reference even if Claude created it by its own"): the same finish as a Flow image — a double glow halo built from the
+  // object's own shape, a light sweep clipped exactly to it, twinkles, the reference pop + float, the shimmer sound.
+  // draw(h) renders the object centred at (0,0), about h tall and h·ar wide (rich gradients, a highlight edge, a darker
+  // side, a thick dark outline — never a flat icon).
+  if (draw) {
+    const g = uid('nhero', id);
+    return (
+      <g transform={`translate(${x} ${y + dy + fl}) scale(${q.sx} ${q.sy})`} opacity={q.o * fade}>
+        <defs>
+          <filter id={`${g}-glow`} x="-70%" y="-70%" width="240%" height="240%">
+            <feFlood floodColor={glow} result="c" />
+            <feGaussianBlur in="SourceAlpha" stdDeviation={h * 0.022} result="b1" />
+            <feComposite in="c" in2="b1" operator="in" result="g1" />
+            <feGaussianBlur in="SourceAlpha" stdDeviation={h * 0.075} result="b2" />
+            <feComposite in="c" in2="b2" operator="in" result="g2" />
+            <feMerge><feMergeNode in="g2" /><feMergeNode in="g2" /><feMergeNode in="g1" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+          <filter id={`${g}-white`}><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0" /></filter>
+          <mask id={`${g}-m`}><g filter={`url(#${g}-white)`}>{draw(h)}</g></mask>
+          <linearGradient id={`${g}-s`} x1="0" y1="0" x2="1" y2="0" gradientTransform="rotate(25 .5 .5)">
+            <stop offset={Math.max(0, sweep - 0.12)} stopColor="#FFFFFF" stopOpacity={0} />
+            <stop offset={Math.min(1, Math.max(0, sweep))} stopColor="#FFFFFF" stopOpacity={0.55} />
+            <stop offset={Math.min(1, sweep + 0.12)} stopColor="#FFFFFF" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <g filter={`url(#${g}-glow)`}>{draw(h)}</g>
+        {shine && sweep > -0.1 && sweep < 1.1 && <rect x={-w / 2 - 20} y={-h / 2 - 20} width={w + 40} height={h + 40} fill={`url(#${g}-s)`} mask={`url(#${g}-m)`} style={{mixBlendMode: 'screen'}} />}
+        {twinkles}
+      </g>
+    );
+  }
+  if (!src) return null;
   const file = staticFile(src);
   return (
     <g transform={`translate(${x} ${y + dy + fl}) scale(${q.sx} ${q.sy})`} opacity={q.o * fade}>

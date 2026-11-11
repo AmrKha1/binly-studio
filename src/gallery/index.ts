@@ -40,6 +40,11 @@ import {NightPage11} from './pages/night11';
 import {NightPage12} from './pages/night12';
 import {NightPage13} from './pages/night13';
 import {NightPage14} from './pages/night14';
+import {NightPage15} from './pages/night15';
+import {NightPage16} from './pages/night16';
+import {NightPage17} from './pages/night17';
+import {NightPage18} from './pages/night18';
+import {NightPage19} from './pages/night19';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
@@ -57,6 +62,11 @@ export const GALLERY: Record<string, React.FC<{t: number}>> = {
   night12: NightPage12,
   night13: NightPage13,
   night14: NightPage14,
+  night15: NightPage15, // story characters: identities, props, poses
+  night16: NightPage16, // screens / UI set
+  night17: NightPage17, // code-drawn hero objects with the hero finish
+  night18: NightPage18, // the stair game (second game device)
+  night19: NightPage19, // a painted plate with Claude's life on top
   glow: Glow,
   arabic: Arabic,
   motion: Motion,

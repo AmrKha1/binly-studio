@@ -937,9 +937,24 @@ Gallery `night5` (stills 1.6 sunset · 3.6 map · 5.6 science · 7.6 night city 
 - **NightCity** `{t, id, base?}` — money, cities, real estate (3 layers of buildings, warm windows that blink, outlined
   front towers).
 - **RoomWorld** `{t, id, winX?, winY?}` — mini-stories indoors (warm wall, plank floor, sunset window + light shaft, dust).
-- **StoryPerson** `{x, y, s, body, hat: none|beret|top|helmet|bicorne|crown|turban|cap|feather, hatColor, pose:
-  idle|point|hold|up, flip, t, id}` — the mini-story actors: faceless dark round head with a GOLD RIM, ONE identifying
-  hat, flat body, breathing. AZTIKA is the only character with a face. **MoneyBag** prop.
+- **StoryPerson** — THE CAST (owner 2026-11-11: "the faceless characters like the reference, the normal types for every
+  future video"). Faceless dark round head with a coloured RIM (gold by default; `rim="#7FD8FF"` = the other side of a
+  story — the reference's Napoleon gold vs the American buyers cyan), round hands in the rim colour, white shoes, one
+  highlight stripe, breathing. AZTIKA is the ONLY character with a face (the host, kit/image-host — his 46 cut-out poses).
+  - **role** (one word = the whole look; explicit props win): king queen prince sultan sheikh arabMan arabWoman pharaoh knight
+    soldier officer general police pirate explorer sailor pilot astronaut doctor nurse scientist engineer programmer hacker
+    worker farmer miner chef businessman banker lawyer judge politician journalist teacher student painter musician athlete
+    oldMan child man woman (table: `STORY_ROLES`).
+  - **hat**: none beret top helmet bicorne crown turban cap feather (headband + one feather) warbonnet tarboush ghutra hijab
+    hood officer hardhat judge nemes knight army tricorn safari sailor aviator space nurse chef straw grad headband fedora.
+  - **outfit**: plain suit shirt hoodie thobe bisht labcoat uniform dress overalls robe pharaoh armor vest sailor spacesuit
+    scrubs chef gown sport doctor (+ `tieColor`, `medals`).
+  - **prop** (in hand): laptop phone harddrive pizza document pen briefcase coin gavel scroll money sign sword wrench pickaxe
+    pitchfork pan book microphone brush guitar ball map clipboard flask cane (`StoryPropIcon` draws one alone).
+  - **pose**: idle point hold up talk shock think cheer walk (walk = a stride cycle from t).
+  - extras: `glasses` · `hair` short|long|bun|bald + `hairColor` · `beard` (a colour) · `flip`.
+  Gallery `night15` (1.5 headwear · 4.5 outfits · 7.5 props · 10.5 poses · 13.5 a deal scene · 16.5/19.5/22.5 the roster).
+  **MoneyBag** prop.
 Hero objects (diamond, palace, painting…) come from generated art (tools/art.mjs, ART-STYLE) placed on these worlds.
 
 ## Hero objects — HeroObject (kit/night-fx) + generated art (docs/ART-STYLE.md "NIGHT LOOK")
@@ -1086,6 +1101,45 @@ Gallery `night13` (2.6 Louisiana spreading · 5.6 neon map + routes · 8.6 Rome 
   PaperMap, or glowing outline on a dark sky. `spread` = colour spreads from that point (empires, a deal doubling a
   country). region = a kit/geo preset or a bbox `[[W,S],[E,N]]`.
 - **nightProj(region, w, h, x, y)** → (lon, lat) ⇒ [x, y] for flags, pins, pills. **NeonLines** `{t, at, lines, color, dur, id}`.
+
+## Set 11 — the video-1 upgrade (2026-11-11): hero finish, stair game, plates
+- **HeroObject `draw`** (kit/night-fx) — a CLAUDE-DRAWN object gets the same hero finish as a Flow image (double glow
+  halo from its own shape, a light sweep clipped to it, twinkles, the reference pop, float, shimmer):
+  `<HeroObject t at draw={coinArt('₿')} ar={1} x y h id />`. Owner rule: every object glows and looks as rich and modern as
+  the reference's diamond — never a flat icon. Gallery `night17` = the quality bar (code coin / contract / hard drive
+  next to the Flow diamond).
+- **kit/night-objects** — ready draws drawn the reference's way (gradients, bevel/rim, highlight, thick outline):
+  `coinArt(symbol='₿', tone)` · `documentArt(sealText?)` · `driveArt(led?)`. New objects follow the same recipe.
+- **StairGame + stairCamT** (kit/night-game) — the second game device, "from the cheapest to the most expensive, step by
+  step": `entries: {id, label (exactly as spoken), at, src|draw, ar, glow?, twist?}[]`, `summitAt` (the «؟» waits on the
+  summit — the hook's promise), `recapAt`, `topLabel` («الأغلى»). The `twist` entry takes the SUMMIT even with the
+  smallest number (gold step, flash, ring, label) — the board SHOWS the new rule. Arabic stairs rise RIGHT → LEFT.
+  `<g transform={stairCamT(t, P)}><GridFloor wide …/><StairGame t id="stairs" {...P} /></g>`. Gallery `night18`.
+- **GridFloor `wide`** — extends the floor far past the frame (same vanishing point, no seam): use it under any camera
+  that pans or zooms out (boardCamT, stairCamT, pushT on a big world).
+- **PlateWorld `look="natural"`** (kit/night-places) — a painted SCENE PLATE (Flow helper, docs/ART-STYLE.md "SCENE PLATE")
+  in its own colours; `look="night"` = the night grade. **PlateFx** `{t, kind: confetti|snow|smoke|dust|embers|rays|rain,
+  density?, seed?, color?}` — the life layer on a plate. A plate is never a still shot: camera move + PlateFx + Claude's
+  overlays (YearBadge, WordPop, StoryPeople, pills, objects). Plan: `"flow": "plate"` + `"fallback"`; ≤ 25 % of the video.
+  Gallery `night19`.
+
+## Set 12 — screens / UI: kit/night-ui (2026-11-11) — modern stories happen on screens
+Glossy night panels, thick outlines, gold/cyan/red glow, heavy Arabic right-to-left text, faceless avatars (gold rim).
+All take `{t, at, id, out?}`; entrances = the reference pop, exits = flyOut; sounds built in. NAMES as text, never real
+logos or real app UIs. Gallery `night16` (2.2 laptop+job message · 5.2 phone+chat · 8.4/10.6 video call · 13.2/15.6
+downloads ✔/⚠ · 17.0/18.9 transfer press → wrong amount · 21.6 search boxes · 24.9 wallet draining · 26.2/27.4 alerts).
+- **Laptop** `{x, y (base bottom-centre), w, screen? (local 1000×625 box), glow?}` · **Phone** `{x, y (centre), h, screen?
+  (local 450×900), glow?, float?}` — UI inside a device gets small: put the key piece full-size beside it or push in.
+- **MessageCard** `{x, y, w?, from, role?, text, kind: job|chat|alert, action?, badge?, hat?, body?}` — a job offer / chat.
+- **VideoCall** `{x, y, w, people: {name, role?, hat?, body?}[], speaking?: index | [time, index][]}` — 1–3 faceless tiles;
+  `hat` (UiHat): tie · glasses · headset · hood · hijab · cap · top · crown · bun.
+- **DownloadBar** `{x, y, w?, file, dur?, danger?, verdict?}` — % ticks, ✔ done, or red ⚠ (malware) + a verdict pill.
+- **TransferScreen** `{x, y, from, to, amount (as spoken), wrong?, dur?, press?, s?, title?, button?}` — the confirm
+  press; with `wrong` the amount rolls into the wrong one in red (boom).
+- **SearchBox** `{x, y, w?, text, brand?, speed?}` — types letter by letter; `brand` = a text pill.
+- **WalletBalance** `{x, y, from, to, unit?, dur?, start?, symbol?, label?, s?}` — counts with countCurve; red ▼ drain /
+  green ▲ rise + a trend line.
+- **AlertBanner** `{x, y, text, tone: red|gold, size?}` — slams in (pressIn) with hazard stripes.
 
 ## Phone sizes (owner 2026-11-10)
 Follow the reference's sizes (hero 150–180 · headline 120–140 · hero pill 40–48 · secondary pill 28–32); our one edit:

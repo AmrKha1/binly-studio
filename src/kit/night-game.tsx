@@ -13,6 +13,8 @@ import {clamp01, ease, lerp, popRef, spring} from './anim';
 import {H, W} from './theme';
 import {GlowText, N, NPill, Podium, RevealRing, Sparkle} from './night';
 import {cueSfx} from './sfx';
+import {Flash, HeroObject} from './night-fx';
+import {isAr} from './lang';
 
 export type Contender = {
   id: string; // stable, unique
@@ -75,7 +77,7 @@ const boardStates = (entries: Contender[], x0: number, maxH: number, maxVisible:
  * boardCamT — the reference's BOARD CAMERA (MOTION.md §3, 1:34): on every arrival the camera travels toward the newcomer
  * (pan + a push to 1.07, 0.5 s ease-in-out), then keeps pushing slowly (0.35 %/s) — never still; the recap pulls back to
  * the whole row. Wrap the WORLD (GridFloor + PodiumGame) — NOT the host (he stays pinned to the screen, as in the
- * reference):  <g transform={boardCamT(t, {entries, …same props as PodiumGame})}><GridFloor …/><PodiumGame …/></g>
+ * reference):  <g transform={boardCamT(t, {entries, …same props as PodiumGame})}><GridFloor wide …/><PodiumGame …/></g>
  */
 export const boardCamT = (t: number, o: {entries: Contender[]; x0?: number; base?: number; maxH?: number; maxVisible?: number; right?: number; recapAt?: number}) => {
   const {x0 = 760, base = 836, maxH = 290, maxVisible = 5, right = W - 60, recapAt} = o;
@@ -266,3 +268,101 @@ export const DrawCrown = (h: number) => {
   );
 };
 export const _H = H;
+
+// ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+// STAIR GAME — the second game device: "from the cheapest to the most expensive, step by step" («نطلع درجة درجة»).
+// Each case CLIMBS one step (a glowing block rising like the reference podium, its object popping on top with the hero
+// finish, its price pill EXACTLY as spoken); the SUMMIT waits with a «؟» from `summitAt` (the promise of the hook); the
+// `twist` entry takes the summit at the end even when its number is the smallest — the board SHOWS the new rule (gold
+// summit, flash, ring, `topLabel` like «الأغلى»). Arabic stairs rise RIGHT → LEFT (the reading direction).
+// Camera: wrap <GridFloor wide/> + StairGame in stairCamT(t, same props) — it climbs with every new step, recap pulls back.
+// ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+export type StairEntry = {
+  id: string; label: string; at: number; // when it takes its step (the word that names it)
+  src?: string; draw?: (h: number) => React.ReactNode; ar?: number; glow?: string; // its object (Flow image or Claude-drawn)
+  twist?: boolean; // the entry that takes the SUMMIT (the rule changes)
+};
+type StairProps = {entries: StairEntry[]; x0?: number; base?: number; stepW?: number; stepH?: number; h0?: number; summitAt?: number; recapAt?: number; topLabel?: string; dir?: 1 | -1};
+const stairLayout = (o: StairProps) => {
+  const {entries, x0, base = 836, stepW = 250, stepH = 62, h0 = 110} = o;
+  const dir = o.dir ?? (isAr() ? -1 : 1);
+  const start = x0 ?? (dir === -1 ? W - 260 : 260);
+  const plain = entries.filter((e) => !e.twist).sort((a, b) => a.at - b.at);
+  const twist = entries.find((e) => e.twist);
+  const n = plain.length + 1; // + the summit
+  const steps = Array.from({length: n}, (_, i) => ({x: start + dir * i * stepW, h: h0 + i * stepH + (i === n - 1 ? stepH * 0.6 : 0)}));
+  return {plain, twist, steps, base, stepW, dir};
+};
+export const stairCamT = (t: number, o: StairProps) => {
+  const {plain, twist, steps, base} = stairLayout(o);
+  const focusOf = (i: number) => ({cx: steps[i].x, cy: base - steps[i].h - 120, z: 1.05});
+  const all = (() => {
+    const xs = steps.map((s) => s.x), w = Math.max(...xs) - Math.min(...xs) + 500;
+    return {cx: (Math.max(...xs) + Math.min(...xs)) / 2, cy: base - steps[steps.length - 1].h / 2 - 60, z: Math.min(1, 1760 / w)};
+  })();
+  const keys: {at: number; f: {cx: number; cy: number; z: number}}[] = [];
+  plain.forEach((e, i) => keys.push({at: e.at, f: focusOf(i)}));
+  if (o.summitAt !== undefined) keys.push({at: o.summitAt, f: all});
+  if (twist) keys.push({at: twist.at, f: focusOf(steps.length - 1)});
+  if (o.recapAt !== undefined) keys.push({at: o.recapAt, f: all});
+  keys.sort((a, b) => a.at - b.at);
+  if (!keys.length) return '';
+  let k = -1;
+  for (let i = 0; i < keys.length; i++) if (t >= keys[i].at) k = i;
+  const a = keys[Math.max(0, k - 1)].f, b = keys[Math.max(0, k)].f;
+  const u = k <= 0 ? 1 : ease.inOut(clamp01((t - keys[k].at) / 0.7));
+  const z = lerp(a.z, b.z, u) * (1 + 0.0035 * Math.max(0, t - (k >= 0 ? keys[k].at : 0))); // never still (MOTION.md §3)
+  // the horizon never moves (like the reference board camera): pan + zoom ALONG the floor line — the sky stays seamless
+  const cx = lerp(a.cx, b.cx, u);
+  return `translate(960 ${base}) scale(${z}) translate(${-cx} ${-base})`;
+};
+export const StairGame: React.FC<{t: number; id: string} & StairProps> = (p) => {
+  const {t, id, topLabel} = p;
+  const {plain, twist, steps, base, stepW} = stairLayout(p);
+  const nodes: React.ReactNode[] = [];
+  const objH = Math.min(200, stepW * 0.8);
+  // the pill colours of the reference board (STYLE-BIBLE §2): the CURRENT champion gold, the others white
+  const champ = twist && t >= twist.at ? twist.id : [...plain].reverse().find((e) => t >= e.at)?.id;
+  const put = (e: StairEntry, i: number, summit: boolean) => {
+    if (t < e.at) return;
+    const s = steps[i], el = t - e.at;
+    cueSfx('boom', `${id}-step-${e.id}`, t >= e.at && t < e.at + 0.3, s.x, {at: e.at, hit: 0.13, gain: summit ? 1.6 : 1}); // SOUND MAP: a newcomer = boom
+    const grow = ease.out(clamp01(el / 0.5));
+    const top = base - s.h * grow;
+    nodes.push(<Podium key={e.id} x={s.x} base={base} w={stepW - 18} h={Math.max(1, s.h * grow)} id={`${id}-${e.id}`} color={summit ? 'gold' : 'green'} />);
+    nodes.push(<HeroObject key={e.id + 'o'} t={t} at={e.at + 0.25} src={e.src} draw={e.draw} ar={e.ar ?? 1} x={s.x} y={top - objH / 2 - 14} h={objH} glow={e.glow} id={`${id}-${e.id}-o`} sparkles={summit ? 7 : 4} />);
+    nodes.push(<NPill key={e.id + 'p'} text={e.label} x={s.x} y={top - objH - 52} size={summit ? 50 : e.id === champ ? 46 : 40} kind={e.id === champ ? 'gold' : 'white'} id={`${id}-${e.id}-p`} p={(el - 0.45) / 0.3} />);
+    if (summit) {
+      nodes.push(<RevealRing key={e.id + 'r'} t={t} at={e.at + 0.25} boom={false} x={s.x} y={top - objH / 2} r={objH * 1.4} />);
+      if (topLabel && el > 0.7) {
+        const q = popRef(clamp01((el - 0.7) / 0.3));
+        nodes.push(
+          <g key={e.id + 'l'} transform={`translate(${s.x} ${top - objH - 140}) scale(${q.s})`} opacity={q.o}>
+            <GlowText text={topLabel} x={0} y={0} size={96} tone="gold" id={`${id}-top`} />
+          </g>
+        );
+      }
+    }
+  };
+  plain.forEach((e, i) => put(e, i, false));
+  // the summit: a «؟» waits on it from summitAt (the hook's promise) until the twist takes it
+  const sIdx = steps.length - 1, summit = steps[sIdx];
+  if (p.summitAt !== undefined && t >= p.summitAt && (!twist || t < twist.at + 0.3)) {
+    const el = t - p.summitAt;
+    const grow = ease.out(clamp01(el / 0.5));
+    const fadeOut = twist ? 1 - clamp01((t - twist.at) / 0.3) : 1;
+    nodes.push(
+      <g key="summit-wait" opacity={fadeOut}>
+        <Podium x={summit.x} base={base} w={stepW - 18} h={Math.max(1, summit.h * grow)} id={`${id}-summit`} color="gold" />
+        {el > 0.3 && (
+          <g transform={`translate(${summit.x} ${base - summit.h * grow - 90 + Math.sin(t * 2) * 6}) scale(${popRef(clamp01((el - 0.3) / 0.3)).s})`}>
+            <GlowText text="؟" x={0} y={0} size={150} tone="gold" id={`${id}-q`} />
+          </g>
+        )}
+      </g>
+    );
+    cueSfx('riser', `${id}-summit`, t >= p.summitAt && t < p.summitAt + 0.3, summit.x, {at: p.summitAt + 0.3});
+  }
+  if (twist) put(twist, sIdx, true);
+  return <g>{nodes}{twist && t >= twist.at && t < twist.at + 0.6 ? <Flash t={t} at={twist.at + 0.15} strength={0.45} /> : null}</g>;
+};

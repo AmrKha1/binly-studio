@@ -67,6 +67,12 @@ export const PHONE = {pill: 34, text: 56, headline: 120, hero: 160, objectH: 0.4
 /** The display face: heavy rounded Arabic (Baloo Bhaijaan 2 800); English → Poppins 900. */
 export const nightFont = () => (isAr() ? FONT_AR : FONT_SERIF);
 const WEIGHT = () => (isAr() ? 800 : 900);
+/**
+ * symText — currency signs drawn in a Latin font inside Arabic text (2026-11-11): in the Arabic font '£' looks almost
+ * exactly like the Arabic numeral ٤ («4 مليون £» read as "4 million 4"). Every night text runs its string through this.
+ */
+export const symText = (text: string): React.ReactNode =>
+  /[£€¥₿]/.test(text) ? text.split(/([£€¥₿])/).map((p, i) => (/^[£€¥₿]$/.test(p) ? <tspan key={i} className="k-sym" fontFamily="Arial Black, Arial, sans-serif" fontWeight={900}>{p}</tspan> : p)) : text;
 export const textWidth = (text: string, size: number) => measureText({text, fontFamily: nightFont(), fontSize: size, fontWeight: String(WEIGHT())}).width;
 
 /**
@@ -126,10 +132,14 @@ export const Sparkle: React.FC<{x: number; y: number; r?: number; o?: number; co
 };
 
 /** Synthwave floor: glowing purple horizon line + perspective grid (0:26.2). */
-export const GridFloor: React.FC<{y?: number; id?: string; t?: number}> = ({y = 836, id = 'floor', t = 0}) => {
+/** wide: extends the floor far past the frame (same vanishing point, no seam) — for scenes whose camera pans/zooms out
+ * (boardCamT, stairCamT, pushT on a big world). */
+export const GridFloor: React.FC<{y?: number; id?: string; t?: number; wide?: boolean}> = ({y = 836, id = 'floor', t = 0, wide = false}) => {
   const g = uid('nflr', id);
+  const sp = wide ? 2600 : 0, deep = wide ? 700 : 0; // extra width each side · extra depth below the frame
   const vx = W / 2, vy = y - 260; // vanishing point above the horizon → gentle perspective
-  const verticals = Array.from({length: 41}, (_, i) => -2400 + i * 120);
+  const nv = 41 + Math.ceil((2 * sp) / 120);
+  const verticals = Array.from({length: nv}, (_, i) => -2400 - sp + i * 120);
   const rows = Array.from({length: 9}, (_, i) => y + Math.pow((i + 1 + ((t * 0.6) % 1)) / 9, 2.1) * (H - y + 40));
   return (
     <g>
@@ -147,17 +157,17 @@ export const GridFloor: React.FC<{y?: number; id?: string; t?: number}> = ({y = 
           <feGaussianBlur stdDeviation="9" />
         </filter>
       </defs>
-      <rect x={0} y={y} width={W} height={H - y} fill={`url(#${g})`} />
+      <rect x={-sp} y={y} width={W + 2 * sp} height={H - y + deep} fill={`url(#${g})`} />
       <g stroke={`url(#${g}__f)`} strokeWidth={1.6}>
         {verticals.map((bx, i) => {
           const k = (y - vy) / (H + 40 - vy);
           return <line key={i} x1={vx + (bx + W / 2 - vx) * k} y1={y} x2={bx + W / 2} y2={H + 40} />;
         })}
-        {rows.map((ry, i) => <line key={'r' + i} x1={0} y1={ry} x2={W} y2={ry} opacity={0.3 + 0.7 * ((ry - y) / (H - y))} />)}
+        {rows.map((ry, i) => <line key={'r' + i} x1={-sp} y1={ry} x2={W + sp} y2={ry} opacity={0.3 + 0.7 * ((ry - y) / (H - y))} />)}
       </g>
-      <rect x={0} y={y - 70} width={W} height={90} fill={N.horizon} opacity={0.28} filter={`url(#${g}__b)`} />
-      <rect x={0} y={y - 22} width={W} height={44} fill="#A06BFF" opacity={0.45} filter={`url(#${g}__b)`} />
-      <rect x={0} y={y - 2} width={W} height={4} fill="#B98BFF" />
+      <rect x={-sp} y={y - 70} width={W + 2 * sp} height={90} fill={N.horizon} opacity={0.28} filter={`url(#${g}__b)`} />
+      <rect x={-sp} y={y - 22} width={W + 2 * sp} height={44} fill="#A06BFF" opacity={0.45} filter={`url(#${g}__b)`} />
+      <rect x={-sp} y={y - 2} width={W + 2 * sp} height={4} fill="#B98BFF" />
     </g>
   );
 };
@@ -184,9 +194,9 @@ export const GlowText: React.FC<{text: string; x: number; y: number; size: numbe
           <feGaussianBlur stdDeviation={size * 0.11} />
         </filter>
       </defs>
-      {glow > 0 && <text {...common} fill={c.glow} stroke={c.glow} strokeWidth={size * 0.16} strokeLinejoin="round" opacity={0.55 * glow} filter={`url(#${g}__b)`}>{text}</text>}
-      {outline > 0 && <text {...common} fill={N.outline} stroke={N.outline} strokeWidth={size * 0.14 * outline} strokeLinejoin="round" opacity={0.72}>{text}</text>}
-      <text {...common} fill={`url(#${g})`} stroke="none">{text}</text>
+      {glow > 0 && <text {...common} fill={c.glow} stroke={c.glow} strokeWidth={size * 0.16} strokeLinejoin="round" opacity={0.55 * glow} filter={`url(#${g}__b)`}>{symText(text)}</text>}
+      {outline > 0 && <text {...common} fill={N.outline} stroke={N.outline} strokeWidth={size * 0.14 * outline} strokeLinejoin="round" opacity={0.72}>{symText(text)}</text>}
+      <text {...common} fill={`url(#${g})`} stroke="none">{symText(text)}</text>
     </g>
   );
 };
@@ -262,7 +272,7 @@ export const NPill: React.FC<{text: string; x: number; y: number; size?: number;
       <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={h / 2} fill={k.glow} opacity={0.55} filter={`url(#${g}__b)`} />
       <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={h / 2} fill={`url(#${g})`} />
       <text x={0} y={size * 0.04} fontSize={size} fontFamily={nightFont()} fontWeight={WEIGHT()} textAnchor="middle" dominantBaseline="central" fill={k.ink} stroke={k.ink} strokeWidth={size * 0.035} strokeLinejoin="round" paintOrder="stroke">
-        {text}
+        {symText(text)}
       </text>
     </g>
   );

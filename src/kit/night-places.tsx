@@ -286,9 +286,12 @@ export const FactoryLine: React.FC<{t: number; x?: number; y?: number; items?: C
  * the image as 0..1, s = zoom) and a night grade (darken + purple tint + vignette) so it sits with the rest of the look.
  * Reuse the same plate across shots with different elements on top. src = path inside public/.
  */
-export const PlateWorld: React.FC<{t: number; src: string; id: string; at?: number; dur?: number; from?: {x: number; y: number; s: number}; to?: {x: number; y: number; s: number}; grade?: number; tint?: string}> = ({
-  t, src, id, at = 0, dur = 8, from = {x: 0.5, y: 0.5, s: 1.05}, to = {x: 0.5, y: 0.45, s: 1.15}, grade = 0.5, tint = '#1E0B4A',
+export const PlateWorld: React.FC<{t: number; src: string; id: string; at?: number; dur?: number; from?: {x: number; y: number; s: number}; to?: {x: number; y: number; s: number}; grade?: number; tint?: string; look?: 'night' | 'natural'}> = ({
+  t, src, id, at = 0, dur = 8, from = {x: 0.5, y: 0.5, s: 1.05}, to = {x: 0.5, y: 0.45, s: 1.15}, grade: grade0, tint = '#1E0B4A', look = 'night',
 }) => {
+  // look 'natural' = the painted SCENE PLATE in its own colours (owner 2026-11-11: bright story backgrounds like the
+  // creator's other videos) — only a soft vignette; 'night' = the night grade (darken + purple tint) for night plates
+  const grade = grade0 ?? (look === 'natural' ? 0 : 0.5);
   const k = ease.inOut(clamp01((t - at) / dur));
   const s = lerp(from.s, to.s, k), fx = lerp(from.x, to.x, k), fy = lerp(from.y, to.y, k);
   const w = W * s, h = H * s;
@@ -311,6 +314,58 @@ export const PlateWorld: React.FC<{t: number; src: string; id: string; at?: numb
       <rect x={0} y={0} width={W} height={H} fill={tint} opacity={grade * 0.75} />
       <rect x={0} y={0} width={W} height={H} fill="#05010F" opacity={grade * 0.3} />
       <rect x={0} y={0} width={W} height={H} fill={`url(#${g})`} />
+    </g>
+  );
+};
+
+/**
+ * PlateFx — the LIFE layer on a painted plate (owner 2026-11-11: a painted background is never a still shot — Claude's
+ * animation runs on top). Deterministic particles matched to the scene, drawn over the plate and under the overlays:
+ * confetti (celebration 1945) · snow (Vienna 1909) · smoke (a factory, a chimney) · dust (light shafts in a hall, a mine)
+ * · embers (fire, war) · rays (sunlight shafts sweeping slowly) · rain. density 0.5–2. Combine with the plate's camera
+ * move, StoryPeople, pills, YearBadge, WordPop.
+ */
+export const PlateFx: React.FC<{t: number; kind: 'confetti' | 'snow' | 'smoke' | 'dust' | 'embers' | 'rays' | 'rain'; density?: number; seed?: number; color?: string}> = ({t, kind, density = 1, seed = 1, color}) => {
+  const R = (i: number) => rand(i * 9.13 + seed * 31.7);
+  if (kind === 'rays') {
+    return (
+      <g style={{mixBlendMode: 'screen'}}>
+        {[0, 1, 2, 3].map((i) => {
+          const x = 260 + i * 420 + Math.sin(t * 0.25 + i) * 60, w = 120 + R(i) * 120;
+          return <path key={i} d={`M${x} -40 L${x + w} -40 L${x + w + 380} ${H + 40} L${x + 260} ${H + 40} Z`} fill={color ?? '#FFE8B0'} opacity={0.07 + 0.05 * Math.sin(t * 0.7 + i * 1.7)} />;
+        })}
+      </g>
+    );
+  }
+  const n = Math.round({confetti: 70, snow: 90, smoke: 14, dust: 60, embers: 40, rain: 120}[kind] * density);
+  const pal = ['#FF5A7A', '#FFC928', '#5CF2FF', '#7CF29A', '#B98BFF', '#FF9A3D'];
+  return (
+    <g>
+      {Array.from({length: n}, (_, i) => {
+        const a = R(i), b = R(i + 500), c = R(i + 900);
+        if (kind === 'confetti') {
+          const y = ((b * H + t * (120 + 80 * a)) % (H + 80)) - 40, x = (a * W + Math.sin(t * (1 + c) + i) * 40) % W;
+          return <rect key={i} x={x} y={y} width={10 + 6 * c} height={5 + 3 * a} rx={2} fill={color ?? pal[i % pal.length]} transform={`rotate(${(t * 160 * (c - 0.5) + i * 37) % 360} ${x} ${y})`} opacity={0.9} />;
+        }
+        if (kind === 'snow') {
+          const y = ((b * H + t * (40 + 50 * a)) % (H + 40)) - 20, x = (a * W + Math.sin(t * 0.8 + i) * 30) % W;
+          return <circle key={i} cx={x} cy={y} r={2 + 4 * c} fill={color ?? '#FFFFFF'} opacity={0.55 + 0.4 * c} />;
+        }
+        if (kind === 'smoke') {
+          const life = (t * 0.12 + a) % 1, x = 200 + b * (W - 400) + life * 120 * (c - 0.3), y = H * (0.75 - life * 0.9);
+          return <circle key={i} cx={x} cy={y} r={60 + life * 220} fill={color ?? '#E9E4F2'} opacity={0.16 * (1 - life)} />;
+        }
+        if (kind === 'dust') {
+          const x = (a * W + t * 12 * (c - 0.5) + Math.sin(t * 0.6 + i) * 20 + W) % W, y = (b * H + Math.cos(t * 0.5 + i) * 20 + H) % H;
+          return <circle key={i} cx={x} cy={y} r={1.5 + 2.5 * c} fill={color ?? '#FFF1C8'} opacity={0.25 + 0.5 * Math.max(0, Math.sin(t * (1 + c) + i))} />;
+        }
+        if (kind === 'embers') {
+          const life = (t * (0.2 + 0.15 * c) + a) % 1, x = b * W + Math.sin(t * 2 + i) * 24, y = H * (1 - life);
+          return <circle key={i} cx={x} cy={y} r={2 + 3 * c} fill={color ?? '#FFB347'} opacity={(1 - life) * 0.9} />;
+        }
+        const y = ((b * H + t * 900) % (H + 60)) - 30, x = a * W - (t * 120) % 40;
+        return <line key={i} x1={x} y1={y} x2={x - 8} y2={y + 26} stroke={color ?? '#BFD6FF'} strokeWidth={2} opacity={0.35} />;
+      })}
     </g>
   );
 };

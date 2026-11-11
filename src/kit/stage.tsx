@@ -28,6 +28,7 @@ const TEXT_NUDGE = `text:not([transform]), foreignObject.${TEXT_FO} { rotate: 0.
  */
 const AR_CSS = `
 .k-ar text, .k-ar tspan { font-family: ${FONT_AR} !important; letter-spacing: 0 !important; font-style: normal !important; }
+.k-ar tspan.k-sym { font-family: "Arial Black", Arial, sans-serif !important; } /* currency signs: in the Arabic font £ looks like ٤ (kit/night symText) */
 .k-ar text { unicode-bidi: plaintext; }
 .k-ar text, .k-ar tspan, .k-ar foreignObject * { font-weight: 800 !important; } /* owner pick: heavy rounded Arabic everywhere */
 .k-ar [font-family*="Caveat"], .k-ar foreignObject [style*="Caveat"] { font-weight: 700 !important; }

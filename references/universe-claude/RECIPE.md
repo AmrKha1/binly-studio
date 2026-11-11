@@ -15,7 +15,8 @@ row → "the universe gave us everything for free" → «في أمان الله�
 - One **home stage** for the whole video (NightSky + GridFloor + the game device). The reference returns to it **12 times**,
   every **25–150 s (typically ~50 s)**; 17 % of the screen time. Every return = a new round: the newcomer arrives, the
   board changes (taller podium, ×2 bracket, the old champion steps aside), AZTIKA reacts.
-- The game device depends on the question: ranking → **PodiumGame** · biggest/oldest/fastest → PodiumGame (value = size/
+- The game device depends on the question: ranking → **PodiumGame** · "from the cheapest to the most expensive, step by
+  step" (a ladder of cases, often with a twist at the top) → **StairGame** (summit «؟» from the hook, the twist takes the summit) · biggest/oldest/fastest → PodiumGame (value = size/
   age/speed) · history of one thing → **NTimeline** that grows · "how did X fall/rise" → a **NGauge**/scoreboard that
   moves · places → **NightMap** that fills · a list ("7 secrets") → **ChapterTitle** + a numbered board. Pick ONE device
   per video and keep it; it is also the recap.

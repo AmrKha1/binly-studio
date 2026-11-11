@@ -77,6 +77,20 @@ then StoryPeople / pills / HeroObjects on top.
 > a clear open area in the <centre/lower middle> where objects and the host will be placed later. EMPTY: no people, no
 > characters, no animals, no text, no letters, no signs, no logos, no watermark.
 
+## SCENE PLATE block — bright story backgrounds (owner 2026-11-11: an ADDITION, a helper layer — never the standard)
+Like the creator's other videos (a 1945 harbour celebration, a palace corridor with guards, snowy Vienna 1909, a 1914
+car factory): a full, rich, warm illustrated SCENE behind a story moment, with Claude's animation on top (camera move,
+PlateFx particles, YearBadge, WordPop headline, StoryPeople, pills, objects). Planned in the shot list as
+`"flow": "plate"` + `"fallback"` (the night-kit world used when Flow is missing); ≤ 25 % of the video. Shown with
+`<PlateWorld look="natural" …/>` + `<PlateFx kind=…/>` (kit/night-places). One plate per place, reused with different
+elements on top. Name: `{"kind":"bg","name":"vienna-1909","place":"…","era":"…","open":"lower middle"}`.
+> Wide 16:9 illustrated scene of <PLACE, ERA, MOMENT>, warm cinematic lighting, soft volumetric light and glow, rich
+> detail, vibrant but harmonious colours, polished flat-shaded cartoon illustration with clean outlines and gentle
+> gradients, period-accurate clothes, vehicles and architecture, depth with a soft-focus background, a calm clear area in the
+> <lower middle / centre> where text and objects will be placed later. Any people are generic cartoon figures in the
+> background and middle ground (no real, recognisable person). No text, no letters, no numbers, no signs, no logos, no
+> flags with writing, no watermark.
+
 ## AZTIKA POSE SHEET (new host poses — owner 2026-11-10: "4 poses in the same sheet")
 New AZTIKA poses are made 4 per sheet (16:9, Nano Banana Pro, 0 credits) with reference_images = 2 existing poses
 (public/_hosts/aztika/full-present.png + full-thinking.png), so every pose stays on-model and the sheet is consistent.
@@ -95,5 +109,6 @@ instead of 4: crop the sheet into 4 strips at the emptiest columns and cut each 
   or not at all.
 - One hero object per shot, big (35–55 % of the frame height), on a code-built world, with HeroObject glow in its own
   colour (gold for money/crowns, cyan for science/diamonds, violet for energy/mystery, green for land/nature).
-- Real people/events presented as real → real archival images (kit/photo), framed like the reference (gold frame).
+- Real people → faceless story characters with ONE identifying detail (kit/night-worlds StoryPerson) — a real face that
+  truly matters → NightPortrait (free-licence photo). Real objects/places/art → illustrated hero art. (docs/PLAYBOOK.md "ARABIC IMAGES")
 - Review every sheet on a contact sheet; regenerate (free) anything flat, muddy, textured or with painted glow.
