@@ -47,6 +47,7 @@ export const Particle: React.FC<{t: number; at?: number; x: number; y: number; r
 export const ParticleSwarm: React.FC<{t: number; x: number; y: number; r?: number; n?: number; color?: string; seed?: number; at?: number}> = ({t, x, y, r = 160, n = 14, color = '#FF4FC8', seed = 1, at = -1}) => {
   if (t < at) return null;
   const p = at >= 0 ? clamp01((t - at) / 0.4) : 1;
+  if (at >= 0) cueSfx('sparkle', `nswarm-${x}-${y}-${at}`, t < at + 0.3, x, {at, hit: 0.2}); // SOUND MAP: glowing dots → shimmer
   return (
     <g opacity={p}>
       {Array.from({length: n}, (_, i) => {
@@ -73,6 +74,9 @@ export const WeighScale: React.FC<{t: number; at?: number; x: number; y: number;
   if (t < at) return null;
   const q = at >= 0 ? popRef(clamp01((t - at) / 0.3), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
   const k = count && at >= 0 ? clamp01((t - at - 0.3) / 0.6) : 1;
+  // SOUND MAP: the scale LANDS (thump) · the reading settles (ding, a value confirmed)
+  if (at >= 0) cueSfx('thump', `nscale-${x}-${at}`, t < at + 0.3, x, {at, hit: 0.125});
+  if (at >= 0 && count) cueSfx('ding', `nscale-v-${x}-${at}`, t >= at + 0.9 && t < at + 1.2, x, {at: at + 0.9, hit: 0.05});
   const num = value.replace(/[\d.]+/, (m) => (parseFloat(m) * k).toFixed((m.split('.')[1] ?? '').length));
   const h = w * 0.36;
   return (
@@ -97,6 +101,7 @@ export const Magnifier: React.FC<{t: number; at?: number; x: number; y: number; 
 }) => {
   if (t < at) return null;
   const q = at >= 0 ? popRef(clamp01((t - at) / 0.3), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
+  if (at >= 0) cueSfx('sparkle', `nmag-${id}-${at}`, t < at + 0.3, x, {at, hit: 0.125}); // SOUND MAP: the magnifier → shimmer
   const g = uid('nmag', id);
   const a = (angle * Math.PI) / 180;
   const hx = Math.cos(a) * r, hy = Math.sin(a) * r;

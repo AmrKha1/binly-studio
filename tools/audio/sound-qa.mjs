@@ -9,7 +9,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {REF_TARGET, PHONE_CHANGE, PHONE_FILTER, AUDIBLE_DB} from '../lib/sound-ref.mjs';
+import {REF_TARGET, PHONE_CHANGE, PHONE_FILTER, AUDIBLE_DB, targetUnder} from '../lib/sound-ref.mjs';
 import {densityReport} from '../lib/sfx-density.mjs';
 
 const argv = process.argv.slice(2), opt = {}, pos = [];
@@ -41,11 +41,11 @@ const ph = measure(phone(vo, path.join(out, 'phone-voice.wav')), phone(fx, path.
 const n = {};
 for (const c of known) n[c.kind] = (n[c.kind] ?? 0) + 1;
 const lines = [], warnings = [];
-lines.push('| sound | cues | under the voice | reference | on a phone | phone change (ref) |', '|---|---|---|---|---|---|');
+lines.push('| sound | cues | under the voice | target (ref − owner lift) | on a phone | phone change (ref) |', '|---|---|---|---|---|---|');
 for (const k of Object.keys(full).sort((a, b) => (n[b] ?? 0) - (n[a] ?? 0))) {
-  const lv = full[k], tg = REF_TARGET[k], pv = ph[k], ch = pv - lv, rc = PHONE_CHANGE[k];
+  const lv = full[k], tg = +targetUnder(k).toFixed(1), pv = ph[k], ch = pv - lv, rc = PHONE_CHANGE[k];
   lines.push(`| ${k} | ${n[k] ?? 0} | ${lv.toFixed(1)} dB | ${tg} dB | ${pv.toFixed(1)} dB | ${ch >= 0 ? '+' : ''}${ch.toFixed(1)}${rc !== undefined ? ` (${rc >= 0 ? '+' : ''}${rc})` : ''} |`);
-  if ((n[k] ?? 0) >= 3 && Math.abs(lv - tg) > 2) warnings.push(`sound: ${k} sits ${lv.toFixed(1)} dB under the voice — the reference is ${tg} dB (${lv > tg ? 'too quiet' : 'too loud'})`);
+  if ((n[k] ?? 0) >= 3 && Math.abs(lv - tg) > 2) warnings.push(`sound: ${k} sits ${lv.toFixed(1)} dB under the voice — the target is ${tg} dB (${lv > tg ? 'too quiet' : 'too loud'})`);
   if ((n[k] ?? 0) >= 3 && k !== 'thump' && pv > AUDIBLE_DB) warnings.push(`sound: ${k} is lost on a phone speaker (${pv.toFixed(1)} dB under the voice)`);
   if ((n[k] ?? 0) >= 3 && rc !== undefined && ch > rc + 3) warnings.push(`sound: ${k} drops ${ch.toFixed(1)} dB on a phone — the reference only ${rc} dB`);
 }

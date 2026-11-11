@@ -50,6 +50,14 @@ Timing (only the effects near a cut): risers and shimmers START 130–170 ms BEF
   left 66 stretches of > 3.6 s with no sound; B left 7). Every board change and every newcomer gets its boom; a soft tick
   rhythm for counting numbers. The extra sounds come from VISUAL beats (a pill, label, count, path dot appearing) — never
   a filler with nothing on screen. Never louder than the reference's loudest 10 % (12 dB under).
+- **Our edit — LEVEL (owner by ear, 2026-11-11):** at the reference's exact levels the effects felt too far under the
+  voice on his PC (effects vs voice −21.7 dB). He picked −15.3 dB. All kinds are lifted TOGETHER (the reference's balance
+  between kinds is kept): `OWNER_LIFT` in tools/lib/sound-ref.mjs (8.3 dB; the per-cue "never above the voice" cap eats
+  ≈ 2 dB of it → measured −15.6 dB on the ar-reel). The render's sound check compares against the lifted target.
+- **Every night-kit piece that appears plays its sound** (owner 2026-11-11: «الخزنة فاضية» popped in silent) —
+  headline words = a smooth popup. `node tools/check.mjs` fails a timed piece with no cue (or one not marked SILENT:).
+- **Samples for the owner must come from the SAME path as the render** (`SFX_MODEL=reference` for Arabic). A sample made
+  with the default "classic" model was 6 dB louder than the cloud render and made the A/B misleading (2026-11-11).
 - **How it is enforced** (tools/lib/sfx-density.mjs, Arabic only):
   - render (tools/cloud/merge-sfx.mjs): **cap 34 per any 60 s** (the reference's hook rate; the smallest auto sounds —
     ticks, pops, swishes — give way first, the most crowded first, so it thins evenly; booms, stamps, risers and story

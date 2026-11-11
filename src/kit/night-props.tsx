@@ -176,6 +176,7 @@ export const ChoiceCards: React.FC<{t: number; at: number; cards: Choice[]; id: 
 export const BlueprintCard: React.FC<{t: number; at?: number; x: number; y: number; w?: number; h?: number; rot?: number; id: string}> = ({t, at = -1, x, y, w = 560, h = 380, rot = -6, id}) => {
   if (t < at) return null;
   const q = at >= 0 ? popRef(clamp01((t - at) / 0.35), 0.45, 0.3) : {sx: 1, sy: 1, o: 1};
+  if (at >= 0) cueSfx('swish', `nblue-${id}-${at}`, t < at + 0.3, x, {at, hit: 0.125}); // SOUND MAP: a card flick
   const g = uid('nblue', id);
   return (
     <g transform={`translate(${x} ${y + Math.sin(t * 1.1) * 6}) rotate(${rot}) skewX(-4) scale(${q.sx} ${q.sy})`} opacity={q.o}>
@@ -314,6 +315,7 @@ export const MoneyPile: React.FC<{t: number; x: number; y: number; s?: number; g
 export const FlyingBills: React.FC<{t: number; at: number; x: number; y: number; n?: number; spread?: number; dur?: number; w?: number}> = ({t, at, x, y, n = 14, spread = 520, dur = 3, w = 90}) => {
   const e = t - at;
   if (e < 0 || e > dur + 1) return null;
+  cueSfx('whoosh', `nbills-${x}-${y}-${at}`, e < 0.3, x, {at, hit: 0.2}); // SOUND MAP: things fly out → one whoosh (never per bill)
   return (
     <g>
       {Array.from({length: n}, (_, i) => {
@@ -337,6 +339,7 @@ export const FlyingBills: React.FC<{t: number; at: number; x: number; y: number;
 export const CoinRain: React.FC<{t: number; at: number; n?: number; x0?: number; x1?: number; r?: number; dur?: number; speed?: number}> = ({t, at, n = 16, x0 = 0, x1 = W, r = 30, dur = 4, speed = 420}) => {
   const e = t - at;
   if (e < 0) return null;
+  cueSfx('sparkle', `ncoinrain-${x0}-${at}`, e < 0.3, (x0 + x1) / 2, {at, hit: 0.3}); // SOUND MAP: money → one shimmer (never per coin)
   return (
     <g>
       {Array.from({length: n}, (_, i) => {

@@ -20,7 +20,7 @@ import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import os from 'node:os';
 import {earBands, earPower, toEarRate, voiceLevel, peakLevel} from '../lib/ear-level.mjs';
-import {REF_TARGET, PHONE_CHANGE} from '../lib/sound-ref.mjs';
+import {PHONE_CHANGE, targetUnder} from '../lib/sound-ref.mjs';
 
 const [, , voPath, scorePath, sfxPath, outDir] = process.argv;
 if (!voPath || !scorePath || !outDir) {
@@ -681,7 +681,7 @@ for (const s of sfxList) {
   if (l < 1e-7) continue;
   let g = (REF / l) * Math.pow(10, (KIND_DB[s.kind] ?? -2) / 20) * (s.gain ?? 1);
   if (MODEL === 'reference') {
-    const under = Math.max(REF_MAX, (REF_TARGET[s.kind] ?? REF_DEFAULT) - 20 * Math.log10(s.gain ?? 1) - REF_CAL - (REF_FIX[s.kind] ?? 0));
+    const under = Math.max(REF_MAX, targetUnder(s.kind, REF_DEFAULT) - 20 * Math.log10(s.gain ?? 1) - REF_CAL - (REF_FIX[s.kind] ?? 0));
     const pe = earPeakDb(tgtL, tgtR);
     if (pe < -130) continue;
     g = Math.pow(10, (VOICE_EAR_DB - under - pe) / 20);

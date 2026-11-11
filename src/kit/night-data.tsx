@@ -287,6 +287,10 @@ export const Receipt: React.FC<{t: number; at: number; x: number; y: number; tit
   const rtl = isAr();
   const rowH = 70, head = 100, h = head + rows.length * rowH + 160;
   const slide = ease.out(clamp01((t - at) / 0.45));
+  // SOUND MAP: the paper flicks in (swish) · each row prints (tick) · the total lands (ding)
+  cueSfx('swish', `nrcpt-${id}-${at}`, t < at + 0.3, x, {at, hit: 0.2});
+  rows.forEach((_, i) => { const ra = at + 0.45 + i * step; cueSfx('tick', `nrcpt-${id}-r${i}-${ra}`, t >= ra && t < ra + 0.3, x, {at: ra, hit: 0.08}); });
+  { const ta = at + 0.45 + rows.length * step; cueSfx('ding', `nrcpt-${id}-tot-${ta}`, t >= ta && t < ta + 0.3, x, {at: ta, hit: 0.125}); }
   const g = uid('nrcpt', id);
   const m = Math.ceil(w / 24);
   const zig = Array.from({length: m + 1}, (_, i) => `L${Math.max(-w / 2, w / 2 - i * 24)} ${h / 2 + (i % 2 ? 12 : 0)}`).join(' '); // torn bottom edge

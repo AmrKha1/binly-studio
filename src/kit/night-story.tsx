@@ -36,6 +36,8 @@ export const IconList: React.FC<{t: number; rows: ListRow[]; x: number; y: numbe
   if (fade <= 0) return null;
   const rtl = isAr();
   const h = size * 1.7, d = h * 0.78;
+  // SOUND MAP: each row pops in (pop), on its own time
+  rows.forEach((r, i) => cueSfx('pop', `niconlist-${id}-${i}-${r.at}`, t >= r.at && t < r.at + 0.3, x, {at: r.at, hit: 0.15}));
   return (
     <g opacity={fade}>
       {rows.map((r, i) => {
@@ -76,6 +78,10 @@ export const StrikeSwap: React.FC<{t: number; at: number; strikeAt: number; swap
   const s = ease.out(clamp01((t - strikeAt) / 0.3));
   const p2 = clamp01((t - swapAt) / 0.3);
   const q2 = popRef(p2, 0.45, 0.3);
+  // SOUND MAP: the old claim pops (pop) · the strike hits (boom) · the correction pops in (popup)
+  cueSfx('pop', `nstrike-${id}-a-${at}`, t < at + 0.3, x, {at, hit: 0.1});
+  cueSfx('boom', `nstrike-${id}-s-${strikeAt}`, t >= strikeAt && t < strikeAt + 0.3, x, {at: strikeAt, hit: 0.15});
+  cueSfx('popup', `nstrike-${id}-w-${swapAt}`, t >= swapAt && t < swapAt + 0.3, x, {at: swapAt, hit: 0.125});
   const mside = rtl ? -1 : 1; // the mark sits at the start of reading on the far side
   return (
     <g opacity={fade}>
@@ -407,6 +413,7 @@ export const ChapterTitle: React.FC<{t: number; chapters: {at: number; text: str
   if (i < 0 || hide) return null;
   const c = chapters[i];
   const u = ease.out(clamp01((t - c.at) / 0.35));
+  cueSfx('whoosh', `nchapter-${i}-${c.at}`, t < c.at + 0.3, x, {at: c.at, hit: 0.18}); // SOUND MAP: a title slides in → whoosh
   const rtl = isAr();
   const tw = textWidth(c.text, size);
   const d = size * 1.25, h = size * 1.7, w = tw + size * 1.6 + (c.n !== undefined ? d + 12 : 0);

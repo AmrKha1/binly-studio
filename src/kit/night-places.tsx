@@ -9,6 +9,7 @@ import {clamp01, ease, lerp, rand} from './anim';
 import {H, W} from './theme';
 import {uid} from './stage';
 import {Coin} from './night-props';
+import {cueSfx} from './sfx';
 
 const OUT = '#14101C';
 
@@ -176,6 +177,10 @@ export const StarsRating: React.FC<{t: number; at: number; x: number; y: number;
     return `${i ? 'L' : 'M'}${(Math.cos(a) * rr).toFixed(1)} ${(Math.sin(a) * rr).toFixed(1)}`;
   }).join(' ') + 'Z';
   const d = star(size / 2);
+  // SOUND MAP: small mechanics — one tick per star as it fills (they are 0.08 s apart, so only the first and the last
+  // filled star tick: never a machine-gun)
+  const filled = Math.max(1, Math.ceil(value));
+  [0, filled - 1].filter((v, k, a) => a.indexOf(v) === k).forEach((i) => { const sa = at + i * 0.08; cueSfx('tick', `nstars-${x}-${y}-${i}-${sa}`, t >= sa && t < sa + 0.3, x, {at: sa, hit: 0.1}); });
   return (
     <g>
       {Array.from({length: n}, (_, i) => {
@@ -285,6 +290,7 @@ export const FactoryLine: React.FC<{t: number; x?: number; y?: number; items?: C
  * NIGHT PLATE style (docs/ART-STYLE.md), shown with a slow camera move (from → to over the shot: x/y = focus point in
  * the image as 0..1, s = zoom) and a night grade (darken + purple tint + vignette) so it sits with the rest of the look.
  * Reuse the same plate across shots with different elements on top. src = path inside public/.
+ * SILENT: a background plate — the elements on top carry the sounds.
  */
 export const PlateWorld: React.FC<{t: number; src: string; id: string; at?: number; dur?: number; from?: {x: number; y: number; s: number}; to?: {x: number; y: number; s: number}; grade?: number; tint?: string; look?: 'night' | 'natural'}> = ({
   t, src, id, at = 0, dur = 8, from = {x: 0.5, y: 0.5, s: 1.05}, to = {x: 0.5, y: 0.45, s: 1.15}, grade: grade0, tint = '#1E0B4A', look = 'night',
