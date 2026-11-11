@@ -15,8 +15,8 @@ Always generate with **model: "Nano Banana 2 Lite"** and **max_credits: 0** (ima
 image that would cost credits). Never use another model unless the owner says so.
 
 ## Image model ORDER (owner 2026-11-11 — every Flow image, objects and backgrounds; all are 0 credits)
-1. **Nano Banana Pro** — always first (`"model": "Nano Banana Pro"`).
-2. If Flow says the Nano Banana Pro DAILY LIMIT is reached → **Nano Banana 2.1** (the newest; omit `model`).
+1. **Nano Banana 2.1** — the DEFAULT (the newest; omit `model`). Owner 2026-11-11: 2.1 is the default, not Pro.
+2. **Nano Banana Pro** — only when the owner asks for it (`"model": "Nano Banana Pro"`).
 3. When speed matters more (a big batch, a quick redo) → **Nano Banana 2 Lite** (very fast, still high quality).
 Never a video model for plates/objects; keep `max_credits: 0`.
 

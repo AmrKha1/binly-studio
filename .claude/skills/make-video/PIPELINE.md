@@ -97,8 +97,8 @@ the script/transcript, decide the generated art (rules + exact prompt blocks: do
    empty, an open area for host/objects) + 4–6 OBJECT SHEETS (6 objects each, in reading order). No text, no real
    people/events presented as real (those stay archival), clean flat style only.
 3. `node tools/art.mjs prompts <slug>` → art/prompts.json + art/prompts.md (owner fallback).
-4. ONE `flow_generate` call: project `art-<slug>`, scenes = art/prompts.json (model Nano Banana Pro FIRST; if Flow says its daily
-   limit is reached → Nano Banana 2.1; for speed → Nano Banana 2 Lite — docs/ART-STYLE.md "Image model ORDER"; max_credits 0 — free).
+4. ONE `flow_generate` call: project `art-<slug>`, scenes = art/prompts.json (model Nano Banana 2.1 = DEFAULT, omit `model`;
+   Pro only if the owner asks; for speed → Nano Banana 2 Lite — docs/ART-STYLE.md "Image model ORDER"; max_credits 0 — free).
    Then keep working; check back with `flow_wait` only when you need the art (never poll in a loop).
 5. When done: `node tools/art.mjs ingest <slug>` → objects cut out (frames removed, enclosed gaps opened), named, added
    to the library, copied into public/<slug>/ (sizes in public/<slug>/art.json).

@@ -25,16 +25,17 @@ const range = [];
 if (fromS) range.push('-ss', String(from));
 if (toS) range.push('-to', String(Number(toS)));
 // voiceover is only resampled/upmixed for the container; its samples are not processed (no gain, EQ, compression)
-const filter = '[1:a]aresample=48000,aformat=channel_layouts=stereo[v];[2:a]aresample=48000[m];[3:a]aresample=48000[s];[v][m][s]amix=inputs=3:normalize=0:duration=first[a]';
+// inputs: 0 = voiceover, 1 = music stem, 2 = sfx stem
+const filter = '[0:a]aresample=48000,aformat=channel_layouts=stereo[v];[1:a]aresample=48000[m];[2:a]aresample=48000[s];[v][m][s]amix=inputs=3:normalize=0:duration=first[a]';
 // 1) the mix (24-bit wav)
 run([...range, '-i', vo, ...range, '-i', 'stems/music.wav', ...range, '-i', 'stems/sfx.wav',
-  '-filter_complex', filter.replace(/[1:a]/, '[0:a]').replace(/[2:a]/, '[1:a]').replace(/[3:a]/, '[2:a]'),
+  '-filter_complex', filter,
   '-map', '[a]', '-c:a', 'pcm_s24le', '-ar', '48000', 'final/mix.wav']);
 // 2) measure (EBU R128) → 3) one linear gain to −14 LUFS with a true-peak ceiling
 const I = -14, TP = -1.5, LRA = 20;
 const measure = (file, extra = []) => {
   const r = spawnSync(FF, ['-hide_banner', '-nostats', '-i', file, ...extra, '-af', `loudnorm=I=${I}:TP=${TP}:LRA=${LRA}:print_format=json`, '-f', 'null', '-'], {encoding: 'utf8'});
-  const m = (r.stderr || '').match(/{[sS]*}/);
+  const m = (r.stderr || '').match(/\{[\s\S]*\}/);
   if (!m) throw new Error('loudness measurement failed: ' + (r.stderr || '').slice(-400));
   return JSON.parse(m[0]);
 };
