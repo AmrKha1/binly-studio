@@ -76,8 +76,11 @@ export const NightShots: React.FC<{t: number; shots: NightShot[]; hud?: (t: numb
     const k = ease.inOut(clamp01((t - cur.start + 0.05) / cd));
     if (k < 1) carried = c.render(lerp(c.from.x, c.to.x, k), lerp(c.from.y, c.to.y, k), lerp(c.from.s ?? 1, c.to.s ?? 1, k));
   }
+  // marks the join window for tools/layout-scan.mjs (two scenes overlap here BY DESIGN — not a layout problem)
+  const joining = (prev && t < cur.start + Math.max(dur, 0.5)) || (wipeNext && t >= wipeNext.start - JOIN_DUR.wipe / 2);
   return (
     <>
+      {joining && <g data-lb-join="1" />}
       {body}
       {carried}
       {hud?.(t)}

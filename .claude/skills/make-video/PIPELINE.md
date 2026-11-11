@@ -326,8 +326,9 @@ promise in 5 s, an outro that drags → fix it (one builder round per chapter at
 
 **5e · RENDER GATE (owner 2026-11-11 — never skip)** — after 5–5d: `node tools/render-gate.mjs --reviewed "<what you
 looked at>"`. It runs every automatic check (voice lock · check.mjs · phone text · plan-check · sync WEAK/FROZEN/BLANK ·
-sound density · numbers exactly as spoken · names spelled as in the script · every file exists) and needs your own review
-confirmed (sheets side by side with the reference: cut-off, overlap, contrast, "would this frame fit inside the
+sound density · numbers exactly as spoken · names spelled as in the script · every file exists · the LAYOUT SCAN: text on
+text, over a face, over the hero, off the edge, too crowded — measured in the render browser; fix, or accept ON PURPOSE in
+gate-ok.json) and needs your own review confirmed (sheets side by side with the reference: contrast, "would this frame fit inside the
 reference video?", YouTube-safe). NOT READY → fix the REAL issues (THE ROAD) → run it again. A deliberate choice →
 `videos/<slug>/gate-ok.json` {"items":[{"match","why"}]}. Max 3 failing rounds → stop and tell the owner. GO writes
 `render-gate.json`; any later change voids it, and `cloud.mjs render` refuses without a valid GO (previews too).

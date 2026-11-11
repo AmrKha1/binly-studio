@@ -10,7 +10,7 @@ import {clamp01, countCurve, ease, flyOut, lerp, popRef, pressIn} from './anim';
 import {isAr} from './lang';
 import {GlowText, N, NPill, nightFont, textWidth} from './night';
 import type {PillKind} from './night';
-import {uid} from './stage';
+import {lb, uid} from './stage';
 import {cueSfx} from './sfx';
 
 const OUT = N.outline;
@@ -814,7 +814,7 @@ export const AlertBanner: React.FC<{t: number; at: number; x: number; y: number;
   const icX = isAr() ? w / 2 - stripe - hgt * 0.5 : -w / 2 + stripe + hgt * 0.5;
   const txX = isAr() ? icX - hgt * 0.5 - size * 0.3 : icX + hgt * 0.5 + size * 0.3;
   return (
-    <g transform={`translate(${x + f.dx} ${y + f.dy})`} opacity={f.o}>
+    <g transform={`translate(${x + f.dx} ${y + f.dy})`} opacity={f.o} {...lb('text', id)}>
       {ring < 1 && <rect x={left - ring * 120} y={top - ring * 70} width={w + ring * 240} height={hgt + ring * 140} rx={hgt / 2 + ring * 70} fill="none" stroke={body[0]} strokeWidth={10 * (1 - ring)} opacity={0.8 * (1 - ring)} />}
       <g transform={`scale(${q.s})`} opacity={q.o}>
         <defs>

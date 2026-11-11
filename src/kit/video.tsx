@@ -56,8 +56,10 @@ const NightChapters: React.FC<{t: number; chapters: ChapterDef[]}> = ({t, chapte
       </>
     );
   } else body = page(cur, kind === 'match' && prev ? {transform: `scale(${settle})`} : undefined);
+  const joining = (prev && t < cur.start + Math.max(dur, 0.5)) || (nextWipe && t >= next.start - JOIN_DUR.wipe / 2);
   return (
     <>
+      {joining && <div data-lb-join="1" />}
       {body}
       {kind === 'flash' && prev && t < cur.start + 0.5 && <Overlay><Flash t={t} at={cur.start} /></Overlay>}
       {kind === 'wipe' && prev && t < cur.start + JOIN_DUR.wipe / 2 && <Overlay><StripeWipe t={t} at={cur.start - JOIN_DUR.wipe / 2} /></Overlay>}

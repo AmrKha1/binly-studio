@@ -1,9 +1,9 @@
 {
  "go": true,
  "slug": "ar-reel",
- "at": "2026-11-11T20:54:21.990Z",
+ "at": "2026-11-11T21:30:11.069Z",
  "fingerprint": "12ee3fdd9839f5769cabb8d7d523c689cad0d403",
- "reviewed": "reel v2: scenes joined with NightShots (match dissolves, one chapter wipe), host pinned + fades, Khedive walk eased with move(); joins checked on stills 7.45–7.85, 14.05–14.6, 33.98–34.5; new sound library",
+ "reviewed": "layout scan added; reel unchanged since GO",
  "accepted": [
   {
    "match": "SIGNATURE",
@@ -34,6 +34,10 @@
   },
   {
    "at": "2026-11-11T20:54:21.991Z",
+   "issues": 0
+  },
+  {
+   "at": "2026-11-11T21:30:11.070Z",
    "issues": 0
   }
  ]

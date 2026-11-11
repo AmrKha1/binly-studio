@@ -6,7 +6,7 @@ import React from 'react';
 import {Img, staticFile} from 'remotion';
 import {clamp01, countCurve, countUp, ease, lerp, phaseOf, popRef, pressIn, rand} from './anim';
 import {H, W} from './theme';
-import {uid} from './stage';
+import {lb, uid} from './stage';
 import {GlowText, N, NPill, nightFont, textWidth, Tone} from './night';
 import {isAr} from './lang';
 import {cueSfx} from './sfx';
@@ -75,7 +75,7 @@ export const CountNumber: React.FC<{t: number; at: number; value: string; x: num
   const k = from + (1 - from) * countCurve(p);
   const q = popRef(clamp01((t - at) / 0.3));
   return (
-    <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
+    <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o} {...lb('text', id)}>
       <GlowText text={countUp(value, k)} x={0} y={0} size={size} tone={p >= 1 ? tone : 'white'} id={id} />
     </g>
   );
@@ -91,7 +91,7 @@ export const Stamp: React.FC<{t: number; at: number; text: string; x: number; y:
   const pr = pressIn((t - at) / 0.165);
   const w = textWidth(text, size) + size * 0.9, h = size * 1.45;
   return (
-    <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${pr.s})`} opacity={pr.o * 0.92}>
+    <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${pr.s})`} opacity={pr.o * 0.92} {...lb('text', `stamp-${at}`)}>
       <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={size * 0.2} fill={color} fillOpacity={0.1} stroke={color} strokeWidth={size * 0.09} />
       <text x={0} y={size * 0.05} fontSize={size} fontFamily={nightFont()} fontWeight={WEIGHT()} textAnchor="middle" dominantBaseline="central" fill={color} stroke="none">
         {text}
@@ -136,7 +136,7 @@ export const Bubble: React.FC<{t: number; at: number; lines: string[]; x: number
   return (
     <g transform={`translate(${tx} ${ty}) scale(${q.sx * back} ${q.sy * back}) translate(${-ox} ${-oy})`} opacity={q.o}>
       <path d={`M${tb - size * 0.45} ${h / 2 - sw} L${ox} ${oy} L${tb + size * 0.45} ${h / 2 - sw} Z`} fill="#FFFFFF" stroke={N.outline} strokeWidth={sw} strokeLinejoin="round" />
-      <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={size * 0.6} fill="#FFFFFF" stroke={N.outline} strokeWidth={sw} />
+      <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={size * 0.6} fill="#FFFFFF" stroke={N.outline} strokeWidth={sw} {...lb('bubble', `bubble-${at}`)} />
       <rect x={tb - size * 0.38} y={h / 2 - sw * 1.6} width={size * 0.76} height={sw * 2.2} fill="#FFFFFF" />
       {icon && <g transform={`translate(${-w / 2 + size * 0.6 + iconW / 2} 0)`}>{icon}</g>}
       {lines.map((l, i) => (
@@ -319,6 +319,7 @@ export const HeroObject: React.FC<{t: number; at?: number; src?: string; draw?: 
     const g = uid('nhero', id);
     return (
       <g transform={`translate(${x} ${y + dy + fl}) scale(${q.sx} ${q.sy})`} opacity={q.o * fade}>
+      <rect x={-w / 2} y={-h / 2} width={w} height={h} fill="none" stroke="none" {...lb('object', id)} />
         <defs>
           <filter id={`${g}-glow`} x="-70%" y="-70%" width="240%" height="240%">
             <feFlood floodColor={glow} result="c" />
@@ -346,6 +347,7 @@ export const HeroObject: React.FC<{t: number; at?: number; src?: string; draw?: 
   const file = staticFile(src);
   return (
     <g transform={`translate(${x} ${y + dy + fl}) scale(${q.sx} ${q.sy})`} opacity={q.o * fade}>
+      <rect x={-w / 2} y={-h / 2} width={w} height={h} fill="none" stroke="none" {...lb('object', id)} />
       <foreignObject x={-w / 2 - 60} y={-h / 2 - 60} width={w + 120} height={h + 120}>
         <div style={{position: 'relative', width: w + 120, height: h + 120}}>
           <Img src={file} style={{position: 'absolute', left: 60, top: 60, width: w, height: h, filter: `drop-shadow(0 0 10px ${glow}) drop-shadow(0 0 34px ${glow}aa)`}} />

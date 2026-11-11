@@ -8,8 +8,9 @@
 //   1 voice locked and unchanged · 2 project check (night look only, no raw photos, language, determinism, types)
 //   · phone-size text · 3 plan-check (structure like the reference) · 4 sync-check (WEAK sentences, FROZEN and BLANK
 //   frames) · 5 sound density (QUIET / LOW) · 6 every number on screen was SPOKEN (transcript/script) · 7 names
-//   spelled as in the script (screen words one letter away from a spoken word) · 8 every image/file the video uses exists.
-// The director's own review (items the tools cannot judge: cut-off/overlap, contrast, "would this frame fit inside the
+//   spelled as in the script (screen words one letter away from a spoken word) · 8 every image/file the video uses exists
+//   · 4b LAYOUT (text on text, over a face, over the hero, off the edge, too crowded — measured, not guessed).
+// The director's own review (items the tools cannot judge: contrast, "would this frame fit inside the
 // reference video?", YouTube-safe) is confirmed with --reviewed. Max 3 failing rounds → stop and report to the owner.
 // GO = videos/<slug>/render-gate.json {go, fingerprint}: any later change to the video's code/sound/plan voids it.
 import fs from 'node:fs';
@@ -64,6 +65,17 @@ if (!a['skip-sync']) {
   if (r.status !== 0 && !/sync-check:/.test(r.stdout)) {
     const img = (r.stdout + r.stderr).match(/Error loading image with src: (\S+)/);
     add('sync', img ? `the video cannot render: missing image ${img[1].replace(/^https?:\/\/[^/]+\/public\//, 'public/')} (see [files])` : 'sync-check did not finish (a render error) — run node tools/sync-check.mjs to see it');
+  }
+}
+// 4b LAYOUT SCAN (owner 2026-11-11: no overlapping things): the real box of every text/face/hero object, measured in the
+// render browser → TEXT ON TEXT · OVER A FACE · OVER THE HERO · OFF THE EDGE · TOO CROWDED (tools/layout-scan.mjs)
+if (!a['skip-layout']) {
+  const act = fs.readFileSync(path.join(ROOT, 'src', 'active.ts'), 'utf8').match(/videos\/([^']+)'/)?.[1];
+  if (act !== slug) add('layout', `the layout scan measures the ACTIVE video — run node tools/activate.mjs ${slug} first`);
+  else {
+    const r = run('layout-scan.mjs');
+    (r.stdout + r.stderr).split(/\r?\n/).filter((l) => /^\s+[\d.]+–[\d.]+ s\s+(TEXT ON TEXT|OVER A FACE|OVER THE HERO|OFF THE EDGE|TOO CROWDED)/.test(l)).forEach((l) => add('layout', l));
+    if (r.status !== 0 && !/LAYOUT SCAN/.test(r.stdout)) add('layout', 'the layout scan did not finish — run node tools/layout-scan.mjs to see why');
   }
 }
 // 5 sound density (Arabic = the owner's pick B)

@@ -5,7 +5,7 @@
 import React from 'react';
 import {clamp01, mixHex, phaseOf, rand} from './anim';
 import {H, W} from './theme';
-import {uid} from './stage';
+import {lb, uid} from './stage';
 import {N, nightFont, textWidth} from './night';
 import {isAr} from './lang';
 import {cueSfx} from './sfx';
@@ -1233,7 +1233,7 @@ export const StoryPerson: React.FC<{
       {hairBack}
       {hatBack}
       <circle cx={0} cy={head} r={rf + 10} fill={rim} opacity={0.45} filter={`url(#${f})`} />
-      <circle cx={0} cy={head} r={rf} fill={SP_SKIN} stroke={rim} strokeWidth={8} />
+      <circle cx={0} cy={head} r={rf} fill={SP_SKIN} stroke={rim} strokeWidth={8} {...lb('head', id)} />
       {beardEl}
       {glassesEl}
       {hairFront}

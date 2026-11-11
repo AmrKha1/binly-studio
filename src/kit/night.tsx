@@ -9,7 +9,7 @@ import {ImageHost} from './image-host';
 import type {HostMove} from './host';
 import {FONT_AR, isAr} from './lang';
 import {FONT_SERIF, H, W} from './theme';
-import {uid} from './stage';
+import {lb, uid} from './stage';
 import {cueSfx} from './sfx';
 
 /** Measured palette (STYLE-BIBLE §3). */
@@ -226,7 +226,7 @@ export const WordPop: React.FC<{t: number; words: PopWord[]; y: number; size: nu
     cueSfx('popup', `wordpop-${id}-${i}-${w.at}`, t >= w.at && t < w.at + 0.3, rtl ? (right ?? W - 120) : (left ?? 120), {at: w.at, hit: key ? 0.125 : 0.08});
   });
   return (
-    <g opacity={fade}>
+    <g opacity={fade} {...lb('text', id)}>
       {words.map((w, i) => {
         const cx = rtl ? cursor - ws[i] / 2 : cursor + ws[i] / 2;
         cursor = rtl ? cursor - ws[i] - sp : cursor + ws[i] + sp;
@@ -269,7 +269,7 @@ export const NPill: React.FC<{text: string; x: number; y: number; size?: number;
   const h = size * 1.65, w = textWidth(text, size) + size * 1.5;
   const q = popRef(p, 0.45, 0.2);
   return (
-    <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
+    <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o} {...lb('text', id)}>
       <defs>
         <linearGradient id={g} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor={k.top} />
@@ -356,7 +356,7 @@ export const YearBadge: React.FC<{t: number; at: number; year: number; from?: nu
   const w = textWidth(String(year), size) + size * 0.8, h = size * 1.4; // measured 0:40.6: box ≈ 1.4× the digit size
   const q = popRef(p, 0.45, 0.4);
   return (
-    <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
+    <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o} {...lb('text', id)}>
       <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={size * 0.22} fill={N.badge} stroke={N.gold} strokeWidth={size * 0.045} />
       <GlowText text={String(shown)} x={0} y={size * 0.04} size={size} tone="gold" id={id + '__n'} outline={0.5} />
       {label && <NPill text={label} x={0} y={-h / 2} size={size * 0.3} kind="gold" id={id + '__l'} />}

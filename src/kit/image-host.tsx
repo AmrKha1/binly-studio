@@ -5,6 +5,7 @@ import {cueSfx} from './sfx';
 import {HostMove, MOVE_SFX, hostMove} from './host';
 import {HOST_IMAGES, HostImageWho} from './host-images';
 import {isAr} from './lang';
+import {lb} from './stage';
 
 /** The channel's host follows the video language: English → ODDESTORY, Arabic → AZTIKA (never mixed). */
 export const channelHost = (): HostImageWho => (isAr() ? 'aztika' : 'oddestory');
@@ -82,7 +83,7 @@ export const ImageHost: React.FC<{
       {full && shadow && <ellipse cx={0} cy={2} rx={dw * 0.32} ry={dh * 0.018} fill="#2B2420" opacity={0.12} />}
       <g transform={`translate(0 ${-float - step}) scale(${(flip ? -1 : 1) * sx} ${sy * breath * talkB})`}>
         <foreignObject x={-dw / 2} y={-dh} width={dw} height={dh}>
-          <Img src={staticFile(`_hosts/${who}/${name}.png`)} style={{width: dw, height: dh, display: 'block'}} />
+          <Img src={staticFile(`_hosts/${who}/${name}.png`)} style={{width: dw, height: dh, display: 'block'}} {...lb('host', 'host')} />
         </foreignObject>
       </g>
     </g>

@@ -7,7 +7,7 @@
 import React from 'react';
 import {clamp01, ease, lerp, popRef, rand, spring} from './anim';
 import {H, W} from './theme';
-import {uid} from './stage';
+import {lb, uid} from './stage';
 import {N, nightFont, NPill, PillKind, textWidth} from './night';
 import {isAr} from './lang';
 import {cueSfx} from './sfx';
@@ -445,7 +445,7 @@ export const MarkPill: React.FC<{t: number; at: number; text: string; x: number;
   const mx = x + (rtl ? 1 : -1) * (w / 2 + size * 0.9);
   const q = popRef(p, 0.45, 0.3);
   return (
-    <g>
+    <g {...lb('text', id)}>
       <g transform={`translate(${mx} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
         <Mark kind={mark} x={0} y={0} r={size * 0.55} />
       </g>

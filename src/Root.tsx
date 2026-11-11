@@ -6,6 +6,7 @@ import {active} from './active';
 import {GALLERY} from './gallery';
 import {VideoAudio} from './kit/audio';
 import {setLang} from './kit/lang';
+import {LayoutProbe} from './probe/LayoutProbe';
 
 // Compositions:
 //  Main    — the active video (src/active.ts points at src/videos/<slug>). Full length, 60 fps.
@@ -88,6 +89,8 @@ const Gallery: React.FC<{page: string; lang?: string}> = ({page, lang}) => {
 export const RemotionRoot: React.FC = () => (
   <>
     <Composition id="Main" component={Main} durationInFrames={Math.max(1, Math.ceil(active.meta.duration * FPS))} fps={FPS} width={W} height={H} />
+    {/* tools/layout-scan.mjs: the active video + the real box of every tagged piece (no picture needed) */}
+    <Composition id="LayoutProbe" component={LayoutProbe} durationInFrames={Math.max(1, Math.ceil(active.meta.duration * FPS))} fps={FPS} width={W} height={H} />
     <Composition
       id="Sheet"
       component={Sheet as React.FC<Record<string, unknown>>}
