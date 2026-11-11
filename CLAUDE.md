@@ -22,7 +22,26 @@ finish each step in one round, and use the Studio's docs and tools first, resear
 video has only Arabic on screen (names written in Arabic letters, digits 123 are fine) and only AZTIKA. The host follows
 the language automatically (omit `who`); `node tools/check.mjs` FAILS on any mix. Flow art prompts stay in English
 (they never put text in images). English and Arabic Binly. An Arabic script → `"lang": "ar"` (Arabic fonts + right-to-left
-layout are automatic; see PLAYBOOK "Arabic videos"). Look for both: WHITE MODE + elegant glow.
+layout are automatic; see PLAYBOOK "Arabic videos"). English look: WHITE MODE + elegant glow. **Arabic look: the reference
+video — see "ARABIC VIDEO = MAKE IT LIKE THE REFERENCE VIDEO" below.**
+## ARABIC VIDEO = MAKE IT LIKE THE REFERENCE VIDEO (the owner's #1 rule for AZTIKA)
+When `videos/<slug>/video.json` has `"lang": "ar"`, there is ONE target: the model video «وش أغلى شيء في الكون؟»
+(`references/universe-claude/`) — its look, structure, motion, sound and images. Never Binly's English white style.
+- **LOOK** — the night look only: `kit/night*` pieces (docs/kit/night.md) — deep indigo/space stages, the podium game
+  board, glowing heavy Arabic text (white + ONE gold key word), pills, rays, sparkles. NEVER white mode, paper, white
+  templates/cards/diagrams/archival shots — `node tools/check.mjs` FAILS an Arabic video that imports them.
+- **STRUCTURE** — RECIPE.md: one question → a game board that grows → mini-stories → back to the board → twist →
+  sign-off. Each chapter is matched to the reference chapter of the same KIND (CHAPTERS.md).
+- **MOTION** — MOTION.md (measured frame by frame): the night kit already moves like the reference; custom pieces use
+  the same curves (`popRef`, `pressIn`, `countCurve`, `pushT`, `settleT`, `flyOut`, `boardCamT`). Never a frozen frame.
+- **SOUND** — SOUND.md: the night kit plays the reference's sound map by itself; no music.
+- **IMAGES** — illustrated like the reference: hero art (HeroObject) + story characters; a real face only in NightPortrait.
+- **WHEN UNSURE, LOOK AT THE REFERENCE** — the contact sheet of the matching chapter (CHAPTERS.md → `references/
+  universe-claude/shots/shots-NN.jpg`), a strip of the moment (`node tools/watch.mjs strip universe-claude --at <s>`), its sound
+  (`node tools/ref-sfx.mjs universe-claude --list --from a --to b`). Do what it does. Our own edit only where RECIPE /
+  MOTION / SOUND say "our edit", and only when it is clearly better.
+- Everything elsewhere in the docs about WHITE MODE, paper, archival templates and English hosts is ENGLISH-ONLY.
+
 The user puts a voiceover + script in `input/` (the VOICEOVER is the truth — timing and wording follow what was said;
 the script only fixes spelling of names/numbers) and uses these commands (skills):
 - **/make-video** (also "make the video" / "continue the video") → the full production pipeline in

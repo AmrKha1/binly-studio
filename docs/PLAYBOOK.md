@@ -136,7 +136,8 @@ the archival rules above.)
 
 ### Arabic videos (one Studio, two channels — owner, 2026-10-20)
 - A video is Arabic when its `video.json` has `"lang": "ar"` (auto-detected from an Arabic script by new-video.mjs).
-  Same Binly look (white mode, gold glow, pills); the kit switches automatically: every font → **Baloo Bhaijaan 2 heavy**
+  The LOOK is the reference video's night look (see "ARABIC (AZTIKA) = THE NIGHT LOOK" above — never white mode); the kit
+  switches automatically: every font → **Baloo Bhaijaan 2 heavy**
   (rounded bold — the owner's pick; hand notes → Marhey), no letter-spacing, no italics, and the whole layout is MIRRORED
   right-to-left (lists, timelines, arrows, comparisons read right→left). Photos and maps keep their real orientation.
 - **Language guard:** check.mjs fails if an Arabic video shows English sentences or ODDESTORY, or an English video shows
@@ -185,7 +186,7 @@ the archival rules above.)
 ### Channel owner's preferences (grows with every video — follow them like rules)
 One line each, added when the owner states a preference (style check, polish notes). Only lasting preferences,
 not one-off fixes. Keep ≤ 15 lines: merge similar ones.
-- WHITE MODE + ELEGANT GLOW (both channels, 2026-10-20): clean white pages, gold glowing key word/number, glowing
+- WHITE MODE + ELEGANT GLOW (ENGLISH channel — for Arabic replaced 2026-11-08 by the reference's night look): clean white pages, gold glowing key word/number, glowing
   rounded pills (GlowPill) for labels, hero objects glow (soft halo + a few twinkling sparkles). Reference: the owner's
   pick in .cache/arabic-font-test.html (A3). Dark only when the scene itself is dark.
 - **Words support, never replace (owner):** no frame or scene made only of text. Every idea is shown with a scene,

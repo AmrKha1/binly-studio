@@ -1,5 +1,23 @@
 # Binly production pipeline (loaded by /make-video and "continue the video")
 
+## ARABIC VIDEO = MAKE IT LIKE THE REFERENCE VIDEO (the owner's #1 rule for AZTIKA)
+When `videos/<slug>/video.json` has `"lang": "ar"`, there is ONE target: the model video «وش أغلى شيء في الكون؟»
+(`references/universe-claude/`) — its look, structure, motion, sound and images. Never Binly's English white style.
+- **LOOK** — the night look only: `kit/night*` pieces (docs/kit/night.md) — deep indigo/space stages, the podium game
+  board, glowing heavy Arabic text (white + ONE gold key word), pills, rays, sparkles. NEVER white mode, paper, white
+  templates/cards/diagrams/archival shots — `node tools/check.mjs` FAILS an Arabic video that imports them.
+- **STRUCTURE** — RECIPE.md: one question → a game board that grows → mini-stories → back to the board → twist →
+  sign-off. Each chapter is matched to the reference chapter of the same KIND (CHAPTERS.md).
+- **MOTION** — MOTION.md (measured frame by frame): the night kit already moves like the reference; custom pieces use
+  the same curves (`popRef`, `pressIn`, `countCurve`, `pushT`, `settleT`, `flyOut`, `boardCamT`). Never a frozen frame.
+- **SOUND** — SOUND.md: the night kit plays the reference's sound map by itself; no music.
+- **IMAGES** — illustrated like the reference: hero art (HeroObject) + story characters; a real face only in NightPortrait.
+- **WHEN UNSURE, LOOK AT THE REFERENCE** — the contact sheet of the matching chapter (CHAPTERS.md → `references/
+  universe-claude/shots/shots-NN.jpg`), a strip of the moment (`node tools/watch.mjs strip universe-claude --at <s>`), its sound
+  (`node tools/ref-sfx.mjs universe-claude --list --from a --to b`). Do what it does. Our own edit only where RECIPE /
+  MOTION / SOUND say "our edit", and only when it is clearly better.
+- Everything elsewhere in the docs about WHITE MODE, paper, archival templates and English hosts is ENGLISH-ONLY.
+
 You are the **director/producer**. You deliver a finished, high-quality 10–15 min animated video in
 `videos/<slug>/output/` **in this one session**, by planning and delegating — not by writing chapters yourself.
 Work autonomously; ask the user only where this pipeline says so or if something truly blocks you.
@@ -64,7 +82,7 @@ that art/prompts.md is ready to paste into Flow by hand, and continue — chapte
 scenes (GlowBackdrop/GlowFloor, templates); swap art in later with `node tools/art.mjs ingest <slug> --dir input`.
 Where art goes: the planner writes, per scene, its CODE version (always) + optional FLOW upgrade (≤ 12 images per video,
 only where it clearly adds value: the hook, the main places, the climax). Build every chapter with the code version first
-so the video is complete; when Flow art arrives, swap it into the marked scenes. WHITE MODE for explanations, numbers,
+so the video is complete; when Flow art arrives, swap it into the marked scenes. (English) WHITE MODE for explanations, numbers,
 lists, timelines and infographics — alternate with story scenes for rhythm.
 
 **2 · Plan** (your most important work — this is where quality is decided). Read `videos/<slug>/timing/transcript.md`
@@ -259,7 +277,8 @@ list to the chapter's builder); an intentional payoff hold is fine — leave it.
 with a visual beat that cues its own sound (pill, label, count, path dot) — never a sound with nothing on screen. The
 render applies the 34/min cap and the silence after the sign-off by itself.
 
-**5d · High-end editor pass (once, before the final render)** — check THE LOOK (PLAYBOOK: clean bright polished, no
+**5d · High-end editor pass (once, before the final render)** — check THE LOOK (Arabic: side by side with the reference's
+contact sheets — does every frame look like it belongs in «وش أغلى شيء في الكون؟»? · English: PLAYBOOK clean bright polished, no
 yellow/dark/murky/cheap frames) and watch the whole video as contact sheets at 2 s spacing
 (`node tools/sheet.mjs --from a --to b --n 30` per ~1 min) with RETENTION §12 in mind: any second where nothing changes,
 a slow entrance/fade, a long transition, a sag in the middle without a re-hook, a hook that doesn't deliver the

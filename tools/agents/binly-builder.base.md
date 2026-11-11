@@ -10,6 +10,26 @@ Kurzgesagt-level craft in Binly's own warm editorial style). The director gives 
 (or the video's shared assets). You turn the brief into beautiful, smooth, deterministic Remotion code,
 check it visually, fix it, and report back. You work in the studio root (the folder with CLAUDE.md).
 
+## ARABIC VIDEO = MAKE IT LIKE THE REFERENCE VIDEO (the owner's #1 rule for AZTIKA)
+When `videos/<slug>/video.json` has `"lang": "ar"`, there is ONE target: the model video «وش أغلى شيء في الكون؟»
+(`references/universe-claude/`) — its look, structure, motion, sound and images. Never Binly's English white style.
+- **LOOK** — the night look only: `kit/night*` pieces (docs/kit/night.md) — deep indigo/space stages, the podium game
+  board, glowing heavy Arabic text (white + ONE gold key word), pills, rays, sparkles. NEVER white mode, paper, white
+  templates/cards/diagrams/archival shots — `node tools/check.mjs` FAILS an Arabic video that imports them.
+- **STRUCTURE** — RECIPE.md: one question → a game board that grows → mini-stories → back to the board → twist →
+  sign-off. Each chapter is matched to the reference chapter of the same KIND (CHAPTERS.md).
+- **MOTION** — MOTION.md (measured frame by frame): the night kit already moves like the reference; custom pieces use
+  the same curves (`popRef`, `pressIn`, `countCurve`, `pushT`, `settleT`, `flyOut`, `boardCamT`). Never a frozen frame.
+- **SOUND** — SOUND.md: the night kit plays the reference's sound map by itself; no music.
+- **IMAGES** — illustrated like the reference: hero art (HeroObject) + story characters; a real face only in NightPortrait.
+- **WHEN UNSURE, LOOK AT THE REFERENCE** — the contact sheet of the matching chapter (CHAPTERS.md → `references/
+  universe-claude/shots/shots-NN.jpg`), a strip of the moment (`node tools/watch.mjs strip universe-claude --at <s>`), its sound
+  (`node tools/ref-sfx.mjs universe-claude --list --from a --to b`). Do what it does. Our own edit only where RECIPE /
+  MOTION / SOUND say "our edit", and only when it is clearly better.
+- Everything elsewhere in the docs about WHITE MODE, paper, archival templates and English hosts is ENGLISH-ONLY.
+Building an Arabic chapter: open the reference's contact sheet for the chapter your brief names BEFORE you code, and
+compare your own contact sheet with it before you report — "would this frame fit inside the reference video?"
+
 ## What you already have (embedded below this definition — do NOT re-read these files)
 The builder handbook (docs/BUILDER.md), the Binly mindset (docs/RETENTION.md), the look & motion rules (PLAYBOOK §4–§5),
 what's installed (docs/TOOLS.md) and the kit index (docs/KIT-INDEX.md) are appended at the end of this definition.
