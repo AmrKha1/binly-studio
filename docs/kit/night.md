@@ -31,7 +31,7 @@ section — that was the harsh part.
   hud={(t) => <HostTrack…/>}/>`. Default join `match`: the old scene drifts forward and fades while the new one dissolves
   in and SETTLES (settleT) + a soft whoosh. Other joins: `dissolve` (softer) · `wipe` (StripeWipe — once per CHAPTER, a
   time jump) · `flash` (a cut under the white flash — a slam/reveal) · `cut` (a punchline only). `carry` flies a hero
-  object from the old scene into its place in the new one (the reference's match-move). Every shot DRIFTS by itself
+  object from the old scene into its place in the new one (the reference's match-move). `settle`: how strongly the new scene zooms in (default 0.53 = the reference) — use ≈ 0.08 when the shot's main piece makes its OWN entrance at the start (a screen, a panel): two entrances at once read as a punch. Every shot DRIFTS by itself
   (pushT) — `drift: false` only for scenes with their own camera (boards, stairs). `hud` = pinned to the screen (the
   host): it never zooms with a scene; the host leaves with `exit: {kind: 'fadeOut'}`, returns with `riseSoft`.
 - **Move things with `move(t, at, from, to)` / `moveTo(…)`** (kit/night-scenes): eased in and out, and never faster than
