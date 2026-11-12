@@ -12,7 +12,7 @@ import {active} from '../active';
 import {FPS} from '../kit/theme';
 import {setLang} from '../kit/lang';
 import {popRef} from '../kit/anim';
-import {nightFont} from '../kit/night';
+import {nightFont, textWidth} from '../kit/night';
 
 export type ShortProps = {from: number; to: number; title: [string, string]; words: {w: string; s: number; e: number}[]; freeze?: number; pill?: string};
 export const SW = 1080, SH = 1920;
@@ -38,6 +38,35 @@ const phrases = (words: ShortProps['words']) => {
   }
   if (cur.length) out.push(cur);
   return out;
+};
+
+/** the subtitle line: each word placed on its own (right → left), so the word being SPOKEN can turn gold AND swell a
+ *  little (1 → 1.12 → 1 in 0.22 s, one smooth swell — owner 2026-11-12: "a slight pop and settle"). The gaps leave room
+ *  for the swell, so neighbours never move or touch. */
+const SUB = 74;
+const SubLine: React.FC<{words: ShortProps['words']; t: number}> = ({words, t}) => {
+  const ws = words.map((w) => textWidth(w.w, SUB));
+  const gaps = ws.map((w, i) => (i < ws.length - 1 ? Math.max(SUB * 0.3, 0.08 * (w + ws[i + 1])) : 0));
+  let right = SW / 2 + (ws.reduce((a, b) => a + b, 0) + gaps.reduce((a, b) => a + b, 0)) / 2;
+  return (
+    <g>
+      {words.map((w, i) => {
+        const cx = right - ws[i] / 2;
+        right -= ws[i] + gaps[i];
+        const on = t >= w.s - 0.03 && t < (words[i + 1]?.s ?? w.e + 0.3);
+        const u = (t - (w.s - 0.03)) / 0.22;
+        const sc = u > 0 && u < 1 ? 1 + 0.12 * Math.sin(Math.PI * u) : 1;
+        return (
+          <g key={i} transform={`translate(${cx} ${SHORT_LAYOUT.subs}) scale(${sc})`}>
+            <text x={0} y={0} textAnchor="middle" dominantBaseline="central" direction="rtl" fontFamily={nightFont()} fontWeight={900} fontSize={SUB}
+              fill={on ? GOLD : '#FFFFFF'} stroke={OUT} strokeWidth={SUB * 0.18} strokeLinejoin="round" paintOrder="stroke" style={{filter: 'drop-shadow(0 6px 10px rgba(0,0,0,0.55))'}}>
+              {w.w}
+            </text>
+          </g>
+        );
+      })}
+    </g>
+  );
 };
 
 export const Short: React.FC<ShortProps> = ({from, to, title, words, freeze = 3.5, pill = 'الفيديو الكامل على القناة'}) => {
@@ -68,13 +97,7 @@ export const Short: React.FC<ShortProps> = ({from, to, title, words, freeze = 3.
         <Txt y={L.title1} size={92}>{title[0]}</Txt>
         <Txt y={L.title2} size={118} fill={GOLD}>{title[1]}</Txt>
         {/* the spoken words: white, the word being said lights up gold */}
-        {g && (
-          <Txt y={L.subs} size={74} stroke={0.18}>
-            {g.map((w, i) => (
-              <tspan key={i} fill={t >= w.s - 0.03 && t < (g[i + 1]?.s ?? w.e + 0.3) ? GOLD : '#FFFFFF'}>{(i ? ' ' : '') + w.w}</tspan>
-            ))}
-          </Txt>
-        )}
+        {g && <SubLine words={g} t={t} />}
         {/* the red pill — pinned for the whole Short (it swells once when the outro voice says it) */}
         <g transform={`translate(${SW / 2} ${L.pill}) scale(${pillPop.sx} ${pillPop.sy})`}>
           <rect x={-L.pillW / 2} y={-L.pillH / 2} width={L.pillW} height={L.pillH} rx={L.pillH / 2} fill={RED} stroke={OUT} strokeWidth={6} />
