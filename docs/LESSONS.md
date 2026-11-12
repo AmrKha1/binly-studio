@@ -1,5 +1,7 @@
 # Lessons learned (append 1–5 short lines after every video)
 
+
+**ARABIC VIDEOS FINISHED: 0** (raise it after each final render; the full-video review pass stays full until 3 — PIPELINE "SMART REVIEW")
 > Lessons before 2026-10-20 were written for the OLD style (cream paper, Fraunces/Inter caps, music, small labels).
 > Where one contradicts PLAYBOOK / RETENTION / BUILDER, the docs win — lines marked (old style) are history only.
 
