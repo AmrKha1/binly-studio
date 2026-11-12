@@ -7,6 +7,7 @@ import {GALLERY} from './gallery';
 import {VideoAudio} from './kit/audio';
 import {setLang} from './kit/lang';
 import {LayoutProbe} from './probe/LayoutProbe';
+import {Short, shortFrames, SW as SHORT_W, SH as SHORT_H, type ShortProps} from './short/Short';
 
 // Compositions:
 //  Main    — the active video (src/active.ts points at src/videos/<slug>). Full length, 60 fps.
@@ -90,6 +91,10 @@ export const RemotionRoot: React.FC = () => (
   <>
     <Composition id="Main" component={Main} durationInFrames={Math.max(1, Math.ceil(active.meta.duration * FPS))} fps={FPS} width={W} height={H} />
     {/* tools/layout-scan.mjs: the active video + the real box of every tagged piece (no picture needed) */}
+    {/* tools/short.mjs: the vertical hook Short of the active video (props: from, to, title, words, freeze) */}
+    <Composition id="Short" component={Short as unknown as React.FC<Record<string, unknown>>} durationInFrames={60} fps={FPS} width={SHORT_W} height={SHORT_H}
+      defaultProps={{from: 0, to: 5, title: ['عنوان', 'الشورت'], words: [], freeze: 3.5} as unknown as Record<string, unknown>}
+      calculateMetadata={({props}) => ({durationInFrames: shortFrames(props as unknown as ShortProps)})} />
     <Composition id="LayoutProbe" component={LayoutProbe} durationInFrames={Math.max(1, Math.ceil(active.meta.duration * FPS))} fps={FPS} width={W} height={H} />
     <Composition
       id="Sheet"

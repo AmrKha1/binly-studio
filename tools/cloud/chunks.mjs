@@ -5,7 +5,8 @@ import fs from 'node:fs';
 const [, , slug, fromS, toS, chunkS] = process.argv;
 const FPS = 60;
 const meta = JSON.parse(fs.readFileSync(`videos/${slug}/video.json`, 'utf8'));
-const total = Math.ceil(meta.duration * FPS);
+// the picture may run past the voice (video.json "tail": the CTA hold after the last word) — render those frames too
+const total = Math.ceil((meta.duration + (meta.tail ?? meta.endScreen ?? 0)) * FPS);
 const a0 = fromS ? Math.max(0, Math.floor(Number(fromS) * FPS)) : 0;
 const b0 = toS ? Math.min(total - 1, Math.ceil(Number(toS) * FPS) - 1) : total - 1;
 const per = Math.max(600, Math.round(Number(chunkS || 75) * FPS));
