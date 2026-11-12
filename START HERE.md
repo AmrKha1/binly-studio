@@ -26,11 +26,25 @@ Your PC only does light work (planning and small preview pictures). The heavy re
 - `videos/<name>/output/<name>.mp4` — the video (fixed versions: `-v2`, `-v3` … highest = newest)
 - `videos/<name>/youtube/` — `description.md` (paste into YouTube: hook line, clickable chapters, credits) and
   `captions.srt` (upload in YouTube Studio → Subtitles; exact script wording, perfectly timed)
+- `videos/<name>/output/<name>-short-1.mp4` — the hook Short (after Stop 4)
 - `videos/<name>/REPORT.md` — what was made and the quality-check results
 
-## No questions during production
-The style is fixed (clean look, hosts, fonts, sound). Claude checks the first chapter against it itself and keeps going
-— it only asks you if something truly can't be decided from the rules.
+## Your 4 stops (everything else runs by itself)
+1. **Stop 1 — the plan:** the chapters, the signature moments ("new vs the last videos"), the new pieces — and whether
+   to use Flow for a few backgrounds/objects. Nothing is built before your OK.
+2. **Stop 2 — chapter 1 preview:** watch the FEEL at full speed (motion, sound) before the rest is built the same way.
+3. **Stop 3 — the final video:** 1440p 60 fps (Arabic), −14 LUFS, checked in the QA report.
+4. **Stop 4 — the hook Short:** ONE vertical Short (1080×1920 60 fps) from the best moment, stopping before the answer —
+   title on top, gold word-by-word subtitles, the red «الفيديو الكامل على القناة» pill, your outro voice at the end.
+   Publish it AFTER the long video and link it to the long video in YouTube Studio ("Related video").
+
+Before ANY render the **Render Gate** checks everything the viewer will see and hear (overlaps, motion, sound, numbers
+as spoken, names as written…) and fixes real problems until it says GO. Arabic videos end on the yellow like/subscribe
+CTA (5 silent seconds to tap).
+
+## Privacy
+Your voiceover and script are unreleased: they go to the cloud SEALED (encrypted) and the temporary upload is deleted
+after the render. Only word timings (numbers, no words) are stored on GitHub.
 
 ## After publishing: make the next video better
 A few days after a video is live, open YouTube Studio → the video → Analytics → Engagement, take screenshots

@@ -35,11 +35,15 @@ else {
 const remote = sh('git', ['remote', 'get-url', 'origin'], {allowFail: true});
 remote ? ok(`GitHub repo: ${remote}`) : no('studio has no GitHub remote', 'ask the user for permission, then: gh repo create binly-studio --public --source . --push');
 
-const input = fs.existsSync(path.join(ROOT, 'input')) ? fs.readdirSync(path.join(ROOT, 'input')).filter((f) => f.toLowerCase() !== 'readme.md') : [];
-const aud = input.filter((f) => /\.(wav|mp3|m4a|flac|aac|ogg)$/i.test(f));
-const txt = input.filter((f) => /\.(txt|md)$/i.test(f));
-if (aud.length === 1) ok(`input voiceover: ${aud[0]}${txt.length ? ` · text: ${txt.join(', ')}` : ' · (no script — timing will use the transcription)'}`);
-else console.log(`• input/: ${aud.length} audio file(s) — ${aud.length ? 'need exactly one' : 'empty (fine if you are continuing an existing video)'}`);
+// input/ = the voiceover (one file, or its PARTS loose or inside ONE folder) + the script .txt (next to them or in the folder)
+const IN = path.join(ROOT, 'input');
+const top = fs.existsSync(IN) ? fs.readdirSync(IN, {withFileTypes: true}).filter((e) => e.name.toLowerCase() !== 'readme.md' && !e.name.startsWith('.')) : [];
+const dirs = top.filter((e) => e.isDirectory()).map((e) => e.name);
+const input = [...top.filter((e) => e.isFile()).map((e) => e.name), ...dirs.flatMap((d) => fs.readdirSync(path.join(IN, d)).map((x) => `${d}/${x}`))];
+const aud = input.filter((f) => /.(wav|mp3|m4a|flac|aac|ogg)$/i.test(f));
+const txt = input.filter((f) => /.(txt|md)$/i.test(f) && !/readme.md$/i.test(f));
+if (aud.length) ok(`input voiceover: ${aud.length === 1 ? aud[0] : `${aud.length} parts${dirs.length ? ` in «${dirs[0]}»` : ''}`}${txt.length ? ` · script: ${txt.join(', ')}` : ' · NO SCRIPT yet — add the .txt (it fixes the spelling of names and numbers)'}`);
+else console.log('• input/: empty (fine if you are continuing an existing video)');
 const active = fs.readFileSync(path.join(ROOT, 'src', 'active.ts'), 'utf8').match(/videos\/([^']+)'/)?.[1];
 console.log(`• active video: ${active}`);
 console.log(bad ? `\n${bad} problem(s) to fix first.` : '\nready.');
