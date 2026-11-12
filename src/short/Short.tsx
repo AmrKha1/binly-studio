@@ -27,13 +27,13 @@ const Txt: React.FC<{y: number; size: number; children: React.ReactNode; fill?: 
   </text>
 );
 
-/** the phrase on screen now: words grouped into short lines (≤ 4 words, or a pause > 0.35 s starts a new one) */
+/** the phrase on screen now: words grouped into short lines (≤ 3 words — owner 2026-11-12, or a pause > 0.35 s starts a new one) */
 const phrases = (words: ShortProps['words']) => {
   const out: ShortProps['words'][] = [];
   let cur: ShortProps['words'] = [];
   for (const w of words) {
     const prev = cur[cur.length - 1];
-    if (cur.length && (cur.length >= 4 || w.s - prev.e > 0.35 || /[.!؟?،,]$/.test(prev.w))) { out.push(cur); cur = []; }
+    if (cur.length && (cur.length >= 3 || w.s - prev.e > 0.35 || /[.!؟?،,]$/.test(prev.w))) { out.push(cur); cur = []; }
     cur.push(w);
   }
   if (cur.length) out.push(cur);
