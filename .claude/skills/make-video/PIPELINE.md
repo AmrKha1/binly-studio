@@ -296,7 +296,8 @@ Against the PLAN, not from scratch — the **mute test** on the sheet (does the 
 the **phone test** (would each frame read on a phone — big subject, a real place, close-ups that land, no empty stage? check one
 `--phone` sheet per chapter: tiles at upright-phone size; text that doesn't read there is too small): the signature moments land as planned, the builder's "Beats:" line (any beat off
 its cue = a sentence over a still frame), focal point, readability, each shot's DONE WHEN met, the builder's "Decided myself"
-items acceptable, nothing broken/empty/colliding. Send back only what
+items acceptable, nothing broken/empty. (Collisions — text on text, over a face, off the edge, crowded — are NOT an eye
+check any more: the layout scan in the Render Gate measures them exactly.) Send back only what
 really matters. Send concrete fixes to the SAME builder with SendMessage
 (it keeps its context). **At most 2 fix rounds per chapter** — after that, anything imperfect but not broken goes on a
 short list for /polish-video; move on. Spot-check only boundaries with a special transition (match cut, ink/iris into a detail): `node tools/sheet.mjs --times <b-0.6>,<b-0.2>,<b+0.2>,<b+0.6>`
@@ -317,6 +318,14 @@ list to the chapter's builder); an intentional payoff hold is fine — leave it.
 (owner's pick B, references/universe-claude/SOUND.md §3): fix each QUIET (> 3.6 s of speech with no sound) and LOW minute
 with a visual beat that cues its own sound (pill, label, count, path dot) — never a sound with nothing on screen. The
 render applies the 34/min cap and the silence after the sign-off by itself.
+
+**SMART REVIEW (owner 2026-11-12 — save images where the tools are proven, spend them where the risk is real):**
+one sheet + one `--phone` sheet per chapter (step 5) = the taste review, never skipped · after a FIX, re-check only the
+fixed moment ± 2 s (a fix can disturb its neighbours), not the whole chapter again · collisions = the layout scan's job ·
+the full-video pass below stays FULL for the first 3 Arabic videos (a new pipeline hides whole-video problems: a jump
+between chapters, a repeated scene type, a rhythm that sags in minute 9); from video 4 on (if videos 1–3 needed no
+whole-video fixes), it shrinks to the chapters changed after their review + the signature moments. Count the Arabic
+videos finished in docs/LESSONS.md.
 
 **5d · High-end editor pass (once, before the final render)** — check THE LOOK (Arabic: side by side with the reference's
 contact sheets — does every frame look like it belongs in «وش أغلى شيء في الكون؟»? · English: PLAYBOOK clean bright polished, no
