@@ -126,7 +126,7 @@ export const RingBell: React.FC<{t: number; at: number; ring: number; x: number;
   );
 };
 /** arrows pointing DOWN to where the real buttons are on a phone (under the video) */
-export const DownArrows: React.FC<{t: number; at: number; x: number; y: number; id: string}> = ({t, at, x, y, id}) => {
+export const DownArrows: React.FC<{t: number; at: number; x: number; y: number; id: string; s?: number}> = ({t, at, x, y, id, s = 1}) => {
   if (t < at) return null;
   cueSfx('whoosh', `down-${id}-${at}`, t < at + 0.3, x, {at, hit: 0.2});
   const k = ease.out(clamp01((t - at) / 0.35));
@@ -134,7 +134,7 @@ export const DownArrows: React.FC<{t: number; at: number; x: number; y: number; 
     <g opacity={k}>
       {[0, 1, 2].map((i) => {
         const ph = ((t - at) * 1.6 + i / 3) % 1; // a calm cascade down
-        return <path key={i} d={`M${x - 34} ${y + i * 34 + ph * 10} l34 26 l34 -26`} fill="none" stroke={GOLD} strokeWidth={12} strokeLinecap="round" strokeLinejoin="round" opacity={(0.35 + 0.65 * (1 - Math.abs(ph - 0.5) * 2)) * k} />;
+        return <path key={i} d={`M${x - 34 * s} ${y + (i * 34 + ph * 10) * s} l${34 * s} ${26 * s} l${34 * s} ${-26 * s}`} fill="none" stroke={GOLD} strokeWidth={12 * s} strokeLinecap="round" strokeLinejoin="round" opacity={(0.35 + 0.65 * (1 - Math.abs(ph - 0.5) * 2)) * k} />;
       })}
     </g>
   );
@@ -202,19 +202,24 @@ export const CtaPhone: React.FC<{t: number; at: number; like: number; sub: numbe
 
 // ── C · on the board ─────────────────────────────────────────────────────────────────────────────────────────────────
 export const CtaBoard: React.FC<{t: number; at: number; like: number; sub: number; bell?: number; x?: number; base?: number; id: string}> = ({t, at, like, sub, bell, x = 1150, base = 836, id}) => {
+  // owner pick (2026-11-11): C + D. Big enough for a phone screen (like 230 px, «اشترك» 76 px), and after the bell the
+  // gold arrows point DOWN — on a phone the real buttons are right under the video.
+  const ring = bell ?? sub + 0.6;
   const g1 = ease.out(clamp01((t - at) / 0.5)), g2 = ease.out(clamp01((t - like - 0.3) / 0.5));
   cueSfx('thump', `cb-p1-${id}-${at}`, t >= at && t < at + 0.3, x, {at: at + 0.4});
   cueSfx('thump', `cb-p2-${id}-${like}`, t >= like + 0.3 && t < like + 0.6, x, {at: like + 0.7});
+  const L = {x: x - 240, y: base - 280 - 150}, S = {x: x + 240, y: base - 210 - 85};
   return (
     <g>
-      <Rays t={t} id={`${id}-r`} tone="gold" x={x} y={base - 300} />
-      <Podium x={x - 180} base={base} w={250} h={230} id={`${id}-p1`} grow={g1} color="gold" />
-      <Podium x={x + 180} base={base} w={250} h={170} id={`${id}-p2`} grow={g2} color="gold" />
-      <LikeButton t={t} at={at + 0.45} press={like} x={x - 180} y={base - 230 - 110} id={id} />
-      <SubscribeButton t={t} at={like + 0.75} press={sub} x={x + 180} y={base - 170 - 70} size={56} id={id} />
-      <RingBell t={t} at={sub + 0.25} ring={bell ?? sub + 0.6} x={x + 180} y={base - 170 - 190} size={90} id={id} />
-      <Tap t={t} at={like} x={x - 180} y={base - 230 - 110} />
-      <Tap t={t} at={sub} x={x + 180} y={base - 170 - 70} />
+      <Rays t={t} id={`${id}-r`} tone="gold" x={x} y={base - 330} />
+      <Podium x={L.x} base={base} w={300} h={280} id={`${id}-p1`} grow={g1} color="gold" />
+      <Podium x={S.x} base={base} w={300} h={210} id={`${id}-p2`} grow={g2} color="gold" />
+      <LikeButton t={t} at={at + 0.45} press={like} x={L.x} y={L.y} size={230} id={id} />
+      <SubscribeButton t={t} at={like + 0.75} press={sub} x={S.x} y={S.y} size={76} id={id} />
+      <RingBell t={t} at={sub + 0.25} ring={ring} x={S.x} y={S.y - 175} size={120} id={id} />
+      <Tap t={t} at={like} x={L.x} y={L.y} s={1.3} />
+      <Tap t={t} at={sub} x={S.x} y={S.y} s={1.3} />
+      <DownArrows t={t} at={ring + 0.4} x={x} y={base + 10} id={id} s={1.7} />
     </g>
   );
 };

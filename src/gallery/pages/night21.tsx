@@ -38,7 +38,7 @@ export const NightPage22: React.FC<{t: number}> = ({t}) => (
 export const NightPage23: React.FC<{t: number}> = ({t}) => (
   <Base t={t}>
     <CtaBoard t={t} {...T} id="c" />
-    <Host t={t} poses={[[0, 'present'], [1.5, 'higher'], [4.9, 'viewer']]} />
+    <Host t={t} poses={[[0, 'present'], [1.5, 'higher'], [4.3, 'lower'], [5.0, 'viewer']]} />
   </Base>
 );
 /** D · the end screen after the closing words (YouTube's real buttons go on the two outlines) */

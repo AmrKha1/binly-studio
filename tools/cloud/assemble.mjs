@@ -49,7 +49,10 @@ run(['-i', 'final/mix.wav', '-af',
 const res = Number(process.argv[5] || process.env.YT_RES || 1080);
 const preview = Number(process.env.SCALE || 1) < 1;
 run(['-i', 'final/video-only.mp4', '-i', 'final/master.wav', '-map', '0:v', '-map', '1:a',
-  ...ytVideoArgs({res: preview ? 1080 : res, fast: preview}), ...ytAudioArgs(), '-shortest', ...ytContainerArgs(),
+  ...ytVideoArgs({res: preview ? 1080 : res, fast: preview}), ...ytAudioArgs(),
+  // the audio is padded with silence to the video's end: a video may run past the voice (the end screen, video.json
+  // "endScreen") — -shortest then ends at the VIDEO's end instead of cutting the end screen off
+  '-af', 'apad', '-shortest', ...ytContainerArgs(),
   '-metadata', `title=${slug}`, 'final/video.mp4']);
 fs.rmSync('final/video-only.mp4', {force: true});
 // 5) verify the delivered file

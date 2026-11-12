@@ -9,6 +9,9 @@
 //   HeadlineShot  — a headline built word by word on the spoken words (+ an optional pill)
 //   StoryShot     — a mini-story: a world, faceless people (poses over time, a walk), a bubble, a stamp, pills, a year
 //   TwistShot     — the twist: a slam word under the white flash + its mark
+//   CtaShot       — the like/subscribe line (owner pick C): like + subscribe pressed on their words on golden podiums,
+//                   the bell rings, arrows point DOWN to the real buttons · EndScreenShot — the last ≈ 10 s after the
+//                   closing words: room for YouTube's REAL end-screen buttons (owner pick D)
 import React from 'react';
 import {GridFloor, NightSky, NPill, textWidth, WordPop, YearBadge, type PillKind, type PopWord} from './night';
 import {MarkPill} from './night-data';
@@ -19,6 +22,7 @@ import {MysteryBox, MysteryPillar} from './night-props';
 import {DayWorld, LabWorld, MineWorld, PlateWorld, VillageWorld} from './night-places';
 import {NightCity, RoomWorld, StoryPerson, SunsetWorld, type StoryPose, type StoryRole} from './night-worlds';
 import {move} from './night-scenes';
+import {CtaBoard, EndScreen} from './night-cta';
 
 type Base = {t: number; a: number; b: number};
 type Art = {src?: string; art?: string; ar?: number; glow?: string};
@@ -175,5 +179,22 @@ export const TwistShot: React.FC<Base & {at: number; words: PopWord[]; size?: nu
   );
 };
 
+// ── CtaShot / EndScreenShot (owner pick 2026-11-11: C + D) ─────────────────────────────────────────────────────────
+/** like = the time of «اضغط زر اللايك» (the press), sub = «واشترك», bell = optional (default sub + 0.6). AZTIKA's beats
+ *  come from the shot's "host" (suggested: higher on the buttons, lower when the arrows point down, viewer at the end). */
+export const CtaShot: React.FC<Base & {like: number; sub: number; bell?: number; at?: number}> = ({t, a, like, sub, bell, at}) => {
+  const id = `ct${Math.round(a * 100)}`;
+  return (
+    <>
+      <NightSky t={t} id={`${id}s`} />
+      <GridFloor id={`${id}f`} t={t} />
+      <CtaBoard t={t} at={at ?? Math.max(a + 0.2, like - 1.2)} like={like} sub={sub} bell={bell} id={id} />
+    </>
+  );
+};
+/** starts right after the closing words; the video runs ≈ 10 s past the voice (video.json "endScreen") so YouTube's
+ *  end-screen elements have their time. Put the subscribe element on the circle, a video on the frame (kit/night-cta). */
+export const EndScreenShot: React.FC<Base> = ({t, a}) => <EndScreen t={t} at={a} id={`es${Math.round(a * 100)}`} />;
+
 /** the templates the compiler knows for Arabic videos; BOARD-style shots have their own camera (no drift) */
-export const NIGHT_TEMPLATES = ['BoardShot', 'MysteryShot', 'HeroShot', 'HeadlineShot', 'StoryShot', 'TwistShot'] as const;
+export const NIGHT_TEMPLATES = ['BoardShot', 'MysteryShot', 'HeroShot', 'HeadlineShot', 'StoryShot', 'TwistShot', 'CtaShot', 'EndScreenShot'] as const;

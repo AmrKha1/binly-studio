@@ -78,7 +78,13 @@ row → "the universe gave us everything for free" → «في أمان الله�
 3. **The thesis line** over the biggest image (galaxy), word by word.
 4. **Sign-off**: AZTIKA from behind looking up (`awe`), then NeonSign with the owner's OWN closing words (the reference:
    «في أمان الله»; if he says «سلام» or asks for a like/subscribe, the sign and AZTIKA's beat follow what is said — the
-   voiceover is the truth). Silence after it. No added "subscribe" card or button graphics.
+   voiceover is the truth). Silence after it.
+5. **Our edit — the CTA (owner pick 2026-11-11: C + D; the reference shows NO buttons):** when the voice asks for a
+   like/subscribe («اضغط زر اللايك واشترك في القناة»), that line is a **CtaShot**: like + subscribe on golden podiums,
+   each PRESSED on its spoken word, the bell rings, gold arrows point DOWN (on a phone the real buttons are under the
+   video), AZTIKA higher → lower → viewer. Then, after the closing words, the video runs **10 s past the voice**
+   (video.json "endScreen") on an **EndScreenShot**: a calm night frame with room for YouTube's REAL end-screen buttons
+   (subscribe on the circle, a video on the frame — set in YouTube Studio). plan-check flags a missing CtaShot / end screen.
 - **When the ranking isn't by the number** (the winner is the smallest price, or the category changes: money → people
   → time), the board must SHOW the new rule — that turn is the video's signature moment, built new (PodiumGame value =
   the real rank, label = the spoken number).
