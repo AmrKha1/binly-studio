@@ -74,7 +74,7 @@ Delegate heavy work to subagents; read docs, not source (kit: docs/KIT-INDEX.md,
 
 ## Rules that never bend
 Voiceover prepared once at ingest (parts levelled + joined with 0.35 s, pauses > 0.23 s → 0.19 s; tone kept exactly as recorded — owner A/B 2026-11-10: a warmer polish sounded muffled, the original is better) and VERIFIED by the voice gate (vo-check), then LOCKED as the master clock · no invented facts/numbers/quotes · numbers exactly as spoken ·
-Binly palette only · no logo/HUD/subtitles · the ONLY recurring characters are the channel hosts — ODDESTORY (English) and AZTIKA (Arabic), kit/image-host · deterministic code (`node tools/check.mjs`) ·
+Binly palette only · no logo/HUD/subtitles in the long videos (the hook Short has its own word-by-word subtitles) · the ONLY recurring characters are the channel hosts — ODDESTORY (English) and AZTIKA (Arabic), kit/image-host · deterministic code (`node tools/check.mjs`) ·
 final render only in the cloud (this PC is too slow; local = stills/sheets only) · 1920×1080 60 fps, delivered as a YOUTUBE MASTER (H.264 High, BT.709 tagged, CFR, closed GOP, CRF 12 + aq-mode 3, AAC-LC 384k 48 kHz, faststart), −14 LUFS / −1 dBTP — checked in the QA report.
 
 ## Commands (all from the studio root)
@@ -93,6 +93,7 @@ final render only in the cloud (this PC is too slow; local = stills/sheets only)
 | `node tools/still.mjs --at 12.5[,13]` | full-res stills → .cache/stills/ |
 | `node tools/cloud.mjs render <slug> [--scale 0.5] [--from a --to b]` | cloud render + QA download |
 | `node tools/cloud.mjs analyze <slug>` · `push` · `runs` | cloud timing · commit+push · recent runs |
+| `node tools/short.mjs make --from a --to b --title "white|gold"` · `preview` · `render` | THE HOOK SHORT (Stop 4): vertical 1080×1920 — title pinned on top, the long video's moment, gold word-by-word subtitles, red «الفيديو الكامل على القناة» pill, 3.5 s freeze + the outro voice |
 | `node tools/youtube-export.mjs <in.mp4> [out.mp4] [--res 1440] [--copy]` | make ANY video YouTube-ready (same master + loudness) and check it |
 | `node tools/preview.mjs` | live preview (Remotion Studio, http://localhost:3000) |
 | `node tools/photo.mjs search "q"` · `get <#> --as name` | free archival images (Wikimedia) |

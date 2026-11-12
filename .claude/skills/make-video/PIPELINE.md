@@ -41,7 +41,8 @@ REFERENCE is the standard) · automatic gates, not memory · only THREE stops fo
 | 8 **RENDER GATE** — `node tools/render-gate.mjs --reviewed "…"`: check → fix REAL issues → check … until GO | Claude | **GO RENDER** |
 | 9 chapter-1 preview (cloud, half size, with sound) → ⏸ **STOP 2**: the owner watches the FEEL | owner | OK |
 | 10 final render → QA report (loudness, sound vs the reference, sheets, YouTube master) → ⏸ **STOP 3**: the owner watches | owner | OK |
-| 11 deliver (upload pack) · after a week /learn-from-youtube · every 3–5 videos /improve-studio | Claude | — |
+| 11 THE HOOK SHORT: recommend ONE moment (say so if a second is truly as strong) → ⏸ **STOP 4**: the owner OKs moment + title → `tools/short.mjs` | owner | OK |
+| 12 deliver (upload pack + the Short) · after a week /learn-from-youtube · every 3–5 videos /improve-studio | Claude | — |
 **Claude is the standard, Flow is a helper (owner 2026-11-11):** the plan is complete WITHOUT Flow; Claude's own
 animation carries the video like in the reference; Flow only adds some objects and painted backgrounds (≤ 25 % of the
 screen time, never a shot on its own — Claude animation on top; plan-check FLOW). If Flow is not connected, refuses,
@@ -343,6 +344,16 @@ reference" table too) and look at every `sheet-NN.png` (one tile per 3 s).
 Warnings (static holds, near-empty frames) mean "go look": check those times with `tools/sheet.mjs --times …` and fix only real defects (via builders), then re-render. **At most 2 full render rounds per
 video** (first render + one fix round) unless something is clearly broken — collect every fix before re-rendering;
 use a partial render (`--from/--to`, `--scale 0.5`) to verify a single fix. Do not claim a check you did not do.
+
+**7b · THE HOOK SHORT → ⏸ STOP 4 (owner 2026-11-12)** — ONE vertical Short that makes viewers want the long video
+(the owner: one very strong Short beats several). Score the long video's moments: **hooks in its first 2 s** (a question,
+a shocking number, a strange situation) · **stands alone** (no context needed) · **STOPS BEFORE THE ANSWER** (the payoff
+is in the long video — never spoil the reveal) · a strong picture on a phone · 30–55 s. Recommend ONE (moment + its hook
+title: a white line + a gold line, numbers exactly as spoken, no spoilers); only if a second moment is truly as strong,
+say so and let the owner decide. After his OK: `node tools/short.mjs make --from a --to b --title "white|gold"` →
+`preview` (look at the stills: title, subtitles, pill, the freeze) → `render` (picture in the cloud, sealed words; sound =
+the long master + library/vo/short-outro.* over the 3.5 s freeze) → `videos/<slug>/output/<slug>-short-1.mp4`. Tell the
+owner: publish it AFTER the long video and link it to the long video in YouTube Studio ("Related video").
 
 **8 · Deliver** — run `node tools/upload-pack.mjs` → `videos/<slug>/youtube/` (description draft with clickable
 chapter timestamps — so give chapters viewer-friendly titles in chapters.json: curiosity, never spoilers ("The king's
