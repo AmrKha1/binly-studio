@@ -83,7 +83,7 @@ row → "the universe gave us everything for free" → «في أمان الله�
    like/subscribe («اضغط زر اللايك واشترك في القناة»), that line is a **CtaShot**: like + subscribe on golden podiums,
    each PRESSED on its spoken word, the bell rings, gold arrows point DOWN (on a phone the real buttons are under the
    video), AZTIKA higher → lower → viewer. **The video ENDS on it** (owner 2026-11-12: "the video ends with the yellow
-   one"): the CtaShot is the last shot and holds 1.5 s after the last word (video.json "tail"). No blue end screen.
+   one"): the CtaShot is the last shot and holds 5 s after the last word, silent (video.json "tail": time to tap like/subscribe). No blue end screen.
    plan-check flags a missing CtaShot, or one that is not the last shot.
 - **When the ranking isn't by the number** (the winner is the smallest price, or the category changes: money → people
   → time), the board must SHOW the new rule — that turn is the video's signature moment, built new (PodiumGame value =
