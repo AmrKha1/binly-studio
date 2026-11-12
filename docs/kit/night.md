@@ -79,14 +79,13 @@ Every night piece already moves like the reference — keep it that way in custo
   shot `"out"` (fly · wipe · whoosh), big counted numbers `"spoken"` (the words under the number).
 - `node tools/sync-check.mjs` flags FROZEN pictures (< 1 % change in 1.35 s — the reference never goes below 0.36 %).
 
-## The CTA — like + subscribe (owner pick 2026-11-11: C + D) — kit/night-cta
+## The CTA — like + subscribe (owner pick: C, 2026-11-12) — kit/night-cta — the video ENDS on it
 - **CtaShot** (template) / **CtaBoard** `{t, at, like, sub, bell?}`: like (230 px) + «اشترك» (76 px) on golden podiums over
   gold rays, each PRESSED on its spoken word (a finger taps, a ripple, a smooth sink — never a snap), the like fills gold
   with sparkles, «اشترك» → «مشترك ✓», the bell rings (ding), then gold arrows point DOWN to the real buttons (phones).
   Sounds: pop · click · sparkle · ding · thump (podiums) · whoosh (arrows). Host: higher → lower → viewer.
-- **EndScreenShot** / **EndScreen** `{t, at}`: the last ≈ 10 s (video.json `"endScreen": 10`, the video runs past the
-  voice; the audio is padded with silence): a calm night frame + a red circle and a framed box exactly where YouTube's
-  subscribe element and video element go (END_SCREEN coordinates). SILENT, like the reference after its sign-off.
+- The CtaShot is the LAST shot: it holds to the end (video.json `"tail": 1.5` = the picture holds 1.5 s after the last word).
+  NOT the standard (owner 2026-11-12: no blue end screen): EndScreen / EndScreenShot (D) — kept in the kit only.
 - Also in the kit (samples, gallery night21/22): CtaPress (A, AZTIKA presses big buttons) · CtaPhone (B, a phone with
   the like/subscribe row, the camera pushes in while a finger taps) — not the standard, kept for a video that wants them.
 

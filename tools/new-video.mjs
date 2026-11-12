@@ -97,8 +97,9 @@ const title = a.title ?? firstLine.replace(/^#+\s*/, '').slice(0, 80);
 // language: Arabic if the script (or file name) is written in Arabic → Arabic fonts, RTL layout, Arabic speech model
 const lang = a.lang ?? (/[؀-ۿ]/.test(scriptText + audio[0]) ? 'ar' : 'en');
 if (lang === 'ar') console.log('Arabic video detected → lang "ar" (Arabic fonts, right-to-left layout, Arabic speech model)');
-// endScreen = seconds the video runs past the voice for YouTube's end screen (Arabic: 10 s — owner pick D, 2026-11-11)
-const meta = {slug, title, lang, duration: Math.round(info.duration * 10000) / 10000, sampleRate: info.sampleRate, channels: info.channels, codec: info.codec, audio: `voiceover${ext}`, source: audio.length === 1 ? audio[0] : `${audio.length} parts`, voPrep: !a.raw, endScreen: lang === 'ar' ? 10 : 0, created: new Date().toISOString()};
+// tail = seconds the picture holds after the last word (Arabic: 1.5 s — the CTA ending breathes, owner 2026-11-12;
+// the old 10 s end screen was dropped: "the video ends with the yellow CTA")
+const meta = {slug, title, lang, duration: Math.round(info.duration * 10000) / 10000, sampleRate: info.sampleRate, channels: info.channels, codec: info.codec, audio: `voiceover${ext}`, source: audio.length === 1 ? audio[0] : `${audio.length} parts`, voPrep: !a.raw, tail: lang === 'ar' ? 1.5 : 0, created: new Date().toISOString()};
 fs.writeFileSync(path.join(vdir, 'video.json'), JSON.stringify(meta, null, 1));
 for (const f of [...audio, scriptFile, notesFile].filter(Boolean)) fs.rmSync(path.join(IN, f));
 for (const d of dirs) if (!fs.readdirSync(path.join(IN, d)).length) fs.rmdirSync(path.join(IN, d));

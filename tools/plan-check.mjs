@@ -11,7 +11,7 @@
 //             flags: a MOVE (spot change) without "why" · moves < 6 s apart (too busy) · on screen > 8 s with no pose or
 //             spot change (frozen) · pose changes < 1.5 s apart (jittery) · Arabic video with no host beats at all
 //   • RECIPE (Arabic) — the model video's structure (references/universe-claude/RECIPE.md): HOOK pace + mystery/roadmap,
-//             SPINE ("device":"stage" every ≤ 150 s), PACE (≤ 5.5 s/shot per 3 min), ENDING (recap + signoff), CTA (a CtaShot on the like/subscribe line + the end screen), CHAPTER
+//             SPINE ("device":"stage" every ≤ 150 s), PACE (≤ 5.5 s/shot per 3 min), ENDING (recap + signoff), CTA (a CtaShot on the like/subscribe line, and the video ends on it), CHAPTER
 //             (every "reveal" joins the board within 60 s). Shots declare "device": stage|mystery|roadmap|story|reveal|…
 //   • TEXT  — show, do not tell: more than 1 text card per chapter, a text card without an "ok" reason, or > 8 % of shots (scene / character / diagram / map / image / text / data)
 // Custom shots declare their mode: "mode":"scene" (templates know theirs).
@@ -235,13 +235,13 @@ Flow balance (${seq.filter((y) => y.flow).length} shot(s) use Flow art):`);
     // ENDING: recap + sign-off
     const last = seq.filter((x) => x.end > tEnd - 120);
     if (!last.some((x) => x.device === 'recap')) rl.push('  ENDING no "recap" in the last 120 s → everything back on the board + the question');
-    if (!last.some((x) => x.device === 'signoff')) rl.push('  ENDING no "signoff" → AZTIKA (awe) + NeonSign «في أمان الله»');
-    // CTA (owner pick 2026-11-11: C + D — our own addition, the reference shows no buttons): when the voice asks for a
-    // like/subscribe, that line is acted with a CtaShot (presses ON the spoken words); the video ends on the end screen
+    if (!last.some((x) => x.device === 'signoff' || x.kind === 'CtaShot')) rl.push('  ENDING no "signoff" → AZTIKA (awe) + NeonSign «في أمان الله»');
+    // CTA (owner 2026-11-12: the ending = the yellow CTA "C", the video ENDS on it — our own addition, the reference shows
+    // no buttons): when the voice asks for a like/subscribe, that line is a CtaShot (presses ON the spoken words) and it
+    // is the LAST shot (it holds to the end; it is the sign-off)
     const ctaWord = words.find((w) => /اشترك|لايك/.test(w.w));
     if (ctaWord && !seq.some((x) => x.kind === 'CtaShot' && x.start <= ctaWord.s + 0.5 && x.end >= ctaWord.s)) rl.push(`  CTA the voice asks for like/subscribe at ${mmss(ctaWord.s)} («${ctaWord.w}») → a CtaShot on that line ("like" / "sub" = the spoken times of «اللايك» / «اشترك»)`);
-    const endScreen = (() => { try { return JSON.parse(fs.readFileSync(vj, 'utf8')).endScreen ?? 0; } catch { return 0; } })();
-    if (endScreen > 0 && seq.length && seq[seq.length - 1].kind !== 'EndScreenShot') rl.push(`  CTA the video runs ${endScreen} s past the voice → its last shot is an EndScreenShot (room for YouTube's real end-screen buttons)`);
+    if (ctaWord && seq.length && seq[seq.length - 1].kind !== 'CtaShot') rl.push('  CTA the video ends on the CTA → the CtaShot is the LAST shot (it holds to the end)');
     // CHAPTER: every reveal joins the board
     for (const r of dev('reveal')) if (!r.ok && !st.some((x) => x.start >= r.start && x.start <= r.end + 60)) rl.push(`  CHAPTER ${r.ch} ${r.id} ${mmss(r.start)}: reveal never joins the board within 60 s → add the "stage" round (newcomer + host reaction)`);
     // SCENE CHANGES (references/universe-claude/MOTION.md §4, §8): how each scene enters and leaves is part of the plan

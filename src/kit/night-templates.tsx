@@ -10,8 +10,8 @@
 //   StoryShot     — a mini-story: a world, faceless people (poses over time, a walk), a bubble, a stamp, pills, a year
 //   TwistShot     — the twist: a slam word under the white flash + its mark
 //   CtaShot       — the like/subscribe line (owner pick C): like + subscribe pressed on their words on golden podiums,
-//                   the bell rings, arrows point DOWN to the real buttons · EndScreenShot — the last ≈ 10 s after the
-//                   closing words: room for YouTube's REAL end-screen buttons (owner pick D)
+//                   the bell rings, arrows point DOWN to the real buttons — the LAST shot: the video ends on it
+//                   (owner 2026-11-12) · EndScreenShot (D, a blue end screen) — kept, NOT the standard
 import React from 'react';
 import {GridFloor, NightSky, NPill, textWidth, WordPop, YearBadge, type PillKind, type PopWord} from './night';
 import {MarkPill} from './night-data';
