@@ -6,6 +6,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {ROOT, args} from './lib/render.mjs';
+import {recordSignatures} from './lib/signatures.mjs';
 
 const a = args();
 const active = fs.readFileSync(path.join(ROOT, 'src', 'active.ts'), 'utf8').match(/videos\/([^']+)'/)?.[1];
@@ -107,3 +108,7 @@ const desc = [
 fs.writeFileSync(path.join(out, 'description.md'), desc);
 
 console.log(`youtube package → videos/${slug}/youtube/: description.md (${chapterLines.length} chapters${chapterLines.length ? '' : ' — fewer than 3 valid, YouTube would ignore them'}), captions.srt (${cues.length} captions), chapters.txt${credits.length ? `, ${credits.length} image credit(s)` : ''}`);
+// the channel's signature memory (owner 2026-11-12): this video's signature ideas → library/signatures.json, so the next
+// plans are checked against them (plan-check REPEAT) and Stop 1 shows "new vs the last videos"
+const nIdeas = recordSignatures(slug);
+console.log(nIdeas ? `signature memory: ${nIdeas} idea(s) of ${slug} saved in library/signatures.json` : 'signature memory: no "idea" lines in the shot lists — nothing saved');

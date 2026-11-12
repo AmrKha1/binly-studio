@@ -23,6 +23,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {ROOT, args} from './lib/render.mjs';
 import {requireVoice} from './lib/vo-gate.mjs';
+import {readSignatures, similarity} from './lib/signatures.mjs';
 
 const a = args();
 const active = fs.readFileSync(path.join(ROOT, 'src', 'active.ts'), 'utf8').match(/videos\/([^']+)'/)?.[1];
@@ -62,7 +63,11 @@ const templateBeats = (props = {}) => {
 const TEMPLATE_MODE = {StatShot: 'data', QuoteShot: 'text', ClaimShot: 'text', QuestionShot: 'text', TitleShot: 'text', CompareShot: 'diagram',
   ListShot: 'diagram', TimelineShot: 'diagram', ProcessShot: 'diagram', MapShot: 'map', PersonShot: 'character', EvidenceShot: 'image',
   KenBurnsShot: 'image', DetailHuntShot: 'image', MontageShot: 'image', CollageShot: 'image', CompareImagesShot: 'image',
-  DocumentScanShot: 'image', AnnotatedImageShot: 'image', ImageInWorldShot: 'image', ParallaxCutoutShot: 'image'};
+  DocumentScanShot: 'image', AnnotatedImageShot: 'image', ImageInWorldShot: 'image', ParallaxCutoutShot: 'image',
+  // the NIGHT templates (Arabic, owner 2026-11-12: the variety checks must see them)
+  BoardShot: 'scene', MysteryShot: 'scene', HeroShot: 'image', HeadlineShot: 'text', StoryShot: 'scene', TwistShot: 'text', CtaShot: 'scene', EndScreenShot: 'scene'};
+// their story role (the RECIPE checks count these): a template shot gets it automatically unless the plan sets "device"
+const TEMPLATE_DEVICE = {BoardShot: 'stage', MysteryShot: 'mystery', HeroShot: 'reveal', CtaShot: 'signoff'};
 const seq = []; // the whole video in order, for the retention-flow checks
 const hostBeats = []; // every host beat in the video, in order
 let flags = 0, shotsTotal = 0, longTotal = 0, stillTotal = 0, sameTotal = 0, flatTotal = 0, noMode = 0;
@@ -84,7 +89,7 @@ for (const ch of chapters) {
     const dur = end - s.start;
     const changes = [s.start, ...(s.beats ?? []), ...(s.custom ? [] : templateBeats(s.props))];
     const said = sentences.filter((x) => x.s >= s.start - 0.3 && x.s < end - 0.3);
-    seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok, sig: !!s.signature, size: s.size ?? null, device: s.device ?? null,
+    seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok, sig: !!s.signature, idea: s.idea ?? '', size: s.size ?? null, device: s.device ?? (s.custom ? null : TEMPLATE_DEVICE[s.template] ?? null),
       inT: s.in ?? null, outT: s.out ?? null, spoken: s.spoken ?? null, said: said.map((x) => x.text).join(' '),
       flow: s.flow ?? null, fallback: s.fallback ?? null, beatsN: (s.beats ?? []).length});
     const still = said.filter((x) => !changes.some((c) => Math.abs(c - x.s) <= NEAR || (c > x.s && c < x.s + NEAR)));
@@ -131,6 +136,24 @@ console.log(`\nSignature shots: ${sigs.length}${sigs.length ? ' — ' + sigs.map
 if (!only && (sigs.length < 5 || sigs.length > 8)) {
   flags++;
   console.log(`  SIGNATURE count ${sigs.length} → mark 5–8 shots "signature": true, each with a ★ hero brief`);
+}
+// SIGNATURE moments are HAND-BUILT for this story (owner 2026-11-12): never a template; each names its one-line "idea"
+for (const x of sigs) {
+  if (x.kind !== 'custom' && !x.ok) { flags++; console.log(`  SIGNATURE ${x.ch} ${x.id} ${mmss(x.start)} is a template (${x.kind}) → hand-build it for THIS story ("custom": true)`); }
+  if (!x.idea) { flags++; console.log(`  SIGNATURE ${x.ch} ${x.id} ${mmss(x.start)} has no "idea" → one line: what the viewer sees, e.g. "the money stamped SOLD"`); }
+}
+// NOT A REPEAT (owner 2026-11-12): this video's signature ideas vs the channel's past videos (library/signatures.json)
+{
+  const past = readSignatures().filter((v) => v.video !== slug);
+  for (const x of sigs.filter((y) => y.idea)) for (const v of past) for (const old of v.ideas) {
+    if (similarity(x.idea, old) >= 0.6 && !x.ok) { flags++; console.log(`  REPEAT ${x.ch} ${x.id} «${x.idea}» is close to ${v.video}'s «${old}» → find a fresh idea for THIS story`); }
+  }
+  if (sigs.length) {
+    console.log('\nNew vs the last videos (for Stop 1):');
+    console.log(`  this video: ${sigs.map((x) => x.idea || '(no idea yet)').join(' · ')}`);
+    for (const v of past.slice(-3).reverse()) console.log(`  ${v.video} (${v.date}): ${v.ideas.join(' · ')}`);
+    if (!past.length) console.log('  (the first video in the channel memory — nothing to compare yet)');
+  }
 }
 // shot-size rhythm (mobile first): every chapter needs close-ups; never 3 wides in a row
 const noSize = seq.filter((x) => !x.size).length;

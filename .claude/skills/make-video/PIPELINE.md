@@ -209,6 +209,10 @@ face track per shot (point/present at the element being named, react on twists),
 meaningful — your call per shot) and his FRAMING + movement (full / waist-up / close-up / peek / tiny; walks, slides in,
 steps aside) — vary it like a real presenter — and how he ARRIVES and LEAVES (`enter`/`exit`; never just appears). Built-in
 vocabulary only; at most ~2–3 new poses per video, added to kit/host. Write it in each brief.
+SIGNATURE shots (5–8): always CUSTOM (hand-built for THIS story, never a template) and each with a one-line "idea" —
+{"id":"S4","custom":true,"signature":true,"idea":"the money stamped SOLD",…}. plan-check flags a template signature, a
+missing idea, and a REPEAT of a past video's idea (library/signatures.json, saved by upload-pack at delivery); its "New vs
+the last videos" lines go into the Stop 1 summary.
 Arabic shot lists use the NIGHT TEMPLATES (docs/kit/night.md: BoardShot · MysteryShot · HeroShot · HeadlineShot · StoryShot ·
 TwistShot · CtaShot = the like/subscribe line AND the last shot (the video ends on it); the whole-video board in videos/<slug>/board.json, "entries": "@board") — custom only for the special moments.
 Arabic (AZTIKA, night look): write his beats into each shot list as data — "host":[{"at":<word time>,"spot":"sideLeft",
