@@ -11,10 +11,11 @@ import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {active} from '../active';
 import {FPS} from '../kit/theme';
 import {setLang} from '../kit/lang';
-import {popRef} from '../kit/anim';
 import {nightFont, textWidth} from '../kit/night';
 
-export type ShortProps = {from: number; to: number; title: [string, string]; words: {w: string; s: number; e: number}[]; freeze?: number; pill?: string};
+export type ShortProps = {from: number; to: number; title: [string, string]; words: {w: string; s: number; e: number}[]; freeze?: number; pill?: string; outroDelay?: number};
+/** the outro voice starts this long into the freeze (owner: a breath before the call); the pill swells with it */
+export const OUTRO_DELAY = 0.5;
 export const SW = 1080, SH = 1920;
 // layout measured from the owner's screenshots (fractions of the 1080×1920 canvas)
 export const SHORT_LAYOUT = {title1: 332, title2: 480, clipTop: 650, clipH: 607.5, subs: 1400, pill: 1575, pillW: 720, pillH: 112};
@@ -69,7 +70,7 @@ const SubLine: React.FC<{words: ShortProps['words']; t: number}> = ({words, t}) 
   );
 };
 
-export const Short: React.FC<ShortProps> = ({from, to, title, words, freeze = 3.5, pill = 'الفيديو الكامل على القناة'}) => {
+export const Short: React.FC<ShortProps> = ({from, to, title, words, freeze = 3.5, pill = 'الفيديو الكامل على القناة', outroDelay = OUTRO_DELAY}) => {
   setLang(active.meta.lang);
   const frame = useCurrentFrame();
   const local = frame / FPS;
@@ -79,7 +80,10 @@ export const Short: React.FC<ShortProps> = ({from, to, title, words, freeze = 3.
   const L = SHORT_LAYOUT, k = SW / 1920;
   const groups = phrases(words.filter((w) => w.e > from && w.s < to));
   const g = frozen ? null : groups.find((p, i) => t >= p[0].s - 0.05 && (t < (groups[i + 1]?.[0].s ?? to + 1) - 0.05));
-  const pillPop = frozen ? popRef(Math.min(1, (local - (to - from)) / 0.3)) : {sx: 1, sy: 1, o: 1};
+  const pu = local - (to - from) - outroDelay; // the pill swells when the outro voice says its words
+  // a gentle swell (1 → 1.12 → 1): the pill is ALREADY on screen, so it must not shrink first like an appearing pop
+  const ps = frozen && pu > 0 && pu < 0.3 ? 1 + 0.12 * Math.sin((Math.PI * pu) / 0.3) : 1;
+  const pillPop = {sx: ps, sy: ps, o: 1};
   return (
     <AbsoluteFill style={{background: '#000'}}>
       {/* behind: the same moment, enlarged to fill the frame, blurred and darkened */}

@@ -75,12 +75,15 @@ if (cmd === 'make') {
   if (!ok) process.exit(1);
   // 3) the sound: the long master's moment + the outro voice over the freeze, mastered to −14 LUFS
   const dur = p.to - p.from, freeze = p.freeze ?? 3.5;
+  // the outro voice starts 0.5 s INTO the freeze (owner 2026-11-12: "so the viewer is not rushed" — the picture stops,
+  // a breath, then the call); the pill swells at the same moment (src/short/Short.tsx OUTRO_DELAY)
+  const delay = p.outroDelay ?? 0.5;
   const outro = ['wav', 'mp3', 'm4a', 'flac'].map((e) => path.join(ROOT, 'library', 'vo', `short-outro.${e}`)).find((f) => fs.existsSync(f));
   if (!outro) console.log('  NOTE: no library/vo/short-outro.* yet — the freeze is silent until the owner\'s «الفيديو الكامل على القناة» voice is added');
   const mix = path.join(tmp, 'mix.wav');
   const inputs = ['-ss', String(p.from), '-t', String(dur), '-i', master, ...(outro ? ['-i', outro] : [])];
   const filter = outro
-    ? `[0:a]aresample=48000,aformat=channel_layouts=stereo,apad=whole_dur=${dur}[m];[1:a]aresample=48000,aformat=channel_layouts=stereo,apad=whole_dur=${freeze},atrim=0:${freeze}[o];[m][o]concat=n=2:v=0:a=1[a]`
+    ? `[0:a]aresample=48000,aformat=channel_layouts=stereo,apad=whole_dur=${dur}[m];[1:a]aresample=48000,aformat=channel_layouts=stereo,adelay=${Math.round(delay * 1000)}:all=1,apad=whole_dur=${freeze},atrim=0:${freeze}[o];[m][o]concat=n=2:v=0:a=1[a]`
     : `[0:a]aresample=48000,aformat=channel_layouts=stereo,apad=whole_dur=${dur + freeze}[a]`;
   ff([...inputs, '-filter_complex', filter, '-map', '[a]', '-c:a', 'pcm_s24le', mix]);
   const m1 = spawnSync(FF, ['-hide_banner', '-nostats', '-i', mix, '-af', 'loudnorm=I=-14:TP=-1.5:LRA=20:print_format=json', '-f', 'null', '-'], {encoding: 'utf8'}).stderr.match(/\{[\s\S]*\}/);
