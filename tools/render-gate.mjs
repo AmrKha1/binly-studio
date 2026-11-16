@@ -108,6 +108,22 @@ const spoken = transcript + '\n' + script;
     for (const n of nums(s)) if (Number(n) >= 10 && !said.has(n)) add('numbers', `${at}  "${s.slice(0, 40)}" shows ${n} — never said like that (numbers exactly as spoken)`);
   }
 }
+// 6b (2026-11-16) Arabic ranges must be written in words: «a–b» between digits is flipped by right-to-left text
+if (lang === 'ar') for (const {at, s} of screen) {
+  if (/\$\{/.test(s)) continue;
+  if (/\d\s*[–—-]\s*\d/.test(s) && /[ء-ي]/.test(s)) add('numbers', `${at}  "${s.slice(0, 40)}" — a digit range in Arabic text reads flipped (RTL): write «بين a وb»`);
+}
+// 6c (2026-11-16) story sound gains: lowered gains made effects 2–4 dB under the reference levels (the mix sets levels)
+{
+  const sdir = path.join(vdir, 'sfx');
+  const amb = /drone|ambien|amb_|wind|rain|rumble|hum|crowd|suspense|room/;
+  if (fs.existsSync(sdir)) for (const f of fs.readdirSync(sdir)) {
+    if (!/^C\d+\.json$/.test(f)) continue;
+    let cues = []; try { cues = JSON.parse(fs.readFileSync(path.join(sdir, f), 'utf8')); } catch {}
+    const low = cues.filter((c) => typeof c.gain === 'number' && c.gain < 0.75 && !amb.test(c.kind ?? '') && !/slam/.test(c.kind ?? ''));
+    if (low.length) add('sound', `sfx/${f}: ${low.length} story cue(s) turned down below 0.75 (e.g. ${low[0].kind} at ${low[0].t}) — keep 1.0 (0.8 slams; lower only ambience)`);
+  }
+}
 // 7 names / words spelled as spoken (Arabic: a screen word one letter away from a spoken word = a typo)
 {
   const normAr = (w) => w.replace(/[ً-ْـ]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي');

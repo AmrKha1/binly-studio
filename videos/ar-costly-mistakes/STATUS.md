@@ -44,3 +44,4 @@ Notes: spoken lines use digits as in script («6.3 مليار دولار», «ح
 - gate round-1 fixes all done (C05 C08 C09 C10 C11 C12 + host). GATE round 2 running (.cache/gate2.log).
 - GATE round 2: ✅ GO RENDER (render-gate.json). Next: C01 preview (cloud, 0.5) → motion check → full render.
 - PREVIEW 1 QA: motion in reference range; loudness -14/-1.4; sfx 2–4 dB too quiet (story gains median 0.6) + 36/min. FIX: story gains ×1.5 (203), slams ≤0.8, density cap thins to quiet limit → 32/min. Gate round (sound change) + preview 2 running.
+- NOTE: render-gate now also flags story sfx gains < 0.75 (non-ambience) and Arabic digit ranges. If another gate round is needed for this video, first raise remaining non-ambient gains < 0.75 to 0.8.

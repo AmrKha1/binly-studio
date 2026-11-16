@@ -213,6 +213,9 @@ SIGNATURE shots (5–8): always CUSTOM (hand-built for THIS story, never a templ
 {"id":"S4","custom":true,"signature":true,"idea":"the money stamped SOLD",…}. plan-check flags a template signature, a
 missing idea, and a REPEAT of a past video's idea (library/signatures.json, saved by upload-pack at delivery); its "New vs
 the last videos" lines go into the Stop 1 summary.
+**Plan around the known mistakes (docs/BUILDER.md "Known mistakes"):** copy that list into the video's briefs/COMMON.md;
+never plan a number the voice doesn't say (a year shown must be spoken — else a words pill «بعدها بست سنين»); write
+ranges in words; give the host a spot that leaves the story element free in every shot; pick only *-blank / letter-free art.
 Arabic shot lists use the NIGHT TEMPLATES (docs/kit/night.md: BoardShot · MysteryShot · HeroShot · HeadlineShot · StoryShot ·
 TwistShot · CtaShot = the like/subscribe line AND the last shot (the video ends on it); the whole-video board in videos/<slug>/board.json, "entries": "@board") — custom only for the special moments.
 Arabic (AZTIKA, night look): write his beats into each shot list as data — "host":[{"at":<word time>,"spot":"sideLeft",
@@ -287,13 +290,8 @@ payoff in 5 s). Fix C01 and update the remaining briefs if anything is off; neve
 something truly cannot be decided from the docs.
 
 **4 · Build chapters** — spawn `binly-builder` subagents, **at most 3 running at once** (this PC is slow).
-**KNOWN-MISTAKES RULES — put them in every video's COMMON.md / every brief (owner 2026-11-16, from ar-costly-mistakes,
-where they caused ~⅓ of all fix rounds):** text the viewer reads ≥ 48 px (pills/labels; headlines per the night sizes) —
-check a --phone sheet before reporting · AZTIKA never over a story element, character or label (move his spot or take
-him off for that shot) · NO number on screen that the voice does not say (no derived years, no rolling digits that read
-as a number; counts may tick through but never hold an unspoken number) · ranges and mixed digits+Arabic in spoken
-order («بين 590 و630», never «590–630», RTL flips it) · never English inside images or art (use the *-blank art) · story
-sound gains stay at 1.0 (0.8 for slams; lower only for ambience/drones) — the mix sets the levels.
+Builders follow docs/BUILDER.md "Known mistakes" (phone size · host never over story elements · only spoken numbers ·
+ranges in words · no English in art · sound gains 1.0) — the render gate checks most of them automatically.
 Builder prompts: always the same short form (identical opening = shared prompt cache): `Build the custom shots of chapter C03 of video <slug> (src/videos/<slug>/chapters/C03.custom.tsx). Brief: videos/<slug>/briefs/C03.md, shot list: videos/<slug>/shots/C03.json` (+ anything special).
 Use `model: "opus"` for C01 (the hook) and the climax chapter; default (sonnet) for the rest.
 **MODEL TEST — the SECOND Arabic (AZTIKA) video only, the one after ar-costly-mistakes (owner 2026-11-16):** ALWAYS pass `model` explicitly on

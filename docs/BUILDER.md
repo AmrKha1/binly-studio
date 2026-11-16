@@ -62,6 +62,19 @@ keep screen direction consistent (a journey, army or timeline that moves left→
 groups by 0.08–0.15 s · enter ~0.15 s before the spoken word · one focal point per frame · a held final state that
 the next shot/chapter can transition from · semantic colours for certainty · exact numbers as spoken.
 
+## Known mistakes — get them right the first time (owner 2026-11-16; they cost ~⅓ of the fix rounds in Arabic video #1)
+1. **Phone size:** labels/pills/names ≥ 48 px, nothing a viewer must read under 34 px — look at a `--phone` sheet before
+   reporting. Shared/kit pieces with fixed small pills: pass a size prop or draw the label yourself.
+2. **The host is never over a story element** (a character, a card, a label, the hero): change his spot in the shot
+   list's `"host"` (smallLeft / peekLeft…) or take him off for that shot (`{"at": …, "off": true}`), then recompile.
+3. **Only spoken numbers on screen:** no derived years («بعدها بست سنين» stays words, not «2008»), no rolling digits that
+   read as a number (roll «؟» glyphs), a count may tick through values but never HOLD an unspoken one.
+4. **Spoken order in Arabic:** a range or a digit pair is written in words — «بين 590 و630», never «590–630» (right-to-left
+   flips it to «630–590»). The render gate flags «digit–digit» in Arabic text.
+5. **No English inside images:** use the `*-blank` art (no letters); never pick art that shows Latin letters.
+6. **Sound gains stay at 1.0** in `sfx/Cxx.json` (0.8 for slams; lower ONLY for ambience/drones) — the mix sets the levels
+   to the reference; lowered gains made the effects 2–4 dB too quiet. The render gate flags lowered gains.
+
 ## Arabic videos (`"lang": "ar"` in video.json)
 Write the scene exactly as for English (x grows to the right, anchor 'start' = left). Stage MIRRORS the frame for Arabic
 and flips every text/foreignObject/photo back so it reads correctly — so: on-screen strings in Arabic; never build your
