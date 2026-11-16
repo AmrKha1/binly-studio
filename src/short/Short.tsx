@@ -13,7 +13,7 @@ import {FPS} from '../kit/theme';
 import {setLang} from '../kit/lang';
 import {nightFont, textWidth} from '../kit/night';
 
-export type ShortProps = {from: number; to: number; title: [string, string]; words: {w: string; s: number; e: number}[]; freeze?: number; pill?: string; outroDelay?: number};
+export type ShortProps = {from: number; to: number; title: [string, string]; words: {w: string; s: number; e: number}[]; freeze?: number; pill?: string; outroDelay?: number; holdAt?: number};
 /** the outro voice starts this long into the freeze (owner: a breath before the call); the pill swells with it */
 export const OUTRO_DELAY = 0.5;
 export const SW = 1080, SH = 1920;
@@ -70,12 +70,14 @@ const SubLine: React.FC<{words: ShortProps['words']; t: number}> = ({words, t}) 
   );
 };
 
-export const Short: React.FC<ShortProps> = ({from, to, title, words, freeze = 3.5, pill = 'الفيديو الكامل على القناة', outroDelay = OUTRO_DELAY}) => {
+export const Short: React.FC<ShortProps> = ({from, to, title, words, freeze = 3.5, pill = 'الفيديو الكامل على القناة', outroDelay = OUTRO_DELAY, holdAt}) => {
   setLang(active.meta.lang);
   const frame = useCurrentFrame();
   const local = frame / FPS;
   const frozen = local > to - from;
   const t = Math.min(from + local, to); // the long video's time (held on the last frame during the freeze)
+  // holdAt (2026-11-16): the PICTURE holds this long-video time (e.g. before a chapter wipe) while the voice finishes
+  const tv = Math.min(t, holdAt ?? to);
   const V = active.Video;
   const L = SHORT_LAYOUT, k = SW / 1920;
   const groups = phrases(words.filter((w) => w.e > from && w.s < to));
@@ -88,11 +90,11 @@ export const Short: React.FC<ShortProps> = ({from, to, title, words, freeze = 3.
     <AbsoluteFill style={{background: '#000'}}>
       {/* behind: the same moment, enlarged to fill the frame, blurred and darkened */}
       <div style={{position: 'absolute', left: SW / 2 - (1920 * (SH / 1080)) / 2, top: 0, width: 1920, height: 1080, transform: `scale(${SH / 1080})`, transformOrigin: '0 0', filter: 'blur(28px) brightness(0.45) saturate(1.2)'}}>
-        <V t={t} />
+        <V t={tv} />
       </div>
       {/* the moment, sharp, full width */}
       <div style={{position: 'absolute', left: 0, top: L.clipTop, width: 1920, height: 1080, transform: `scale(${k})`, transformOrigin: '0 0', boxShadow: '0 0 60px rgba(0,0,0,0.6)'}}>
-        <V t={t} />
+        <V t={tv} />
       </div>
       <svg width={SW} height={SH} viewBox={`0 0 ${SW} ${SH}`} style={{position: 'absolute', inset: 0}}>
         <rect x={0} y={L.clipTop - 3} width={SW} height={3} fill="#000" opacity={0.6} />
