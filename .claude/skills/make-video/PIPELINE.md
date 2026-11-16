@@ -289,7 +289,7 @@ something truly cannot be decided from the docs.
 **4 · Build chapters** — spawn `binly-builder` subagents, **at most 3 running at once** (this PC is slow).
 Builder prompts: always the same short form (identical opening = shared prompt cache): `Build the custom shots of chapter C03 of video <slug> (src/videos/<slug>/chapters/C03.custom.tsx). Brief: videos/<slug>/briefs/C03.md, shot list: videos/<slug>/shots/C03.json` (+ anything special).
 Use `model: "opus"` for C01 (the hook) and the climax chapter; default (sonnet) for the rest.
-**MODEL TEST — the NEXT video only (owner 2026-11-16, after ar-costly-mistakes):** ALWAYS pass `model` explicitly on
+**MODEL TEST — the SECOND Arabic (AZTIKA) video only, the one after ar-costly-mistakes (owner 2026-11-16):** ALWAYS pass `model` explicitly on
 every builder (the default inherited Opus in ar-costly-mistakes → every builder ran Opus → 3 usage-limit pauses in one
 day). Opus = the hook (C01), the climax chapter(s) and the ending (3–4 chapters total); `model: "sonnet"` = every other
 chapter, fix rounds included. After that video: note in docs/LESSONS.md how the Sonnet chapters compared (fix rounds per
