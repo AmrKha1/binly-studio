@@ -105,7 +105,7 @@ const spoken = transcript + '\n' + script;
   const said = new Set(nums(spoken));
   for (const {at, s} of screen) {
     if (/\$\{/.test(s)) continue; // computed strings are checked by eye
-    for (const n of nums(s)) if (Number(n) >= 10 && !said.has(n)) add('numbers', `${at}  "${s.slice(0, 40)}" shows ${n} — never said like that (numbers exactly as spoken)`);
+    for (const n of nums(s)) if (Number(n) >= 10 && !said.has(n)) add('numbers', `${at}  "${s.slice(0, 40)}" shows ${n} — never said like that (numbers exactly as spoken; a DERIVED number = exact maths on spoken facts, shown WITH the spoken words → accept in gate-ok.json with match "${at}" and why "derived: <sum>" after checking the sum)`);
   }
 }
 // 6b (2026-11-16) Arabic ranges must be written in words: «a–b» between digits is flipped by right-to-left text

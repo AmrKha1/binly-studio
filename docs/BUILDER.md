@@ -71,8 +71,9 @@ the next shot/chapter can transition from · semantic colours for certainty · e
    values but never HOLD an unspoken one. ONE exception, the DERIVED number (owner 2026-11-16): exact simple maths from
    spoken facts (2002 + «بعدها بست سنين» = 2008; 1875 + «السنة اللي بعدها» = 1876) may show — ONLY together with the spoken
    words on screen (badge «2008» + pill «بعدها بست سنين») and ONLY with a gate-ok.json entry giving the sum
-   ({"match": "shows 2008", "why": "derived: 2002 + 6 = 2008, spoken words shown with it"}). No estimates, conversions or
-   researched numbers — those are never shown unless spoken.
+   — the match is the EXACT place the gate prints (file:line), never a bare number, so one approval covers one number in
+   one spot: {"match": "C08.custom.tsx:590", "why": "derived: 2002 + 6 = 2008, «بعدها بست سنين» shown with it"}. The
+   director checks the sum before accepting. No estimates, conversions or researched numbers — never shown unless spoken.
 4. **Spoken order in Arabic:** a range or a digit pair is written in words — «بين 590 و630», never «590–630» (right-to-left
    flips it to «630–590»). The render gate flags «digit–digit» in Arabic text.
 5. **No English inside images:** use the `*-blank` art (no letters); never pick art that shows Latin letters.
