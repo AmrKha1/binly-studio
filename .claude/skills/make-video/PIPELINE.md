@@ -214,7 +214,8 @@ SIGNATURE shots (5–8): always CUSTOM (hand-built for THIS story, never a templ
 missing idea, and a REPEAT of a past video's idea (library/signatures.json, saved by upload-pack at delivery); its "New vs
 the last videos" lines go into the Stop 1 summary.
 **Plan around the known mistakes (docs/BUILDER.md "Known mistakes"):** copy that list into the video's briefs/COMMON.md;
-never plan a number the voice doesn't say (a year shown must be spoken — else a words pill «بعدها بست سنين»); write
+never plan a number the voice doesn't say — except a DERIVED one (exact simple maths from spoken facts, e.g. 2002 +
+«بعدها بست سنين» = 2008), shown WITH the spoken words and logged with its sum in gate-ok.json (docs/BUILDER.md rule 3); write
 ranges in words; give the host a spot that leaves the story element free in every shot; pick only *-blank / letter-free art.
 Arabic shot lists use the NIGHT TEMPLATES (docs/kit/night.md: BoardShot · MysteryShot · HeroShot · HeadlineShot · StoryShot ·
 TwistShot · CtaShot = the like/subscribe line AND the last shot (the video ends on it); the whole-video board in videos/<slug>/board.json, "entries": "@board") — custom only for the special moments.

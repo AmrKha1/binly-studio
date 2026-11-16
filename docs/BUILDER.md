@@ -67,8 +67,12 @@ the next shot/chapter can transition from · semantic colours for certainty · e
    reporting. Shared/kit pieces with fixed small pills: pass a size prop or draw the label yourself.
 2. **The host is never over a story element** (a character, a card, a label, the hero): change his spot in the shot
    list's `"host"` (smallLeft / peekLeft…) or take him off for that shot (`{"at": …, "off": true}`), then recompile.
-3. **Only spoken numbers on screen:** no derived years («بعدها بست سنين» stays words, not «2008»), no rolling digits that
-   read as a number (roll «؟» glyphs), a count may tick through values but never HOLD an unspoken one.
+3. **Only spoken numbers on screen** — no rolling digits that read as a number (roll «؟» glyphs), a count may tick through
+   values but never HOLD an unspoken one. ONE exception, the DERIVED number (owner 2026-11-16): exact simple maths from
+   spoken facts (2002 + «بعدها بست سنين» = 2008; 1875 + «السنة اللي بعدها» = 1876) may show — ONLY together with the spoken
+   words on screen (badge «2008» + pill «بعدها بست سنين») and ONLY with a gate-ok.json entry giving the sum
+   ({"match": "shows 2008", "why": "derived: 2002 + 6 = 2008, spoken words shown with it"}). No estimates, conversions or
+   researched numbers — those are never shown unless spoken.
 4. **Spoken order in Arabic:** a range or a digit pair is written in words — «بين 590 و630», never «590–630» (right-to-left
    flips it to «630–590»). The render gate flags «digit–digit» in Arabic text.
 5. **No English inside images:** use the `*-blank` art (no letters); never pick art that shows Latin letters.

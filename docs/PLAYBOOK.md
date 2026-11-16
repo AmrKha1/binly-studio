@@ -28,7 +28,9 @@ This overrides the "documentary" wording in `brand/` (music included: cinematic 
   linear gain on the whole mix in the cloud render, verified on the final file — QA report "Loudness").
 - **Never invent facts, figures, quotes, studies or evidence.** Visual metaphor is allowed; label
   reconstructions as such. If a claim can't be shown confidently, use a neutral/conceptual visual.
-- **Numbers on screen = exactly what is spoken** (0.061 percent → "0.061%", never rounded or re-derived).
+- **Numbers on screen = exactly what is spoken** (0.061 percent → "0.061%", never rounded or re-derived). One exception
+  (owner 2026-11-16): a DERIVED year/count from exact simple maths on spoken facts (2002 + «six years later» = 2008),
+  shown together with the spoken words and logged with its sum in gate-ok.json — docs/BUILDER.md "Known mistakes" 3.
 - Real people (historical/scientific figures) appear as respectful generic stylised figures + `NameTag`;
   no attempt at a real likeness. No permanent mascot, logo, HUD, watermark, timecode, scene numbers.
 - No burned-in full subtitles. Short editorial headlines/labels/key phrases only, when they add value.
