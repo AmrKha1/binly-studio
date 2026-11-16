@@ -51,7 +51,10 @@
      "pose": "list",
      "why": "counts: not once — twice"
     }
-   ]
+   ],
+   "in": {
+    "kind": "dissolve"
+   }
   },
   {
    "id": "S3",
@@ -322,7 +325,8 @@
     507.48,
     508.1,
     510.64
-   ]
+   ],
+   "drift": false
   },
   {
    "id": "S15",
@@ -343,7 +347,11 @@
      "pose": "shrug",
      "why": "sold for less than Google once asked"
     }
-   ]
+   ],
+   "in": {
+    "kind": "dissolve"
+   },
+   "drift": false
   },
   {
    "id": "S16",

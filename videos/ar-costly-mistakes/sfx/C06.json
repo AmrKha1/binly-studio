@@ -1,25 +1,191 @@
 [
-  {"t": 305.15, "kind": "wrong"},
-  {"t": 306.92, "kind": "tease"},
-  {"t": 312.6, "kind": "coins", "gain": 0.6},
-  {"t": 319.92, "kind": "ping", "gain": 0.7},
-  {"t": 324.12, "kind": "ping", "gain": 0.7},
-  {"t": 326.66, "kind": "correct", "gain": 0.7},
-  {"t": 327.18, "kind": "correct", "gain": 0.7},
-  {"t": 333.36, "kind": "suspense", "gain": 0.6},
-  {"t": 337.12, "kind": "impact", "gain": 0.7},
-  {"t": 343.76, "kind": "thump"},
-  {"t": 350.22, "kind": "popup"},
-  {"t": 352.9, "kind": "coins", "gain": 0.7},
-  {"t": 354.17, "kind": "clock"},
-  {"t": 363.0, "kind": "tease", "gain": 0.6},
-  {"t": 367.04, "kind": "sparkle", "gain": 0.7},
-  {"t": 368.58, "kind": "coins", "gain": 0.7},
-  {"t": 370.86, "kind": "glass"},
-  {"t": 374.96, "kind": "swish", "gain": 0.7},
-  {"t": 377.64, "kind": "typing", "dur": 1.5, "gain": 0.5},
-  {"t": 384.2, "kind": "tease"},
-  {"t": 388.3, "kind": "sparkle", "gain": 0.7},
-  {"t": 391.15, "kind": "scratch", "gain": 0.7},
-  {"t": 392.6, "kind": "whoosh"}
+ {
+  "t": 302.39,
+  "kind": "swish",
+  "gain": 0.5
+ },
+ {
+  "t": 305.15,
+  "kind": "wrong"
+ },
+ {
+  "t": 306.92,
+  "kind": "tease"
+ },
+ {
+  "t": 310.38,
+  "kind": "popup"
+ },
+ {
+  "t": 312.6,
+  "kind": "coins",
+  "gain": 0.6
+ },
+ {
+  "t": 316.94,
+  "kind": "popup"
+ },
+ {
+  "t": 318.42,
+  "kind": "ding",
+  "gain": 0.5
+ },
+ {
+  "t": 319.92,
+  "kind": "ping",
+  "gain": 0.7
+ },
+ {
+  "t": 320.72,
+  "kind": "popup"
+ },
+ {
+  "t": 323.58,
+  "kind": "popup"
+ },
+ {
+  "t": 324.12,
+  "kind": "ping",
+  "gain": 0.7
+ },
+ {
+  "t": 326.66,
+  "kind": "correct",
+  "gain": 0.7
+ },
+ {
+  "t": 327.18,
+  "kind": "correct",
+  "gain": 0.7
+ },
+ {
+  "t": 331.18,
+  "kind": "tick",
+  "gain": 0.6
+ },
+ {
+  "t": 333.36,
+  "kind": "suspense",
+  "gain": 0.6
+ },
+ {
+  "t": 337.12,
+  "kind": "impact",
+  "gain": 0.7
+ },
+ {
+  "t": 343.76,
+  "kind": "thump"
+ },
+ {
+  "t": 345.92,
+  "kind": "popup"
+ },
+ {
+  "t": 347.64,
+  "kind": "tick",
+  "gain": 0.6
+ },
+ {
+  "t": 350.22,
+  "kind": "popup"
+ },
+ {
+  "t": 352.9,
+  "kind": "coins",
+  "gain": 0.7
+ },
+ {
+  "t": 354.17,
+  "kind": "clock"
+ },
+ {
+  "t": 356.46,
+  "kind": "boom"
+ },
+ {
+  "t": 357.9,
+  "kind": "coins",
+  "gain": 0.5
+ },
+ {
+  "t": 363,
+  "kind": "tease",
+  "gain": 0.6
+ },
+ {
+  "t": 364.78,
+  "kind": "pop"
+ },
+ {
+  "t": 367.04,
+  "kind": "sparkle",
+  "gain": 0.7
+ },
+ {
+  "t": 368.58,
+  "kind": "coins",
+  "gain": 0.7
+ },
+ {
+  "t": 370.86,
+  "kind": "glass"
+ },
+ {
+  "t": 372.06,
+  "kind": "popup"
+ },
+ {
+  "t": 373.56,
+  "kind": "powerup",
+  "gain": 0.6
+ },
+ {
+  "t": 374.96,
+  "kind": "swish",
+  "gain": 0.7
+ },
+ {
+  "t": 377.64,
+  "kind": "typing",
+  "dur": 1.5,
+  "gain": 0.5
+ },
+ {
+  "t": 380.1,
+  "kind": "popup"
+ },
+ {
+  "t": 380.98,
+  "kind": "slam",
+  "gain": 0.7
+ },
+ {
+  "t": 384.2,
+  "kind": "tease"
+ },
+ {
+  "t": 385.56,
+  "kind": "tick",
+  "gain": 0.6
+ },
+ {
+  "t": 386.12,
+  "kind": "tick",
+  "gain": 0.6
+ },
+ {
+  "t": 388.3,
+  "kind": "sparkle",
+  "gain": 0.7
+ },
+ {
+  "t": 391.15,
+  "kind": "scratch",
+  "gain": 0.7
+ },
+ {
+  "t": 392.6,
+  "kind": "whoosh"
+ }
 ]

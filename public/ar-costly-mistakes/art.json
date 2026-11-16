@@ -203,5 +203,15 @@
   "kind": "el",
   "file": "steamship-1869.png",
   "ar": 1.124
+ },
+ "golden-hourglass": {
+  "kind": "el",
+  "file": "golden-hourglass.png",
+  "ar": 0.578
+ },
+ "small-house": {
+  "kind": "el",
+  "file": "small-house.png",
+  "ar": 1.052
  }
 }
