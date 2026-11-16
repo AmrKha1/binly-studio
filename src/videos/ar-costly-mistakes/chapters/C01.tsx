@@ -4,10 +4,10 @@ import React from 'react';
 import {Stage} from '../../../kit/stage';
 import {HostTrack, NightScreen} from '../../../kit/night';
 import {NightShots} from '../../../kit/night-scenes';
-import {HeroShot, StoryShot, BoardShot, MysteryShot} from '../../../kit/night-templates';
+import {HeroShot, StoryShot, MysteryShot} from '../../../kit/night-templates';
 import * as Custom from './C01.custom';
 
-// C01 · 0.00–38.30 s · "أغلى غلطة؟" · 14 shots (5 template, 9 custom)
+// C01 · 0.00–38.30 s · "أغلى غلطة؟" · 14 shots (4 template, 10 custom)
 export const C01: React.FC<{t: number}> = ({t}) => (
   <Stage bg="#0F062B">
     <NightScreen>
@@ -32,8 +32,8 @@ export const C01: React.FC<{t: number}> = ({t}) => (
       {start: 18.12, render: (t: number) => <Custom.S8 t={t} />},
       // S9 · 21.02–24.72 · custom: ★ the StairGame (board.json, summitAt 21.31) appears for the first time: steps rise one by one RIGHT→LEFT with
       {start: 21.02, drift: false, render: (t: number) => <Custom.S9 t={t} />},
-      // S10 · 24.72–26.94 · BoardShot
-      {start: 24.72, in: {"kind":"dissolve"}, drift: false, render: (t: number) => <BoardShot t={t} a={24.72} b={26.94} {...({"_note":"later chapters: the remaining entries (pizza, bank, interview, netflix, google, chernobyl, suez twist) + recapAt are added after the re-timing","game":"stairs","summitAt":21.31,"topLabel":"الأغلى","entries":[{"id":"mariner","label":"150 مليون $","at":105.98,"src":"ar-costly-mistakes/el/mariner-rocket.png","ar":0.317,"glow":"#9FE6FF"},{"id":"howells","label":"590–630 مليون $","at":174.46,"src":"ar-costly-mistakes/el/trash-bag.png","ar":0.931,"glow":"#FFC928"}],"words":[{"w":"لأغلى","at":25.08,"tone":"gold"},{"w":"غلطة","at":25.78},{"w":"ارتكبها","at":26.12},{"w":"إنسان","at":26.54}]} as Omit<React.ComponentProps<typeof BoardShot>, 't' | 'a' | 'b'>)} />},
+      // S10 · 24.72–26.94 · custom: continues S9 end state: the 9-step staircase, camera on the summit, WordPop لأغلى (gold) غلطة ارتكبها إنسان
+      {start: 24.72, in: {"kind":"dissolve"}, drift: false, render: (t: number) => <Custom.S10 t={t} />},
       // S11 · 26.94–29.50 · MysteryShot
       {start: 26.94, render: (t: number) => <MysteryShot t={t} a={26.94} b={29.5} {...({"at":27.6,"kind":"pillar","words":[{"w":"أغلى","at":27.88,"tone":"gold"},{"w":"وحدة","at":28.34},{"w":"فيهم","at":28.66}]} as Omit<React.ComponentProps<typeof MysteryShot>, 't' | 'a' | 'b'>)} />},
       // S12 · 29.50–31.70 · custom: three big gold NPills orbit (150 مليون $ · 785 مليون · مئات الملايين); on أصغر a tiny dark-gold pill «؟ $» dro

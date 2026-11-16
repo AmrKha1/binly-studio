@@ -390,12 +390,6 @@ export const S10: React.FC<{t: number}> = ({t}) => {
         {pulse > 0 && pulse < 1 && <circle cx={960} cy={583} r={190 + 140 * ease.out(pulse)} fill="none" stroke="#FF2E4D" strokeWidth={14 * (1 - pulse)} opacity={1 - pulse} />}
         <Pencil x={1330} y={960} rot={-14} />
       </g>
-      {/* the lamp, top-left, out of focus foreground */}
-      <g opacity={0.95}>
-        <path d="M-40 -40 L330 120" stroke="#2B2F45" strokeWidth={30} strokeLinecap="round" />
-        <path d="M230 60 L420 120 L360 250 L170 190 Z" fill="#3A8F7A" stroke={OUT} strokeWidth={9} strokeLinejoin="round" />
-        <ellipse cx={360} cy={220} rx={70} ry={26} fill="#FFF3C8" opacity={0.9 * lamp} transform="rotate(20 360 220)" />
-      </g>
       {pulse > 0 && pulse < 1 && <rect x={0} y={0} width={1920} height={1080} fill="#FF2E4D" opacity={0.1 * (1 - pulse)} />}
     </g>
   );
@@ -606,7 +600,7 @@ export const S18: React.FC<{t: number}> = ({t}) => {
           <HeroObject t={t} src={PROBE} ar={1.509} x={px} y={py} h={150} glow="#FFC928" float={false} sparkles={2} id="c2s18-probe" />
         </g>
       )}
-      <CalendarCard t={t} at={T.weeks - 0.1} x={1520} y={290} to={5} size={0.8} pill="أسابيع" id="c2s18-cal" />
+      <CalendarCard t={t} at={T.weeks - 0.1} x={1520} y={290} to={5} size={1.05} pill="أسابيع" id="c2s18-cal" />
       <RevealRing t={t} at={T.win - 0.1} x={560} y={400} r={260} color="#7CF0A0" boom={false} />
       <MarkPill t={t} at={T.win - 0.05} text="نجحت" mark="check" x={560} y={660} size={56} id="c2s18-ok" />
     </g>

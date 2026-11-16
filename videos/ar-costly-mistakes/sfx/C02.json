@@ -1,0 +1,183 @@
+[
+ {
+  "t": 38.45,
+  "kind": "riser",
+  "gain": 0.7
+ },
+ {
+  "t": 40.2,
+  "kind": "tick",
+  "gain": 0.6
+ },
+ {
+  "t": 41.14,
+  "kind": "pop",
+  "gain": 0.7
+ },
+ {
+  "t": 42.3,
+  "kind": "whoosh",
+  "gain": 0.7
+ },
+ {
+  "t": 45.42,
+  "kind": "sparkle",
+  "gain": 0.6
+ },
+ {
+  "t": 48.3,
+  "kind": "whoosh",
+  "gain": 0.5
+ },
+ {
+  "t": 51.1,
+  "kind": "rumble",
+  "dur": 2.4,
+  "gain": 0.7
+ },
+ {
+  "t": 53.4,
+  "kind": "tease"
+ },
+ {
+  "t": 53.96,
+  "kind": "fall",
+  "gain": 0.6
+ },
+ {
+  "t": 55.84,
+  "kind": "scratch",
+  "gain": 0.7
+ },
+ {
+  "t": 56.94,
+  "kind": "wrong"
+ },
+ {
+  "t": 59.2,
+  "kind": "suspense",
+  "gain": 0.6
+ },
+ {
+  "t": 61.84,
+  "kind": "clock",
+  "gain": 0.7
+ },
+ {
+  "t": 63.29,
+  "kind": "tease"
+ },
+ {
+  "t": 64.21,
+  "kind": "thump"
+ },
+ {
+  "t": 65.1,
+  "kind": "thump"
+ },
+ {
+  "t": 65.99,
+  "kind": "thump"
+ },
+ {
+  "t": 66.7,
+  "kind": "whoosh",
+  "gain": 0.5
+ },
+ {
+  "t": 67.3,
+  "kind": "sparkle",
+  "gain": 0.7
+ },
+ {
+  "t": 69.9,
+  "kind": "tick",
+  "gain": 0.6
+ },
+ {
+  "t": 71.3,
+  "kind": "whoosh",
+  "gain": 0.5
+ },
+ {
+  "t": 72.4,
+  "kind": "typing",
+  "dur": 1.6,
+  "gain": 0.6
+ },
+ {
+  "t": 74.56,
+  "kind": "wrong",
+  "gain": 0.7
+ },
+ {
+  "t": 76.06,
+  "kind": "correct"
+ },
+ {
+  "t": 79.7,
+  "kind": "glitch",
+  "gain": 0.6
+ },
+ {
+  "t": 81.28,
+  "kind": "impact",
+  "gain": 0.8
+ },
+ {
+  "t": 84.2,
+  "kind": "fall"
+ },
+ {
+  "t": 86.8,
+  "kind": "cash"
+ },
+ {
+  "t": 89.88,
+  "kind": "cash"
+ },
+ {
+  "t": 92.4,
+  "kind": "swish",
+  "gain": 0.6
+ },
+ {
+  "t": 93.86,
+  "kind": "pop",
+  "gain": 0.7
+ },
+ {
+  "t": 95.85,
+  "kind": "whoosh",
+  "gain": 0.6
+ },
+ {
+  "t": 97.08,
+  "kind": "wrong",
+  "gain": 0.7
+ },
+ {
+  "t": 100.56,
+  "kind": "applause",
+  "gain": 0.5
+ },
+ {
+  "t": 102.5,
+  "kind": "whoosh",
+  "gain": 0.7
+ },
+ {
+  "t": 104.48,
+  "kind": "correct"
+ },
+ {
+  "t": 107.41,
+  "kind": "tick",
+  "gain": 0.6
+ },
+ {
+  "t": 107.98,
+  "kind": "ding",
+  "gain": 0.7
+ }
+]

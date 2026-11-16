@@ -281,32 +281,9 @@
   {
    "id": "S10",
    "start": 24.72,
-   "template": "BoardShot",
    "size": "wide",
    "in": {
     "kind": "dissolve"
-   },
-   "props": {
-    "entries": "@board",
-    "words": [
-     {
-      "w": "لأغلى",
-      "at": 25.08,
-      "tone": "gold"
-     },
-     {
-      "w": "غلطة",
-      "at": 25.78
-     },
-     {
-      "w": "ارتكبها",
-      "at": 26.12
-     },
-     {
-      "w": "إنسان",
-      "at": 26.54
-     }
-    ]
    },
    "host": [
     {
@@ -315,6 +292,15 @@
      "pose": "higher",
      "why": "points up at the summit «؟»"
     }
+   ],
+   "custom": true,
+   "mode": "scene",
+   "drift": false,
+   "note": "continues S9 end state: the 9-step staircase, camera on the summit, WordPop لأغلى (gold) غلطة ارتكبها إنسان",
+   "beats": [
+    25.08,
+    25.78,
+    26.54
    ]
   },
   {

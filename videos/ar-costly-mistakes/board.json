@@ -7,13 +7,13 @@
    "id": "mariner",
    "label": "150 مليون $",
    "at": 105.98,
-   "src": "ar-costly-mistakes/el/mariner-rocket.png",
-   "ar": 0.317,
+   "src": "ar-costly-mistakes/el/toy-rocket.png",
+   "ar": 0.595,
    "glow": "#9FE6FF"
   },
   {
    "id": "howells",
-   "label": "590–630 مليون $",
+   "label": "بين 590 و630 مليون $",
    "at": 174.46,
    "src": "ar-costly-mistakes/el/trash-bag.png",
    "ar": 0.931,

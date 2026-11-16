@@ -15,7 +15,8 @@ if (!fs.existsSync(file)) {
   process.exit(1);
 }
 const words = JSON.parse(fs.readFileSync(file, 'utf8'));
-const norm = (s) => s.toLowerCase().replace(/[’']/g, "'").replace(/[^\w'.%]+/g, ' ').replace(/(?<!\d)\.|\.(?!\d)/g, ' ').trim();
+// Unicode-aware (Arabic!): strip tashkeel/tatweel, unify alef forms; \w alone dropped every Arabic letter
+const norm = (s) => s.toLowerCase().replace(/[ً-ٰٟـ]/g, '').replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/[’']/g, "'").replace(/[^\p{L}\p{N}'.%]+/gu, ' ').replace(/(?<!\d)\.|\.(?!\d)/g, ' ').trim();
 const keys = words.map((w) => norm(w.w));
 
 if (a.range) {
@@ -26,6 +27,7 @@ if (a.range) {
 }
 for (const phrase of a._) {
   const target = norm(phrase).split(' ').filter(Boolean);
+  if (!target.length) { console.log(`"${phrase}": empty after normalising`); continue; }
   const hits = [];
   for (let i = 0; i + target.length <= keys.length; i++) {
     let ok = true;

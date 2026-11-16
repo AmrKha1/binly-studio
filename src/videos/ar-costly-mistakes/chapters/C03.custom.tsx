@@ -149,7 +149,7 @@ const TableDrive: React.FC<{x: number; y: number; h: number; s?: number; o?: num
     <g>
       <ellipse cx={x} cy={tableY + 30} rx={w * 0.42 * s} ry={22 * s} fill="#000" opacity={0.35 * o} />
       <Glow x={x} y={y} r={h * 0.9 * s} color={GOLD} o={keyGlow * o} id={id + 'kg'} />
-      <Pic {...DRIVE} x={x} y={y} h={h} s={s} o={o * (1 - 0.75 * xray)} id={id} />
+      <Pic {...DRIVE} x={x} y={y} h={h} s={s} o={o * (1 - 0.75 * xray)} glow={keyGlow > 0.3 ? GOLD : undefined} id={id} />
       {xray > 0.01 && (
         <g transform={`translate(${x} ${y}) scale(${s})`} opacity={xray * o}>
           <defs>
@@ -510,7 +510,7 @@ export const S8: React.FC<{t: number}> = ({t}) => {
         {t >= tDrop + 0.05 && (
           <g>
             <Glow x={g[0]} y={g[1]} r={300 * (1 - 0.5 * swallow)} color={GOLD} o={glowK} id="c3s8-fg" />
-            <Pic {...DRIVE} x={g[0]} y={g[1]} h={300} rot={fall * 25} id="c3s8-fall" />
+            <Pic {...DRIVE} x={g[0]} y={g[1]} h={300} rot={fall * 25} glow={swallow < 0.5 ? GOLD : undefined} id="c3s8-fall" />
           </g>
         )}
         <BinBagFront x={BAG[0]} y={BAG[1]} squash={squash} />
@@ -589,7 +589,7 @@ export const S10: React.FC<{t: number}> = ({t}) => {
 // ---------------------------------------------------------------- S11 · 146.34 · «نفس الكمية قيمتها تقريبًا بين 590 و630 مليون دولار»
 export const S11: React.FC<{t: number}> = ({t}) => {
   const BX = 1200, BY = 500;
-  const value = t < T.v630 - 0.1 ? '590' : t < T.million - 0.1 ? '590–630' : '590–630 مليون $';
+  const value = t < T.v630 - 0.1 ? 'بين 590' : t < T.million - 0.1 ? 'بين 590 و630' : 'بين 590 و630 مليون $';
   // the coin flies in from the chart into the bill
   const fly = ease.inOut(clamp01((t - T.s11) / 0.6));
   const [cx, cy] = move(t, T.s11, [1760, 200], [BX, BY + 120], 0.6);

@@ -96,7 +96,7 @@ const pop = (t: number, at: number) => (t < at ? {s: 0, o: 0} : popRef(clamp01((
 // ==================================================================================================================
 // S1 · 0.00 · «خط صغير بحجم ضربة قلم» — the gold pen over the bill: digits rolling, ONE tiny stroke, then it flares
 export const S1: React.FC<{t: number}> = ({t}) => {
-  const bx = 1170, by = 600, bs = 1.12;
+  const bx = 1110, by = 620, bs = 1.12;
   // the bill (w 900, one row + total): row centre y local = −235 + 128 + 48 = −59 ; row label «خط صغير» ends at x 410
   const sy = by + (-59 - 50) * bs; // the overline sits just above the label
   const sx1 = bx + 400 * bs, sx0 = bx + 290 * bs; // drawn right → left (Arabic hand)
@@ -109,7 +109,9 @@ export const S1: React.FC<{t: number}> = ({t}) => {
   if (t >= 1.4) [nx, ny] = move(t, 1.4, [sx0, sy], [sx0 - 30, sy - 70], 0.6);
   const flare = t >= T.darba ? Math.exp(-(t - T.darba) / 0.5) : 0;
   const frozen = t >= T.darba;
-  const roll = Math.floor(rand(Math.floor(t * 18) + 11) * 899e6 + 100e6).toLocaleString('en-US');
+  // the total ROLLS as scrambled «؟» glyphs (never a readable unspoken number) + blurred streaks scrolling over it
+  const ty = by + 123 * bs;
+  const roll = ['؟؟؟,؟؟؟,؟؟؟', '؟؟,؟؟؟,؟؟؟', '؟,؟؟؟,؟؟؟,؟؟؟'][Math.floor(t * 9) % 3];
   cueSfx('scribble', 'c01-s1-stroke', t >= T.khat && t < T.khat + 0.45, sx1, {at: T.khat, hit: 0.1, gain: 0.8});
   return (
     <g>
@@ -123,12 +125,23 @@ export const S1: React.FC<{t: number}> = ({t}) => {
         rows={[{label: 'خط صغير', value: '؟', tone: 'red', at: -0.5}]}
         total={{label: 'المجموع', value: frozen ? '؟؟؟ $' : `${roll} $`, tone: 'gold', at: -0.4}}
       />
+      {!frozen && (
+        <g>
+          <defs><clipPath id="c01s1-roll"><rect x={bx - 300} y={ty - 50} width={600} height={100} rx={20} /></clipPath></defs>
+          <g clipPath="url(#c01s1-roll)" style={{filter: 'blur(5px)'}} opacity={0.55}>
+            {Array.from({length: 9}, (_, i) => {
+              const yy = ty - 60 + (((t * 900 + i * 37) % 120));
+              return <rect key={i} x={bx - 260 + i * 58} y={yy} width={30} height={70} rx={10} fill="#FFE08A" />;
+            })}
+          </g>
+        </g>
+      )}
       {/* the stroke: one tiny glowing gold line */}
       {t >= T.khat && (
         <g>
           <line x1={sx1} y1={sy} x2={end} y2={sy} stroke="#FFC928" strokeWidth={16 + 22 * flare} strokeLinecap="round" opacity={0.35 + 0.4 * flare} style={{filter: 'blur(8px)'}} />
-          <line x1={sx1} y1={sy} x2={end} y2={sy} stroke="#05030F" strokeWidth={14} strokeLinecap="round" />
-          <line x1={sx1} y1={sy} x2={end} y2={sy} stroke={flare > 0.05 ? '#FFE9A0' : '#FCC018'} strokeWidth={8} strokeLinecap="round" />
+          <line x1={sx1} y1={sy} x2={end} y2={sy} stroke="#05030F" strokeWidth={18} strokeLinecap="round" />
+          <line x1={sx1} y1={sy} x2={end} y2={sy} stroke={flare > 0.05 ? '#FFE9A0' : '#FCC018'} strokeWidth={11} strokeLinecap="round" />
         </g>
       )}
       <Glow x={(sx0 + sx1) / 2} y={sy} r={200} color="#FFC928" o={0.9 * flare} id="s1flare" />
@@ -356,16 +369,16 @@ export const S8: React.FC<{t: number}> = ({t}) => {
 const N_STEPS = 9, STEP_W = 250;
 const stepX = (i: number) => 1660 - i * STEP_W;
 const stepH = (i: number) => 110 + i * 62 + (i === N_STEPS - 1 ? 37 : 0);
-const SIL: Record<number, {src: string; ar: number; h: number} | 'laptop'> = {
+const SIL: Record<number, {src: string; ar: number; h: number} | 'laptop' | 'slice'> = {
   0: {src: 'fountain-pen', ar: 1.004, h: 170}, // Mariner (the line)
   1: {src: 'trash-bag', ar: 0.931, h: 180}, // Howells (the bag)
-  2: {src: 'two-pizzas', ar: 1.548, h: 115}, // the pizza
+  2: 'slice', // the pizza — a clear slice outline (the two-pizzas silhouette read as a blob)
   4: 'laptop', // the Binance message
 };
 type Cam = {cx: number; cy: number; z: number; sx: number; sy: number};
-const CAM_WIDE: Cam = {cx: 560, cy: 836, z: 0.8, sx: 960, sy: 836};
-const CAM_STEP1: Cam = {cx: 1540, cy: 660, z: 1.38, sx: 1080, sy: 600};
-const CAM_TOP: Cam = {cx: -300, cy: 250, z: 1.12, sx: 1000, sy: 520};
+const CAM_WIDE: Cam = {cx: 400, cy: 836, z: 0.84, sx: 980, sy: 975};
+const CAM_STEP1: Cam = {cx: 1520, cy: 660, z: 1.25, sx: 1060, sy: 600};
+const CAM_TOP: Cam = {cx: -260, cy: 230, z: 1.02, sx: 1000, sy: 560};
 const CLIMB = 23.5;
 const camOf = (t: number): Cam => {
   const seg = (a: Cam, b: Cam, at: number, dur: number): Cam => {
@@ -377,7 +390,17 @@ const camOf = (t: number): Cam => {
   return {...c, z: c.z * (1 + 0.004 * Math.max(0, t - T.wel))};
 };
 const litAt = (i: number) => (i === 0 ? T.daraja : i === 1 ? T.daraja2 : CLIMB + 0.1 + (i - 1) * 0.12);
-export const S9: React.FC<{t: number}> = ({t}) => {
+export const S9: React.FC<{t: number}> = ({t}) => <Stairs t={t} />;
+// S10 · 24.72 · «لين نوصل لأغلى غلطة ارتكبها إنسان» — S9's end state held (camera settled on the summit) + the line
+export const S10: React.FC<{t: number}> = ({t}) => (
+  <g>
+    <Stairs t={t} />
+    <CWords t={t} cx={1180} y={880} size={110} id="c01-s10-w" words={[
+      {w: 'لأغلى', at: 25.0, tone: 'gold'}, {w: 'غلطة', at: 25.7}, {w: 'ارتكبها', at: 26.04}, {w: 'إنسان', at: 26.46},
+    ]} />
+  </g>
+);
+const Stairs: React.FC<{t: number}> = ({t}) => {
   const base = 836;
   const c = camOf(t);
   const scr = (x: number, y: number): [number, number] => [c.sx + (x - c.cx) * c.z, c.sy + (y - c.cy) * c.z];
@@ -423,6 +446,12 @@ export const S9: React.FC<{t: number}> = ({t}) => {
                 <g style={{filter: 'brightness(0) drop-shadow(0 0 16px rgba(170,120,255,0.75))'}}>
                   <Laptop t={t} at={20} x={0} y={70} w={220} id="c01-s9-lap" />
                 </g>
+              ) : v === 'slice' ? (
+                <g style={{filter: 'drop-shadow(0 0 16px rgba(170,120,255,0.75))'}} transform="rotate(-12)">
+                  {/* a pizza slice: point down, round crust on top, one bite-shaped notch of pepperoni holes */}
+                  <path d="M0 95 L-78 -52 Q0 -100 78 -52 Z" fill="#000000" />
+                  <path d="M-86 -50 Q0 -112 86 -50 Q0 -88 -86 -50 Z" fill="#000000" stroke="#000000" strokeWidth={22} strokeLinejoin="round" />
+                </g>
               ) : (
                 <Art src={el(v.src)} ar={v.ar} h={v.h} sil />
               )}
@@ -449,7 +478,7 @@ export const S9: React.FC<{t: number}> = ({t}) => {
 // S12 · 29.50 · «سعرها أصغر رقم بتسمعه في الفيديو كله» — big numbers orbit, a tiny «؟ $» shrinks under the lens
 const BIG = ['150 مليون $', '785 مليون', 'مئات الملايين'];
 export const S12: React.FC<{t: number}> = ({t}) => {
-  const cx = 1240, cy = 500;
+  const cx = 1280, cy = 500;
   const spread = moveTo(t, T.video - 0.1, 1, 1.12, 0.6);
   const grow = moveTo(t, T.asghar, 1, 1.12, 0.6);
   const [tx, ty] = move(t, T.asghar - 0.05, [cx, 120], [cx, cy], 0.45);
@@ -461,7 +490,7 @@ export const S12: React.FC<{t: number}> = ({t}) => {
       <Bokeh t={t} n={20} seed={12} />
       {BIG.map((s, i) => {
         const a = -Math.PI / 2 + (i * 2 * Math.PI) / 3 + 0.22 * (t - 29.3);
-        const x = cx + Math.cos(a) * 470 * spread, y = cy + Math.sin(a) * 230 * spread;
+        const x = cx + Math.cos(a) * 430 * spread, y = cy + Math.sin(a) * 230 * spread;
         return (
           <g key={i} transform={`translate(${x} ${y}) scale(${grow})`}>
             <NPill text={s} x={0} y={0} size={62} kind="gold" id={`c01-s12-b${i}`} p={(t - (29.25 + i * 0.08)) / 0.3} />
@@ -473,7 +502,7 @@ export const S12: React.FC<{t: number}> = ({t}) => {
           <NPill text="؟ $" x={0} y={0} size={56} kind="dark" id="c01-s12-tiny" p={1} />
         </g>
       )}
-      <Magnifier t={t} at={T.raqam - 0.08} x={cx} y={cy} r={150} id="c01-s12-mag">
+      <Magnifier t={t} at={T.raqam - 0.08} x={cx} y={cy} r={150} angle={90} id="c01-s12-mag">
         <GlowText text="؟ $" x={0} y={0} size={110} tone="gold" id="c01-s12-mz" />
       </Magnifier>
     </g>
@@ -492,7 +521,8 @@ export const S13: React.FC<{t: number}> = ({t}) => {
   const rays = t >= T.ard ? ease.out(clamp01((t - T.ard) / 0.5)) : 0;
   const pq = pop(t, T.arabia);
   const pinY = fy - 120 + Math.sin(t * 2.2) * 8;
-  const pill1 = 1 - clamp01((t - (T.ard - 0.2)) / 0.2);
+  const wx = 1300; // over the dim neighbours at the top (Mediterranean / Anatolia) — the gold land never sits behind the words
+  const wy = 250;
   return (
     <g>
       <NightSky t={t} id="c01s13" stars={90} />
@@ -519,46 +549,59 @@ export const S13: React.FC<{t: number}> = ({t}) => {
         )}
       </g>
       <RevealRing t={t} at={T.arabia} x={960} y={540 + z * (pinY - fy + 30)} r={200} boom={false} />
-      {pill1 > 0 && <g opacity={pill1}><NPill text="مو بعيدة عنا" x={1180} y={150} size={56} kind="white" id="c01-s13-p1" p={(t - (T.mo - 0.1)) / 0.3} /></g>}
-      <NPill text="أرض عربية" x={1180} y={150} size={62} kind="gold" id="c01-s13-p2" p={(t - (T.ard - 0.05)) / 0.3} />
+      {/* the line sits over the open sea (Arabian Sea / Indian Ocean, lower right), big */}
+      <CWords t={t} cx={wx} y={wy} size={112} id="c01-s13-w1" out={T.ard - 0.25} words={[{w: 'مو', at: T.mo - 0.08}, {w: 'بعيدة', at: 32.68}, {w: 'عنا', at: 32.94}]} />
+      <CWords t={t} cx={wx} y={wy} size={124} id="c01-s13-w2" words={[{w: 'أرض', at: T.ard - 0.08}, {w: 'عربية', at: T.arabia - 0.08, tone: 'gold'}]} />
     </g>
   );
 };
 
 // ==================================================================================================================
 // S14 · 35.00 · «وفاتورتها دفعها ناس ما كانوا حتى موجودين وقتها» — the bill drifts to a row of ghost people
-const GHOSTS = [
-  {x: 1460, s: 1.05}, {x: 1290, s: 0.92}, {x: 1120, s: 0.72}, {x: 950, s: 1.0}, {x: 780, s: 0.88},
+// a row of 7 people who did not exist yet: adult · child · old (cane) · adult · child · adult · old — different heights
+const GHOSTS: {x: number; s: number; kind: 'adult' | 'child' | 'old'}[] = [
+  {x: 1750, s: 1.12, kind: 'adult'}, {x: 1590, s: 0.66, kind: 'child'}, {x: 1440, s: 0.98, kind: 'old'}, {x: 1270, s: 1.18, kind: 'adult'},
+  {x: 1105, s: 0.72, kind: 'child'}, {x: 950, s: 1.06, kind: 'adult'}, {x: 790, s: 0.96, kind: 'old'},
 ];
-const Ghost: React.FC<{x: number; y: number; s: number; o: number}> = ({x, y, s, o}) => (
-  <g transform={`translate(${x} ${y}) scale(${s})`} opacity={o}>
-    <ellipse cx={0} cy={4} rx={95} ry={16} fill="#9FB4FF" opacity={0.18} />
-    <path d="M-100 0 V-150 Q-100 -238 0 -238 Q100 -238 100 -150 V0 Z" fill="#B9C6FF" fillOpacity={0.1} stroke="#9FB4FF" strokeWidth={18} strokeOpacity={0.18} />
-    <path d="M-100 0 V-150 Q-100 -238 0 -238 Q100 -238 100 -150 V0 Z" fill="none" stroke="#E4E9FF" strokeWidth={6} strokeDasharray="20 13" strokeLinejoin="round" />
-    <circle cx={0} cy={-310} r={60} fill="#B9C6FF" fillOpacity={0.1} stroke="#9FB4FF" strokeWidth={18} strokeOpacity={0.18} />
-    <circle cx={0} cy={-310} r={60} fill="none" stroke="#E4E9FF" strokeWidth={6} strokeDasharray="20 13" />
-  </g>
-);
+const Ghost: React.FC<{x: number; y: number; s: number; o: number; kind: 'adult' | 'child' | 'old'}> = ({x, y, s, o, kind}) => {
+  const old = kind === 'old';
+  const body = old ? 'M-70 0 V-140 Q-62 -222 18 -230 Q86 -224 82 -150 V0 Z' : 'M-72 0 V-150 Q-72 -236 0 -236 Q72 -236 72 -150 V0 Z';
+  const hx = old ? 26 : 0, hy = old ? -292 : -300;
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`} opacity={o}>
+      <ellipse cx={0} cy={4} rx={80} ry={14} fill="#9FB4FF" opacity={0.25} />
+      {/* soft glow (wide blurred stroke) */}
+      <g style={{filter: 'blur(7px)'}} opacity={0.6}>
+        <path d={body} fill="none" stroke="#8FA6FF" strokeWidth={16} />
+        <circle cx={hx} cy={hy} r={54} fill="none" stroke="#8FA6FF" strokeWidth={16} />
+      </g>
+      <path d={body} fill="#B9C6FF" fillOpacity={0.16} stroke="#F0F3FF" strokeWidth={7} strokeDasharray="20 12" strokeLinejoin="round" />
+      <circle cx={hx} cy={hy} r={54} fill="#B9C6FF" fillOpacity={0.16} stroke="#F0F3FF" strokeWidth={7} strokeDasharray="20 12" />
+      {old && <path d="M110 0 V-150 Q110 -176 88 -176" fill="none" stroke="#F0F3FF" strokeWidth={7} strokeDasharray="16 10" strokeLinecap="round" />}
+    </g>
+  );
+};
 export const S14: React.FC<{t: number}> = ({t}) => {
-  const base = 880;
+  const base = 960;
   return (
     <g>
       <NightSky t={t} id="c01s14" />
       <GridFloor id="c01s14f" t={t} />
       <Bokeh t={t} n={16} seed={14} color="#9FB4FF" />
       {/* a cold light falls from the bill onto the row */}
-      <Glow x={1120} y={760} r={560} color="#7F95FF" o={0.28 * clamp01((t - T.nas) / 0.6)} id="s14l" />
+      <Glow x={1270} y={800} r={620} color="#7F95FF" o={0.35 * clamp01((t - T.nas) / 0.6)} id="s14l" />
       {GHOSTS.map((g, i) => {
-        const at = T.nas - 0.05 + i * 0.12;
-        let o = ease.out(clamp01((t - at) / 0.4));
-        if (t >= T.mawjoodeen) o *= 0.45 + 0.55 * clamp01(0.5 + 0.9 * noise1((t - T.mawjoodeen) * 7, i * 13 + 2));
-        cueSfx('swish', `c01-s14-g${i}`, t >= at && t < at + 0.3, g.x, {at, hit: 0.15, gain: 0.5});
-        return o > 0.01 ? <Ghost key={i} x={g.x} y={base + (1 - o) * 30} s={g.s} o={o * 0.95} /> : null;
+        const at = T.nas - 0.12 + i * 0.07;
+        let o = ease.out(clamp01((t - at) / 0.35));
+        if (t >= T.mawjoodeen) o *= 0.4 + 0.6 * clamp01(0.5 + 0.9 * noise1((t - T.mawjoodeen) * 7, i * 13 + 2));
+        if (i % 2 === 0) cueSfx('swish', `c01-s14-g${i}`, t >= at && t < at + 0.3, g.x, {at, hit: 0.15, gain: 0.5});
+        return o > 0.01 ? <Ghost key={i} x={g.x} y={base + (1 - o) * 30} s={g.s} o={o} kind={g.kind} /> : null;
       })}
+      {/* the bill: big (≈ 42 % of the frame), drifting right → left over the row */}
       <MistakeBill
-        t={t} at={34.6} x={1600} y={500} s={0.8} id="c01-bill14" title="الفاتورة" rows={[]}
+        t={t} at={34.6} x={1420} y={325} w={720} s={1.2} id="c01-bill14" title="الفاتورة" rows={[]}
         total={{label: 'المجموع', value: '؟', tone: 'red', at: T.fatoora + 0.05}}
-        fly={{at: 35.45, x: 1120, y: 290, s: 0.62, dur: 1.6}}
+        fly={{at: 35.3, x: 1200, y: 325, s: 1.2, dur: 2.6}}
       />
     </g>
   );
