@@ -291,7 +291,7 @@ const Lender: React.FC<{t: number; x: number; y: number; s: number; at?: number;
   return (
     <g transform={`translate(${x} ${y}) scale(${q.s}) translate(${-x} ${-y})`} opacity={q.o}>
       <ellipse cx={x} cy={y + 6} rx={90 * s} ry={16 * s} fill="#000000" opacity={0.35} />
-      <StoryPerson x={x} y={y} s={s} t={t} id={id} role="businessman" rim={CYAN} pose={pose} flip={flip} />
+      <StoryPerson x={x} y={y} s={s} t={t} id={id} role="businessman" rim={CYAN} pose={pose} flip={flip} prop="none" />
     </g>
   );
 };
@@ -307,9 +307,9 @@ export const S2: React.FC<{t: number}> = ({t}) => {
   const head: [number, number] = [tileX + R * Math.cos(a1), tileY + R * Math.sin(a1)];
   const biggerO = t < T.x1 - 0.3 ? 1 : 1 - clamp01((t - (T.x1 - 0.3)) / 0.25);
   const icons = [
-    {a: ART.rocket, x: 1180, h: 150, at: T.x1},
-    {a: ART.bag, x: 1380, h: 120, at: T.x2},
-    {a: ART.pizzas, x: 1600, h: 92, at: T.x3},
+    {a: ART.rocket, x: 1170, h: 190, at: T.x1},
+    {a: ART.bag, x: 1390, h: 150, at: T.x2},
+    {a: ART.pizzas, x: 1620, h: 110, at: T.x3},
   ];
   icons.forEach((ic, i) => cueSfx('thump', `c5s2x-${i}`, t >= ic.at && t < ic.at + 0.3, ic.x, {at: ic.at, hit: 0.1, gain: 0.7}));
   cueSfx('pop', 'c5s2row', t >= 238.9 && t < 239.2, 1380, {at: 238.9, hit: 0.12, gain: 0.6});
@@ -340,7 +340,7 @@ export const S2: React.FC<{t: number}> = ({t}) => {
           <Pic {...ic.a} x={ic.x} y={930 - (ic.h - 92) / 2} h={ic.h} o={t >= ic.at ? 0.55 : 1} id={`c5s2i${i}`} />
           {t >= ic.at && (
             <g transform={`translate(${ic.x + 52} 900) scale(${popAt(t, ic.at).s}) translate(${-(ic.x + 52)} -900)`}>
-              <GreyCross x={ic.x + 52} y={900} r={34} />
+              <GreyCross x={ic.x + 52} y={900} r={40} />
             </g>
           )}
         </PopG>
@@ -391,7 +391,7 @@ export const S4: React.FC<{t: number}> = ({t}) => {
       <CoolOffice t={t} id="c5s4r" />
       {/* the banker (gold rim = the bank's side) */}
       <ellipse cx={1520} cy={1006} rx={130} ry={22} fill="#000000" opacity={0.35} />
-      <StoryPerson x={1520} y={1000} s={1.45} t={t} id="c5s4bk" role="banker" pose={t >= T.loan - 0.1 ? 'point' : 'talk'} flip />
+      <StoryPerson x={1520} y={1000} s={1.45} t={t} id="c5s4bk" role="banker" prop="document" pose={t >= T.loan - 0.1 ? 'point' : 'talk'} flip />
       {/* the loan document beside him */}
       {t >= T.loan - 0.12 && (
         <g transform={`translate(${docX} ${docY}) scale(${swell}) translate(${-docX} ${-docY})`}>
@@ -453,7 +453,7 @@ export const S6: React.FC<{t: number}> = ({t}) => {
   const z = moveTo(t, T.full, 1, 1.32, 1.5);
   const [cx, cy] = move(t, T.full, [960, 540], [PX + 60, AY], 1.5);
   // the press
-  const [hx, hy0] = move(t, T.s6 - 0.45, [1760, 1180], [1580, 790], 0.4, ease.out);
+  const [hx, hy0] = move(t, T.s6 - 0.45, [1760, 1180], [1580, 670], 0.4, ease.out);
   const pu = t - T.press;
   const dip = pu >= 0 && pu < 0.3 ? Math.sin((Math.PI * pu) / 0.3) : 0;
   const [, hyOut] = move(t, T.done + 0.1, [0, 0], [0, 420], 0.45);
@@ -502,14 +502,14 @@ export const S6: React.FC<{t: number}> = ({t}) => {
       <g transform={`translate(${960 + shake} 540) scale(${z}) translate(${-cx} ${-cy})`}>
         <TransferView x={PX} y={PY} id="c5s6tv" amount={amount} tone={tone} amountDy={amountDy} amountS={amountS} bar={bar} mark={mark} markS={markS} glow={glow} bad={landed} flash={flash} />
         {/* foreground: the gold confirm button + the pressing hand */}
-        <g transform={`translate(1580 880) scale(${btnS}) translate(-1580 -880)`}>
-          <ellipse cx={1580} cy={930} rx={150} ry={40} fill="#000000" opacity={0.4} />
-          {ringK >= 0 && <circle cx={1580} cy={880} r={115 + ringK * 70} fill="none" stroke={GOLD} strokeWidth={10} opacity={1 - ringK} />}
-          <ellipse cx={1580} cy={900} rx={128} ry={58} fill="#A86F05" stroke={OUT} strokeWidth={9} />
-          <ellipse cx={1580} cy={872 + dip * 14} rx={118} ry={52} fill={GOLD} stroke={OUT} strokeWidth={9} style={{filter: `drop-shadow(0 0 16px ${GOLD})`}} />
-          <ellipse cx={1550} cy={858 + dip * 14} rx={60} ry={16} fill="#FFFFFF" opacity={0.5} />
+        <g transform={`translate(1580 760) scale(${btnS * 1.3}) translate(-1580 -760)`}>
+          <ellipse cx={1580} cy={810} rx={150} ry={40} fill="#000000" opacity={0.4} />
+          {ringK >= 0 && <circle cx={1580} cy={760} r={115 + ringK * 70} fill="none" stroke={GOLD} strokeWidth={10} opacity={1 - ringK} />}
+          <ellipse cx={1580} cy={780} rx={128} ry={58} fill="#A86F05" stroke={OUT} strokeWidth={9} />
+          <ellipse cx={1580} cy={752 + dip * 14} rx={118} ry={52} fill={GOLD} stroke={OUT} strokeWidth={9} style={{filter: `drop-shadow(0 0 16px ${GOLD})`}} />
+          <ellipse cx={1550} cy={738 + dip * 14} rx={60} ry={16} fill="#FFFFFF" opacity={0.5} />
         </g>
-        <PressHand x={hx} y={hy - 30} s={0.9} />
+        <PressHand x={hx} y={hy - 50} s={1.15} />
         {bankerO > 0 && (
           <g opacity={bankerO} transform={`rotate(${lean} 1790 1010)`}>
             <StoryPerson x={1790} y={1010} s={0.85} t={t} id="c5s6bk" role="banker" pose={t >= T.oops ? 'shock' : 'idle'} flip />
@@ -517,7 +517,7 @@ export const S6: React.FC<{t: number}> = ({t}) => {
         )}
       </g>
       <Flash t={t} at={T.v894} strength={0.45} color="#FFD6DA" />
-      <Stamp t={t} at={T.mln} text="بالغلط" x={860} y={850} size={110} rot={-7} />
+      <Stamp t={t} at={T.mln} text="بالغلط" x={860} y={905} size={110} rot={-7} />
     </>
   );
 };
@@ -571,7 +571,7 @@ export const S8: React.FC<{t: number}> = ({t}) => {
             </g>
           );
         })}
-        {t >= T.back + 0.15 && <MarkPill t={t} at={T.back + 0.15} text="رجعوا الفلوس" x={1005} y={470} mark="check" size={48} id="c5s8ok" />}
+        {t >= T.back + 0.15 && t < T.some + 0.2 && <MarkPill t={t} at={T.back + 0.15} text="رجعوا الفلوس" x={1005} y={470} mark="check" size={48} id="c5s8ok" />}
       </g>
       {t >= T.v504 && <NPill text="504 مليون $" x={800} y={300} size={60} kind="gold" id="c5s8n" p={(t - T.v504 + 0.05) / 0.3} />}
       <Bubble t={t} at={T.said} lines={['لا، هذي فلوسنا أصلًا']} x={1470} y={360} tx={1180} ty={560} size={62} />
@@ -596,24 +596,24 @@ export const S9: React.FC<{t: number}> = ({t}) => {
       {/* the case file slaps onto the bench */}
       {t >= T.case - 0.3 && (
         <g transform={`translate(0 ${dy}) rotate(${slapped ? -4 : -14} 800 560)`}>
-          <rect x={700} y={505} width={200} height={110} rx={10} fill="#F4F1FF" stroke={OUT} strokeWidth={7} />
-          {[0, 1, 2].map((i) => <rect key={i} x={725} y={530 + i * 24} width={150 - i * 30} height={10} rx={5} fill="#B8B2D8" />)}
+          <rect x={660} y={505} width={200} height={110} rx={10} fill="#F4F1FF" stroke={OUT} strokeWidth={7} />
+          {[0, 1, 2].map((i) => <rect key={i} x={685} y={530 + i * 24} width={150 - i * 30} height={10} rx={5} fill="#B8B2D8" />)}
         </g>
       )}
-      {slapped && <NPill text="القضية" x={800} y={455} size={48} kind="white" id="c5s9q" p={(t - T.case) / 0.3} />}
+      {slapped && t < T.favor - 0.1 && <NPill text="القضية" x={760} y={455} size={48} kind="white" id="c5s9q" p={(t - T.case) / 0.3} />}
       {/* the gavel */}
       <g transform={`rotate(${swing} 1290 560)`}>
         <Pic {...ART.gavel} x={1190} y={500} h={190} id="c5s9g" />
       </g>
       {hit > 0 && <circle cx={1110} cy={570} r={60 + (1 - hit) * 120} fill="none" stroke={GOLD} strokeWidth={10} opacity={hit} />}
       {/* lenders (cyan) left · the bank (gold) right */}
-      {[560, 740].map((x, i) => (
+      {[620, 800].map((x, i) => (
         <g key={i} transform={cheer ? `translate(0 ${-Math.abs(Math.sin((t - T.keep) * 7 + i)) * 18})` : undefined}>
           <Lender t={t} x={x} y={1010} s={0.85} pose={cheer ? 'cheer' : t >= T.favor ? 'shock' : 'idle'} id={`c5s9l${i}`} />
         </g>
       ))}
       <StoryPerson x={1480} y={1010} s={0.85} t={t} id="c5s9bk" role="banker" pose={t >= T.favor ? 'shock' : 'idle'} flip />
-      {t >= T.favor && <MarkPill t={t} at={T.favor} text="لصالحهم" x={650} y={480} mark="check" size={52} id="c5s9ok" />}
+      {t >= T.favor && <MarkPill t={t} at={T.favor} text="لصالحهم" x={710} y={560} mark="check" size={52} id="c5s9ok" />}
     </>
   );
 };
@@ -624,7 +624,7 @@ export const S10: React.FC<{t: number}> = ({t}) => {
   const sx = Math.abs(Math.cos(Math.PI * ease.inOut(k)));
   const back = k >= 0.5;
   const swing = t < T.flip - 0.25 ? -50 : moveTo(t, T.flip - 0.25, -50, 8, 0.25, ease.in);
-  const gO = clamp01((t - (T.flip - 0.8)) / 0.25) * (1 - clamp01((t - (T.flip + 0.9)) / 0.3));
+  const gO = clamp01((t - (T.y2022 - 0.1)) / 0.25) * (1 - clamp01((t - (T.flip + 0.9)) / 0.3));
   const shake = t >= T.flip && t < T.flip + 0.3 ? Math.sin((t - T.flip) * 80) * 10 * (1 - (t - T.flip) / 0.3) : 0;
   cueSfx('impact', 'c5s10slam', t >= T.flip && t < T.flip + 0.2, 1100, {at: T.flip, gain: 1.4});
   const CX = 1010, CY = 560, CW = 600, CH = 560;
@@ -660,7 +660,7 @@ export const S10: React.FC<{t: number}> = ({t}) => {
           return <Sparkle key={i} x={CX + 230 + Math.cos(a) * d} y={CY - 250 + Math.sin(a) * d} r={16} o={1 - clamp01((t - T.hukm) / 0.7)} color="#FFE0A0" />;
         })}
       </g>
-      <YearBadge t={t} at={T.y2022 - 0.15} year={2022} from={2020} x={1010} y={150} id="c5s10y" size={100} />
+      <YearBadge t={t} at={T.flip} year={2022} x={1010} y={150} id="c5s10y" size={100} />
       {t >= T.appeal && <NPill text="محكمة الاستئناف" x={1010} y={915} size={50} kind="white" id="c5s10p" p={(t - T.appeal + 0.05) / 0.3} />}
     </>
   );

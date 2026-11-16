@@ -11,7 +11,6 @@ import {Bokeh, Bubble, CountNumber, Flash, HeroObject, Mark, Rays} from '../../.
 import {HoloRing, RoomWorld, StoryPerson} from '../../../kit/night-worlds';
 import {Coin} from '../../../kit/night-props';
 import {MarkPill} from '../../../kit/night-data';
-import {Lineup} from '../../../kit/night-story';
 import {PlateFx} from '../../../kit/night-places';
 import {move, moveTo} from '../../../kit/night-scenes';
 import {cueSfx} from '../../../kit/sfx';
@@ -387,8 +386,8 @@ export const S5: React.FC<{t: number}> = ({t}) => {
       </g>
       {/* text: the count + «بيتكوين» (leave on «الصفقة»), «الصفقة», struck «غلطة» */}
       <g opacity={1 - clamp01((t - (T.deal - 0.2)) / 0.25)}>
-        <CountNumber t={t} at={T.n10k - 0.1} value="10000" x={520} y={185} size={120} tone="white" dur={1.2} id="c4s5-n" />
-        <NPill text="بيتكوين" x={480} y={790} size={50} kind="white" id="c4s5-btc" p={(t - (T.btcW - 0.1)) / 0.3} />
+        <CountNumber t={t} at={T.n10k - 0.1} value="10000" x={470} y={790} size={110} tone="white" dur={1.2} id="c4s5-n" />
+        <NPill text="بيتكوين" x={470} y={900} size={50} kind="white" id="c4s5-btc" p={(t - (T.btcW - 0.1)) / 0.3} />
       </g>
       <g opacity={1 - clamp01((t - (T.fun - 0.3)) / 0.25)}>
         <NPill text="الصفقة" x={PX} y={170} size={60} kind="gold" id="c4s5-deal" p={(t - (T.deal - 0.1)) / 0.3} />
@@ -402,11 +401,11 @@ export const S5: React.FC<{t: number}> = ({t}) => {
       )}
       {/* Laszlo, happy beside his deal */}
       {fun.s > 0 && (
-        <g transform={`translate(1760 1010) scale(${fun.s}) translate(-1760 -1010)`} opacity={fun.o}>
-          <StoryPerson x={1760} y={1010} s={0.9} role="programmer" glasses pose="cheer" t={t} id="c4s5-las" />
+        <g transform={`translate(1690 1010) scale(${fun.s}) translate(-1690 -1010)`} opacity={fun.o}>
+          <StoryPerson x={1690} y={1010} s={0.9} role="programmer" glasses pose="cheer" t={t} id="c4s5-las" />
         </g>
       )}
-      <Bubble t={t} at={T.fun - 0.1} lines={['تجربة طريفة']} x={1660} y={430} tx={1730} ty={650} size={56} mark="check" />
+      <Bubble t={t} at={T.fun - 0.1} lines={['تجربة طريفة']} x={1600} y={430} tx={1670} ty={650} size={56} mark="check" />
     </>
   );
 };
@@ -511,28 +510,57 @@ const CheeseFactory: React.FC = () => (
     <circle cx={-10} cy={5} r={7} fill="#E9A90C" />
   </g>
 );
+/** one big lineup frame (local: the kit Lineup's pills are 42 px and its marks small — the director wanted them big) */
+const BigFrame: React.FC<{t: number; at: number; markAt: number; x: number; y: number; r: number; label: string; mark: 'cross' | 'check'; gold?: boolean; id: string; children: React.ReactNode}> = ({t, at, markAt, x, y, r, label, mark, gold, id, children}) => {
+  const p = clamp01((t - at) / 0.3);
+  if (p <= 0) return null;
+  const q = popRef(p, 0.45, 0.3);
+  const g = uid('c4bf', id);
+  const mk = t >= markAt ? popRef(clamp01((t - markAt) / 0.22), 0.5, 0.6) : null;
+  const crossed = mark === 'cross' && !!mk;
+  cueSfx('pop', `c4-bf-${id}`, t < at + 0.25, x, {at, hit: 0.06, gain: 0.6});
+  return (
+    <g>
+      <g transform={`translate(${x} ${y}) scale(${q.sx} ${q.sy})`} opacity={q.o}>
+        <defs><clipPath id={g}><circle r={r - 8} /></clipPath></defs>
+        {gold && <Glow x={0} y={0} r={r * 1.7} color={GOLD} o={0.85} id={id + 'g'} />}
+        <circle r={r} fill={gold ? '#3A2A10' : '#1E1840'} stroke={gold ? GOLD : '#3A3166'} strokeWidth={gold ? 14 : 8} />
+        <circle r={r} fill="none" stroke={crossed ? '#E23A4E' : gold ? '#FFE58A' : '#7B6BD6'} strokeWidth={4} opacity={0.8} />
+        <g clipPath={`url(#${g})`} opacity={crossed ? 0.5 : 1} transform={`scale(${r / 135})`}>{children}</g>
+        {mk && (
+          <g transform={`translate(${r * 0.72} ${-r * 0.72}) scale(${mk.sx} ${mk.sy})`}>
+            <Mark kind={mark} x={0} y={0} r={r * (gold ? 0.3 : 0.27)} />
+          </g>
+        )}
+      </g>
+      <NPill text={label} x={x} y={y + r + 56} size={gold ? 56 : 48} kind={gold ? 'gold' : 'white'} id={id + 'p'} p={(t - at - 0.12) / 0.25} />
+    </g>
+  );
+};
 export const S9: React.FC<{t: number}> = ({t}) => {
-  const gold = ease.out(clamp01((t - (T.twoP - 0.1)) / 0.35));
-  const step = 135 * 2 + 60, total = step * 3;
-  const fx = 1060 - total / 2; // Arabic: the 4th item sits on the left
+  // Arabic order right → left: مطعم · سلسلة مطاعم · مصنع جبن · then the gold «بيتزتين» (biggest) on the left
+  const Y = 470, R = 165, RP = 215;
   return (
     <>
       <NightSky t={t} id="c4s9" />
       <GridFloor t={t} id="c4s9f" />
-      <Glow x={fx} y={440} r={300} color={GOLD} o={0.8 * gold} id="c4s9-g" />
-      {gold > 0 && <circle cx={fx} cy={440} r={142} fill="none" stroke={GOLD} strokeWidth={10 * gold} />}
-      <Lineup t={t} x={1060} y={440} r={135} gap={60} id="c4s9-l" items={[
-        {label: 'مطعم', at: T.rest - 0.2, mark: 'cross', markAt: T.rest + 0.15, node: <Shopfront x={0} y={20} s={1.05} c="#D2363A" />},
-        {label: 'سلسلة مطاعم', at: T.chain - 0.25, mark: 'cross', markAt: T.chain + 0.1, node: (
-          <g>
-            <Shopfront x={-72} y={40} s={0.6} c="#2E8FD8" />
-            <Shopfront x={72} y={40} s={0.6} c="#2E8FD8" />
-            <Shopfront x={0} y={0} s={0.72} c="#2E8FD8" />
-          </g>
-        )},
-        {label: 'مصنع جبن', at: T.cheese - 0.2, mark: 'cross', markAt: T.cheese + 0.12, node: <CheeseFactory />},
-        {label: 'بيتزتين', at: T.twoP - 0.1, mark: 'check', markAt: T.twoP + 0.1, kind: 'gold', node: <Pic {...ART.pizzas} x={0} y={0} h={150} id="c4s9-pz" />},
-      ]} />
+      <BigFrame t={t} at={T.s9} markAt={T.rest + 0.1} x={1545} y={Y} r={R} label="مطعم" mark="cross" id="c4s9-a">
+        <Shopfront x={0} y={20} s={1.05} c="#D2363A" />
+      </BigFrame>
+      <BigFrame t={t} at={T.s9 + 0.1} markAt={T.chain + 0.1} x={1175} y={Y} r={R} label="سلسلة مطاعم" mark="cross" id="c4s9-b">
+        <g>
+          <Shopfront x={-72} y={40} s={0.6} c="#2E8FD8" />
+          <Shopfront x={72} y={40} s={0.6} c="#2E8FD8" />
+          <Shopfront x={0} y={0} s={0.72} c="#2E8FD8" />
+        </g>
+      </BigFrame>
+      <BigFrame t={t} at={T.s9 + 0.2} markAt={T.cheese + 0.1} x={805} y={Y} r={R} label="مصنع جبن" mark="cross" id="c4s9-c">
+        <CheeseFactory />
+      </BigFrame>
+      <RevealRing t={t} at={T.twoP - 0.05} x={385} y={Y} r={260} boom={false} />
+      <BigFrame t={t} at={T.twoP - 0.12} markAt={T.twoP + 0.1} x={385} y={Y} r={RP} label="بيتزتين" mark="check" gold id="c4s9-d">
+        <Pic {...ART.pizzas} x={0} y={0} h={165} glow={GOLD} id="c4s9-pz" />
+      </BigFrame>
     </>
   );
 };
@@ -572,11 +600,11 @@ const CalBlock: React.FC<{t: number; at: number; x: number; y: number; out?: num
   const q = popAt(t, at - 0.5);
   if (q.s <= 0) return null;
   const fo = out !== undefined ? 1 - clamp01((t - out) / 0.25) : 1;
-  const pages = Array.from({length: 7}, (_, i) => {
-    const t0 = at + i * 0.1;
+  const pages = Array.from({length: 11}, (_, i) => {
+    const t0 = at + i * 0.09;
     const k = (t - t0) / 0.55;
     if (k < 0 || k > 1) return null;
-    const dx = (rand(i * 5.1) - 0.3) * 380, dy = -260 - rand(i * 2.3) * 160;
+    const dx = -(80 + rand(i * 5.1) * 320), dy = -200 - rand(i * 2.3) * 200;
     const e = ease.out(k);
     return (
       <g key={i} transform={`translate(${x + dx * e} ${y - 20 + dy * e + 300 * k * k}) rotate(${(rand(i) - 0.5) * 120 * e})`} opacity={1 - k}>
@@ -598,24 +626,29 @@ const CalBlock: React.FC<{t: number; at: number; x: number; y: number; out?: num
     </g>
   );
 };
-export const S11: React.FC<{t: number}> = ({t}) => (
-  <>
-    <NightSky t={t} id="c4s11" />
-    <GridFloor t={t} id="c4s11f" />
-    <Bokeh t={t} n={10} color={GOLD} seed={11} />
-    <MistakeBill t={t} at={T.note - 0.1} x={980} y={540} w={780} s={1.2} title="فاتورة البيتزا" id="c4s11-bill" out={T.out}
-      rows={[
-        {label: 'وقتها', value: 'تافه', tone: 'ink', at: T.cheap - 0.1},
-        {label: 'الفاتورة الحقيقية', value: 'بعدين', tone: 'gold', at: T.real - 0.1},
-      ]}
-      total={{label: 'المجموع', value: '؟', tone: 'gold', at: 228.6}}
-    />
-    <g opacity={1 - clamp01((t - T.out) / 0.2)}>
-      <NPill text="بنرجع له في النهاية" x={1300} y={170} size={40} kind="gold" id="c4s11-back" p={(t - (T.back - 0.1)) / 0.3} />
-    </g>
-    <CalBlock t={t} at={T.came} x={300} y={520} out={T.out} />
-    <g opacity={1 - clamp01((t - T.out) / 0.2)}>
-      <NPill text="بسنين" x={300} y={760} size={56} kind="white" id="c4s11-yrs" p={(t - (T.years - 0.1)) / 0.3} />
-    </g>
-  </>
-);
+export const S11: React.FC<{t: number}> = ({t}) => {
+  const z = moveTo(t, T.s11, 1, 1.07, 6.6); // slow push-in on the bill
+  return (
+    <>
+      <NightSky t={t} id="c4s11" />
+      <GridFloor t={t} id="c4s11f" />
+      <Bokeh t={t} n={10} color={GOLD} seed={11} />
+      <g transform={`translate(860 540) scale(${z}) translate(-860 -540)`}>
+        <MistakeBill t={t} at={T.note - 0.1} x={940} y={530} w={900} s={1.05} title="فاتورة البيتزا" id="c4s11-bill" out={T.out}
+          rows={[
+            {label: 'وقتها', value: 'تافه', tone: 'ink', at: T.cheap - 0.1},
+            {label: 'الفاتورة الحقيقية', value: 'بعدين', tone: 'gold', at: T.real - 0.1},
+          ]}
+          total={{label: 'المجموع', value: '؟', tone: 'gold', at: T.note + 0.5}}
+        />
+        <g opacity={1 - clamp01((t - T.out) / 0.2)}>
+          <NPill text="بنرجع له في النهاية" x={1230} y={215} size={44} kind="gold" id="c4s11-back" p={(t - (T.back - 0.1)) / 0.3} />
+        </g>
+        <CalBlock t={t} at={T.came} x={290} y={520} out={T.out} />
+        <g opacity={1 - clamp01((t - T.out) / 0.2)}>
+          <NPill text="بسنين" x={290} y={770} size={60} kind="white" id="c4s11-yrs" p={(t - (T.years - 0.1)) / 0.3} />
+        </g>
+      </g>
+    </>
+  );
+};

@@ -61,7 +61,10 @@
      "pose": "point",
      "why": "points at the lost-money steps"
     }
-   ]
+   ],
+   "in": {
+    "kind": "cut"
+   }
   },
   {
    "id": "S3",
@@ -83,7 +86,10 @@
      "pose": "higher",
      "why": "points up at the new kind of step"
     }
-   ]
+   ],
+   "in": {
+    "kind": "cut"
+   }
   },
   {
    "id": "S4",

@@ -48,7 +48,9 @@ export const MistakeBill: React.FC<MistakeBillProps> = ({t, at, x, y, w = 900, t
   // paper grows as rows print (ease.out 0.35 s each)
   const rowP = rows.map((r) => ease.out(prog(t, r.at, 0.35)));
   const totP = total ? ease.out(prog(t, total.at, 0.35)) : 0;
-  const curH = HEAD + rowP.reduce((a, b) => a + b, 0) * ROW + totP * (total ? TOT : 0) + PAD;
+  // a total printed before (some of) the rows reserves their space at once, so it always sits INSIDE the paper
+  const rowSum = rowP.reduce((a, b) => a + b, 0);
+  const curH = HEAD + Math.max(rowSum, totP * rows.length) * ROW + totP * (total ? TOT : 0) + PAD;
   const top = -fullH / 2;
 
   const q = popAt(t, at);

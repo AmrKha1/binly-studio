@@ -262,19 +262,9 @@
    ],
    "host": [
     {
-     "at": 217.9,
-     "spot": "smallLeft",
-     "pose": "list",
-     "why": "counts what it was NOT"
-    },
-    {
-     "at": 220.62,
-     "pose": "sure",
-     "why": "just two pizzas"
-    },
-    {
-     "at": 221.3,
-     "off": true
+     "at": 217.4,
+     "off": true,
+     "why": "steps out so the big lineup fills the frame (director: tiny host + tiny frames)"
     }
    ]
   },
