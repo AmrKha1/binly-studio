@@ -1,26 +1,118 @@
 [
- {"t": 241.38, "kind": "ding"},
- {"t": 241.1, "kind": "sparkle", "gain": 0.6},
- {"t": 238.94, "kind": "tease", "gain": 0.6},
- {"t": 248.6, "kind": "card", "gain": 0.7},
- {"t": 252.4, "kind": "swoosh", "gain": 0.7},
- {"t": 257.76, "kind": "swish", "gain": 0.6},
- {"t": 260.74, "kind": "suspense", "gain": 0.6},
- {"t": 261.64, "kind": "riser", "dur": 1.6, "gain": 0.7},
- {"t": 263.26, "kind": "wrong"},
- {"t": 265.52, "kind": "cash", "gain": 0.8},
- {"t": 265.7, "kind": "whoosh", "gain": 0.6},
- {"t": 269.32, "kind": "whoosh", "gain": 0.6},
- {"t": 270.4, "kind": "swish", "gain": 0.5},
- {"t": 272.2, "kind": "cash", "gain": 0.7},
- {"t": 275.1, "kind": "pop", "gain": 0.5},
- {"t": 279.14, "kind": "impact"},
- {"t": 279.64, "kind": "gasp", "gain": 0.7},
- {"t": 280.55, "kind": "applause", "gain": 0.5},
- {"t": 284.6, "kind": "wrong", "gain": 0.8},
- {"t": 288.94, "kind": "ping"},
- {"t": 291.28, "kind": "whoosh", "gain": 0.7},
- {"t": 291.5, "kind": "cash", "gain": 0.7},
- {"t": 297.86, "kind": "clock"},
- {"t": 298.72, "kind": "coins", "gain": 0.5}
+ {
+  "t": 241.38,
+  "kind": "ding"
+ },
+ {
+  "t": 241.1,
+  "kind": "sparkle",
+  "gain": 0.9
+ },
+ {
+  "t": 238.94,
+  "kind": "tease",
+  "gain": 0.9
+ },
+ {
+  "t": 248.6,
+  "kind": "card",
+  "gain": 1
+ },
+ {
+  "t": 252.4,
+  "kind": "swoosh",
+  "gain": 1
+ },
+ {
+  "t": 257.76,
+  "kind": "swish",
+  "gain": 0.9
+ },
+ {
+  "t": 260.74,
+  "kind": "suspense",
+  "gain": 0.6
+ },
+ {
+  "t": 261.64,
+  "kind": "riser",
+  "dur": 1.6,
+  "gain": 1
+ },
+ {
+  "t": 263.26,
+  "kind": "wrong"
+ },
+ {
+  "t": 265.52,
+  "kind": "cash",
+  "gain": 1
+ },
+ {
+  "t": 265.7,
+  "kind": "whoosh",
+  "gain": 0.9
+ },
+ {
+  "t": 269.32,
+  "kind": "whoosh",
+  "gain": 0.9
+ },
+ {
+  "t": 270.4,
+  "kind": "swish",
+  "gain": 0.75
+ },
+ {
+  "t": 272.2,
+  "kind": "cash",
+  "gain": 1
+ },
+ {
+  "t": 275.1,
+  "kind": "pop",
+  "gain": 0.75
+ },
+ {
+  "t": 279.14,
+  "kind": "impact"
+ },
+ {
+  "t": 279.64,
+  "kind": "gasp",
+  "gain": 1
+ },
+ {
+  "t": 280.55,
+  "kind": "applause",
+  "gain": 0.75
+ },
+ {
+  "t": 284.6,
+  "kind": "wrong",
+  "gain": 1
+ },
+ {
+  "t": 288.94,
+  "kind": "ping"
+ },
+ {
+  "t": 291.28,
+  "kind": "whoosh",
+  "gain": 1
+ },
+ {
+  "t": 291.5,
+  "kind": "cash",
+  "gain": 1
+ },
+ {
+  "t": 297.86,
+  "kind": "clock"
+ },
+ {
+  "t": 298.72,
+  "kind": "coins",
+  "gain": 0.75
+ }
 ]

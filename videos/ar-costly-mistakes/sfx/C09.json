@@ -19,13 +19,13 @@
  {
   "t": 542.3,
   "kind": "tick",
-  "gain": 0.55,
+  "gain": 0.83,
   "note": "YearBadge 2026→1986 accelerating"
  },
  {
   "t": 549.98,
   "kind": "clock",
-  "gain": 0.6
+  "gain": 0.9
  },
  {
   "t": 557.6,
@@ -41,22 +41,22 @@
  {
   "t": 562.3,
   "kind": "tick",
-  "gain": 0.5
+  "gain": 0.75
  },
  {
   "t": 562.48,
   "kind": "tick",
-  "gain": 0.45
+  "gain": 0.68
  },
  {
   "t": 562.62,
   "kind": "tick",
-  "gain": 0.5
+  "gain": 0.75
  },
  {
   "t": 562.72,
   "kind": "wrong",
-  "gain": 0.6
+  "gain": 0.9
  },
  {
   "t": 564.74,
@@ -65,29 +65,29 @@
  {
   "t": 572.5,
   "kind": "tick",
-  "gain": 0.45
+  "gain": 0.68
  },
  {
   "t": 572.7,
   "kind": "tick",
-  "gain": 0.4
+  "gain": 0.6
  },
  {
   "t": 584,
   "kind": "footsteps",
   "dur": 0.6,
-  "gain": 0.45
+  "gain": 0.68
  },
  {
   "t": 585.23,
   "kind": "pop",
-  "gain": 0.8,
+  "gain": 1,
   "note": "pill حكومة بيلاروسيا"
  },
  {
   "t": 588,
   "kind": "riser",
-  "gain": 0.5,
+  "gain": 0.75,
   "note": "235 مليار count starts"
  },
  {
@@ -98,7 +98,7 @@
  {
   "t": 598.6,
   "kind": "riser",
-  "gain": 0.8
+  "gain": 1
  },
  {
   "t": 599.92,
@@ -108,12 +108,12 @@
  {
   "t": 600.94,
   "kind": "clock",
-  "gain": 0.5
+  "gain": 0.75
  },
  {
   "t": 607.24,
   "kind": "tease",
-  "gain": 0.7
+  "gain": 1
  },
  {
   "t": 608.12,
@@ -123,12 +123,12 @@
  {
   "t": 609.88,
   "kind": "clock",
-  "gain": 0.6
+  "gain": 0.9
  },
  {
   "t": 613.9,
   "kind": "tick",
-  "gain": 0.4
+  "gain": 0.6
  },
  {
   "t": 614.38,

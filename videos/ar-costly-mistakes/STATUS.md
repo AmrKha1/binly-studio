@@ -43,3 +43,4 @@ Notes: spoken lines use digits as in script («6.3 مليار دولار», «ح
 - GATE round 1: NOT READY (112). Real fixes sent: C05 C08(2008) C09 C10 C11(1876) C12 (recap/thesis pills); AZTIKA overlaps fixed in JSON (C02 C03 C05 C07). Accepted flags → gate-ok.json. Next: gate round 2 when builders report.
 - gate round-1 fixes all done (C05 C08 C09 C10 C11 C12 + host). GATE round 2 running (.cache/gate2.log).
 - GATE round 2: ✅ GO RENDER (render-gate.json). Next: C01 preview (cloud, 0.5) → motion check → full render.
+- PREVIEW 1 QA: motion in reference range; loudness -14/-1.4; sfx 2–4 dB too quiet (story gains median 0.6) + 36/min. FIX: story gains ×1.5 (203), slams ≤0.8, density cap thins to quiet limit → 32/min. Gate round (sound change) + preview 2 running.

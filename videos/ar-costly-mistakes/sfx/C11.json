@@ -1,21 +1,100 @@
 [
-  {"t": 687.26, "kind": "tease", "gain": 0.6},
-  {"t": 689.55, "kind": "wrong", "gain": 0.5},
-  {"t": 689.95, "kind": "swish", "gain": 0.6},
-  {"t": 691.7, "kind": "pop", "gain": 0.6},
-  {"t": 693.5, "kind": "suspense", "gain": 0.5},
-  {"t": 695.6, "kind": "card", "gain": 0.4},
-  {"t": 702.74, "kind": "pop", "gain": 0.5},
-  {"t": 704.2, "kind": "fall", "gain": 0.5},
-  {"t": 709.6, "kind": "explosion", "gain": 0.5},
-  {"t": 712.5, "kind": "low_drone", "dur": 1.2, "gain": 0.35},
-  {"t": 719.5, "kind": "riser", "dur": 0.7, "gain": 0.5},
-  {"t": 726.35, "kind": "impact", "gain": 0.7},
-  {"t": 728.3, "kind": "tease", "gain": 0.4},
-  {"t": 730.7, "kind": "clock", "gain": 0.5},
-  {"t": 733.05, "kind": "impact", "gain": 0.5},
-  {"t": 733.72, "kind": "correct", "gain": 0.6},
-  {"t": 734.4, "kind": "water", "dur": 1.5, "gain": 0.35},
-  {"t": 738.95, "kind": "cash", "gain": 0.7},
-  {"t": 741.1, "kind": "ding", "gain": 0.6}
+ {
+  "t": 687.26,
+  "kind": "tease",
+  "gain": 0.9
+ },
+ {
+  "t": 689.55,
+  "kind": "wrong",
+  "gain": 0.75
+ },
+ {
+  "t": 689.95,
+  "kind": "swish",
+  "gain": 0.9
+ },
+ {
+  "t": 691.7,
+  "kind": "pop",
+  "gain": 0.9
+ },
+ {
+  "t": 693.5,
+  "kind": "suspense",
+  "gain": 0.5
+ },
+ {
+  "t": 695.6,
+  "kind": "card",
+  "gain": 0.6
+ },
+ {
+  "t": 702.74,
+  "kind": "pop",
+  "gain": 0.75
+ },
+ {
+  "t": 704.2,
+  "kind": "fall",
+  "gain": 0.75
+ },
+ {
+  "t": 709.6,
+  "kind": "explosion",
+  "gain": 0.75
+ },
+ {
+  "t": 712.5,
+  "kind": "low_drone",
+  "dur": 1.2,
+  "gain": 0.35
+ },
+ {
+  "t": 719.5,
+  "kind": "riser",
+  "dur": 0.7,
+  "gain": 0.75
+ },
+ {
+  "t": 726.35,
+  "kind": "impact",
+  "gain": 1
+ },
+ {
+  "t": 728.3,
+  "kind": "tease",
+  "gain": 0.6
+ },
+ {
+  "t": 730.7,
+  "kind": "clock",
+  "gain": 0.75
+ },
+ {
+  "t": 733.05,
+  "kind": "impact",
+  "gain": 0.75
+ },
+ {
+  "t": 733.72,
+  "kind": "correct",
+  "gain": 0.9
+ },
+ {
+  "t": 734.4,
+  "kind": "water",
+  "dur": 1.5,
+  "gain": 0.52
+ },
+ {
+  "t": 738.95,
+  "kind": "cash",
+  "gain": 1
+ },
+ {
+  "t": 741.1,
+  "kind": "ding",
+  "gain": 0.9
+ }
 ]

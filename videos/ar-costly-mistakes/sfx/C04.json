@@ -1,23 +1,99 @@
 [
- {"t": 180.8, "kind": "thump"},
- {"t": 181.5, "kind": "wrong", "gain": 0.7},
- {"t": 183.36, "kind": "coins", "gain": 0.8},
- {"t": 184.82, "kind": "correct", "gain": 0.6},
- {"t": 189.6, "kind": "tease", "gain": 0.6},
- {"t": 192.3, "kind": "tease", "gain": 0.5},
- {"t": 196.14, "kind": "bubble", "gain": 0.6},
- {"t": 198.4, "kind": "coins", "gain": 0.7},
- {"t": 199.64, "kind": "ding"},
- {"t": 201.74, "kind": "thump", "gain": 0.8},
- {"t": 205.1, "kind": "pop", "gain": 0.6},
- {"t": 208.34, "kind": "cash"},
- {"t": 210.9, "kind": "riser", "gain": 0.5, "dur": 0.7},
- {"t": 212.7, "kind": "boom"},
- {"t": 217.6, "kind": "thump"},
- {"t": 218.95, "kind": "thump"},
- {"t": 220.25, "kind": "thump"},
- {"t": 220.72, "kind": "ding"},
- {"t": 223.62, "kind": "wrong", "gain": 0.6},
- {"t": 229.9, "kind": "tease", "gain": 0.5},
- {"t": 232.7, "kind": "whoosh"}
+ {
+  "t": 180.8,
+  "kind": "thump"
+ },
+ {
+  "t": 181.5,
+  "kind": "wrong",
+  "gain": 1
+ },
+ {
+  "t": 183.36,
+  "kind": "coins",
+  "gain": 1
+ },
+ {
+  "t": 184.82,
+  "kind": "correct",
+  "gain": 0.9
+ },
+ {
+  "t": 189.6,
+  "kind": "tease",
+  "gain": 0.9
+ },
+ {
+  "t": 192.3,
+  "kind": "tease",
+  "gain": 0.75
+ },
+ {
+  "t": 196.14,
+  "kind": "bubble",
+  "gain": 0.9
+ },
+ {
+  "t": 198.4,
+  "kind": "coins",
+  "gain": 1
+ },
+ {
+  "t": 199.64,
+  "kind": "ding"
+ },
+ {
+  "t": 201.74,
+  "kind": "thump",
+  "gain": 0.8
+ },
+ {
+  "t": 205.1,
+  "kind": "pop",
+  "gain": 0.9
+ },
+ {
+  "t": 208.34,
+  "kind": "cash"
+ },
+ {
+  "t": 210.9,
+  "kind": "riser",
+  "gain": 0.75,
+  "dur": 0.7
+ },
+ {
+  "t": 212.7,
+  "kind": "boom"
+ },
+ {
+  "t": 217.6,
+  "kind": "thump"
+ },
+ {
+  "t": 218.95,
+  "kind": "thump"
+ },
+ {
+  "t": 220.25,
+  "kind": "thump"
+ },
+ {
+  "t": 220.72,
+  "kind": "ding"
+ },
+ {
+  "t": 223.62,
+  "kind": "wrong",
+  "gain": 0.9
+ },
+ {
+  "t": 229.9,
+  "kind": "tease",
+  "gain": 0.75
+ },
+ {
+  "t": 232.7,
+  "kind": "whoosh"
+ }
 ]

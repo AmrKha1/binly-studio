@@ -1,23 +1,102 @@
 [
-  {"t": 0.05, "kind": "tease", "gain": 0.7},
-  {"t": 1.92, "kind": "impact", "gain": 0.7},
-  {"t": 4.4, "kind": "cash"},
-  {"t": 6.22, "kind": "pop", "gain": 0.7},
-  {"t": 8.62, "kind": "coins"},
-  {"t": 10.03, "kind": "thump"},
-  {"t": 11.96, "kind": "powerup", "gain": 0.7},
-  {"t": 14.26, "kind": "ping"},
-  {"t": 15.3, "kind": "whoosh", "gain": 0.6},
-  {"t": 16.72, "kind": "wrong"},
-  {"t": 17.68, "kind": "impact", "gain": 0.6},
-  {"t": 18.52, "kind": "scratch", "gain": 0.6},
-  {"t": 21.02, "kind": "riser", "gain": 0.7},
-  {"t": 23.26, "kind": "fall", "gain": 0.5},
-  {"t": 23.5, "kind": "rise", "gain": 0.6},
-  {"t": 27.6, "kind": "tease", "gain": 0.7},
-  {"t": 29.5, "kind": "fall", "gain": 0.6},
-  {"t": 32.62, "kind": "whoosh", "gain": 0.5},
-  {"t": 34.3, "kind": "suspense", "gain": 0.7},
-  {"t": 36.28, "kind": "breath", "gain": 0.5},
-  {"t": 37.44, "kind": "glitch", "gain": 0.5}
+ {
+  "t": 0.05,
+  "kind": "tease",
+  "gain": 1
+ },
+ {
+  "t": 1.92,
+  "kind": "impact",
+  "gain": 1
+ },
+ {
+  "t": 4.4,
+  "kind": "cash"
+ },
+ {
+  "t": 6.22,
+  "kind": "pop",
+  "gain": 1
+ },
+ {
+  "t": 8.62,
+  "kind": "coins"
+ },
+ {
+  "t": 10.03,
+  "kind": "thump"
+ },
+ {
+  "t": 11.96,
+  "kind": "powerup",
+  "gain": 1
+ },
+ {
+  "t": 14.26,
+  "kind": "ping"
+ },
+ {
+  "t": 15.3,
+  "kind": "whoosh",
+  "gain": 0.9
+ },
+ {
+  "t": 16.72,
+  "kind": "wrong"
+ },
+ {
+  "t": 17.68,
+  "kind": "impact",
+  "gain": 0.9
+ },
+ {
+  "t": 18.52,
+  "kind": "scratch",
+  "gain": 0.9
+ },
+ {
+  "t": 21.02,
+  "kind": "riser",
+  "gain": 1
+ },
+ {
+  "t": 23.26,
+  "kind": "fall",
+  "gain": 0.75
+ },
+ {
+  "t": 23.5,
+  "kind": "rise",
+  "gain": 0.9
+ },
+ {
+  "t": 27.6,
+  "kind": "tease",
+  "gain": 1
+ },
+ {
+  "t": 29.5,
+  "kind": "fall",
+  "gain": 0.9
+ },
+ {
+  "t": 32.62,
+  "kind": "whoosh",
+  "gain": 0.75
+ },
+ {
+  "t": 34.3,
+  "kind": "suspense",
+  "gain": 0.7
+ },
+ {
+  "t": 36.28,
+  "kind": "breath",
+  "gain": 0.75
+ },
+ {
+  "t": 37.44,
+  "kind": "glitch",
+  "gain": 0.75
+ }
 ]

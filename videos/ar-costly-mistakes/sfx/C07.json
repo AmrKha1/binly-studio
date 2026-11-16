@@ -1,32 +1,151 @@
 [
-  {"t": 392.7, "kind": "riser", "gain": 0.6},
-  {"t": 397.7, "kind": "thump", "gain": 0.7},
-  {"t": 400.3, "kind": "sparkle", "gain": 0.7},
-  {"t": 401.46, "kind": "tease", "gain": 0.6},
-  {"t": 403.0, "kind": "footsteps", "dur": 0.7, "gain": 0.5},
-  {"t": 403.76, "kind": "swish", "gain": 0.6},
-  {"t": 405.04, "kind": "wrong"},
-  {"t": 410.5, "kind": "thump", "gain": 0.5},
-  {"t": 410.72, "kind": "thump", "gain": 0.5},
-  {"t": 411.0, "kind": "door", "gain": 0.7},
-  {"t": 419.32, "kind": "whoosh", "gain": 0.7},
-  {"t": 420.58, "kind": "water", "dur": 0.5, "gain": 0.4},
-  {"t": 423.8, "kind": "wrong", "gain": 0.6},
-  {"t": 427.48, "kind": "boom"},
-  {"t": 428.8, "kind": "scribble", "gain": 0.6},
-  {"t": 435.0, "kind": "cash", "gain": 0.6},
-  {"t": 438.24, "kind": "suspense", "gain": 0.5},
-  {"t": 439.3, "kind": "bubble", "gain": 0.6},
-  {"t": 446.14, "kind": "pop"},
-  {"t": 446.22, "kind": "glass", "gain": 0.6},
-  {"t": 448.7, "kind": "clock", "gain": 0.6},
-  {"t": 449.64, "kind": "tease", "gain": 0.5},
-  {"t": 450.86, "kind": "powerup", "gain": 0.6},
-  {"t": 451.6, "kind": "riser", "dur": 1.0, "gain": 0.7},
-  {"t": 454.18, "kind": "boom"},
-  {"t": 454.3, "kind": "cash", "gain": 0.7},
-  {"t": 456.92, "kind": "thump", "gain": 0.7},
-  {"t": 458.76, "kind": "shutter", "gain": 0.7},
-  {"t": 459.1, "kind": "shutter", "gain": 0.6},
-  {"t": 460.55, "kind": "whoosh", "gain": 0.7}
+ {
+  "t": 392.7,
+  "kind": "riser",
+  "gain": 0.9
+ },
+ {
+  "t": 397.7,
+  "kind": "thump",
+  "gain": 0.7
+ },
+ {
+  "t": 400.3,
+  "kind": "sparkle",
+  "gain": 1
+ },
+ {
+  "t": 401.46,
+  "kind": "tease",
+  "gain": 0.9
+ },
+ {
+  "t": 403,
+  "kind": "footsteps",
+  "dur": 0.7,
+  "gain": 0.75
+ },
+ {
+  "t": 403.76,
+  "kind": "swish",
+  "gain": 0.9
+ },
+ {
+  "t": 405.04,
+  "kind": "wrong"
+ },
+ {
+  "t": 410.5,
+  "kind": "thump",
+  "gain": 0.5
+ },
+ {
+  "t": 410.72,
+  "kind": "thump",
+  "gain": 0.5
+ },
+ {
+  "t": 411,
+  "kind": "door",
+  "gain": 1
+ },
+ {
+  "t": 419.32,
+  "kind": "whoosh",
+  "gain": 1
+ },
+ {
+  "t": 420.58,
+  "kind": "water",
+  "dur": 0.5,
+  "gain": 0.6
+ },
+ {
+  "t": 423.8,
+  "kind": "wrong",
+  "gain": 0.9
+ },
+ {
+  "t": 427.48,
+  "kind": "boom"
+ },
+ {
+  "t": 428.8,
+  "kind": "scribble",
+  "gain": 0.9
+ },
+ {
+  "t": 435,
+  "kind": "cash",
+  "gain": 0.9
+ },
+ {
+  "t": 438.24,
+  "kind": "suspense",
+  "gain": 0.5
+ },
+ {
+  "t": 439.3,
+  "kind": "bubble",
+  "gain": 0.9
+ },
+ {
+  "t": 446.14,
+  "kind": "pop"
+ },
+ {
+  "t": 446.22,
+  "kind": "glass",
+  "gain": 0.9
+ },
+ {
+  "t": 448.7,
+  "kind": "clock",
+  "gain": 0.9
+ },
+ {
+  "t": 449.64,
+  "kind": "tease",
+  "gain": 0.75
+ },
+ {
+  "t": 450.86,
+  "kind": "powerup",
+  "gain": 0.9
+ },
+ {
+  "t": 451.6,
+  "kind": "riser",
+  "dur": 1,
+  "gain": 1
+ },
+ {
+  "t": 454.18,
+  "kind": "boom"
+ },
+ {
+  "t": 454.3,
+  "kind": "cash",
+  "gain": 1
+ },
+ {
+  "t": 456.92,
+  "kind": "thump",
+  "gain": 0.7
+ },
+ {
+  "t": 458.76,
+  "kind": "shutter",
+  "gain": 1
+ },
+ {
+  "t": 459.1,
+  "kind": "shutter",
+  "gain": 0.9
+ },
+ {
+  "t": 460.55,
+  "kind": "whoosh",
+  "gain": 1
+ }
 ]

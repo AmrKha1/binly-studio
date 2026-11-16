@@ -1,26 +1,123 @@
 [
-  {"t": 462.6, "kind": "tease", "gain": 0.6},
-  {"t": 464.72, "kind": "wrong", "gain": 0.6},
-  {"t": 465.7, "kind": "suspense", "gain": 0.5},
-  {"t": 466.88, "kind": "sparkle", "gain": 0.6},
-  {"t": 468.1, "kind": "swish", "gain": 0.5},
-  {"t": 473.94, "kind": "whoosh", "gain": 0.5},
-  {"t": 481.66, "kind": "cash", "gain": 0.7},
-  {"t": 483.7, "kind": "tease", "gain": 0.6},
-  {"t": 487.46, "kind": "correct", "gain": 0.6},
-  {"t": 488.9, "kind": "clock", "gain": 0.6},
-  {"t": 494.14, "kind": "cash", "gain": 0.7},
-  {"t": 496.02, "kind": "coins", "gain": 0.5},
-  {"t": 496.71, "kind": "wrong", "gain": 0.7},
-  {"t": 498.86, "kind": "powerup", "gain": 0.6},
-  {"t": 500.3, "kind": "footsteps", "dur": 1.6, "gain": 0.4},
-  {"t": 506.9, "kind": "scratch", "gain": 0.6},
-  {"t": 508.1, "kind": "thump", "gain": 0.6},
-  {"t": 510.64, "kind": "cash", "gain": 0.6},
-  {"t": 514.38, "kind": "wrong", "gain": 0.6},
-  {"t": 518.9, "kind": "riser", "dur": 0.9, "gain": 0.4},
-  {"t": 522.28, "kind": "impact", "gain": 0.6},
-  {"t": 524.5, "kind": "tick", "gain": 0.5},
-  {"t": 528.45, "kind": "ding"},
-  {"t": 528.98, "kind": "ping", "gain": 0.6}
+ {
+  "t": 462.6,
+  "kind": "tease",
+  "gain": 0.9
+ },
+ {
+  "t": 464.72,
+  "kind": "wrong",
+  "gain": 0.9
+ },
+ {
+  "t": 465.7,
+  "kind": "suspense",
+  "gain": 0.5
+ },
+ {
+  "t": 466.88,
+  "kind": "sparkle",
+  "gain": 0.9
+ },
+ {
+  "t": 468.1,
+  "kind": "swish",
+  "gain": 0.75
+ },
+ {
+  "t": 473.94,
+  "kind": "whoosh",
+  "gain": 0.75
+ },
+ {
+  "t": 481.66,
+  "kind": "cash",
+  "gain": 1
+ },
+ {
+  "t": 483.7,
+  "kind": "tease",
+  "gain": 0.9
+ },
+ {
+  "t": 487.46,
+  "kind": "correct",
+  "gain": 0.9
+ },
+ {
+  "t": 488.9,
+  "kind": "clock",
+  "gain": 0.9
+ },
+ {
+  "t": 494.14,
+  "kind": "cash",
+  "gain": 1
+ },
+ {
+  "t": 496.02,
+  "kind": "coins",
+  "gain": 0.75
+ },
+ {
+  "t": 496.71,
+  "kind": "wrong",
+  "gain": 1
+ },
+ {
+  "t": 498.86,
+  "kind": "powerup",
+  "gain": 0.9
+ },
+ {
+  "t": 500.3,
+  "kind": "footsteps",
+  "dur": 1.6,
+  "gain": 0.6
+ },
+ {
+  "t": 506.9,
+  "kind": "scratch",
+  "gain": 0.9
+ },
+ {
+  "t": 508.1,
+  "kind": "thump",
+  "gain": 0.6
+ },
+ {
+  "t": 510.64,
+  "kind": "cash",
+  "gain": 0.9
+ },
+ {
+  "t": 514.38,
+  "kind": "wrong",
+  "gain": 0.9
+ },
+ {
+  "t": 518.9,
+  "kind": "riser",
+  "dur": 0.9,
+  "gain": 0.6
+ },
+ {
+  "t": 522.28,
+  "kind": "impact",
+  "gain": 0.9
+ },
+ {
+  "t": 524.5,
+  "kind": "tick",
+  "gain": 0.75
+ },
+ {
+  "t": 528.45,
+  "kind": "ding"
+ },
+ {
+  "t": 528.98,
+  "kind": "ping",
+  "gain": 0.9
+ }
 ]
