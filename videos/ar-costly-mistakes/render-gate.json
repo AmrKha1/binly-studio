@@ -1,9 +1,9 @@
 {
  "go": true,
  "slug": "ar-costly-mistakes",
- "at": "2026-11-16T19:16:28.781Z",
- "fingerprint": "2a1a82e4c84f1110fc1e739a83364eb64bdeb1ae",
- "reviewed": "Same review as round 2 (all chapters on sheets vs reference, fixes verified, joins, sync 12/12, gate fixes re-checked). Change since GO: sound only — story sfx gains raised ×1.5 (builders had them at median 0.6 → preview QA showed effects 2–4 dB under the owner-approved levels), slams capped 0.8 (phone rule), density cap thins small cues up to the 3.6 s quiet limit (36 → 32/min, no QUIET).",
+ "at": "2026-11-16T20:07:17.681Z",
+ "fingerprint": "a5cf89fe325914c195fcf42ba05fc0f82dea4a2e",
+ "reviewed": "Same visual review as the GO rounds (all chapters on sheets vs the reference, fixes verified, joins, sync 12/12). Change since GO: sound only, verified BEFORE render with a local full-audio mix + sound-qa (same ruler as the cloud; local numbers matched preview 1 exactly): per-kind kindCal for 10 quiet kinds, the one slam -> stamp (phone rule), story gains >= 0.8, density 32/min, no QUIET, no phone-rule breach. Remaining by design: riser/rise/powerup/sparkle ~2.5 dB under target because the phone rule caps them; page reads loud only inside a dense burst.",
  "accepted": [
   {
    "match": "_TestSheet.tsx",
@@ -150,6 +150,10 @@
   },
   {
    "at": "2026-11-16T19:16:28.782Z",
+   "issues": 0
+  },
+  {
+   "at": "2026-11-16T20:07:17.682Z",
    "issues": 0
   }
  ]

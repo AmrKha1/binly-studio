@@ -54,3 +54,10 @@ Notes: spoken lines use digits as in script («6.3 مليار دولار», «ح
   + idea for the SOUND REPORT: mix the AUDIO ONLY locally (merge-sfx without pictures) → measure the full balance of the whole video BEFORE any render.
   + PLAN (owner asked): make the local audio-only mix + sound-qa a RENDER-GATE step (sound off → NOT READY), Sound Report comes out of it before any render. Proof: compare today's local full-audio measurement (.cache/audio-full) with the final render's cloud QA sound table — if they match, wire it in after delivery (owner decides).
   + DECISION ORDER (owner): Claude gives the expert verdict FIRST (keep/not yet + why, from local-vs-cloud numbers ≤ ~1 dB match), THEN the owner decides. Same for the Sound Report.
+- SOUND VERIFIED BEFORE RENDER (local full-audio mix + sound-qa; local == cloud preview numbers exactly): score.json kindCal
+  for 10 quiet kinds, slam→stamp, gains ≥ 0.8 → 36/41 kinds on target, no phone breach, 32/min, 0 QUIET. By design:
+  riser/rise/powerup/sparkle ≈2.5 dB under (phone rule caps them); page reads loud in a dense burst.
+- NOW: final local sound check → gate → FINAL RENDER (auto if GO) — .cache/gate4.log, .cache/final-render.log.
+- AFTER RENDER: read QA (loudness, sound table vs the local one → expert verdict on "sound check before render"),
+  sheets, fix only real defects → Short (pick moment + title myself) → upload-pack → REPORT.md with the plain AUDIO SUMMARY
+  + verdict → LESSONS/ASSETS → ARABIC VIDEOS FINISHED: 1.
