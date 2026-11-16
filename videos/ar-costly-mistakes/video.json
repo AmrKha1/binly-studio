@@ -1,0 +1,14 @@
+{
+ "slug": "ar-costly-mistakes",
+ "title": "أغلى غلطة في التاريخ",
+ "lang": "ar",
+ "duration": 732.18,
+ "sampleRate": 48000,
+ "channels": 1,
+ "codec": "pcm_s24le",
+ "audio": "voiceover.wav",
+ "source": "10 parts",
+ "voPrep": true,
+ "tail": 5,
+ "created": "2026-11-16T03:02:48.738Z"
+}

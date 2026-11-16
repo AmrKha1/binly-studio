@@ -1,0 +1,9 @@
+{
+ "file": "voiceover.wav",
+ "sha1": "adeafd1c3006bfe9b6471ece702d4b61ea459269",
+ "verdict": "PASS",
+ "warnings": [],
+ "rule": "> 0.23 s → 0.19 s",
+ "approved_by": "voice gate (clean PASS)",
+ "approved": "2026-11-16T03:02:48.591Z"
+}
