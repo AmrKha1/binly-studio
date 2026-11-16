@@ -10,8 +10,6 @@ import {lb, uid} from '../../../kit/stage';
 import {GlowText, GridFloor, NightSky, NPill, RevealRing, Sparkle, WordPop, YearBadge, textWidth} from '../../../kit/night';
 import {CountNumber, Flash, HeroObject, Rays, Stamp} from '../../../kit/night-fx';
 import {NightCity, PaperMap, RoomWorld, StoryPerson, MoneyBag} from '../../../kit/night-worlds';
-import {StairGame, stairCamT} from '../../../kit/night-game';
-import type {StairEntry} from '../../../kit/night-game';
 import {MysteryTile, Coin} from '../../../kit/night-props';
 import {MarkPill, WarWorld} from '../../../kit/night-data';
 import {IconList, Lineup, Spotlight, StoryTable} from '../../../kit/night-story';
@@ -20,7 +18,6 @@ import {NightMap, NeonLines, nightProj} from '../../../kit/night-maps';
 import {move, moveTo} from '../../../kit/night-scenes';
 import {cueSfx} from '../../../kit/sfx';
 import {OUT, popAt} from '../shared/util';
-import board from '../../../../videos/ar-costly-mistakes/board.json';
 
 const T = {
   s1: 614.58, mufaal: 615.9, infajar: 616.96, dowal: 618.32, miat: 619.66, // «أدري وش في بالك … مفاعل نووي انفجر، ولوّث دول، وكلّف مئات المليارات»
@@ -223,10 +220,6 @@ export const S1: React.FC<{t: number}> = ({t}) => {
 
 // ==================================================================================================================
 // S3 · 622.49 · «بس أغلى غلطة في الفيديو كله ما فيها انفجار، ولا صاروخ، ولا هاكرز» — on the board, three ✖
-const ENTRIES: StairEntry[] = (board.entries as {id: string; label: string; at: number; src?: string; ar?: number; glow?: string; twist?: boolean}[]).map((e) => ({
-  id: e.id, label: e.label, at: e.at, src: e.src, ar: e.ar ?? 1, glow: e.glow, twist: e.twist,
-}));
-const STAIR = {entries: ENTRIES, summitAt: board.summitAt, topLabel: board.topLabel};
 
 const BurstIcon: React.FC<{r: number}> = ({r}) => {
   const pts = (k: number, n: number) => Array.from({length: n * 2}, (_, i) => {
@@ -265,11 +258,21 @@ export const S3: React.FC<{t: number}> = ({t}) => {
   return (
     <g>
       <NightSky t={t} id="c10s3s" />
-      <g transform={stairCamT(t, STAIR)}>
-        <GridFloor id="c10s3f" t={t} wide />
-        <StairGame t={t} id="c10s3g" {...STAIR} />
+      <GridFloor id="c10s3f" t={t} wide />
+      {/* the board pushed far back: the stairs as a dim silhouette (no step pills/objects), summit glowing faintly */}
+      <g opacity={0.5}>
+        {Array.from({length: 9}, (_, i) => {
+          const x = 1760 - i * 200, h = 70 + i * 42 + (i === 8 ? 40 : 0);
+          return (
+            <g key={i}>
+              {i === 8 && <Glow x={x} y={930 - h} r={170} color={GOLD} o={0.35 + 0.08 * Math.sin(t * 2)} id="c10s3sum" />}
+              <rect x={x - 92} y={930 - h} width={184} height={h} rx={12} fill={i === 8 ? '#5A4410' : '#241650'} stroke={OUT} strokeWidth={6} />
+              <rect x={x - 92} y={930 - h} width={184} height={10} rx={5} fill={i === 8 ? GOLD : '#6A4BD8'} opacity={0.7} />
+            </g>
+          );
+        })}
       </g>
-      <rect x={0} y={0} width={1920} height={1080} fill="#0A0420" opacity={0.55} />
+      <rect x={0} y={0} width={1920} height={1080} fill="#0A0420" opacity={0.35} />
       <WordPop t={t} id="c10s3h" y={190} size={130} right={lx + tw / 2} words={words} />
       <Lineup t={t} x={lx} y={ly} r={118} gap={80} id="c10s3l" items={[
         {label: 'انفجار', at: T.infijar - 0.12, node: <BurstIcon r={100} />, mark: 'cross', markAt: T.infijar + 0.2},

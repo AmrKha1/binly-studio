@@ -533,13 +533,13 @@ export const S7: React.FC<{t: number}> = ({t}) => (
     <FlyingBills t={t} at={T.lenders - 0.1} x={1560} y={420} n={12} spread={420} dur={2.2} w={80} />
     {LX.map((x, i) => {
       const at = T.lenders + 0.05 + i * 0.12;
-      const [bx, by, k] = arc(t, at, [1560, 420], [x, 760], 220, 0.75);
+      const [bx, by, k] = arc(t, at, [1560, 420], [x, 850], 60, 0.75);
       const caught = k >= 0.99;
       cueSfx('pop', `c5s7c${i}`, t >= at + 0.75 && t < at + 1.0, x, {at: at + 0.75, gain: 0.6});
       return (
         <g key={i}>
           <Lender t={t} x={x} y={1000} s={0.95} at={T.lenders - 0.3 + i * 0.08} pose={caught ? 'shock' : 'idle'} id={`c5s7l${i}`} flip={i >= 2} />
-          {t >= at && <Pic {...ART.cash} x={bx} y={by} h={130} rot={(1 - k) * -30} glow={caught ? GREEN : undefined} id={`c5s7b${i}`} />}
+          {t >= at && <Pic {...ART.cash} x={bx} y={by} h={105} rot={(1 - k) * -30} glow={caught ? GREEN : undefined} id={`c5s7b${i}`} />}
         </g>
       );
     })}
@@ -561,13 +561,13 @@ export const S8: React.FC<{t: number}> = ({t}) => {
         {LX.map((x, i) => {
           const back = i >= 2;
           const at = T.back - 0.1 + (i - 2) * 0.15;
-          const [bx, by, k] = back ? arc(t, at, [x, 800], [2200, 260], 160, 0.8) : [x, 830, 0];
+          const [bx, by, k] = back ? arc(t, at, [x, 855], [2200, 860], 60, 0.8) : [x, 855, 0];
           const pose = back ? (t >= at && t < at + 0.9 ? 'up' : 'idle') : 'hold';
           const s = i === 1 ? squeeze : 1;
           return (
             <g key={i} transform={`translate(${x} 1000) scale(${s}) translate(${-x} -1000)`}>
               <Lender t={t} x={x} y={1000} s={0.95} pose={pose} id={`c5s8l${i}`} flip={i >= 2} />
-              {(!back || k < 1) && <Pic {...ART.cash} x={bx} y={by} h={back ? 130 : 120} rot={back ? k * 40 : 0} glow={back ? undefined : GOLD} id={`c5s8b${i}`} />}
+              {(!back || k < 1) && <Pic {...ART.cash} x={bx} y={by} h={105} rot={back ? k * 40 : 0} glow={back ? undefined : GOLD} id={`c5s8b${i}`} />}
             </g>
           );
         })}
@@ -602,17 +602,17 @@ export const S9: React.FC<{t: number}> = ({t}) => {
       )}
       {slapped && t < T.favor - 0.1 && <NPill text="القضية" x={760} y={455} size={48} kind="white" id="c5s9q" p={(t - T.case) / 0.3} />}
       {/* the gavel */}
-      <g transform={`rotate(${swing} 1290 560)`}>
-        <Pic {...ART.gavel} x={1190} y={500} h={190} id="c5s9g" />
+      <g transform={`rotate(${swing} 1340 620)`}>
+        <Pic {...ART.gavel} x={1245} y={600} h={160} id="c5s9g" />
       </g>
-      {hit > 0 && <circle cx={1110} cy={570} r={60 + (1 - hit) * 120} fill="none" stroke={GOLD} strokeWidth={10} opacity={hit} />}
+      {hit > 0 && <circle cx={1170} cy={630} r={60 + (1 - hit) * 120} fill="none" stroke={GOLD} strokeWidth={10} opacity={hit} />}
       {/* lenders (cyan) left · the bank (gold) right */}
       {[620, 800].map((x, i) => (
         <g key={i} transform={cheer ? `translate(0 ${-Math.abs(Math.sin((t - T.keep) * 7 + i)) * 18})` : undefined}>
           <Lender t={t} x={x} y={1010} s={0.85} pose={cheer ? 'cheer' : t >= T.favor ? 'shock' : 'idle'} id={`c5s9l${i}`} />
         </g>
       ))}
-      <StoryPerson x={1480} y={1010} s={0.85} t={t} id="c5s9bk" role="banker" pose={t >= T.favor ? 'shock' : 'idle'} flip />
+      <StoryPerson x={1620} y={1010} s={0.85} t={t} id="c5s9bk" role="banker" pose={t >= T.favor ? 'shock' : 'idle'} flip />
       {t >= T.favor && <MarkPill t={t} at={T.favor} text="لصالحهم" x={710} y={560} mark="check" size={52} id="c5s9ok" />}
     </>
   );

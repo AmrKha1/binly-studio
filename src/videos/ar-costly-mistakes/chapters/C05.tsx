@@ -46,9 +46,8 @@ export const C05: React.FC<{t: number}> = ({t}) => (
           hud={(t: number) => (
             <>
               {t >= 232.95 && t < 242.30 && <HostTrack t={t} id="host-C05-0" {...({"spots":[{"at":233,"spot":"sideLeft"}],"poses":[[233,"list"],[236.58,"higher"],[239.22,"shrug"],[241.1,"sure"]],"enter":{"kind":"riseSoft","at":233},"exit":{"kind":"fadeOut","at":241.9,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
-              {t >= 263.21 && t < 265.70 && <HostTrack t={t} id="host-C05-1" {...({"spots":[{"at":263.26,"spot":"peekRight"}],"poses":[[263.26,"scared"]],"enter":{"kind":"riseSoft","at":263.26},"exit":{"kind":"fadeOut","at":265.3,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
-              {t >= 278.01 && t < 281.70 && <HostTrack t={t} id="host-C05-2" {...({"spots":[{"at":278.06,"spot":"smallLeft"}],"poses":[[278.06,"wow"],[280.2,"doubt"]],"enter":{"kind":"riseSoft","at":278.06},"exit":{"kind":"fadeOut","at":281.3,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
-              {t >= 293.25 && t < 300.65 && <HostTrack t={t} id="host-C05-3" {...({"spots":[{"at":293.3,"spot":"sideLeft"}],"poses":[[293.3,"joy"],[296.12,"think"],[299.14,"viewer"]],"enter":{"kind":"riseSoft","at":293.3},"exit":{"kind":"fadeOut","at":300.25,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
+              {t >= 278.01 && t < 281.70 && <HostTrack t={t} id="host-C05-1" {...({"spots":[{"at":278.06,"spot":"smallLeft"}],"poses":[[278.06,"wow"],[280.2,"doubt"]],"enter":{"kind":"riseSoft","at":278.06},"exit":{"kind":"fadeOut","at":281.3,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
+              {t >= 293.25 && t < 300.65 && <HostTrack t={t} id="host-C05-2" {...({"spots":[{"at":293.3,"spot":"sideLeft"}],"poses":[[293.3,"joy"],[296.12,"think"],[299.14,"viewer"]],"enter":{"kind":"riseSoft","at":293.3},"exit":{"kind":"fadeOut","at":300.25,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
             </>
           )}
       />

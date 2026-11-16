@@ -565,8 +565,9 @@ const TOWER = {x: 1420, top: 330, w: 330};
 const YahooTower: React.FC<{t: number}> = ({t}) => {
   const base = 1020, l = TOWER.x - TOWER.w / 2;
   return (
-    <g {...lb('object', 'c8tower')}>
+    <>
       <Glow x={TOWER.x} y={600} r={460} ry={560} color={PURPLE} o={0.5} id="c8tw" />
+    <g {...lb('object', 'c8tower')}>
       <rect x={l} y={TOWER.top} width={TOWER.w} height={base - TOWER.top} fill="#2A1A5E" stroke={OUT} strokeWidth={9} />
       <rect x={l + TOWER.w - 70} y={TOWER.top} width={70} height={base - TOWER.top} fill="#1A0F40" />
       {Array.from({length: 9}, (_, r) => [0, 1, 2].map((c) => (
@@ -575,6 +576,7 @@ const YahooTower: React.FC<{t: number}> = ({t}) => {
       <rect x={l - 20} y={TOWER.top - 20} width={TOWER.w + 40} height={30} rx={8} fill="#3A2A7A" stroke={OUT} strokeWidth={7} />
       <Crown x={TOWER.x} y={TOWER.top - 20} w={170} id="c8twcr" />
     </g>
+    </>
   );
 };
 export const S12: React.FC<{t: number}> = ({t}) => {
@@ -587,7 +589,7 @@ export const S12: React.FC<{t: number}> = ({t}) => {
       <VPill text="ياهو" x={TOWER.x} y={TOWER.top + 120} size={50} p={1} id="c8s12yn" />
       <StoryPerson t={t} x={mx} y={1030} s={1.15} role="businessman" rim={MRIM} id="c8s12m" pose={walking ? 'walk' : 'point'} />
       <NPill text="مايكروسوفت" x={mx} y={1030 - 1.15 * 470} size={48} kind="cyan" id="c8s12p" p={(t - (T.ms - 0.1)) / 0.3} />
-      <YearBadge t={t} at={T.sinin - 0.15} year={2008} from={2002} x={960} y={200} id="c8s12yb" size={110} />
+      <NPill text="بعدها بست سنين" x={960} y={180} size={52} kind="white" id="c8s12after" p={(t - (T.s12 + 0.2)) / 0.3} />
     </g>
   );
 };
@@ -678,7 +680,7 @@ const SoldScene: React.FC<{t: number; withGold: boolean}> = ({t, withGold}) => {
         )}
       </g>
       {fall < 1 ? <Crown x={cX} y={cY} w={140} rot={cRot} id="c8s14cr" /> : <Crown x={cX} y={860} w={140} rot={75} o={0.7 * dim} id="c8s14cr2" />}
-      <YearBadge t={t} at={T.y2017 - 0.15} year={2017} from={2008} x={1560} y={190} id="c8s14yb" size={110} />
+      <YearBadge t={t} at={T.y2017 - 0.15} year={2017} from={2002} x={1560} y={190} id="c8s14yb" size={110} />
       <BigBar t={t} at={T.v448 - 0.2} x={BARS.x} y={BARS.y} len={purpleLen} c0={PURPLE_L} c1={PURPLE} label="حوالي 4.48 مليار $" kind="white" id="c8s14bp" />
       {withGold && <BigBar t={t} at={T.s15 + 0.1} x={BARS.x} y={BARS.y + BARS.gap} len={goldLen} c0="#FFE07A" c1="#F2B010" label="طلب قوقل 5 مليار $" kind="gold" id="c8s15bg" />}
       {withGold && goldGlow > 0 && (

@@ -13,7 +13,6 @@ import {GlowText, GridFloor, NightSky, NPill, Podium, RevealRing, Sparkle, WordP
 import type {PopWord} from '../../../kit/night';
 import {Bokeh, Flash, HeroObject, Mark, Rays, Stamp} from '../../../kit/night-fx';
 import {NightCity, StoryPerson} from '../../../kit/night-worlds';
-import {StairGame} from '../../../kit/night-game';
 import type {StairEntry} from '../../../kit/night-game';
 import {PlateFx} from '../../../kit/night-places';
 import {move, moveTo} from '../../../kit/night-scenes';
@@ -53,10 +52,8 @@ const EL = (n: string) => `ar-costly-mistakes/el/${n}.png`;
 const ENTRIES: StairEntry[] = (board.entries as {id: string; label: string; at: number; src?: string; ar?: number; glow?: string; twist?: boolean}[]).map((e) => ({
   id: e.id, label: e.label, at: e.at, src: e.src, ar: e.ar ?? 1, glow: e.glow, twist: e.twist,
 }));
-const STAIR = {entries: ENTRIES, summitAt: board.summitAt, topLabel: board.topLabel};
 // S2 draws the twist itself in SCREEN-wide space (the kit StairGame's Flash sits inside the camera and would only cover part
 // of the screen when the camera is zoomed) — so S2 runs the board without the twist entry and without the waiting summit.
-const STAIR_NO_TWIST = {entries: ENTRIES.filter((e) => !e.twist), topLabel: board.topLabel};
 const TWIST = ENTRIES.find((e) => e.twist)!;
 const PLAIN = ENTRIES.filter((e) => !e.twist).sort((a, b) => a.at - b.at);
 const BASE = 836, N_STEPS = PLAIN.length + 1, SUM = N_STEPS - 1;
@@ -234,14 +231,46 @@ const legs = (t: number, K: [number, number, number, number, number][]): [number
   return [x, y, moveTo(t, b[0], a[3], b[3], b[4])];
 };
 
-// the board world (sky + floor + StairGame) under a camera
-const Board: React.FC<{t: number; c: Cam; id: string; children?: React.ReactNode; over?: React.ReactNode; noTwist?: boolean; dy?: number; behind?: React.ReactNode}> = ({t, c, id, children, over, noTwist, dy = 0, behind}) => (
+// the board world (sky + floor + the stairs) under a camera. The stairs are drawn locally (same layout + pieces as the kit
+// StairGame, every entry already arrived in C12) so the step pills can be HIDDEN where other text carries the story
+// (recap, bills, thesis) and dropped when they leave the safe frame (layout gate 2026-11-16).
+type PillMode = 'none' | 'safe';
+const pillIn = (c: Cam, dy: number, x: number, y: number, text: string, size: number) => {
+  const [sx, sy] = toScreen(c, x, y);
+  const w = (textWidth(text, size) + size * 1.5) * c.z, h = size * 1.65 * c.z;
+  return sx - w / 2 >= 96 && sx + w / 2 <= 1824 && sy + dy - h / 2 >= 60 && sy + dy + h / 2 <= 984;
+};
+const Stairs: React.FC<{t: number; c: Cam; dy: number; pills: PillMode; summit: 'wait' | 'twist' | 'none'; summitLabels?: boolean; objects?: boolean}> = ({t, c, dy, pills, summit, summitLabels = true, objects = true}) => (
+  <g>
+    {PLAIN.map((e, i) => (
+      <g key={e.id}>
+        <Podium x={SX(i)} base={BASE} w={232} h={SH(i)} id={`c12st-${e.id}`} color="green" />
+        {objects && <HeroObject t={t} at={e.at + 0.25} src={e.src} ar={e.ar ?? 1} x={SX(i)} y={OBJ_Y(i)} h={200} glow={e.glow} sparkles={4} id={`c12st-${e.id}-o`} />}
+        {pills === 'safe' && pillIn(c, dy, SX(i), PILL_Y(i), e.label, 40) && <NPill text={e.label} x={SX(i)} y={PILL_Y(i)} size={40} kind="white" id={`c12st-${e.id}-p`} />}
+      </g>
+    ))}
+    {summit !== 'none' && <Podium x={SX(SUM)} base={BASE} w={232} h={SH(SUM)} id="c12st-sum" color="gold" />}
+    {summit === 'wait' && (
+      <g transform={`translate(${SX(SUM)} ${TOP(SUM) - 90 + Math.sin(t * 2) * 6})`}>
+        <GlowText text="؟" x={0} y={0} size={150} tone="gold" id="c12st-q" />
+      </g>
+    )}
+    {summit === 'twist' && (
+      <g>
+        <HeroObject t={t} at={TWIST.at + 0.25} src={TWIST.src} ar={TWIST.ar ?? 1} x={SX(SUM)} y={OBJ_Y(SUM)} h={200} glow={GOLD} sparkles={7} id="c12st-sumo" />
+        {summitLabels && pills === 'safe' && pillIn(c, dy, SX(SUM), PILL_Y(SUM), TWIST.label, 50) && <NPill text={TWIST.label} x={SX(SUM)} y={PILL_Y(SUM)} size={50} kind="gold" id="c12st-sump" />}
+        {summitLabels && <GlowText text={board.topLabel} x={SX(SUM)} y={TOP(SUM) - 340} size={96} tone="gold" id="c12st-top" />}
+      </g>
+    )}
+  </g>
+);
+const Board: React.FC<{t: number; c: Cam; id: string; children?: React.ReactNode; over?: React.ReactNode; dy?: number; behind?: React.ReactNode; pills?: PillMode; summit?: 'wait' | 'twist' | 'none'; summitLabels?: boolean; objects?: boolean}> = ({t, c, id, children, over, dy = 0, behind, pills = 'safe', summit = 'twist', summitLabels, objects}) => (
   <g>
     <NightSky t={t} id={`${id}k`} />
     {behind}
     <g transform={`translate(0 ${dy}) ${camT(c)}`}>
       <GridFloor id={`${id}f`} t={t} wide />
-      <StairGame t={t} id="c12stairs" {...(noTwist ? STAIR_NO_TWIST : STAIR)} />
+      <Stairs t={t} c={c} dy={dy} pills={pills} summit={summit} summitLabels={summitLabels} objects={objects} />
       {children}
     </g>
     {over}
@@ -296,12 +325,15 @@ export const S1: React.FC<{t: number}> = ({t}) => {
   const [qx, qy] = toScreen(c, SX(SUM), TOP(SUM) - 90);
   const pillsOut = 1 - clamp01((t - T.hush) / 0.3);
   return (
-    <Board t={t} c={c} id="c12s1" over={
+    <Board t={t} c={c} id="c12s1" pills="none" summit="wait" over={
       <g>
         <Hush d={hushD} x={qx} y={qy} id="c12s1h" />
         {/* the spoken numbers — screen-space pills (46 px) over each step's price pill */}
         {pillsOut > 0.01 && RECAP.map((r, i) => {
           const [px, py] = toScreen(c, SX(i), PILL_Y(i));
+          // the spoken pill replaces the step's own pill; it leaves (no pop-out) once it slides out of the safe frame
+          const hw = (textWidth(r.text, 52) + 52 * 1.5) / 2;
+          if (px - hw < 96 || px + hw > 1824 || py - 46 < 60) return null;
           return (
             <g key={i} opacity={pillsOut}>
               <NPill text={r.text} x={px} y={py} size={52} kind={r.kind} id={`c12s1r${i}`} p={(t - (T.recap[i] - 0.12)) / 0.3} />
@@ -356,7 +388,7 @@ export const S2: React.FC<{t: number}> = ({t}) => {
   }) : [];
   const tagOut = 1 - clamp01((t - LAUNCH) / 0.2);
   return (
-    <Board t={t} c={c} id="c12s2" noTwist dy={dy} behind={hero > 0 ? <g opacity={hero}><Rays t={t} id="c12s2r" tone="gold" x={hx} y={hy} /></g> : null} over={
+    <Board t={t} c={c} id="c12s2" summit="none" dy={dy} behind={hero > 0 ? <g opacity={hero}><Rays t={t} id="c12s2r" tone="gold" x={hx} y={hy} /></g> : null} over={
       <g>
         <Hush d={hushD * (1 - 0.5 * hero)} x={hx} y={hy} id="c12s2h" />
         {/* the hero labels — screen space, phone-size */}
@@ -407,7 +439,6 @@ const Summit: React.FC<{t: number}> = ({t}) => {
       )}
       <HeroObject t={t} at={LAND} src={TWIST.src} ar={TWIST.ar ?? 1} x={HOBJ[0]} y={HOBJ[1]} h={HERO_H} glow={GOLD} sparkles={8} id="c12s2-sumo" />
       {/* the old champion loses its gold the moment the twist lands (one gold pill per frame) */}
-      <NPill text={PLAIN[SUM - 1].label} x={SX(SUM - 1)} y={PILL_Y(SUM - 1)} size={46} kind="white" id="c12s2-oldchamp" p={t >= at ? 1 : 0} />
     </g>
   );
 };
@@ -431,7 +462,7 @@ export const S3: React.FC<{t: number}> = ({t}) => {
   const c = camAtK(t, S3_CAM);
   const glowAll = clamp01((t - (T.fatura - 0.1)) / 0.2) * (1 - 0.6 * clamp01((t - T.wasalat) / 0.4));
   return (
-    <Board t={t} c={c} id="c12s3" over={
+    <Board t={t} c={c} id="c12s3" pills="none" summitLabels={false} over={
       <g>
         <rect x={0} y={0} width={1920} height={1080} fill="#07031A" opacity={0.18} />
         <CWords t={t} y={150} size={130} cx={1180} id="c12s3w" words={[{w: 'ليش؟', at: T.s3 - 0.05, tone: 'gold'}]} />
@@ -679,7 +710,7 @@ export const S8: React.FC<{t: number}> = ({t}) => {
   const strike = ease.out(clamp01((t - (T.tasir - 0.05)) / 0.25));
   cueSfx('swish', 'c12s8-strike', t >= T.tasir - 0.05 && t < T.tasir + 0.2, bx, {at: T.tasir - 0.05, hit: 0.15, gain: 0.7});
   return (
-    <Board t={t} c={c} id="c12s8" over={
+    <Board t={t} c={c} id="c12s8" pills="none" summitLabels={false} objects={false} over={
       <g>
         <rect x={0} y={0} width={1920} height={1080} fill="#07031A" opacity={0.5} />
         <CWords t={t} y={470} size={size} cx={cx} id="c12s8a" words={[

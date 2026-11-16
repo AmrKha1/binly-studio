@@ -376,7 +376,7 @@
    "host": [
     {
      "at": 451.16,
-     "spot": "sideLeft",
+     "spot": "smallLeft",
      "pose": "point",
      "why": "presents the rising tower"
     },

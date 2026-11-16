@@ -40,3 +40,5 @@ Notes: spoken lines use digits as in script («6.3 مليار دولار», «ح
 - NEXT after C12 fix: recompile ALL → sfx-scan → sync-check results (.cache/sync-ar-costly.log) → hook & signature pass → full-video pass (sheets at 2 s) → render-gate.
 - ALL 12 CHAPTERS BUILT + REVIEWED. All recompiled. sync-check 12/12 clean (C10 blank fixed). sfx: no QUIET (36/min). Joins checked.
 - RENDER GATE round 1 running (.cache/gate1.log).
+- GATE round 1: NOT READY (112). Real fixes sent: C05 C08(2008) C09 C10 C11(1876) C12 (recap/thesis pills); AZTIKA overlaps fixed in JSON (C02 C03 C05 C07). Accepted flags → gate-ok.json. Next: gate round 2 when builders report.
+- gate round-1 fixes all done (C05 C08 C09 C10 C11 C12 + host). GATE round 2 running (.cache/gate2.log).

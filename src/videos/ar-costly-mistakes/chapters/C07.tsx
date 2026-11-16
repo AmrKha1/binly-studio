@@ -50,7 +50,7 @@ export const C07: React.FC<{t: number}> = ({t}) => (
           hud={(t: number) => (
             <>
               {t >= 393.04 && t < 405.70 && <HostTrack t={t} id="host-C07-0" {...({"spots":[{"at":393.09,"spot":"sideLeft"}],"poses":[[393.09,"scared"],[395.68,"viewer"],[397.7,"point"],[399.28,"higher"],[403.07,"you"],[404.61,"sure"]],"enter":{"kind":"riseSoft","at":393.09},"exit":{"kind":"fadeOut","at":405.3,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
-              {t >= 442.11 && <HostTrack t={t} id="host-C07-1" {...({"spots":[{"at":442.16,"spot":"peekRight"},{"at":451.16,"spot":"sideLeft"}],"poses":[[442.16,"shrug"],[446.14,"react"],[449.3,"viewer"],[451.16,"point"],[453.32,"wow"],[456.92,"think"],[459.84,"viewer"]],"enter":{"kind":"riseSoft","at":442.16}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
+              {t >= 442.11 && <HostTrack t={t} id="host-C07-1" {...({"spots":[{"at":442.16,"spot":"peekRight"},{"at":451.16,"spot":"smallLeft"}],"poses":[[442.16,"shrug"],[446.14,"react"],[449.3,"viewer"],[451.16,"point"],[453.32,"wow"],[456.92,"think"],[459.84,"viewer"]],"enter":{"kind":"riseSoft","at":442.16}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
             </>
           )}
       />

@@ -55,9 +55,10 @@ export const C02: React.FC<{t: number}> = ({t}) => (
         ]}
           hud={(t: number) => (
             <>
-              {t >= 62.97 && t < 84.60 && <HostTrack t={t} id="host-C02-0" {...({"spots":[{"at":63.02,"spot":"peekRight"}],"poses":[[63.02,"think"],[66.6,"present"],[71.2,"react"],[76.06,"sure"],[81.8,"scared"]],"enter":{"kind":"riseSoft","at":63.02},"exit":{"kind":"fadeOut","at":84.2,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
-              {t >= 85.27 && t < 92.50 && <HostTrack t={t} id="host-C02-1" {...({"spots":[{"at":85.32,"spot":"sideLeft"}],"poses":[[85.32,"present"],[89.88,"wow"]],"enter":{"kind":"riseSoft","at":85.32},"exit":{"kind":"fadeOut","at":92.1,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
-              {t >= 105.07 && <HostTrack t={t} id="host-C02-2" {...({"spots":[{"at":105.12,"spot":"sideLeft"}],"poses":[[105.12,"point"],[107.98,"viewer"]],"enter":{"kind":"riseSoft","at":105.12}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
+              {t >= 62.97 && t < 67.00 && <HostTrack t={t} id="host-C02-0" {...({"spots":[{"at":63.02,"spot":"peekRight"}],"poses":[[63.02,"think"]],"enter":{"kind":"riseSoft","at":63.02},"exit":{"kind":"fadeOut","at":66.6,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
+              {t >= 76.01 && t < 84.60 && <HostTrack t={t} id="host-C02-1" {...({"spots":[{"at":76.06,"spot":"sideLeft"}],"poses":[[76.06,"sure"],[81.8,"scared"]],"enter":{"kind":"riseSoft","at":76.06},"exit":{"kind":"fadeOut","at":84.2,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
+              {t >= 85.27 && t < 92.50 && <HostTrack t={t} id="host-C02-2" {...({"spots":[{"at":85.32,"spot":"sideLeft"}],"poses":[[85.32,"present"],[89.88,"wow"]],"enter":{"kind":"riseSoft","at":85.32},"exit":{"kind":"fadeOut","at":92.1,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
+              {t >= 105.07 && <HostTrack t={t} id="host-C02-3" {...({"spots":[{"at":105.12,"spot":"sideLeft"}],"poses":[[105.12,"point"],[107.98,"viewer"]],"enter":{"kind":"riseSoft","at":105.12}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
             </>
           )}
       />

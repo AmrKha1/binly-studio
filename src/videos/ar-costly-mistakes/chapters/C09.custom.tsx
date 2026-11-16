@@ -5,7 +5,7 @@
 // Screen coordinates (NightScreen: no mirroring). AZTIKA (hud) stands at sideLeft (x≈420): keep x > 640 clear while he is on
 // (S1–S3, S15–S20); he is OFF in the mini-story S4–S14.
 import React from 'react';
-import {clamp01, ease, lerp, noise1, popRef, pressIn, rand} from '../../../kit/anim';
+import {clamp01, ease, lerp, noise1, popRef, pressIn, rand, spring} from '../../../kit/anim';
 import {uid} from '../../../kit/stage';
 import {GlowText, GridFloor, NightSky, NPill, Sparkle, WordPop, YearBadge, textWidth, nightFont} from '../../../kit/night';
 import type {PopWord} from '../../../kit/night';
@@ -14,7 +14,7 @@ import {PaperMap, RoomWorld, StoryPerson, SunsetWorld} from '../../../kit/night-
 import {StairGame} from '../../../kit/night-game';
 import type {StairEntry} from '../../../kit/night-game';
 import {BlueprintCard, CloudWorld, Coin, MysteryTile} from '../../../kit/night-props';
-import {MarkPill, NGauge, WarWorld} from '../../../kit/night-data';
+import {MarkPill, WarWorld} from '../../../kit/night-data';
 import {Spotlight} from '../../../kit/night-story';
 import {MassGrid} from '../../../kit/night-sci';
 import {NightMap, nightProj} from '../../../kit/night-maps';
@@ -880,7 +880,7 @@ export const S16: React.FC<{t: number}> = ({t}) => {
 };
 
 // S17 · 594.22 · «وفي باحثين قدّروا التكلفة على الدول الثلاث … بحوالي 700 مليار دولار خلال 30 سنة» — the gauge climbs
-const GX = 1000, GY = 560, GS = 1.35, GH = 470;
+const GX = 1000, GY = 560;
 const FLAGS: string[][] = [['#C8102E', '#C8102E', '#007A3D'], ['#0057B7', '#FFD700'], ['#FFFFFF', '#0039A6', '#D52B1E']];
 const FlagDisc: React.FC<{x: number; y: number; r: number; cols: string[]; id: string}> = ({x, y, r, cols, id}) => {
   const cid = uid('c9flag', id);
@@ -895,23 +895,53 @@ const FlagDisc: React.FC<{x: number; y: number; r: number; cols: string[]; id: s
     </g>
   );
 };
-// the 700 pill (drawn big over the kit's small tick pill)
-const P700 = (() => {
-  const ty = GY + GS * (GH / 2 - 10 - (GH - 20) * 0.92 - 0);
-  const left = GX + GS * (52 + 50) + 14;
-  return {x: left + textWidth('700 مليار $', 64) / 2 + 34, y: ty};
-})();
-const GaugeScene: React.FC<{t: number; id: string; live: boolean}> = ({t, id, live}) => (
-  <g>
-    <g transform={`translate(${GX} ${GY}) scale(${GS}) translate(${-GX} ${-GY})`}>
-      <NGauge t={t} x={GX} y={GY} h={GH} id={id} ticks={live ? [
-        {at: T.qaddaru, level: 0.3, label: '235 مليار $'},
-        {at: T.n700 - 0.05, level: 0.92, label: '700 مليار $', kind: 'gold'},
-      ] : [{at: 0, level: 0.92, label: '700 مليار $', kind: 'gold'}]} />
+// a local gauge (the kit's NGauge recipe, drawn at phone size with our own big pills: «700 مليار $» gold + biggest)
+const GW = 140, GHT = 635, GPAD = 13;
+const gTickY = (level: number) => GY + GHT / 2 - GPAD - (GHT - GPAD * 2) * level;
+const P700 = {x: GX + GW / 2 + 54 + textWidth('700 مليار $', 64) / 2 + 34, y: gTickY(0.92)};
+const GaugeScene: React.FC<{t: number; id: string; live: boolean}> = ({t, id, live}) => {
+  const ticks = live
+    ? [{at: T.qaddaru, level: 0.3, label: '235 مليار $', size: 50, kind: 'white' as const}, {at: T.n700 - 0.05, level: 0.92, label: '700 مليار $', size: 64, kind: 'gold' as const}]
+    : [{at: -1, level: 0.92, label: '700 مليار $', size: 64, kind: 'gold' as const}];
+  let level = 0, prev = 0, lastAt = -1;
+  for (const k of ticks) if (t >= k.at) { prev = level; level = k.level; lastAt = k.at; }
+  const u = lastAt >= 0 ? (live ? spring(clamp01((t - lastAt) / 0.9), 0.15) : 1) : 0;
+  const lv = lerp(prev, level, u);
+  const climbing = live && lastAt >= 0 && t - lastAt < 1.4;
+  const g = uid('c9gauge', id);
+  const top = GY - GHT / 2, bot = GY + GHT / 2;
+  const fillH = (GHT - GPAD * 2) * clamp01(lv);
+  return (
+    <g>
+      <defs>
+        <linearGradient id={g} gradientUnits="userSpaceOnUse" x1={0} y1={bot} x2={0} y2={top}>
+          <stop offset="0" stopColor="#2EE88B" /><stop offset="0.45" stopColor="#B8E34A" /><stop offset="0.7" stopColor="#FFC928" /><stop offset="1" stopColor="#FF3B4E" />
+        </linearGradient>
+        <filter id={g + 'b'} x="-80%" y="-30%" width="260%" height="160%"><feGaussianBlur stdDeviation={20} /></filter>
+      </defs>
+      <rect x={GX - GW / 2} y={bot - GPAD - fillH} width={GW} height={fillH + GPAD} rx={GW / 2} fill={`url(#${g})`} opacity={0.45} filter={`url(#${g}b)`} />
+      <rect x={GX - GW / 2} y={top} width={GW} height={GHT} rx={GW / 2} fill="#14101F" stroke={OUT} strokeWidth={10} />
+      {fillH > 2 && <rect x={GX - GW / 2 + GPAD} y={bot - GPAD - fillH} width={GW - GPAD * 2} height={fillH} rx={(GW - GPAD * 2) / 2} fill={`url(#${g})`} />}
+      {fillH > 30 && <rect x={GX - GW / 2 + GPAD + 10} y={bot - GPAD - fillH + 14} width={10} height={Math.max(0, fillH - 28)} rx={5} fill="#FFFFFF" opacity={0.35} />}
+      {climbing && (
+        <g transform={`translate(${GX - GW / 2 - 66} ${bot - GPAD - fillH + 40 + Math.sin(t * 8) * 10}) scale(1.35)`}>
+          <path d="M0 -34 L18 -8 L7 -8 L7 30 L-7 30 L-7 -8 L-18 -8 Z" fill="#FF3B4E" stroke={OUT} strokeWidth={3} strokeLinejoin="round" />
+        </g>
+      )}
+      {ticks.map((k, i) => {
+        if (t < k.at) return null;
+        const ty = gTickY(k.level), lx = GX + GW / 2 + 18;
+        cueSfx('pop', `${id}-tk${i}`, live && t >= k.at + 0.1 && t < k.at + 0.3, lx, {at: k.at + 0.1, hit: 0.1});
+        return (
+          <g key={i}>
+            <line x1={lx} y1={ty} x2={lx + 30} y2={ty} stroke="#FFFFFF" strokeWidth={6} strokeLinecap="round" opacity={clamp01((t - k.at) / 0.2)} />
+            <NPill text={k.label} x={lx + 36 + textWidth(k.label, k.size) / 2 + k.size * 0.55} y={ty} size={k.size} kind={k.kind} id={`${id}-t${i}`} p={live ? (t - k.at - 0.1) / 0.3 : 1} />
+          </g>
+        );
+      })}
     </g>
-    <NPill text="700 مليار $" x={P700.x} y={P700.y} size={64} kind="gold" id={id + 'big'} p={live ? (t - (T.n700 + 0.05)) / 0.3 : 1} />
-  </g>
-);
+  );
+};
 export const S17: React.FC<{t: number}> = ({t}) => (
   <g>
     <WarWorld t={t} id="c9s17w" />

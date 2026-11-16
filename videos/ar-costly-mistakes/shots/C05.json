@@ -142,18 +142,6 @@
     261.64,
     263.26,
     263.92
-   ],
-   "host": [
-    {
-     "at": 263.26,
-     "spot": "peekRight",
-     "pose": "scared",
-     "why": "the wrong amount lands"
-    },
-    {
-     "at": 265.3,
-     "off": true
-    }
    ]
   },
   {

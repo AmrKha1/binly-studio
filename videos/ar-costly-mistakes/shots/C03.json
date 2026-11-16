@@ -324,23 +324,6 @@
     159.66,
     161.1,
     162.8
-   ],
-   "host": [
-    {
-     "at": 158.9,
-     "spot": "peekRight",
-     "pose": "think",
-     "why": "watches the search zone narrow"
-    },
-    {
-     "at": 162.8,
-     "pose": "doubt",
-     "why": "«بس» — skeptical"
-    },
-    {
-     "at": 163.4,
-     "off": true
-    }
    ]
   },
   {

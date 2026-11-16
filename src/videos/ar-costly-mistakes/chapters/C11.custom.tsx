@@ -143,7 +143,7 @@ const tileX = (i: number) => TRAIN.x + 1.5 * TRAIN.gap - i * TRAIN.gap; // Arabi
 const FALL = [T.fall, T.fall + 0.2, T.fall + 0.4, T.fall + 0.6];
 const tiles = (falls: boolean): ConsequenceTile[] => [
   {year: '1875', label: 'البيع', icon: <IconContract />, at: 690.0, fallAt: falls ? FALL[0] : undefined},
-  {year: '1876', label: 'أعلنت عجزها', icon: <IconPurse />, at: T.ajz - 0.1, fallAt: falls ? FALL[1] : undefined},
+  {year: 'بعدها بسنة', label: 'أعلنت عجزها', icon: <IconPurse />, at: T.ajz - 0.1, fallAt: falls ? FALL[1] : undefined},
   {year: '1879', label: 'إسماعيل انعزل', icon: <IconTarboush />, at: T.s7 - 0.05, fallAt: falls ? FALL[2] : undefined},
   {year: '1882', label: 'احتلال', icon: <IconHelmet />, at: T.ihtilal - 0.1, fallAt: falls ? FALL[3] : undefined},
 ];
@@ -236,7 +236,7 @@ export const S3: React.FC<{t: number}> = ({t}) => (
     <g transform={camT(1380, 525, 1.1)}>
       <Train t={t} falls={false} id="c11tr3" />
     </g>
-    <YearBadge t={t} at={T.sana} year={1876} from={1875} x={1600} y={180} size={100} id="c11s3y" />
+    <Pill t={t} at={T.sana} text="السنة اللي بعدها" x={1580} y={130} size={60} kind="gold" id="c11s3y" />
   </g>
 );
 
@@ -361,7 +361,7 @@ export const S5: React.FC<{t: number}> = ({t}) => {
       <Chair x={CX} y={FEET} />
       <StoryPerson x={px} y={FEET} s={S} role="sultan" hat="none" outfit="bisht" body="#2A1A3A" beard="#4A4058" pose={fallen ? 'shock' : 'idle'} t={t} id="c11s5p" />
       <g transform={`translate(${tx} ${ty}) rotate(${rot})`}><Tarboush s={S} /></g>
-      <YearBadge t={t} at={T.y1879 - 0.1} year={1879} from={1876} x={1600} y={180} size={100} id="c11s5y" />
+      <YearBadge t={t} at={T.y1879 - 0.1} year={1879} x={1600} y={180} size={100} id="c11s5y" />
       <Pill t={t} at={T.ismail} text="إسماعيل" x={CX} y={headTop - 150} size={52} id="c11s5n" out={T.inazal + 0.2} />
     </g>
   );
@@ -395,7 +395,7 @@ export const S6: React.FC<{t: number}> = ({t}) => {
         </g>
       )}
       <Flash t={t} at={T.maaraka} strength={0.3} color="#FFD9A0" />
-      <YearBadge t={t} at={T.y1882 - 0.1} year={1882} from={1879} x={1600} y={180} size={100} id="c11s6y" />
+      <YearBadge t={t} at={T.y1882 - 0.1} year={1882} x={1600} y={180} size={100} id="c11s6y" />
       <Pill t={t} at={T.misr - 0.05} text="مصر" x={1340} y={880} size={52} id="c11s6m" />
       <Pill t={t} at={T.maaraka} text="معركة التل الكبير" x={820} y={190} size={56} id="c11s6b" />
     </g>
@@ -525,9 +525,9 @@ export const S9: React.FC<{t: number}> = ({t}) => {
 // ==================================================================================================================
 // S10 · 722.64 · «لما جمال عبد الناصر أمّم القناة» — he walks in and pushes the door shut
 export const S10: React.FC<{t: number}> = ({t}) => {
-  const [nx] = move(t, T.lamma - 0.2, [2150, 0], [1330, 0], 1.6, ease.out);
+  const [nx] = move(t, T.lamma - 0.2, [2150, 0], [1590, 0], 1.6, ease.out);
   const walking = t >= T.lamma - 0.2 && t < T.lamma + 1.4;
-  const [nx2] = move(t, T.ammam - 0.45, [nx, 0], [1255, 0], 0.4);
+  const [nx2] = move(t, T.ammam - 0.45, [nx, 0], [1535, 0], 0.4);
   const x = t >= T.ammam - 0.45 ? nx2 : nx;
   const shut = clamp01((t - T.ammam - 0.5) / 0.15);
   const dust = clamp01((t - (T.ammam + 0.55)) / 0.9);
@@ -549,7 +549,7 @@ export const S10: React.FC<{t: number}> = ({t}) => {
       </g>
       <Flash t={t} at={T.ammam + 0.5} strength={0.25} color="#FFE8B0" />
       <YearBadge t={t} at={T.s10 - 0.02} year={1956} x={1640} y={170} size={96} id="c11s10y" />
-      <Pill t={t} at={T.jamal - 0.05} text="جمال عبد الناصر" x={1390} y={330} size={50} id="c11s10p" out={T.qanah - 0.15} />
+      <Pill t={t} at={T.jamal - 0.05} text="جمال عبد الناصر" x={1560} y={300} size={50} id="c11s10p" out={T.qanah - 0.15} />
       <Pill t={t} at={T.qanah - 0.05} text="أمّم القناة" x={480} y={330} size={66} kind="gold" id="c11s10q" />
     </g>
   );
