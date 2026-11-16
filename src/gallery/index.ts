@@ -46,6 +46,7 @@ import {NightPage17} from './pages/night17';
 import {NightPage18} from './pages/night18';
 import {NightPage19} from './pages/night19';
 import {NightPage21, NightPage22, NightPage23, NightPage24} from './pages/night21';
+import {CostlySharedPage} from '../videos/ar-costly-mistakes/shared/_TestSheet';
 
 // Kit showcase pages. Render a page: node tools/still.mjs Gallery --props '{"page":"icons"}' --at 2
 export const GALLERY: Record<string, React.FC<{t: number}>> = {
@@ -72,6 +73,7 @@ export const GALLERY: Record<string, React.FC<{t: number}>> = {
   night22: NightPage22, // CTA B · the phone that teaches where to tap
   night23: NightPage23, // CTA C · like + subscribe climb the board
   night24: NightPage24, // CTA D · the end screen (room for YouTube's real buttons)
+  costly: CostlySharedPage, // ar-costly-mistakes shared pieces (test page)
   glow: Glow,
   arabic: Arabic,
   motion: Motion,

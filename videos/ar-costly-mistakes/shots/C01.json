@@ -1,0 +1,421 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 0,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "mystery",
+   "flow": "object",
+   "fallback": "code-drawn gold pen (HeroObject draw: tapered gold barrel + nib, thick outline) + documentArt() as the bill",
+   "note": "PAYOFF AT 0 s: a gold fountain pen hovers over a MistakeBill whose total digits roll fast (blurred «؟؟؟ $»); on خط the nib draws ONE tiny glowing gold stroke on the bill; on ضربة قلم the stroke flares (RevealRing small) and the rolling digits freeze",
+   "beats": [
+    0.8,
+    1.92
+   ],
+   "host": [
+    {
+     "at": 0,
+     "spot": "sideLeft",
+     "pose": "present",
+     "why": "presents the pen and the bill at once (the payoff)"
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "start": 2.62,
+   "template": "HeroShot",
+   "size": "medium",
+   "device": "count",
+   "props": {
+    "at": 2.7,
+    "art": "document",
+    "glow": "#FFC928",
+    "h": 360,
+    "label": {
+     "text": "ضربة قلم",
+     "at": 2.8,
+     "kind": "white"
+    },
+    "value": "150 مليون $",
+    "countAt": 2.75,
+    "spoken": [
+     {
+      "w": "أكثر من",
+      "at": 3.02
+     },
+     {
+      "w": "150",
+      "at": 3.58
+     },
+     {
+      "w": "مليون",
+      "at": 4.02,
+      "tone": "gold"
+     },
+     {
+      "w": "دولار",
+      "at": 4.64
+     }
+    ]
+   },
+   "spoken": "أكثر من 150 مليون دولار",
+   "host": [
+    {
+     "at": 4.02,
+     "pose": "wow",
+     "why": "the first big number lands"
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "start": 5.16,
+   "template": "StoryShot",
+   "size": "medium",
+   "mode": "character",
+   "props": {
+    "world": "room",
+    "people": [
+     {
+      "role": "man",
+      "x": 1180,
+      "prop": "pizza",
+      "pose": "idle",
+      "poses": [
+       [
+        6.22,
+        "up"
+       ]
+      ],
+      "outfit": "hoodie"
+     }
+    ],
+    "pills": [
+     {
+      "text": "طلب بيتزا",
+      "x": 1180,
+      "y": 330,
+      "at": 6.22,
+      "kind": "gold"
+     }
+    ]
+   },
+   "host": [
+    {
+     "at": 6.22,
+     "pose": "point",
+     "why": "points at the man lifting the pizza"
+    }
+   ],
+   "device": "story"
+  },
+  {
+   "id": "S4",
+   "start": 7.22,
+   "template": "HeroShot",
+   "size": "close",
+   "device": "count",
+   "flow": "object",
+   "fallback": "two StoryPropIcon pizzas side by side on a HeroObject draw (custom swap if two-pizzas.png is missing)",
+   "props": {
+    "at": 7.3,
+    "src": "ar-costly-mistakes/el/two-pizzas.png",
+    "ar": 1.6,
+    "glow": "#FFB347",
+    "h": 300,
+    "label": {
+     "text": "اليوم",
+     "at": 7.22,
+     "kind": "white"
+    },
+    "value": "785 مليون",
+    "countAt": 7.3,
+    "spoken": [
+     {
+      "w": "تقريبًا",
+      "at": 7.46
+     },
+     {
+      "w": "785",
+      "at": 7.96
+     },
+     {
+      "w": "مليون",
+      "at": 8.62,
+      "tone": "gold"
+     }
+    ]
+   },
+   "spoken": "تقريبًا 785 مليون",
+   "host": [
+    {
+     "at": 8.62,
+     "pose": "react",
+     "why": "two pizzas = 785 million"
+    }
+   ]
+  },
+  {
+   "id": "S5",
+   "start": 9.76,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "story",
+   "flow": "object",
+   "fallback": "code-drawn black rubbish bag (rounded sack, tied neck, one highlight stripe, thick outline) as HeroObject draw",
+   "note": "one black rubbish bag drops onto dark ground (thump) on كيس; on مدفون the ground rises over it — a cross-section of rubbish layers; on ثروة a gold glow lights inside the bag through the layers; NPill gold «مئات الملايين» on بمئات",
+   "beats": [
+    10.03,
+    11.28,
+    11.96,
+    12.36
+   ],
+   "host": [
+    {
+     "at": 11.28,
+     "spot": "peekLeft",
+     "pose": "think",
+     "why": "peeks down at the bag being buried"
+    }
+   ]
+  },
+  {
+   "id": "S6",
+   "start": 13.52,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "story",
+   "note": "night-ui Laptop centre-right; on وظيفة a MessageCard kind job pops on its screen (from «مسؤول توظيف», text «فرصة وظيفة»); on لينكدإن a white NPill «لينكدإن» pops beside it (name as text, no logo); camera pushes in on the card",
+   "beats": [
+    14.26,
+    14.82
+   ],
+   "host": [
+    {
+     "at": 14.26,
+     "pose": "point",
+     "why": "points at the job message"
+    }
+   ]
+  },
+  {
+   "id": "S7",
+   "start": 15.2,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "note": "FateDoor (shared): the job card flies into a tall glowing door; on الباب the door cracks open, gold light spills; on سرقة a stream of ₿ coins pours OUT through the door + WordPop «أكبر سرقة» (أكبر white 16.18, سرقة red 16.72); on التاريخ punch-in",
+   "beats": [
+    15.72,
+    16.72,
+    17.68
+   ],
+   "host": [
+    {
+     "at": 16.72,
+     "pose": "scared",
+     "why": "the biggest theft"
+    }
+   ]
+  },
+  {
+   "id": "S8",
+   "start": 18.12,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "list",
+   "note": "AZTIKA close to the viewer (doubt) on أكيد بتقول إني أبالغ; on بس كل هذا صار فعلًا the four teaser objects (pen, two pizzas, bag, laptop) pop in a row on small glowing pedestals on the left, each gets a green ✔ Mark one by one (19.89, 20.08, 20.28, 20.6)",
+   "beats": [
+    18.52,
+    19.56,
+    19.89,
+    20.28,
+    20.6
+   ],
+   "host": [
+    {
+     "at": 18.52,
+     "spot": "closeRight",
+     "pose": "doubt",
+     "why": "talks straight to the viewer: «أكيد بتقول إني أبالغ»"
+    },
+    {
+     "at": 20.28,
+     "pose": "sure",
+     "why": "«صار فعلًا» — arms crossed"
+    }
+   ]
+  },
+  {
+   "id": "S9",
+   "start": 21.02,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "roadmap",
+   "signature": true,
+   "idea": "an empty night staircase climbs right to left, four dark teaser silhouettes wait on its steps, and the summit «؟» ignites gold",
+   "note": "★ the StairGame (board.json, summitAt 21.31) appears for the first time: steps rise one by one RIGHT→LEFT with the camera climbing; the four teaser objects as dark silhouettes hover over empty steps; on بنطلع the summit «؟» lights gold (RevealRing tail); on أرخص a grey NPill «أرخص» on the bottom step; on لأغلى camera tilts up to the summit",
+   "beats": [
+    21.31,
+    22.12,
+    23.26,
+    24.24
+   ],
+   "drift": false
+  },
+  {
+   "id": "S10",
+   "start": 24.72,
+   "template": "BoardShot",
+   "size": "wide",
+   "in": {
+    "kind": "dissolve"
+   },
+   "props": {
+    "entries": "@board",
+    "words": [
+     {
+      "w": "لأغلى",
+      "at": 25.08,
+      "tone": "gold"
+     },
+     {
+      "w": "غلطة",
+      "at": 25.78
+     },
+     {
+      "w": "ارتكبها",
+      "at": 26.12
+     },
+     {
+      "w": "إنسان",
+      "at": 26.54
+     }
+    ]
+   },
+   "host": [
+    {
+     "at": 24.72,
+     "spot": "sideLeft",
+     "pose": "higher",
+     "why": "points up at the summit «؟»"
+    }
+   ]
+  },
+  {
+   "id": "S11",
+   "start": 26.94,
+   "template": "MysteryShot",
+   "size": "medium",
+   "props": {
+    "at": 27.6,
+    "kind": "pillar",
+    "words": [
+     {
+      "w": "أغلى",
+      "at": 27.88,
+      "tone": "gold"
+     },
+     {
+      "w": "وحدة",
+      "at": 28.34
+     },
+     {
+      "w": "فيهم",
+      "at": 28.66
+     }
+    ]
+   },
+   "host": [
+    {
+     "at": 27.88,
+     "pose": "think",
+     "why": "which one is the most expensive?"
+    }
+   ]
+  },
+  {
+   "id": "S12",
+   "start": 29.5,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "compare",
+   "note": "three big gold NPills orbit (150 مليون $ · 785 مليون · مئات الملايين); on أصغر a tiny dark-gold pill «؟ $» drops into the middle and SHRINKS while the others grow; on رقم it settles tiny under a Magnifier ring",
+   "beats": [
+    29.5,
+    30.06,
+    31
+   ],
+   "host": [
+    {
+     "at": 30.06,
+     "pose": "lower",
+     "why": "points down at the tiny price"
+    }
+   ]
+  },
+  {
+   "id": "S13",
+   "start": 31.7,
+   "custom": true,
+   "mode": "map",
+   "size": "wide",
+   "device": "map",
+   "note": "NightMap neon of the Middle East / North Africa from above, dim; on مو بعيدة the camera glides closer; on أرض عربية the WHOLE Arab region fills sand-gold with Rays orange behind and a gold «؟» pin pulses in its middle (NO country named, NO single country lit)",
+   "beats": [
+    32.62,
+    34.3,
+    34.54
+   ],
+   "host": [
+    {
+     "at": 32.62,
+     "pose": "you",
+     "why": "«مو بعيدة عنا» — it is close to YOU"
+    },
+    {
+     "at": 34.54,
+     "pose": "present",
+     "why": "presents the lit Arab land"
+    }
+   ]
+  },
+  {
+   "id": "S14",
+   "start": 35,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "mystery",
+   "out": {
+    "kind": "wipe"
+   },
+   "note": "MistakeBill (shared) floats from right to left over a dark floor toward a row of faceless StoryPerson silhouettes (dashed outlines, translucent); on فاتورتها the bill prints «؟»; on ناس the silhouettes fade in one by one; on موجودين they flicker like ghosts as the bill reaches them; stripe wipe out",
+   "beats": [
+    35,
+    36.28,
+    37.44
+   ],
+   "host": [
+    {
+     "at": 36.28,
+     "pose": "sad",
+     "why": "people not even born paid the bill"
+    },
+    {
+     "at": 38,
+     "off": true
+    }
+   ]
+  }
+ ]
+}

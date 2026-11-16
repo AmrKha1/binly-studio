@@ -14,3 +14,6 @@ Owner (2026-11-16 04:xx): asleep; full autonomy — NO stops (skip STOP 1–4), 
 - (solved 05:2x) pizza part recorded by owner → inserted as part 4; 11 parts; voice gate PASS again; 787.91 s; owner went to sleep.
 - C01–C03 planner started on the OLD timing (parts 1–3 unchanged → times should be identical; verify with cue.mjs).
 - Backups: .cache/backup-ar-costly/ (plan, art, old parts).
+- ART DONE (05:4x): 43 objects in public/ar-costly-mistakes/el + 5 plates in bg/ (launch-1962, landfill-newport, office-2000,
+  chernobyl-1986, suez-1869). REMOVED (English text on them): hard-drive, laptop-drive, quill-contract, rental-store → use
+  hard-drive-blank, contract-blank, rental-store-blank. Approved by eye: mariner-rocket, steamship-1869.

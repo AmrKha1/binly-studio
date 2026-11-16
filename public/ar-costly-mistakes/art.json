@@ -1,0 +1,207 @@
+{
+ "toy-rocket": {
+  "kind": "el",
+  "file": "toy-rocket.png",
+  "ar": 0.595
+ },
+ "pizza-box": {
+  "kind": "el",
+  "file": "pizza-box.png",
+  "ar": 0.921
+ },
+ "server-b": {
+  "kind": "el",
+  "file": "server-b.png",
+  "ar": 0.666
+ },
+ "trash-bag": {
+  "kind": "el",
+  "file": "trash-bag.png",
+  "ar": 0.931
+ },
+ "bitcoin-coin": {
+  "kind": "el",
+  "file": "bitcoin-coin.png",
+  "ar": 0.981
+ },
+ "two-pizzas": {
+  "kind": "el",
+  "file": "two-pizzas.png",
+  "ar": 1.548
+ },
+ "bitcoin-pile": {
+  "kind": "el",
+  "file": "bitcoin-pile.png",
+  "ar": 1.391
+ },
+ "landfill-tile": {
+  "kind": "el",
+  "file": "landfill-tile.png",
+  "ar": 1.209
+ },
+ "mariner-probe": {
+  "kind": "el",
+  "file": "mariner-probe.png",
+  "ar": 1.509
+ },
+ "planet-venus": {
+  "kind": "el",
+  "file": "planet-venus.png",
+  "ar": 0.999
+ },
+ "bank-building": {
+  "kind": "el",
+  "file": "bank-building.png",
+  "ar": 1.035
+ },
+ "money-bundles": {
+  "kind": "el",
+  "file": "money-bundles.png",
+  "ar": 0.965
+ },
+ "judge-gavel": {
+  "kind": "el",
+  "file": "judge-gavel.png",
+  "ar": 1.134
+ },
+ "server-tower": {
+  "kind": "el",
+  "file": "server-tower.png",
+  "ar": 0.722
+ },
+ "crypto-vault": {
+  "kind": "el",
+  "file": "crypto-vault.png",
+  "ar": 1
+ },
+ "malware-file": {
+  "kind": "el",
+  "file": "malware-file.png",
+  "ar": 0.766
+ },
+ "dvd-mailer": {
+  "kind": "el",
+  "file": "dvd-mailer.png",
+  "ar": 0.909
+ },
+ "vhs-tape": {
+  "kind": "el",
+  "file": "vhs-tape.png",
+  "ar": 1.718
+ },
+ "nuclear-plant": {
+  "kind": "el",
+  "file": "nuclear-plant.png",
+  "ar": 1.124
+ },
+ "gas-mask": {
+  "kind": "el",
+  "file": "gas-mask.png",
+  "ar": 0.829
+ },
+ "radiation-barrel": {
+  "kind": "el",
+  "file": "radiation-barrel.png",
+  "ar": 0.603
+ },
+ "suez-canal-tile": {
+  "kind": "el",
+  "file": "suez-canal-tile.png",
+  "ar": 1.274
+ },
+ "khedive-palace": {
+  "kind": "el",
+  "file": "khedive-palace.png",
+  "ar": 1.028
+ },
+ "sovereign-pile": {
+  "kind": "el",
+  "file": "sovereign-pile.png",
+  "ar": 1.27
+ },
+ "share-certificate": {
+  "kind": "el",
+  "file": "share-certificate.png",
+  "ar": 0.86
+ },
+ "magnifier": {
+  "kind": "el",
+  "file": "magnifier.png",
+  "ar": 1.02
+ },
+ "open-door": {
+  "kind": "el",
+  "file": "open-door.png",
+  "ar": 0.837
+ },
+ "netflix-tower": {
+  "kind": "el",
+  "file": "netflix-tower.png",
+  "ar": 0.557
+ },
+ "launch-1962": {
+  "kind": "bg",
+  "file": "launch-1962.jpg",
+  "ar": 1.792
+ },
+ "landfill-newport": {
+  "kind": "bg",
+  "file": "landfill-newport.jpg",
+  "ar": 1.792
+ },
+ "office-2000": {
+  "kind": "bg",
+  "file": "office-2000.jpg",
+  "ar": 1.792
+ },
+ "chernobyl-1986": {
+  "kind": "bg",
+  "file": "chernobyl-1986.jpg",
+  "ar": 1.792
+ },
+ "suez-1869": {
+  "kind": "bg",
+  "file": "suez-1869.jpg",
+  "ar": 1.792
+ },
+ "hard-drive-blank": {
+  "kind": "el",
+  "file": "hard-drive-blank.png",
+  "ar": 1.172
+ },
+ "rental-store-blank": {
+  "kind": "el",
+  "file": "rental-store-blank.png",
+  "ar": 1.085
+ },
+ "contract-blank": {
+  "kind": "el",
+  "file": "contract-blank.png",
+  "ar": 0.941
+ },
+ "fountain-pen": {
+  "kind": "el",
+  "file": "fountain-pen.png",
+  "ar": 1.004
+ },
+ "gold-key": {
+  "kind": "el",
+  "file": "gold-key.png",
+  "ar": 1.003
+ },
+ "alarm-light": {
+  "kind": "el",
+  "file": "alarm-light.png",
+  "ar": 0.861
+ },
+ "mariner-rocket": {
+  "kind": "el",
+  "file": "mariner-rocket.png",
+  "ar": 0.317
+ },
+ "steamship-1869": {
+  "kind": "el",
+  "file": "steamship-1869.png",
+  "ar": 1.124
+ }
+}

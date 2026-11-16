@@ -477,5 +477,597 @@
   "w": 664,
   "h": 664,
   "from": "_night-lib"
+ },
+ "toy-rocket": {
+  "kind": "el",
+  "tags": [
+   "test",
+   "night"
+  ],
+  "file": "el/toy-rocket.png",
+  "w": 226,
+  "h": 380,
+  "from": "ar-costly-mistakes"
+ },
+ "pizza-box": {
+  "kind": "el",
+  "tags": [
+   "test",
+   "night"
+  ],
+  "file": "el/pizza-box.png",
+  "w": 338,
+  "h": 367,
+  "from": "ar-costly-mistakes"
+ },
+ "trash-bag-b": {
+  "kind": "el",
+  "tags": [
+   "test",
+   "night"
+  ],
+  "file": "el/trash-bag-b.png",
+  "w": 293,
+  "h": 333,
+  "from": "ar-costly-mistakes",
+  "check": [
+   "SMALL (293×333)"
+  ]
+ },
+ "laptop-drive": {
+  "kind": "el",
+  "tags": [
+   "test",
+   "night"
+  ],
+  "file": "el/laptop-drive.png",
+  "w": 385,
+  "h": 291,
+  "from": "ar-costly-mistakes"
+ },
+ "bitcoin-coin-b": {
+  "kind": "el",
+  "tags": [
+   "test",
+   "night"
+  ],
+  "file": "el/bitcoin-coin-b.png",
+  "w": 302,
+  "h": 317,
+  "from": "ar-costly-mistakes",
+  "check": [
+   "SMALL (302×317)"
+  ]
+ },
+ "server-b": {
+  "kind": "el",
+  "tags": [
+   "test",
+   "night"
+  ],
+  "file": "el/server-b.png",
+  "w": 241,
+  "h": 362,
+  "from": "ar-costly-mistakes"
+ },
+ "hard-drive": {
+  "kind": "el",
+  "tags": [
+   "crypto",
+   "home",
+   "bitcoin",
+   "night"
+  ],
+  "file": "el/hard-drive.png",
+  "w": 769,
+  "h": 633,
+  "from": "ar-costly-mistakes"
+ },
+ "trash-bag": {
+  "kind": "el",
+  "tags": [
+   "crypto",
+   "home",
+   "bitcoin",
+   "night"
+  ],
+  "file": "el/trash-bag.png",
+  "w": 618,
+  "h": 664,
+  "from": "ar-costly-mistakes"
+ },
+ "bitcoin-coin": {
+  "kind": "el",
+  "tags": [
+   "crypto",
+   "home",
+   "bitcoin",
+   "night"
+  ],
+  "file": "el/bitcoin-coin.png",
+  "w": 582,
+  "h": 593,
+  "from": "ar-costly-mistakes"
+ },
+ "two-pizzas": {
+  "kind": "el",
+  "tags": [
+   "crypto",
+   "home",
+   "bitcoin",
+   "night"
+  ],
+  "file": "el/two-pizzas.png",
+  "w": 887,
+  "h": 573,
+  "from": "ar-costly-mistakes"
+ },
+ "bitcoin-pile": {
+  "kind": "el",
+  "tags": [
+   "crypto",
+   "home",
+   "bitcoin",
+   "night"
+  ],
+  "file": "el/bitcoin-pile.png",
+  "w": 815,
+  "h": 586,
+  "from": "ar-costly-mistakes"
+ },
+ "landfill-tile": {
+  "kind": "el",
+  "tags": [
+   "crypto",
+   "home",
+   "bitcoin",
+   "night"
+  ],
+  "file": "el/landfill-tile.png",
+  "w": 794,
+  "h": 657,
+  "from": "ar-costly-mistakes"
+ },
+ "mariner-rocket": {
+  "kind": "el",
+  "tags": [
+   "space",
+   "bank",
+   "money",
+   "night"
+  ],
+  "file": "el/mariner-rocket.png",
+  "w": 225,
+  "h": 710,
+  "from": "ar-costly-mistakes",
+  "check": [
+   "HOLE (1 white gap, 0.5 % of the object)"
+  ],
+  "approved": "2026-11-16"
+ },
+ "mariner-probe": {
+  "kind": "el",
+  "tags": [
+   "space",
+   "bank",
+   "money",
+   "night"
+  ],
+  "file": "el/mariner-probe.png",
+  "w": 762,
+  "h": 505,
+  "from": "ar-costly-mistakes"
+ },
+ "planet-venus": {
+  "kind": "el",
+  "tags": [
+   "space",
+   "bank",
+   "money",
+   "night"
+  ],
+  "file": "el/planet-venus.png",
+  "w": 681,
+  "h": 682,
+  "from": "ar-costly-mistakes"
+ },
+ "bank-building": {
+  "kind": "el",
+  "tags": [
+   "space",
+   "bank",
+   "money",
+   "night"
+  ],
+  "file": "el/bank-building.png",
+  "w": 712,
+  "h": 688,
+  "from": "ar-costly-mistakes"
+ },
+ "money-bundles": {
+  "kind": "el",
+  "tags": [
+   "space",
+   "bank",
+   "money",
+   "night"
+  ],
+  "file": "el/money-bundles.png",
+  "w": 654,
+  "h": 678,
+  "from": "ar-costly-mistakes"
+ },
+ "judge-gavel": {
+  "kind": "el",
+  "tags": [
+   "space",
+   "bank",
+   "money",
+   "night"
+  ],
+  "file": "el/judge-gavel.png",
+  "w": 710,
+  "h": 626,
+  "from": "ar-costly-mistakes"
+ },
+ "server-tower": {
+  "kind": "el",
+  "tags": [
+   "tech",
+   "hack",
+   "movies",
+   "night"
+  ],
+  "file": "el/server-tower.png",
+  "w": 521,
+  "h": 722,
+  "from": "ar-costly-mistakes"
+ },
+ "crypto-vault": {
+  "kind": "el",
+  "tags": [
+   "tech",
+   "hack",
+   "movies",
+   "night"
+  ],
+  "file": "el/crypto-vault.png",
+  "w": 666,
+  "h": 666,
+  "from": "ar-costly-mistakes"
+ },
+ "malware-file": {
+  "kind": "el",
+  "tags": [
+   "tech",
+   "hack",
+   "movies",
+   "night"
+  ],
+  "file": "el/malware-file.png",
+  "w": 504,
+  "h": 658,
+  "from": "ar-costly-mistakes"
+ },
+ "dvd-mailer": {
+  "kind": "el",
+  "tags": [
+   "tech",
+   "hack",
+   "movies",
+   "night"
+  ],
+  "file": "el/dvd-mailer.png",
+  "w": 577,
+  "h": 635,
+  "from": "ar-costly-mistakes"
+ },
+ "vhs-tape": {
+  "kind": "el",
+  "tags": [
+   "tech",
+   "hack",
+   "movies",
+   "night"
+  ],
+  "file": "el/vhs-tape.png",
+  "w": 1043,
+  "h": 607,
+  "from": "ar-costly-mistakes"
+ },
+ "rental-store": {
+  "kind": "el",
+  "tags": [
+   "tech",
+   "hack",
+   "movies",
+   "night"
+  ],
+  "file": "el/rental-store.png",
+  "w": 643,
+  "h": 669,
+  "from": "ar-costly-mistakes"
+ },
+ "nuclear-plant": {
+  "kind": "el",
+  "tags": [
+   "disaster",
+   "history",
+   "egypt",
+   "night"
+  ],
+  "file": "el/nuclear-plant.png",
+  "w": 777,
+  "h": 691,
+  "from": "ar-costly-mistakes"
+ },
+ "gas-mask": {
+  "kind": "el",
+  "tags": [
+   "disaster",
+   "history",
+   "egypt",
+   "night"
+  ],
+  "file": "el/gas-mask.png",
+  "w": 562,
+  "h": 678,
+  "from": "ar-costly-mistakes"
+ },
+ "radiation-barrel": {
+  "kind": "el",
+  "tags": [
+   "disaster",
+   "history",
+   "egypt",
+   "night"
+  ],
+  "file": "el/radiation-barrel.png",
+  "w": 407,
+  "h": 675,
+  "from": "ar-costly-mistakes"
+ },
+ "steamship-1869": {
+  "kind": "el",
+  "tags": [
+   "disaster",
+   "history",
+   "egypt",
+   "night"
+  ],
+  "file": "el/steamship-1869.png",
+  "w": 762,
+  "h": 678,
+  "from": "ar-costly-mistakes",
+  "check": [
+   "HOLE (2 white gaps, 0.9 % of the object)"
+  ],
+  "approved": "2026-11-16"
+ },
+ "suez-canal-tile": {
+  "kind": "el",
+  "tags": [
+   "disaster",
+   "history",
+   "egypt",
+   "night"
+  ],
+  "file": "el/suez-canal-tile.png",
+  "w": 832,
+  "h": 653,
+  "from": "ar-costly-mistakes"
+ },
+ "quill-contract": {
+  "kind": "el",
+  "tags": [
+   "disaster",
+   "history",
+   "egypt",
+   "night"
+  ],
+  "file": "el/quill-contract.png",
+  "w": 655,
+  "h": 639,
+  "from": "ar-costly-mistakes"
+ },
+ "khedive-palace": {
+  "kind": "el",
+  "tags": [
+   "egypt",
+   "money",
+   "story",
+   "night"
+  ],
+  "file": "el/khedive-palace.png",
+  "w": 764,
+  "h": 743,
+  "from": "ar-costly-mistakes"
+ },
+ "sovereign-pile": {
+  "kind": "el",
+  "tags": [
+   "egypt",
+   "money",
+   "story",
+   "night"
+  ],
+  "file": "el/sovereign-pile.png",
+  "w": 795,
+  "h": 626,
+  "from": "ar-costly-mistakes"
+ },
+ "share-certificate": {
+  "kind": "el",
+  "tags": [
+   "egypt",
+   "money",
+   "story",
+   "night"
+  ],
+  "file": "el/share-certificate.png",
+  "w": 582,
+  "h": 677,
+  "from": "ar-costly-mistakes"
+ },
+ "magnifier": {
+  "kind": "el",
+  "tags": [
+   "egypt",
+   "money",
+   "story",
+   "night"
+  ],
+  "file": "el/magnifier.png",
+  "w": 700,
+  "h": 686,
+  "from": "ar-costly-mistakes"
+ },
+ "open-door": {
+  "kind": "el",
+  "tags": [
+   "egypt",
+   "money",
+   "story",
+   "night"
+  ],
+  "file": "el/open-door.png",
+  "w": 609,
+  "h": 728,
+  "from": "ar-costly-mistakes"
+ },
+ "netflix-tower": {
+  "kind": "el",
+  "tags": [
+   "egypt",
+   "money",
+   "story",
+   "night"
+  ],
+  "file": "el/netflix-tower.png",
+  "w": 419,
+  "h": 752,
+  "from": "ar-costly-mistakes"
+ },
+ "launch-1962": {
+  "kind": "bg",
+  "tags": [
+   "night"
+  ],
+  "file": "bg/launch-1962.jpg",
+  "w": 2752,
+  "h": 1536,
+  "from": "ar-costly-mistakes"
+ },
+ "landfill-newport": {
+  "kind": "bg",
+  "tags": [
+   "night"
+  ],
+  "file": "bg/landfill-newport.jpg",
+  "w": 2752,
+  "h": 1536,
+  "from": "ar-costly-mistakes"
+ },
+ "office-2000": {
+  "kind": "bg",
+  "tags": [
+   "night"
+  ],
+  "file": "bg/office-2000.jpg",
+  "w": 2752,
+  "h": 1536,
+  "from": "ar-costly-mistakes"
+ },
+ "chernobyl-1986": {
+  "kind": "bg",
+  "tags": [
+   "night"
+  ],
+  "file": "bg/chernobyl-1986.jpg",
+  "w": 2752,
+  "h": 1536,
+  "from": "ar-costly-mistakes"
+ },
+ "suez-1869": {
+  "kind": "bg",
+  "tags": [
+   "night"
+  ],
+  "file": "bg/suez-1869.jpg",
+  "w": 2752,
+  "h": 1536,
+  "from": "ar-costly-mistakes"
+ },
+ "hard-drive-blank": {
+  "kind": "el",
+  "tags": [
+   "fix",
+   "story",
+   "night"
+  ],
+  "file": "el/hard-drive-blank.png",
+  "w": 790,
+  "h": 674,
+  "from": "ar-costly-mistakes"
+ },
+ "rental-store-blank": {
+  "kind": "el",
+  "tags": [
+   "fix",
+   "story",
+   "night"
+  ],
+  "file": "el/rental-store-blank.png",
+  "w": 751,
+  "h": 692,
+  "from": "ar-costly-mistakes"
+ },
+ "contract-blank": {
+  "kind": "el",
+  "tags": [
+   "fix",
+   "story",
+   "night"
+  ],
+  "file": "el/contract-blank.png",
+  "w": 653,
+  "h": 694,
+  "from": "ar-costly-mistakes"
+ },
+ "fountain-pen": {
+  "kind": "el",
+  "tags": [
+   "fix",
+   "story",
+   "night"
+  ],
+  "file": "el/fountain-pen.png",
+  "w": 695,
+  "h": 692,
+  "from": "ar-costly-mistakes"
+ },
+ "gold-key": {
+  "kind": "el",
+  "tags": [
+   "fix",
+   "story",
+   "night"
+  ],
+  "file": "el/gold-key.png",
+  "w": 674,
+  "h": 672,
+  "from": "ar-costly-mistakes"
+ },
+ "alarm-light": {
+  "kind": "el",
+  "tags": [
+   "fix",
+   "story",
+   "night"
+  ],
+  "file": "el/alarm-light.png",
+  "w": 540,
+  "h": 627,
+  "from": "ar-costly-mistakes"
  }
 }

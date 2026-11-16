@@ -8,7 +8,8 @@
  *
  * Props: t · at (appears, reference pop) · x, y = centre of the FULL bill · w (640) · title · rows [{label, value,
  * tone?: ink|red|green|gold, at}] (each prints on its `at`) · total? {label, value, tone: gold|red, at} ·
- * stamp? {text, at, color?} · fly? {at, x, y, s, dur?} · out? (flies down) · rot (−2°) · id.
+ * stamp? {text, at, color?, dx?, dy?} (default: pressed over the torn bottom corner) · fly? {at, x, y, s (absolute end scale), dur?} · out? (flies
+ * down) · rot (−2°) · s (scale, 1) · id.
  * Sounds: page (appears) · tick (each row) · ding/thump (gold/red total) · stamp (kit Stamp) · whoosh (fly).
  */
 import React from 'react';
@@ -26,15 +27,15 @@ export type BillRow = {label: string; value: string; tone?: BillTone; at: number
 export type MistakeBillProps = {
   t: number; at: number; x: number; y: number; w?: number; title: string; rows: BillRow[];
   total?: {label: string; value: string; tone?: 'gold' | 'red'; at: number};
-  stamp?: {text: string; at: number; color?: string};
+  stamp?: {text: string; at: number; color?: string; dx?: number; dy?: number};
   fly?: {at: number; x: number; y: number; s: number; dur?: number};
-  out?: number; rot?: number; id: string;
+  out?: number; rot?: number; s?: number; id: string;
 };
 
 const ROW_INK: Record<BillTone, string> = {ink: INK, red: '#D21F3C', green: '#0F8A4E', gold: '#B07A06'};
-const HEAD = 128, ROW = 96, TOT = 150, PAD = 46;
+const HEAD = 128, ROW = 96, TOT = 200, PAD = 46;
 
-export const MistakeBill: React.FC<MistakeBillProps> = ({t, at, x, y, w = 640, title, rows, total, stamp, fly, out, rot = -2, id}) => {
+export const MistakeBill: React.FC<MistakeBillProps> = ({t, at, x, y, w = 720, title, rows, total, stamp, fly, out, rot = -2, s: s0 = 1, id}) => {
   if (t < at) return null;
   const rtl = isAr();
   const fullH = HEAD + rows.length * ROW + (total ? TOT : 0) + PAD;
@@ -55,7 +56,7 @@ export const MistakeBill: React.FC<MistakeBillProps> = ({t, at, x, y, w = 640, t
   // fly to its stair step: eased in and out, scale with it, the tilt straightens
   const fd = fly?.dur ?? 0.8;
   const [px, py] = fly ? move(t, fly.at, [x, y], [fly.x, fly.y], fd) : [x, y];
-  const fs = fly ? moveTo(t, fly.at, 1, fly.s, fd) : 1;
+  const fs = fly ? moveTo(t, fly.at, s0, fly.s, fd) : s0;
   const fr = fly ? lerp(rot, 0, ease.inOut(prog(t, fly.at, fd))) : rot;
   const fo = flyOut(t, out, 0, 1);
 
@@ -111,15 +112,15 @@ export const MistakeBill: React.FC<MistakeBillProps> = ({t, at, x, y, w = 640, t
           <g>
             <line x1={-w / 2 + 30} x2={w / 2 - 30} y1={ty - TOT / 2 + 8} y2={ty - TOT / 2 + 8} stroke={INK} strokeWidth={5} strokeDasharray="14 10" opacity={0.7} />
             <g opacity={tq.o}>
-              {txt(total.label, lx, ty, 56, INK, la)}
-              <g transform={`translate(${vx} ${ty}) scale(${tq.s})`}>
-                <GlowText text={total.value} x={0} y={0} size={80} tone={total.tone ?? 'gold'} anchor={va as 'start'} id={`${id}-tot`} />
+              {txt(total.label, lx, ty - 52, 56, INK, la)}
+              <g transform={`translate(0 ${ty + 30}) scale(${tq.s})`}>
+                <GlowText text={total.value} x={0} y={0} size={80} tone={total.tone ?? 'gold'} id={`${id}-tot`} />
               </g>
             </g>
           </g>
         );
       })()}
-      {stamp && <Stamp t={t} at={stamp.at} text={stamp.text} x={0} y={top + HEAD + (fullH - HEAD) * 0.42} size={96} rot={-12} color={stamp.color} />}
+      {stamp && <Stamp t={t} at={stamp.at} text={stamp.text} x={stamp.dx ?? w * 0.24} y={stamp.dy ?? fullH / 2 + 20} size={84} rot={-10} color={stamp.color} />}
     </g>
   );
 };

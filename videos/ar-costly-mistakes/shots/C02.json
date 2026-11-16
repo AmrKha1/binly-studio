@@ -1,0 +1,451 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 38.3,
+   "template": "StoryShot",
+   "size": "wide",
+   "in": {
+    "kind": "wipe"
+   },
+   "device": "timeline",
+   "flow": "plate",
+   "fallback": "StoryShot world \"sunset\" (SunsetWorld town) with the same YearBadge",
+   "props": {
+    "world": "plate",
+    "plate": "ar-costly-mistakes/el/launch-1962.png",
+    "plateLook": "night",
+    "year": {
+     "at": 38.6,
+     "year": 1962,
+     "from": 1975
+    }
+   },
+   "beats": [
+    38.6,
+    39.42
+   ]
+  },
+  {
+   "id": "S2",
+   "start": 41.14,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "compare",
+   "note": "SpaceWorld + Earth arc at the bottom; RIGHT a StoryPerson politician (gold rim) + white NPill «أمريكا» on أمريكا; on سباق الفضاء a gold NPill «سباق الفضاء» pops top-centre and two small rockets (gold vs red trails) start racing up between them; LEFT a StoryPerson officer hat army (red rim #FF5A6A) + NPill «السوفييت» on السوفييت",
+   "beats": [
+    41.14,
+    42.3,
+    43.22
+   ]
+  },
+  {
+   "id": "S3",
+   "start": 43.86,
+   "template": "HeroShot",
+   "size": "close",
+   "device": "space",
+   "flow": "object",
+   "fallback": "code-drawn probe: gold hexagon body + two blue solar wings + dish (HeroObject draw)",
+   "props": {
+    "at": 45.42,
+    "src": "ar-costly-mistakes/el/mariner-probe.png",
+    "ar": 1.4,
+    "glow": "#FFC928",
+    "rays": "violet",
+    "h": 360,
+    "label": {
+     "text": "ناسا",
+     "at": 43.86,
+     "kind": "white"
+    },
+    "spoken": [
+     {
+      "w": "أول",
+      "at": 44.96
+     },
+     {
+      "w": "مركبة",
+      "at": 45.42,
+      "tone": "gold"
+     },
+     {
+      "w": "أمريكية",
+      "at": 45.88
+     }
+    ]
+   }
+  },
+  {
+   "id": "S4",
+   "start": 48.18,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "space",
+   "flow": "object",
+   "fallback": "kit Planet {color cream, band pale yellow} for Venus + the probe draw",
+   "note": "SpaceWorld; the probe (small, right) and a dotted gold Route drawn toward Venus (planet-venus, left, grows); on الزهرة white NPill «الزهرة» under the planet; on مارينر a gold NPill «مارينر 1» pops above the probe",
+   "beats": [
+    48.46,
+    49.37,
+    50.08
+   ]
+  },
+  {
+   "id": "S5",
+   "start": 50.46,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "flow": "object",
+   "fallback": "WobbleRocket's own code-drawn Atlas rocket (white/silver body, gold nose)",
+   "note": "WobbleRocket (shared) on the dawn launch pad: on ينطلق lift-off (flame, smoke, rumble), camera tilts up with it; a dashed white planned path; on يتمايل the rocket starts to sway; on ويطلع عن مساره its real path (gold) bends away from the dashed one",
+   "beats": [
+    51.16,
+    53.4,
+    53.96
+   ]
+  },
+  {
+   "id": "S6",
+   "start": 54.98,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "note": "gag: high in the sky the rocket still wobbles (small); below, a roadside with a tiny sign «جنب الطريق» and a StoryPerson worker (prop wrench) who looks up, shrugs; on وتصلحه a red ✖ Mark slams beside the wrench",
+   "beats": [
+    55.84,
+    56.94
+   ]
+  },
+  {
+   "id": "S7",
+   "start": 57.52,
+   "custom": true,
+   "mode": "character",
+   "size": "close",
+   "device": "story",
+   "note": "control room (RoomWorld dark + console glow): StoryPerson officer (hat officer, gold rim) at a console; white NPill «ضابط السلامة» on فضابط; on ضغط a close push on the big red range-safety button (WobbleRocket's button) as his hand presses it — the button sinks, red light floods",
+   "beats": [
+    57.8,
+    58.6,
+    59.14
+   ]
+  },
+  {
+   "id": "S8",
+   "start": 59.68,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "note": "the sky: on انفجر the rocket bursts (Flash + boom, debris sparks, smoke ring); on خمس دقائق a white NPill «قبل 5 دقائق» pops under the smoke; camera shakes once then settles",
+   "beats": [
+    60.5,
+    61.84
+   ]
+  },
+  {
+   "id": "S9",
+   "start": 63.02,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "lineup",
+   "note": "WordPop «وش السبب؟» top (السبب gold) on 63.29; Lineup of three round frames with icons: engine/gear «محرك» ✖ on 64.21, fuel drop/barrel «وقود» ✖ on 65.10, storm cloud «عاصفة» ✖ on 65.99",
+   "beats": [
+    63.29,
+    64.21,
+    65.1,
+    65.99
+   ],
+   "host": [
+    {
+     "at": 63.02,
+     "spot": "peekRight",
+     "pose": "think",
+     "why": "asks: what was the cause?"
+    }
+   ]
+  },
+  {
+   "id": "S10",
+   "start": 66.6,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "reveal",
+   "signature": true,
+   "idea": "the tiny bar over R lifts off the equation like a feather and drifts away — the most expensive missing line",
+   "note": "★ EquationBar (shared): a 1962 blueprint on a lamp-lit desk; camera pushes from the whole equation into the symbol R̄; on خط صغير the tiny bar glows gold; on علامة a Callout «فوق الرمز»; on نسيها the bar peels off and floats away — R stands alone, a red glow pulses once",
+   "beats": [
+    67.3,
+    68.41,
+    69.9,
+    71.2
+   ],
+   "host": [
+    {
+     "at": 66.6,
+     "pose": "present",
+     "why": "the cause: a tiny line"
+    },
+    {
+     "at": 71.2,
+     "pose": "react",
+     "why": "someone forgot it"
+    }
+   ]
+  },
+  {
+   "id": "S11",
+   "start": 72.16,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "chart",
+   "note": "EquationBar view 2 = ReadingsGraph inside a retro 1962 computer screen frame: jittery white reading dots stream in; on لا تصدق one dot jumps high and gets a red ✖; on خذ المتوسط a smooth gold average line draws through them + gold NPill «المتوسط» ✔",
+   "beats": [
+    73.56,
+    74.56,
+    76.06
+   ],
+   "host": [
+    {
+     "at": 76.06,
+     "pose": "sure",
+     "why": "«خذ المتوسط» — that was the rule"
+    }
+   ]
+  },
+  {
+   "id": "S12",
+   "start": 77.2,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "story",
+   "note": "same computer: on وبدونه the gold average line vanishes; on اهتزازة one tiny shake of a reading → the computer's alarm light flashes red «كارثة!» (red WordPop) on كأنها كارثة",
+   "beats": [
+    77.84,
+    79.7,
+    80.78
+   ]
+  },
+  {
+   "id": "S13",
+   "start": 80.78,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "note": "WobbleRocket wobble rising 0→1: each small shake answered by a BIGGER correction — the gold zigzag path grows wider swing by swing (82.78, 83.52); on ضاع الصاروخ the rocket tumbles off its path into the dark",
+   "beats": [
+    81.8,
+    83.18,
+    84.2
+   ],
+   "host": [
+    {
+     "at": 81.8,
+     "pose": "scared",
+     "why": "the correction is worse than the shake"
+    },
+    {
+     "at": 84.2,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S14",
+   "start": 85.32,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "count",
+   "note": "MistakeBill (shared) prints: title «فاتورة مارينر 1»; row «وقتها» → «18.5 مليون $» on 18.5; row «اليوم» → «150 مليون $» counted gold on 150 (+ «أكثر من» small above); spoken words under: «أكثر من 150 مليون» ",
+   "spoken": "حوالي 18.5 مليون دولار وقتها · أكثر من 150 مليون بفلوس اليوم",
+   "beats": [
+    86.8,
+    89.88,
+    91.44
+   ],
+   "host": [
+    {
+     "at": 85.32,
+     "spot": "sideLeft",
+     "pose": "present",
+     "why": "presents the bill"
+    },
+    {
+     "at": 89.88,
+     "pose": "wow",
+     "why": "150 million today"
+    },
+    {
+     "at": 92.1,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S15",
+   "start": 92.28,
+   "template": "StoryShot",
+   "size": "medium",
+   "device": "quote",
+   "props": {
+    "world": "room",
+    "people": [
+     {
+      "role": "journalist",
+      "x": 1250,
+      "pose": "talk",
+      "prop": "book",
+      "name": {
+       "text": "آرثر كلارك",
+       "at": 93
+      }
+     }
+    ],
+    "bubble": {
+     "at": 93.86,
+     "lines": [
+      "أغلى شرطة",
+      "في التاريخ"
+     ],
+     "x": 720,
+     "y": 360,
+     "tx": 1150,
+     "ty": 520
+    }
+   }
+  },
+  {
+   "id": "S16",
+   "start": 95.78,
+   "custom": true,
+   "mode": "diagram",
+   "size": "close",
+   "device": "compare",
+   "note": "the floating bar from S10 returns beside a big dash «—»; on مو شرطة a red ✖ MarkPill «مو شرطة» under the dash; on الاسم علق a gold label «أغلى شرطة في التاريخ» slaps onto the bar like a sticker (Stamp gold, clean press)",
+   "beats": [
+    97.08,
+    98.31
+   ]
+  },
+  {
+   "id": "S17",
+   "start": 99.08,
+   "template": "StoryShot",
+   "size": "medium",
+   "props": {
+    "world": "lab",
+    "people": [
+     {
+      "role": "engineer",
+      "x": 700,
+      "pose": "think",
+      "poses": [
+       [
+        100.56,
+        "cheer"
+       ]
+      ]
+     },
+     {
+      "role": "scientist",
+      "x": 1000,
+      "prop": "clipboard",
+      "pose": "idle",
+      "poses": [
+       [
+        100.56,
+        "hold"
+       ]
+      ]
+     },
+     {
+      "role": "engineer",
+      "x": 1300,
+      "prop": "wrench",
+      "pose": "point"
+     }
+    ],
+    "pills": [
+     {
+      "text": "ناسا",
+      "x": 1000,
+      "y": 250,
+      "at": 99.86,
+      "kind": "gold"
+     }
+    ]
+   },
+   "device": "story"
+  },
+  {
+   "id": "S18",
+   "start": 101.2,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "note": "the backup probe launches clean (WobbleRocket wobble 0, straight gold path) on الاحتياطية; on خمس أسابيع a CalendarCard flips to «5» with pill «أسابيع»; on ونجحت the probe reaches Venus + green ✔ MarkPill «نجحت»",
+   "beats": [
+    102.5,
+    103.16,
+    104.48
+   ]
+  },
+  {
+   "id": "S19",
+   "start": 105.12,
+   "template": "BoardShot",
+   "size": "wide",
+   "in": {
+    "kind": "match"
+   },
+   "out": {
+    "kind": "whoosh"
+   },
+   "device": "stage",
+   "props": {
+    "entries": "@board",
+    "words": [
+     {
+      "w": "الدرس",
+      "at": 107.41
+     },
+     {
+      "w": "كان",
+      "at": 107.88
+     },
+     {
+      "w": "ببلاش",
+      "at": 107.98,
+      "tone": "gold"
+     }
+    ]
+   },
+   "host": [
+    {
+     "at": 105.12,
+     "spot": "sideLeft",
+     "pose": "point",
+     "why": "the rocket takes step 1"
+    },
+    {
+     "at": 107.98,
+     "pose": "viewer",
+     "why": "the lesson was free"
+    }
+   ]
+  }
+ ]
+}

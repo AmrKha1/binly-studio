@@ -3,10 +3,16 @@ import React from 'react';
 import {Chapters, ChapterDef, VideoModule} from '../../kit/video';
 import {Stage} from '../../kit/stage';
 import META from '../../../videos/ar-costly-mistakes/video.json';
-
+import {C01} from './chapters/C01';
+import {C02} from './chapters/C02';
+import {C03} from './chapters/C03';
+import {C04} from './chapters/C04';
 
 export const CHAPTERS: ChapterDef[] = [
-
+  {id: 'C01', start: 0, end: 38.3, C: C01},
+  {id: 'C02', start: 38.3, end: 109.4, C: C02, in: {"kind":"wipe"}},
+  {id: 'C03', start: 109.4, end: 179.48, C: C03, in: {"kind":"match"}},
+  {id: 'C04', start: 179.48, end: 732.18, C: C04, in: {"kind":"match"}},
 ];
 
 const Video: React.FC<{t: number}> = ({t}) => (CHAPTERS.length ? <Chapters t={t} chapters={CHAPTERS} /> : <Stage />);
