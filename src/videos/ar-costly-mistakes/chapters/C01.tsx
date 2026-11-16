@@ -46,7 +46,7 @@ export const C01: React.FC<{t: number}> = ({t}) => (
           hud={(t: number) => (
             <>
               {t >= -0.05 && t < 21.42 && <HostTrack t={t} id="host-C01-0" {...({"spots":[{"at":0,"spot":"sideLeft"},{"at":11.28,"spot":"peekLeft"},{"at":18.52,"spot":"closeRight"}],"poses":[[0,"present"],[4.02,"wow"],[6.22,"point"],[8.62,"react"],[11.28,"think"],[14.26,"point"],[16.72,"scared"],[18.52,"doubt"],[20.28,"sure"]],"enter":{"kind":"riseSoft","at":0},"exit":{"kind":"fadeOut","at":21.02,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
-              {t >= 24.67 && t < 38.40 && <HostTrack t={t} id="host-C01-1" {...({"spots":[{"at":24.72,"spot":"sideLeft"}],"poses":[[24.72,"higher"],[27.88,"think"],[30.06,"lower"],[32.62,"you"],[34.54,"present"],[36.28,"sad"]],"enter":{"kind":"riseSoft","at":24.72},"exit":{"kind":"fadeOut","at":38,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
+              {t >= 24.67 && t < 38.40 && <HostTrack t={t} id="host-C01-1" {...({"spots":[{"at":24.72,"spot":"sideLeft"}],"poses":[[24.72,"higher"],[27.88,"think"],[30.06,"lower"],[32.62,"you"],[34.54,"present"],[36.28,"think"]],"enter":{"kind":"riseSoft","at":24.72},"exit":{"kind":"fadeOut","at":38,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
             </>
           )}
       />

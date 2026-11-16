@@ -29,6 +29,8 @@ export const applyDensity = (cues, lastWord) => {
       const c = out[k], r = c.auto ? RANK[c.kind] ?? KEEP : KEEP;
       if (r >= KEEP) continue;
       const gap = (k > 0 ? c.t - out[k - 1].t : 9) + (k < out.length - 1 ? out[k + 1].t - c.t : 9); // the hole it would leave
+      // (2026-11-16) never thin a cue whose removal opens a QUIET hole — the cap must thin the bursts, not the sparse parts
+      if (gap > DENSITY.quiet * 0.8) continue;
       const score = r * 100 + gap;
       if (!worst || score < worst.score) worst = {k, score};
     }

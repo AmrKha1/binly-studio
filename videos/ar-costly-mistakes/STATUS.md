@@ -25,10 +25,13 @@ Signatures (8): C01 S9 · C02 S10 · C03 S8 · C04 S5 · C06 S10 · C08 S18 · C
 | C05 | BUILT + REVIEWED (fix round done: first ruling no year) |
 | C06 | BUILT + REVIEWED (accepted) |
 | C07 | BUILT + REVIEWED (accepted) |
-| C08 C09 C10 | building (C10 opus) |
-| C11 C12 | compiled placeholders — next, opus |
+| C08 | BUILT + REVIEWED (size fix round done) |
+| C09 | built, fix round sent (bar/gauge sizes, sad→think) |
+| C10 C11 C12 | building (opus) |
 Notes: spoken lines use digits as in script («6.3 مليار دولار», «حوالي 10.2 مليار دولار») — ASR merged words, never guess.
 - 10:0x usage limit hit at ~07:00 (C01–C03 builders paused mid-work); resumed all three after reset.
 - tools fixed: cue.mjs (Arabic letters were stripped → every phrase empty), plan-check (object "in"). Board: mariner icon = toy-rocket; howells label «بين 590 و630 مليون $».
 - BEFORE RENDER GATE: recompile ALL chapters (board.json is baked into each Cxx.tsx at compile time).
 - howells board label → «600 مليون $» (as spoken in the recap; the range overlapped the pizza pill). Recompile all before gate.
+- sfx-density cap fixed (never thin a cue that opens a QUIET hole; story cues had crowded out auto cues → QUIET flags everywhere). Re-run sfx-scan after all chapters built.
+- AZTIKA pose "sad" renders small/low (kit image) → replaced by "think" in all shot lists. Kit backlog: fix full-sad.png framing.

@@ -21,7 +21,7 @@ export const C09: React.FC<{t: number}> = ({t}) => (
       // S3 · 536.64–540.06 · custom: ★ STAGING: fg drifting sparkles; mid a big gold pill with a fat «$» (h≈320) on NightSky; bg the purple GridFlo
       {start: 536.64, render: (t: number) => <Custom.S3 t={t} />},
       // S4 · 540.06–545.36 · StoryShot
-      {start: 540.06, render: (t: number) => <StoryShot t={t} a={540.06} b={545.36} {...({"world":"plate","plate":"ar-costly-mistakes/bg/chernobyl-1986.jpg","plateLook":"natural","year":{"at":540.3,"year":1986,"from":2026},"pills":[{"text":"26 أبريل","x":960,"y":200,"at":540.56,"kind":"white"},{"text":"تشيرنوبل","x":960,"y":330,"at":544.32,"kind":"gold"}]} as Omit<React.ComponentProps<typeof StoryShot>, 't' | 'a' | 'b'>)} />},
+      {start: 540.06, render: (t: number) => <StoryShot t={t} a={540.06} b={545.36} {...({"world":"plate","plate":"ar-costly-mistakes/bg/chernobyl-1986.jpg","plateLook":"natural","year":{"at":540.3,"year":1986,"from":2026},"pills":[{"text":"26 أبريل","x":1330,"y":170,"at":540.56,"kind":"white","size":52},{"text":"تشيرنوبل","x":960,"y":890,"at":544.32,"kind":"gold","size":64}]} as Omit<React.ComponentProps<typeof StoryShot>, 't' | 'a' | 'b'>)} />},
       // S5 · 545.36–548.20 · custom: NightMap (paper, region eastern Europe): a red pin drops on Chernobyl; on أوكرانيا Ukraine fills pale yellow +
       {start: 545.36, render: (t: number) => <Custom.S5 t={t} />},
       // S6 · 548.20–551.90 · HeroShot

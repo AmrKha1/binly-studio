@@ -13,7 +13,7 @@ import {NightCity, PriceTag, RoomWorld, StoryPerson} from '../../../kit/night-wo
 import {StairGame} from '../../../kit/night-game';
 import type {StairEntry} from '../../../kit/night-game';
 import {MysteryTile} from '../../../kit/night-props';
-import {MarkPill, NBars} from '../../../kit/night-data';
+import {MarkPill} from '../../../kit/night-data';
 import {StoryTable} from '../../../kit/night-story';
 import {Magnifier} from '../../../kit/night-sci';
 import {move, moveTo} from '../../../kit/night-scenes';
@@ -427,7 +427,7 @@ export const S8: React.FC<{t: number}> = ({t}) => {
             <circle cx={DOOR.x + 42} cy={DOOR.y - 10} r={10} fill="#C4C5CC" stroke={OUT} strokeWidth={4} />
             <GlowText text="؟" x={DOOR.x} y={DOOR.y - 60} size={90} tone="grey" id="c8s8dq" />
           </g>
-          <NPill text="روايات: العرض الأول لشركة ثانية" x={600} y={190} size={42} kind="grey" id="c8s8r" p={(t - (T.riwayat + 0.15)) / 0.3} />
+          <NPill text="روايات: العرض الأول لشركة ثانية" x={560} y={860} size={48} kind="grey" id="c8s8r" p={(t - (T.riwayat + 0.15)) / 0.3} />
         </g>
       )}
       {/* the offer at the centre */}
@@ -460,7 +460,7 @@ export const S8: React.FC<{t: number}> = ({t}) => {
 // S9 · 488.52 · «في 2002، والشركة الصغيرة صارت تكبر بسرعة، ياهو جلست تفاوض تشتريها»
 const G9 = {x: 640, base: 900};
 const S9World: React.FC<{t: number; tableAt: number}> = ({t, tableAt}) => {
-  const hgt = lerp(150, 480, ease.out(clamp01((t - (T.tikbar - 0.1)) / 0.7)));
+  const hgt = lerp(260, 500, ease.out(clamp01((t - (T.tikbar - 0.1)) / 0.7)));
   const top = G9.base - hgt;
   const [yx] = move(t, T.tufawid - 0.35, [2300, 0], [1430, 0], 0.7, ease.out);
   const tbl = popAt(t, tableAt);
@@ -477,7 +477,7 @@ const S9World: React.FC<{t: number; tableAt: number}> = ({t, tableAt}) => {
         <rect x={G9.x - 90} y={top} width={180} height={hgt} rx={16} fill={GREEN} stroke={OUT} strokeWidth={8} />
         <rect x={G9.x - 70} y={top + 14} width={26} height={Math.max(0, hgt - 28)} rx={13} fill="#FFFFFF" opacity={0.3} />
       </g>
-      <MysteryTile t={t} x={G9.x} y={top - 70} w={200} h={130} id="c8s9t" />
+      <MysteryTile t={t} x={G9.x} y={top - 95} w={270} h={175} id="c8s9t" />
       {up > 0 && (
         <g opacity={up} transform={`translate(${G9.x + 190} ${top + 40 + Math.sin(t * 6) * 12})`}>
           <path d="M0 -60 L52 10 L20 10 L20 70 L-20 70 L-20 10 L-52 10 Z" fill={GREEN} stroke={OUT} strokeWidth={7} strokeLinejoin="round" />
@@ -587,7 +587,7 @@ export const S12: React.FC<{t: number}> = ({t}) => {
       <VPill text="ياهو" x={TOWER.x} y={TOWER.top + 120} size={50} p={1} id="c8s12yn" />
       <StoryPerson t={t} x={mx} y={1030} s={1.15} role="businessman" rim={MRIM} id="c8s12m" pose={walking ? 'walk' : 'point'} />
       <NPill text="مايكروسوفت" x={mx} y={1030 - 1.15 * 470} size={48} kind="cyan" id="c8s12p" p={(t - (T.ms - 0.1)) / 0.3} />
-      <YearBadge t={t} at={T.sinin - 0.15} year={2008} from={2002} x={300} y={170} id="c8s12yb" size={110} />
+      <YearBadge t={t} at={T.sinin - 0.15} year={2008} from={2002} x={960} y={200} id="c8s12yb" size={110} />
     </g>
   );
 };
@@ -621,12 +621,33 @@ export const S13: React.FC<{t: number}> = ({t}) => {
 
 // S14 + S15 · 507.10 / 513.64 · «وفي 2017 انباعت … بحوالي 4.48 مليار … يعني أقل من السعر اللي قوقل طلبته في 2002»
 // One continuous scene (S15 joins it with a plain dissolve, no drift of its own) — the camera keeps one slow push.
-const BARS = {x: 1700, y: 600, len: 1000, max: 5.6, gap: 170};
+const BARS = {x: 1790, y: 560, len: 1250, max: 5.4, gap: 210, thick: 80};
+/** a thick glowing horizontal bar growing leftward from x (Arabic) + its label pill above its far end */
+const BigBar: React.FC<{t: number; at: number; x: number; y: number; len: number; c0: string; c1: string; label: string; kind: 'white' | 'gold'; id: string}> = ({t, at, x, y, len, c0, c1, label, kind, id}) => {
+  const p = clamp01((t - at) / 0.6);
+  if (p <= 0) return null;
+  cueSfx('swish', 'bigbar-' + id, t >= at && t < at + 0.3, x - len / 2, {at, gain: 0.5});
+  const L = Math.max(BARS.thick, len * ease.out(p));
+  const g = uid('c8bar', id);
+  const th = BARS.thick;
+  return (
+    <g {...lb('object', id)}>
+      <defs>
+        <linearGradient id={g} x1="1" y1="0" x2="0" y2="0"><stop offset="0" stopColor={c0} /><stop offset="1" stopColor={c1} /></linearGradient>
+        <filter id={g + 'b'} x="-20%" y="-200%" width="140%" height="500%"><feGaussianBlur stdDeviation={18} /></filter>
+      </defs>
+      <rect x={x - L} y={y - th / 2} width={L} height={th} rx={th / 2} fill={c1} opacity={0.55} filter={"url(#" + g + "b)"} />
+      <rect x={x - L} y={y - th / 2} width={L} height={th} rx={th / 2} fill={"url(#" + g + ")"} stroke={OUT} strokeWidth={8} />
+      <rect x={x - L + th / 2} y={y - th / 2 + 10} width={Math.max(0, L - th)} height={10} rx={5} fill="#FFFFFF" opacity={0.4} />
+      <NPill text={label} x={x - L + textWidth(label, 50) / 2 + 60} y={y - th / 2 - 52} size={50} kind={kind} id={id + 'p'} p={(t - at - 0.3) / 0.3} />
+    </g>
+  );
+};
 const SoldScene: React.FC<{t: number; withGold: boolean}> = ({t, withGold}) => {
-  const tile = {x: 700, y: 300, w: 380, h: 270};
+  const tile = {x: 640, y: 255, w: 360, h: 250};
   // the crown falls off (tips, drops to the floor and clinks)
   const fall = clamp01((t - (T.y2017 + 0.15)) / 0.55);
-  const cX = tile.x + 160 * ease.out(fall), cY = lerp(tile.y - tile.h / 2 + 4, 860, ease.in(fall));
+  const cX = tile.x - 230 * ease.out(fall), cY = lerp(tile.y - tile.h / 2 + 4, 860, ease.in(fall));
   const cRot = 75 * ease.inOut(fall);
   cueSfx('fall', 'c8s14-crown', t >= T.y2017 + 0.15 && t < T.y2017 + 0.5, tile.x, {at: T.y2017 + 0.15, gain: 0.6});
   // the red «انباعت» tag swings onto the tile (damped pendulum)
@@ -658,20 +679,23 @@ const SoldScene: React.FC<{t: number; withGold: boolean}> = ({t, withGold}) => {
       </g>
       {fall < 1 ? <Crown x={cX} y={cY} w={140} rot={cRot} id="c8s14cr" /> : <Crown x={cX} y={860} w={140} rot={75} o={0.7 * dim} id="c8s14cr2" />}
       <YearBadge t={t} at={T.y2017 - 0.15} year={2017} from={2008} x={1560} y={190} id="c8s14yb" size={110} />
-      <NBars t={t} x={BARS.x} y={BARS.y} len={BARS.len} max={BARS.max} thick={46} gap={BARS.gap} id="c8s14bars" bars={[
-        {label: 'حوالي 4.48 مليار $', value: 4.48, at: T.v448 - 0.2, color: 'violet', kind: 'white'},
-        ...(withGold ? [{label: 'طلب قوقل 5 مليار $', value: 5, at: T.s15 + 0.1, color: 'gold' as const, kind: 'gold' as const}] : []),
-      ]} />
+      <BigBar t={t} at={T.v448 - 0.2} x={BARS.x} y={BARS.y} len={purpleLen} c0={PURPLE_L} c1={PURPLE} label="حوالي 4.48 مليار $" kind="white" id="c8s14bp" />
+      {withGold && <BigBar t={t} at={T.s15 + 0.1} x={BARS.x} y={BARS.y + BARS.gap} len={goldLen} c0="#FFE07A" c1="#F2B010" label="طلب قوقل 5 مليار $" kind="gold" id="c8s15bg" />}
       {withGold && goldGlow > 0 && (
-        <Glow x={BARS.x - goldLen / 2} y={BARS.y + BARS.gap} r={goldLen * 0.6} ry={70} color={GOLD} o={goldGlow * (0.6 + 0.3 * Math.sin(t * 6))} id="c8s15gg" />
+        <Glow x={BARS.x - goldLen / 2} y={BARS.y + BARS.gap} r={goldLen * 0.6} ry={90} color={GOLD} o={goldGlow * (0.5 + 0.3 * Math.sin(t * 6))} id="c8s15gg" />
       )}
       {withGold && gapP > 0 && (
         <g opacity={gapP}>
-          <line x1={pEnd} y1={BARS.y - 40} x2={pEnd} y2={BARS.y + BARS.gap + 40} stroke={RED} strokeWidth={6} strokeDasharray="14 10" />
-          <line x1={gEnd} y1={BARS.y + BARS.gap - 40} x2={gEnd} y2={BARS.y + BARS.gap + 40} stroke={RED} strokeWidth={6} />
-          <path d={`M${pEnd} ${BARS.y + BARS.gap + 60} L${gEnd} ${BARS.y + BARS.gap + 60}`} stroke={RED} strokeWidth={7} />
-          <NPill text="أقل!" x={(pEnd + gEnd) / 2} y={BARS.y + BARS.gap + 140} size={56} kind="red" id="c8s15aqal" p={(t - (T.aqal - 0.05)) / 0.3} />
+          <line x1={pEnd} y1={BARS.y + 50} x2={pEnd} y2={BARS.y + BARS.gap + 80} stroke={RED} strokeWidth={10} strokeDasharray="18 12" strokeLinecap="round" />
+          <line x1={gEnd} y1={BARS.y + BARS.gap + 50} x2={gEnd} y2={BARS.y + BARS.gap + 80} stroke={RED} strokeWidth={10} strokeLinecap="round" />
+          <path d={"M" + pEnd + " " + (BARS.y + BARS.gap + 80) + " L" + gEnd + " " + (BARS.y + BARS.gap + 80)} stroke={RED} strokeWidth={12} strokeLinecap="round" />
+          <Glow x={gEnd - 170} y={BARS.y + BARS.gap / 2} r={200} ry={110} color={RED} o={0.35} id="c8s15rg" />
         </g>
+      )}
+      {withGold && (
+        <Pop t={t} at={T.aqal - 0.08} x={gEnd - 180} y={BARS.y + BARS.gap / 2 + 10}>
+          <GlowText text="أقل!" x={gEnd - 180} y={BARS.y + BARS.gap / 2 + 10} size={110} tone="red" id="c8s15aqal" />
+        </Pop>
       )}
     </g>
   );

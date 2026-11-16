@@ -523,7 +523,7 @@ export const S7: React.FC<{t: number}> = ({t}) => {
           <Blueprint t={t} crack={crack} id="c9s7b" />
         </g>
       )}
-      <NPill text="عيب في التصميم" x={bx} y={760} size={52} kind="white" id="c9s7p1" p={(t - (T.tasmim - 0.1)) / 0.3} />
+      <NPill text="عيب في التصميم" x={bx} y={205} size={52} kind="white" id="c9s7p1" p={(t - (T.tasmim - 0.1)) / 0.3} />
       {/* LEFT: wrong decisions — a control panel */}
       {pq.o > 0 && (
         <g transform={`translate(${px} 470) scale(${pq.s})`} opacity={pq.o}>
@@ -536,7 +536,7 @@ export const S7: React.FC<{t: number}> = ({t}) => {
           {PANEL_SW.map((x, i) => <Toggle key={i} x={x} y={70} on={clamp01((t - flips[i]) / 0.15)} s={1.05} />)}
         </g>
       )}
-      <NPill text="قرارات غلط" x={px} y={760} size={52} kind="white" id="c9s7p2" p={(t - (T.qarar - 0.05)) / 0.3} />
+      <NPill text="قرارات غلط" x={px} y={205} size={52} kind="white" id="c9s7p2" p={(t - (T.qarar - 0.05)) / 0.3} />
       {handO > 0 && (
         <g opacity={handO}>
           <path d={`M${hand[0] - 40} 1120 Q${hand[0] - 60} ${(hand[1] + 1120) / 2} ${hand[0]} ${hand[1] + 20}`} fill="none" stroke={OUT} strokeWidth={46} strokeLinecap="round" />
@@ -557,8 +557,8 @@ export const S7: React.FC<{t: number}> = ({t}) => {
 
 // ==================================================================================================================
 // S8 · 557.96 · «والنتيجة انفجار، وغبار مشع» — unit 4 blows, radioactive dust drifts west with the wind
-const PL = {x: 1120, y: 600, h: 500};
-const EX = {x: PL.x + 150, y: PL.y - 60};
+const PL = {x: 1180, y: 590, h: 560};
+const EX = {x: PL.x + 120, y: PL.y - 90};
 export const S8: React.FC<{t: number}> = ({t}) => {
   const e = t - T.infijar;
   const shake = e >= 0 ? Math.exp(-e / 0.2) : 0;
@@ -575,22 +575,24 @@ export const S8: React.FC<{t: number}> = ({t}) => {
         <ellipse cx={PL.x} cy={PL.y + PL.h / 2 - 6} rx={300} ry={30} fill="#000000" opacity={0.45} />
         <HeroObject t={t} at={T.s8 + 0.05} src="ar-costly-mistakes/el/nuclear-plant.png" ar={1.124} x={PL.x} y={PL.y} h={PL.h} glow="#FF5A6A" enter="rise" float={false} sparkles={0} id="c9s8p" />
         {/* the dust — yellow-green puffs billowing west (left) with the wind */}
-        {t >= T.ghubar - 0.2 && Array.from({length: 14}, (_, i) => {
-          const at = T.ghubar - 0.2 + i * 0.1;
+        {t >= T.ghubar - 0.2 && Array.from({length: 22}, (_, i) => {
+          const at = T.ghubar - 0.2 + i * 0.06;
           const u = clamp01((t - at) / 2.4);
           if (u <= 0) return null;
           const k = ease.out(u);
           const x = EX.x - 60 - (300 + rand(i * 3) * 900) * k, y = EX.y - 160 + (rand(i * 7) - 0.5) * 240 + 120 * k;
-          const r = lerp(50, 150 + rand(i) * 90, k);
-          return <circle key={i} cx={x} cy={y} r={r} fill={i % 3 ? TOX : '#A9C83A'} opacity={0.5 * Math.min(1, u * 5) * (1 - 0.35 * u)} />;
+          const r = lerp(30, 70 + rand(i) * 70, k);
+          return <circle key={i} cx={x} cy={y} r={r} fill={i % 3 ? TOX : '#A9C83A'} opacity={0.42 * Math.min(1, u * 5) * (1 - 0.4 * u)} />;
         })}
         {/* the fireball + column */}
         {e >= 0 && (
           <g opacity={1 - clamp01((e - 2) / 0.8) * 0.4}>
             <Glow x={EX.x} y={EX.y} r={520 * fb} color="#FF7A2A" o={0.8} id="c9s8g" />
             <rect x={EX.x - 40 * fb} y={EX.y - 280 * rise} width={80 * fb} height={280 * rise} rx={30} fill="#FF8A2A" stroke={OUT} strokeWidth={8} />
-            <ellipse cx={EX.x} cy={EX.y - 300 * rise} rx={60 + 170 * rise} ry={40 + 90 * rise} fill="#5A2A2A" stroke={OUT} strokeWidth={8} />
-            <ellipse cx={EX.x} cy={EX.y - 300 * rise + 18} rx={(60 + 170 * rise) * 0.72} ry={(40 + 90 * rise) * 0.55} fill="#FF7A2A" />
+            {[[-1, 0], [1, 0], [0, -0.5], [-0.55, -0.45], [0.55, -0.45], [0, 0.2]].map(([dx, dy], i) => (
+              <circle key={i} cx={EX.x + dx * 110 * rise} cy={EX.y - 300 * rise + dy * 90 * rise} r={(50 + 75 * rise) * (i === 2 ? 1.1 : 1)} fill={i % 2 ? '#4A2630' : '#6A3034'} stroke={OUT} strokeWidth={7} />
+            ))}
+            <ellipse cx={EX.x} cy={EX.y - 290 * rise + 30 * rise} rx={150 * rise} ry={36 * rise} fill="#FF7A2A" opacity={0.85} />
             <circle cx={EX.x} cy={EX.y} r={190 * fb} fill="#FF5A2A" stroke={OUT} strokeWidth={9} />
             <circle cx={EX.x} cy={EX.y - 10} r={130 * fb} fill="#FFB23A" />
             <circle cx={EX.x} cy={EX.y - 20} r={70 * fb} fill="#FFF3C0" />
@@ -760,9 +762,9 @@ export const S13: React.FC<{t: number}> = ({t}) => (
 );
 
 // S14 · 577.82 · «وفي سنة 1986 لحالها أكثر من 22 ألف شخص اضطروا يتركون بيوتهم» — dusk village; families walk away, lights go out
-const HOUSES = [{x: 760, y: 690}, {x: 1140, y: 670}, {x: 1520, y: 690}];
+const HOUSES = [{x: 640, y: 660}, {x: 1020, y: 640}, {x: 1400, y: 660}];
 const WALKERS: {role: 'woman' | 'man' | 'child' | 'oldMan'; x: number; s: number}[] = [
-  {role: 'man', x: 1180, s: 0.95}, {role: 'woman', x: 1300, s: 0.92}, {role: 'child', x: 1400, s: 0.95}, {role: 'oldMan', x: 1520, s: 0.92},
+  {role: 'man', x: 1610, s: 0.8}, {role: 'woman', x: 1700, s: 0.78}, {role: 'child', x: 1775, s: 0.8}, {role: 'oldMan', x: 1850, s: 0.78},
 ];
 export const S14: React.FC<{t: number}> = ({t}) => {
   const did = uid('c9s14', 'dark');
@@ -786,11 +788,11 @@ export const S14: React.FC<{t: number}> = ({t}) => {
         return (
           <g key={i}>
             <Glow x={h.x} y={h.y} r={240} color="#FFB060" o={0.45 * (1 - off)} id={'c9s14g' + i} />
-            <ellipse cx={h.x} cy={h.y + 150} rx={170} ry={22} fill="#000000" opacity={0.4} />
-            <HeroObject t={t} at={T.s14 - 1} src="ar-costly-mistakes/el/small-house.png" ar={1.052} x={h.x} y={h.y} h={320} glow="#FFB060" float={false} shine={false} sparkles={0} id={'c9s14h' + i} />
+            <ellipse cx={h.x} cy={h.y + 180} rx={190} ry={22} fill="#000000" opacity={0.4} />
+            <HeroObject t={t} at={T.s14 - 1} src="ar-costly-mistakes/el/small-house.png" ar={1.052} x={h.x} y={h.y} h={380} glow="#FFB060" float={false} shine={false} sparkles={0} id={'c9s14h' + i} />
             {off > 0 && (
               <g opacity={off} filter={`url(#${did})`}>
-                <HeroObject t={t} at={T.s14 - 1} src="ar-costly-mistakes/el/small-house.png" ar={1.052} x={h.x} y={h.y} h={320} glow="#20203A" float={false} shine={false} sparkles={0} id={'c9s14d' + i} />
+                <HeroObject t={t} at={T.s14 - 1} src="ar-costly-mistakes/el/small-house.png" ar={1.052} x={h.x} y={h.y} h={380} glow="#20203A" float={false} shine={false} sparkles={0} id={'c9s14d' + i} />
               </g>
             )}
           </g>
@@ -798,11 +800,11 @@ export const S14: React.FC<{t: number}> = ({t}) => {
       })}
       {WALKERS.map((w, i) => {
         const at = T.idtarru + i * 0.15;
-        const [x] = move(t, at, [w.x, 0], [w.x - 1700, 0], 4.2, ease.inOut);
-        return <StoryPerson key={i} x={x} y={968} s={w.s} role={w.role} prop={w.role === 'child' ? undefined : 'briefcase'} pose={t >= at ? 'walk' : 'idle'} rim="#C9B8D8" t={t} id={'c9s14p' + i} />;
+        const [x] = move(t, at, [w.x, 0], [w.x - 2100, 0], 4.6, ease.inOut);
+        return <StoryPerson key={i} x={x} y={968} s={w.s} role={w.role} prop={w.role === 'child' ? undefined : 'briefcase'} pose={t >= at ? 'walk' : 'idle'} flip={t < at} rim="#C9B8D8" t={t} id={'c9s14p' + i} />;
       })}
       <YearBadge t={t} at={T.y1986 - 0.1} year={1986} x={1640} y={200} id="c9s14y" size={110} />
-      <NPill text="أكثر من 22 ألف شخص" x={1000} y={190} size={58} kind="white" id="c9s14p" p={(t - (T.k22 - 0.05)) / 0.3} />
+      <NPill text="أكثر من 22 ألف شخص" x={960} y={190} size={58} kind="white" id="c9s14p" p={(t - (T.k22 - 0.05)) / 0.3} />
     </g>
   );
 };
@@ -834,7 +836,7 @@ export const S15: React.FC<{t: number}> = ({t}) => {
 const BX = 1440, BLEN = 800;
 export const S16: React.FC<{t: number}> = ({t}) => {
   const k = ease.inOut(clamp01((t - 591.9) / 0.9));
-  const z = lerp(1.3, 1.0, k), cx = lerp(1300, 1040, k), cy = lerp(600, 620, k);
+  const z = lerp(1.7, 1.0, k), cx = lerp(1330, 1040, k), cy = lerp(520, 620, k);
   const slam = clamp01((t - (T.n32 - 0.05)) / 0.2);
   const pi = pressIn(slam);
   cueSfx('boom', 'c9s16-32', t >= T.n32 - 0.05 && t < T.n32 + 0.2, 1040, {at: T.n32 - 0.05, hit: 0.1, gain: 1.8});
@@ -844,7 +846,7 @@ export const S16: React.FC<{t: number}> = ({t}) => {
     <g>
       <WarWorld t={t} id="c9s16w" />
       <g transform={`translate(960 540) scale(${z}) translate(${-cx} ${-cy})`}>
-        <NBars t={t} x={BX} y={540} len={BLEN} gap={220} thick={36} id="c9s16b" bars={[
+        <NBars t={t} x={BX} y={540} len={BLEN} gap={220} thick={44} id="c9s16b" bars={[
           {label: 'ميزانية الدولة كاملة', value: 1, at: T.mizania - 0.1, color: 'cyan'},
           {label: '235 مليار $', value: 32, at: 591.95, color: 'hot', kind: 'red'},
         ]} />
@@ -864,7 +866,7 @@ export const S16: React.FC<{t: number}> = ({t}) => {
 };
 
 // S17 · 594.22 · «وفي باحثين قدّروا التكلفة على الدول الثلاث … بحوالي 700 مليار دولار خلال 30 سنة» — the gauge climbs
-const GX = 1200, GY = 520;
+const GX = 1000, GY = 520;
 const FLAGS: string[][] = [['#C8102E', '#C8102E', '#007A3D'], ['#0057B7', '#FFD700'], ['#FFFFFF', '#0039A6', '#D52B1E']];
 const FlagDisc: React.FC<{x: number; y: number; r: number; cols: string[]; id: string}> = ({x, y, r, cols, id}) => {
   const cid = uid('c9flag', id);
@@ -889,14 +891,14 @@ export const S17: React.FC<{t: number}> = ({t}) => (
   <g>
     <WarWorld t={t} id="c9s17w" />
     <Glow x={GX} y={GY} r={520} ry={420} color={RED} o={0.3} id="c9s17g" />
-    <StoryPerson x={850} y={1000} s={1.2} role="scientist" prop="clipboard" pose={t >= T.thalath ? 'point' : 'hold'} flip t={t} id="c9s17p" />
+    <StoryPerson x={1640} y={1000} s={1.15} role="scientist" prop="clipboard" pose={t >= T.thalath ? 'point' : 'hold'} t={t} id="c9s17p" />
     <GaugeScene t={t} id="c9s17n" live />
     {FLAGS.map((f, i) => (
       <Pop key={i} t={t} at={T.thalath - 0.1 + i * 0.1} x={GX - 110 + i * 110} y={170}>
         <FlagDisc x={GX - 110 + i * 110} y={170} r={42} cols={f} id={'c9s17f' + i} />
       </Pop>
     ))}
-    <NPill text="3 دول" x={GX + 270} y={170} size={50} kind="white" id="c9s17d" p={(t - (T.thalath + 0.2)) / 0.3} />
+    <NPill text="3 دول" x={GX + 260} y={170} size={50} kind="white" id="c9s17d" p={(t - (T.thalath + 0.2)) / 0.3} />
     <NPill text="خلال 30 سنة" x={GX} y={860} size={50} kind="grey" id="c9s17y" p={(t - (T.n30 - 0.05)) / 0.3} />
   </g>
 );
@@ -919,15 +921,15 @@ export const S18: React.FC<{t: number}> = ({t}) => {
     <g>
       <CloudWorld t={t} id="c9s18c" />
       <g opacity={0.8}><GaugeScene t={t} id="c9s18n" live={false} /></g>
-      <StoryPerson x={850} y={1000} s={1.2} role="scientist" pose="up" flip t={t} id="c9s18p" />
-      <BlueprintCard t={t} at={T.s18 + 0.15} x={900} y={330} w={300} h={210} rot={-6} id="c9s18b" />
+      <StoryPerson x={1640} y={1000} s={1.15} role="scientist" pose="up" t={t} id="c9s18p" />
+      <BlueprintCard t={t} at={T.s18 + 0.15} x={1600} y={380} w={300} h={210} rot={-6} id="c9s18b" />
       <Fog t={t} o={0.85} seed={20} />
       {qo > 0 && (
         <g opacity={qo}>
-          <GlowText text="؟" x={1420} y={qy} size={150} tone="gold" id="c9s18q" />
+          <GlowText text="؟" x={GX + 217} y={qy} size={150} tone="gold" id="c9s18q" />
         </g>
       )}
-      <NPill text="تقدير مبني على افتراضات" x={1180} y={900} size={50} kind="grey" id="c9s18a" p={(t - (T.iftiradat - 0.1)) / 0.3} />
+      <NPill text="تقدير مبني على افتراضات" x={1100} y={900} size={50} kind="grey" id="c9s18a" p={(t - (T.iftiradat - 0.1)) / 0.3} />
     </g>
   );
 };
@@ -964,6 +966,8 @@ const BAR = {x: 1000, y: 700, h: 330};
 export const S20: React.FC<{t: number}> = ({t}) => {
   const out = T.end - 0.2;
   const fo = 1 - clamp01((t - out) / 0.25);
+  const yPos = move(t, T.duwal - 0.45, [1150, 400], [1590, 280], 0.55);
+  const yS = lerp(1, 0.68, ease.inOut(clamp01((t - (T.duwal - 0.45)) / 0.55)));
   cueSfx('coins', 'c9s20-drip', t >= T.tasrif - 0.1 && t < T.tasrif + 0.2, BAR.x, {at: T.tasrif - 0.1, gain: 0.6});
   return (
     <g>
@@ -971,10 +975,13 @@ export const S20: React.FC<{t: number}> = ({t}) => {
       <GridFloor id="c9s20f" t={t} />
       <Glow x={BAR.x} y={BAR.y} r={520} ry={300} color={TOX} o={0.22} id="c9s20g" />
       <g opacity={fo}>
-        <YearBadge t={t} at={T.s20 + 0.1} year={2026} from={1986} x={1560} y={250} id="c9s20y" size={120} />
-        <NPill text="40 سنة" x={1560} y={420} size={60} kind="green" id="c9s20p" p={(t - (T.n40 - 0.08)) / 0.3} />
+        {/* the years: big in the middle first, then they step aside to the top-right for the barrel */}
+        <g transform={`translate(${yPos[0]} ${yPos[1]}) scale(${yS}) translate(-1150 -400)`}>
+          <YearBadge t={t} at={T.s20 + 0.1} year={2026} from={1986} x={1150} y={400} id="c9s20y" size={170} />
+          <NPill text="40 سنة" x={1150} y={600} size={76} kind="green" id="c9s20p" p={(t - (T.n40 - 0.08)) / 0.3} />
+        </g>
         {/* the barrel the bills keep falling into */}
-        <ellipse cx={BAR.x} cy={BAR.y + BAR.h / 2 - 4} rx={150} ry={22} fill="#000000" opacity={0.45} />
+        {t >= T.duwal && <ellipse cx={BAR.x} cy={BAR.y + BAR.h / 2 - 4} rx={150} ry={22} fill="#000000" opacity={0.45} />}
         <HeroObject t={t} at={T.duwal + 0.1} src="ar-costly-mistakes/el/radiation-barrel.png" ar={0.603} x={BAR.x} y={BAR.y} h={BAR.h} glow={TOX} enter="drop" float={false} sparkles={2} id="c9s20b" />
         {TILES.map((c, i) => {
           const at = T.duwal - 0.05 + i * 0.12;
