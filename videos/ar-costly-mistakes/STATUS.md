@@ -42,3 +42,4 @@ Notes: spoken lines use digits as in script («6.3 مليار دولار», «ح
 - RENDER GATE round 1 running (.cache/gate1.log).
 - GATE round 1: NOT READY (112). Real fixes sent: C05 C08(2008) C09 C10 C11(1876) C12 (recap/thesis pills); AZTIKA overlaps fixed in JSON (C02 C03 C05 C07). Accepted flags → gate-ok.json. Next: gate round 2 when builders report.
 - gate round-1 fixes all done (C05 C08 C09 C10 C11 C12 + host). GATE round 2 running (.cache/gate2.log).
+- GATE round 2: ✅ GO RENDER (render-gate.json). Next: C01 preview (cloud, 0.5) → motion check → full render.

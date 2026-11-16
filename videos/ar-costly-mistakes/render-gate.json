@@ -1,12 +1,152 @@
 {
- "go": false,
+ "go": true,
  "slug": "ar-costly-mistakes",
- "at": "2026-11-16T14:07:06.558Z",
- "rounds": 1,
+ "at": "2026-11-16T18:45:55.151Z",
+ "fingerprint": "64da489bafbf3063996e5bee5c062e591227cc2e",
+ "reviewed": "Director reviewed every chapter on full contact sheets + phone sheets side by side with the reference sheets (shots-01..06); fix rounds in C01 C04 C05 C08 C09 C10 C11 C12; signature payoffs on stills (hook summit, R-bar, shell game, scale, funnel glitch, search irony, twist summit fills the frame, bill to the unborn, red «متأخرة» stamp); all 11 chapter joins; sync-check 12/12 clean; sound density no QUIET; gate round-1 fixes re-checked on a sheet of every fixed moment ±2 s; numbers only as spoken (2008/1876 removed, ranges in spoken order); no English in art; YouTube-safe (no gore, no real faces, no logos).",
+ "accepted": [
+  {
+   "match": "_TestSheet.tsx",
+   "why": "the shared-pieces test page (Gallery 'costly'), never part of the video"
+  },
+  {
+   "match": "the voiceover/script says \"ف",
+   "why": "Arabic prefix: on-screen word without the spoken prefix ف (same word)"
+  },
+  {
+   "match": "the voiceover/script says \"و",
+   "why": "Arabic prefix: on-screen word without the spoken conjunction و (same word)"
+  },
+  {
+   "match": "the voiceover/script says \"ل",
+   "why": "Arabic prefix: on-screen word without the spoken preposition ل (same word)"
+  },
+  {
+   "match": "\"مارك\" — the voiceover/script says \"محرك\"",
+   "why": "the name Mark (مارك راندولف) as written in the script; ASR heard محرك"
+  },
+  {
+   "match": "\"يصرف\" — the voiceover/script says \"يعرف\"",
+   "why": "the script says «ومين يصرفها»; ASR misheard"
+  },
+  {
+   "match": "\"الأولى\" — the voiceover/script says \"الاول",
+   "why": "«مقابلة أولى» as in the script; grammatical form"
+  },
+  {
+   "match": "\"المسروق\" — the voiceover/script says",
+   "why": "label «المسروق» (the stolen amount) — meaning as spoken, not a name"
+  },
+  {
+   "match": "\"أحلامك\" — the voiceover/script says",
+   "why": "UI text on the fake job ad «وظيفة أحلامك» (the scam's own words), not a quote"
+  },
+  {
+   "match": "OFF THE EDGE: hero c2s",
+   "why": "Mariner 1 flies out of frame / is lost into the dark — the story beat"
+  },
+  {
+   "match": "OFF THE EDGE: bd",
+   "why": "StairGame camera travels to the newcomer; far steps slide past the frame edge like the reference board (1:34)"
+  },
+  {
+   "match": "-p reaches outside the safe area",
+   "why": "step price pills of far stairs while the board camera travels (reference board behaviour); the active step is always inside"
+  },
+  {
+   "match": "-o is ",
+   "why": "far stair objects partly off-frame while the board camera travels"
+  },
+  {
+   "match": "OFF THE EDGE: hero c3-lf-b",
+   "why": "the landfill slice is wider than the frame on the push-in to the pocket (the zone narrows)"
+  },
+  {
+   "match": "OFF THE EDGE: hero c4s1-bag",
+   "why": "the bag is thrown out of frame on «بالغلط»"
+  },
+  {
+   "match": "OVER A FACE: c4s1-bag",
+   "why": "the bag passes Howells' head during the throw (< 0.3 s), faceless head"
+  },
+  {
+   "match": "c3s3-y × c3s3-y__l",
+   "why": "YearBadge and its own label pill (one component)"
+  },
+  {
+   "match": "c4s2-y × c4s2-y__l",
+   "why": "YearBadge and its own label pill (one component)"
+  },
+  {
+   "match": "c5s3y × c5s3y__l",
+   "why": "YearBadge and its own label pill (one component)"
+  },
+  {
+   "match": "c5s12y × c5s12y__l",
+   "why": "YearBadge and its own label pill (one component)"
+  },
+  {
+   "match": "c6s10ca-n",
+   "why": "the call tile tears into the hacker tile (glitch crossfade < 0.5 s) — the reveal"
+  },
+  {
+   "match": "OFF THE EDGE: hero c6s18",
+   "why": "stolen coins stream out of frame from the open vault"
+  },
+  {
+   "match": "OVER A FACE: c7desk",
+   "why": "the CEO sits behind his desk; the desk lamp's box overlaps the faceless head bbox, the head is visible"
+  },
+  {
+   "match": "OFF THE EDGE: hero c7desk",
+   "why": "close push-in on the laughing CEO; the desk runs out of frame"
+  },
+  {
+   "match": "c7s14ok × c7s14b",
+   "why": "✔ mark on the bubble it belongs to"
+  },
+  {
+   "match": "c7s16n reaches outside",
+   "why": "the 300 مليار count is placed high beside the rising tower (inside the frame, near the top safe line)"
+  },
+  {
+   "match": "OVER A FACE: c7s16st",
+   "why": "spotlight cone over the visitors (transparent light)"
+  },
+  {
+   "match": "st47430y × st47430q0",
+   "why": "YearBadge with its own question tile in the StoryShot (one beat)"
+  },
+  {
+   "match": "OVER THE HERO: c8s14",
+   "why": "price tag / pill sit on their own bar (the label of that bar)"
+  },
+  {
+   "match": "OFF THE EDGE: hero c8s16col",
+   "why": "the 4 تريليون gold column rises out of frame — too big to fit is the point"
+  },
+  {
+   "match": "OVER A FACE: c9s14h2",
+   "why": "families walk in front of their houses (house bbox behind faceless heads)"
+  },
+  {
+   "match": "OFF THE EDGE: hero c10s11tube",
+   "why": "the camera dives down the debt tube to 7 ملايين then whips back up"
+  },
+  {
+   "match": "OVER THE HERO: stamp-",
+   "why": "the «تمت الصفقة» seal stamps the contract it seals"
+  }
+ ],
+ "rounds": 2,
  "history": [
   {
    "at": "2026-11-16T14:07:06.559Z",
    "issues": 112
+  },
+  {
+   "at": "2026-11-16T18:45:55.152Z",
+   "issues": 0
   }
  ]
 }
