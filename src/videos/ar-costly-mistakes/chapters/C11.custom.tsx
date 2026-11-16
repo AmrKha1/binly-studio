@@ -137,7 +137,8 @@ const IconHelmet = () => (
 );
 
 // ---------------------------------------------------------------- THE TRAIN (S3 · S7 · S8): one world, the camera moves over it
-const TRAIN = {x: 960, y: 640, gap: 330, tileW: 160, tileH: 380};
+const TRAIN = {x: 960, y: 600, gap: 420, tileW: 210, tileH: 400, pill: 56, label: 48};
+const SUB_Y = TRAIN.y + 34 + 40 + TRAIN.pill * 2 + TRAIN.label * 0.9 + 90;
 const tileX = (i: number) => TRAIN.x + 1.5 * TRAIN.gap - i * TRAIN.gap; // Arabic: the sequence runs right → left
 const FALL = [T.fall, T.fall + 0.2, T.fall + 0.4, T.fall + 0.6];
 const tiles = (falls: boolean): ConsequenceTile[] => [
@@ -147,7 +148,7 @@ const tiles = (falls: boolean): ConsequenceTile[] => [
   {year: '1882', label: 'احتلال', icon: <IconHelmet />, at: T.ihtilal - 0.1, fallAt: falls ? FALL[3] : undefined},
 ];
 const Train: React.FC<{t: number; falls: boolean; id: string}> = ({t, falls, id}) => (
-  <ConsequenceTrain t={t} x={TRAIN.x} y={TRAIN.y} gap={TRAIN.gap} tileW={TRAIN.tileW} tileH={TRAIN.tileH} tiles={tiles(falls)} id={id} />
+  <ConsequenceTrain t={t} x={TRAIN.x} y={TRAIN.y} gap={TRAIN.gap} tileW={TRAIN.tileW} tileH={TRAIN.tileH} pillSize={TRAIN.pill} labelSize={TRAIN.label} tiles={tiles(falls)} id={id} />
 );
 
 // ==================================================================================================================
@@ -232,7 +233,7 @@ export const S2: React.FC<{t: number}> = ({t}) => {
 export const S3: React.FC<{t: number}> = ({t}) => (
   <g>
     <WarWorld t={t} id="c11s3w" embers={10} />
-    <g transform={camT(1290, 520, 1.22)}>
+    <g transform={camT(1380, 525, 1.1)}>
       <Train t={t} falls={false} id="c11tr3" />
     </g>
     <YearBadge t={t} at={T.sana} year={1876} from={1875} x={1600} y={180} size={100} id="c11s3y" />
@@ -405,13 +406,13 @@ export const S6: React.FC<{t: number}> = ({t}) => {
 // S7 · 710.70 · «وبدأ احتلال استمر عشرات السنين» — four dominoes, then the first push
 export const S7: React.FC<{t: number}> = ({t}) => {
   const k = ease.inOut(clamp01((t - T.s7) / 0.9));
-  const cx = lerp(1290, 960, k), cy = lerp(520, 560, k), z = lerp(1.22, 0.95, k);
+  const cx = lerp(1380, 960, k), cy = 525, z = lerp(1.1, 1.0, k);
   return (
     <g>
       <WarWorld t={t} id="c11s7w" embers={14} />
       <g transform={camT(cx, cy, z)}>
         <Train t={t} falls id="c11tr7" />
-        <Pill t={t} at={T.asharat - 0.05} text="عشرات السنين" x={tileX(3)} y={TRAIN.y + 34 + 230} size={44} kind="red" id="c11s7s" />
+        <Pill t={t} at={T.asharat - 0.05} text="عشرات السنين" x={tileX(3)} y={SUB_Y} size={48} kind="red" id="c11s7s" />
       </g>
     </g>
   );
@@ -421,11 +422,11 @@ export const S7: React.FC<{t: number}> = ({t}) => {
 // S8 · 713.54 · «وللأمانة التاريخية، البيع ما كان السبب الوحيد. الديون كانت هي المرض» — the fever under it all
 export const S8: React.FC<{t: number}> = ({t}) => {
   const k = ease.inOut(clamp01((t - T.s8) / 0.8));
-  const cx = lerp(960, 860, k), cy = 560, z = lerp(0.95, 0.75, k);
+  const cx = lerp(960, 780, k), cy = 560, z = lerp(1.0, 0.8, k);
   const scr = (wx: number, wy: number): [number, number] => [960 + (wx - cx) * z, 540 + (wy - cy) * z];
   const dim = 1 - 0.45 * clamp01((t - T.amana) / 0.5);
   // the fever thermometer
-  const TX = 200, TOP = 220, BULB = 840;
+  const TX = 170, TOP = 220, BULB = 840;
   const up = ease.out(clamp01((t - (T.duyun - 0.15)) / 0.5));
   const lvl = lerp(0.12, 0.88, ease.inOut(clamp01((t - T.duyun) / (T.marad - T.duyun))));
   const hot = clamp01((t - T.marad) / 0.25);
@@ -434,7 +435,7 @@ export const S8: React.FC<{t: number}> = ({t}) => {
   const ly = lerp(BULB - 60, TOP + 30, lvl);
   cueSfx('rise', 'c11s8-rise', t >= T.duyun && t < T.duyun + 0.4, TX, {at: T.duyun, hit: 0.6, gain: 0.6});
   cueSfx('heartbeat', 'c11s8-fever', t >= T.marad && t < T.marad + 0.3, TX, {at: T.marad, hit: 0.1, gain: 0.7});
-  const [px, py] = scr(tileX(0) - 40, 330);
+  const [px, py] = scr(tileX(0) - 120, 300);
   return (
     <g>
       <WarWorld t={t} id="c11s8w" embers={8} />
@@ -558,6 +559,7 @@ export const S10: React.FC<{t: number}> = ({t}) => {
 // S11 · 726.56 · «وبعدها مصر انهجم عليها من ثلاث دول» — three red arrows on the canal (no names: not spoken)
 const MAP_REGION: [[number, number], [number, number]] = [[28.4, 28.2], [37.0, 33.4]];
 const mp = nightProj(MAP_REGION);
+const EGY_PILL = mp(30.4, 29.3);
 const PORT = mp(32.3, 31.26), SUEZ = mp(32.55, 29.97), ISM = mp(32.27, 30.6);
 const STRIKES: {from: [number, number]; to: [number, number]; bend: number}[] = [
   {from: mp(35.4, 30.9), to: mp(32.75, 30.55), bend: -60},
@@ -589,8 +591,9 @@ const Strike: React.FC<{t: number; at: number; from: [number, number]; to: [numb
   );
 };
 export const S11: React.FC<{t: number}> = ({t}) => {
-  const hit = clamp01((t - (T.inhajam + 0.75)) / 0.5);
-  cueSfx('boom', 'c11s11-boom', t >= T.inhajam + 0.75 && t < T.inhajam + 1.0, PORT[0], {at: T.inhajam + 0.75, hit: 0.05, gain: 0.8});
+  const HIT = T.inhajam;
+  const hit = clamp01((t - HIT) / 0.5);
+  cueSfx('boom', 'c11s11-boom', t >= HIT && t < HIT + 0.25, PORT[0], {at: HIT, hit: 0.05, gain: 0.8});
   return (
     <g>
       <PaperMap t={t} id="c11s11p" />
@@ -601,13 +604,14 @@ export const S11: React.FC<{t: number}> = ({t}) => {
       {/* the canal, gold */}
       <path d={`M${PORT[0]} ${PORT[1]} Q${ISM[0] - 20} ${ISM[1]} ${SUEZ[0]} ${SUEZ[1]}`} fill="none" stroke={OUT} strokeWidth={32} strokeLinecap="round" />
       <path d={`M${PORT[0]} ${PORT[1]} Q${ISM[0] - 20} ${ISM[1]} ${SUEZ[0]} ${SUEZ[1]}`} fill="none" stroke="#FFE58A" strokeWidth={18} strokeLinecap="round" />
-      {STRIKES.map((s, i) => <Strike key={i} t={t} at={T.inhajam - 0.1 + i * 0.25} from={s.from} to={s.to} bend={s.bend} id={'a' + i} />)}
+      {STRIKES.map((s, i) => <Strike key={i} t={t} at={T.s11 + 0.25 + i * 0.3} from={s.from} to={s.to} bend={s.bend} id={'a' + i} />)}
       {hit > 0 && [0, 1, 2, 3].map((i) => {
-        const u = clamp01((t - (T.inhajam + 0.75) - i * 0.12) / 1.6);
+        const u = clamp01((t - HIT - i * 0.12) / 1.6);
         const [sx, sy] = [lerp(PORT[0], SUEZ[0], 0.15 + i * 0.22), lerp(PORT[1], SUEZ[1], 0.15 + i * 0.22)];
         return <circle key={i} cx={sx + noise1(t + i, 3) * 10} cy={sy - u * 90} r={26 + u * 60} fill="#4A3A48" opacity={0.6 * (1 - u * 0.7) * hit} />;
       })}
-      <Flash t={t} at={T.inhajam + 0.75} strength={0.2} color="#FFD0C0" />
+      <Flash t={t} at={HIT} strength={0.2} color="#FFD0C0" />
+      <NPill text="مصر" x={EGY_PILL[0]} y={EGY_PILL[1]} size={60} kind="white" id="c11s11e" />
       <Pill t={t} at={T.thalath - 0.05} text="ثلاث دول" x={1440} y={170} size={60} kind="red" id="c11s11t" />
     </g>
   );
@@ -616,12 +620,12 @@ export const S11: React.FC<{t: number}> = ({t}) => {
 // ==================================================================================================================
 // S12 · 728.84 · «يعني اللي انباع بـ4 مليون في يوم، احتاج 81 سنة وحرب عشان يرجع» — one day vs 81 years
 export const S12: React.FC<{t: number}> = ({t}) => {
-  const A = 1660, B = 860, Y = 560;
+  const A = 1740, B = 440, Y = 330;
   const head = moveTo(t, T.ihtaj, A, B, 1.4);
   const lineOn = t >= T.ihtaj;
   const showB = clamp01((t - (T.ihtaj + 1.3)) / 0.3);
   const rideX = lerp(A, B, 0.5);
-  const [rx] = move(t, T.ihtaj + 0.1, [A - 80, 0], [rideX, 0], 0.65);
+  const [rx] = move(t, T.ihtaj + 0.05, [A - 160, 0], [rideX, 0], 0.7);
   cueSfx('riser', 'c11s12-run', t >= T.ihtaj && t < T.ihtaj + 0.4, 1260, {at: T.ihtaj, hit: 1.2, gain: 0.6});
   cueSfx('thump', 'c11s12-pinB', t >= T.ihtaj + 1.3 && t < T.ihtaj + 1.6, B, {at: T.ihtaj + 1.3, hit: 0.1, gain: 0.7});
   const g = uid('c11s12', 'ln');
@@ -638,9 +642,9 @@ export const S12: React.FC<{t: number}> = ({t}) => {
       <defs><filter id={g} x="-10%" y="-400%" width="120%" height="900%"><feGaussianBlur stdDeviation={7} /></filter></defs>
       {/* the short day */}
       {pin(A, clamp01((t - (T.b4 - 0.3)) / 0.2))}
-      <Pill t={t} at={T.b4 - 0.3} text="1875" x={A} y={Y - 100} size={60} kind="gold" id="c11s12a" />
-      <Pill t={t} at={T.b4} text="4 مليون" x={A} y={Y + 100} size={56} kind="grey" id="c11s12m" />
-      <Pill t={t} at={T.yawm - 0.05} text="في يوم" x={A} y={Y + 200} size={56} id="c11s12d" />
+      <Pill t={t} at={T.b4 - 0.3} text="1875" x={A} y={Y - 100} size={64} kind="gold" id="c11s12a" />
+      <Pill t={t} at={T.b4} text="4 مليون" x={A - 40} y={Y + 110} size={58} kind="grey" id="c11s12m" />
+      <Pill t={t} at={T.yawm - 0.05} text="في يوم" x={A - 40} y={Y + 210} size={58} id="c11s12d" />
       {/* the long line to 1956 */}
       {lineOn && (
         <g>
@@ -652,19 +656,16 @@ export const S12: React.FC<{t: number}> = ({t}) => {
           })}
         </g>
       )}
-      {t >= T.ihtaj + 0.1 && t < T.n81 - 0.05 && (
-        <g opacity={clamp01((t - T.ihtaj - 0.1) / 0.2)}><NPill text="81 سنة" x={rx} y={Y - 110} size={56} kind="gold" id="c11s12r" /></g>
-      )}
-      {t >= T.n81 - 0.05 && (
-        <Pop t={t} at={T.n81 - 0.05} x={rideX} y={Y - 120}><NPill text="81 سنة" x={rideX} y={Y - 120} size={84} kind="gold" id="c11s12r2" /></Pop>
+      {t >= T.ihtaj + 0.05 && (
+        <Pop t={t} at={T.ihtaj + 0.05} x={rx} y={Y}><NPill text="81 سنة" x={rx} y={Y} size={110} kind="gold" id="c11s12r" /></Pop>
       )}
       {pin(B, showB)}
-      <Pill t={t} at={T.ihtaj + 1.3} text="1956" x={B} y={Y - 100} size={60} kind="white" id="c11s12b" />
-      <Pill t={t} at={T.harb - 0.05} text="وحرب" x={B} y={Y + 100} size={60} kind="red" id="c11s12h" />
-      <Pop t={t} at={T.yarja - 0.05} x={B} y={Y + 190}>
+      <Pill t={t} at={T.ihtaj + 1.3} text="1956" x={B} y={Y - 100} size={64} kind="white" id="c11s12b" />
+      <Pill t={t} at={T.harb - 0.05} text="وحرب" x={B + 340} y={Y + 120} size={62} kind="red" id="c11s12h" />
+      <Pop t={t} at={T.yarja - 0.05} x={B + 360} y={Y + 230}>
         <g>
-          <Mark kind="check" x={B + 125} y={Y + 200} r={34} />
-          <NPill text="رجعت" x={B - 20} y={Y + 200} size={60} kind="gold" id="c11s12y" />
+          <Mark kind="check" x={B + 505} y={Y + 230} r={36} />
+          <NPill text="رجعت" x={B + 360} y={Y + 230} size={62} kind="gold" id="c11s12y" />
         </g>
       </Pop>
     </g>

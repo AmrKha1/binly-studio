@@ -26,7 +26,8 @@ export const applyDensity = (cues, lastWord) => {
     let worst = null;
     for (let k = 0; k < out.length; k++) {
       if (!over[k]) continue;
-      const c = out[k], r = c.auto ? RANK[c.kind] ?? KEEP : KEEP;
+      // hand-placed story cues give way too, but only small kinds (pop/tick/whoosh…) and after every auto cue of that kind
+      const c = out[k], r = c.auto ? RANK[c.kind] ?? KEEP : (RANK[c.kind] ?? KEEP) <= 4 ? RANK[c.kind] + 2.5 : KEEP;
       if (r >= KEEP) continue;
       const gap = (k > 0 ? c.t - out[k - 1].t : 9) + (k < out.length - 1 ? out[k + 1].t - c.t : 9); // the hole it would leave
       // (2026-11-16) never thin a cue whose removal opens a QUIET hole — the cap must thin the bursts, not the sparse parts

@@ -688,15 +688,16 @@ export const S11: React.FC<{t: number}> = ({t}) => {
 // S12 · 659.50 · «والفلوس خلصت. وكان باقي عند مصر شيء واحد له قيمة» — the bag tips, the lights die, one spotlight
 const TILE = {x: 1180, y: 560, w: 360, h: 230};
 export const S12: React.FC<{t: number}> = ({t}) => {
-  const bx = 640, by = 940;
+  const bx = 640, by = 880;
   const tip = moveTo(t, T.khilsat - 0.1, 0, -78, 0.45, ease.out);
   const cx0 = bx - 30, cx1 = 1020;
   const roll = t >= T.khilsat + 0.2 ? moveTo(t, T.khilsat + 0.2, cx0, cx1, 1.0, ease.out) : cx0;
-  const dark = clamp01((t - T.wakan) / 0.35);
-  const spot = t >= T.shay ? 1 : 0;
+  const LIGHTS_OFF = 660.8, SPOT_ON = 661.15; // dark ≤ 0.35 s, then the spotlight (director fix)
+  const dark = clamp01((t - LIGHTS_OFF) / 0.15);
+  const spot = t >= SPOT_ON ? 1 : 0;
   const glint = clamp01((t - T.qima + 0.1) / 0.6);
   cueSfx('coins', 'c10s12roll', t >= T.khilsat + 0.2 && t < T.khilsat + 0.5, roll, {at: T.khilsat + 0.2, gain: 0.6});
-  cueSfx('thump', 'c10s12spot', t >= T.shay && t < T.shay + 0.3, TILE.x, {at: T.shay, hit: 0.03});
+  cueSfx('thump', 'c10s12spot', t >= SPOT_ON && t < SPOT_ON + 0.3, TILE.x, {at: SPOT_ON, hit: 0.03});
   return (
     <g>
       <RoomWorld t={t} id="c10s12r" winX={1380} winY={90} />
@@ -712,12 +713,22 @@ export const S12: React.FC<{t: number}> = ({t}) => {
         </g>
       )}
       {/* the lights die */}
-      <rect x={0} y={0} width={1920} height={1080} fill="#020108" opacity={0.93 * dark} />
+      <rect x={0} y={0} width={1920} height={1080} fill="#020108" opacity={0.9 * dark} />
+      {/* the empty bag stays the subject in a faint warm rim light */}
+      {dark > 0 && (
+        <g opacity={0.85 * dark}>
+          <Glow x={bx + 40} y={by - 110} r={300} ry={220} color="#FFB54A" o={0.45} id="c10s12rim" />
+          <g transform={`translate(${bx + 70} ${by}) rotate(${tip}) translate(${-bx - 70} ${-by})`} opacity={0.8}>
+            <MoneyBag x={bx} y={by} s={2.0} />
+          </g>
+          {t >= T.khilsat + 0.2 && <Coin x={roll} y={by - 30} r={30} t={t} spin={0} />}
+        </g>
+      )}
       {spot > 0 && (
         <g>
           <Spotlight x={TILE.x} y={TILE.y + 330} top={-40} w={620} color="#FFF1C4" id="c10s12sp" o={0.85} />
           <Glow x={TILE.x} y={TILE.y} r={340} color={GOLD} o={0.3} id="c10s12g" />
-          <MysteryTile t={t} at={T.shay + 0.05} x={TILE.x} y={TILE.y} w={TILE.w} h={TILE.h} id="c10s12tile" />
+          <MysteryTile t={t} at={SPOT_ON + 0.05} x={TILE.x} y={TILE.y} w={TILE.w} h={TILE.h} id="c10s12tile" />
           {glint > 0 && glint < 1 && (
             <g opacity={Math.sin(Math.PI * glint)}>
               <path d={`M${TILE.x - TILE.w / 2 + glint * TILE.w * 1.2 - 80} ${TILE.y - TILE.h / 2} l60 0 l-90 ${TILE.h} l-60 0 Z`} fill="#FFFFFF" opacity={0.55} />

@@ -28,8 +28,8 @@ Signatures (8): C01 S9 · C02 S10 · C03 S8 · C04 S5 · C06 S10 · C08 S18 · C
 | C08 | BUILT + REVIEWED (size fix round done) |
 | C09 | BUILT + REVIEWED (fix round done) |
 | C10 | BUILT + REVIEWED (accepted) |
-| C11 | built, fix round sent (domino + timeline sizes) |
-| C12 | building (opus) |
+| C11 | BUILT + REVIEWED (fix round done) |
+| C12 | BUILT + REVIEWED (twist + stamp fixed) |
 Notes: spoken lines use digits as in script («6.3 مليار دولار», «حوالي 10.2 مليار دولار») — ASR merged words, never guess.
 - 10:0x usage limit hit at ~07:00 (C01–C03 builders paused mid-work); resumed all three after reset.
 - tools fixed: cue.mjs (Arabic letters were stripped → every phrase empty), plan-check (object "in"). Board: mariner icon = toy-rocket; howells label «بين 590 و630 مليون $».
@@ -37,3 +37,6 @@ Notes: spoken lines use digits as in script («6.3 مليار دولار», «ح
 - howells board label → «600 مليون $» (as spoken in the recap; the range overlapped the pizza pill). Recompile all before gate.
 - sfx-density cap fixed (never thin a cue that opens a QUIET hole; story cues had crowded out auto cues → QUIET flags everywhere). Re-run sfx-scan after all chapters built.
 - AZTIKA pose "sad" renders small/low (kit image) → replaced by "think" in all shot lists. Kit backlog: fix full-sad.png framing.
+- NEXT after C12 fix: recompile ALL → sfx-scan → sync-check results (.cache/sync-ar-costly.log) → hook & signature pass → full-video pass (sheets at 2 s) → render-gate.
+- ALL 12 CHAPTERS BUILT + REVIEWED. All recompiled. sync-check 12/12 clean (C10 blank fixed). sfx: no QUIET (36/min). Joins checked.
+- RENDER GATE round 1 running (.cache/gate1.log).

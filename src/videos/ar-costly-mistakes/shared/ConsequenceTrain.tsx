@@ -10,7 +10,7 @@
  *
  * Props: t · x (centre of the row) · y (floor line under the tiles) · tiles [{year, label, icon (node centred on 0,0,
  * ≈ 120 px), at, fallAt?}] · gap (300) · tileW (170) · tileH (400) · dir? (+1 sequence to the right, −1 to the left;
- * default by language) · line (true: timeline + pills) · id.
+ * default by language) · line (true: timeline + pills) · pillSize (46: year pill) · labelSize (38: label pill) · id.
  * Sounds: thump (tile stands) · thump (tile lands on the next; the last one = impact).
  */
 import React from 'react';
@@ -23,11 +23,11 @@ import {isAr} from '../../../kit/lang';
 import {OUT, grow, popAt, prog} from './util';
 
 export type ConsequenceTile = {year: string; label: string; icon?: React.ReactNode; at: number; fallAt?: number};
-export type ConsequenceTrainProps = {t: number; x: number; y: number; tiles: ConsequenceTile[]; gap?: number; tileW?: number; tileH?: number; dir?: 1 | -1; line?: boolean; id: string};
+export type ConsequenceTrainProps = {t: number; x: number; y: number; tiles: ConsequenceTile[]; gap?: number; tileW?: number; tileH?: number; dir?: 1 | -1; line?: boolean; pillSize?: number; labelSize?: number; id: string};
 
 const DEG = 180 / Math.PI;
 
-export const ConsequenceTrain: React.FC<ConsequenceTrainProps> = ({t, x, y, tiles, gap = 300, tileW = 170, tileH = 400, dir, line = true, id}) => {
+export const ConsequenceTrain: React.FC<ConsequenceTrainProps> = ({t, x, y, tiles, gap = 300, tileW = 170, tileH = 400, dir, line = true, pillSize = 46, labelSize = 38, id}) => {
   const sd = dir ?? (isAr() ? -1 : 1);
   const n = tiles.length;
   const g = uid('ctrain', id);
@@ -119,8 +119,8 @@ export const ConsequenceTrain: React.FC<ConsequenceTrainProps> = ({t, x, y, tile
               return (
                 <g opacity={q.o}>
                   <circle cx={cx(i)} cy={lineY} r={12} fill="#FCC018" stroke={OUT} strokeWidth={5} />
-                  <NPill text={tl.year} x={cx(i)} y={lineY + 62} size={46} kind="gold" id={`${id}-y${i}`} p={clamp01((t - tl.at - 0.15) / 0.3)} />
-                  <NPill text={tl.label} x={cx(i)} y={lineY + 140} size={38} kind={fallen > 0.5 ? 'red' : 'white'} id={`${id}-l${i}`} p={clamp01((t - tl.at - 0.3) / 0.3)} />
+                  <NPill text={tl.year} x={cx(i)} y={lineY + 16 + pillSize} size={pillSize} kind="gold" id={`${id}-y${i}`} p={clamp01((t - tl.at - 0.15) / 0.3)} />
+                  <NPill text={tl.label} x={cx(i)} y={lineY + 40 + pillSize * 2 + labelSize * 0.9} size={labelSize} kind={fallen > 0.5 ? 'red' : 'white'} id={`${id}-l${i}`} p={clamp01((t - tl.at - 0.3) / 0.3)} />
                 </g>
               );
             })()}

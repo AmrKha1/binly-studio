@@ -9,9 +9,9 @@ import React from 'react';
 import {Img, staticFile} from 'remotion';
 import {clamp01, ease, lerp, popRef} from '../../../kit/anim';
 import {lb, uid} from '../../../kit/stage';
-import {GlowText, GridFloor, NightSky, NPill, RevealRing, Sparkle, WordPop, textWidth} from '../../../kit/night';
+import {GlowText, GridFloor, NightSky, NPill, Podium, RevealRing, Sparkle, WordPop, textWidth} from '../../../kit/night';
 import type {PopWord} from '../../../kit/night';
-import {Bokeh, Mark, Rays} from '../../../kit/night-fx';
+import {Bokeh, Flash, HeroObject, Mark, Rays, Stamp} from '../../../kit/night-fx';
 import {NightCity, StoryPerson} from '../../../kit/night-worlds';
 import {StairGame} from '../../../kit/night-game';
 import type {StairEntry} from '../../../kit/night-game';
@@ -54,6 +54,10 @@ const ENTRIES: StairEntry[] = (board.entries as {id: string; label: string; at: 
   id: e.id, label: e.label, at: e.at, src: e.src, ar: e.ar ?? 1, glow: e.glow, twist: e.twist,
 }));
 const STAIR = {entries: ENTRIES, summitAt: board.summitAt, topLabel: board.topLabel};
+// S2 draws the twist itself in SCREEN-wide space (the kit StairGame's Flash sits inside the camera and would only cover part
+// of the screen when the camera is zoomed) — so S2 runs the board without the twist entry and without the waiting summit.
+const STAIR_NO_TWIST = {entries: ENTRIES.filter((e) => !e.twist), topLabel: board.topLabel};
+const TWIST = ENTRIES.find((e) => e.twist)!;
 const PLAIN = ENTRIES.filter((e) => !e.twist).sort((a, b) => a.at - b.at);
 const BASE = 836, N_STEPS = PLAIN.length + 1, SUM = N_STEPS - 1;
 // Arabic stairs rise RIGHT → LEFT (kit layout: start W-260, stepW 250, stepH 62, h0 110, summit +0.6 step)
@@ -231,12 +235,13 @@ const legs = (t: number, K: [number, number, number, number, number][]): [number
 };
 
 // the board world (sky + floor + StairGame) under a camera
-const Board: React.FC<{t: number; c: Cam; id: string; children?: React.ReactNode; over?: React.ReactNode}> = ({t, c, id, children, over}) => (
+const Board: React.FC<{t: number; c: Cam; id: string; children?: React.ReactNode; over?: React.ReactNode; noTwist?: boolean; dy?: number; behind?: React.ReactNode}> = ({t, c, id, children, over, noTwist, dy = 0, behind}) => (
   <g>
     <NightSky t={t} id={`${id}k`} />
-    <g transform={camT(c)}>
+    {behind}
+    <g transform={`translate(0 ${dy}) ${camT(c)}`}>
       <GridFloor id={`${id}f`} t={t} wide />
-      <StairGame t={t} id="c12stairs" {...STAIR} />
+      <StairGame t={t} id="c12stairs" {...(noTwist ? STAIR_NO_TWIST : STAIR)} />
       {children}
     </g>
     {over}
@@ -299,7 +304,7 @@ export const S1: React.FC<{t: number}> = ({t}) => {
           const [px, py] = toScreen(c, SX(i), PILL_Y(i));
           return (
             <g key={i} opacity={pillsOut}>
-              <NPill text={r.text} x={px} y={py} size={46} kind={r.kind} id={`c12s1r${i}`} p={(t - (T.recap[i] - 0.12)) / 0.3} />
+              <NPill text={r.text} x={px} y={py} size={52} kind={r.kind} id={`c12s1r${i}`} p={(t - (T.recap[i] - 0.12)) / 0.3} />
             </g>
           );
         })}
@@ -317,25 +322,30 @@ export const S1: React.FC<{t: number}> = ({t}) => {
 // and takes the gold summit «الأغلى» (StairGame's twist + our tail ring); on «غلطة» the old steps dim.
 const FOOT: [number, number] = [1905, 785];
 const LAUNCH = T.aghla - 0.55, LAND = T.aghla + 0.2;
+// the hero frame: the summit object big (330 world = ≈ 330 px), the camera pushed in and lowered (dy) so the summit fills the frame
+const HOBJ: [number, number] = [SX(SUM), TOP(SUM) - 175], HERO_H = 330, HERO_DY = 487;
 const S2_CAM: CamKey[] = [
   [T.s2, ...WHOLE, 0.5],
   [T.s2 + 0.08, SX(0) + 140, 1080, 1.15, 0.95],
   [LAUNCH + 0.05, -150, 880, 0.7, 0.72],
-  [T.ghalta - 0.1, -100, 900, 0.64, 0.6],
+  [LAND - 0.12, SX(SUM), 1010, 1.0, 0.45],
 ];
 export const S2: React.FC<{t: number}> = ({t}) => {
   const c = camAtK(t, S2_CAM);
   // hush: deep until the price pops, lighter at the foot, back on «غلطة» (all but the summit)
   const hushD = t < T.four ? 0.6 : t < T.ghalta ? lerp(0.6, 0.3, ease.inOut(clamp01((t - T.four) / 0.4))) : lerp(0.3, 0.55, ease.inOut(clamp01((t - T.ghalta) / 0.4)));
-  const [hx, hy] = toScreen(c, SX(SUM), t < T.aghla ? TOP(SUM) - 90 : OBJ_Y(SUM));
+  const dy = HERO_DY * ease.inOut(clamp01((t - (LAND - 0.12)) / 0.45));
+  const [hx, hy0] = toScreen(c, SX(SUM), t < T.aghla ? TOP(SUM) - 90 : HOBJ[1]);
+  const hy = hy0 + dy;
+  const hero = clamp01((t - (LAND - 0.1)) / 0.3);
   // the contract: crouch (anticipation) → arc up over the stairs → lands on the summit, handing over to StairGame's object
   const crouch = Math.sin(Math.PI * clamp01((t - (LAUNCH - 0.35)) / 0.35)) * (t < LAUNCH ? 1 : 0);
   const u = ease.inOut(clamp01((t - LAUNCH) / (LAND - LAUNCH)));
-  const P0 = FOOT, P2: [number, number] = [SX(SUM), OBJ_Y(SUM)], P1: [number, number] = [900, -420];
+  const P0 = FOOT, P2: [number, number] = HOBJ, P1: [number, number] = [900, -420];
   const bx = (1 - u) * (1 - u) * P0[0] + 2 * (1 - u) * u * P1[0] + u * u * P2[0];
   const by = (1 - u) * (1 - u) * P0[1] + 2 * (1 - u) * u * P1[1] + u * u * P2[1];
-  const bh = lerp(110, 200, u);
-  const handOff = 1 - clamp01((t - (LAND + 0.05)) / 0.15);
+  const bh = lerp(110, HERO_H, u);
+  const handOff = 1 - clamp01((t - LAND) / 0.08);
   const flying = t >= LAUNCH && t < LAND + 0.2;
   cueSfx('tick', 'c12s2-four', t >= T.four - 0.05 && t < T.four + 0.25, 1300, {at: T.four - 0.05, hit: 0.08});
   cueSfx('whoosh', 'c12s2-shoot', t >= LAUNCH && t < LAUNCH + 0.3, 960, {at: LAUNCH, hit: 0.3, gain: 0.8});
@@ -346,7 +356,16 @@ export const S2: React.FC<{t: number}> = ({t}) => {
   }) : [];
   const tagOut = 1 - clamp01((t - LAUNCH) / 0.2);
   return (
-    <Board t={t} c={c} id="c12s2" over={<Hush d={hushD} x={hx} y={hy} id="c12s2h" />}>
+    <Board t={t} c={c} id="c12s2" noTwist dy={dy} behind={hero > 0 ? <g opacity={hero}><Rays t={t} id="c12s2r" tone="gold" x={hx} y={hy} /></g> : null} over={
+      <g>
+        <Hush d={hushD * (1 - 0.5 * hero)} x={hx} y={hy} id="c12s2h" />
+        {/* the hero labels — screen space, phone-size */}
+        <NPill text={TWIST.label} x={hx} y={hy - HERO_H / 2 - 62} size={62} kind="gold" id="c12s2-sump" p={(t - (LAND + 0.3)) / 0.3} />
+        <CWords t={t} y={hy - HERO_H / 2 - 200} size={160} cx={hx} id="c12s2top" words={[{w: board.topLabel, at: LAND + 0.1, tone: 'gold'}]} />
+        <Flash t={t} at={T.aghla + 0.15} strength={0.5} />
+      </g>
+    }>
+      <Summit t={t} />
       <StepLights t={t} dim={0.4} />
       <ClimbLine t={t} u={SUM - 1} o={0.45} id="c12s2c" />
       {/* the gold trail of the shot */}
@@ -368,8 +387,28 @@ export const S2: React.FC<{t: number}> = ({t}) => {
           <NPill text="الأرخص" x={FOOT[0]} y={FOOT[1] - 185} size={40} kind="grey" id="c12s2-a" p={(t - (T.arkhas - 0.1)) / 0.3} />
         </g>
       )}
-      <RevealRing t={t} at={LAND} x={SX(SUM)} y={OBJ_Y(SUM)} r={300} tail boom={false} />
+      <RevealRing t={t} at={LAND} x={HOBJ[0]} y={HOBJ[1]} r={360} tail boom={false} />
     </Board>
+  );
+};
+
+/** the summit as StairGame draws it (gold podium · «؟» waiting · the twist: object, gold pill, «الأغلى», ring, boom) */
+const Summit: React.FC<{t: number}> = ({t}) => {
+  const at = T.aghla, el = t - at, top = TOP(SUM), x = SX(SUM);
+  const wait = 1 - clamp01(el / 0.3);
+  cueSfx('boom', 'c12s2-summit-boom', t >= at && t < at + 0.3, 700, {at, hit: 0.13, gain: 1.6});
+  return (
+    <g>
+      <Podium x={x} base={BASE} w={232} h={SH(SUM)} id="c12s2sum" color="gold" />
+      {wait > 0.01 && (
+        <g opacity={wait} transform={`translate(${x} ${top - 90 + Math.sin(t * 2) * 6})`}>
+          <GlowText text="؟" x={0} y={0} size={150} tone="gold" id="c12s2q" />
+        </g>
+      )}
+      <HeroObject t={t} at={LAND} src={TWIST.src} ar={TWIST.ar ?? 1} x={HOBJ[0]} y={HOBJ[1]} h={HERO_H} glow={GOLD} sparkles={8} id="c12s2-sumo" />
+      {/* the old champion loses its gold the moment the twist lands (one gold pill per frame) */}
+      <NPill text={PLAIN[SUM - 1].label} x={SX(SUM - 1)} y={PILL_Y(SUM - 1)} size={46} kind="white" id="c12s2-oldchamp" p={t >= at ? 1 : 0} />
+    </g>
   );
 };
 
@@ -433,6 +472,15 @@ export const S3: React.FC<{t: number}> = ({t}) => {
   );
 };
 
+/** a MiniBill that pops in and flies (eased) to its owner, with a whoosh */
+const FlyBill: React.FC<{t: number; at: number; fly: number; from: [number, number, number]; to: [number, number, number]; id: string}> = ({t, at, fly, from, to, id}) => {
+  if (t < at) return null;
+  const [x, y] = move(t, fly, [from[0], from[1]], [to[0], to[1]], 0.5);
+  const s = moveTo(t, fly, from[2], to[2], 0.5);
+  cueSfx('whoosh', `${id}-fly`, t >= fly && t < fly + 0.3, to[0], {at: fly, hit: 0.3, gain: 0.7});
+  return <Pop t={t} at={at} x={from[0]} y={from[1]}><MiniBill x={x} y={y} s={s} rot={lerp(-12, -4, clamp01((t - fly) / 0.5))} glow={0.5} id={id} /></Pop>;
+};
+
 // ==================================================================================================================
 // S4 · 762.54 · «اللي رمى الهارديسك هو اللي يحفر في الزبالة» — grey rain night: Howells digs on the landfill, his bill
 // lands on his back; on «يحفر» the strokes throw rubbish.
@@ -442,7 +490,7 @@ const Rubbish: React.FC<{x: number; y: number; r: number; k: number}> = ({x, y, 
     : <path d={`M${x - r} ${y} L${x} ${y - r} L${x + r} ${y + r * 0.2} L${x + r * 0.2} ${y + r} Z`} fill={col} stroke={OUT} strokeWidth={4} strokeLinejoin="round" />;
 };
 export const S4: React.FC<{t: number}> = ({t}) => {
-  const HX = 860, HY = 650; // his feet on the mound's top
+  const HX = 860, HY = 598; // his feet on the mound's top
   // dig cycle: a stroke every 0.55 s (wind-up up → down), stronger from «يحفر»
   const ph = ((t - T.s4) / 0.55) % 1;
   const amp = t < T.yahfur ? 0.6 : 1;
@@ -455,7 +503,7 @@ export const S4: React.FC<{t: number}> = ({t}) => {
       <rect x={0} y={0} width={1920} height={1080} fill="#2A2E40" opacity={0.55} />
       <Glow x={960} y={900} r={900} ry={300} color="#8C93B0" o={0.35} id="c12s4fl" />
       <rect x={0} y={900} width={1920} height={180} fill="#14111F" />
-      <Pic src={EL('landfill-tile')} ar={1.209} x={960} y={820} h={560} id="c12s4lf" />
+      <Pic src={EL('landfill-tile')} ar={1.209} x={960} y={790} h={660} id="c12s4lf" />
       <g transform={`rotate(${lean} ${HX} ${HY})`}>
         <StoryPerson t={t} x={HX} y={HY} s={1.0} role="man" rim={GREY_RIM} prop="pickaxe" pose={ph > 0.6 ? 'hold' : 'up'} flip id="c12s4how" />
       </g>
@@ -469,7 +517,7 @@ export const S4: React.FC<{t: number}> = ({t}) => {
       }))}
       <PlateFx t={t} kind="rain" density={1.3} seed={4} />
       {/* his bill: drops from the sky and lands on his back */}
-      <MistakeBill t={t} at={T.s4 + 0.02} x={1350} y={260} w={900} s={0.42} title="فاتورة هاولز" rows={[]} fly={{at: T.s4 + 0.12, x: HX + 60, y: HY - 230, s: 0.3, dur: 0.5}} rot={-8} id="c12s4b" />
+      <FlyBill t={t} at={T.s4 + 0.02} fly={T.s4 + 0.12} from={[1400, 220, 1.9]} to={[HX + 120, HY - 250, 1.0]} id="c12s4b" />
       <NPill text="يحفر" x={HX - 300} y={300} size={52} kind="white" id="c12s4p" p={(t - (T.yahfur - 0.1)) / 0.3} />
     </g>
   );
@@ -504,7 +552,7 @@ export const S5: React.FC<{t: number}> = ({t}) => {
         <StoryPerson t={t} x={600} y={1020} s={1.3} role="businessman" tieColor={GOLD} pose={droop > 0.3 ? 'think' : 'hold'} id="c12s5ceo" />
       </g>
       <NPill text="رفض نتفليكس" x={600} y={360} size={52} kind="white" id="c12s5p" p={(t - (T.netflix - 0.12)) / 0.3} />
-      <MistakeBill t={t} at={T.netflix - 0.15} x={1500} y={200} w={900} s={0.4} title="فاتورة بلوكباستر" rows={[]} fly={{at: T.netflix + 0.1, x: 700, y: 760, s: 0.22, dur: 0.55}} rot={-8} id="c12s5b" />
+      <FlyBill t={t} at={T.netflix - 0.15} fly={T.netflix + 0.1} from={[1560, 220, 1.9]} to={[690, 770, 1.2]} id="c12s5b" />
     </g>
   );
 };
@@ -527,19 +575,19 @@ const CHILD = PEOPLE[3];
 const S6_CAM: CamKey[] = [
   [T.s6, 1240, 960, 1.0, 0.5],
   [T.dafaha - 0.1, -2150, 960, 0.92, 1.55],
-  [T.inkatabat - 0.35, -230, 960, 0.43, 0.6],
+  [T.inkatabat - 0.35, -400, 960, 0.43, 0.6],
 ];
 const camT6 = (c: Cam) => `translate(${c.sx} 540) scale(${c.z}) translate(${-c.cx} -540)`;
 export const S6: React.FC<{t: number}> = ({t}) => {
   const c = camAtK(t, S6_CAM);
   // the bill's flight (world): prints by the contract → lifts → hovers toward him → passes him → down the line → child
   const [bx, by, bs] = legs(t, [
-    [T.safqa, KX - 40, 470, 0.5, 0],
-    [T.faturatha, KX - 120, 300, 0.46, 0.5],
-    [T.waqqa - 0.3, ISM + 160, 330, 0.44, 0.6],
-    [T.waqqa, ISM - 330, 420, 0.4, 0.4],
-    [T.dafaha, CHILD.x + 180, 470, 0.36, 1.4],
-    [T.mawludin - 0.12, CHILD.x + 40, LINE_Y - 175, 0.22, 0.4],
+    [T.safqa, KX - 60, 470, 0.62, 0],
+    [T.faturatha, KX - 160, 310, 0.6, 0.5],
+    [T.waqqa - 0.3, ISM + 160, 330, 0.58, 0.6],
+    [T.waqqa, ISM - 360, 400, 0.54, 0.4],
+    [T.dafaha, CHILD.x + 200, 460, 0.48, 1.4],
+    [T.mawludin - 0.12, CHILD.x + 20, LINE_Y - 115, 0.27, 0.4],
   ]);
   const sig = Math.exp(-Math.max(0, t - T.inkatabat) / 0.35) * clamp01((t - T.inkatabat + 0.05) / 0.1);
   const lineDraw = ease.out(clamp01((t - T.s6) / 1.2));
@@ -625,7 +673,7 @@ const L2 = ['تنقاس', 'بمين', 'بيدفع', 'ثمنها', 'بعدين'];
 const S8_CAM: CamKey[] = [[T.s8, SX(SUM), 480, 0.62, 0.5]];
 export const S8: React.FC<{t: number}> = ({t}) => {
   const c = camAtK(t, S8_CAM);
-  const size = 112, cx = 1180;
+  const size = 100, cx = 1130;
   const lay = lineLayout(L1, size, cx);
   const bx = lay.centres[3], bw = lay.ws[3];
   const strike = ease.out(clamp01((t - (T.tasir - 0.05)) / 0.25));
@@ -660,15 +708,17 @@ export const S8: React.FC<{t: number}> = ({t}) => {
 // S9 · 779.52 · «والفاتورة دايم توصل متأخرة» — close: the Suez bill slides in; «وقتها 4 مليون £» · «الثمن 81 سنة وحرب»;
 // a GOLD stamp «متأخرة» presses on it.
 export const S9: React.FC<{t: number}> = ({t}) => {
-  const [x] = move(t, T.s9, [1500, 560], [1080, 560], 0.5);
+  const [x] = move(t, T.s9, [1420, 540], [1040, 540], 0.5);
   return (
     <g>
       <NightSky t={t} id="c12s9k" />
       <Rays t={t} id="c12s9r" tone="gold" x={1080} y={540} />
-      <MistakeBill t={t} at={T.s9} x={x} y={540} w={900} s={1.18} title="فاتورة السويس" rows={[
+      <MistakeBill t={t} at={T.s9} x={x} y={540} w={1000} s={1.25} title="فاتورة السويس" rows={[
         {label: 'وقتها', value: '4 مليون £', at: T.dayim - 0.1},
         {label: 'الثمن', value: '81 سنة وحرب', tone: 'red', at: T.tosal - 0.1},
-      ]} stamp={{text: 'متأخرة', at: T.mutakhira - 0.05, color: GOLD, dx: 120, dy: 190}} rot={-3} id="c12s9b" />
+      ]} rot={-3} id="c12s9b" />
+      {/* the last word of the story: a RED ink stamp pressed ON the bill */}
+      <Stamp t={t} at={T.mutakhira - 0.05} text="متأخرة" x={x + 110} y={700} size={124} rot={-8} />
     </g>
   );
 };

@@ -37,7 +37,7 @@ export const C12: React.FC<{t: number}> = ({t}) => (
         ]}
           hud={(t: number) => (
             <>
-              {t >= 741.65 && t < 762.94 && <HostTrack t={t} id="host-C12-0" {...({"spots":[{"at":741.7,"spot":"smallLeft"}],"poses":[[742.94,"think"],[746.08,"list"],[749.2,"react"],[751.46,"wow"],[755.24,"lower"],[757.24,"higher"],[759.28,"present"]],"enter":{"kind":"riseSoft","at":741.7},"exit":{"kind":"fadeOut","at":762.54,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
+              {t >= 741.65 && t < 762.94 && <HostTrack t={t} id="host-C12-0" {...({"spots":[{"at":741.7,"spot":"smallLeft"}],"poses":[[742.94,"think"],[746.08,"list"],[749.2,"react"],[751.46,"wow"],[755.24,"lower"],[757.24,"wow"],[759.28,"present"]],"enter":{"kind":"riseSoft","at":741.7},"exit":{"kind":"fadeOut","at":762.54,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
               {t >= 772.69 && <HostTrack t={t} id="host-C12-1" {...({"spots":[{"at":772.74,"spot":"smallLeft"},{"at":781.5,"spot":"sideLeft"}],"poses":[[772.74,"present"],[775.1,"awe"],[777.85,"sure"],[781.5,"viewer"],[783.46,"higher"],[785.18,"lower"],[786.9,"welcome"]],"enter":{"kind":"riseSoft","at":772.74}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
             </>
           )}
