@@ -11,6 +11,6 @@ Owner (2026-11-16 04:xx): asleep; full autonomy — NO stops (skip STOP 1–4), 
 - shared pieces builder → chapter builders (≤3) → review → gate → render → Short → deliver
 
 ## Open issues
-- PIZZA PART MISSING from the 10 parts (part 3 ends «مقابل عشاء», part 4 starts Citibank). Owner (awake 04:3x) asked to record
-  it as input/pizza.wav → insert between 3.wav and 4.wav, re-run vo-prep + voice gate + timing (new-video re-ingest), THEN plan
-  times. Do not build before the new timing.
+- (solved 05:2x) pizza part recorded by owner → inserted as part 4; 11 parts; voice gate PASS again; 787.91 s; owner went to sleep.
+- C01–C03 planner started on the OLD timing (parts 1–3 unchanged → times should be identical; verify with cue.mjs).
+- Backups: .cache/backup-ar-costly/ (plan, art, old parts).
