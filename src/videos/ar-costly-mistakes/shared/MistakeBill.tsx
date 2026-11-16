@@ -6,7 +6,7 @@
  * flies to a point (its step on the stair board). Night look: thick dark outline, paper gradient, one highlight stripe,
  * soft glow in the total's colour. Screen coordinates (inside <NightScreen>); Arabic labels on the right automatically.
  *
- * Props: t · at (appears, reference pop) · x, y = centre of the FULL bill · w (640) · title · rows [{label, value,
+ * Props: t · at (appears, reference pop) · x, y = centre of the FULL bill · w (900) · title · rows [{label, value,
  * tone?: ink|red|green|gold, at}] (each prints on its `at`) · total? {label, value, tone: gold|red, at} ·
  * stamp? {text, at, color?, dx?, dy?} (default: pressed over the torn bottom corner) · fly? {at, x, y, s (absolute end scale), dur?} · out? (flies
  * down) · rot (−2°) · s (scale, 1) · id.
@@ -35,7 +35,7 @@ export type MistakeBillProps = {
 const ROW_INK: Record<BillTone, string> = {ink: INK, red: '#D21F3C', green: '#0F8A4E', gold: '#B07A06'};
 const HEAD = 128, ROW = 96, TOT = 200, PAD = 46;
 
-export const MistakeBill: React.FC<MistakeBillProps> = ({t, at, x, y, w = 720, title, rows, total, stamp, fly, out, rot = -2, s: s0 = 1, id}) => {
+export const MistakeBill: React.FC<MistakeBillProps> = ({t, at, x, y, w = 900, title, rows, total, stamp, fly, out, rot = -2, s: s0 = 1, id}) => {
   if (t < at) return null;
   const rtl = isAr();
   const fullH = HEAD + rows.length * ROW + (total ? TOT : 0) + PAD;
@@ -120,7 +120,7 @@ export const MistakeBill: React.FC<MistakeBillProps> = ({t, at, x, y, w = 720, t
           </g>
         );
       })()}
-      {stamp && <Stamp t={t} at={stamp.at} text={stamp.text} x={stamp.dx ?? w * 0.24} y={stamp.dy ?? fullH / 2 + 20} size={84} rot={-10} color={stamp.color} />}
+      {stamp && <Stamp t={t} at={stamp.at} text={stamp.text} x={stamp.dx ?? w * 0.3} y={stamp.dy ?? fullH / 2 + 40} size={84} rot={-10} color={stamp.color} />}
     </g>
   );
 };

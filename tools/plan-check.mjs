@@ -90,7 +90,7 @@ for (const ch of chapters) {
     const changes = [s.start, ...(s.beats ?? []), ...(s.custom ? [] : templateBeats(s.props))];
     const said = sentences.filter((x) => x.s >= s.start - 0.3 && x.s < end - 0.3);
     seq.push({ch: ch.id, id: s.id, start: s.start, end, mode, kind: s.custom ? 'custom' : s.template, ok: s.ok, sig: !!s.signature, idea: s.idea ?? '', size: s.size ?? null, device: s.device ?? (s.custom ? null : TEMPLATE_DEVICE[s.template] ?? null),
-      inT: s.in ?? null, outT: s.out ?? null, spoken: s.spoken ?? null, said: said.map((x) => x.text).join(' '),
+      inT: (typeof s.in === "object" && s.in ? s.in.kind : s.in) ?? null, outT: s.out ?? null, spoken: s.spoken ?? null, said: said.map((x) => x.text).join(' '),
       flow: s.flow ?? null, fallback: s.fallback ?? null, beatsN: (s.beats ?? []).length});
     const still = said.filter((x) => !changes.some((c) => Math.abs(c - x.s) <= NEAR || (c > x.s && c < x.s + NEAR)));
     const isLong = dur > TOO_LONG || (dur > LONG && still.length > 0);

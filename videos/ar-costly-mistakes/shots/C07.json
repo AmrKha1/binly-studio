@@ -1,0 +1,395 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 392.8,
+   "template": "BoardShot",
+   "size": "wide",
+   "in": {
+    "kind": "wipe"
+   },
+   "device": "stage",
+   "props": {
+    "entries": "@board",
+    "words": [
+     {
+      "w": "رقم",
+      "at": 394.8
+     },
+     {
+      "w": "مرعب",
+      "at": 395.19,
+      "tone": "gold"
+     },
+     {
+      "w": "صح؟",
+      "at": 395.68
+     }
+    ]
+   },
+   "host": [
+    {
+     "at": 393.09,
+     "spot": "sideLeft",
+     "pose": "scared",
+     "why": "back on the board: 6.3 billion is scary"
+    },
+    {
+     "at": 395.68,
+     "pose": "viewer",
+     "why": "«صح؟» asks the viewer"
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "start": 396.02,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "stage",
+   "drift": false,
+   "note": "same stairs (StairGame @board, camera pulled back to show every step): on كل اللي فات a dark-red tint sweeps step by step right→left over all the steps so far, each step gets a small red ▼ coin tag; on فلوس موجودة a white NPill «فلوس موجودة» with a solid gold coin icon pops under the stairs",
+   "beats": [
+    396.23,
+    397.02,
+    397.7
+   ],
+   "host": [
+    {
+     "at": 397.7,
+     "pose": "point",
+     "why": "points at the lost-money steps"
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "start": 398.54,
+   "custom": true,
+   "mode": "diagram",
+   "size": "wide",
+   "device": "mystery",
+   "drift": false,
+   "note": "camera tilts UP past the top step (6.3 مليار): on نوع ثاني 2–3 GHOST steps draw on above it — dashed cyan outlines, empty, faint shimmer; on فلوس ما كانت موجودة a cyan dashed NPill «فلوس ما كانت موجودة» hangs on the first ghost step, its coin icon also dashed (money that doesn't exist yet)",
+   "beats": [
+    399.28,
+    400.3,
+    401.46
+   ],
+   "host": [
+    {
+     "at": 399.28,
+     "pose": "higher",
+     "why": "points up at the new kind of step"
+    }
+   ]
+  },
+  {
+   "id": "S4",
+   "start": 402.76,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "note": "gag on the NightSky + GridFloor: a glowing gold GIFT BOX on two little legs walks in from the right toward AZTIKA (sideLeft = «you»); on برجولها it hops up right in front of him, bow wiggling; on وقلت لها لا a red Bubble «لا» ✖ pops beside AZTIKA's head and the gift box droops, its glow dims to grey",
+   "beats": [
+    403.07,
+    403.76,
+    405.04
+   ],
+   "host": [
+    {
+     "at": 403.07,
+     "pose": "you",
+     "why": "«جاتك» — an opportunity came to YOU"
+    },
+    {
+     "at": 404.61,
+     "pose": "sure",
+     "why": "arms crossed: «لا»"
+    },
+    {
+     "at": 405.3,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S5",
+   "start": 405.38,
+   "template": "StoryShot",
+   "size": "wide",
+   "device": "timeline",
+   "flow": "plate",
+   "beats": [
+    405.5,
+    407.06
+   ],
+   "note": "plate with a slow push toward the window + PlateFx dust; YearBadge accelerates 2026→2000",
+   "fallback": "StoryShot world \"sunset\" (SunsetWorld city skyline) with the same YearBadge and pill",
+   "props": {
+    "world": "plate",
+    "plate": "ar-costly-mistakes/bg/office-2000.jpg",
+    "plateLook": "natural",
+    "year": {
+     "at": 405.5,
+     "year": 2000,
+     "from": 2026
+    },
+    "pills": [
+     {
+      "text": "دالاس",
+      "x": 960,
+      "y": 300,
+      "at": 407.06,
+      "kind": "gold"
+     }
+    ]
+   }
+  },
+  {
+   "id": "S6",
+   "start": 408.08,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "note": "a 2000 office corridor (RoomWorld warm + the office-2000 plate blurred behind): two StoryPerson businessmen, cyan rim (#7FD8FF), walk in from the left; the front one wears glasses. On ريد هاستنقز white name pill «ريد هاستنقز» over the first, on ومارك راندولف «مارك راندولف» over the second (glasses); on داخلين they reach a tall door with a gold plate «الرئيس التنفيذي» — the door swings open, light spills out",
+   "beats": [
+    409.04,
+    409.96,
+    411
+   ]
+  },
+  {
+   "id": "S7",
+   "start": 412.88,
+   "template": "HeroShot",
+   "size": "close",
+   "device": "story",
+   "flow": "object",
+   "fallback": "code-drawn store front: a wide dark-blue shop box with a yellow awning, lit windows and a stack of VHS boxes (HeroObject draw)",
+   "props": {
+    "at": 412.95,
+    "src": "ar-costly-mistakes/el/rental-store-blank.png",
+    "ar": 1.085,
+    "glow": "#FFC928",
+    "h": 430,
+    "rays": "gold",
+    "label": {
+     "text": "بلوكباستر",
+     "at": 412.95,
+     "kind": "white"
+    },
+    "spoken": [
+     {
+      "w": "أكبر",
+      "at": 413.6
+     },
+     {
+      "w": "شركة",
+      "at": 413.93
+     },
+     {
+      "w": "تأجير أفلام",
+      "at": 414.64,
+      "tone": "gold"
+     },
+     {
+      "w": "في العالم",
+      "at": 415.4
+     }
+    ]
+   }
+  },
+  {
+   "id": "S8",
+   "start": 415.98,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "story",
+   "flow": "object",
+   "fallback": "code-drawn red paper envelope with a white disc peeking out (HeroObject draw)",
+   "note": "the giant store shrinks to the right edge; centre a SMALL dvd-mailer (h≈220) pops; on نتفليكس a red NPill «نتفليكس» under it; on بالبريد the mailer flies along a dotted Route into a little house's mailbox (small-house) and comes back; on ووضعها صعب the mailer wobbles, a grey storm cloud with rain hangs over it",
+   "beats": [
+    417.42,
+    419.32,
+    420.58
+   ]
+  },
+  {
+   "id": "S9",
+   "start": 420.96,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "count",
+   "note": "the mailer small top-left; centre a falling red trend line (WalletBalance style) dropping across 2000; CountNumber red «50 مليون $» with ▼ counts on 50 (lands on دولار 423.80); grey NPill «نفس السنة» on نفس السنة",
+   "spoken": "تخسر 50 مليون دولار في نفس السنة",
+   "beats": [
+    422.24,
+    422.68,
+    424.48
+   ]
+  },
+  {
+   "id": "S10",
+   "start": 425.14,
+   "custom": true,
+   "mode": "diagram",
+   "size": "wide",
+   "device": "compare",
+   "flow": "object",
+   "fallback": "code store box vs code envelope",
+   "note": "size compare on GridFloor: LEFT the tiny dvd-mailer on a short podium, RIGHT the rental-store-blank on a podium 100× its volume (fills the right half); on أكبر منهم a gold dashed SizeBracket draws between them; on 100 a big gold «×100» slams in (boom)",
+   "beats": [
+    426.04,
+    427.48
+   ]
+  },
+  {
+   "id": "S11",
+   "start": 428.2,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "note": "the CEO's office (RoomWorld, sunset window): RIGHT behind a big desk the Blockbuster CEO — StoryPerson businessman, GOLD tie, gold rim; LEFT the two (cyan rim, one with glasses) stand at a flip chart. On الفكرة the flip chart page shows a drawn envelope → house arrow; on يسمع the CEO leans back, hands together; on ويهز راسه his head nods twice (small bob)",
+   "beats": [
+    428.8,
+    430.4,
+    430.88
+   ]
+  },
+  {
+   "id": "S12",
+   "start": 431.8,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "quote",
+   "note": "closer two-shot across the desk: on طيب كم تبون a white Bubble from the CEO «طيب كم تبون؟»; on قالوا the Bubble shrinks back and on 50 a Bubble from Randolph (glasses) «50 مليون» with the number gold; a small gold PriceTag «50 مليون $» drops on the desk",
+   "beats": [
+    432.74,
+    434.16,
+    434.72
+   ]
+  },
+  {
+   "id": "S13",
+   "start": 436.18,
+   "custom": true,
+   "mode": "character",
+   "size": "close",
+   "device": "reveal",
+   "idea": "the Blockbuster CEO swallows a laugh — shoulders shaking, cheeks puffing — then stamps «لا» on the 50-million offer",
+   "note": "★ held-in laugh: close on the CEO (waist-up, gold tie), PriceTag «50 مليون $» on the desk in front. On وراندولف يقول a grey NPill «راندولف يقول:» top-right. On يحاول his shoulders start to SHAKE (small fast bob, growing); on يمسك نفسه he presses a hand over his mouth, squiggle laugh marks + tiny sweat drops pop around his head; on لا يضحك his round head puffs (cheeks swell 1.0→1.12) — nearly bursting. On وانتهى الاجتماع camera pulls back: the two (cyan) turn and walk out; PAYOFF on لا a big red Stamp «لا» ✖ presses onto the price tag (thump, near-silence 441.4) [hero-quality custom shot; not counted as a video signature]",
+   "beats": [
+    437,
+    438.24,
+    438.66,
+    439.3,
+    440.46,
+    441.88
+   ]
+  },
+  {
+   "id": "S14",
+   "start": 442.16,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "story",
+   "note": "a 2000 stock screen on NightSky: a huge shiny soap bubble floats over a rising chart, inside it glowing website tiles (no text); on منطق a green ✔ MarkPill «وقتها كان عنده منطق»; on فقاعة الإنترنت a white NPill «فقاعة الإنترنت» on the bubble; on تنفجر the bubble POPS (droplets, small Flash), the tiles fall and the chart line crashes red; on ونتفليكس شركة تخسر the small dvd-mailer slides in with a red NPill «تخسر ▼»",
+   "beats": [
+    443.62,
+    445.3,
+    446.14,
+    447.58
+   ],
+   "host": [
+    {
+     "at": 442.16,
+     "spot": "peekRight",
+     "pose": "shrug",
+     "why": "«وللأمانة» — to be fair"
+    },
+    {
+     "at": 446.14,
+     "pose": "react",
+     "why": "the bubble bursts"
+    }
+   ]
+  },
+  {
+   "id": "S15",
+   "start": 448.36,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "timeline",
+   "note": "time-lapse wind-up on NightCity: LEFT the tiny dvd-mailer, RIGHT the big store; a YearBadge 2000 → 2026 ACCELERATES (starts on الفكرة); on يضحك أخيرًا small squiggle laugh marks now pop over the MAILER instead; on صح the mailer begins to lift and glow red, the store's lights flicker",
+   "beats": [
+    448.59,
+    449.64,
+    450.86
+   ],
+   "host": [
+    {
+     "at": 449.3,
+     "pose": "viewer",
+     "why": "«اللي يضحك أخيرًا» — knowing look"
+    }
+   ]
+  },
+  {
+   "id": "S16",
+   "start": 451.16,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "reveal",
+   "flow": "object",
+   "fallback": "code-drawn tall dark tower with red-lit windows (HeroObject draw) + code store box",
+   "out": {
+    "kind": "whoosh"
+   },
+   "idea": "time-lapse: the Netflix tower shoots up to 300 billion while Blockbuster shrinks to one last store under a spotlight, visitors snapping photos",
+   "note": "★ one continuous camera move: the mailer becomes the netflix-tower rising from the floor (left-centre, red glow) as the camera tilts up with it; on 300 CountNumber «300 مليار $» counts beside it (gold on دولار 454.18) + red NPill «نتفليكس»; near-silence 452.6. On وبلوكباستر camera pans right and DOWN: the store, shrinking, one by one its branches blink out across a mini map; on فرع واحد ONE small store is left under a Spotlight, white NPill «فرع واحد»; on يزوره الناس 3 tiny StoryPeople (tourists) raise phones — camera-flash pops; on الذكريات a grey NPill «الذكريات». Hold the tower top-left in frame [hero-quality custom shot; not counted as a video signature]",
+   "spoken": "اليوم نتفليكس قيمتها تقريبًا 300 مليار دولار",
+   "beats": [
+    453.04,
+    454.18,
+    454.66,
+    456.92,
+    458.76,
+    460.12
+   ],
+   "host": [
+    {
+     "at": 451.16,
+     "spot": "sideLeft",
+     "pose": "point",
+     "why": "presents the rising tower"
+    },
+    {
+     "at": 453.32,
+     "pose": "wow",
+     "why": "300 billion"
+    },
+    {
+     "at": 456.92,
+     "pose": "sad",
+     "why": "one store left"
+    },
+    {
+     "at": 459.84,
+     "pose": "viewer",
+     "why": "a place for memories"
+    }
+   ]
+  }
+ ]
+}

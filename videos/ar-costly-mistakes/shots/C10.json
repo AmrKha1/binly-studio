@@ -1,0 +1,385 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 614.58,
+   "custom": true,
+   "mode": "character",
+   "size": "close",
+   "device": "list",
+   "in": {
+    "kind": "wipe"
+   },
+   "flow": "object",
+   "fallback": "kit FactoryLine-style code-drawn plant block with two cooling towers (HeroObject draw)",
+   "note": "bridge: WarWorld dimmed to 40 % (C09's world fading); nuclear-plant (HeroObject, small, left-bottom, smoke rising); AZTIKA big at closeRight; NPill stack left-centre, each on its word: red «مفاعل انفجر» on انفجر (a boom puff behind the plant), red «لوّث دول» on دول (a red stain spreads on the ground under the plant), gold «مئات المليارات» on مئات (coin burst)",
+   "beats": [
+    615.9,
+    616.96,
+    618.32,
+    619.66
+   ],
+   "host": [
+    {
+     "at": 614.58,
+     "spot": "closeRight",
+     "pose": "think",
+     "why": "«أدري وش في بالك» — talks to the viewer"
+    },
+    {
+     "at": 616.96,
+     "pose": "list",
+     "why": "counts what Chernobyl did"
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "start": 620.8,
+   "template": "BoardShot",
+   "size": "wide",
+   "device": "stage",
+   "props": {
+    "entries": "@board",
+    "words": [
+     {
+      "w": "وش",
+      "at": 620.8
+     },
+     {
+      "w": "أغلى",
+      "at": 621.6,
+      "tone": "gold"
+     },
+     {
+      "w": "من",
+      "at": 621.82
+     },
+     {
+      "w": "كذا؟",
+      "at": 621.96
+     }
+    ]
+   },
+   "host": [
+    {
+     "at": 620.8,
+     "spot": "sideLeft",
+     "pose": "higher",
+     "why": "points up at the summit «؟» — what can be pricier?"
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "start": 622.49,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "stage",
+   "note": "ON THE BOARD (StairGame from board.json, stairCamT; dimmed to 45 %, the summit «؟» still glowing top-left): WordPop «أغلى غلطة» top (غلطة gold) on 622.49; in front of the stairs a Lineup of three round frames: an explosion burst «انفجار» ✖ on انفجار, a rocket «صاروخ» ✖ on صاروخ, a dark hood with green code «هاكرز» ✖ on هاكرز (thump each); camera slow push toward the summit",
+   "beats": [
+    622.49,
+    624.64,
+    625.48,
+    626.51
+   ],
+   "host": [
+    {
+     "at": 624.64,
+     "pose": "doubt",
+     "why": "no explosion, no rocket, no hackers"
+    }
+   ]
+  },
+  {
+   "id": "S4",
+   "start": 627.1,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "mystery",
+   "idea": "the summit's price is a single glowing pen stroke — next to the smallest price pill of the whole video",
+   "flow": "object",
+   "fallback": "code-drawn fountain pen: black lacquer barrel + gold clip + gold nib (HeroObject draw)",
+   "note": "★ black stage, one warm spotlight; a cream paper slip mid; fountain-pen (HeroObject, gold glow) comes down; NEAR-SILENCE from 626.9 (only the nib scratch); on توقيع the nib touches and a glowing gold-ink signature line writes right→left; on 4 مليون a TINY grey NPill «4 مليون» (34 px) drops beside the line with one tick; camera push 1.0→1.12 onto the ink [hero-quality custom shot; not counted as a video signature]",
+   "beats": [
+    627.46,
+    628.08,
+    628.8
+   ],
+   "host": [
+    {
+     "at": 627.1,
+     "pose": "present",
+     "why": "«فيها توقيع» — presents the pen"
+    },
+    {
+     "at": 628.8,
+     "pose": "shrug",
+     "why": "only 4 million?"
+    },
+    {
+     "at": 629.72,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S5",
+   "start": 629.72,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "timeline",
+   "flow": "plate",
+   "fallback": "SunsetWorld with the egypt-pyramids starter art far left + a flat blue canal strip across the sand",
+   "note": "PlateWorld look natural src ar-costly-mistakes/bg/suez-1869.jpg, slow push 1.0→1.06; PlateFx confetti (light) + 2–3 code fireworks bursts (gold/white Sparkle rings) over the sky; white NPill «مصر» on مصر; YearBadge counting 1875→1869 from 630.40, lands on 1869 at 631.04",
+   "beats": [
+    630.21,
+    631.04
+   ]
+  },
+  {
+   "id": "S6",
+   "start": 632.16,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "flow": "plate",
+   "fallback": "SunsetWorld + code canal strip; ship = code-drawn paddle steamer (dark hull, gold funnel, smoke)",
+   "note": "same plate, the camera pans right→left along the canal; white NPill «قناة السويس» on السويس; steamship-1869 (HeroObject, smoke) sails in and snaps a gold ribbon on تنفتح (horn); a StoryPerson Ismail (hat tarboush, outfit bisht, gold rim) on a small pavilion front-right, white name pill «الخديوي إسماعيل» on إسماعيل; on أسطوري big fireworks + confetti + gold NPill «احتفال أسطوري»",
+   "beats": [
+    633.09,
+    633.74,
+    635.48,
+    636.84
+   ]
+  },
+  {
+   "id": "S7",
+   "start": 637.48,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "count",
+   "spoken": "أكثر من مليون دولار",
+   "note": "palace banquet: RoomWorld warm gold + 2 chandeliers; a long table; Ismail (tarboush+bisht, gold rim) at the head (right); on ويصرف he opens a money bag (prop money); on مليون gold coins arc to the table + gold NPill «أكثر من مليون $» top-centre, spoken words under it «أكثر من مليون دولار»; StoryPeople with crowns (king, queen, king; white/cyan rims) at the table — crowns glint on الملوك; on الأجانب two more guests slide in at the far end + white NPill «ضيوف أجانب»",
+   "beats": [
+    637.48,
+    638.78,
+    640.64,
+    641.1
+   ]
+  },
+  {
+   "id": "S8",
+   "start": 642.12,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "story",
+   "flow": "object",
+   "fallback": "royal-palace starter art (node tools/art.mjs find palace)",
+   "note": "night sky; Ismail small at the right looking up; a dream cloud grows over him; inside, khedive-palace (HeroObject) pops on حلم; on مصر neon gold outlines of European buildings (an opera dome, columns, a clock tower) draw around the palace; WordPop «قطعة من أوروبا» bottom (أوروبا gold) on قطعة / من / أوروبا",
+   "beats": [
+    643.32,
+    644.58,
+    644.94,
+    645.38
+   ]
+  },
+  {
+   "id": "S9",
+   "start": 645.9,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "list",
+   "note": "IconList rows right side: palace icon «قصور» on قصور, crane icon «مشاريع» on مشاريع, train/rail icon «تحديث» on تحديث; the palace from S8 small at the left; on بس the camera tilts slightly; on بالدين a red tag «دين» swings onto every row one after another (0.15 s apart, low buzzer)",
+   "beats": [
+    646.66,
+    647.64,
+    648.34,
+    649.34
+   ]
+  },
+  {
+   "id": "S10",
+   "start": 649.8,
+   "custom": true,
+   "mode": "data",
+   "size": "medium",
+   "device": "gauge",
+   "spoken": "تقريبًا 100 مليون جنيه إسترليني",
+   "note": "NGauge tall tube centre-left, title pill «ديون مصر»; YearBadge 1875 top-right on 1875; the tube fills green→yellow→red from ديون, red ↑ bobbing; CountNumber «100 مليون £» (red-gold) beside the top on 100; spoken words under «تقريبًا 100 مليون جنيه إسترليني»",
+   "beats": [
+    650.96,
+    651.88,
+    654.32,
+    655.2
+   ]
+  },
+  {
+   "id": "S11",
+   "start": 656.1,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "gauge",
+   "spoken": "حوالي 7 ملايين بس",
+   "note": "the same gauge: the camera dives to its base: a grey tick + grey NPill «7 ملايين» lights on 7; a tiny Ismail (tarboush) stands by it + white pill «لما استلم الحكم» on استلم; then the camera whips back up to the red 100 at the top (contrast 7 → 100)",
+   "beats": [
+    657.3,
+    658.82,
+    659.1
+   ]
+  },
+  {
+   "id": "S12",
+   "start": 659.5,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "story",
+   "note": "a cloth money bag (MoneyBag prop look) tips over on خلصت: one last coin rolls, spins, stops (coin roll sfx) + dust puff; on وكان the lights die to black; on شيء واحد one spotlight clunks on and finds a MysteryTile «؟»; on قيمة a gold glint crosses the tile",
+   "beats": [
+    659.77,
+    660.44,
+    661.74,
+    662.72
+   ]
+  },
+  {
+   "id": "S13",
+   "start": 663.1,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "count",
+   "spoken": "حوالي 44% من الأسهم",
+   "flow": "object",
+   "fallback": "kit documentArt('السويس') share draw",
+   "note": "the tile flips into share-certificate (HeroObject on gold rays, left of centre); white NPill «شركة قناة السويس» on شركة; a gold donut chart right fills to 44 % with CountNumber «44%» on 44%; white NPill «من الأسهم» on الأسهم",
+   "beats": [
+    663.84,
+    665.22,
+    666.74
+   ]
+  },
+  {
+   "id": "S14",
+   "start": 667.18,
+   "template": "StoryShot",
+   "size": "medium",
+   "device": "story",
+   "props": {
+    "world": "city",
+    "people": [
+     {
+      "role": "politician",
+      "x": 1200,
+      "hat": "top",
+      "rim": "#5CF2FF",
+      "pose": "idle",
+      "poses": [
+       [
+        669.94,
+        "point"
+       ]
+      ],
+      "name": {
+       "text": "دزرائيلي",
+       "at": 668.62
+      }
+     }
+    ],
+    "pills": [
+     {
+      "text": "رئيس وزراء بريطانيا",
+      "x": 1200,
+      "y": 250,
+      "at": 668.1,
+      "kind": "white"
+     }
+    ],
+    "stamp": {
+     "at": 669.94,
+     "text": "للبيع",
+     "x": 640,
+     "y": 470,
+     "size": 104,
+     "color": "#FFC928"
+    }
+   }
+  },
+  {
+   "id": "S15",
+   "start": 670.4,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "flow": "object",
+   "fallback": "kit MoneyPile (gold coins) on the table",
+   "note": "London night (NightCity, blue): Disraeli (top hat, cyan rim) walks right→left past a neon outline of a parliament with a clock tower; white NPill «موافقة البرلمان» on موافقة + red ✖ (MarkPill) on البرلمان — he doesn't stop; the camera pans to a dark door: a banker (role banker, top hat, gold rim) + white name pill «عائلة روتشيلد» on روتشيلد; on واقترض sovereign-pile (HeroObject) slides across a small table to Disraeli (coins cascade)",
+   "beats": [
+    671.32,
+    671.92,
+    673.86,
+    674.44
+   ]
+  },
+  {
+   "id": "S16",
+   "start": 675.5,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "story",
+   "idea": "the same gold pen from the tease signs the Suez contract and a wax seal slams «تمت الصفقة» — the deal you can watch happen",
+   "flow": "object",
+   "fallback": "kit documentArt() contract + the code pen from S4",
+   "note": "★ dark wood desk under a brass lamp, dark panelled wall + a clock behind; contract-blank (HeroObject) mid; fg two cuffs (cyan left = Britain, gold right = Egypt); white NPill «25 نوفمبر» on نوفمبر; YearBadge 1875 on 1875; near-silence 677.9 (clock tick only); on تمت the S4 fountain-pen signs: glowing gold ink right→left; PAYOFF on الصفقة a wax seal STAMPS gold «تمت الصفقة» (thump, small shake, gold dust); camera top-down wide → push into the signature → lift at the stamp [hero-quality custom shot; not counted as a video signature]",
+   "beats": [
+    676.12,
+    677.4,
+    678.82,
+    679.65
+   ]
+  },
+  {
+   "id": "S17",
+   "start": 680.34,
+   "custom": true,
+   "mode": "map",
+   "size": "wide",
+   "device": "map",
+   "note": "NightMap paper, region Egypt + Sinai + Mediterranean + Red Sea: the canal line draws gold north→south with a gold NPill «44%» riding it on 44%; on أهم the map pulls back (Europe → Asia) and NeonLines ship routes run Europe → canal → India; white NPill «أهم ممر مائي في العالم» on ممر; routes pulse on العالم",
+   "beats": [
+    680.34,
+    682.02,
+    682.54,
+    683.32
+   ]
+  },
+  {
+   "id": "S18",
+   "start": 683.76,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "count",
+   "spoken": "مقابل 4 مليون جنيه إسترليني",
+   "out": {
+    "kind": "whoosh"
+   },
+   "note": "back on the signed contract (S16, the gold seal on it): the big gold NPill «44%» sits on the paper; on 4 مليون a TINY grey NPill «4 مليون £» (34 px) drops beside it with one tick (no cash sound); spoken words in grey, 60 px, under the paper «مقابل 4 مليون جنيه إسترليني»; slow drift; ends on the signed paper",
+   "beats": [
+    684.66,
+    685.76
+   ]
+  }
+ ]
+}

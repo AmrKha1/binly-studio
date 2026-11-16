@@ -19,7 +19,7 @@ export const CostlySharedPage: React.FC<{t: number}> = ({t}) => {
       <>
         <NightSky t={t} id="k1" />
         <GridFloor id="f1" t={t} />
-        <MistakeBill t={t} at={0.1} x={960} y={500} s={1.3} id="bill" title="فاتورة الخطأ"
+        <MistakeBill t={t} at={0.1} x={960} y={500} s={1.1} id="bill" title="فاتورة الخطأ"
           rows={[{label: 'وقتها', value: '18.5 مليون $', at: 0.6}, {label: 'اليوم', value: '150 مليون $', tone: 'red', at: 1.0}]}
           total={{label: 'الخسارة', value: '131.5 مليون $', tone: 'red', at: 1.5}}
           stamp={{text: 'خطأ', at: 2.0}} fly={{at: 3.0, x: 1600, y: 260, s: 0.35}} />

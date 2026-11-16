@@ -269,7 +269,14 @@
     23.26,
     24.24
    ],
-   "drift": false
+   "drift": false,
+   "host": [
+    {
+     "at": 21.02,
+     "off": true,
+     "why": "the staircase is the star of the promise (the reference hook shows the board alone)"
+    }
+   ]
   },
   {
    "id": "S10",

@@ -1,0 +1,336 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 179.48,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "in": {
+    "kind": "match"
+   },
+   "device": "compare",
+   "flow": "object",
+   "fallback": "StoryPerson prop harddrive + a code-drawn black bin bag (dark blob, knot, highlight stripe); pizza = StoryPerson prop pizza",
+   "note": "split stage, a thin glowing vertical seam in the middle. RIGHT half (grey rain, cold): Howells (StoryPerson man, grey rim #9AA3B5) swings the trash-bag (art) — on رمى 180.80 the bag tumbles down into the dark; on بالغلط 181.54 a red NPill «بالغلط» pops under it. LEFT half (warm room light fades up on أما 182.00): a programmer silhouette (glasses, gold rim) — on فدفعها 183.36 a small stack of gold ₿ coins slides from his hands across the counter; on بإرادته 183.88 a green ✔ MarkPill «بإرادته»; on مبسوط 184.82 he cheers; on عشاء 186.00 the pizza-box (art) pops in front of him with a gold glow",
+   "beats": [
+    180.8,
+    181.54,
+    183.36,
+    183.88,
+    184.82,
+    186
+   ]
+  },
+  {
+   "id": "S2",
+   "start": 186.32,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "timeline",
+   "flow": "object",
+   "fallback": "kit coinArt('₿') via HeroObject draw",
+   "note": "RoomWorld (warm wall, night window). YearBadge counts BACK 2013 → 2010 on سنة 186.32 (lands 186.75, riser). On البيتكوين 187.20 the bitcoin-coin (art) pops centre on a small HoloRing with RevealRing; on جديد 188.58 and غريب 189.22 two big white «؟» marks pop and orbit the coin (pop sounds)",
+   "beats": [
+    186.75,
+    187.2,
+    188.58,
+    189.22
+   ]
+  },
+  {
+   "id": "S3",
+   "start": 189.56,
+   "template": "StoryShot",
+   "size": "medium",
+   "device": "story",
+   "props": {
+    "world": "room",
+    "people": [
+     {
+      "role": "man",
+      "x": 620,
+      "pose": "idle",
+      "poses": [
+       [
+        190.56,
+        "think"
+       ]
+      ]
+     },
+     {
+      "role": "woman",
+      "x": 960,
+      "pose": "talk",
+      "poses": [
+       [
+        190.86,
+        "think"
+       ]
+      ]
+     },
+     {
+      "role": "oldMan",
+      "x": 1300,
+      "pose": "idle",
+      "poses": [
+       [
+        191.38,
+        "shock"
+       ]
+      ]
+     }
+    ],
+    "bubble": {
+     "at": 190.56,
+     "lines": [
+      "بيتكوين؟"
+     ],
+     "x": 960,
+     "y": 300,
+     "tx": 960,
+     "ty": 470
+    },
+    "pills": [
+     {
+      "text": "وش قيمته؟",
+      "x": 960,
+      "y": 160,
+      "at": 192.28,
+      "kind": "gold",
+      "size": 52
+     }
+    ]
+   },
+   "note": "three ordinary people shrug at the strange coin: question bubble on سمعوا, gold pill «وش قيمته؟» on قيمته"
+  },
+  {
+   "id": "S4",
+   "start": 193.18,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "flow": "object",
+   "fallback": "StoryPerson prop pizza in the bubble + coinArt('₿') draw",
+   "note": "same warm room, night: Laszlo = StoryPerson programmer + glasses, prop laptop, gold rim, at a desk (screen glow on his face). White NPill «مبرمج أمريكي» on مبرمج 193.18 (y above head) → swaps to the name pill «لازلو هانيتش» on لازلو 194.66. On يشتري 196.14 a thought bubble grows above him: the ₿ coin (bitcoin-coin) on the right, a gold arrow ← drawn on 196.52, the two-pizzas (art) on the left landing on بيتزا 196.52 (pop); he turns to point on بالبيتكوين 196.88",
+   "beats": [
+    193.18,
+    194.66,
+    196.14,
+    196.52,
+    196.88
+   ]
+  },
+  {
+   "id": "S5",
+   "start": 197.5,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "reveal",
+   "signature": true,
+   "flow": "object",
+   "fallback": "code: CoinRain/coinArt('₿') stack growing on the left pan + StoryPerson prop pizza ×2 on the right pan",
+   "idea": "a giant golden balance scale: two pizzas on one pan, a mountain of 10,000 bitcoins on the other — and it BALANCES: in 2010 that was a fair deal",
+   "note": "★ BALANCE SCALE (build in the chapter): a tall gold balance on a glowing podium in the warm room going dark-purple; RIGHT pan = two-pizzas (art) already sitting, the beam tipped down to the right. On ودفع 197.50 coins start pouring onto the LEFT pan from above (coin cascade sound); bitcoin-pile (art) GROWS on the pan while a white CountNumber «10000» counts 197.83→198.98 above it + pill «بيتكوين» on 198.98; the beam swings and SETTLES LEVEL on بيتزتين 199.64 (soft ding, sparkle at the pivot) — the deal. On الصفقة 200.54 a gold NPill «الصفقة» pops over the pivot; on غلطة 201.64 a red word «غلطة» appears and gets struck through ✖ (MarkPill cross «مو غلطة»); on تجربة طريفة 202.74 Laszlo (small, beside the scale, cheer pose) gets a Bubble ✔ «تجربة طريفة»",
+   "beats": [
+    197.83,
+    198.98,
+    199.64,
+    200.54,
+    201.64,
+    202.74
+   ]
+  },
+  {
+   "id": "S6",
+   "start": 203.52,
+   "custom": true,
+   "mode": "data",
+   "size": "medium",
+   "device": "count",
+   "flow": "object",
+   "fallback": "coinArt('₿') draw",
+   "note": "NightSky + GridFloor; on نحسبها 204.20 the old «2010» YearBadge (top) spins forward and turns into a gold NPill «اليوم» on اليوم 204.60 (no other year on screen — none is spoken); one big bitcoin-coin (art) centre-right on Rays gold; on سعر 205.19 white NPill «سعر البيتكوين», grey pill «هذا الأسبوع» on 206.02; CountNumber «78 ألف و500 $» lands 207.06→208.34 (gold, shimmer)",
+   "spoken": "حوالي 78 ألف و500 دولار",
+   "beats": [
+    204.2,
+    205.19,
+    206.02,
+    207.06,
+    208.34
+   ],
+   "host": [
+    {
+     "at": 203.52,
+     "spot": "sideLeft",
+     "pose": "list",
+     "why": "«تعال نحسبها اليوم» — he does the maths with us"
+    },
+    {
+     "at": 207.06,
+     "pose": "point",
+     "why": "points at the coin's price"
+    }
+   ]
+  },
+  {
+   "id": "S7",
+   "start": 209.24,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "count",
+   "flow": "object",
+   "fallback": "StoryPerson prop pizza ×2 drawn big",
+   "note": "the coin with its «78 ألف و500 $» tag slides top-left and a gold «× 10000» drops beside it on البيتزتين 209.56; the two-pizzas (art) rise big centre on Rays gold on قيمتهم 210.34 with «=» under the tag on اليوم 210.88; NEAR-SILENCE 211.0–211.6 (all sounds drop, only a low riser); CountNumber «785 مليون $» counts 211.68→212.70 big (170) under the pizzas — lands GOLD with Flash + boom + RevealRing tail; spoken words under it «تقريبًا 785 مليون دولار»",
+   "spoken": "تقريبًا 785 مليون دولار",
+   "beats": [
+    209.56,
+    210.34,
+    210.88,
+    211.68,
+    212.7
+   ],
+   "host": [
+    {
+     "at": 209.56,
+     "pose": "think",
+     "why": "multiplying"
+    },
+    {
+     "at": 212.7,
+     "pose": "wow",
+     "why": "785 million lands"
+    }
+   ]
+  },
+  {
+   "id": "S8",
+   "start": 214.06,
+   "template": "BoardShot",
+   "size": "wide",
+   "in": {
+    "kind": "match"
+   },
+   "device": "stage",
+   "props": {
+    "entries": "@board",
+    "words": [
+     {
+      "w": "على",
+      "at": 216.34
+     },
+     {
+      "w": "بيتزا",
+      "at": 216.73,
+      "tone": "gold"
+     }
+    ]
+   },
+   "note": "the two pizzas fly from S7 onto step 3 «785 مليون $» on 785 (214.06, boom)",
+   "host": [
+    {
+     "at": 214.3,
+     "pose": "point",
+     "why": "the pizza takes step 3"
+    },
+    {
+     "at": 216.34,
+     "pose": "shrug",
+     "why": "«على بيتزا»"
+    }
+   ]
+  },
+  {
+   "id": "S9",
+   "start": 217.28,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "lineup",
+   "flow": "object",
+   "fallback": "Lineup icons drawn: storefront, three storefronts, a cheese wedge in a factory; the pizzas = StoryPerson prop pizza",
+   "note": "NightSky + GridFloor, Lineup of 4 round frames right → left: «مطعم» (a small restaurant front) ✖ on مطعم 217.59 · «سلسلة مطاعم» (three fronts) ✖ on مطاعم 218.90 · «مصنع جبن» (cheese wedge + chimney) ✖ on جبن 220.16 (thumps); on بيتزتين 220.62 the 4th frame turns GOLD with the two-pizzas (art) + green ✔ «بيتزتين» (ding), the three ✖ frames dim",
+   "beats": [
+    217.59,
+    218.9,
+    220.16,
+    220.62
+   ],
+   "host": [
+    {
+     "at": 217.9,
+     "spot": "smallLeft",
+     "pose": "list",
+     "why": "counts what it was NOT"
+    },
+    {
+     "at": 220.62,
+     "pose": "sure",
+     "why": "just two pizzas"
+    },
+    {
+     "at": 221.3,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S10",
+   "start": 221.44,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "compare",
+   "flow": "object",
+   "fallback": "StoryPerson prop pizza for the box",
+   "note": "split again (rhymes with S1): RIGHT Howells (man, grey rim) on a grey landfill strip, «هاولز» white pill on هاولز 222.94; on ما استفاد 223.72 he opens EMPTY hands, red ✖ MarkPill «ما استفاد شيء». LEFT Laszlo (programmer, glasses, gold rim) in warm light: on تعشى 225.50 he lifts the pizza-box (art), a bite, steam, green ✔ MarkPill «تعشى» (ding)",
+   "beats": [
+    222.94,
+    223.72,
+    224.64,
+    225.5
+   ]
+  },
+  {
+   "id": "S11",
+   "start": 225.94,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "story",
+   "out": {
+    "kind": "whoosh"
+   },
+   "note": "OPEN LOOP (tease, no total): MistakeBill (shared) «فاتورة البيتزا» drops in on انتبه 226.24; a small gold bookmark pill «بنرجع له في النهاية» pins to its corner on بنرجع 227.06; row «وقتها» → «تافه» (grey ink) prints on تافه 230.06; row «الفاتورة الحقيقية» → «بعدين» (gold) prints on الفاتورة 230.52; beside the bill a blank calendar block tears its pages away fast on وصلت 231.76 (no numbers — none spoken) + white pill «بسنين» on بسنين 232.52 (paper flutter) — the total line stays an empty gold «؟» (the payoff comes in C12). OUT: the bill slides up out of frame with a whoosh at 232.7",
+   "beats": [
+    226.24,
+    227.06,
+    230.06,
+    230.52,
+    231.76,
+    232.52
+   ],
+   "host": [
+    {
+     "at": 225.94,
+     "spot": "peekRight",
+     "pose": "viewer",
+     "why": "«انتبه» — a note to the viewer"
+    },
+    {
+     "at": 230.06,
+     "pose": "think",
+     "why": "cheap then… the real bill later"
+    },
+    {
+     "at": 232.6,
+     "off": true
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,269 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 741.7,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "recap",
+   "in": {
+    "kind": "match"
+   },
+   "drift": false,
+   "note": "recap on the board: StairGame + stairCamT from videos/ar-costly-mistakes/board.json (recapAt 741.70 — the camera pulls back to the whole staircase, summit «؟» glowing); a gold climb-arrow travels up the steps; each step LIGHTS (glow pulse + tick, rising pitch) when its RECAP number is spoken and a white NPill (46 px) with the spoken words pops in front of its price pill: «18 مليون» 743.62 (mariner) · «600 مليون» 744.76 (howells) · «785 مليون» 746.08 (pizza) · «900 مليون» 747.90 (citi) · «6 مليار» 749.20 (binance) · «300 مليار» 750.32 (netflix) · «4 تريليون» 751.46 (google, gold) · «700 مليار» 752.66 (chernobyl, red)",
+   "beats": [
+    743.62,
+    744.76,
+    746.08,
+    747.9,
+    749.2,
+    750.32,
+    751.46,
+    752.66
+   ],
+   "host": [
+    {
+     "at": 741.7,
+     "spot": "smallLeft",
+     "why": "steps aside small for the recap"
+    },
+    {
+     "at": 742.94,
+     "pose": "think",
+     "why": "the recap: every number again"
+    },
+    {
+     "at": 746.08,
+     "pose": "list",
+     "why": "counts the steps"
+    },
+    {
+     "at": 749.2,
+     "pose": "react",
+     "why": "billions now"
+    },
+    {
+     "at": 751.46,
+     "pose": "wow",
+     "why": "4 trillion"
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "start": 753.94,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "twist",
+   "signature": true,
+   "idea": "the cheapest number in the video — a tiny grey «4 مليون £» on a signed paper — shoots up the whole staircase and takes the gold summit «الأغلى»",
+   "in": {
+    "kind": "cut"
+   },
+   "drift": false,
+   "note": "★ the same StairGame (board.json, suez entry twist:true at 757.24); NEAR-SILENCE 753.2–754.96 (no sfx, steps dim, only the summit «؟» breathes); on وآخر رقم the camera drifts down to the stair foot; on 4 مليون the contract (contract-blank) pops tiny at the foot with a grey NPill «4 مليون £» (one tick); on أرخص a grey MarkPill «الأرخص»; PAYOFF on وأغلى (757.24) it shoots up past every step to the SUMMIT: gold flash, RevealRing tail, gold podium, topLabel «الأغلى» (riser from 756.3 → boom + shimmer); on غلطة the other steps dim; camera foot (push 1.15) → whip-tilt up → pull back to the whole staircase",
+   "beats": [
+    754.96,
+    755.78,
+    757.24,
+    758.06
+   ],
+   "host": [
+    {
+     "at": 755.24,
+     "pose": "lower",
+     "why": "points down at the tiny price"
+    },
+    {
+     "at": 757.24,
+     "pose": "higher",
+     "why": "it takes the summit"
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "start": 758.62,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "thesis",
+   "note": "the staircase (camera closer on the lower steps): WordPop «ليش؟» top (gold) on ليش; on كل غلطة every step prints a small MistakeBill (its chapter's title) above it; on الفاتورة they glow; on وصلت each bill flies to a small faceless owner standing beside its step + a green ✔ on each",
+   "beats": [
+    759.28,
+    760.04,
+    760.86,
+    761.66
+   ],
+   "host": [
+    {
+     "at": 759.28,
+     "pose": "present",
+     "why": "why? every bill reached its owner"
+    },
+    {
+     "at": 762.54,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S4",
+   "start": 762.54,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "flow": "object",
+   "fallback": "LandfillSlice (shared) top layers as the mound",
+   "note": "grey rain night; landfill-tile (HeroObject, big, low) as the mound; Howells StoryPerson (as in C03: pickaxe) digging on it; on الهارديسك his MistakeBill («فاتورة هاولز») flies in and lands on his back; on يحفر dig strokes, rubbish chunks fly (thunks)",
+   "beats": [
+    763.12,
+    764.06
+   ]
+  },
+  {
+   "id": "S5",
+   "start": 764.82,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "flow": "object",
+   "fallback": "code-drawn shop front (blue awning, lit window, VHS shelves) with no text",
+   "note": "night street; rental-store-blank (HeroObject) lit; the Blockbuster CEO StoryPerson (businessman, gold tie, as C07) in front; on نتفليكس white NPill «رفض نتفليكس» + his MistakeBill flies into his hands; on سكرت the store's lights flicker twice and die (power-down), he droops",
+   "beats": [
+    765.52,
+    766.76
+   ]
+  },
+  {
+   "id": "S6",
+   "start": 767.18,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "signature": true,
+   "idea": "the Suez bill skips the man who signed it and travels down 150 years of timeline into the hands of a child born long after",
+   "note": "★ night; a long glowing timeline from right (1875) to left (today) with year pins 1882 · 1956 · 2023; right: Ismail (tarboush, gold rim) holding the gold pen; on صفقة السويس a MistakeBill «فاتورة السويس» (row «وقتها 4 مليون £») prints beside him; on فاتورتها it lifts off; on وقّع it flies PAST him — red ✖ by him; on دفعها the camera pans right→left following the bill over the pins while faceless StoryPeople of later generations pop up along the line (a worker, a soldier, a woman); on مولودين it lands in the hands of a child at the far left (soft drop); on انكتبت the signature line back at the start glows once",
+   "beats": [
+    767.54,
+    768.5,
+    769.84,
+    770.16,
+    771.62,
+    772.3
+   ]
+  },
+  {
+   "id": "S7",
+   "start": 772.74,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "stage",
+   "note": "back on the stairs (board.json StairGame, low side angle): on البيتزا the pizza step glows (its bill pulses); the camera glides up the steps to the gold summit (the Suez contract «الأغلى») on هنا (shimmer)",
+   "beats": [
+    774.3,
+    774.96
+   ],
+   "host": [
+    {
+     "at": 772.74,
+     "spot": "smallLeft",
+     "pose": "present",
+     "why": "«من البيتزا لين هنا» — the whole climb"
+    }
+   ]
+  },
+  {
+   "id": "S8",
+   "start": 775.1,
+   "custom": true,
+   "mode": "text",
+   "size": "medium",
+   "device": "thesis",
+   "ok": "the thesis line — the words themselves are the point (RECIPE §6.3: the thesis over the biggest image, word by word); the strike on «بسعرها» is the mechanism",
+   "note": "over the gold summit (dimmed 50 %, Suez contract glowing): line 1 WordPop y 380 «الغلطة ما تنقاس بسعرها» on الغلطة 775.10 / ما 775.78 / تنقاس 775.88 / بسعرها 776.31; on تصير a red strike + ✖ through «بسعرها»; line 2 WordPop y 560 «تنقاس بمين بيدفع ثمنها بعدين» on 777.34 / 777.85 / 778.36 / 778.74 / 779.10 («بعدين» gold)",
+   "beats": [
+    775.78,
+    776.31,
+    776.96,
+    777.34,
+    777.85,
+    779.1
+   ],
+   "host": [
+    {
+     "at": 775.1,
+     "pose": "awe",
+     "why": "back view, looks up at the summit while the thesis builds"
+    },
+    {
+     "at": 777.85,
+     "pose": "sure",
+     "why": "who pays later"
+    }
+   ]
+  },
+  {
+   "id": "S9",
+   "start": 779.52,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "thesis",
+   "note": "close: the Suez MistakeBill slides in; rows print fast: «وقتها» → «4 مليون £» on دايم, «الثمن» → «81 سنة وحرب» (red) on توصل; on متأخرة a GOLD stamp «متأخرة» presses on the bill (stamp sound) — the gold key word",
+   "beats": [
+    780.26,
+    780.64,
+    780.96
+   ]
+  },
+  {
+   "id": "S10",
+   "start": 781.5,
+   "template": "CtaShot",
+   "size": "wide",
+   "device": "signoff",
+   "props": {
+    "at": 782.82,
+    "like": 784.46,
+    "sub": 784.82,
+    "bell": 785.3
+   },
+   "beats": [
+    782.82,
+    784.46,
+    784.82,
+    786.9
+   ],
+   "host": [
+    {
+     "at": 781.5,
+     "spot": "sideLeft",
+     "pose": "viewer",
+     "why": "«وإلى هنا يخلص مقطعنا»"
+    },
+    {
+     "at": 783.46,
+     "pose": "higher",
+     "why": "points at the like button"
+    },
+    {
+     "at": 785.18,
+     "pose": "lower",
+     "why": "the arrows point down to the real buttons"
+    },
+    {
+     "at": 786.9,
+     "pose": "welcome",
+     "why": "«سلام» — waves goodbye"
+    }
+   ]
+  }
+ ]
+}

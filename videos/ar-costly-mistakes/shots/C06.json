@@ -1,0 +1,514 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 300.4,
+   "template": "BoardShot",
+   "size": "wide",
+   "in": {
+    "kind": "match"
+   },
+   "device": "stage",
+   "props": {
+    "entries": "@board",
+    "words": [
+     {
+      "w": "الغلطة",
+      "at": 302.39
+     },
+     {
+      "w": "الجاية",
+      "at": 302.94
+     },
+     {
+      "w": "قبل",
+      "at": 303.68
+     },
+     {
+      "w": "كم",
+      "at": 303.9
+     },
+     {
+      "w": "أسبوع",
+      "at": 304.1,
+      "tone": "gold"
+     }
+    ]
+   },
+   "note": "the bank takes step 4 «894 مليون $» on بنك 300.69 (boom); the camera then looks up to the next empty step",
+   "host": [
+    {
+     "at": 300.7,
+     "spot": "sideLeft",
+     "pose": "point",
+     "why": "Citi takes step 4"
+    },
+    {
+     "at": 302.39,
+     "pose": "higher",
+     "why": "«الغلطة الجاية» — the next step up"
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "start": 304.78,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "twist",
+   "note": "NightSky + GridFloor: a mini TransferScreen card with pill «تحويل غلط» — on احتاجت 305.15 a red ✖ strikes it (StrikeSwap) and on مقابلة 306.92 it swaps to a gold card «مقابلة وظيفية» with a little briefcase icon + two chairs facing each other (pop, ding)",
+   "beats": [
+    305.15,
+    305.6,
+    306.92
+   ],
+   "host": [
+    {
+     "at": 306.92,
+     "pose": "react",
+     "why": "a job interview?!"
+    },
+    {
+     "at": 307.7,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "start": 307.86,
+   "template": "StoryShot",
+   "size": "wide",
+   "device": "timeline",
+   "props": {
+    "world": "city",
+    "year": {
+     "at": 308.31,
+     "year": 2026,
+     "from": 2022
+    },
+    "pills": [
+     {
+      "text": "آخر أكتوبر",
+      "x": 960,
+      "y": 330,
+      "at": 308.31,
+      "kind": "white",
+      "size": 52
+     }
+    ]
+   },
+   "note": "cold night city, the year counts forward to 2026; «آخر أكتوبر» under the badge"
+  },
+  {
+   "id": "S4",
+   "start": 310.38,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "flow": "object",
+   "fallback": "kit coinArt('₿') ×3 orbiting + a glowing code-drawn server rack",
+   "note": "cold screens world: dark room, blue monitor light. The engineer = StoryPerson programmer, outfit hoodie, gold rim, at a Laptop (kit); white NPill «مهندس برمجيات» on مهندس 310.38; behind him (bg, through a window) the server-tower (art) glows with three bitcoin coins orbiting — gold NPill «بينانس» on بينانس 312.58; on أكبر 313.04 the tower grows and a white pill «أكبر منصة عملات رقمية» pops 313.64",
+   "beats": [
+    310.38,
+    311.96,
+    312.58,
+    313.64
+   ]
+  },
+  {
+   "id": "S5",
+   "start": 315.4,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "story",
+   "note": "push into the Laptop screen until it fills the frame (settle 0.08 — the screen makes its own entrance): MessageCard kind job on يجيه 315.72 (notification ping) — from «مدير مشروع» (faceless avatar, tie), text «فرصة عمل في شركتنا»; white pill «منصة توظيف» on توظيف 316.94; the role line «مدير مشروع» glows gold on مدير 318.42",
+   "beats": [
+    315.72,
+    316.94,
+    318.42
+   ]
+  },
+  {
+   "id": "S6",
+   "start": 319.64,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "story",
+   "note": "the message card slides aside; VideoCall (kit) with ONE tile «موارد بشرية» (hat headset) pops on مقابلة 319.92, speaking bars move; pill «المقابلة الأولى» on أولى 320.72; the engineer's own small tile (hood) bottom-corner nods",
+   "beats": [
+    319.92,
+    320.72,
+    321.6
+   ]
+  },
+  {
+   "id": "S7",
+   "start": 322.38,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "story",
+   "note": "VideoCall grows to TWO tiles: on ثانية 323.58 pill «المقابلة الثانية»; on الرئيس 324.12 a big tile «الرئيس التنفيذي» (hat tie, gold frame — the boss) pops in and starts speaking (speaking index 1); on للشركة 325.04 a small company badge pill «الشركة» sits under it",
+   "beats": [
+    323.58,
+    324.12,
+    325.04
+   ]
+  },
+  {
+   "id": "S8",
+   "start": 325.6,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "list",
+   "note": "pull back: the three steps of the funnel in one row (right → left): job MessageCard · HR tile · CEO tile, linked by a gold dotted path; on رسمي 326.66 and ومحترم 327.18 green ✔ badges pop on the cards one after another (dings), a soft gold glow over all (it looks perfect)",
+   "beats": [
+    325.84,
+    326.66,
+    327.18
+   ]
+  },
+  {
+   "id": "S9",
+   "start": 327.72,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "story",
+   "note": "the Laptop again: on يطلبون 328.60 a message line «حمّل الملف وحلّ المهمة»; on يحمّل 329.32 DownloadBar (kit) file «مهمة تقييم» starts ticking %; on تقييم 331.18 the bar fills; on عادي 333.02 green ✔ done + pill «اختبار توظيف عادي» (ding) — everything looks normal",
+   "beats": [
+    328.6,
+    329.32,
+    331.18,
+    333.02
+   ]
+  },
+  {
+   "id": "S10",
+   "start": 333.36,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "reveal",
+   "signature": true,
+   "idea": "the whole hiring funnel glitches apart: the company card dissolves, the CEO's tile glitches into a hacker's hood, and the download bar turns red ⚠",
+   "note": "★ THE FAKE FUNNEL BREAKS: the S8 row back (company/job card · HR tile · CEO tile) + the DownloadBar under it. NEAR-QUIET 333.36 (a low hum). On الشركة 334.12 the job card flickers with RGB glitch slices; on موجودة 334.96 it dissolves to static + red ✖ «الشركة ما كانت موجودة» (glitch sound). On مو رئيس 337.04 the CEO tile glitches — the tie avatar tears and becomes a dark HOOD with a red rim (red glow, glitch + alarm sting), red pill «مو رئيس تنفيذي». On مو مهمة 338.60 the DownloadBar's green ✔ turns into a red ⚠ (danger, verdict «مو مهمة») 338.74. CAMERA: slow push in through the whole shot, a tiny shake on each glitch",
+   "beats": [
+    334.12,
+    334.96,
+    336.05,
+    337.04,
+    338.6
+   ],
+   "host": [
+    {
+     "at": 333.36,
+     "spot": "peekRight",
+     "pose": "doubt",
+     "why": "«والمشكلة»"
+    },
+    {
+     "at": 337.04,
+     "pose": "scared",
+     "why": "the CEO was a hacker"
+    },
+    {
+     "at": 339,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S11",
+   "start": 339.16,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "flow": "object",
+   "fallback": "kit documentArt with a red ⚠ seal as the file",
+   "note": "THE DOOR (motif): FateDoor (shared) kind digital, light red, standing on GridFloor in the dark; it CRACKS on الباب 339.80 (red light spills) and the malware-file (art) passes through toward us 340.18 (whoosh); grey-white pill «حسب كلام بينانس» on بينانس 341.32 top",
+   "beats": [
+    339.8,
+    340.18,
+    341.32
+   ]
+  },
+  {
+   "id": "S12",
+   "start": 342.24,
+   "custom": true,
+   "mode": "map",
+   "size": "medium",
+   "device": "map",
+   "note": "neon NightMap of the Korean peninsula + region (mode neon), North Korea glowing red; on المهاجمين 342.24 three hacker StoryPeople (hood, red rim #FF5A6A) rise in front (silhouettes, laptops); on كوريين 343.26 a red pin drops on North Korea + red NPill «كوريين شماليين» 343.76 (thump); on وجمعوا 344.42 small document icons fly from the edges into their hands",
+   "beats": [
+    342.24,
+    343.76,
+    344.42
+   ]
+  },
+  {
+   "id": "S13",
+   "start": 345.28,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "note": "a second engineer (StoryPerson programmer, cyan rim, shirt) at another Laptop; red pill «خطأ ثاني» on خطأ 345.92 + white «مهندس ثاني» 346.72; on حمّل 347.64 a DownloadBar appears «برنامج مشهور»; on مزيفة 348.42 it turns red ⚠ «نسخة مزيفة» (danger buzz); on إعلان 350.22 a flashy gold ad banner slaps in at the top (blinking frame, «حمّل الآن» style but text «إعلان») with a dashed arrow down to the bar — the cause",
+   "beats": [
+    345.92,
+    346.72,
+    347.64,
+    348.42,
+    350.22
+   ]
+  },
+  {
+   "id": "S14",
+   "start": 351.38,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "flow": "object",
+   "fallback": "kit vault-door art (starter library) or a code-drawn round vault with ₿",
+   "note": "the crypto-vault (art) centre on ScienceWorld-cold blue; the hacker silhouettes' red light reaches it on وصلوا 351.98; the vault door swings OPEN on للمحافظ 352.58 (heavy clunk) and ₿ coins start streaming out to the left; on خلال ساعات 354.17 a small clock face spins fast + white pill «خلال ساعات» — then everything goes QUIET at 354.6 (near-silence before the number)",
+   "beats": [
+    351.98,
+    352.58,
+    354.17
+   ]
+  },
+  {
+   "id": "S15",
+   "start": 355.12,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "count",
+   "note": "close on WalletBalance (kit night-ui) label «المسروق», red trend line — on سحبوا 355.12 the coins rush past and the stolen counter runs (countCurve, slow start) and LANDS «6.3 مليار $» on مليار 356.46 — big (170), red-gold, Flash + biggest boom so far + RevealRing tail; spoken under it «6.3 مليار دولار» on 357.28 / 358.26",
+   "spoken": "6.3 مليار دولار",
+   "beats": [
+    355.12,
+    356.3,
+    357.28,
+    358.26
+   ],
+   "host": [
+    {
+     "at": 355.12,
+     "spot": "sideLeft",
+     "pose": "scared",
+     "why": "the drain starts"
+    },
+    {
+     "at": 356.9,
+     "pose": "wow",
+     "why": "6.3 billion"
+    }
+   ]
+  },
+  {
+   "id": "S16",
+   "start": 358.74,
+   "template": "BoardShot",
+   "size": "wide",
+   "in": {
+    "kind": "match"
+   },
+   "device": "stage",
+   "props": {
+    "entries": "@board",
+    "words": [
+     {
+      "w": "أكبر",
+      "at": 358.74
+     },
+     {
+      "w": "سرقة",
+      "at": 359.4,
+      "tone": "gold"
+     },
+     {
+      "w": "في تاريخ",
+      "at": 359.82
+     },
+     {
+      "w": "العملات الرقمية",
+      "at": 360.32
+     }
+    ]
+   },
+   "note": "the vault takes step 5 «6.3 مليار $» on 6.3 361.32 — a big jump up (boom), the stairs camera climbs",
+   "host": [
+    {
+     "at": 359.4,
+     "pose": "point",
+     "why": "the biggest crypto theft"
+    },
+    {
+     "at": 361.32,
+     "pose": "higher",
+     "why": "it jumps far above the bank"
+    }
+   ]
+  },
+  {
+   "id": "S17",
+   "start": 362.42,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "compare",
+   "flow": "object",
+   "fallback": "kit documentArt for the file",
+   "note": "scale contrast: LEFT a tiny malware-file (art) alone on a small glowing dot; RIGHT the big gold pill «6.3 مليار $» (from the board); on من ملف 363.89 a gold Measure-like line links file → number; on شخص 364.78 the engineer (hoodie, gold rim) appears under the file; on وظيفة أحلامه 366.66 a cyan dream bubble above him shows a glowing gold star + pill «وظيفة أحلامه» 367.04",
+   "beats": [
+    363.89,
+    364.78,
+    366.66,
+    367.04
+   ],
+   "host": [
+    {
+     "at": 364.78,
+     "pose": "sad",
+     "why": "one file, someone chasing a dream job"
+    },
+    {
+     "at": 367.4,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S18",
+   "start": 367.56,
+   "custom": true,
+   "mode": "data",
+   "size": "medium",
+   "device": "count",
+   "note": "the stream of red ₿ coins again; on تسترجع 368.58 part of them turn around (green ▲); CountNumber «2.5 مليار $» green counts 369.54→369.96; on تجمّدت 370.86 the remaining stolen coins FREEZE inside cyan ice cubes (crackle), pill «تجمّدت» cyan on المسروقة 372.06",
+   "spoken": "حوالي 2.5 مليار",
+   "beats": [
+    368.58,
+    369.54,
+    370.86,
+    372.06
+   ]
+  },
+  {
+   "id": "S19",
+   "start": 372.64,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "story",
+   "flow": "object",
+   "fallback": "code-drawn shield + kit Magnifier",
+   "note": "the crypto-vault (art) closed again with a cyan shield glow; green ✔ MarkPill «أموال العملاء بأمان» on بأمان 374.48 (ding); the magnifier (art) sweeps across the frozen coins on والتحقيق 374.96 + white pill «التحقيق مستمر» on مستمر 376.22 with three pulsing dots",
+   "beats": [
+    373.56,
+    374.48,
+    374.96,
+    376.22
+   ]
+  },
+  {
+   "id": "S20",
+   "start": 376.66,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "note": "office of four employees (StoryPerson programmer ×4, gold rim) at desks, back room (no customers); grey pill «مو واجهة للعامة» on واجهة 380.10; on ممنوعين 380.98 a red no-entry ⊘ sign slams over a profile card above them; the card's pill reads «لينكدإن» on لينكدإن 383.08 (thump)",
+   "beats": [
+    377.64,
+    380.1,
+    380.98,
+    383.08
+   ],
+   "host": [
+    {
+     "at": 376.66,
+     "spot": "peekLeft",
+     "pose": "doubt",
+     "why": "«والمثير»"
+    },
+    {
+     "at": 380.98,
+     "pose": "think",
+     "why": "they weren't even allowed"
+    }
+   ]
+  },
+  {
+   "id": "S21",
+   "start": 383.48,
+   "custom": true,
+   "mode": "diagram",
+   "size": "close",
+   "device": "choice",
+   "note": "close on the hooded engineer (from S4) under a spotlight; a big white «؟» over his head on قالت 384.20; two small cards beside him: red «مخالف» and grey «ولا لا» — they flicker back and forth on مخالف 385.56 / ولا لا 386.12 and neither wins",
+   "beats": [
+    384.2,
+    385.56,
+    386.12
+   ],
+   "host": [
+    {
+     "at": 384.58,
+     "pose": "shrug",
+     "why": "Binance didn't say"
+    }
+   ]
+  },
+  {
+   "id": "S22",
+   "start": 386.44,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "out": {
+    "kind": "whoosh"
+   },
+   "note": "to the viewer: a Phone (kit, centre-right) — on عرض وظيفة 388.10 a gold, over-sparkly MessageCard «عرض وظيفة» pops in on it; grey pill «أحلى من اللازم» on أحلى 389.16; on تحمّل 390.86 a DownloadBar starts on the phone and FREEZES at a few %; on فكّر 391.44 AlertBanner gold «فكّر مرتين» slams across the bottom (pressIn, hazard stripes). OUT whoosh 392.6",
+   "beats": [
+    388.1,
+    389.16,
+    390.86,
+    391.44
+   ],
+   "host": [
+    {
+     "at": 386.44,
+     "spot": "closeRight",
+     "pose": "you",
+     "why": "«المرة الجاية» — he speaks to you"
+    },
+    {
+     "at": 389.16,
+     "pose": "doubt",
+     "why": "too good to be true"
+    },
+    {
+     "at": 391.44,
+     "pose": "sure",
+     "why": "think twice"
+    },
+    {
+     "at": 392.6,
+     "off": true
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,337 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 233,
+   "template": "BoardShot",
+   "size": "wide",
+   "in": {
+    "kind": "wipe"
+   },
+   "device": "stage",
+   "props": {
+    "entries": "@board",
+    "words": [
+     {
+      "w": "كل",
+      "at": 233.84
+     },
+     {
+      "w": "الأرقام",
+      "at": 234.02
+     },
+     {
+      "w": "مئات ملايين",
+      "at": 234.66,
+      "tone": "gold"
+     }
+    ]
+   },
+   "note": "the stairs so far (rocket · bag · pizzas), camera glides along the three steps",
+   "host": [
+    {
+     "at": 233,
+     "spot": "sideLeft",
+     "pose": "list",
+     "why": "sums up the steps so far"
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "start": 235.6,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "mystery",
+   "flow": "object",
+   "fallback": "StoryPerson prop pizza ×2 small; rocket/bag as small kit icons",
+   "note": "NightSky + GridFloor: the two-pizzas (art) small on a glowing step at right with its pill «785 مليون $»; on أكبر 236.58 a dark MysteryTile «؟» RISES taller on the left (thump); on ما حصله 238.94 three small icons in a row under it — mariner-rocket, trash-bag, two-pizzas — each get a grey ✖ (239.22, 239.84, 240.38, soft thumps); on فرصة 241.10 a gold circular loop arrow ↻ draws itself around the MysteryTile + gold NPill «فرصة ثانية» on ثانية 241.38 (ding, sparkles)",
+   "beats": [
+    236.58,
+    239.22,
+    239.84,
+    240.38,
+    241.1
+   ],
+   "host": [
+    {
+     "at": 236.58,
+     "pose": "higher",
+     "why": "the next one is bigger"
+    },
+    {
+     "at": 239.22,
+     "pose": "shrug",
+     "why": "nobody else got this"
+    },
+    {
+     "at": 241.1,
+     "pose": "sure",
+     "why": "a second chance"
+    },
+    {
+     "at": 241.9,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "start": 242.04,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "flow": "object",
+   "fallback": "NightCity front tower drawn with columns + a pediment (code), gold windows",
+   "note": "NightCity (cool blue, money): YearBadge 2010 → 2020 with label pill «أغسطس» on أغسطس 242.04 (lands 242.92, riser); on سيتي 243.76 the bank-building (art) rises centre on a HoloRing, white NPill «سيتي بنك» 244.10 (pop); on أكبر 245.50 the camera tilts up the facade and a gold NPill «من أكبر بنوك العالم» pops 245.92",
+   "beats": [
+    242.92,
+    243.76,
+    244.1,
+    245.92
+   ]
+  },
+  {
+   "id": "S4",
+   "start": 246.68,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "note": "bank office (RoomWorld cool, blinds): Citibank manager = StoryPerson banker (gold rim) at RIGHT holding a document; on قرض 248.60 the document grows big beside him with title «قرض» and on ضخم 248.94 it swells ×1.6 (thump); LEFT a code-drawn glowing LIPSTICK (gold case, red bullet — Claude-drawn, hero finish) pops on مستحضرات 249.90 with grey pill «مستحضرات تجميل» 250.52 and white NPill «ريفلون» on ريفلون 251.00; a dotted gold line links banker → lipstick («إدارة» relation)",
+   "beats": [
+    248.6,
+    248.94,
+    249.9,
+    251
+   ]
+  },
+  {
+   "id": "S5",
+   "start": 251.54,
+   "custom": true,
+   "mode": "data",
+   "size": "medium",
+   "device": "count",
+   "note": "the banker at his desk with a monitor; on دفعة 252.50 a small envelope card «دفعة فوائد» slides out of the lipstick toward the bank; green ✔ MarkPill «عادية» on عادية 253.30; CountNumber «7.8 مليون $» (white, size 130 — routine, not a hero) counts 254.82→255.77 above the envelope; spoken under «حوالي 7.8 مليون دولار»",
+   "spoken": "حوالي 7.8 مليون دولار",
+   "beats": [
+    252.5,
+    253.3,
+    254.82,
+    255.77
+   ]
+  },
+  {
+   "id": "S6",
+   "start": 257.12,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "reveal",
+   "idea": "one routine button press: the amount on the transfer screen rolls from 7.8 million into 894 million in red — the whole loan paid by mistake",
+   "note": "★ TransferScreen (kit night-ui) big, filling the frame, from «سيتي بنك» to «المقرضين», amount «7.8 مليون $»: on ضغطة 257.12 the gold button is PRESSED (click, a finger/round gold hand presses in), on تحويل 257.76 a progress line runs, on وخلصنا 258.50 a green ✔ and the banker's chair leans back (small, foreground right). NEAR-QUIET 258.9–259.2. On بالغلط 260.74 the ✔ flickers red; on القرض كامل 261.64 the digits start ROLLING; CAMERA pushes into the amount; on 894 263.26 the amount lands «894 مليون $» RED (wrong) — Flash + boom + error buzzer; red Stamp «بالغلط» presses beside it 263.92; spoken under «حوالي 894 مليون دولار» [hero-quality custom shot; not counted as a video signature]",
+   "spoken": "حوالي 894 مليون دولار",
+   "beats": [
+    257.12,
+    257.76,
+    258.5,
+    260.74,
+    261.64,
+    263.26,
+    263.92
+   ],
+   "host": [
+    {
+     "at": 263.26,
+     "spot": "peekRight",
+     "pose": "scared",
+     "why": "the wrong amount lands"
+    },
+    {
+     "at": 265.3,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S7",
+   "start": 265.52,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "flow": "object",
+   "fallback": "kit FlyingBills + MoneyPile",
+   "note": "the money-bundles (art) burst out of the screen (FlyingBills, cash flutter) and fly LEFT to a row of 4 lenders = StoryPerson businessman, cyan rim #7FD8FF, white pill «مقرضين» on لمقرضين 265.52; each catches a bundle (shock pose); on بعد ثلاث 268.12 a CalendarCard «3» + pill «سنين» drops above them with a red tint (not due yet)",
+   "beats": [
+    265.52,
+    266.42,
+    268.12,
+    268.62
+   ]
+  },
+  {
+   "id": "S8",
+   "start": 268.98,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "flow": "object",
+   "fallback": "kit MoneyPile small",
+   "note": "same lenders: on رجعوا 269.32 the two on the RIGHT toss their bundles back (they fly off right toward the bank) + green ✔ MarkPill «رجعوا الفلوس»; on وبعضهم 270.40 camera slides to the two on the LEFT hugging their bundles (pose hold); gold-white NPill «504 مليون $» pops over them on 504 272.20; Bubble «لا، هذي فلوسنا أصلًا» from the front one on قالوا 273.54 (no mark), he crosses his arms 275.10",
+   "beats": [
+    269.32,
+    270.4,
+    272.2,
+    273.54,
+    275.1
+   ]
+  },
+  {
+   "id": "S9",
+   "start": 276.04,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "flow": "object",
+   "fallback": "StoryPerson judge prop gavel (no art)",
+   "note": "courtroom (RoomWorld dark wood + a gold bench): on ورفعوا 276.04 a document «القضية» slaps onto the bench (paper); judge = StoryPerson judge (hat judge) behind it; lenders (cyan rim) on the left, a Citibank banker on the right; on حكمت 279.14 the judge-gavel (art) STRIKES (gavel sound) and a green ✔ MarkPill «لصالحهم» appears on the lenders' side 279.64 (gasp); the lenders cheer on تقدرون 280.55",
+   "beats": [
+    276.62,
+    279.14,
+    279.64,
+    280.55
+   ],
+   "host": [
+    {
+     "at": 278.06,
+     "spot": "peekLeft",
+     "pose": "wow",
+     "why": "«والمفاجأة» — the court sided with them"
+    },
+    {
+     "at": 280.2,
+     "pose": "doubt",
+     "why": "«يعني تقدرون تخلونها»?!"
+    },
+    {
+     "at": 281.3,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S10",
+   "start": 281.48,
+   "custom": true,
+   "mode": "diagram",
+   "size": "close",
+   "device": "choice",
+   "flow": "object",
+   "fallback": "code-drawn gavel (brown head, gold bands) with HeroObject draw",
+   "note": "no people — the VERDICT itself: NightSky, a big glossy verdict card (ChoiceCards style) showing green ✔ «لصالحهم»; YearBadge 2020 → 2022 on 2022 281.81 (top, riser); white NPill «محكمة الاستئناف» on الاستئناف 283.80; on قلبت 284.38 the judge-gavel (art) swings down and SLAMS the card (gavel ×2, small shake) — the card FLIPS over to red ✖ «قلبت الحكم»; dust sparks 284.86",
+   "beats": [
+    281.81,
+    283.8,
+    284.38,
+    284.86
+   ]
+  },
+  {
+   "id": "S11",
+   "start": 285.3,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "story",
+   "note": "the S6 TransferScreen again (mini, left) — on الإشارات 285.90 three red warning lights blink around it (alarm-light glow) + white pill «الإشارات»; on واضحة 286.88 the pill turns red «واضحة»; RIGHT a lender with a Phone (kit) — on يتصلون 288.94 the phone shows a calling ring + a big «؟», on يتأكدون 289.46 a cyan Callout «كان المفروض يتصلون» points to the phone",
+   "beats": [
+    285.9,
+    286.88,
+    288.94,
+    289.46
+   ]
+  },
+  {
+   "id": "S12",
+   "start": 290.04,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "flow": "object",
+   "fallback": "kit FlyingBills back into the NightCity tower",
+   "note": "reverse of S7: NightCity with the bank-building (art) centre; YearBadge «2022» small top with pill «نهاية» on وبنهاية 290.80; on رجعت 291.28 the money-bundles fly BACK from the left into the bank (whoosh, cash), the bank windows light up; green ✔ MarkPill «رجعت كلها» on كلها 292.90 (ding)",
+   "beats": [
+    290.8,
+    291.28,
+    292.9
+   ]
+  },
+  {
+   "id": "S13",
+   "start": 293.3,
+   "custom": true,
+   "mode": "data",
+   "size": "medium",
+   "device": "count",
+   "note": "NightSky + GridFloor: on مرت على خير 294.06 a soft green glow and a ✔ pill «مرت على خير»; on بعد أكثر 295.36 a CalendarCard counts 0 → 2 with pill «سنتين محاكم» on سنتين 296.12 (thump), small judge-gavel (art) taps beside it on محاكم 296.62",
+   "spoken": "بعد أكثر من سنتين محاكم",
+   "beats": [
+    294.06,
+    295.36,
+    296.12,
+    296.62
+   ],
+   "host": [
+    {
+     "at": 293.3,
+     "spot": "sideLeft",
+     "pose": "joy",
+     "why": "«الحمد لله مرت على خير»"
+    },
+    {
+     "at": 296.12,
+     "pose": "think",
+     "why": "but two years of courts"
+    }
+   ]
+  },
+  {
+   "id": "S14",
+   "start": 297.12,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "story",
+   "out": {
+    "kind": "whoosh"
+   },
+   "flow": "object",
+   "fallback": "code-drawn hourglass (gold frame, two glass bulbs, falling sand stream) with HeroObject draw",
+   "note": "golden-hourglass (library art — director: node tools/art.mjs use ar-costly-mistakes golden-hourglass) on Rays violet: on الغلطة 297.86 it pops in and FLIPS; sand pours fast (tick-tock); on ترجع فلوسها 298.72 a few gold coins fall back into the top bulb (they come back) while the sand still runs; WordPop «تاخذ من» + «عمرك» (gold) on تاخذ 299.14 / عمرك 299.96. OUT whoosh at 300.3",
+   "beats": [
+    297.86,
+    298.72,
+    299.14,
+    299.96
+   ],
+   "host": [
+    {
+     "at": 299.14,
+     "pose": "viewer",
+     "why": "«تاخذ من عمرك» — to the viewer"
+    },
+    {
+     "at": 300.25,
+     "off": true
+    }
+   ]
+  }
+ ]
+}

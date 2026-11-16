@@ -17,3 +17,9 @@ Owner (2026-11-16 04:xx): asleep; full autonomy — NO stops (skip STOP 1–4), 
 - ART DONE (05:4x): 43 objects in public/ar-costly-mistakes/el + 5 plates in bg/ (launch-1962, landfill-newport, office-2000,
   chernobyl-1986, suez-1869). REMOVED (English text on them): hard-drive, laptop-drive, quill-contract, rental-store → use
   hard-drive-blank, contract-blank, rental-store-blank. Approved by eye: mariner-rocket, steamship-1869.
+
+## Chapter table (06:5x) — plan-check PASS (193 shots, avg 4.1 s); board.json COMPLETE (10 entries, suez twist 757.24, recapAt 741.70)
+Signatures (8): C01 S9 · C02 S10 · C03 S8 · C04 S5 · C06 S10 · C08 S18 · C12 S2 · C12 S6.
+| C01 C02 C03 | building (C01 opus) — when done: re-run compile-shots C01–C03 (board.json changed after they started) |
+| C04–C12 | compiled, placeholders — builders queued, ≤ 3 at once; C10–C12 (climax) with opus |
+Notes: spoken lines use digits as in script («6.3 مليار دولار», «حوالي 10.2 مليار دولار») — ASR merged words, never guess.

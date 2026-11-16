@@ -13,8 +13,8 @@
    "fallback": "StoryShot world \"sunset\" (SunsetWorld town) with the same YearBadge",
    "props": {
     "world": "plate",
-    "plate": "ar-costly-mistakes/el/launch-1962.png",
-    "plateLook": "night",
+    "plate": "ar-costly-mistakes/bg/launch-1962.jpg",
+    "plateLook": "natural",
     "year": {
      "at": 38.6,
      "year": 1962,
@@ -229,16 +229,16 @@
    "mode": "scene",
    "size": "close",
    "device": "story",
-   "note": "same computer: on وبدونه the gold average line vanishes; on اهتزازة one tiny shake of a reading → the computer's alarm light flashes red «كارثة!» (red WordPop) on كأنها كارثة",
+   "note": "same computer: on وبدونه the gold average line vanishes; on اهتزازة one tiny shake of a reading → the computer's alarm light flashes red «كارثة!» (red WordPop) on كأنها كارثة (builder: S13 start moved 80.78→81.55 so «كارثة» 81.28 lands in S12)",
    "beats": [
     77.84,
     79.7,
-    80.78
+    81.28
    ]
   },
   {
    "id": "S13",
-   "start": 80.78,
+   "start": 81.55,
    "custom": true,
    "mode": "scene",
    "size": "wide",

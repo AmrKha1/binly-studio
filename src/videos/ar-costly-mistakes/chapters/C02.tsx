@@ -7,7 +7,7 @@ import {NightShots} from '../../../kit/night-scenes';
 import {StoryShot, HeroShot, BoardShot} from '../../../kit/night-templates';
 import * as Custom from './C02.custom';
 
-// C02 · 38.30–109.40 s · "مارينر 1 — خط صغير" · 19 shots (5 template, 14 custom)
+// C02 · 38.30–109.40 s · "خط صغير في معادلة" · 19 shots (5 template, 14 custom)
 export const C02: React.FC<{t: number}> = ({t}) => (
   <Stage bg="#0F062B">
     <NightScreen>
@@ -15,7 +15,7 @@ export const C02: React.FC<{t: number}> = ({t}) => (
         t={t}
         shots={[
       // S1 · 38.30–41.14 · StoryShot
-      {start: 38.3, in: {"kind":"wipe"}, render: (t: number) => <StoryShot t={t} a={38.3} b={41.14} {...({"world":"plate","plate":"ar-costly-mistakes/el/launch-1962.png","plateLook":"night","year":{"at":38.6,"year":1962,"from":1975}} as Omit<React.ComponentProps<typeof StoryShot>, 't' | 'a' | 'b'>)} />},
+      {start: 38.3, in: {"kind":"wipe"}, render: (t: number) => <StoryShot t={t} a={38.3} b={41.14} {...({"world":"plate","plate":"ar-costly-mistakes/bg/launch-1962.jpg","plateLook":"natural","year":{"at":38.6,"year":1962,"from":1975}} as Omit<React.ComponentProps<typeof StoryShot>, 't' | 'a' | 'b'>)} />},
       // S2 · 41.14–43.86 · custom: SpaceWorld + Earth arc at the bottom; RIGHT a StoryPerson politician (gold rim) + white NPill «أمريكا» on أمري
       {start: 41.14, render: (t: number) => <Custom.S2 t={t} />},
       // S3 · 43.86–48.18 · HeroShot
@@ -36,10 +36,10 @@ export const C02: React.FC<{t: number}> = ({t}) => (
       {start: 66.6, render: (t: number) => <Custom.S10 t={t} />},
       // S11 · 72.16–77.20 · custom: EquationBar view 2 = ReadingsGraph inside a retro 1962 computer screen frame: jittery white reading dots strea
       {start: 72.16, render: (t: number) => <Custom.S11 t={t} />},
-      // S12 · 77.20–80.78 · custom: same computer: on وبدونه the gold average line vanishes; on اهتزازة one tiny shake of a reading → the computer
+      // S12 · 77.20–81.55 · custom: same computer: on وبدونه the gold average line vanishes; on اهتزازة one tiny shake of a reading → the computer
       {start: 77.2, render: (t: number) => <Custom.S12 t={t} />},
-      // S13 · 80.78–85.32 · custom: WobbleRocket wobble rising 0→1: each small shake answered by a BIGGER correction — the gold zigzag path grows 
-      {start: 80.78, render: (t: number) => <Custom.S13 t={t} />},
+      // S13 · 81.55–85.32 · custom: WobbleRocket wobble rising 0→1: each small shake answered by a BIGGER correction — the gold zigzag path grows 
+      {start: 81.55, render: (t: number) => <Custom.S13 t={t} />},
       // S14 · 85.32–92.28 · custom: MistakeBill (shared) prints: title «فاتورة مارينر 1»; row «وقتها» → «18.5 مليون $» on 18.5; row «اليوم» → «150
       {start: 85.32, render: (t: number) => <Custom.S14 t={t} />},
       // S15 · 92.28–95.78 · StoryShot
@@ -51,7 +51,7 @@ export const C02: React.FC<{t: number}> = ({t}) => (
       // S18 · 101.20–105.12 · custom: the backup probe launches clean (WobbleRocket wobble 0, straight gold path) on الاحتياطية; on خمس أسابيع a Cal
       {start: 101.2, render: (t: number) => <Custom.S18 t={t} />},
       // S19 · 105.12–109.40 · BoardShot
-      {start: 105.12, in: {"kind":"match"}, drift: false, render: (t: number) => <BoardShot t={t} a={105.12} b={109.4} {...({"_note":"later chapters: the remaining entries (pizza, bank, interview, netflix, google, chernobyl, suez twist) + recapAt are added after the re-timing","game":"stairs","summitAt":21.31,"topLabel":"الأغلى","entries":[{"id":"mariner","label":"150 مليون $","at":105.98,"src":"ar-costly-mistakes/el/mariner-rocket.png","ar":0.35,"glow":"#9FE6FF"},{"id":"howells","label":"590–630 مليون $","at":174.46,"src":"ar-costly-mistakes/el/trash-bag.png","ar":0.9,"glow":"#FFC928"}],"words":[{"w":"الدرس","at":107.41},{"w":"كان","at":107.88},{"w":"ببلاش","at":107.98,"tone":"gold"}]} as Omit<React.ComponentProps<typeof BoardShot>, 't' | 'a' | 'b'>)} />},
+      {start: 105.12, in: {"kind":"match"}, drift: false, render: (t: number) => <BoardShot t={t} a={105.12} b={109.4} {...({"_note":"later chapters: the remaining entries (pizza, bank, interview, netflix, google, chernobyl, suez twist) + recapAt are added after the re-timing","game":"stairs","summitAt":21.31,"topLabel":"الأغلى","entries":[{"id":"mariner","label":"150 مليون $","at":105.98,"src":"ar-costly-mistakes/el/mariner-rocket.png","ar":0.317,"glow":"#9FE6FF"},{"id":"howells","label":"590–630 مليون $","at":174.46,"src":"ar-costly-mistakes/el/trash-bag.png","ar":0.931,"glow":"#FFC928"}],"words":[{"w":"الدرس","at":107.41},{"w":"كان","at":107.88},{"w":"ببلاش","at":107.98,"tone":"gold"}]} as Omit<React.ComponentProps<typeof BoardShot>, 't' | 'a' | 'b'>)} />},
         ]}
           hud={(t: number) => (
             <>

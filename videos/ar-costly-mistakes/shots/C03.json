@@ -1,71 +1,466 @@
-{"shots":[
- {"id":"S1","start":109.4,"custom":true,"mode":"scene","size":"medium","device":"compare","in":{"kind":"match"},"flow":"object","fallback":"NightCity front tower + code-drawn columned building (white columns, triangle roof, thick outline)",
-  "note":"bridge: a grand columned government building (bank-building art used as a government hall) on NightCity, a MoneyPile beside it growing; WordPop «غلطة حكومة» (حكومة gold) on 110.88/111.24; gold NPill «ميزانية حكومة» on بميزانية",
-  "beats":[110.88,111.78],
-  "host":[{"at":110.88,"pose":"present","why":"a government mistake with a government budget"}]},
- {"id":"S2","start":112.94,"custom":true,"mode":"scene","size":"wide","device":"story",
-  "note":"camera pans down-left from the big building to an ordinary small house (small-house from the starter library) on a rainy grey street; on شخص عادي a white NPill «شخص عادي»; on بيته its window lights warm; on يرتب a faceless silhouette moves boxes behind the window",
-  "beats":[114.4,115.88,116.63],
-  "host":[{"at":113.92,"pose":"point","why":"points at the ordinary house"},{"at":117.4,"off":true}]},
- {"id":"S3","start":117.56,"custom":true,"mode":"map","size":"medium","device":"map",
-  "note":"NightMap paper of Great Britain; Wales fills gold (spread from Newport); YearBadge 2013 counts back from 2025 top-right on سنة; on نيوبورت a pin drops + white NPill «نيوبورت»; on ويلز NPill «ويلز» on the region",
-  "beats":[117.8,119.6,120.28]},
- {"id":"S4","start":120.68,"custom":true,"mode":"character","size":"medium","device":"story",
-  "note":"RoomWorld (grey rainy window): StoryPerson man (hoodie, gold rim) + white name pill «جيمس هاولز» on جيمس; around him cardboard boxes and old cables; on ينظف he picks up an old box; on ويرمي old things (a cable, a lamp, a box) arc into an open black bin bag by the door",
-  "beats":[121.58,122.44,123.4]},
- {"id":"S5","start":124.58,"custom":true,"mode":"scene","size":"close","device":"story","flow":"object","fallback":"driveArt() ×2 (kit/night-objects) with the hero finish",
-  "note":"shell game begins: on a dark table under one lamp, two IDENTICAL hard drives (hard-drive-blank art) pop side by side on هارديسكين; on نفس الشيء they glide and swap places twice like cups in a shell game (move() eased); gold NPill «نفس الشيء بالضبط» on بالضبط",
-  "beats":[124.88,126.34,126.98]},
- {"id":"S6","start":127.5,"custom":true,"mode":"diagram","size":"close","device":"compare","flow":"object","fallback":"code-drawn gold key + coinArt('₿') inside a cyan x-ray outline",
-  "note":"x-ray: both drives turn into cyan see-through outlines; on فاضي the left one shows EMPTY (grey NPill «فاضي»); on مفتاح the right one reveals a glowing gold key (gold-key art) with a small ₿ coin spinning beside it (gold NPill «مفتاح محفظة بيتكوين»)",
-  "beats":[127.77,129.18,130.02]},
- {"id":"S7","start":130.82,"template":"HeroShot","size":"close","device":"count",
-  "props":{"at":130.9,"art":"coin:₿","glow":"#FFC928","h":360,"value":"8000","countAt":130.9,"label":{"text":"بعض التقارير: 7500","at":133.8,"kind":"grey"},
-   "spoken":[{"w":"8000","at":131.3},{"w":"بيتكوين","at":131.88,"tone":"gold"}]},
-  "spoken":"تقريبًا 8000 بيتكوين · بعض التقارير تقول 7500",
-  "host":[{"at":130.82,"spot":"peekLeft","pose":"wow","why":"8000 bitcoin on one drive"},{"at":134.3,"off":true}]},
- {"id":"S8","start":134.46,"custom":true,"mode":"scene","size":"medium","device":"story","signature":true,"flow":"object","fallback":"driveArt() ×2 + code-drawn black bin bag",
-  "idea":"shell game: two identical hard drives shuffle, and the one with the glowing bitcoin key drops into the black bin bag",
-  "note":"★ the drop: the two drives (key still faintly glowing in the right one) shuffle once more on the table; StoryPerson Howells' hand-rim reaches in; on رميت he picks the GLOWING one and drops it into the black bin bag below (it falls, the bag swallows the glow, thump); the empty drive stays on the table under the lamp; Bubble «رميت الغلط» ✖ from Howells at the edge",
-  "beats":[135.39,137.14,137.51]},
- {"id":"S9","start":138.2,"custom":true,"mode":"data","size":"close","device":"count",
-  "note":"MistakeBill (shared) prints: title «فاتورة هاولز»; row «وقتها» → «نص مليون جنيه» on نص; on مبلغ كبير the row value bounces once and a small grey NPill «مو نهاية العالم» slides under it",
-  "spoken":"حوالي نص مليون جنيه إسترليني",
-  "beats":[139.96,141.87,143.02],
-  "host":[{"at":138.2,"spot":"sideLeft","pose":"present","why":"presents the bill"},{"at":142.44,"pose":"shrug","why":"«مو نهاية العالم»"}]},
- {"id":"S10","start":143.68,"custom":true,"mode":"scene","size":"medium","device":"chart",
-  "note":"a gold ₿ coin (coinArt) shoots up like a rocket on طار, trailing a green rising line (WalletBalance-style ▲ trend) across a night sky; on واليوم the line levels high and sparkles",
-  "beats":[144.02,144.98],
-  "host":[{"at":144.02,"pose":"react","why":"bitcoin took off"}]},
- {"id":"S11","start":146.34,"custom":true,"mode":"data","size":"close","device":"count",
-  "note":"back to the MistakeBill (match: the coin flies into it): row «اليوم» prints and counts to «590–630 مليون $» (590 on 147.5, –630 on 148.24, gold total on مليون); the «وقتها» row above greys out — then vs today in one look; no stamp",
-  "spoken":"تقريبًا بين 590 و630 مليون دولار",
-  "beats":[147.5,148.24,149.32],
-  "host":[{"at":147.5,"pose":"wow","why":"590–630 million today"},{"at":150.8,"pose":"think","why":"«ليش ما يروح يدور عليه؟»"},{"at":152.0,"off":true}]},
- {"id":"S12","start":150.5,"template":"StoryShot","size":"wide","device":"story","flow":"plate","fallback":"StoryShot world \"day\" (grey) — LandfillSlice silhouette added by the builder if the plate is missing",
-  "props":{"world":"plate","plate":"ar-costly-mistakes/el/landfill-newport.png","plateLook":"night",
-   "people":[{"role":"man","x":1350,"hat":"hardhat","prop":"pickaxe","pose":"idle","walk":{"at":152.02,"to":1000}}],
-   "pills":[{"text":"هو حاول","x":1000,"y":330,"at":152.02,"kind":"white"},{"text":"سنين","x":1000,"y":230,"at":152.74,"kind":"grey"}]},
-  "beats":[152.02,152.74]},
- {"id":"S13","start":154.2,"custom":true,"mode":"diagram","size":"wide","device":"measure",
-  "note":"LandfillSlice (shared) wide: the whole landfill mountain in cross-section, rubbish layers; on 1.4 a Measure bracket over the whole mountain + gold NPill «1.4 مليون طن»; a little yellow bulldozer on top for scale",
-  "beats":[155.0,155.64]},
- {"id":"S14","start":158,"custom":true,"mode":"diagram","size":"close","device":"measure",
-  "note":"LandfillSlice push-in: on ضيّق the dashed search zone narrows to one small block; on الهارديسك the drive glows faint cyan deep inside it; gold NPill «100 ألف طن» on 100; on بس (162.26) a small grey «بس»; on \"بس\" (162.8) a big red WordPop «\"بس\"» in quotes pops (irony)",
-  "beats":[158.9,159.66,161.1,162.8],
-  "host":[{"at":158.9,"spot":"peekRight","pose":"think","why":"watches the search zone narrow"},{"at":162.8,"pose":"doubt","why":"«بس» — skeptical"},{"at":163.4,"off":true}]},
- {"id":"S15","start":163.48,"template":"StoryShot","size":"medium","device":"story",
-  "props":{"world":"room","year":{"at":164.32,"year":2025,"from":2013},
-   "people":[{"role":"judge","x":1000,"prop":"gavel","pose":"idle","poses":[[166.38,"up"]],"name":{"text":"قاضي بريطاني","at":165.86}}],
-   "stamp":{"at":166.38,"text":"مرفوض","x":1450,"y":620}}},
- {"id":"S16","start":168.64,"custom":true,"mode":"scene","size":"medium","device":"story",
-  "note":"the landfill behind a tall fence (LandfillSlice exterior/landfill plate edge): on ملك البلدية a gold NPill «ملك البلدية» hangs on the gate; on تصاريح البيئة a green permit card with a leaf pops; on تمنع الحفر a red sign «ممنوع الحفر» slams onto the fence (Stamp red) and a pickaxe icon gets ✖",
-  "beats":[168.98,170.24,171.8]},
- {"id":"S17","start":172.58,"template":"BoardShot","size":"wide","in":{"kind":"match"},"device":"stage",
-  "props":{"entries":"@board","words":[{"w":"يملك","at":174.14},{"w":"مئات الملايين","at":174.46,"tone":"gold"}]},
-  "host":[{"at":172.58,"spot":"sideLeft","pose":"point","why":"the bag takes step 2"},{"at":175.5,"pose":"shrug","why":"«بس ما يقدر يلمسها»"}]},
- {"id":"S18","start":176.88,"custom":true,"mode":"scene","size":"wide","device":"story","out":{"kind":"whoosh"},"flow":"plate","fallback":"LandfillSlice exterior: the whole mountain pulled back on a grey CloudWorld with city lights beyond",
-  "note":"ending: camera starts close on the faint cyan glow under the rubbish (مدفونة) and PULLS BACK up and out over the whole landfill plate (PlateFx rain) until the city lights of Newport show behind it on مدينة كاملة; the glow becomes one tiny dot",
-  "beats":[177.5,178.66],
-  "host":[{"at":177.5,"pose":"sad","why":"buried under a whole city's rubbish"},{"at":179.2,"off":true}]}
-]}
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 109.4,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "compare",
+   "in": {
+    "kind": "match"
+   },
+   "flow": "object",
+   "fallback": "NightCity front tower + code-drawn columned building (white columns, triangle roof, thick outline)",
+   "note": "bridge: a grand columned government building (bank-building art used as a government hall) on NightCity, a MoneyPile beside it growing; WordPop «غلطة حكومة» (حكومة gold) on 110.88/111.24; gold NPill «ميزانية حكومة» on بميزانية",
+   "beats": [
+    110.88,
+    111.78
+   ],
+   "host": [
+    {
+     "at": 110.88,
+     "pose": "present",
+     "why": "a government mistake with a government budget"
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "start": 112.94,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "note": "camera pans down-left from the big building to an ordinary small house (small-house from the starter library) on a rainy grey street; on شخص عادي a white NPill «شخص عادي»; on بيته its window lights warm; on يرتب a faceless silhouette moves boxes behind the window",
+   "beats": [
+    114.4,
+    115.88,
+    116.63
+   ],
+   "host": [
+    {
+     "at": 113.92,
+     "pose": "point",
+     "why": "points at the ordinary house"
+    },
+    {
+     "at": 117.4,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "start": 117.56,
+   "custom": true,
+   "mode": "map",
+   "size": "medium",
+   "device": "map",
+   "note": "NightMap paper of Great Britain; Wales fills gold (spread from Newport); YearBadge 2013 counts back from 2025 top-right on سنة; on نيوبورت a pin drops + white NPill «نيوبورت»; on ويلز NPill «ويلز» on the region",
+   "beats": [
+    117.8,
+    119.6,
+    120.28
+   ]
+  },
+  {
+   "id": "S4",
+   "start": 120.68,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "note": "RoomWorld (grey rainy window): StoryPerson man (hoodie, gold rim) + white name pill «جيمس هاولز» on جيمس; around him cardboard boxes and old cables; on ينظف he picks up an old box; on ويرمي old things (a cable, a lamp, a box) arc into an open black bin bag by the door",
+   "beats": [
+    121.58,
+    122.44,
+    123.4
+   ]
+  },
+  {
+   "id": "S5",
+   "start": 124.58,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "story",
+   "flow": "object",
+   "fallback": "driveArt() ×2 (kit/night-objects) with the hero finish",
+   "note": "shell game begins: on a dark table under one lamp, two IDENTICAL hard drives (hard-drive-blank art) pop side by side on هارديسكين; on نفس الشيء they glide and swap places twice like cups in a shell game (move() eased); gold NPill «نفس الشيء بالضبط» on بالضبط",
+   "beats": [
+    124.88,
+    126.34,
+    126.98
+   ]
+  },
+  {
+   "id": "S6",
+   "start": 127.5,
+   "custom": true,
+   "mode": "diagram",
+   "size": "close",
+   "device": "compare",
+   "flow": "object",
+   "fallback": "code-drawn gold key + coinArt('₿') inside a cyan x-ray outline",
+   "note": "x-ray: both drives turn into cyan see-through outlines; on فاضي the left one shows EMPTY (grey NPill «فاضي»); on مفتاح the right one reveals a glowing gold key (gold-key art) with a small ₿ coin spinning beside it (gold NPill «مفتاح محفظة بيتكوين»)",
+   "beats": [
+    127.77,
+    129.18,
+    130.02
+   ]
+  },
+  {
+   "id": "S7",
+   "start": 130.82,
+   "template": "HeroShot",
+   "size": "close",
+   "device": "count",
+   "props": {
+    "at": 130.9,
+    "art": "coin:₿",
+    "glow": "#FFC928",
+    "h": 360,
+    "value": "8000",
+    "countAt": 130.9,
+    "label": {
+     "text": "بعض التقارير: 7500",
+     "at": 133.8,
+     "kind": "grey"
+    },
+    "spoken": [
+     {
+      "w": "8000",
+      "at": 131.3
+     },
+     {
+      "w": "بيتكوين",
+      "at": 131.88,
+      "tone": "gold"
+     }
+    ]
+   },
+   "spoken": "تقريبًا 8000 بيتكوين · بعض التقارير تقول 7500",
+   "host": [
+    {
+     "at": 130.82,
+     "spot": "peekLeft",
+     "pose": "wow",
+     "why": "8000 bitcoin on one drive"
+    },
+    {
+     "at": 134.3,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S8",
+   "start": 134.46,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "story",
+   "signature": true,
+   "flow": "object",
+   "fallback": "driveArt() ×2 + code-drawn black bin bag",
+   "idea": "shell game: two identical hard drives shuffle, and the one with the glowing bitcoin key drops into the black bin bag",
+   "note": "★ the drop: the two drives (key still faintly glowing in the right one) shuffle once more on the table; StoryPerson Howells' hand-rim reaches in; on رميت he picks the GLOWING one and drops it into the black bin bag below (it falls, the bag swallows the glow, thump); the empty drive stays on the table under the lamp; Bubble «رميت الغلط» ✖ from Howells at the edge",
+   "beats": [
+    135.39,
+    137.14,
+    137.51
+   ]
+  },
+  {
+   "id": "S9",
+   "start": 138.2,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "count",
+   "note": "MistakeBill (shared) prints: title «فاتورة هاولز»; row «وقتها» → «نص مليون جنيه» on نص; on مبلغ كبير the row value bounces once and a small grey NPill «مو نهاية العالم» slides under it",
+   "spoken": "حوالي نص مليون جنيه إسترليني",
+   "beats": [
+    139.96,
+    141.87,
+    143.02
+   ],
+   "host": [
+    {
+     "at": 138.2,
+     "spot": "sideLeft",
+     "pose": "present",
+     "why": "presents the bill"
+    },
+    {
+     "at": 142.44,
+     "pose": "shrug",
+     "why": "«مو نهاية العالم»"
+    }
+   ]
+  },
+  {
+   "id": "S10",
+   "start": 143.68,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "chart",
+   "note": "a gold ₿ coin (coinArt) shoots up like a rocket on طار, trailing a green rising line (WalletBalance-style ▲ trend) across a night sky; on واليوم the line levels high and sparkles",
+   "beats": [
+    144.02,
+    144.98
+   ],
+   "host": [
+    {
+     "at": 144.02,
+     "pose": "react",
+     "why": "bitcoin took off"
+    }
+   ]
+  },
+  {
+   "id": "S11",
+   "start": 146.34,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "count",
+   "note": "back to the MistakeBill (match: the coin flies into it): row «اليوم» prints and counts to «590–630 مليون $» (590 on 147.5, –630 on 148.24, gold total on مليون); the «وقتها» row above greys out — then vs today in one look; no stamp",
+   "spoken": "تقريبًا بين 590 و630 مليون دولار",
+   "beats": [
+    147.5,
+    148.24,
+    149.32
+   ],
+   "host": [
+    {
+     "at": 147.5,
+     "pose": "wow",
+     "why": "590–630 million today"
+    },
+    {
+     "at": 150.8,
+     "pose": "think",
+     "why": "«ليش ما يروح يدور عليه؟»"
+    },
+    {
+     "at": 152,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S12",
+   "start": 150.5,
+   "template": "StoryShot",
+   "size": "wide",
+   "device": "story",
+   "flow": "plate",
+   "fallback": "StoryShot world \"day\" (grey) — LandfillSlice silhouette added by the builder if the plate is missing",
+   "props": {
+    "world": "plate",
+    "plate": "ar-costly-mistakes/bg/landfill-newport.jpg",
+    "plateLook": "night",
+    "people": [
+     {
+      "role": "man",
+      "x": 1350,
+      "hat": "hardhat",
+      "prop": "pickaxe",
+      "pose": "idle",
+      "walk": {
+       "at": 152.02,
+       "to": 1000
+      }
+     }
+    ],
+    "pills": [
+     {
+      "text": "هو حاول",
+      "x": 1000,
+      "y": 330,
+      "at": 152.02,
+      "kind": "white"
+     },
+     {
+      "text": "سنين",
+      "x": 1000,
+      "y": 230,
+      "at": 152.74,
+      "kind": "grey"
+     }
+    ]
+   },
+   "beats": [
+    152.02,
+    152.74
+   ]
+  },
+  {
+   "id": "S13",
+   "start": 154.2,
+   "custom": true,
+   "mode": "diagram",
+   "size": "wide",
+   "device": "measure",
+   "note": "LandfillSlice (shared) wide: the whole landfill mountain in cross-section, rubbish layers; on 1.4 a Measure bracket over the whole mountain + gold NPill «1.4 مليون طن»; a little yellow bulldozer on top for scale",
+   "beats": [
+    155,
+    155.64
+   ]
+  },
+  {
+   "id": "S14",
+   "start": 158,
+   "custom": true,
+   "mode": "diagram",
+   "size": "close",
+   "device": "measure",
+   "note": "LandfillSlice push-in: on ضيّق the dashed search zone narrows to one small block; on الهارديسك the drive glows faint cyan deep inside it; gold NPill «100 ألف طن» on 100; on بس (162.26) a small grey «بس»; on \"بس\" (162.8) a big red WordPop «\"بس\"» in quotes pops (irony)",
+   "beats": [
+    158.9,
+    159.66,
+    161.1,
+    162.8
+   ],
+   "host": [
+    {
+     "at": 158.9,
+     "spot": "peekRight",
+     "pose": "think",
+     "why": "watches the search zone narrow"
+    },
+    {
+     "at": 162.8,
+     "pose": "doubt",
+     "why": "«بس» — skeptical"
+    },
+    {
+     "at": 163.4,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S15",
+   "start": 163.48,
+   "template": "StoryShot",
+   "size": "medium",
+   "device": "story",
+   "props": {
+    "world": "room",
+    "year": {
+     "at": 164.32,
+     "year": 2025,
+     "from": 2013
+    },
+    "people": [
+     {
+      "role": "judge",
+      "x": 1000,
+      "prop": "gavel",
+      "pose": "idle",
+      "poses": [
+       [
+        166.38,
+        "up"
+       ]
+      ],
+      "name": {
+       "text": "قاضي بريطاني",
+       "at": 165.86
+      }
+     }
+    ],
+    "stamp": {
+     "at": 166.38,
+     "text": "مرفوض",
+     "x": 1450,
+     "y": 620
+    }
+   }
+  },
+  {
+   "id": "S16",
+   "start": 168.64,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "story",
+   "note": "the landfill behind a tall fence (LandfillSlice exterior/landfill plate edge): on ملك البلدية a gold NPill «ملك البلدية» hangs on the gate; on تصاريح البيئة a green permit card with a leaf pops; on تمنع الحفر a red sign «ممنوع الحفر» slams onto the fence (Stamp red) and a pickaxe icon gets ✖",
+   "beats": [
+    168.98,
+    170.24,
+    171.8
+   ]
+  },
+  {
+   "id": "S17",
+   "start": 172.58,
+   "template": "BoardShot",
+   "size": "wide",
+   "in": {
+    "kind": "match"
+   },
+   "device": "stage",
+   "props": {
+    "entries": "@board",
+    "words": [
+     {
+      "w": "يملك",
+      "at": 174.14
+     },
+     {
+      "w": "مئات الملايين",
+      "at": 174.46,
+      "tone": "gold"
+     }
+    ]
+   },
+   "host": [
+    {
+     "at": 172.58,
+     "spot": "sideLeft",
+     "pose": "point",
+     "why": "the bag takes step 2"
+    },
+    {
+     "at": 175.5,
+     "pose": "shrug",
+     "why": "«بس ما يقدر يلمسها»"
+    }
+   ]
+  },
+  {
+   "id": "S18",
+   "start": 176.88,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "out": {
+    "kind": "whoosh"
+   },
+   "flow": "plate",
+   "fallback": "LandfillSlice exterior: the whole mountain pulled back on a grey CloudWorld with city lights beyond",
+   "note": "ending: camera starts close on the faint cyan glow under the rubbish (مدفونة) and PULLS BACK up and out over the whole landfill plate (PlateFx rain) until the city lights of Newport show behind it on مدينة كاملة; the glow becomes one tiny dot",
+   "beats": [
+    177.5,
+    178.66
+   ],
+   "host": [
+    {
+     "at": 177.5,
+     "pose": "sad",
+     "why": "buried under a whole city's rubbish"
+    },
+    {
+     "at": 179.2,
+     "off": true
+    }
+   ]
+  }
+ ]
+}

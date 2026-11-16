@@ -1,0 +1,434 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 529.3,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "stage",
+   "in": {
+    "kind": "wipe"
+   },
+   "drift": false,
+   "note": "the board (StairGame @board via the BoardShot internals + stairCamT): the gold «قوقل» pill from C08 flies onto the step above Netflix and the google step rises «4 تريليون $» at 529.45 (boom); on نوقف the whole game FREEZES like a paused video — float/sparkles stop, colours drain 30 %, a white pause badge «‖» pops top-centre (tick); on الأرقام the camera pulls back over every step; on التريليونات the google step glows once; on فلوس a small gold coin pops over each step right→left (pops) + white NPill «فلوس»",
+   "beats": [
+    529.59,
+    530.89,
+    532.4,
+    533.32
+   ],
+   "host": [
+    {
+     "at": 530.58,
+     "spot": "sideLeft",
+     "pose": "think",
+     "why": "stops the game: all those numbers…"
+    },
+    {
+     "at": 532.4,
+     "pose": "higher",
+     "why": "even the trillions at the top"
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "start": 533.72,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "note": "NightSky + GridFloor, two StoryPersons facing (LEFT cyan rim, RIGHT gold rim) at x 900 / 1400: on تروح a stream of gold coins arcs left→right, on وتجي it arcs back; on يخسر the left one slumps (red ▼ NPill «يخسر»), on يكسب the right one cheers (green ▲ NPill «يكسب»)",
+   "beats": [
+    534.36,
+    535.27,
+    536.26
+   ],
+   "host": [
+    {
+     "at": 534.36,
+     "pose": "shrug",
+     "why": "money comes and goes"
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "start": 536.64,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "twist",
+   "idea": "the rule changes: the $ sign on a gold pill cracks open and becomes a glowing human silhouette while the world turns blood-red",
+   "note": "★ STAGING: fg drifting sparkles; mid a big gold pill with a fat «$» (h≈320) on NightSky; bg the purple GridFloor. On ثمنها the pill pops centre; on بالدولار it shakes once and a hairline crack runs through the «$»; NEAR-SILENCE 538.6–539.3 (only a low hum). PAYOFF on بالبشر: the $ shatters (pieces fly out) and a glowing white HUMAN silhouette stands in its place, Flash, the sky floods red (cross-dissolve to WarWorld + embers), red WordPop «بالبشر» under it. Camera: slow push 1.0 → 1.12 into the pill. DONE WHEN a viewer would screenshot the human standing in the broken $ [hero-quality custom shot; not counted as a video signature]",
+   "beats": [
+    537.6,
+    538.54,
+    539.34
+   ],
+   "host": [
+    {
+     "at": 537.6,
+     "pose": "sure",
+     "why": "serious: a different price"
+    },
+    {
+     "at": 539.34,
+     "pose": "scared",
+     "why": "measured in people"
+    },
+    {
+     "at": 539.9,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S4",
+   "start": 540.06,
+   "template": "StoryShot",
+   "size": "wide",
+   "device": "timeline",
+   "flow": "plate",
+   "beats": [
+    540.3,
+    544.32
+   ],
+   "note": "plate with a slow push toward the plant + PlateFx smoke (thin, red-grey); YearBadge accelerates 2026→1986",
+   "fallback": "StoryShot world \"sunset\" (SunsetWorld town, grey-red grade) with the nuclear-plant hero art small on the horizon",
+   "props": {
+    "world": "plate",
+    "plate": "ar-costly-mistakes/bg/chernobyl-1986.jpg",
+    "plateLook": "natural",
+    "year": {
+     "at": 540.3,
+     "year": 1986,
+     "from": 2026
+    },
+    "pills": [
+     {
+      "text": "26 أبريل",
+      "x": 960,
+      "y": 200,
+      "at": 540.56,
+      "kind": "white"
+     },
+     {
+      "text": "تشيرنوبل",
+      "x": 960,
+      "y": 330,
+      "at": 544.32,
+      "kind": "gold"
+     }
+    ]
+   }
+  },
+  {
+   "id": "S5",
+   "start": 545.36,
+   "custom": true,
+   "mode": "map",
+   "size": "medium",
+   "device": "map",
+   "note": "NightMap (paper, region eastern Europe): a red pin drops on Chernobyl; on أوكرانيا Ukraine fills pale yellow + white NPill «أوكرانيا»; on الاتحاد السوفييتي a red DASHED border of the USSR glows around it + grey NPill «الاتحاد السوفييتي»",
+   "beats": [
+    545.52,
+    547.22
+   ]
+  },
+  {
+   "id": "S6",
+   "start": 548.2,
+   "template": "HeroShot",
+   "size": "close",
+   "device": "story",
+   "flow": "object",
+   "fallback": "code-drawn plant: two cooling towers + a block with 4 numbered units, cyan windows (HeroObject draw)",
+   "props": {
+    "at": 548.4,
+    "src": "ar-costly-mistakes/el/nuclear-plant.png",
+    "ar": 1.124,
+    "glow": "#9FE6FF",
+    "h": 420,
+    "rays": "dark",
+    "label": {
+     "text": "المفاعل رقم 4",
+     "at": 551.22,
+     "kind": "white"
+    },
+    "spoken": [
+     {
+      "w": "نص الليل",
+      "at": 548.58
+     },
+     {
+      "w": "اختبار",
+      "at": 549.98,
+      "tone": "gold"
+     }
+    ]
+   }
+  },
+  {
+   "id": "S7",
+   "start": 551.9,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "compare",
+   "note": "two parts meet (cause + cause): RIGHT a BlueprintCard of the reactor with a red crack running through it + white NPill «عيب في التصميم» on عيب; LEFT a control panel where a gold-rim hand flips switches (clicks) + white NPill «قرارات غلط» on قرارات غلط; on أثناء التجربة both slide to the centre and lock together — the reactor icon between them glows red",
+   "beats": [
+    553.62,
+    554.22,
+    556.2,
+    557.06
+   ]
+  },
+  {
+   "id": "S8",
+   "start": 557.96,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "flow": "object",
+   "fallback": "the code-drawn plant",
+   "note": "WarWorld night: the nuclear-plant (centre-right); on انفجار unit 4 blows (Flash + big boom, orange fireball, debris sparks), camera shakes once and settles; on وغبار مشع a sickly yellow-green dust cloud (PlateFx dust tinted) billows out to the left with the wind",
+   "beats": [
+    558.92,
+    559.7
+   ]
+  },
+  {
+   "id": "S9",
+   "start": 561.36,
+   "custom": true,
+   "mode": "map",
+   "size": "wide",
+   "device": "map",
+   "note": "match to the NightMap from S5 (pulled back): from the Chernobyl pin a yellow-green radioactive tint SPREADS (spread) over the north (Belarus), Ukraine and west Russia; on مساحات ضخمة a red NPill «مساحات ضخمة»",
+   "beats": [
+    562.1,
+    562.72
+   ]
+  },
+  {
+   "id": "S10",
+   "start": 563.16,
+   "custom": true,
+   "mode": "character",
+   "size": "close",
+   "device": "lineup",
+   "note": "control room (RoomWorld dark + console glow): ONE operator StoryPerson (engineer, gold rim) in a Spotlight; on غلطة شخص واحد a red ✖ MarkPill «مو غلطة شخص واحد» pops beside him and the spotlight widens",
+   "beats": [
+    564.16,
+    564.74
+   ]
+  },
+  {
+   "id": "S11",
+   "start": 565.08,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "timeline",
+   "note": "pull back along the console: a CHAIN of 8 small switches in a row (Arabic order right→left) joined by a wire; on سلسلة قرارات they flip one by one, each lighting RED with a tick (566.04 → 568.38, ~0.3 s apart); on صغيرة a grey NPill «كل واحدة صغيرة»; the last switch sparks and the wire glows red to the reactor icon",
+   "beats": [
+    566.04,
+    566.58,
+    568.04,
+    568.38
+   ]
+  },
+  {
+   "id": "S12",
+   "start": 569.24,
+   "custom": true,
+   "mode": "map",
+   "size": "medium",
+   "device": "map",
+   "note": "NightMap zoom on Belarus: on بيلاروسيا Belarus outlines + gold NPill «بيلاروسيا»; on الجارة Ukraine dims with the Chernobyl pin on the border; on ربع a quarter of Belarus (the south-east, nearest the pin) tints toxic yellow-green with a hatched pattern + red NPill «ربع أراضيها تلوثت»",
+   "beats": [
+    570.72,
+    572.52,
+    573.44
+   ]
+  },
+  {
+   "id": "S13",
+   "start": 574.06,
+   "custom": true,
+   "mode": "data",
+   "size": "wide",
+   "device": "count",
+   "note": "MassGrid of tiny people icons (white, ~40×20) fills fast on مليونين; white NPill «أكثر من مليونين إنسان» top; on المتضررة the grid tints grey-red from the bottom (the contaminated zone)",
+   "spoken": "أكثر من مليونين إنسان",
+   "beats": [
+    575.06,
+    575.68,
+    577.18
+   ]
+  },
+  {
+   "id": "S14",
+   "start": 577.82,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "flow": "object",
+   "fallback": "code houses (simple gabled boxes with lit windows)",
+   "note": "a village at dusk (SunsetWorld grey-red, 3 small-house art); YearBadge 1986 on 1986; on 22 ألف a white NPill «أكثر من 22 ألف شخص» pops; on يتركون بيوتهم a line of StoryPersons (woman, man, child, oldMan; prop briefcase) walk AWAY to the left, and one by one the house windows go DARK",
+   "beats": [
+    578.54,
+    581.42,
+    583.12,
+    583.7
+   ]
+  },
+  {
+   "id": "S15",
+   "start": 584.62,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "count",
+   "note": "WarWorld: a small Belarus map shape (red) top-right + white NPill «حكومة بيلاروسيا» on بيلاروسيا; CountNumber «235 مليار $» counts from قدّرت-time and lands red-gold on دولار 589.96 (boom)",
+   "spoken": "بحوالي 235 مليار دولار",
+   "beats": [
+    585.28,
+    588,
+    589.96
+   ],
+   "host": [
+    {
+     "at": 584.62,
+     "spot": "sideLeft",
+     "pose": "present",
+     "why": "Belarus's own estimate"
+    },
+    {
+     "at": 589.04,
+     "pose": "sad",
+     "why": "235 billion"
+    }
+   ]
+  },
+  {
+   "id": "S16",
+   "start": 590.5,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "compare",
+   "note": "NBars (x = right edge 1700): a short white bar «ميزانية الدولة كاملة» on ميزانية; then the red «235 مليار $» bar shoots out 32× longer (runs past the host's side, camera pulls back); on 32 a gold dashed bracket + big «×32» slams (boom)",
+   "beats": [
+    591.04,
+    592.94
+   ],
+   "host": [
+    {
+     "at": 592.94,
+     "pose": "wow",
+     "why": "32 times the whole state budget"
+    }
+   ]
+  },
+  {
+   "id": "S17",
+   "start": 594.22,
+   "custom": true,
+   "mode": "data",
+   "size": "medium",
+   "device": "gauge",
+   "note": "NGauge (tube) on WarWorld, right of centre: a StoryPerson scientist (labcoat, clipboard) beside it; on الدول الثلاث three small flag-colour discs pop above the gauge + white NPill «3 دول»; the gauge climbs green → yellow → red, ticks «235 مليار» … «700 مليار $» landing gold on دولار 599.92 (red ↑ bobs); on 30 سنة a grey NPill «خلال 30 سنة»",
+   "spoken": "بحوالي 700 مليار دولار خلال 30 سنة",
+   "beats": [
+    595.2,
+    596.72,
+    598.9,
+    599.92,
+    600.94
+   ],
+   "host": [
+    {
+     "at": 596.72,
+     "pose": "list",
+     "why": "three countries"
+    },
+    {
+     "at": 599.16,
+     "pose": "scared",
+     "why": "700 billion"
+    }
+   ]
+  },
+  {
+   "id": "S18",
+   "start": 601.72,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "measure",
+   "note": "CloudWorld rolls in over the gauge: the scientist holds up the BlueprintCard; on افتراضات a grey NPill «تقدير مبني على افتراضات»; on شك كبير a big gold «؟» rises out of the clouds above the 700 pill (thump)",
+   "beats": [
+    604.64,
+    605.68
+   ],
+   "host": [
+    {
+     "at": 603.36,
+     "pose": "doubt",
+     "why": "even they are not sure"
+    }
+   ]
+  },
+  {
+   "id": "S19",
+   "start": 606.34,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "mystery",
+   "note": "close: the «700 مليار $» pill drifts into the fog and its digits blur into «؟ $»; on الحقيقي a MysteryTile with a gold «؟» settles where the number was; red WordPop «ما أحد يعرفه» on يعرفه",
+   "beats": [
+    607.24,
+    608.12
+   ],
+   "host": [
+    {
+     "at": 606.98,
+     "pose": "think",
+     "why": "nobody knows the real number"
+    }
+   ]
+  },
+  {
+   "id": "S20",
+   "start": 608.56,
+   "custom": true,
+   "mode": "data",
+   "size": "medium",
+   "device": "timeline",
+   "flow": "object",
+   "out": {
+    "kind": "whoosh"
+   },
+   "fallback": "code yellow barrel with the radiation trefoil",
+   "note": "a CalendarCard tears 1986 → 2026 (accelerating) and lands on «40 سنة» green pill on 40 سنة; on والدول المتضررة three small country tiles (map shapes) sit beside a radiation-barrel; on للحين تصرف coins keep dripping from the tiles into the barrel (CoinRain small, endless) — the bill is still being paid",
+   "beats": [
+    609.88,
+    611.38,
+    613.4
+   ],
+   "host": [
+    {
+     "at": 609.88,
+     "pose": "sad",
+     "why": "40 years and still paying"
+    }
+   ]
+  }
+ ]
+}

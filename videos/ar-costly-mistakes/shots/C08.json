@@ -1,0 +1,430 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 460.7,
+   "template": "BoardShot",
+   "size": "wide",
+   "in": {
+    "kind": "match"
+   },
+   "device": "stage",
+   "props": {
+    "entries": "@board",
+    "words": [
+     {
+      "w": "300",
+      "at": 460.74
+     },
+     {
+      "w": "مليار",
+      "at": 461.46,
+      "tone": "gold"
+     }
+    ]
+   },
+   "host": [
+    {
+     "at": 461.46,
+     "spot": "sideLeft",
+     "pose": "point",
+     "why": "the Netflix tower takes its step"
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "start": 462.46,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "mystery",
+   "drift": false,
+   "note": "the stairs camera pushes to the EMPTY step above Netflix: a dark MysteryTile with a gold «؟» pops on it; on قالت لا a red Stamp «لا» presses on the tile's left; on مرتين a SECOND red Stamp «لا» presses on its right + a small gold «×2» pops between them",
+   "beats": [
+    463.66,
+    464.7
+   ],
+   "host": [
+    {
+     "at": 464.32,
+     "pose": "list",
+     "why": "counts: not once — twice"
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "start": 465.6,
+   "custom": true,
+   "mode": "diagram",
+   "size": "close",
+   "device": "mystery",
+   "note": "close: a big empty SearchBox (night-ui, w≈1100, centre) on NightSky + neon grid, a fat cursor BLINKING; on اسمها the box's border glows gold; on تكتبه three grey dots «• • •» type and erase (the name is NOT shown); on أنت the box lifts slightly toward the camera",
+   "beats": [
+    466.88,
+    467.43,
+    468.08
+   ],
+   "host": [
+    {
+     "at": 468.08,
+     "pose": "you",
+     "why": "«أنت» — you type it every day"
+    },
+    {
+     "at": 468.7,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S4",
+   "start": 468.76,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "timeline",
+   "note": "neon-web world (dark violet sky, glowing cyan/violet line grid, floating cursor arrows): grey NPill «آخر التسعينات» top on التسعينات; a glowing website tile (browser window card, purple header bar, no letters) rises centre; on ياهو a purple NPill «ياهو» under it; on ملكة a purple-gold CROWN drops onto the tile (shimmer)",
+   "beats": [
+    469.16,
+    470.16,
+    471.1
+   ]
+  },
+  {
+   "id": "S5",
+   "start": 472.04,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "note": "pull back from the crowned tile: from every side streams of tiny glowing cursor arrows and dots flow into it (people visiting); on أكثر موقع a white NPill «أكثر موقع يزوره الناس»; on العالم a faint globe ring spins behind the tile and the streams double",
+   "beats": [
+    472.45,
+    473.94
+   ]
+  },
+  {
+   "id": "S6",
+   "start": 474.3,
+   "template": "StoryShot",
+   "size": "medium",
+   "device": "story",
+   "props": {
+    "world": "day",
+    "year": {
+     "at": 474.61,
+     "year": 1998
+    },
+    "people": [
+     {
+      "role": "student",
+      "x": 820,
+      "pose": "talk",
+      "prop": "laptop",
+      "rim": "#7FD8FF"
+     },
+     {
+      "role": "student",
+      "x": 1100,
+      "pose": "point",
+      "rim": "#7FD8FF",
+      "poses": [
+       [
+        479.2,
+        "hold"
+       ]
+      ],
+      "prop": "book"
+     }
+    ],
+    "pills": [
+     {
+      "text": "جامعة ستانفورد",
+      "x": 960,
+      "y": 250,
+      "at": 477.6,
+      "kind": "gold"
+     },
+     {
+      "text": "طريقة جديدة للبحث",
+      "x": 960,
+      "y": 360,
+      "at": 479.2,
+      "kind": "white"
+     }
+    ]
+   }
+  },
+  {
+   "id": "S7",
+   "start": 480.5,
+   "template": "StoryShot",
+   "size": "medium",
+   "device": "story",
+   "props": {
+    "world": "room",
+    "people": [
+     {
+      "role": "student",
+      "x": 620,
+      "pose": "hold",
+      "prop": "document",
+      "rim": "#7FD8FF"
+     },
+     {
+      "role": "student",
+      "x": 820,
+      "pose": "idle",
+      "rim": "#7FD8FF"
+     },
+     {
+      "role": "businessman",
+      "x": 1350,
+      "pose": "idle",
+      "flip": true,
+      "rim": "#B57BFF",
+      "poses": [
+       [
+        482.48,
+        "up"
+       ]
+      ],
+      "name": {
+       "text": "ياهو",
+       "at": 480.6
+      }
+     }
+    ],
+    "pills": [
+     {
+      "text": "حوالي مليون $",
+      "x": 720,
+      "y": 330,
+      "at": 481.66,
+      "kind": "gold"
+     }
+    ],
+    "stamp": {
+     "at": 482.76,
+     "text": "رفضت",
+     "x": 1350,
+     "y": 420
+    }
+   }
+  },
+  {
+   "id": "S8",
+   "start": 483.36,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "compare",
+   "note": "a fork on a dark grid: the students' offer card (small document + «؟» tile) at the centre; on روايات a GREY dashed branch goes LEFT to a grey faceless company door with a grey NPill «روايات: العرض الأول لشركة ثانية» (dim, uncertain); on بس the grey branch fades; on الفرصة الثانية a solid gold branch draws RIGHT to the crowned Yahoo tile + gold ✔ MarkPill «الفرصة الثانية أكيد»",
+   "beats": [
+    483.67,
+    486.54,
+    487.46
+   ]
+  },
+  {
+   "id": "S9",
+   "start": 488.52,
+   "custom": true,
+   "mode": "data",
+   "size": "medium",
+   "device": "chart",
+   "note": "YearBadge 1998 → 2002 ticks (on 2002); the small company = a plain dark tile with a gold «؟» on a GREEN bar that grows fast (▲ arrow bobbing) on تكبر بسرعة; on تفاوض the crowned Yahoo tile slides in from the right and a StoryTable appears between them",
+   "beats": [
+    488.88,
+    491.02,
+    492.76
+   ]
+  },
+  {
+   "id": "S10",
+   "start": 493.76,
+   "custom": true,
+   "mode": "character",
+   "size": "close",
+   "device": "compare",
+   "note": "negotiation at a StoryTable (RoomWorld, cool light): LEFT the two (now in suits, cyan rim), RIGHT the Yahoo businessman (purple rim). Price pills FACING each other over the table: on 5 مليار a gold NPill «5 مليار» over the left side; on 3 a white NPill «3 مليار» over the right side; on تمت a red ✖ Mark slams between them and the two hands that were reaching across pull apart",
+   "beats": [
+    494.14,
+    496.02,
+    496.71
+   ]
+  },
+  {
+   "id": "S11",
+   "start": 497.56,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "reveal",
+   "note": "payoff of S3: the SAME big SearchBox returns (match); on اسمها its border glows; on قوقل the brand pill under it pops GOLD «قوقل» with gold Rays behind and a RevealRing (boom + shimmer) — the name we type every day",
+   "beats": [
+    498.5,
+    498.84
+   ],
+   "host": [
+    {
+     "at": 497.8,
+     "spot": "peekLeft",
+     "pose": "wow",
+     "why": "the small company was Google"
+    },
+    {
+     "at": 499.4,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S12",
+   "start": 499.22,
+   "custom": true,
+   "mode": "character",
+   "size": "wide",
+   "device": "story",
+   "note": "NightCity: YearBadge 2002 → 2008 (on سنين); a StoryPerson businessman, cyan rim, NPill «مايكروسوفت» (on مايكروسوفت), walks up to a tall purple-lit tower with the crowned Yahoo tile on top; on تشتري ياهو he points up at it",
+   "beats": [
+    499.96,
+    500.52,
+    502.26
+   ]
+  },
+  {
+   "id": "S13",
+   "start": 503.02,
+   "custom": true,
+   "mode": "character",
+   "size": "close",
+   "device": "compare",
+   "note": "close: the Microsoft man holds out a huge gold PriceTag «حوالي 44.6 مليار» (pops on 44.6); across, the Yahoo businessman (purple rim) crosses his arms; on رفضت a red Stamp «رفضت» presses over the tag + grey NPill «مرة ثانية»",
+   "beats": [
+    503.5,
+    505.92,
+    506.32
+   ]
+  },
+  {
+   "id": "S14",
+   "start": 507.1,
+   "custom": true,
+   "mode": "data",
+   "size": "medium",
+   "device": "chart",
+   "note": "YearBadge 2008 → 2017 (on 2017); the crowned Yahoo tile loses its crown (it falls, clinks) and a red tag «انباعت» swings onto it on انباعت; NBars (x = right edge 1700): a purple bar «حوالي 4.48 مليار $» grows on 4.48",
+   "spoken": "بحوالي 4.48 مليار دولار",
+   "beats": [
+    507.48,
+    508.1,
+    510.64
+   ]
+  },
+  {
+   "id": "S15",
+   "start": 513.64,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "compare",
+   "note": "same NBars: a gold bar «5 مليار — طلب قوقل 2002» grows under the purple one, slightly LONGER; on أقل a red NPill «أقل!» with a dashed gap bracket at the purple bar's end; on قوقل طلبته the gold bar glows",
+   "beats": [
+    514.38,
+    515.36
+   ],
+   "host": [
+    {
+     "at": 513.64,
+     "spot": "sideLeft",
+     "pose": "shrug",
+     "why": "sold for less than Google once asked"
+    }
+   ]
+  },
+  {
+   "id": "S16",
+   "start": 516.58,
+   "custom": true,
+   "mode": "data",
+   "size": "close",
+   "device": "count",
+   "note": "the biggest count of the video: NightSky + gold Rays; white NPill «الشركة الأم لقوقل» top on الشركة الأم; NEAR-SILENCE 518.9–519.8 (only a low riser); on 4 CountNumber «4 تريليون $» (size 180) counts with a gold column rising under it out of the top of the frame, lands gold on دولار 521.0 (big boom + shimmer); grey NPill «فوق … تقريبًا» above; on the repeated 4 تريليون (522.00) punch-in on the number + second gold glow pulse",
+   "spoken": "فوق 4 تريليون دولار تقريبًا · 4 تريليون",
+   "beats": [
+    517.21,
+    519.86,
+    521,
+    522.28
+   ],
+   "host": [
+    {
+     "at": 516.58,
+     "pose": "present",
+     "why": "presents the biggest number"
+    },
+    {
+     "at": 520.18,
+     "pose": "wow",
+     "why": "4 trillion"
+    }
+   ]
+  },
+  {
+   "id": "S17",
+   "start": 523.12,
+   "custom": true,
+   "mode": "diagram",
+   "size": "wide",
+   "device": "compare",
+   "note": "pull back: NBarChart — a GIANT gold column «4 تريليون $» (runs off the top) beside a column so tiny it is a dot; on بمليون a Magnifier swings over the dot showing a grey pill «1 مليون $»",
+   "spoken": "والبداية كان ممكن تكون بمليون",
+   "beats": [
+    523.94,
+    524.5
+   ],
+   "host": [
+    {
+     "at": 523.12,
+     "pose": "point",
+     "why": "points at the tiny start"
+    }
+   ]
+  },
+  {
+   "id": "S18",
+   "start": 524.96,
+   "custom": true,
+   "mode": "scene",
+   "size": "close",
+   "device": "twist",
+   "signature": true,
+   "out": {
+    "kind": "whoosh"
+   },
+   "idea": "irony: the search box types «قصة ياهو» — and the brand pill under it reads «قوقل»",
+   "note": "★ the SearchBox from S3/S11 returns full-size (centre, slight tilt toward camera, neon grid behind). On يقرون it starts typing «قصة ياهو» letter by letter (typing ticks), the Yahoo crown icon glows faintly at the box's end; on يبحثون the enter key presses (click) — a search spinner; PAYOFF on في قوقل the brand pill UNDER the box pops gold «قوقل» (ding), push-in 1.0→1.08; AZTIKA winks to the viewer. Hold 0.3 s, then whoosh out",
+   "beats": [
+    526.7,
+    527.54,
+    527.96,
+    528.98
+   ],
+   "host": [
+    {
+     "at": 525.92,
+     "pose": "viewer",
+     "why": "«واليوم» — sets up the irony"
+    },
+    {
+     "at": 528.98,
+     "pose": "full-thumbsup-wink",
+     "why": "the wink: they search Yahoo on Google"
+    }
+   ]
+  }
+ ]
+}

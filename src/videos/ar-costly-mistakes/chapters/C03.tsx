@@ -7,7 +7,7 @@ import {NightShots} from '../../../kit/night-scenes';
 import {HeroShot, StoryShot, BoardShot} from '../../../kit/night-templates';
 import * as Custom from './C03.custom';
 
-// C03 · 109.40–179.48 s · "هاولز — هارديسك في الزبالة" · 18 shots (4 template, 14 custom)
+// C03 · 109.40–179.48 s · "هارديسك في الزبالة" · 18 shots (4 template, 14 custom)
 export const C03: React.FC<{t: number}> = ({t}) => (
   <Stage bg="#0F062B">
     <NightScreen>
@@ -37,7 +37,7 @@ export const C03: React.FC<{t: number}> = ({t}) => (
       // S11 · 146.34–150.50 · custom: back to the MistakeBill (match: the coin flies into it): row «اليوم» prints and counts to «590–630 مليون $» (5
       {start: 146.34, render: (t: number) => <Custom.S11 t={t} />},
       // S12 · 150.50–154.20 · StoryShot
-      {start: 150.5, render: (t: number) => <StoryShot t={t} a={150.5} b={154.2} {...({"world":"plate","plate":"ar-costly-mistakes/el/landfill-newport.png","plateLook":"night","people":[{"role":"man","x":1350,"hat":"hardhat","prop":"pickaxe","pose":"idle","walk":{"at":152.02,"to":1000}}],"pills":[{"text":"هو حاول","x":1000,"y":330,"at":152.02,"kind":"white"},{"text":"سنين","x":1000,"y":230,"at":152.74,"kind":"grey"}]} as Omit<React.ComponentProps<typeof StoryShot>, 't' | 'a' | 'b'>)} />},
+      {start: 150.5, render: (t: number) => <StoryShot t={t} a={150.5} b={154.2} {...({"world":"plate","plate":"ar-costly-mistakes/bg/landfill-newport.jpg","plateLook":"night","people":[{"role":"man","x":1350,"hat":"hardhat","prop":"pickaxe","pose":"idle","walk":{"at":152.02,"to":1000}}],"pills":[{"text":"هو حاول","x":1000,"y":330,"at":152.02,"kind":"white"},{"text":"سنين","x":1000,"y":230,"at":152.74,"kind":"grey"}]} as Omit<React.ComponentProps<typeof StoryShot>, 't' | 'a' | 'b'>)} />},
       // S13 · 154.20–158.00 · custom: LandfillSlice (shared) wide: the whole landfill mountain in cross-section, rubbish layers; on 1.4 a Measure br
       {start: 154.2, render: (t: number) => <Custom.S13 t={t} />},
       // S14 · 158.00–163.48 · custom: LandfillSlice push-in: on ضيّق the dashed search zone narrows to one small block; on الهارديسك the drive glows
@@ -47,7 +47,7 @@ export const C03: React.FC<{t: number}> = ({t}) => (
       // S16 · 168.64–172.58 · custom: the landfill behind a tall fence (LandfillSlice exterior/landfill plate edge): on ملك البلدية a gold NPill «مل
       {start: 168.64, render: (t: number) => <Custom.S16 t={t} />},
       // S17 · 172.58–176.88 · BoardShot
-      {start: 172.58, in: {"kind":"match"}, drift: false, render: (t: number) => <BoardShot t={t} a={172.58} b={176.88} {...({"_note":"later chapters: the remaining entries (pizza, bank, interview, netflix, google, chernobyl, suez twist) + recapAt are added after the re-timing","game":"stairs","summitAt":21.31,"topLabel":"الأغلى","entries":[{"id":"mariner","label":"150 مليون $","at":105.98,"src":"ar-costly-mistakes/el/mariner-rocket.png","ar":0.35,"glow":"#9FE6FF"},{"id":"howells","label":"590–630 مليون $","at":174.46,"src":"ar-costly-mistakes/el/trash-bag.png","ar":0.9,"glow":"#FFC928"}],"words":[{"w":"يملك","at":174.14},{"w":"مئات الملايين","at":174.46,"tone":"gold"}]} as Omit<React.ComponentProps<typeof BoardShot>, 't' | 'a' | 'b'>)} />},
+      {start: 172.58, in: {"kind":"match"}, drift: false, render: (t: number) => <BoardShot t={t} a={172.58} b={176.88} {...({"_note":"later chapters: the remaining entries (pizza, bank, interview, netflix, google, chernobyl, suez twist) + recapAt are added after the re-timing","game":"stairs","summitAt":21.31,"topLabel":"الأغلى","entries":[{"id":"mariner","label":"150 مليون $","at":105.98,"src":"ar-costly-mistakes/el/mariner-rocket.png","ar":0.317,"glow":"#9FE6FF"},{"id":"howells","label":"590–630 مليون $","at":174.46,"src":"ar-costly-mistakes/el/trash-bag.png","ar":0.931,"glow":"#FFC928"}],"words":[{"w":"يملك","at":174.14},{"w":"مئات الملايين","at":174.46,"tone":"gold"}]} as Omit<React.ComponentProps<typeof BoardShot>, 't' | 'a' | 'b'>)} />},
       // S18 · 176.88–179.48 · custom: ending: camera starts close on the faint cyan glow under the rubbish (مدفونة) and PULLS BACK up and out over t
       {start: 176.88, render: (t: number) => <Custom.S18 t={t} />},
         ]}

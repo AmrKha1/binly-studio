@@ -1,0 +1,275 @@
+{
+ "shots": [
+  {
+   "id": "S1",
+   "start": 686.66,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "story",
+   "in": {
+    "kind": "match"
+   },
+   "note": "the signed contract (from C10's last frame) slides left; the red debt gauge from C10 S10 stands right («ديون مصر», full red); on وش صار the sovereign coins with grey pill «4 مليون» pour into the tube; on البيع the red level barely twitches and the needle wobbles back (dull clunk)",
+   "beats": [
+    687.26,
+    688.98,
+    689.5
+   ],
+   "host": [
+    {
+     "at": 686.66,
+     "spot": "peekRight",
+     "pose": "think",
+     "why": "«طيب، وش صار بعدها؟»"
+    },
+    {
+     "at": 689.42,
+     "pose": "doubt",
+     "why": "the sale fixed nothing"
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "start": 689.86,
+   "custom": true,
+   "mode": "data",
+   "size": "medium",
+   "device": "compare",
+   "note": "NBars (Arabic: x = right edge): red bar «الديون» with pill «100 مليون £» grows long on الديون; gold bar «الصفقة» with grey pill «4 مليون £» stays a stub on الصفقة; a small red ✖ beside the stub",
+   "beats": [
+    689.86,
+    691.14,
+    691.6
+   ],
+   "host": [
+    {
+     "at": 692.08,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "start": 692.08,
+   "custom": true,
+   "mode": "diagram",
+   "size": "wide",
+   "device": "timeline",
+   "note": "ConsequenceTrain (shared) on a red dusk backdrop (WarWorld embers low): tile 1875 «البيع» (contract icon) already standing at the right; on السنة the gold year pill 1876 pops; on أعلنت the tile «أعلنت عجزها» (empty purse with ✖) stands up (thump)",
+   "beats": [
+    692.43,
+    694,
+    694.5
+   ]
+  },
+  {
+   "id": "S4",
+   "start": 694.96,
+   "custom": true,
+   "mode": "character",
+   "size": "close",
+   "device": "story",
+   "note": "close: a big cloth purse with white pill «مصر»; two hands reach in from the edges and grip it: white pill «بريطانيا» on بريطانيا, «فرنسا» on فرنسا; on تراقب a magnifier slides over a ledger page under the purse; on مين يجمع coins flow INTO the left hand (pill «يجمع»); on ومين يصرفها coins flow OUT through the right hand (pill «يصرف»)",
+   "beats": [
+    695.76,
+    696.34,
+    696.82,
+    698.56,
+    699.88
+   ]
+  },
+  {
+   "id": "S5",
+   "start": 700.86,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "note": "palace room (RoomWorld purple-gold, a carved chair): Ismail (tarboush + bisht, gold rim) seated; YearBadge 1879 on 1879; white name pill «إسماعيل» on إسماعيل; on انعزل his tarboush tumbles off and rolls, he slides out of frame left; the chair stays empty (thump)",
+   "beats": [
+    701.17,
+    702.74,
+    704.14
+   ]
+  },
+  {
+   "id": "S6",
+   "start": 704.98,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "note": "SunsetWorld orange dawn desert: YearBadge 1882 on 1882; on دخلت a column of StoryPerson soldiers (red coats, cyan rim) marches in from the left, warship starter art (node tools/art.mjs find warship) on the horizon; white NPill «مصر» on مصر; on معركة white NPill «معركة التل الكبير» + smoke puffs and embers over the dunes",
+   "beats": [
+    705.31,
+    706.74,
+    708.82,
+    709.48
+   ]
+  },
+  {
+   "id": "S7",
+   "start": 710.7,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "timeline",
+   "note": "the ConsequenceTrain, camera pulled back to 4 tiles: tile 1879 «إسماعيل انعزل» (falling tarboush icon) stands on 710.70, tile 1882 «احتلال» (soldier helmet icon) on احتلال; red sub pill «عشرات السنين» on عشرات; then the first push: the tiles fall in sequence and glow red (fallAt 712.9…)",
+   "beats": [
+    711.25,
+    712.46,
+    712.9
+   ]
+  },
+  {
+   "id": "S8",
+   "start": 713.54,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "gauge",
+   "note": "the fallen chain dims; white NPill «للأمانة» top on التاريخية; on السبب a white pill «مو السبب الوحيد» hangs on the «البيع» tile; on الديون a tall fever thermometer rises at the left with white pill «الديون»; on المرض it flushes red and pulses + red NPill «المرض»",
+   "beats": [
+    714.22,
+    715.82,
+    716.68,
+    717.78
+   ],
+   "host": [
+    {
+     "at": 713.54,
+     "spot": "peekRight",
+     "pose": "sure",
+     "why": "«وللأمانة التاريخية» — the honest beat"
+    },
+    {
+     "at": 716.68,
+     "pose": "doubt",
+     "why": "the debts were the illness"
+    },
+    {
+     "at": 718.16,
+     "off": true
+    }
+   ]
+  },
+  {
+   "id": "S9",
+   "start": 718.16,
+   "custom": true,
+   "mode": "scene",
+   "size": "wide",
+   "device": "story",
+   "idea": "the 'sale' domino stands up and becomes a gold-lit door — it swings open and warships and soldiers march out through it",
+   "in": {
+    "kind": "wipe"
+   },
+   "note": "★ purple night stage + GridFloor; the «البيع» tile turns into FateDoor (kind wood, light gold) centre, a faint Egypt outline glows on the floor behind it; door pops on الصفقة; gold NPill «أول باب» on أول; crack of light on باب; on انفتح it swings wide (openAt 719.90), light floods the floor, `through`: a warship then a line of soldier silhouettes pass toward camera; on والباب the camera pushes 1.0→1.18; a year pill on the door frame counts 1875 → 1956 from 721.0, lands 722.64 [hero-quality custom shot; not counted as a video signature]",
+   "beats": [
+    718.52,
+    719.54,
+    719.9,
+    720.22,
+    720.7,
+    722.04
+   ]
+  },
+  {
+   "id": "S10",
+   "start": 722.64,
+   "custom": true,
+   "mode": "character",
+   "size": "medium",
+   "device": "story",
+   "note": "the same open door, light pouring; Nasser StoryPerson (role officer, arabMan look, khaki uniform, gold rim) strides in from the right on لما; white name pill «جمال عبد الناصر» on جمال; on أمّم he pushes the door SHUT (FateDoor closeAt 725.80: slam, dust burst, the light cut); gold NPill «أمّم القناة» on القناة",
+   "beats": [
+    723.4,
+    724.78,
+    725.8,
+    726.12
+   ]
+  },
+  {
+   "id": "S11",
+   "start": 726.56,
+   "custom": true,
+   "mode": "map",
+   "size": "wide",
+   "device": "map",
+   "note": "NightMap paper (Egypt, Sinai, the Mediterranean coast); the canal gold; on انهجم three red arrows strike one after another (one across Sinai from the east, two from the sea at the canal's north mouth) + smoke on the canal; white NPill «ثلاث دول» on ثلاث — NO country names (not spoken)",
+   "beats": [
+    727.46,
+    728.24
+   ]
+  },
+  {
+   "id": "S12",
+   "start": 728.84,
+   "custom": true,
+   "mode": "diagram",
+   "size": "medium",
+   "device": "timeline",
+   "note": "NTimeline right→left on the purple stage: pin 1875 + grey NPill «4 مليون» on بـ4 and white «في يوم» on يوم; the line runs long to the 1956 pin while a gold NPill «81 سنة» rides along it, landing on 81; red pill «وحرب» under 1956 on وحرب; a gold ✔ «رجعت» on يرجع",
+   "beats": [
+    729.74,
+    730.7,
+    731.78,
+    733.02,
+    733.68
+   ],
+   "host": [
+    {
+     "at": 728.84,
+     "spot": "sideLeft",
+     "pose": "present",
+     "why": "presents the 81-year line"
+    },
+    {
+     "at": 731.78,
+     "pose": "react",
+     "why": "81 years"
+    }
+   ]
+  },
+  {
+   "id": "S13",
+   "start": 734.3,
+   "custom": true,
+   "mode": "scene",
+   "size": "medium",
+   "device": "count",
+   "spoken": "حوالي 10.2 مليار دولار",
+   "flow": "object",
+   "fallback": "code canal: a teal water band through sand with small code-drawn ships",
+   "out": {
+    "kind": "whoosh"
+   },
+   "note": "suez-canal-tile (HeroObject, aerial canal) centre-right with small ships streaming along it (looping glide); white NPill «اليوم» on واليوم; YearBadge 2023 on 2023; gold CountNumber «10.2 مليار $» counts on حوالي → lands 738.88, spoken words under «حوالي 10.2 مليار دولار»; on سنة وحدة a CalendarCard «1» pops + WordPop «سنة وحدة» (وحدة gold), the canal shimmers",
+   "beats": [
+    735.5,
+    736.54,
+    738.64,
+    740.76
+   ],
+   "host": [
+    {
+     "at": 736.54,
+     "pose": "present",
+     "why": "today, 2023"
+    },
+    {
+     "at": 738.64,
+     "pose": "wow",
+     "why": "10.2 billion"
+    },
+    {
+     "at": 740.76,
+     "pose": "viewer",
+     "why": "in ONE year"
+    }
+   ]
+  }
+ ]
+}

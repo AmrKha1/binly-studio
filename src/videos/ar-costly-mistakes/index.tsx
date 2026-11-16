@@ -7,12 +7,28 @@ import {C01} from './chapters/C01';
 import {C02} from './chapters/C02';
 import {C03} from './chapters/C03';
 import {C04} from './chapters/C04';
+import {C05} from './chapters/C05';
+import {C06} from './chapters/C06';
+import {C07} from './chapters/C07';
+import {C08} from './chapters/C08';
+import {C09} from './chapters/C09';
+import {C10} from './chapters/C10';
+import {C11} from './chapters/C11';
+import {C12} from './chapters/C12';
 
 export const CHAPTERS: ChapterDef[] = [
   {id: 'C01', start: 0, end: 38.3, C: C01},
   {id: 'C02', start: 38.3, end: 109.4, C: C02, in: {"kind":"wipe"}},
   {id: 'C03', start: 109.4, end: 179.48, C: C03, in: {"kind":"match"}},
-  {id: 'C04', start: 179.48, end: 732.18, C: C04, in: {"kind":"match"}},
+  {id: 'C04', start: 179.48, end: 233, C: C04, in: {"kind":"match"}},
+  {id: 'C05', start: 233, end: 300.4, C: C05, in: {"kind":"wipe"}},
+  {id: 'C06', start: 300.4, end: 392.8, C: C06, in: {"kind":"match"}},
+  {id: 'C07', start: 392.8, end: 460.7, C: C07, in: {"kind":"wipe"}},
+  {id: 'C08', start: 460.7, end: 529.3, C: C08, in: {"kind":"match"}},
+  {id: 'C09', start: 529.3, end: 614.58, C: C09, in: {"kind":"wipe"}},
+  {id: 'C10', start: 614.58, end: 686.66, C: C10, in: {"kind":"wipe"}},
+  {id: 'C11', start: 686.66, end: 741.7, C: C11, in: {"kind":"match"}},
+  {id: 'C12', start: 741.7, end: 787.91, C: C12, in: {"kind":"match"}},
 ];
 
 const Video: React.FC<{t: number}> = ({t}) => (CHAPTERS.length ? <Chapters t={t} chapters={CHAPTERS} /> : <Stage />);

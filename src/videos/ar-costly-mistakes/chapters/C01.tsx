@@ -7,7 +7,7 @@ import {NightShots} from '../../../kit/night-scenes';
 import {HeroShot, StoryShot, BoardShot, MysteryShot} from '../../../kit/night-templates';
 import * as Custom from './C01.custom';
 
-// C01 · 0.00–38.30 s · "الهوك — الدرج والقمة «؟»" · 14 shots (5 template, 9 custom)
+// C01 · 0.00–38.30 s · "أغلى غلطة؟" · 14 shots (5 template, 9 custom)
 export const C01: React.FC<{t: number}> = ({t}) => (
   <Stage bg="#0F062B">
     <NightScreen>
@@ -33,7 +33,7 @@ export const C01: React.FC<{t: number}> = ({t}) => (
       // S9 · 21.02–24.72 · custom: ★ the StairGame (board.json, summitAt 21.31) appears for the first time: steps rise one by one RIGHT→LEFT with
       {start: 21.02, drift: false, render: (t: number) => <Custom.S9 t={t} />},
       // S10 · 24.72–26.94 · BoardShot
-      {start: 24.72, in: {"kind":"dissolve"}, drift: false, render: (t: number) => <BoardShot t={t} a={24.72} b={26.94} {...({"_note":"later chapters: the remaining entries (pizza, bank, interview, netflix, google, chernobyl, suez twist) + recapAt are added after the re-timing","game":"stairs","summitAt":21.31,"topLabel":"الأغلى","entries":[{"id":"mariner","label":"150 مليون $","at":105.98,"src":"ar-costly-mistakes/el/mariner-rocket.png","ar":0.35,"glow":"#9FE6FF"},{"id":"howells","label":"590–630 مليون $","at":174.46,"src":"ar-costly-mistakes/el/trash-bag.png","ar":0.9,"glow":"#FFC928"}],"words":[{"w":"لأغلى","at":25.08,"tone":"gold"},{"w":"غلطة","at":25.78},{"w":"ارتكبها","at":26.12},{"w":"إنسان","at":26.54}]} as Omit<React.ComponentProps<typeof BoardShot>, 't' | 'a' | 'b'>)} />},
+      {start: 24.72, in: {"kind":"dissolve"}, drift: false, render: (t: number) => <BoardShot t={t} a={24.72} b={26.94} {...({"_note":"later chapters: the remaining entries (pizza, bank, interview, netflix, google, chernobyl, suez twist) + recapAt are added after the re-timing","game":"stairs","summitAt":21.31,"topLabel":"الأغلى","entries":[{"id":"mariner","label":"150 مليون $","at":105.98,"src":"ar-costly-mistakes/el/mariner-rocket.png","ar":0.317,"glow":"#9FE6FF"},{"id":"howells","label":"590–630 مليون $","at":174.46,"src":"ar-costly-mistakes/el/trash-bag.png","ar":0.931,"glow":"#FFC928"}],"words":[{"w":"لأغلى","at":25.08,"tone":"gold"},{"w":"غلطة","at":25.78},{"w":"ارتكبها","at":26.12},{"w":"إنسان","at":26.54}]} as Omit<React.ComponentProps<typeof BoardShot>, 't' | 'a' | 'b'>)} />},
       // S11 · 26.94–29.50 · MysteryShot
       {start: 26.94, render: (t: number) => <MysteryShot t={t} a={26.94} b={29.5} {...({"at":27.6,"kind":"pillar","words":[{"w":"أغلى","at":27.88,"tone":"gold"},{"w":"وحدة","at":28.34},{"w":"فيهم","at":28.66}]} as Omit<React.ComponentProps<typeof MysteryShot>, 't' | 'a' | 'b'>)} />},
       // S12 · 29.50–31.70 · custom: three big gold NPills orbit (150 مليون $ · 785 مليون · مئات الملايين); on أصغر a tiny dark-gold pill «؟ $» dro
@@ -45,7 +45,8 @@ export const C01: React.FC<{t: number}> = ({t}) => (
         ]}
           hud={(t: number) => (
             <>
-              {t >= -0.05 && t < 38.40 && <HostTrack t={t} id="host-C01-0" {...({"spots":[{"at":0,"spot":"sideLeft"},{"at":11.28,"spot":"peekLeft"},{"at":18.52,"spot":"closeRight"},{"at":24.72,"spot":"sideLeft"}],"poses":[[0,"present"],[4.02,"wow"],[6.22,"point"],[8.62,"react"],[11.28,"think"],[14.26,"point"],[16.72,"scared"],[18.52,"doubt"],[20.28,"sure"],[24.72,"higher"],[27.88,"think"],[30.06,"lower"],[32.62,"you"],[34.54,"present"],[36.28,"sad"]],"enter":{"kind":"riseSoft","at":0},"exit":{"kind":"fadeOut","at":38,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
+              {t >= -0.05 && t < 21.42 && <HostTrack t={t} id="host-C01-0" {...({"spots":[{"at":0,"spot":"sideLeft"},{"at":11.28,"spot":"peekLeft"},{"at":18.52,"spot":"closeRight"}],"poses":[[0,"present"],[4.02,"wow"],[6.22,"point"],[8.62,"react"],[11.28,"think"],[14.26,"point"],[16.72,"scared"],[18.52,"doubt"],[20.28,"sure"]],"enter":{"kind":"riseSoft","at":0},"exit":{"kind":"fadeOut","at":21.02,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
+              {t >= 24.67 && t < 38.40 && <HostTrack t={t} id="host-C01-1" {...({"spots":[{"at":24.72,"spot":"sideLeft"}],"poses":[[24.72,"higher"],[27.88,"think"],[30.06,"lower"],[32.62,"you"],[34.54,"present"],[36.28,"sad"]],"enter":{"kind":"riseSoft","at":24.72},"exit":{"kind":"fadeOut","at":38,"dur":0.3}} as Omit<React.ComponentProps<typeof HostTrack>, 't' | 'id'>)} />}
             </>
           )}
       />

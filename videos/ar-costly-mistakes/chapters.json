@@ -1,6 +1,14 @@
 [
- {"id":"C01","start":0,"end":38.3,"title":"الهوك — الدرج والقمة «؟»","ref":"H"},
- {"id":"C02","start":38.3,"end":109.4,"title":"مارينر 1 — خط صغير","ref":"1","in":{"kind":"wipe"}},
- {"id":"C03","start":109.4,"end":179.48,"title":"هاولز — هارديسك في الزبالة","ref":"2","in":{"kind":"match"}},
- {"id":"C04","start":179.48,"end":732.18,"title":"…","ref":"none","in":{"kind":"match"}}
+ {"id":"C01","start":0,"end":38.3,"title":"أغلى غلطة؟","ref":"H"},
+ {"id":"C02","start":38.3,"end":109.4,"title":"خط صغير في معادلة","ref":"1","in":{"kind":"wipe"}},
+ {"id":"C03","start":109.4,"end":179.48,"title":"هارديسك في الزبالة","ref":"2","in":{"kind":"match"}},
+ {"id":"C04","start":179.48,"end":233.0,"title":"أغلى عشاء في التاريخ","ref":"6","in":{"kind":"match"}},
+ {"id":"C05","start":233.0,"end":300.4,"title":"ضغطة زر في بنك","ref":"3","in":{"kind":"wipe"}},
+ {"id":"C06","start":300.4,"end":392.8,"title":"مقابلة وظيفة","ref":"1","in":{"kind":"match"}},
+ {"id":"C07","start":392.8,"end":460.7,"title":"اجتماع في دالاس","ref":"3","in":{"kind":"wipe"}},
+ {"id":"C08","start":460.7,"end":529.3,"title":"قالوا لا مرتين","ref":"8","in":{"kind":"match"}},
+ {"id":"C09","start":529.3,"end":614.58,"title":"ثمن ما ينحسب بالدولار","ref":"10","in":{"kind":"wipe"}},
+ {"id":"C10","start":614.58,"end":686.66,"title":"توقيع بـ4 مليون","ref":"3","in":{"kind":"wipe"}},
+ {"id":"C11","start":686.66,"end":741.7,"title":"الباب اللي انفتح","ref":"10","in":{"kind":"match"}},
+ {"id":"C12","start":741.7,"end":787.91,"title":"الفاتورة","ref":"E","in":{"kind":"match"}}
 ]

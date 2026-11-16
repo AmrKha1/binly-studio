@@ -1,10 +1,81 @@
 {
- "_note": "later chapters: the remaining entries (pizza, bank, interview, netflix, google, chernobyl, suez twist) + recapAt are added after the re-timing",
  "game": "stairs",
  "summitAt": 21.31,
  "topLabel": "الأغلى",
  "entries": [
-  {"id": "mariner", "label": "150 مليون $", "at": 105.98, "src": "ar-costly-mistakes/el/mariner-rocket.png", "ar": 0.35, "glow": "#9FE6FF"},
-  {"id": "howells", "label": "590–630 مليون $", "at": 174.46, "src": "ar-costly-mistakes/el/trash-bag.png", "ar": 0.9, "glow": "#FFC928"}
- ]
+  {
+   "id": "mariner",
+   "label": "150 مليون $",
+   "at": 105.98,
+   "src": "ar-costly-mistakes/el/mariner-rocket.png",
+   "ar": 0.317,
+   "glow": "#9FE6FF"
+  },
+  {
+   "id": "howells",
+   "label": "590–630 مليون $",
+   "at": 174.46,
+   "src": "ar-costly-mistakes/el/trash-bag.png",
+   "ar": 0.931,
+   "glow": "#FFC928"
+  },
+  {
+   "id": "pizza",
+   "label": "785 مليون $",
+   "at": 214.06,
+   "src": "ar-costly-mistakes/el/two-pizzas.png",
+   "ar": 1.548,
+   "glow": "#FFC928"
+  },
+  {
+   "id": "citi",
+   "label": "894 مليون $",
+   "at": 300.69,
+   "src": "ar-costly-mistakes/el/bank-building.png",
+   "ar": 1.035,
+   "glow": "#7FD8FF"
+  },
+  {
+   "id": "binance",
+   "label": "6.3 مليار $",
+   "at": 361.32,
+   "src": "ar-costly-mistakes/el/crypto-vault.png",
+   "ar": 1,
+   "glow": "#FF5A6A"
+  },
+  {
+   "id": "netflix",
+   "label": "300 مليار $",
+   "at": 460.9,
+   "src": "ar-costly-mistakes/el/netflix-tower.png",
+   "ar": 0.557,
+   "glow": "#FF5A6A"
+  },
+  {
+   "id": "google",
+   "label": "4 تريليون $",
+   "at": 529.45,
+   "src": "ar-costly-mistakes/el/magnifier.png",
+   "ar": 1.02,
+   "glow": "#FFC928"
+  },
+  {
+   "id": "chernobyl",
+   "label": "700 مليار $",
+   "at": 620.9,
+   "src": "ar-costly-mistakes/el/nuclear-plant.png",
+   "ar": 1.124,
+   "glow": "#FF5A6A"
+  },
+  {
+   "id": "suez",
+   "label": "4 مليون £",
+   "at": 757.24,
+   "src": "ar-costly-mistakes/el/contract-blank.png",
+   "ar": 0.941,
+   "glow": "#FFC928",
+   "twist": true
+  }
+ ],
+ "recapAt": 741.7
 }
