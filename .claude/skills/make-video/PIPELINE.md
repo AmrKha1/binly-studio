@@ -292,7 +292,9 @@ Use `model: "opus"` for C01 (the hook) and the climax chapter; default (sonnet) 
 **MODEL TEST — the SECOND Arabic (AZTIKA) video only, the one after ar-costly-mistakes (owner 2026-11-16):** ALWAYS pass `model` explicitly on
 every builder (the default inherited Opus in ar-costly-mistakes → every builder ran Opus → 3 usage-limit pauses in one
 day). Opus = the hook (C01), the climax chapter(s) and the ending (3–4 chapters total); `model: "sonnet"` = every other
-chapter, fix rounds included. Record every chapter in videos/<slug>/builders.md and at delivery APPLY THE RULE in
+chapter, fix rounds included. Only the MODEL is tested, never the quality: the video is a real upload with the full
+standard; a Sonnet chapter still below the standard after 2 fix rounds is finished by an Opus builder before the render
+(and counts as a Sonnet fail). Record every chapter in videos/<slug>/builders.md and at delivery APPLY THE RULE in
 docs/MODEL-TEST.md (baseline = ar-costly-mistakes): it decides keep-the-mix or back-to-all-Opus by itself; write the
 result in docs/LESSONS.md, make the winner the standard here, delete this paragraph, tell the owner in one line.
 Optional (experimental, Pro needs /config → Dynamic workflows on): run the saved workflow `/build-chapters` with args

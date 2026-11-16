@@ -2,6 +2,11 @@
 The project decides by itself with the rule below — no opinion, no asking around. Read by the director at the end of the
 SECOND Arabic video (PIPELINE step 4 "MODEL TEST").
 
+## Quality is NOT tested — only the model (owner 2026-11-16)
+Video #2 is a real YouTube video with the full standard: same plan depth, same reviews, same render gate, same QA.
+If a Sonnet chapter does not reach the standard after its 2 fix rounds, an OPUS builder finishes it before the render
+(the video never ships weaker because of the test) — and that chapter counts as a Sonnet FAIL in the rule below.
+
 ## The rule (decided at delivery of Arabic video #2)
 Compare the SONNET chapters of video #2 with the OPUS chapters (video #1 baseline below + the Opus chapters of #2).
 KEEP the mix (Opus for hook/climax/ending, Sonnet for the rest) only if ALL of these hold:
