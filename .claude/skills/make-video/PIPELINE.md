@@ -376,7 +376,11 @@ say so and let the owner decide. After his OK: `node tools/short.mjs make --from
 the long master + library/vo/short-outro.* over the 3.5 s freeze) → `videos/<slug>/output/<slug>-short-1.mp4`. Tell the
 owner: publish it AFTER the long video and link it to the long video in YouTube Studio ("Related video").
 
-**8 · Deliver** — run `node tools/upload-pack.mjs` → `videos/<slug>/youtube/` (description draft with clickable
+**8 · Deliver** — ⚑ **MODEL DECISION REMINDER (owner 2026-11-16):** if this is the SECOND Arabic video (the one after
+ar-costly-mistakes) — before writing REPORT.md, apply docs/MODEL-TEST.md: decide "all Opus" vs "Opus for hook/climax/
+ending + Sonnet for the rest" from the measured numbers, make the winner the standard in step 4, log it in LESSONS.md,
+tell the owner the decision + the numbers in REPORT.md and in the final message, then delete this reminder.
+Run `node tools/upload-pack.mjs` → `videos/<slug>/youtube/` (description draft with clickable
 chapter timestamps — so give chapters viewer-friendly titles in chapters.json: curiosity, never spoilers ("The king's
 report", not "Doctors thought baths let the plague in"; a title must never give away an open loop or a reveal) — subtitles `captions.srt` with the exact
 script, image credits). Tell the user to paste the description and upload the .srt in YouTube Studio. Write `videos/<slug>/REPORT.md` (≤ 400 words: video path, chapters, style decisions,

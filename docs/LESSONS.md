@@ -1,6 +1,10 @@
 # Lessons learned (append 1–5 short lines after every video)
 
 
+⚑ **MODEL TEST on Arabic video #2** (owner 2026-11-16): Opus for hook/climax/ending, `model: "sonnet"` set explicitly
+for the other chapters; record each chapter in videos/<slug>/builders.md; at delivery the rule in docs/MODEL-TEST.md
+decides all-Opus vs the mix (PIPELINE step 8 reminder). Remove this line once decided.
+
 **ARABIC VIDEOS FINISHED: 0** (raise it after each final render; the full-video review pass stays full until 3 — PIPELINE "SMART REVIEW")
 > Lessons before 2026-10-20 were written for the OLD style (cream paper, Fraunces/Inter caps, music, small labels).
 > Where one contradicts PLAYBOOK / RETENTION / BUILDER, the docs win — lines marked (old style) are history only.
