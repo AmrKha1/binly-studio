@@ -21,11 +21,11 @@ night look like the reference; 43 Flow objects + 5 painted plates; 6 new shared 
 
 ## 🔊 AUDIO SUMMARY (plain words)
 - **Balance:** your voice always leads. The effects together add only 6 LU to the loudness — they decorate, they never compete.
+- **Owner fix (after watching, 2026-11-17):** the long rising whoosh played 39× and felt "everywhere" → now only before the **8 big payoffs** (0:21 staircase · 3:31 785 مليون · 4:22 894 مليون · 7:32 300 مليار · 8:39 4 تريليون · 9:59 700 مليار · 11:17 the Suez deal · 12:36 the twist), **22 dB under the voice** (measured 22.3). New audio only — the picture is the same render; −14.02 LUFS / −1.37 dBTP.
 - **Levels:** 36 of 41 sound types sit on your approved level (within ~1 dB) — pops, whooshes, booms, stamps, coins, dings,
   impacts, explosions. **On a phone no effect comes closer than 10 dB to your voice** (words win everywhere).
-- **4 types sit ~2.5 dB softer than target on purpose** (riser, rise, powerup, sparkle): raising them breaks the phone rule
-  (the riser is exactly at the 10 dB phone limit). "page" reads loud only because its 5 cues sit inside a busy burst.
-- **Density:** 32 effects/min overall (your pick ≈ 26–28, cap 34) · hook 36/min (energetic opening) · **no silent gaps**.
+- **sparkle sits ~2.5 dB softer than target on purpose:** raising it breaks the phone rule. (riser: 22 dB by your choice.) "page" reads loud only because its 5 cues sit inside a busy burst.
+- **Density:** 32 effects/min overall (your pick ≈ 26–28, cap 34) · hook 34/min (on target) · **no silent gaps**.
 - **What the viewer feels:** lively and clear like the reference — a sound on every reveal, count and stamp; the big moments
   (785 مليون, 6.3 مليار, the twist) hit harder; near-silence before the twist; silence after «سلام».
 - **Verdict: ✅ GOOD — ready to upload.** Nothing needed.

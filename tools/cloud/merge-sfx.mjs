@@ -28,6 +28,16 @@ hand.sort((a, b) => a.t - b.t);
 const near = (t) => hand.some((h) => Math.abs(h.t - t) < 0.15);
 const autoKept = auto.filter((s) => !near(s.t));
 let all = hand.concat(autoKept).sort((a, b) => a.t - b.t);
+// score.kindOnly (per video, owner 2026-11-17): {kind: [times]} — that kind plays ONLY at these moments (± 0.4 s);
+// e.g. the long riser kept for the big payoffs only (39 risers felt "everywhere"). [] = the kind is removed.
+{
+  const sc = (() => { try { return JSON.parse(fs.readFileSync(path.join(dir, 'score.json'), 'utf8')); } catch { return {}; } })();
+  if (sc.kindOnly) {
+    const before = all.length;
+    all = all.filter((c) => !(c.kind in sc.kindOnly) || sc.kindOnly[c.kind].some((t) => Math.abs(t - c.t) <= 0.4));
+    console.error(`kindOnly: ${before - all.length} cue(s) removed (${Object.keys(sc.kindOnly).join(', ')})`);
+  }
+}
 console.error(`sfx cues: ${all.length} (${hand.length} story + ${autoKept.length} auto; ${auto.length - autoKept.length} auto dropped next to story sounds)`);
 // ARABIC = the owner's pick B (tools/lib/sfx-density.mjs): ≤ 34 per minute, silence after the last word
 const vj = (() => { try { return JSON.parse(fs.readFileSync(path.join(dir, 'video.json'), 'utf8')); } catch { return {}; } })();

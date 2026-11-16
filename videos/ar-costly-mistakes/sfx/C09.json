@@ -86,9 +86,9 @@
  },
  {
   "t": 588,
-  "kind": "riser",
-  "gain": 0.75,
-  "note": "235 مليار count starts"
+  "kind": "tick",
+  "gain": 1,
+  "note": "235 مليار count starts (riser removed: owner)"
  },
  {
   "t": 589.96,
