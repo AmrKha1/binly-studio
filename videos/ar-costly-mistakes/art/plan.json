@@ -4,8 +4,41 @@
  "images": [
   {
    "kind": "sheet",
-   "tags": ["crypto", "home", "bitcoin"],
-   "items": ["hard-drive", "trash-bag", "bitcoin-coin", "two-pizzas", "bitcoin-pile", "landfill-tile"],
+   "tags": [
+    "test"
+   ],
+   "items": [
+    "toy-rocket",
+    "pizza-box",
+    "trash-bag-b",
+    "laptop-drive",
+    "bitcoin-coin-b",
+    "server-b"
+   ],
+   "what": [
+    "cartoon rocket",
+    "open pizza box",
+    "black rubbish bag",
+    "laptop hard drive",
+    "gold bitcoin coin",
+    "blue server tower"
+   ]
+  },
+  {
+   "kind": "sheet",
+   "tags": [
+    "crypto",
+    "home",
+    "bitcoin"
+   ],
+   "items": [
+    "hard-drive",
+    "trash-bag",
+    "bitcoin-coin",
+    "two-pizzas",
+    "bitcoin-pile",
+    "landfill-tile"
+   ],
    "what": [
     "an old silver 3.5-inch desktop hard drive with its metal casing and a small sticker, three-quarter view",
     "a tied black plastic rubbish bag, full and bulging",
@@ -17,8 +50,19 @@
   },
   {
    "kind": "sheet",
-   "tags": ["space", "bank", "money"],
-   "items": ["mariner-rocket", "mariner-probe", "planet-venus", "bank-building", "money-bundles", "judge-gavel"],
+   "tags": [
+    "space",
+    "bank",
+    "money"
+   ],
+   "items": [
+    "mariner-rocket",
+    "mariner-probe",
+    "planet-venus",
+    "bank-building",
+    "money-bundles",
+    "judge-gavel"
+   ],
    "what": [
     "a tall slim white and silver 1960s Atlas rocket standing upright with a small gold spacecraft on its nose, no flame",
     "a 1960s space probe with a gold hexagonal body, two blue solar panel wings and a small dish antenna",
@@ -30,8 +74,19 @@
   },
   {
    "kind": "sheet",
-   "tags": ["tech", "hack", "movies"],
-   "items": ["server-tower", "crypto-vault", "malware-file", "dvd-mailer", "vhs-tape", "rental-store"],
+   "tags": [
+    "tech",
+    "hack",
+    "movies"
+   ],
+   "items": [
+    "server-tower",
+    "crypto-vault",
+    "malware-file",
+    "dvd-mailer",
+    "vhs-tape",
+    "rental-store"
+   ],
    "what": [
     "a glowing blue computer server tower with blinking lights",
     "a round steel digital vault door with glowing blue circuit lines and a big handle wheel, closed",
@@ -43,8 +98,19 @@
   },
   {
    "kind": "sheet",
-   "tags": ["disaster", "history", "egypt"],
-   "items": ["nuclear-plant", "gas-mask", "radiation-barrel", "steamship-1869", "suez-canal-tile", "quill-contract"],
+   "tags": [
+    "disaster",
+    "history",
+    "egypt"
+   ],
+   "items": [
+    "nuclear-plant",
+    "gas-mask",
+    "radiation-barrel",
+    "steamship-1869",
+    "suez-canal-tile",
+    "quill-contract"
+   ],
    "what": [
     "a 1980s Soviet nuclear power plant reactor block, a big grey concrete building with a tall red and white striped chimney beside it",
     "an old grey rubber gas mask with round glass eyes and a filter canister",
@@ -56,8 +122,19 @@
   },
   {
    "kind": "sheet",
-   "tags": ["egypt", "money", "story"],
-   "items": ["khedive-palace", "sovereign-pile", "share-certificate", "magnifier", "open-door", "netflix-tower"],
+   "tags": [
+    "egypt",
+    "money",
+    "story"
+   ],
+   "items": [
+    "khedive-palace",
+    "sovereign-pile",
+    "share-certificate",
+    "magnifier",
+    "open-door",
+    "netflix-tower"
+   ],
    "what": [
     "an ornate 19th-century Egyptian palace with domes, arches, white walls and gold details",
     "a pile of shiny British gold sovereign coins spilling out of a brown leather money bag",
@@ -67,10 +144,63 @@
     "a tall modern glass skyscraper tower with red-lit windows"
    ]
   },
-  {"kind": "bg", "name": "launch-1962", "place": "a 1960s rocket launch pad on a flat coast at dawn, a tall steel launch tower and floodlights, the sea behind", "era": "1962", "open": "centre"},
-  {"kind": "bg", "name": "landfill-newport", "place": "an enormous rubbish landfill of grey and brown hills under a cloudy sky, a fence and small bulldozers far away", "era": "2013", "open": "lower middle"},
-  {"kind": "bg", "name": "office-2000", "place": "a big corporate CEO office in the year 2000 with a wide wooden desk, leather chairs and a window view of a Texas city skyline at sunset", "era": "2000", "open": "lower middle"},
-  {"kind": "bg", "name": "chernobyl-1986", "place": "a Soviet nuclear power plant at night, the big reactor building with a tall striped chimney, cold floodlights, a dark pine forest around", "era": "1986", "open": "lower middle"},
-  {"kind": "bg", "name": "suez-1869", "place": "the grand opening of the Suez Canal, a straight canal through the desert lined with steamships flying plain coloured pennants, Egyptian buildings and pavilions on the bank, fireworks in a dusk sky", "era": "1869", "open": "lower middle"}
+  {
+   "kind": "bg",
+   "name": "launch-1962",
+   "place": "a 1960s rocket launch pad on a flat coast at dawn, a tall steel launch tower and floodlights, the sea behind",
+   "era": "1962",
+   "open": "centre"
+  },
+  {
+   "kind": "bg",
+   "name": "landfill-newport",
+   "place": "an enormous rubbish landfill of grey and brown hills under a cloudy sky, a fence and small bulldozers far away",
+   "era": "2013",
+   "open": "lower middle"
+  },
+  {
+   "kind": "bg",
+   "name": "office-2000",
+   "place": "a big corporate CEO office in the year 2000 with a wide wooden desk, leather chairs and a window view of a Texas city skyline at sunset",
+   "era": "2000",
+   "open": "lower middle"
+  },
+  {
+   "kind": "bg",
+   "name": "chernobyl-1986",
+   "place": "a Soviet nuclear power plant at night, the big reactor building with a tall striped chimney, cold floodlights, a dark pine forest around",
+   "era": "1986",
+   "open": "lower middle"
+  },
+  {
+   "kind": "bg",
+   "name": "suez-1869",
+   "place": "the grand opening of the Suez Canal, a straight canal through the desert lined with steamships flying plain coloured pennants, Egyptian buildings and pavilions on the bank, fireworks in a dusk sky",
+   "era": "1869",
+   "open": "lower middle"
+  },
+  {
+   "kind": "sheet",
+   "tags": [
+    "fix",
+    "story"
+   ],
+   "items": [
+    "hard-drive-blank",
+    "rental-store-blank",
+    "contract-blank",
+    "fountain-pen",
+    "gold-key",
+    "alarm-light"
+   ],
+   "what": [
+    "an old silver 3.5-inch desktop hard drive with its metal casing and a plain blank silver sticker with no writing at all, three-quarter view",
+    "a small 1990s video rental store building with a blue and yellow facade, a striped awning and glowing windows, a plain blank sign board with no letters",
+    "an old parchment contract scroll covered only with faint wavy grey lines instead of writing, a red wax seal at the bottom and a white feather quill pen lying across it",
+    "an elegant black and gold fountain pen with a shiny gold nib",
+    "a shiny gold key with an ornate round head",
+    "a red rotating emergency alarm light on a small black base"
+   ]
+  }
  ]
 }
