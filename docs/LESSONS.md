@@ -67,3 +67,9 @@ decides all-Opus vs the mix (PIPELINE step 8 reminder). Remove this line once de
 - (owner) Both channels: clean white background (not cream), gold glowing key word/number, glowing rounded pills
   (GlowPill = Tag default), hero objects with Halo + a few Sparkles. Dark only for naturally dark scenes. Elegant, never neon.
 - Glow on a WHITE page: a white glow is invisible — use coloured halos (lavender/gold) + soft lifted shadows (GLOW.soft).
+
+## ar-costly-mistakes (2026-11-16) — Arabic video #1
+- Known mistakes that cost ~⅓ of the fix rounds (now rules in PIPELINE "KNOWN-MISTAKES RULES"): labels too small for phones, AZTIKA over story elements, unspoken numbers (derived years, rolling digits), RTL-flipped ranges, English text inside generated art, builders turning story sound gains down (median 0.6 → effects 2–4 dB under target).
+- All builders ran Opus (the default inherited it) → 3 usage-limit pauses, ~44 % of a weekly Pro budget for one video. Model test on Arabic video #2 (docs/MODEL-TEST.md).
+- Held for later (one experiment at a time): fewer planners (2 instead of 4, sharing COMMON.md) — test after the model test is decided.
+- Tools fixed: cue.mjs dropped every Arabic letter; sfx density cap opened quiet holes (now thins bursts only); plan-check read object "in" wrong.

@@ -287,6 +287,13 @@ payoff in 5 s). Fix C01 and update the remaining briefs if anything is off; neve
 something truly cannot be decided from the docs.
 
 **4 · Build chapters** — spawn `binly-builder` subagents, **at most 3 running at once** (this PC is slow).
+**KNOWN-MISTAKES RULES — put them in every video's COMMON.md / every brief (owner 2026-11-16, from ar-costly-mistakes,
+where they caused ~⅓ of all fix rounds):** text the viewer reads ≥ 48 px (pills/labels; headlines per the night sizes) —
+check a --phone sheet before reporting · AZTIKA never over a story element, character or label (move his spot or take
+him off for that shot) · NO number on screen that the voice does not say (no derived years, no rolling digits that read
+as a number; counts may tick through but never hold an unspoken number) · ranges and mixed digits+Arabic in spoken
+order («بين 590 و630», never «590–630», RTL flips it) · never English inside images or art (use the *-blank art) · story
+sound gains stay at 1.0 (0.8 for slams; lower only for ambience/drones) — the mix sets the levels.
 Builder prompts: always the same short form (identical opening = shared prompt cache): `Build the custom shots of chapter C03 of video <slug> (src/videos/<slug>/chapters/C03.custom.tsx). Brief: videos/<slug>/briefs/C03.md, shot list: videos/<slug>/shots/C03.json` (+ anything special).
 Use `model: "opus"` for C01 (the hook) and the climax chapter; default (sonnet) for the rest.
 **MODEL TEST — the SECOND Arabic (AZTIKA) video only, the one after ar-costly-mistakes (owner 2026-11-16):** ALWAYS pass `model` explicitly on
