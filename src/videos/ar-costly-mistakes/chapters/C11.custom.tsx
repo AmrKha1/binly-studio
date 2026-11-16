@@ -154,7 +154,7 @@ const Train: React.FC<{t: number; falls: boolean; id: string}> = ({t, falls, id}
 // S1 · 686.66 · «طيب، وش صار بعدها؟ المشكلة إن البيع ما حل شيء» — the signed paper slides left; the debt tube barely moves
 export const S1: React.FC<{t: number}> = ({t}) => {
   const [cx] = move(t, T.s1, [960, 0], [600, 0], 0.8);
-  const TX = 1230, TOP = 250, BOT = 830, TW = 128;
+  const TX = 1240, TOP = 210, BOT = 840, TW = 150;
   const bump = t >= T.bay ? Math.exp(-(t - T.bay) / 0.35) * Math.sin((t - T.bay) * 22) : 0;
   const level = 0.9 - 0.02 * clamp01((t - T.bay) / 0.15) * (t < T.bay + 0.6 ? 1 : 0.5) + 0.012 * bump;
   const ly = lerp(BOT, TOP, level);
@@ -190,7 +190,7 @@ export const S1: React.FC<{t: number}> = ({t}) => {
       <g transform={`translate(${TX - TW / 2 - 18} ${ly}) rotate(${bump * 14})`}>
         <path d="M0 0 L-56 -22 L-56 22 Z" fill={RED} stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
       </g>
-      <NPill text="ديون مصر" x={TX} y={TOP - 62} size={48} kind="red" id="c11s1t" />
+      <NPill text="ديون مصر" x={TX} y={TOP - 66} size={56} kind="red" id="c11s1t" />
       {/* the sovereigns pour in */}
       {Array.from({length: 8}, (_, i) => {
         const a = coinsAt + i * 0.1;
@@ -200,7 +200,7 @@ export const S1: React.FC<{t: number}> = ({t}) => {
         const o = 1 - clamp01((k - 0.92) / 0.08);
         return <g key={i} opacity={o}><Sov x={TX + (rand(i * 3.1) - 0.5) * 50} y={y} r={30} rot={i * 37 + t * 200} /></g>;
       })}
-      <Pill t={t} at={T.wesh + 0.15} text="4 مليون £" x={TX + 250} y={330} size={44} kind="grey" id="c11s1m" />
+      <Pill t={t} at={T.wesh + 0.15} text="4 مليون £" x={TX + 260} y={300} size={50} kind="grey" id="c11s1m" />
     </g>
   );
 };
@@ -208,21 +208,21 @@ export const S1: React.FC<{t: number}> = ({t}) => {
 // ==================================================================================================================
 // S2 · 689.86 · «الديون كانت أكبر من الصفقة» — a long red bar vs a gold stub
 export const S2: React.FC<{t: number}> = ({t}) => {
-  const RX = 1480;
+  const RX = 1390;
   const xAt = T.safqa + 0.4;
-  cueSfx('thump', 'c11s2-x', t >= xAt && t < xAt + 0.3, 1380, {at: xAt, hit: 0.1, gain: 0.7});
+  cueSfx('thump', 'c11s2-x', t >= xAt && t < xAt + 0.3, 1210, {at: xAt, hit: 0.1, gain: 0.7});
   return (
     <g>
       <NightSky t={t} id="c11s2k" />
       <GridFloor id="c11s2f" t={t} />
-      <Glow x={900} y={340} r={700} ry={180} color={RED} o={clamp01((t - T.s2) / 0.6) * 0.35} id="c11s2g" />
-      <NBars t={t} x={RX} y={340} len={1180} gap={210} thick={64} id="c11s2b" bars={[
+      <Glow x={840} y={330} r={700} ry={180} color={RED} o={clamp01((t - T.s2) / 0.6) * 0.35} id="c11s2g" />
+      <NBars t={t} x={RX} y={330} len={1110} gap={200} thick={90} id="c11s2b" bars={[
         {label: '100 مليون £', value: 100, at: T.s2 - 0.05, color: 'hot', kind: 'red'},
         {label: '4 مليون £', value: 4, at: T.safqa - 0.1, color: 'gold', kind: 'grey'},
       ]} />
-      <Pop t={t} at={T.s2 + 0.1} x={1650} y={340}><GlowText text="الديون" x={1650} y={340} size={64} tone="white" id="c11s2a" /></Pop>
-      <Pop t={t} at={T.safqa} x={1650} y={550}><GlowText text="الصفقة" x={1650} y={550} size={64} tone="white" id="c11s2c" /></Pop>
-      <Pop t={t} at={xAt} x={1340} y={550}><Mark kind="cross" x={1340} y={550} r={34} /></Pop>
+      <Pop t={t} at={T.s2 + 0.1} x={1580} y={330}><GlowText text="الديون" x={1580} y={330} size={72} tone="white" id="c11s2a" /></Pop>
+      <Pop t={t} at={T.safqa} x={1580} y={530}><GlowText text="الصفقة" x={1580} y={530} size={72} tone="white" id="c11s2c" /></Pop>
+      <Pop t={t} at={xAt} x={1210} y={530}><Mark kind="cross" x={1210} y={530} r={40} /></Pop>
     </g>
   );
 };
@@ -476,7 +476,7 @@ const EgyptFloor: React.FC<{t: number; o: number}> = ({t, o}) => {
 };
 /** what comes out of the door: a warship with a line of soldier silhouettes in front */
 const Invasion: React.FC<{t: number}> = ({t}) => (
-  <g>
+  <g opacity={1 - clamp01((t - (T.infatah + 1.75)) / 0.35)}>
     <HeroObject t={t} at={0} src={EL('warship')} ar={1.276} x={0} y={-40} h={230} glow={RED} float={false} shine={false} sparkles={0} id="c11inv" />
     {[-90, -30, 30, 90].map((x, i) => (
       <g key={i} transform={`translate(${x} ${70 + Math.abs(Math.sin(t * 6 + i)) * -4})`}>
@@ -497,7 +497,7 @@ const YearCounter: React.FC<{t: number; at: number; land: number; x: number; y: 
     const a = at + (i / steps) * (land - at);
     cueSfx('tick', `c11yc-${i}`, t >= a && t < a + 0.12, x, {at: a, hit: 0.02, gain: 0.45});
   }
-  return <NPill text={String(yr)} x={x} y={y} size={k >= 1 ? 64 : 56} kind={k >= 1 ? 'gold' : 'white'} id={id} p={(t - at) / 0.3} />;
+  return <NPill text={String(yr)} x={x} y={y} size={k >= 1 ? 80 : 72} kind={k >= 1 ? 'gold' : 'white'} id={id} p={(t - at) / 0.3} />;
 };
 export const S9: React.FC<{t: number}> = ({t}) => {
   const z = moveTo(t, T.walbab - 0.1, 1.0, 1.16, 1.4);
@@ -510,7 +510,7 @@ export const S9: React.FC<{t: number}> = ({t}) => {
         <EgyptFloor t={t} o={0.6 + 0.4 * flood} />
         <Glow x={960} y={900} r={900} ry={220} color={GOLD} o={0.55 * flood} id="c11s9fl" />
         <FateDoor t={t} at={T.safqa2 - 0.1} x={DOOR.x} y={DOOR.y} h={DOOR.h} kind="wood" light={GOLD} openAt={T.bab - 0.05}
-          through={{at: T.infatah + 0.1, node: <Invasion t={t} />, dur: 1.5, to: [0, 210], s: 1.55}}
+          through={{at: T.infatah + 0.1, node: <Invasion t={t} />, dur: 1.7, to: [0, 90], s: 2.3}}
           label={{text: 'أول باب', at: T.awwal - 0.05, kind: 'gold'}} id="c11door9" />
         {flood > 0 && [0, 1, 2, 3, 4, 5].map((i) => (
           <Sparkle key={i} x={760 + rand(i * 5.3) * 400} y={360 + rand(i * 2.9) * 380} r={10 + 8 * rand(i)} o={flood * (0.5 + 0.5 * Math.sin(t * 3 + i * 1.7))} color="#FFF1C0" />
@@ -549,7 +549,7 @@ export const S10: React.FC<{t: number}> = ({t}) => {
       <Flash t={t} at={T.ammam + 0.5} strength={0.25} color="#FFE8B0" />
       <YearBadge t={t} at={T.s10 - 0.02} year={1956} x={1640} y={170} size={96} id="c11s10y" />
       <Pill t={t} at={T.jamal - 0.05} text="جمال عبد الناصر" x={1390} y={330} size={50} id="c11s10p" out={T.qanah - 0.15} />
-      <Pill t={t} at={T.qanah - 0.05} text="أمّم القناة" x={960} y={150} size={60} kind="gold" id="c11s10q" />
+      <Pill t={t} at={T.qanah - 0.05} text="أمّم القناة" x={480} y={330} size={66} kind="gold" id="c11s10q" />
     </g>
   );
 };
@@ -596,11 +596,11 @@ export const S11: React.FC<{t: number}> = ({t}) => {
       <PaperMap t={t} id="c11s11p" />
       <NightMap t={t} region={MAP_REGION} id="c11s11m" areas={[
         {countries: ['Libya', 'Sudan', 'Israel', 'Palestine', 'Jordan', 'Saudi Arabia', 'Lebanon', 'Syria', 'Cyprus'], fill: '#E4D3A6'},
-        {countries: ['Egypt'], fill: '#F2D27A'},
+        {countries: ['Egypt'], fill: '#E9B949'},
       ]} />
       {/* the canal, gold */}
-      <path d={`M${PORT[0]} ${PORT[1]} Q${ISM[0] - 20} ${ISM[1]} ${SUEZ[0]} ${SUEZ[1]}`} fill="none" stroke={OUT} strokeWidth={22} strokeLinecap="round" />
-      <path d={`M${PORT[0]} ${PORT[1]} Q${ISM[0] - 20} ${ISM[1]} ${SUEZ[0]} ${SUEZ[1]}`} fill="none" stroke={GOLD} strokeWidth={12} strokeLinecap="round" />
+      <path d={`M${PORT[0]} ${PORT[1]} Q${ISM[0] - 20} ${ISM[1]} ${SUEZ[0]} ${SUEZ[1]}`} fill="none" stroke={OUT} strokeWidth={32} strokeLinecap="round" />
+      <path d={`M${PORT[0]} ${PORT[1]} Q${ISM[0] - 20} ${ISM[1]} ${SUEZ[0]} ${SUEZ[1]}`} fill="none" stroke="#FFE58A" strokeWidth={18} strokeLinecap="round" />
       {STRIKES.map((s, i) => <Strike key={i} t={t} at={T.inhajam - 0.1 + i * 0.25} from={s.from} to={s.to} bend={s.bend} id={'a' + i} />)}
       {hit > 0 && [0, 1, 2, 3].map((i) => {
         const u = clamp01((t - (T.inhajam + 0.75) - i * 0.12) / 1.6);
@@ -638,9 +638,9 @@ export const S12: React.FC<{t: number}> = ({t}) => {
       <defs><filter id={g} x="-10%" y="-400%" width="120%" height="900%"><feGaussianBlur stdDeviation={7} /></filter></defs>
       {/* the short day */}
       {pin(A, clamp01((t - (T.b4 - 0.3)) / 0.2))}
-      <Pill t={t} at={T.b4 - 0.3} text="1875" x={A} y={Y - 90} size={52} kind="gold" id="c11s12a" />
-      <Pill t={t} at={T.b4} text="4 مليون" x={A} y={Y + 90} size={46} kind="grey" id="c11s12m" />
-      <Pill t={t} at={T.yawm - 0.05} text="في يوم" x={A} y={Y + 180} size={46} id="c11s12d" />
+      <Pill t={t} at={T.b4 - 0.3} text="1875" x={A} y={Y - 100} size={60} kind="gold" id="c11s12a" />
+      <Pill t={t} at={T.b4} text="4 مليون" x={A} y={Y + 100} size={56} kind="grey" id="c11s12m" />
+      <Pill t={t} at={T.yawm - 0.05} text="في يوم" x={A} y={Y + 200} size={56} id="c11s12d" />
       {/* the long line to 1956 */}
       {lineOn && (
         <g>
@@ -653,18 +653,18 @@ export const S12: React.FC<{t: number}> = ({t}) => {
         </g>
       )}
       {t >= T.ihtaj + 0.1 && t < T.n81 - 0.05 && (
-        <g opacity={clamp01((t - T.ihtaj - 0.1) / 0.2)}><NPill text="81 سنة" x={rx} y={Y - 90} size={46} kind="gold" id="c11s12r" /></g>
+        <g opacity={clamp01((t - T.ihtaj - 0.1) / 0.2)}><NPill text="81 سنة" x={rx} y={Y - 110} size={56} kind="gold" id="c11s12r" /></g>
       )}
       {t >= T.n81 - 0.05 && (
-        <Pop t={t} at={T.n81 - 0.05} x={rideX} y={Y - 100}><NPill text="81 سنة" x={rideX} y={Y - 100} size={64} kind="gold" id="c11s12r2" /></Pop>
+        <Pop t={t} at={T.n81 - 0.05} x={rideX} y={Y - 120}><NPill text="81 سنة" x={rideX} y={Y - 120} size={84} kind="gold" id="c11s12r2" /></Pop>
       )}
       {pin(B, showB)}
-      <Pill t={t} at={T.ihtaj + 1.3} text="1956" x={B} y={Y - 90} size={52} kind="white" id="c11s12b" />
-      <Pill t={t} at={T.harb - 0.05} text="وحرب" x={B} y={Y + 90} size={50} kind="red" id="c11s12h" />
+      <Pill t={t} at={T.ihtaj + 1.3} text="1956" x={B} y={Y - 100} size={60} kind="white" id="c11s12b" />
+      <Pill t={t} at={T.harb - 0.05} text="وحرب" x={B} y={Y + 100} size={60} kind="red" id="c11s12h" />
       <Pop t={t} at={T.yarja - 0.05} x={B} y={Y + 190}>
         <g>
-          <Mark kind="check" x={B + 110} y={Y + 190} r={30} />
-          <NPill text="رجعت" x={B - 20} y={Y + 190} size={50} kind="gold" id="c11s12y" />
+          <Mark kind="check" x={B + 125} y={Y + 200} r={34} />
+          <NPill text="رجعت" x={B - 20} y={Y + 200} size={60} kind="gold" id="c11s12y" />
         </g>
       </Pop>
     </g>

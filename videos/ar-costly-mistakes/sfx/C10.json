@@ -1,0 +1,22 @@
+[
+  {"t": 616.96, "kind": "explosion", "gain": 0.5},
+  {"t": 618.32, "kind": "suspense", "gain": 0.5},
+  {"t": 619.66, "kind": "coins", "gain": 0.7},
+  {"t": 622.49, "kind": "tease", "gain": 0.6},
+  {"t": 627.46, "kind": "scribble", "gain": 0.7},
+  {"t": 630.6, "kind": "boom", "gain": 0.4},
+  {"t": 633.74, "kind": "powerup", "gain": 0.6},
+  {"t": 636.84, "kind": "applause", "gain": 0.5},
+  {"t": 637.0, "kind": "boom", "gain": 0.45},
+  {"t": 638.78, "kind": "coins", "gain": 0.7},
+  {"t": 643.32, "kind": "sparkle", "gain": 0.6},
+  {"t": 649.34, "kind": "wrong", "gain": 0.6},
+  {"t": 654.32, "kind": "thump", "gain": 0.8},
+  {"t": 659.77, "kind": "fall", "gain": 0.5},
+  {"t": 660.44, "kind": "low_drone", "gain": 0.4, "dur": 1.2},
+  {"t": 670.6, "kind": "footsteps", "gain": 0.5, "dur": 2.8},
+  {"t": 674.44, "kind": "cash", "gain": 0.7},
+  {"t": 677.9, "kind": "clock", "gain": 0.6},
+  {"t": 678.82, "kind": "scribble", "gain": 0.7},
+  {"t": 683.32, "kind": "ping", "gain": 0.5}
+]

@@ -213,5 +213,10 @@
   "kind": "el",
   "file": "small-house.png",
   "ar": 1.052
+ },
+ "warship": {
+  "kind": "el",
+  "file": "warship.png",
+  "ar": 1.276
  }
 }

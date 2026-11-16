@@ -1,0 +1,89 @@
+[
+ {
+  "t": 741.75,
+  "kind": "rise",
+  "gain": 0.6
+ },
+ {
+  "t": 756.3,
+  "kind": "riser",
+  "dur": 0.95
+ },
+ {
+  "t": 757.3,
+  "kind": "impact",
+  "gain": 0.9
+ },
+ {
+  "t": 758.62,
+  "kind": "tease"
+ },
+ {
+  "t": 760.04,
+  "kind": "page"
+ },
+ {
+  "t": 760.3,
+  "kind": "page",
+  "gain": 0.6
+ },
+ {
+  "t": 760.86,
+  "kind": "sparkle"
+ },
+ {
+  "t": 762.12,
+  "kind": "correct"
+ },
+ {
+  "t": 762.6,
+  "kind": "water",
+  "dur": 2.2,
+  "gain": 0.5
+ },
+ {
+  "t": 766.76,
+  "kind": "glitch"
+ },
+ {
+  "t": 767.12,
+  "kind": "fall",
+  "gain": 0.6
+ },
+ {
+  "t": 767.54,
+  "kind": "page"
+ },
+ {
+  "t": 768.5,
+  "kind": "swish"
+ },
+ {
+  "t": 769.95,
+  "kind": "wrong"
+ },
+ {
+  "t": 770.16,
+  "kind": "whoosh"
+ },
+ {
+  "t": 771.66,
+  "kind": "thump",
+  "gain": 0.6
+ },
+ {
+  "t": 772.3,
+  "kind": "chime",
+  "gain": 0.7
+ },
+ {
+  "t": 776.98,
+  "kind": "wrong",
+  "gain": 0.7
+ },
+ {
+  "t": 779.55,
+  "kind": "swoosh",
+  "gain": 0.7
+ }
+]

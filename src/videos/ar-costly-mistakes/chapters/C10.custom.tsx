@@ -385,7 +385,7 @@ export const S6: React.FC<{t: number}> = ({t}) => {
         </g>
       )}
       <NPill text="الخديوي إسماعيل" x={Math.min(ix - 40, 1620)} y={iy - 330 * S} size={46} kind="white" id="c10s6name" p={(t - T.ismail + 0.1) / 0.3} />
-      <NPill text="قناة السويس" x={sx2} y={sy2 + 40} size={52} kind="white" id="c10s6suez" p={(t - T.suez + 0.1) / 0.3} />
+      {t < T.ostori - 0.15 && <NPill text="قناة السويس" x={sx2} y={sy2 + 40} size={52} kind="white" id="c10s6suez" p={(t - T.suez + 0.1) / 0.3} />}
       {/* the legendary party */}
       <PlateFx t={t} kind="confetti" density={t >= T.ostori ? 1 : 0.35} seed={7} />
       <Firework t={t} at={633.2} x={420} y={200} r={130} color={GOLD} />
@@ -434,8 +434,8 @@ export const S7: React.FC<{t: number}> = ({t}) => {
       {/* crowned guests behind the table */}
       {CROWN_GUESTS.map((g, i) => (
         <g key={i}>
-          <StoryPerson x={g.x} y={TY + 150} s={0.82} role={g.role} rim={g.rim} pose={t >= T.muluk + i * 0.1 && t < T.muluk + 1.2 ? 'cheer' : 'idle'} t={t} id={`c10s7g${i}`} />
-          {glint > 0 && glint < 1 && <Sparkle x={g.x + 26} y={TY + 150 - 350} r={34 * Math.sin(Math.PI * glint)} o={1} color="#FFF3C0" />}
+          <StoryPerson x={g.x} y={TY + 80} s={0.82} role={g.role} rim={g.rim} pose={t >= T.muluk + i * 0.1 && t < T.muluk + 1.2 ? 'cheer' : 'idle'} t={t} id={`c10s7g${i}`} />
+          {glint > 0 && glint < 1 && <Sparkle x={g.x + 26} y={TY + 80 - 350} r={34 * Math.sin(Math.PI * glint)} o={1} color="#FFF3C0" />}
         </g>
       ))}
       {/* the foreign guests slide in at the far end */}
@@ -874,7 +874,7 @@ const Desk: React.FC<{t: number; ink: number; sealAt: number; id: string}> = ({t
           </g>
         );
       })()}
-      <Stamp t={t} at={sealAt} text="تمت الصفقة" x={930} y={545} size={92} rot={-7} color={GOLD} />
+      <Stamp t={t} at={sealAt} text="تمت الصفقة" x={930} y={545} size={92} rot={-7} color="#B8860B" />
     </g>
   );
 };
@@ -989,15 +989,15 @@ export const S17: React.FC<{t: number}> = ({t}) => {
 // S18 · 683.76 · «مقابل 4 مليون جنيه إسترليني» — back on the signed paper: 44 % beside a tiny grey price
 export const S18: React.FC<{t: number}> = ({t}) => {
   const z = 1.18 + 0.006 * Math.max(0, t - T.s18);
-  const fy = moveTo(t, T.four2 - 0.05, 420, 470, 0.4, ease.out);
+  const fy = moveTo(t, T.four2 - 0.05, 560, 615, 0.4, ease.out);
   cueSfx('tick', 'c10s18four', t >= T.four2 - 0.05 && t < T.four2 + 0.25, 1240, {at: T.four2 - 0.05, hit: 0.12, gain: 0.8});
   return (
     <g>
       <g transform={`translate(960 540) scale(${z}) translate(-960 -640)`}>
         <Desk t={t} ink={1} sealAt={T.safqa} id="c10s18d" />
       </g>
-      <NPill text="44%" x={900} y={470} size={90} kind="gold" id="c10s18p" p={(t - T.s18 - 0.1) / 0.3} />
-      <NPill text="4 مليون £" x={1215} y={fy} size={34} kind="grey" id="c10s18f" p={(t - T.four2 + 0.05) / 0.3} />
+      <NPill text="44%" x={860} y={610} size={90} kind="gold" id="c10s18p" p={(t - T.s18 - 0.1) / 0.3} />
+      <NPill text="4 مليون £" x={1150} y={fy} size={34} kind="grey" id="c10s18f" p={(t - T.four2 + 0.05) / 0.3} />
       <Pop t={t} at={T.four2 + 0.3} x={960} y={930}><GlowText text="مقابل 4 مليون جنيه إسترليني" x={960} y={930} size={60} tone="grey" id="c10s18sp" /></Pop>
     </g>
   );

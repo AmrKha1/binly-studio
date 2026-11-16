@@ -14,7 +14,7 @@ import {PaperMap, RoomWorld, StoryPerson, SunsetWorld} from '../../../kit/night-
 import {StairGame} from '../../../kit/night-game';
 import type {StairEntry} from '../../../kit/night-game';
 import {BlueprintCard, CloudWorld, Coin, MysteryTile} from '../../../kit/night-props';
-import {MarkPill, NBars, NGauge, WarWorld} from '../../../kit/night-data';
+import {MarkPill, NGauge, WarWorld} from '../../../kit/night-data';
 import {Spotlight} from '../../../kit/night-story';
 import {MassGrid} from '../../../kit/night-sci';
 import {NightMap, nightProj} from '../../../kit/night-maps';
@@ -832,33 +832,47 @@ export const S15: React.FC<{t: number}> = ({t}) => {
   );
 };
 
-// S16 · 590.50 · «يعني ميزانية الدولة كاملة وقتها 32 مرة» — the whole state budget vs 32 times it
-const BX = 1440, BLEN = 800;
+// S16 · 590.50 · «يعني ميزانية الدولة كاملة وقتها 32 مرة» — the whole state budget vs 32 times it (big bars, right → left)
+const BR = 1720, BLEN = 1060; // bars grow from the right edge toward AZTIKA
+const BigBar: React.FC<{t: number; at: number; y: number; len: number; thick: number; c0: string; c1: string; id: string}> = ({t, at, y, len, thick, c0, c1, id}) => {
+  const p = ease.out(clamp01((t - at) / 0.8));
+  if (p <= 0) return null;
+  const L = Math.max(thick, len * p);
+  const g = uid('c9bar', id);
+  return (
+    <g>
+      <defs><linearGradient id={g} x1="1" y1="0" x2="0" y2="0"><stop offset="0" stopColor={c0} /><stop offset="1" stopColor={c1} /></linearGradient></defs>
+      <rect x={BR - L} y={y - thick / 2} width={L} height={thick} rx={thick / 2} fill={c1} opacity={0.35} transform={`translate(0 6)`} />
+      <rect x={BR - L} y={y - thick / 2} width={L} height={thick} rx={thick / 2} fill={`url(#${g})`} stroke={OUT} strokeWidth={8} />
+      <rect x={BR - L + thick / 2} y={y - thick / 2 + 10} width={Math.max(0, L - thick)} height={9} rx={4.5} fill="#FFFFFF" opacity={0.4} />
+    </g>
+  );
+};
 export const S16: React.FC<{t: number}> = ({t}) => {
-  const k = ease.inOut(clamp01((t - 591.9) / 0.9));
-  const z = lerp(1.7, 1.0, k), cx = lerp(1330, 1040, k), cy = lerp(520, 620, k);
+  const tA = T.mizania - 0.1, tB = 591.95;
   const slam = clamp01((t - (T.n32 - 0.05)) / 0.2);
   const pi = pressIn(slam);
-  cueSfx('boom', 'c9s16-32', t >= T.n32 - 0.05 && t < T.n32 + 0.2, 1040, {at: T.n32 - 0.05, hit: 0.1, gain: 1.8});
-  cueSfx('whoosh', 'c9s16-bar', t >= 591.95 && t < 592.2, 1000, {at: 591.95, hit: 0.3, gain: 0.7});
+  cueSfx('pop', 'c9s16-a', t >= tA && t < tA + 0.2, BR, {at: tA, hit: 0.1});
+  cueSfx('whoosh', 'c9s16-bar', t >= tB && t < tB + 0.25, 1100, {at: tB, hit: 0.3, gain: 0.7});
+  cueSfx('boom', 'c9s16-32', t >= T.n32 - 0.05 && t < T.n32 + 0.2, 1150, {at: T.n32 - 0.05, hit: 0.1, gain: 1.8});
   const br = clamp01((t - (T.n32 - 0.3)) / 0.3);
+  const wA = textWidth('ميزانية الدولة كاملة', 54), wB = textWidth('235 مليار $', 60);
   return (
     <g>
       <WarWorld t={t} id="c9s16w" />
-      <g transform={`translate(960 540) scale(${z}) translate(${-cx} ${-cy})`}>
-        <NBars t={t} x={BX} y={540} len={BLEN} gap={220} thick={44} id="c9s16b" bars={[
-          {label: 'ميزانية الدولة كاملة', value: 1, at: T.mizania - 0.1, color: 'cyan'},
-          {label: '235 مليار $', value: 32, at: 591.95, color: 'hot', kind: 'red'},
-        ]} />
-        {br > 0 && (
-          <g opacity={br}>
-            <path d={`M${BX - BLEN} 800 V820 H${BX} V800`} fill="none" stroke={GOLD} strokeWidth={6} strokeDasharray="20 12" strokeLinejoin="round" />
-          </g>
-        )}
-      </g>
+      <Glow x={1180} y={560} r={760} ry={300} color={RED} o={0.3} id="c9s16g" />
+      <BigBar t={t} at={tA} y={330} len={BLEN / 32} thick={70} c0="#7FE6FF" c1="#34D2FA" id="a" />
+      <NPill text="ميزانية الدولة كاملة" x={BR - 70 - wA / 2 - 50} y={330} size={54} kind="white" id="c9s16pa" p={(t - (tA + 0.15)) / 0.3} />
+      <BigBar t={t} at={tB} y={590} len={BLEN} thick={100} c0="#FFB23A" c1="#FF3B4E" id="b" />
+      <NPill text="235 مليار $" x={BR - BLEN + wB / 2 + 50} y={470} size={60} kind="red" id="c9s16pb" p={(t - (tB + 0.5)) / 0.3} />
+      {br > 0 && (
+        <g opacity={br}>
+          <path d={`M${BR - BLEN} 680 V700 H${BR} V680`} fill="none" stroke={GOLD} strokeWidth={7} strokeDasharray="22 12" strokeLinejoin="round" />
+        </g>
+      )}
       {slam > 0 && (
-        <g transform={`translate(1040 900) scale(${pi.s})`} opacity={pi.o}>
-          <GlowText text="32 مرة" x={0} y={0} size={120} tone="gold" id="c9s16x" />
+        <g transform={`translate(${BR - BLEN / 2} 820) scale(${pi.s})`} opacity={pi.o}>
+          <GlowText text="32 مرة" x={0} y={0} size={150} tone="gold" id="c9s16x" />
         </g>
       )}
     </g>
@@ -866,7 +880,7 @@ export const S16: React.FC<{t: number}> = ({t}) => {
 };
 
 // S17 · 594.22 · «وفي باحثين قدّروا التكلفة على الدول الثلاث … بحوالي 700 مليار دولار خلال 30 سنة» — the gauge climbs
-const GX = 1000, GY = 520;
+const GX = 1000, GY = 560, GS = 1.35, GH = 470;
 const FLAGS: string[][] = [['#C8102E', '#C8102E', '#007A3D'], ['#0057B7', '#FFD700'], ['#FFFFFF', '#0039A6', '#D52B1E']];
 const FlagDisc: React.FC<{x: number; y: number; r: number; cols: string[]; id: string}> = ({x, y, r, cols, id}) => {
   const cid = uid('c9flag', id);
@@ -881,25 +895,36 @@ const FlagDisc: React.FC<{x: number; y: number; r: number; cols: string[]; id: s
     </g>
   );
 };
+// the 700 pill (drawn big over the kit's small tick pill)
+const P700 = (() => {
+  const ty = GY + GS * (GH / 2 - 10 - (GH - 20) * 0.92 - 0);
+  const left = GX + GS * (52 + 50) + 14;
+  return {x: left + textWidth('700 مليار $', 64) / 2 + 34, y: ty};
+})();
 const GaugeScene: React.FC<{t: number; id: string; live: boolean}> = ({t, id, live}) => (
-  <NGauge t={t} x={GX} y={GY} h={520} id={id} ticks={live ? [
-    {at: T.qaddaru, level: 0.3, label: '235 مليار $'},
-    {at: T.n700 - 0.05, level: 0.92, label: '700 مليار $', kind: 'gold'},
-  ] : [{at: 0, level: 0.92, label: '700 مليار $', kind: 'gold'}]} />
+  <g>
+    <g transform={`translate(${GX} ${GY}) scale(${GS}) translate(${-GX} ${-GY})`}>
+      <NGauge t={t} x={GX} y={GY} h={GH} id={id} ticks={live ? [
+        {at: T.qaddaru, level: 0.3, label: '235 مليار $'},
+        {at: T.n700 - 0.05, level: 0.92, label: '700 مليار $', kind: 'gold'},
+      ] : [{at: 0, level: 0.92, label: '700 مليار $', kind: 'gold'}]} />
+    </g>
+    <NPill text="700 مليار $" x={P700.x} y={P700.y} size={64} kind="gold" id={id + 'big'} p={live ? (t - (T.n700 + 0.05)) / 0.3 : 1} />
+  </g>
 );
 export const S17: React.FC<{t: number}> = ({t}) => (
   <g>
     <WarWorld t={t} id="c9s17w" />
-    <Glow x={GX} y={GY} r={520} ry={420} color={RED} o={0.3} id="c9s17g" />
-    <StoryPerson x={1640} y={1000} s={1.15} role="scientist" prop="clipboard" pose={t >= T.thalath ? 'point' : 'hold'} t={t} id="c9s17p" />
+    <Glow x={GX} y={GY} r={560} ry={460} color={RED} o={0.3} id="c9s17g" />
+    <StoryPerson x={1660} y={1010} s={1.15} role="scientist" prop="clipboard" pose={t >= T.thalath ? 'point' : 'hold'} t={t} id="c9s17p" />
     <GaugeScene t={t} id="c9s17n" live />
     {FLAGS.map((f, i) => (
-      <Pop key={i} t={t} at={T.thalath - 0.1 + i * 0.1} x={GX - 110 + i * 110} y={170}>
-        <FlagDisc x={GX - 110 + i * 110} y={170} r={42} cols={f} id={'c9s17f' + i} />
+      <Pop key={i} t={t} at={T.thalath - 0.1 + i * 0.1} x={GX - 120 + i * 120} y={150}>
+        <FlagDisc x={GX - 120 + i * 120} y={150} r={48} cols={f} id={'c9s17f' + i} />
       </Pop>
     ))}
-    <NPill text="3 دول" x={GX + 260} y={170} size={50} kind="white" id="c9s17d" p={(t - (T.thalath + 0.2)) / 0.3} />
-    <NPill text="خلال 30 سنة" x={GX} y={860} size={50} kind="grey" id="c9s17y" p={(t - (T.n30 - 0.05)) / 0.3} />
+    <NPill text="3 دول" x={GX + 300} y={150} size={60} kind="white" id="c9s17d" p={(t - (T.thalath + 0.2)) / 0.3} />
+    <NPill text="خلال 30 سنة" x={GX} y={928} size={52} kind="grey" id="c9s17y" p={(t - (T.n30 - 0.05)) / 0.3} />
   </g>
 );
 
@@ -914,19 +939,19 @@ const Fog: React.FC<{t: number; o: number; seed: number}> = ({t, o, seed}) => (
   </g>
 );
 export const S18: React.FC<{t: number}> = ({t}) => {
-  const qy = lerp(260, 175, ease.out(clamp01((t - (T.shakk - 0.1)) / 0.5)));
+  const qy = lerp(230, 168, ease.out(clamp01((t - (T.shakk - 0.1)) / 0.5)));
   cueSfx('thump', 'c9s18-q', t >= T.shakk - 0.1 && t < T.shakk + 0.2, 1420, {at: T.shakk - 0.1, hit: 0.15});
   const qo = clamp01((t - (T.shakk - 0.1)) / 0.25);
   return (
     <g>
       <CloudWorld t={t} id="c9s18c" />
       <g opacity={0.8}><GaugeScene t={t} id="c9s18n" live={false} /></g>
-      <StoryPerson x={1640} y={1000} s={1.15} role="scientist" pose="up" t={t} id="c9s18p" />
-      <BlueprintCard t={t} at={T.s18 + 0.15} x={1600} y={380} w={300} h={210} rot={-6} id="c9s18b" />
+      <StoryPerson x={1730} y={1010} s={1.1} role="scientist" pose="up" t={t} id="c9s18p" />
+      <BlueprintCard t={t} at={T.s18 + 0.15} x={1730} y={430} w={250} h={180} rot={-6} id="c9s18b" />
       <Fog t={t} o={0.85} seed={20} />
       {qo > 0 && (
         <g opacity={qo}>
-          <GlowText text="؟" x={GX + 217} y={qy} size={150} tone="gold" id="c9s18q" />
+          <GlowText text="؟" x={P700.x} y={qy} size={150} tone="gold" id="c9s18q" />
         </g>
       )}
       <NPill text="تقدير مبني على افتراضات" x={1100} y={900} size={50} kind="grey" id="c9s18a" p={(t - (T.iftiradat - 0.1)) / 0.3} />
@@ -962,12 +987,12 @@ export const S19: React.FC<{t: number}> = ({t}) => {
 const TILES = [{name: 'Belarus', box: [[23, 51.2], [33, 56.3]] as [[number, number], [number, number]], x: 760},
   {name: 'Ukraine', box: [[22, 44.3], [40.3, 52.4]] as [[number, number], [number, number]], x: 1000},
   {name: 'Russia', box: [[27, 41], [70, 70]] as [[number, number], [number, number]], x: 1240}];
-const BAR = {x: 1000, y: 700, h: 330};
+const BAR = {x: 960, y: 700, h: 360};
 export const S20: React.FC<{t: number}> = ({t}) => {
   const out = T.end - 0.2;
   const fo = 1 - clamp01((t - out) / 0.25);
-  const yPos = move(t, T.duwal - 0.45, [1150, 400], [1590, 280], 0.55);
-  const yS = lerp(1, 0.68, ease.inOut(clamp01((t - (T.duwal - 0.45)) / 0.55)));
+  const yPos = move(t, T.duwal - 0.45, [1400, 380], [1590, 280], 0.55);
+  const yS = lerp(1, 0.75, ease.inOut(clamp01((t - (T.duwal - 0.45)) / 0.55)));
   cueSfx('coins', 'c9s20-drip', t >= T.tasrif - 0.1 && t < T.tasrif + 0.2, BAR.x, {at: T.tasrif - 0.1, gain: 0.6});
   return (
     <g>
@@ -981,8 +1006,8 @@ export const S20: React.FC<{t: number}> = ({t}) => {
           <NPill text="40 سنة" x={1150} y={600} size={76} kind="green" id="c9s20p" p={(t - (T.n40 - 0.08)) / 0.3} />
         </g>
         {/* the barrel the bills keep falling into */}
-        {t >= T.duwal && <ellipse cx={BAR.x} cy={BAR.y + BAR.h / 2 - 4} rx={150} ry={22} fill="#000000" opacity={0.45} />}
-        <HeroObject t={t} at={T.duwal + 0.1} src="ar-costly-mistakes/el/radiation-barrel.png" ar={0.603} x={BAR.x} y={BAR.y} h={BAR.h} glow={TOX} enter="drop" float={false} sparkles={2} id="c9s20b" />
+        {t >= T.s20 + 0.3 && <ellipse cx={BAR.x} cy={BAR.y + BAR.h / 2 - 4} rx={150} ry={22} fill="#000000" opacity={0.45} />}
+        <HeroObject t={t} at={T.s20 + 0.3} src="ar-costly-mistakes/el/radiation-barrel.png" ar={0.603} x={BAR.x} y={BAR.y} h={BAR.h} glow={TOX} enter="drop" float={false} sparkles={2} id="c9s20b" />
         {TILES.map((c, i) => {
           const at = T.duwal - 0.05 + i * 0.12;
           return (
