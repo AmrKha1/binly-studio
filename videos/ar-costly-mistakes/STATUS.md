@@ -45,3 +45,12 @@ Notes: spoken lines use digits as in script («6.3 مليار دولار», «ح
 - GATE round 2: ✅ GO RENDER (render-gate.json). Next: C01 preview (cloud, 0.5) → motion check → full render.
 - PREVIEW 1 QA: motion in reference range; loudness -14/-1.4; sfx 2–4 dB too quiet (story gains median 0.6) + 36/min. FIX: story gains ×1.5 (203), slams ≤0.8, density cap thins to quiet limit → 32/min. Gate round (sound change) + preview 2 running.
 - NOTE: render-gate now also flags story sfx gains < 0.75 (non-ambience) and Arabic digit ranges. If another gate round is needed for this video, first raise remaining non-ambient gains < 0.75 to 0.8.
+
+## TO-DO AFTER DELIVERY (owner 2026-11-16)
+- SOUND REPORT (owner-facing, plain words, verdict): whole video (loudness, effects/min, voice clear on phone) · per chapter
+  (effects/min, level under voice, quiet/busy, ✅/⚠/❌) · per sound type (on target / too quiet / too loud, phone too) ·
+  one viewer-feel line per chapter · final verdict ✅ ready / ❌ fix list. Build it after delivery, test it on THIS video's
+  final render; the owner decides from that result whether it becomes part of the project.
+  + idea for the SOUND REPORT: mix the AUDIO ONLY locally (merge-sfx without pictures) → measure the full balance of the whole video BEFORE any render.
+  + PLAN (owner asked): make the local audio-only mix + sound-qa a RENDER-GATE step (sound off → NOT READY), Sound Report comes out of it before any render. Proof: compare today's local full-audio measurement (.cache/audio-full) with the final render's cloud QA sound table — if they match, wire it in after delivery (owner decides).
+  + DECISION ORDER (owner): Claude gives the expert verdict FIRST (keep/not yet + why, from local-vs-cloud numbers ≤ ~1 dB match), THEN the owner decides. Same for the Sound Report.

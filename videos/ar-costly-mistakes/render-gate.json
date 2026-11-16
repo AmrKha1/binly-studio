@@ -1,9 +1,9 @@
 {
  "go": true,
  "slug": "ar-costly-mistakes",
- "at": "2026-11-16T18:45:55.151Z",
- "fingerprint": "64da489bafbf3063996e5bee5c062e591227cc2e",
- "reviewed": "Director reviewed every chapter on full contact sheets + phone sheets side by side with the reference sheets (shots-01..06); fix rounds in C01 C04 C05 C08 C09 C10 C11 C12; signature payoffs on stills (hook summit, R-bar, shell game, scale, funnel glitch, search irony, twist summit fills the frame, bill to the unborn, red «متأخرة» stamp); all 11 chapter joins; sync-check 12/12 clean; sound density no QUIET; gate round-1 fixes re-checked on a sheet of every fixed moment ±2 s; numbers only as spoken (2008/1876 removed, ranges in spoken order); no English in art; YouTube-safe (no gore, no real faces, no logos).",
+ "at": "2026-11-16T19:16:28.781Z",
+ "fingerprint": "2a1a82e4c84f1110fc1e739a83364eb64bdeb1ae",
+ "reviewed": "Same review as round 2 (all chapters on sheets vs reference, fixes verified, joins, sync 12/12, gate fixes re-checked). Change since GO: sound only — story sfx gains raised ×1.5 (builders had them at median 0.6 → preview QA showed effects 2–4 dB under the owner-approved levels), slams capped 0.8 (phone rule), density cap thins small cues up to the 3.6 s quiet limit (36 → 32/min, no QUIET).",
  "accepted": [
   {
    "match": "_TestSheet.tsx",
@@ -138,7 +138,7 @@
    "why": "the «تمت الصفقة» seal stamps the contract it seals"
   }
  ],
- "rounds": 2,
+ "rounds": 1,
  "history": [
   {
    "at": "2026-11-16T14:07:06.559Z",
@@ -146,6 +146,10 @@
   },
   {
    "at": "2026-11-16T18:45:55.152Z",
+   "issues": 0
+  },
+  {
+   "at": "2026-11-16T19:16:28.782Z",
    "issues": 0
   }
  ]
