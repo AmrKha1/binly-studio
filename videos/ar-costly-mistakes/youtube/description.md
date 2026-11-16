@@ -1,5 +1,7 @@
-<!-- Draft — edit freely before pasting into YouTube. Title: أغلى غلطة في التاريخ -->
-we climb a staircase of human mistakes, each pricier than the last — a missing pen stroke, a hard drive in
+<!-- Ready to paste into YouTube. Title: أغلى غلطة في التاريخ -->
+خط صغير بحجم ضربة قلم، هارديسك في كيس زبالة، بيتزتين، ضغطة زر في بنك، ومقابلة وظيفة مزيفة…
+اليوم بنطلع درجة درجة من أرخص غلطة لين نوصل لأغلى غلطة ارتكبها إنسان.
+والغريب إن أغلى وحدة فيهم سعرها أصغر رقم بتسمعه في الفيديو كله، وصارت في أرض عربية.
 
 الفصول:
 0:00 أغلى غلطة؟
@@ -14,5 +16,7 @@ we climb a staircase of human mistakes, each pricier than the last — a missing
 10:14 توقيع بـ4 مليون
 11:26 الباب اللي انفتح
 12:21 الفاتورة
+
+إذا عجبك المقطع اضغط زر اللايك واشترك في القناة 🔔
 
 المؤثرات الصوتية: Kenney و qubodup (CC0).

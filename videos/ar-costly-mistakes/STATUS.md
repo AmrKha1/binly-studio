@@ -61,3 +61,4 @@ Notes: spoken lines use digits as in script («6.3 مليار دولار», «ح
 - AFTER RENDER: read QA (loudness, sound table vs the local one → expert verdict on "sound check before render"),
   sheets, fix only real defects → Short (pick moment + title myself) → upload-pack → REPORT.md with the plain AUDIO SUMMARY
   + verdict → LESSONS/ASSETS → ARABIC VIDEOS FINISHED: 1.
+- DELIVERY: final render ✓ QA ✓ (verdict ready), Short rendering, youtube pack ✓ (description rewritten Arabic, captions fixed), REPORT.md ✓, LESSONS ✓. Remaining: Short file → done.

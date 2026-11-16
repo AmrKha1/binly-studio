@@ -5,7 +5,7 @@
 for the other chapters; record each chapter in videos/<slug>/builders.md; at delivery the rule in docs/MODEL-TEST.md
 decides all-Opus vs the mix (PIPELINE step 8 reminder). Remove this line once decided.
 
-**ARABIC VIDEOS FINISHED: 0** (raise it after each final render; the full-video review pass stays full until 3 — PIPELINE "SMART REVIEW")
+**ARABIC VIDEOS FINISHED: 1** (ar-costly-mistakes, 2026-11-17) (raise it after each final render; the full-video review pass stays full until 3 — PIPELINE "SMART REVIEW")
 > Lessons before 2026-10-20 were written for the OLD style (cream paper, Fraunces/Inter caps, music, small labels).
 > Where one contradicts PLAYBOOK / RETENTION / BUILDER, the docs win — lines marked (old style) are history only.
 
@@ -73,3 +73,6 @@ decides all-Opus vs the mix (PIPELINE step 8 reminder). Remove this line once de
 - All builders ran Opus (the default inherited it) → 3 usage-limit pauses, ~44 % of a weekly Pro budget for one video. Model test on Arabic video #2 (docs/MODEL-TEST.md).
 - Held for later (one experiment at a time): fewer planners (2 instead of 4, sharing COMMON.md) — test after the model test is decided.
 - Tools fixed: cue.mjs dropped every Arabic letter; sfx density cap opened quiet holes (now thins bursts only); plan-check read object "in" wrong.
+- Short + captions: ASR can lump the first ~0.8 s into one time with junk words (here the whole hook paragraph at 0.80 s) → the Short's first subtitle showed a wrong word. Check `shorts/short-1.json` words before 1 s and the first captions cue; fix from the script + an RMS map of the first second.
+- upload-pack: the logline came from plan.md in ENGLISH and captions kept ASR doubled numbers («6.3 مليار و 300 مليون») — always proofread description + captions against the script (Arabic only on an Arabic channel).
+- The local audio-only mix (merge-sfx + make-audio + sound-qa) reproduced the cloud QA sound table exactly → sound can be verified before rendering (proposal: render-gate step, owner decides).
