@@ -1,0 +1,23 @@
+{
+ "sections": [
+  {
+   "t": 0,
+   "mood": "curious"
+  }
+ ],
+ "sfxCal": 0,
+ "kindCal": {
+  "tick": 3.5,
+  "glass": 3,
+  "cash": 2.8,
+  "ding": 2.8,
+  "clock": 2.8,
+  "ping": 2.5,
+  "correct": 2.2,
+  "scratch": 2.7,
+  "swish": 2.2,
+  "applause": 2,
+  "slam": -1.5
+ },
+ "_note": "no music; kindCal = per-kind dB from the local full-audio sound check 2026-11-16 (these kinds sat 2-4 dB under the owner targets; slam too loud on a phone)"
+}

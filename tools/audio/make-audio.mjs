@@ -684,7 +684,8 @@ for (const s of sfxList) {
   if (l < 1e-7) continue;
   let g = (REF / l) * Math.pow(10, (KIND_DB[s.kind] ?? -2) / 20) * (s.gain ?? 1);
   if (MODEL === 'reference') {
-    const under = Math.max(REF_MAX, targetUnder(s.kind, REF_DEFAULT) - 20 * Math.log10(s.gain ?? 1) - REF_CAL - (REF_FIX[s.kind] ?? 0));
+    // score.kindCal (per video, 2026-11-16): measured per-kind correction in dB (+ = louder) from the full-audio sound check
+    const under = Math.max(REF_MAX, targetUnder(s.kind, REF_DEFAULT) - 20 * Math.log10(s.gain ?? 1) - REF_CAL - (REF_FIX[s.kind] ?? 0) - (score.kindCal?.[s.kind] ?? 0));
     const pe = earPeakDb(tgtL, tgtR);
     if (pe < -130) continue;
     g = Math.pow(10, (VOICE_EAR_DB - under - pe) / 20);
