@@ -32,6 +32,22 @@ let all = hand.concat(autoKept).sort((a, b) => a.t - b.t);
 // e.g. the long riser kept for the big payoffs only (39 risers felt "everywhere"). [] = the kind is removed.
 {
   const sc = (() => { try { return JSON.parse(fs.readFileSync(path.join(dir, 'score.json'), 'utf8')); } catch { return {}; } })();
+  // DEFAULT RISER RULE (owner 2026-11-17: 39 long risers in one video felt "everywhere"): a riser/rise/powerup plays only
+  // when it BUILDS INTO A HIT (boom/impact/explosion/stamp/slam 0.1–2.2 s after it) and at most one per 45 s; the rest go.
+  // A video can still choose its own moments with score.kindOnly (wins over this rule).
+  const RISE = /^(riser|rise|powerup)$/, HIT = /^(boom|impact|explosion|stamp|slam|wrong|fall|cash|thump)$/;
+  if (!sc.kindOnly && !sc.allRisers) {
+    const leadsToHit = (c) => all.some((h) => HIT.test(h.kind) && h.t - c.t > 0.1 && h.t - c.t < 3.0);
+    const risers = all.filter((c) => RISE.test(c.kind));
+    const keep = new Set();
+    // 1) the builders' own risers first (the moments chosen on purpose), 2) auto risers only where no riser is near
+    for (const pass of [(c) => !c.auto, (c) => c.auto])
+      for (const c of risers.filter(pass))
+        if (leadsToHit(c) && [...keep].every((k) => Math.abs(k.t - c.t) >= 45)) keep.add(c);
+    const before = all.length;
+    all = all.filter((c) => !RISE.test(c.kind) || keep.has(c));
+    console.error(`riser rule: kept ${keep.size} riser(s) building into a hit (≥ 45 s apart), removed ${before - all.length}`);
+  }
   if (sc.kindOnly) {
     const before = all.length;
     all = all.filter((c) => !(c.kind in sc.kindOnly) || sc.kindOnly[c.kind].some((t) => Math.abs(t - c.t) <= 0.4));

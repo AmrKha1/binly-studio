@@ -15,10 +15,13 @@ export const REF_TARGET = {boom: 18, slam: 15, stamp: 18, impact: 22, thump: 25,
 export const OWNER_LIFT = 4;
 // the phone rule: on a phone speaker every effect kind stays at least this far under the voice (words always win)
 export const PHONE_HEADROOM = 10;
-export const targetUnder = (kind, fallback = 24) => (REF_TARGET[kind] ?? fallback) - OWNER_LIFT;
+// OWNER KIND LEVELS (owner 2026-11-17, after watching ar-costly-mistakes): the long rising whoosh felt "everywhere and a
+// bad feeling" → it sits 22 dB under the voice (instead of 15) and plays only into real hits (merge-sfx riser rule).
+export const OWNER_KIND = {riser: 22, rise: 22, powerup: 22};
+export const targetUnder = (kind, fallback = 24) => OWNER_KIND[kind] ?? (REF_TARGET[kind] ?? fallback) - OWNER_LIFT;
 // measured correction per kind (calibration 2026-11-10: the voice-band dip takes 2–3 dB off mid/bright kinds while the
 // voice speaks, so the mixer sets them that much higher). The owner approved the result by ear (sample A, 2026-11-11).
-export const REF_FIX = {riser: 2.3, rise: 2.3, sparkle: 2.7, shimmer: 2.7, ding: 2.5, chime: 2.5, bell: 2.5, confirm: 2.5, pop: 2.2, popup: 2.2, tick: 1.4, click: 1.4}; // pop/tick re-calibrated in isolation 2026-11-10 (dense mixes flattered them)
+export const REF_FIX = {riser: 2.6, rise: 2.6, powerup: 2.6, sparkle: 2.7, shimmer: 2.7, ding: 2.5, chime: 2.5, bell: 2.5, confirm: 2.5, pop: 2.2, popup: 2.2, tick: 1.4, click: 1.4}; // pop/tick re-calibrated in isolation 2026-11-10 (dense mixes flattered them)
 // what the mixer AIMS for per kind (dB under the voice) — what the render's sound check compares against
 export const aimUnder = (kind, fallback = 24) => targetUnder(kind, fallback) - (REF_FIX[kind] ?? 0);
 // PHONE: how much each kind changes on a phone speaker relative to the voice in the reference (dB, + = quieter).

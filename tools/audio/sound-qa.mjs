@@ -9,7 +9,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {REF_TARGET, PHONE_CHANGE, PHONE_FILTER, AUDIBLE_DB, targetUnder, aimUnder, PHONE_HEADROOM} from '../lib/sound-ref.mjs';
+import {REF_TARGET, PHONE_CHANGE, PHONE_FILTER, AUDIBLE_DB, targetUnder, aimUnder, PHONE_HEADROOM, OWNER_KIND} from '../lib/sound-ref.mjs';
 import {densityReport} from '../lib/sfx-density.mjs';
 
 const argv = process.argv.slice(2), opt = {}, pos = [];
@@ -43,7 +43,7 @@ for (const c of known) n[c.kind] = (n[c.kind] ?? 0) + 1;
 const lines = [], warnings = [];
 lines.push('| sound | cues | under the voice | target (owner-approved level) | on a phone | phone change (ref) |', '|---|---|---|---|---|---|');
 for (const k of Object.keys(full).sort((a, b) => (n[b] ?? 0) - (n[a] ?? 0))) {
-  const lv = full[k], tg = +aimUnder(k).toFixed(1), pv = ph[k], ch = pv - lv, rc = PHONE_CHANGE[k];
+  const lv = full[k], tg = +(k in OWNER_KIND ? OWNER_KIND[k] : aimUnder(k)).toFixed(1), pv = ph[k], ch = pv - lv, rc = PHONE_CHANGE[k];
   lines.push(`| ${k} | ${n[k] ?? 0} | ${lv.toFixed(1)} dB | ${tg} dB | ${pv.toFixed(1)} dB | ${ch >= 0 ? '+' : ''}${ch.toFixed(1)}${rc !== undefined ? ` (${rc >= 0 ? '+' : ''}${rc})` : ''} |`);
   if ((n[k] ?? 0) >= 3 && Math.abs(lv - tg) > 2) warnings.push(`sound: ${k} sits ${lv.toFixed(1)} dB under the voice — the target is ${tg} dB (${lv > tg ? 'too quiet' : 'too loud'})`);
   if (pv < PHONE_HEADROOM - 0.5) warnings.push(`sound: ${k} peaks only ${pv.toFixed(1)} dB under the voice on a PHONE — the rule is ≥ ${PHONE_HEADROOM} dB (words must win): too loud`);

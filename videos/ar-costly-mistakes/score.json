@@ -18,7 +18,7 @@
   "swish": 2.2,
   "applause": 2,
   "slam": -1.5,
-  "riser": -7
+  "riser": 0
  },
  "_note": "no music; kindCal = per-kind dB from the local full-audio sound check 2026-11-16 (these kinds sat 2-4 dB under the owner targets; slam too loud on a phone)",
  "kindOnly": {

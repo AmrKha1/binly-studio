@@ -77,6 +77,7 @@ the next shot/chapter can transition from · semantic colours for certainty · e
 4. **Spoken order in Arabic:** a range or a digit pair is written in words — «بين 590 و630», never «590–630» (right-to-left
    flips it to «630–590»). The render gate flags «digit–digit» in Arabic text.
 5. **No English inside images:** use the `*-blank` art (no letters); never pick art that shows Latin letters.
+7. **Risers are rare (owner 2026-11-17):** add a story `riser` ONLY before the chapter's ONE biggest reveal, right before its hit (boom/impact/stamp) — the mixer keeps risers only when they build into a hit, ≥ 45 s apart, 22 dB under the voice.
 6. **Sound gains stay at 1.0** in `sfx/Cxx.json` (0.8 for slams; lower ONLY for ambience/drones) — the mix sets the levels
    to the reference; lowered gains made the effects 2–4 dB too quiet. The render gate flags lowered gains.
 
