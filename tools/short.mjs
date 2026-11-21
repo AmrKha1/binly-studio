@@ -7,6 +7,7 @@
 // blurred, word-by-word subtitles (the spoken word lights up gold), the red «الفيديو الكامل على القناة» pill pinned
 // near the bottom; then the last frame FREEZES `freeze` s while the owner's outro voice (library/vo/short-outro.*)
 // says the pill's words. Pick the moment: it hooks in its first 2 s, stands alone, and STOPS BEFORE THE ANSWER.
+// Length follows the story (owner 2026-11-21): good context + a whole story matter more than a short clip.
 // Privacy: the props (with the spoken words) live in videos/<slug>/shorts/ (git-ignored) and reach the cloud SEALED.
 // The picture renders in the cloud (short.yml); the sound comes from the long video's own master (already mixed and
 // −14 LUFS) + the outro voice, joined and mastered here. Publish the Short AFTER the long video and link it to it.
@@ -35,7 +36,6 @@ if (cmd === 'make') {
   fs.mkdirSync(path.dirname(sfile), {recursive: true});
   fs.writeFileSync(sfile, JSON.stringify({from, to, title, words, freeze: +(a.freeze ?? 3.5)}, null, 1));
   console.log(`short ${id}: ${from}–${to} s (${(to - from).toFixed(1)} s + ${a.freeze ?? 3.5} s freeze) · ${words.length} words · videos/${slug}/shorts/short-${id}.json`);
-  if (to - from > 58) console.log('  note: over ~58 s — the best hook Shorts are 30–55 s');
 } else if (cmd === 'preview') {
   const at = String(a.at ?? '1,6,12').split(',');
   const r = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'still.mjs'), '--comp', 'Short', '--props', fs.readFileSync(sfile, 'utf8'), '--at', at.join(','), '--scale', '0.5', '--out', path.join(ROOT, '.cache', 'short')], {stdio: 'inherit'});

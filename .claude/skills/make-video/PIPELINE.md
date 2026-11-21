@@ -375,7 +375,7 @@ use a partial render (`--from/--to`, `--scale 0.5`) to verify a single fix. Do n
 **7b · THE HOOK SHORT → ⏸ STOP 4 (owner 2026-11-12)** — ONE vertical Short that makes viewers want the long video
 (the owner: one very strong Short beats several). Score the long video's moments: **hooks in its first 2 s** (a question,
 a shocking number, a strange situation) · **stands alone** (no context needed) · **STOPS BEFORE THE ANSWER** (the payoff
-is in the long video — never spoil the reveal) · a strong picture on a phone · 30–55 s. Recommend ONE (moment + its hook
+is in the long video — never spoil the reveal) · a strong picture on a phone · **length follows the story** (owner 2026-11-21: good context + a whole story beats a short clip — never cut a story to hit a length; a 66 s Short is fine). Recommend ONE (moment + its hook
 title: a white line + a gold line, numbers exactly as spoken, no spoilers); only if a second moment is truly as strong,
 say so and let the owner decide. After his OK: `node tools/short.mjs make --from a --to b --title "white|gold"` →
 `preview` (look at the stills: title, subtitles, pill, the freeze) → `render` (picture in the cloud, sealed words; sound =
